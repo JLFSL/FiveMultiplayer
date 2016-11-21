@@ -1,0 +1,60 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{E388C086-D621-4687-B8CF-B041FFB759EC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core.Client", "Core.Client", "{6601EF99-A966-4B80-A632-AAA85D290BE5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{E9419354-EBB9-4A5A-AD9B-5386BB4195EC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server.Core", "Server.Core", "{428F2DB3-57B3-4A56-AB56-A1E5989D2AE5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server.API", "Server.API", "{960298E0-5DB2-4BB0-A0E5-0369F0DF1981}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Vendor", "Vendor", "{C025875C-F80B-4AA9-AF7B-7C6C122761B6}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Core.Launcher", "Core\Launcher\Launcher.vcxproj", "{E00B6DA6-DC21-46D5-8D4A-0C4AE00B2E3A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AE8009CB-1D72-4F7E-B8E6-80E8764BCB76} = {AE8009CB-1D72-4F7E-B8E6-80E8764BCB76}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Vendor.CEF", "Vendor\CEF\CEF.vcxproj", "{AE8009CB-1D72-4F7E-B8E6-80E8764BCB76}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E00B6DA6-DC21-46D5-8D4A-0C4AE00B2E3A}.Debug|x64.ActiveCfg = Debug|x64
+		{E00B6DA6-DC21-46D5-8D4A-0C4AE00B2E3A}.Debug|x64.Build.0 = Debug|x64
+		{E00B6DA6-DC21-46D5-8D4A-0C4AE00B2E3A}.Debug|x86.ActiveCfg = Debug|x64
+		{E00B6DA6-DC21-46D5-8D4A-0C4AE00B2E3A}.Debug|x86.Build.0 = Debug|x64
+		{E00B6DA6-DC21-46D5-8D4A-0C4AE00B2E3A}.Release|x64.ActiveCfg = Release|x64
+		{E00B6DA6-DC21-46D5-8D4A-0C4AE00B2E3A}.Release|x64.Build.0 = Release|x64
+		{E00B6DA6-DC21-46D5-8D4A-0C4AE00B2E3A}.Release|x86.ActiveCfg = Release|x64
+		{E00B6DA6-DC21-46D5-8D4A-0C4AE00B2E3A}.Release|x86.Build.0 = Release|x64
+		{AE8009CB-1D72-4F7E-B8E6-80E8764BCB76}.Debug|x64.ActiveCfg = Debug|x64
+		{AE8009CB-1D72-4F7E-B8E6-80E8764BCB76}.Debug|x64.Build.0 = Debug|x64
+		{AE8009CB-1D72-4F7E-B8E6-80E8764BCB76}.Debug|x86.ActiveCfg = Debug|x64
+		{AE8009CB-1D72-4F7E-B8E6-80E8764BCB76}.Debug|x86.Build.0 = Debug|x64
+		{AE8009CB-1D72-4F7E-B8E6-80E8764BCB76}.Release|x64.ActiveCfg = Release|x64
+		{AE8009CB-1D72-4F7E-B8E6-80E8764BCB76}.Release|x64.Build.0 = Release|x64
+		{AE8009CB-1D72-4F7E-B8E6-80E8764BCB76}.Release|x86.ActiveCfg = Release|x64
+		{AE8009CB-1D72-4F7E-B8E6-80E8764BCB76}.Release|x86.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6601EF99-A966-4B80-A632-AAA85D290BE5} = {E388C086-D621-4687-B8CF-B041FFB759EC}
+		{428F2DB3-57B3-4A56-AB56-A1E5989D2AE5} = {E9419354-EBB9-4A5A-AD9B-5386BB4195EC}
+		{960298E0-5DB2-4BB0-A0E5-0369F0DF1981} = {E9419354-EBB9-4A5A-AD9B-5386BB4195EC}
+		{E00B6DA6-DC21-46D5-8D4A-0C4AE00B2E3A} = {E388C086-D621-4687-B8CF-B041FFB759EC}
+		{AE8009CB-1D72-4F7E-B8E6-80E8764BCB76} = {C025875C-F80B-4AA9-AF7B-7C6C122761B6}
+	EndGlobalSection
+EndGlobal
