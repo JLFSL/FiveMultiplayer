@@ -1,13 +1,5 @@
-CC=g++
-CFLAGS=-ldl
-SOURCES=$(wildcard *.cpp)
-OBJECTS=$(SOURCES:.cpp=.o)
-EXECUTABLE=../../bin/Linux/Server.Core.so
-
-all: $(SOURCES) $(EXECUTABLE)
-
-.cpp.o:
-	$(CC) $(CFLAGS) $< -o $@
-
-clean:
-	rm -Rf $(OBJECTS) $(EXECUTABLE)
+Server.Core: main.cpp
+	g++ main.cpp -o ../../bin/Linux/Server.Core -ldl
+	
+Server.Core: main.cpp
+	g++ main.cpp -o ../../bin/Linux/_32/Server.Core -m32 -ldl
