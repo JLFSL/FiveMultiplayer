@@ -1,5 +1,5 @@
-all:
-	make -C Server/Core
-
-clean:
-	make -C Server/Core clean
+API.Lua: api.cpp
+	g++ api.cpp -o ../../bin/Linux/plugins/API.Lua -ldl
+	
+API.Lua.32: api.cpp
+	g++ api.cpp -o ../../bin/Linux/_32/plugins/API.Lua.so -m32 -ldl
