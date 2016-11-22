@@ -74,3 +74,4 @@ ipch/
 *.cachefile
 *.VC.db
 *.VC.VC.opendb
+*.db
