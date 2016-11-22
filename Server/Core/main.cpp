@@ -21,20 +21,20 @@ int main(int argc, char *argv[]) {
 
 	// load the symbol
 	cout << "Loading symbol hello...\n";
-	typedef void(*API_Begin)();
+	typedef void(*API_Begin_t)();
 
 	// reset errors
 	dlerror();
-	API_Begin begin = (API_Begin)dlsym(handle, "begin");
+	API_Begin_t API_Begin = (API_Begin_t)dlsym(handle, "API_Begin");
 	const char *dlsym_error = dlerror();
 	if (dlsym_error) {
-		cerr << "Cannot load symbol 'begin': " << dlsym_error << '\n';
+		cerr << "Cannot load symbol 'API_Begin': " << dlsym_error << '\n';
 		dlclose(handle);
 		return 1;
 	}
 
 	// use it to do the calculation
-	cout << "Calling begin...\n";
+	cout << "Calling API_Begin...\n";
 	begin();
 
 	// close the library
