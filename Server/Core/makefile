@@ -1,13 +1,13 @@
-HEADERS = stdafx.h
+CC=g++
+CFLAGS=-ldl
+SOURCES=$(wildcard *.cpp)
+OBJECTS=$(SOURCES:.cpp=.o)
+EXECUTABLE=../../bin/Linux/Server.Core.so
 
-default: Server.Core
+all: $(SOURCES) $(EXECUTABLE)
 
-Server.Core.o: main.cpp $(HEADERS)
-    gcc -c main.cpp -o Server.Core.o
-
-Server.Core: Server.Core.o
-    gcc Server.Core.o -o Server.Core
+.cpp.o:
+	$(CC) $(CFLAGS) $< -o $@
 
 clean:
-    -rm -f Server.Core.o
-    -rm -f Server.Core
+	rm -Rf $(OBJECTS) $(EXECUTABLE)
