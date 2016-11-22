@@ -15,4 +15,5 @@ using namespace std;
 #include "CServer.h"
 
 // Server.Launcher
+#include "CInterface.h"
 #include "CModule.h"

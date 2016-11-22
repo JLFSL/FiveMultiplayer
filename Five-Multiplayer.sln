@@ -29,9 +29,11 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{0950D899-A041-46F3-AA49-80E584460F5B}"
 	ProjectSection(SolutionItems) = preProject
 		Shared\Common.h = Shared\Common.h
+		Shared\SharedUtility.cpp = Shared\SharedUtility.cpp
+		Shared\SharedUtility.h = Shared\SharedUtility.h
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Core", "Server\Core\Core.vcxproj", "{93513A22-40A5-4A4A-897E-BF5B63556611}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Server.Core", "Server\Core\Core.vcxproj", "{93513A22-40A5-4A4A-897E-BF5B63556611}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

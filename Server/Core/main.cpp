@@ -2,14 +2,14 @@
 
 CServer * g_Server = NULL;
 
-EXPORT CServer *GetServerInterface()
+EXPORT CInterface * GetServerInterface()
 {
 	SAFE_DELETE(g_Server);
 	g_Server = new CServer();
 	return g_Server;
 }
 
-EXPORT void DestroyServerInterface(CServer *pServer)
+EXPORT void DestroyServerInterface(CInterface * pServer)
 {
 	SAFE_DELETE(g_Server);
 }

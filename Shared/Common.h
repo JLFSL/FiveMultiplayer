@@ -17,3 +17,9 @@
 #endif
 
 #define SAFE_DELETE(memory) if(memory) { delete memory; memory = NULL; }
+
+#ifdef NDEBUG
+#define INFO_BUILD "Release"
+#else
+#define INFO_BUILD "Debug"
+#endif

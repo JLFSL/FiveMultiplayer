@@ -18,6 +18,9 @@
     <Filter Include="Include">
       <UniqueIdentifier>{31880efb-e3ce-47f4-b9ba-c77cab1cef66}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Network">
+      <UniqueIdentifier>{c5e9b456-c5b1-4cfe-9de2-a088344289dc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -26,5 +29,6 @@
     <ClInclude Include="CServer.h">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="CInterface.h" />
   </ItemGroup>
 </Project>

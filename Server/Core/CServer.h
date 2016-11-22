@@ -1,5 +1,8 @@
 #pragma once
-class CServer
+
+#include "CInterface.h"
+
+class CServer : public CInterface
 {
 private:
 	bool			m_Active;
@@ -11,9 +14,11 @@ public:
 	CServer();
 	~CServer();
 
-	bool OnLoad(int argc, char *argv[]);
+	bool OnLoad(int argc, char ** argv);
 	void OnUnload();
 
 	void Process();
+	void SetActive(bool bActive) { m_Active = bActive; }
+	bool IsActive() { return m_Active; }
 };
 
