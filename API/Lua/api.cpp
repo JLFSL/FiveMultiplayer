@@ -1,5 +1,8 @@
 #include "inc_lua\lua.hpp"
 
+#include <iostream>
+using namespace std;
+
 #ifndef BUILDING_DLL
 #define BUILDING_DLL
 #endif
@@ -29,5 +32,5 @@
 #endif
 
 extern "C" DLL_PUBLIC void __cdecl API_Begin(void) {
-	printf("Test!");
+	cout << "Test!" << endl;
 }
