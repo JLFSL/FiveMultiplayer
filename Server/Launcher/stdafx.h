@@ -13,3 +13,6 @@ using namespace std;
 
 // Server.Core
 #include "CServer.h"
+
+// Server.Launcher
+#include "CModule.h"
