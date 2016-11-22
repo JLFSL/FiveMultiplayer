@@ -2,7 +2,7 @@
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
 {
-	bool console = false;
+	/*bool console = false;
 
 	if (!console) {
 		if (AllocConsole()) {
@@ -11,7 +11,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			freopen("CONOUT$", "wb", stderr);
 			console = true;
 		}
-	}
+	}*/
 
 	CefEnableHighDPISupport();
 
@@ -29,6 +29,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	CefRunMessageLoop();
 
 	CefShutdown();
-	FreeConsole();
+	//FreeConsole();
 	return 0;
 }
