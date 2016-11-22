@@ -138,7 +138,7 @@ bool CEFLauncher_Handler::OnBeforePopup(
 	windowInfo.SetAsPopup(NULL, "FiveMP Launcher");
 	windowInfo.width = 640;
 	windowInfo.height = 740;
-	//windowInfo.style = WS_VISIBLE;
+	windowInfo.style = WS_VISIBLE;
 
 	return false;
 }
