@@ -65,6 +65,7 @@ x86/
 *.lib
 
 ipch/
+*.ipch
 *.aps
 *.ncb
 *.opendb
