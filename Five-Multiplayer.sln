@@ -21,18 +21,12 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Vendor.CEF", "Vendor\CEF\CEF.vcxproj", "{AE8009CB-1D72-4F7E-B8E6-80E8764BCB76}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{88800344-6139-43B7-A387-E057594FF685}"
-	ProjectSection(SolutionItems) = preProject
-		makefile = makefile
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "API.Lua", "API\Lua\Lua.vcxproj", "{235D1887-3CD7-4754-963A-1BD2EAD55991}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Server.Core", "Server\Core\Core.vcxproj", "{1B1F7FB3-574F-4221-BEDD-F8009199BF07}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution", "Solution", "{9D60EB87-8681-4F0B-A756-232A7C160E10}"
-	ProjectSection(SolutionItems) = preProject
-		makefile = makefile
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

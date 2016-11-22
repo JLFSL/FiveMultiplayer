@@ -15,7 +15,4 @@
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="makefile" />
-  </ItemGroup>
 </Project>
