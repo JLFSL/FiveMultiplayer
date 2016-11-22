@@ -78,3 +78,5 @@ ipch/
 *.tlog
 *.lastbuildstate
 *.idb
+*.iobj
+*.ipdb
