@@ -35,7 +35,7 @@ int main(int argc, char *argv[]) {
 
 	// use it to do the calculation
 	cout << "Calling API_Begin...\n";
-	begin();
+	API_Begin();
 
 	// close the library
 	cout << "Closing library...\n";
