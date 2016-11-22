@@ -9,17 +9,10 @@ using namespace std;
 #else
 #define DLL_PUBLIC __declspec(dllexport) // Note: actually gcc seems to also supports this syntax.
 #endif
-#define DLL_LOCAL
 #else
-#if __GNUC__ >= 4
-#define DLL_PUBLIC __attribute__ ((visibility ("default")))
-#define DLL_LOCAL  __attribute__ ((visibility ("hidden")))
-#else
-#define DLL_PUBLIC
-#define DLL_LOCAL
-#endif
+#define DLL_PUBLIC 
 #endif
 
-extern "C" DLL_PUBLIC void __cdecl API_Begin(void) {
+extern "C" DLL_PUBLIC void API_Begin(void) {
 	cout << "Test!" << endl;
 }
