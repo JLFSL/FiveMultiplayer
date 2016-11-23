@@ -10,6 +10,15 @@
     <Filter Include="Tests">
       <UniqueIdentifier>{564fd536-015e-4d3c-8517-3ce36b3763ec}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Network">
+      <UniqueIdentifier>{56666e83-7732-4d69-8d35-99aec252b21a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Server">
+      <UniqueIdentifier>{c2eedb14-1bac-4d97-837f-0cec9c99a27f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entity">
+      <UniqueIdentifier>{8cf06a15-8b1a-4cb9-9257-fcbe3679ef20}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="apitest.cpp">
@@ -22,7 +31,16 @@
       <Filter>Common</Filter>
     </ClCompile>
     <ClCompile Include="CModule.cpp">
-      <Filter>Common</Filter>
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="CServer.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="CNetworkManager.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayer.cpp">
+      <Filter>Entity</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -30,7 +48,19 @@
       <Filter>Include</Filter>
     </ClInclude>
     <ClInclude Include="CModule.h">
-      <Filter>Common</Filter>
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="CServer.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="CNetworkManager.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlayer.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="CEntityManager.h">
+      <Filter>Network</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
