@@ -12,8 +12,11 @@
 #define INFO_VERSION		"0.1b RC6"
 
 	// Client Path
-	#define INFO_LOC_REG "Software\\FiveMP"
+	#define INFO_LOC_REG "Software\\" INFO_NAME_SHORT
 	#define INFO_LOC_REG2 INFO_NAME_SHORT
+
+// Modification Files
+#define INFO_CLIENT_CORE	"Client.Core" LIBRARY_EXTENSION
 
 #define MAX_PLAYERS			50
 

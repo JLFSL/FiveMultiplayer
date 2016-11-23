@@ -13,4 +13,10 @@ namespace Util
 
 	// Show our custom messagebox
 	int ShowMessageBox(const char * szText, UINT uType = (MB_ICONEXCLAMATION | MB_OK));
+
+	// Get PID from processname
+	bool GetProcessIdFromProcessName(char * szProcessName, DWORD * dwProcessId);
+
+	// Check if process is running
+	bool IsProcessRunning(char * szProcessName);
 }

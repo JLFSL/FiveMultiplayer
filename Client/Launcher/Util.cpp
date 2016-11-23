@@ -48,4 +48,46 @@ namespace Util
 	{
 		return MessageBoxA(NULL, szText, INFO_NAME, uType);
 	}
+
+	bool GetProcessIdFromProcessName(char * szProcessName, DWORD * dwProcessId)
+	{
+		bool bReturn = false;
+
+		// Create a tool help 32 process snapshot
+		HANDLE hProcessSnapShot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+
+		if (!hProcessSnapShot)
+			return false;
+
+		PROCESSENTRY32 ProcessEntry;
+		ProcessEntry.dwSize = sizeof(ProcessEntry);
+
+		if (Process32First(hProcessSnapShot, &ProcessEntry))
+		{
+			// Enumerate through all processes
+			while (Process32Next(hProcessSnapShot, &ProcessEntry))
+			{
+				// Check the process name to see if it matches szProcessName
+				if (!strcmp((char *)ProcessEntry.szExeFile, szProcessName))
+				{
+					// It matches, set the process id (if required) and return true
+					if (dwProcessId)
+						*dwProcessId = ProcessEntry.th32ProcessID;
+
+					bReturn = true;
+					break;
+				}
+			}
+		}
+
+		// Close the snapshot handle
+		CloseHandle(hProcessSnapShot);
+		return bReturn;
+	}
+
+	bool IsProcessRunning(char * szProcessName)
+	{
+		// Simply return the value of GetProcessIdFromProcessName
+		return GetProcessIdFromProcessName(szProcessName, NULL);
+	}
 }
