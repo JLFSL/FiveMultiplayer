@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Common">
+      <UniqueIdentifier>{d0a7c0c7-e789-4a0b-870a-e3b93059a04e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include">
+      <UniqueIdentifier>{6d148f97-a402-4b04-8c40-fefb0f2bf2f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Hooks">
+      <UniqueIdentifier>{201352f6-fb01-4cd7-bbed-efdc1063e6d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Hooks\SudoMod">
+      <UniqueIdentifier>{a424b7d2-45ea-4e2a-8d9b-f8886b78304b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Hooks\SudoMod\Structs">
+      <UniqueIdentifier>{3cfc1228-5717-43ed-a4f9-7134a46bd699}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Include</Filter>
+    </ClCompile>
+    <ClCompile Include="Hooking.cpp">
+      <Filter>Hooks\SudoMod</Filter>
+    </ClCompile>
+    <ClCompile Include="NativeInvoker.cpp">
+      <Filter>Hooks\SudoMod</Filter>
+    </ClCompile>
+    <ClCompile Include="Logger.cpp">
+      <Filter>Hooks\SudoMod</Filter>
+    </ClCompile>
+    <ClCompile Include="CrossMapping.cpp">
+      <Filter>Hooks\SudoMod</Filter>
+    </ClCompile>
+    <ClCompile Include="Memory.cpp">
+      <Filter>Hooks\SudoMod</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Hooking.h">
+      <Filter>Hooks\SudoMod</Filter>
+    </ClInclude>
+    <ClInclude Include="NativeInvoker.h">
+      <Filter>Hooks\SudoMod</Filter>
+    </ClInclude>
+    <ClInclude Include="Logger.h">
+      <Filter>Hooks\SudoMod</Filter>
+    </ClInclude>
+    <ClInclude Include="Enums.h">
+      <Filter>Hooks\SudoMod\Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="Structs.h">
+      <Filter>Hooks\SudoMod\Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="Types.h">
+      <Filter>Hooks\SudoMod\Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="CrossMapping.h">
+      <Filter>Hooks\SudoMod</Filter>
+    </ClInclude>
+    <ClInclude Include="Natives.h">
+      <Filter>Hooks\SudoMod\Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="NativeCaller.h">
+      <Filter>Hooks\SudoMod</Filter>
+    </ClInclude>
+    <ClInclude Include="Memory.h">
+      <Filter>Hooks\SudoMod</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

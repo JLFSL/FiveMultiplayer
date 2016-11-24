@@ -64,4 +64,41 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	}
 
 	ResumeThread(piProcessInfo.hThread);
+
+	AllocConsole();
+
+	bool Started = false;
+	bool SCStarted = false;
+	while (!Started) {
+		if (Util::IsProcessRunning("GTA5.exe")) {
+			DWORD ForePID, GamePID;
+
+			Util::GetProcessIdFromProcessName("GTA5.exe", &GamePID);
+			SetForegroundWindow(FindWindow(NULL, "Grand Theft Auto V"));
+
+			HWND GameWindow = GetForegroundWindow();
+			GetWindowThreadProcessId(GameWindow, &ForePID);
+
+			if (GamePID == ForePID && IsWindowVisible(GameWindow))
+			{
+				int iReturn = Util::InjectLibraryIntoProcess(GamePID, CorePath);
+
+				if (iReturn > 0) 
+				{
+					if (iReturn == 1)
+						Util::ShowMessageBox("Failed to write library path into remote process. Cannot launch " INFO_NAME ".");
+					else if (iReturn == 2)
+						Util::ShowMessageBox("Failed to create remote thread in remote process. Cannot launch " INFO_NAME ".");
+					else if (iReturn == 3)
+						Util::ShowMessageBox("Failed to open the remote process, Cannot launch " INFO_NAME ".");
+				}
+				else
+				{
+					Started = true;
+				}
+			}
+		}
+		Sleep(500);
+	}
+	FreeConsole();
 }

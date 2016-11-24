@@ -19,4 +19,10 @@ namespace Util
 
 	// Check if process is running
 	bool IsProcessRunning(char * szProcessName);
+
+	// Inject the library into the specified process
+	int InjectLibraryIntoProcess_go(HANDLE hProcess, const char * szLibraryPath);
+
+	// Get the process id's handle then inject the library into it
+	int InjectLibraryIntoProcess(DWORD dwProcessId, const char * szLibraryPath);
 }
