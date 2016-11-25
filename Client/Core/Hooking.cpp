@@ -47,7 +47,7 @@ void onTickNative()
 
 	//Increase wanted level.
 	static bool bMultiply = false;
-	if (isKeyPressedOnce(bMultiply, VK_MULTIPLY))
+	if (isKeyPressedOnce(bMultiply, VK_F5))
 	{
 		if (PLAYER::GET_PLAYER_WANTED_LEVEL(player) < 5)
 		{
@@ -58,7 +58,7 @@ void onTickNative()
 
 	//Decrease wanted level.
 	static bool bSubtract = false;
-	if (isKeyPressedOnce(bSubtract, VK_SUBTRACT))
+	if (isKeyPressedOnce(bSubtract, VK_F6))
 	{
 		if (PLAYER::GET_PLAYER_WANTED_LEVEL(player) != 0)
 		{
@@ -176,7 +176,7 @@ void Hooking::FindPatterns()
 
 	// Wait for landing page
 	ticks = GetTickCount();
-	while (*m_gameState != GameStateMainMenu || GetTickCount() < ticks + 5000) Sleep(50);
+	while (*m_gameState == 1 || *m_gameState == 6 || GetTickCount() < ticks + 5000) Sleep(50);
 
 	// Load Singleplayer
 	//char* func = pattern("33 C9 E8 ? ? ? ? 8B 0D ? ? ? ? 48 8B 5C 24 ? 8D 41 FC 83 F8 01 0F 47 CF 89 0D ? ? ? ?").count(1).get(0).get<char>(2);

@@ -28,6 +28,11 @@ using namespace RakNet;
 	#include "CServer.h"
 	#include "CModule.h"
 
+	// API
+	#include "CAPI.h"
+
+	#include "API_Server.h"
+
 	// Network
 	#include "CNetworkManager.h"
 	#include "CEntityManager.h"

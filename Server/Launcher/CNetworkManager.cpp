@@ -14,7 +14,7 @@ CNetworkManager::CNetworkManager()
 	// RakPeerInterface Settings
 	g_RakPeer->SetSplitMessageProgressInterval(100);
 
-	cout << endl << "CNetworkManager: Constructed" << endl;
+	cout << endl << "CNetworkManager::Constructed" << endl;
 }
 
 
@@ -32,18 +32,18 @@ CNetworkManager::~CNetworkManager()
 	// Destroy RakPeerInterface
 	RakPeerInterface::DestroyInstance(g_RakPeer);
 
-	cout << endl << "CNetworkManager: Deconstructed" << endl;
+	cout << endl << "CNetworkManager::Deconstructed" << endl;
 }
 
 bool CNetworkManager::Start()
 {
-	cout << endl << "CNetworkManager: Starting..." << endl;
+	cout << endl << "CNetworkManager::Starting..." << endl;
 	SocketDescriptor socketDescriptor(2322, "127.0.0.1");
 
 	if ((g_RakPeer->Startup(50, &socketDescriptor, 1, 0) == RAKNET_STARTED))
 	{
 		g_RakPeer->SetMaximumIncomingConnections(50);
-		cout << "CNetworkManager: Successfully started" << endl;
+		cout << "CNetworkManager::Successfully started" << endl;
 		return true;
 	}
 	return false;
@@ -59,7 +59,7 @@ void CNetworkManager::Pulse()
 		{
 			case ID_NEW_INCOMING_CONNECTION:
 			{
-				cout << "CNetworkManager: Incoming connection: ", g_Packet->systemAddress.ToString(false);
+				cout << "CNetworkManager::Incoming connection: ", g_Packet->systemAddress.ToString(false);
 				break;
 			}
 		}

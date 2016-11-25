@@ -51,24 +51,37 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	if (!Util::Exists(CorePath))
 		return Util::ShowMessageBox("Failed to find " INFO_CLIENT_CORE " in current directory. Cannot launch " INFO_NAME ".", MB_ICONEXCLAMATION);
 
-	// Start Executable
-	STARTUPINFO siStartupInfo;
-	PROCESS_INFORMATION piProcessInfo;
-	memset(&siStartupInfo, 0, sizeof(siStartupInfo));
-	memset(&piProcessInfo, 0, sizeof(piProcessInfo));
-	siStartupInfo.cb = sizeof(siStartupInfo);
+	const int result = MessageBox(NULL, "Are you using the Steam version of the game?", "Steam Version", MB_YESNOCANCEL);
 
-	if (!CreateProcess(InstallExe, "", NULL, NULL, true, CREATE_SUSPENDED, NULL, InstallDir, &siStartupInfo, &piProcessInfo)) {
-		Util::ShowMessageBox("Failed to start " INFO_GAME_EXECUTABLE ". Cannot launch " INFO_NAME ".");
-		return 1;
+	switch (result)
+	{
+	case IDYES:
+		ShellExecute(0, 0, "steam://rungameid/" INFO_GAME_STEAMAPPID, 0, 0, SW_SHOW);
+		break;
+	case IDNO:
+		// Start Executable
+		STARTUPINFO siStartupInfo;
+		PROCESS_INFORMATION piProcessInfo;
+		memset(&siStartupInfo, 0, sizeof(siStartupInfo));
+		memset(&piProcessInfo, 0, sizeof(piProcessInfo));
+		siStartupInfo.cb = sizeof(siStartupInfo);
+
+		if (!CreateProcess(InstallExe, "", NULL, NULL, true, CREATE_SUSPENDED, NULL, InstallDir, &siStartupInfo, &piProcessInfo)) {
+			Util::ShowMessageBox("Failed to start " INFO_GAME_EXECUTABLE ". Cannot launch " INFO_NAME ".");
+			return 1;
+		}
+
+		ResumeThread(piProcessInfo.hThread);
+		break;
+	case IDCANCEL:
+		return 0;
+		break;
 	}
-
-	ResumeThread(piProcessInfo.hThread);
 
 	AllocConsole();
 
 	bool Started = false;
-	bool SCStarted = false;
+
 	while (!Started) {
 		if (Util::IsProcessRunning("GTA5.exe")) {
 			DWORD ForePID, GamePID;
@@ -83,7 +96,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 			{
 				int iReturn = Util::InjectLibraryIntoProcess(GamePID, CorePath);
 
-				if (iReturn > 0) 
+				if (iReturn > 0)
 				{
 					if (iReturn == 1)
 						Util::ShowMessageBox("Failed to write library path into remote process. Cannot launch " INFO_NAME ".");
