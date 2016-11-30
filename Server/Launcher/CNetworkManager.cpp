@@ -40,9 +40,12 @@ bool CNetworkManager::Start()
 	cout << endl << "CNetworkManager::Starting..." << endl;
 	SocketDescriptor socketDescriptor(2322, "127.0.0.1");
 
-	if ((g_RakPeer->Startup(50, &socketDescriptor, 1, 0) == RAKNET_STARTED))
+	if ((g_RakPeer->Startup(MAX_PLAYERS, &socketDescriptor, 1, 0) == RAKNET_STARTED))
 	{
-		g_RakPeer->SetMaximumIncomingConnections(50);
+		g_RakPeer->SetMaximumIncomingConnections(MAX_PLAYERS);
+		g_RakPeer->SetIncomingPassword(CON_PASS, sizeof(CON_PASS));
+		g_RakPeer->SetTimeoutTime(15000, UNASSIGNED_SYSTEM_ADDRESS);
+
 		cout << "CNetworkManager::Successfully started" << endl;
 		return true;
 	}
@@ -59,7 +62,13 @@ void CNetworkManager::Pulse()
 		{
 			case ID_NEW_INCOMING_CONNECTION:
 			{
-				cout << "CNetworkManager::Incoming connection: ", g_Packet->systemAddress.ToString(false);
+				cout << "CNetworkManager::Incoming connection: " << g_Packet->systemAddress.ToString(false) << endl;
+				break;
+			}
+			
+			case ID_DISCONNECTION_NOTIFICATION:
+			{
+				cout << "CNetworkManager::Disconnection: " << g_Packet->systemAddress.ToString(false) << endl;
 				break;
 			}
 		}

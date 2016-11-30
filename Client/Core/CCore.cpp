@@ -69,4 +69,19 @@ void CCore::OnGameTick()
 		ENTITY::SET_ENTITY_COORDS(clonedped, coords.x + 2.0f, coords.y + 2.0f, coords.z, false, false, false, false);
 		ENTITY::SET_ENTITY_QUATERNION(clonedped, rotation.x, rotation.y, rotation.z, rotation.w);
 	}
+
+	if (KeyJustUp(VK_F8))
+	{
+		g_NetworkManager->Connect();
+		Logger::Msg("Connecting");
+	}
+
+	if (KeyJustUp(VK_F9))
+	{
+		g_NetworkManager->Disconnect();
+		Logger::Msg("Disconnecting");
+	}
+
+	if (g_NetworkManager->g_ConnectionState == CONSTATE_COND || CONSTATE_CONN)
+		g_NetworkManager->Pulse();
 }

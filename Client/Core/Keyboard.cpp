@@ -84,31 +84,3 @@ void get_button_state(bool *a, bool *b, bool *up, bool *down, bool *l, bool *r)
 	if (r) *r = KeyDown(VK_NUMPAD6);
 	if (l) *l = KeyDown(VK_NUMPAD4);
 }
-
-void menu_beep(int snd)
-{
-	switch (snd)
-	{
-	case NAV_SELECT: AUDIO::PLAY_SOUND_FRONTEND(-1, "SELECT", "HUD_FREEMODE_SOUNDSET", 1);
-	case NAV_CANCEL: AUDIO::PLAY_SOUND_FRONTEND(-1, "CANCEL", "HUD_FREEMODE_SOUNDSET", 1);
-	case NAV_UP_DOWN: AUDIO::PLAY_SOUND_FRONTEND(-1, "NAV_UP_DOWN", "HUD_FREEMODE_SOUNDSET", 1);
-	case NAV_LEFT_RIGHT: AUDIO::PLAY_SOUND_FRONTEND(-1, "NAV_LEFT_RIGHT", "HUD_FREEMODE_SOUNDSET", 1);
-	default: break;
-	}
-}
-
-void setGameInputToEnabled(bool enabled, bool force)
-{
-	if (enabled && (gameInputDisabledByUs || force))
-	{
-		PLAYER::SET_PLAYER_CONTROL(0, 1, 0);
-		//CONTROLS::ENABLE_ALL_CONTROL_ACTIONS(1);
-		gameInputDisabledByUs = false;
-	}
-	else if (!enabled)
-	{
-		PLAYER::SET_PLAYER_CONTROL(0, 0, 256);
-		//CONTROLS::DISABLE_ALL_CONTROL_ACTIONS(1);
-		gameInputDisabledByUs = true;
-	}
-}

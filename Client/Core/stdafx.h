@@ -1,6 +1,7 @@
 #pragma once
 
 // Windows
+#include <winsock2.h>
 #include <Windows.h>
 #include <stdint.h>
 #include <time.h>
@@ -15,8 +16,25 @@
 #include <vector>
 #include <unordered_map>
 #include <set>
-
 using namespace std;
+
+// Shared
+#include "CVector3.h"
+#include "Common.h"
+
+// Vendor
+// Vendor.MinHook
+#include <MinHook/include/MinHook.h>
+
+// Vendor.RakNet
+#include <RakNet/RakPeerInterface.h>
+#include <RakNet/BitStream.h>
+#include <RakNet/MessageIdentifiers.h>
+#include <RakNet/RPC4Plugin.h>
+#include <RakNet/DirectoryDeltaTransfer.h>
+#include <RakNet/FileListTransfer.h>
+#include <RakNet/IncrementalReadInterface.h>
+using namespace RakNet;
 
 // Client.Core
 	// Network
@@ -40,11 +58,3 @@ using namespace std;
 		#include "Hooking.h"
 		#include "Structs.h"
 		#include "script.h"
-
-// Shared
-#include "../../Shared/CVector3.h"
-#include "../../Shared/Common.h"
-
-// Vendor
-	// Vendor.MinHook
-	#include "MinHook.h"

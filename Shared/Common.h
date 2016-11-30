@@ -19,7 +19,22 @@
 // Modification Files
 #define INFO_CLIENT_CORE	"Client.Core" LIBRARY_EXTENSION
 
+// Server Defines
 #define MAX_PLAYERS			50
+
+// Connection
+#define CON_IP		"127.0.0.1"
+#define CON_PORT	2322
+#define CON_PORT_C	"0"
+#define CON_PASS	""
+
+// Connection Status
+#define CONSTATE_DISC	0
+#define CONSTATE_CONN	1
+#define CONSTATE_COND	2
+#define CONSTATE_FAIL	3
+
+typedef unsigned short Entities;
 
 #ifdef WIN32
 #define LIBRARY_EXTENSION ".dll"

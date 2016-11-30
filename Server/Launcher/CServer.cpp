@@ -80,6 +80,8 @@ bool CServer::Load(int argc, char ** argv)
 		getc(stdin);
 		return false;
 	}
+
+	p_Active = true;
 	return true;
 }
 
@@ -91,6 +93,7 @@ void CServer::Stop()
 		cout << "CAPI::" << g_API->ModuleName() << " could not be closed" << endl;
 		getc(stdin);
 	}
+	p_Active = false;
 }
 
 void CServer::Process()

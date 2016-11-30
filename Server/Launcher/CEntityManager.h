@@ -3,7 +3,7 @@
 #ifndef CEntityManager_h
 #define CEntityManager_h
 
-template<class T, Entity max>
+template<class T, Entities max>
 class CEntityManager
 {
 private:
@@ -11,7 +11,7 @@ private:
 public:
 	CEntityManager()
 	{
-		for (Entity id = 0; id < max; ++id)
+		for (Entities id = 0; id < max; ++id)
 		{
 			g_Entities[id] = nullptr;
 		}
@@ -19,7 +19,7 @@ public:
 	~CEntityManager()
 	{
 		// Loop through all entities
-		for (Entity id = 0; id < max; ++id)
+		for (Entities id = 0; id < max; ++id)
 		{
 			// Check if ID exists
 			if (DoesExists(id))
@@ -29,12 +29,12 @@ public:
 			}
 		}
 	}
-	inline bool		DoesExists(Entity entityId)
+	inline bool		DoesExists(Entities entityId)
 	{
 		return Exists(entityId);
 	}
 
-	inline bool		Exists(Entity entityId)
+	inline bool		Exists(Entities entityId)
 	{
 		return (entityId < max && g_Entities[entityId] != nullptr);
 	}
@@ -42,7 +42,7 @@ public:
 	inline void Pulse()
 	{
 		// Loop through all entities
-		for (Entity id = 0; id < max; ++id)
+		for (Entities id = 0; id < max; ++id)
 		{
 			// Check if ID exists
 			if (DoesExists(id))
