@@ -28,6 +28,9 @@
     <Filter Include="GUI">
       <UniqueIdentifier>{f0d4ee51-5441-4b0a-b5d3-bfbe75ed6a16}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Client">
+      <UniqueIdentifier>{0418d678-5ce0-439d-b4ae-fef5f594f530}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -51,6 +54,19 @@
     <ClCompile Include="Memory.cpp">
       <Filter>Hooks\SudoMod</Filter>
     </ClCompile>
+    <ClCompile Include="InputHook.cpp">
+      <Filter>Hooks\SudoMod</Filter>
+    </ClCompile>
+    <ClCompile Include="Keyboard.cpp">
+      <Filter>Hooks\SudoMod</Filter>
+    </ClCompile>
+    <ClCompile Include="Script.cpp">
+      <Filter>Hooks\SudoMod</Filter>
+    </ClCompile>
+    <ClCompile Include="CCore.cpp">
+      <Filter>Client</Filter>
+    </ClCompile>
+    <ClCompile Include="CNetworkManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -86,5 +102,18 @@
     <ClInclude Include="Memory.h">
       <Filter>Hooks\SudoMod</Filter>
     </ClInclude>
+    <ClInclude Include="InputHook.h">
+      <Filter>Hooks\SudoMod</Filter>
+    </ClInclude>
+    <ClInclude Include="Keyboard.h">
+      <Filter>Hooks\SudoMod</Filter>
+    </ClInclude>
+    <ClInclude Include="Script.h">
+      <Filter>Hooks\SudoMod</Filter>
+    </ClInclude>
+    <ClInclude Include="CCore.h">
+      <Filter>Client</Filter>
+    </ClInclude>
+    <ClInclude Include="CNetworkManager.h" />
   </ItemGroup>
 </Project>

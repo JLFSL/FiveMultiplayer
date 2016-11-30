@@ -1,73 +1,14 @@
 #include "stdafx.h"
 
+using namespace Memory;
 HMODULE _hmoduleDLL;
+HANDLE mainFiber;
+DWORD wakeAt;
 
 static eGameState* 				m_gameState;
 static uint64_t					m_worldPtr;
 static BlipList*				m_blipList;
 static NativeRegistration**		m_registrationTable;
-
-using namespace Memory;
-
-/*
-TEMP INPUT FUNCTION
-*/
-#define IsKeyPressed(key) GetAsyncKeyState(key) & 0x8000
-bool isKeyPressedOnce(bool& bIsPressed, DWORD vk)
-{
-	if (IsKeyPressed(vk))
-	{
-		if (bIsPressed == false)
-		{
-			bIsPressed = true;
-			return true;
-		}
-	}
-	else if (bIsPressed == true)
-	{
-		bIsPressed = false;
-	}
-	return false;
-}
-
-void onTickNative()
-{
-	if (!*m_gameState == GameStatePlaying) return;
-
-	Player player = PLAYER::PLAYER_ID();
-	Ped playerPed = PLAYER::PLAYER_PED_ID();
-
-	if (!PLAYER::IS_PLAYER_PLAYING(player)) return;
-
-	Vehicle playerVeh = NULL;
-
-	if (PED::IS_PED_IN_ANY_VEHICLE(playerPed, FALSE))
-		playerVeh = PED::GET_VEHICLE_PED_IS_USING(playerPed);
-
-
-	//Increase wanted level.
-	static bool bMultiply = false;
-	if (isKeyPressedOnce(bMultiply, VK_F5))
-	{
-		if (PLAYER::GET_PLAYER_WANTED_LEVEL(player) < 5)
-		{
-			PLAYER::SET_PLAYER_WANTED_LEVEL(player, PLAYER::GET_PLAYER_WANTED_LEVEL(player) + 1, FALSE);
-			PLAYER::SET_PLAYER_WANTED_LEVEL_NOW(player, FALSE);
-		}
-	}
-
-	//Decrease wanted level.
-	static bool bSubtract = false;
-	if (isKeyPressedOnce(bSubtract, VK_F6))
-	{
-		if (PLAYER::GET_PLAYER_WANTED_LEVEL(player) != 0)
-		{
-			PLAYER::SET_PLAYER_WANTED_LEVEL(player, PLAYER::GET_PLAYER_WANTED_LEVEL(player) - 1, FALSE);
-			PLAYER::SET_PLAYER_WANTED_LEVEL_NOW(player, FALSE);
-		}
-	}
-
-}
 
 /* Start Hooking */
 
@@ -90,28 +31,121 @@ extern "C"
 // Detoured
 UINT WINAPI my_ResetWriteWatch(LPVOID lpBaseAddress, SIZE_T dwRegionSize)
 {
-	onTickNative();
+	Hooking::InitNativeHook();
 	return orig_ResetWriteWatch(lpBaseAddress, dwRegionSize);
 }
 
 // Initialization
-bool Hooking::InitializeHooks()
+BOOL Hooking::InitializeHooks()
 {
-	bool returnVal = TRUE;
+	BOOL returnVal = TRUE;
+
+	// Input hook
+	if (!iHook.Initialize()) {
+
+		Logger::Error("Failed to initialize InputHook");
+		returnVal = TRUE;
+	}
 
 	// init minhook
 	if (MH_Initialize() != MH_OK) {
 		Logger::Error("MinHook failed to initialize");
-		returnVal = FALSE;
+		returnVal = TRUE;
 	}
 
 	// init reset write watch
 	if (MH_CreateHook(&ResetWriteWatch, &my_ResetWriteWatch, reinterpret_cast<void**>(&orig_ResetWriteWatch)) != MH_OK || (MH_EnableHook(&ResetWriteWatch) != MH_OK)) {
 		Logger::Error("Failed to hook ResetWriteWatch");
-		returnVal = FALSE;
+		returnVal = TRUE;
 	}
 
 	return returnVal;
+}
+
+/* Native Hook Function  */
+template <typename T>
+bool Native(DWORD64 hash, LPVOID hookFunction, T** trampoline)
+{
+	if (*reinterpret_cast<LPVOID*>(trampoline) != NULL)
+		return true;
+	auto originalFunction = Hooking::GetNativeHandler(hash);
+	if (originalFunction != 0) {
+		MH_STATUS createHookStatus = MH_CreateHook(originalFunction, hookFunction, reinterpret_cast<LPVOID*>(trampoline));
+		if (((createHookStatus == MH_OK) || (createHookStatus == MH_ERROR_ALREADY_CREATED)) && (MH_EnableHook(originalFunction) == MH_OK))
+		{
+			DEBUGMSG("Hooked Native 0x%#p", hash);
+			return true;
+		}
+	}
+
+	return false;
+}
+
+void Hooking::InitNativeHook()
+{
+	if (!GetGameState() == GameStatePlaying) return;
+
+	static bool initialized = false;
+	if (!initialized)
+	{
+		HookNatives() ? initialized = true : initialized = false;
+	}
+}
+
+Hooking::NativeHandler ORIG_GET_FRAME_COUNT = NULL;
+void* __cdecl MY_GET_FRAME_COUNT(NativeContext *cxt)
+{
+	Hooking::onTickInit();
+	return cxt;
+}
+
+bool Hooking::HookNatives()
+{
+	return true
+		// native hooks	
+		&& Native(0xFC8202EFC642E6F2, &MY_GET_FRAME_COUNT, &ORIG_GET_FRAME_COUNT)
+		;
+}
+
+void __stdcall ScriptFunction(LPVOID lpParameter)
+{
+	CCore *g_Core;
+	g_Core = new CCore;
+
+	if (g_Core->Initialize())
+	{
+		try
+		{
+			while (1)
+			{
+				g_Core->OnGameTick();
+				SwitchToFiber(mainFiber);
+			}
+		}
+		catch (...)
+		{
+			Logger::Fatal("Failed scriptFiber");
+		}
+	}
+	else
+	{
+		Logger::Fatal("Script::isInit");
+	}
+}
+
+void Hooking::onTickInit()
+{
+	if (mainFiber == nullptr)
+		mainFiber = ConvertThreadToFiber(nullptr);
+
+	if (timeGetTime() < wakeAt)
+		return;
+
+	static HANDLE scriptFiber;
+	if (scriptFiber)
+		SwitchToFiber(scriptFiber);
+	else
+		scriptFiber = CreateFiber(NULL, ScriptFunction, nullptr);
 }
 
 /* Pattern Scanning */
@@ -120,23 +154,6 @@ void Hooking::FailPatterns(const char* name, pattern ptn)
 {
 	Logger::Error("finding %s (%s)");
 	Cleanup();
-}
-
-static bool gameLoading = false;
-
-static void WaitForInitLoopWrap()
-{
-	// certain executables may recheck activation after connection, and want to perform this state change after 12 - ignore those cases
-	// draw_menu_line("WaitForInitLoopWrap called", 15.0f, 50.0f, 570.0f, 6.0f, 5.0f, false, false, false); //drawrect set to true
-	//*g_initState = MapInitState(6);
-
-	//WaitForInitLoop();
-	if (!gameLoading) {
-		//*g_initState = 7;
-
-		//LoadGameNow(0);
-		gameLoading = true;
-	}
 }
 
 void Hooking::FindPatterns()
@@ -149,10 +166,8 @@ void Hooking::FindPatterns()
 	auto p_gameLegals = pattern("72 1F E8 ? ? ? ? 8B 0D");
 	auto p_modelCheck = pattern("48 85 C0 0F 84 ? ? ? ? 8B 48 50");
 	auto p_modelSpawn = pattern("48 8B C8 FF 52 30 84 C0 74 05 48");
-	//auto p_skipToSP = pattern("33 C9 E8 ? ? ? ? 8B 0D ? ? ? ? 48 8B 5C 24 ? 8D 41 FC 83 F8 01 0F 47 CF 89 0D ? ? ? ?");
 
 	char * c_location = nullptr;
-	//int(*LoadGameNow)(char);
 
 	// Executable Base Address
 	DEBUGMSG("baseAddr\t\t 0x%p", get_base());
@@ -174,17 +189,6 @@ void Hooking::FindPatterns()
 	// Skip game legals
 	Memory::nop(p_gameLegals.count(1).get(0).get<void>(0), 2);
 
-	// Wait for landing page
-	ticks = GetTickCount();
-	while (*m_gameState == 1 || *m_gameState == 6 || GetTickCount() < ticks + 5000) Sleep(50);
-
-	// Load Singleplayer
-	//char* func = pattern("33 C9 E8 ? ? ? ? 8B 0D ? ? ? ? 48 8B 5C 24 ? 8D 41 FC 83 F8 01 0F 47 CF 89 0D ? ? ? ?").count(1).get(0).get<char>(2);
-	//c_location = p_skipToSP.count(1).get(0).get<char>(2);
-	//set_call(&LoadGameNow, c_location);
-
-	//Sleep(5000);
-
 	// Get native registration table
 	c_location = p_nativeTable.count(1).get(0).get<char>(9);
 	c_location == nullptr ? FailPatterns("native registration Table", p_nativeTable) : m_registrationTable = reinterpret_cast<decltype(m_registrationTable)>(c_location + *(int32_t*)c_location + 4);
@@ -195,7 +199,7 @@ void Hooking::FindPatterns()
 
 	// Get blip list
 	c_location = p_blipList.count(1).get(0).get<char>(0);
-	c_location == nullptr ? FailPatterns("blip List", p_blipList) : m_blipList = reinterpret_cast<decltype(m_blipList)>(c_location + *reinterpret_cast<int*>(c_location + 3) + 7);
+	c_location == nullptr ? FailPatterns("blip List", p_blipList) : m_blipList = (BlipList*)(c_location + *reinterpret_cast<int*>(c_location + 3) + 7);
 
 	// Bypass online model requests block
 	Memory::nop(p_modelCheck.count(1).get(0).get<void>(0), 24);
@@ -208,15 +212,7 @@ void Hooking::FindPatterns()
 
 	// Check if game is ready
 	Logger::Msg("Checking if game is ready...");
-
-	bool start = false;
-
 	while (!*m_gameState == GameStatePlaying) {
-		if (!start) {
-			//LoadGameNow(0);
-			start = !start;
-		}
-
 		Sleep(100);
 	}
 	Logger::Msg("Game ready");
@@ -246,11 +242,28 @@ Hooking::NativeHandler Hooking::GetNativeHandler(uint64_t origHash) {
 	return nullptr;
 }
 
+eGameState Hooking::GetGameState()
+{
+	return *m_gameState;
+}
+
+BlipList* Hooking::GetBlipList()
+{
+	return m_blipList;
+}
+void WAIT(DWORD ms)
+{
+	wakeAt = timeGetTime() + ms;
+	SwitchToFiber(mainFiber);
+}
+
 /* Clean Up */
 void Hooking::Cleanup()
 {
-	Logger::Msg("CleanUp: FiveMP Hook");
+	Logger::Msg("Clean");
 
+	iHook.keyboardHandlerUnregister(OnKeyboardMessage);
+	iHook.Remove();
 	MH_DisableHook(&ResetWriteWatch);
 	MH_Uninitialize();
 	FreeLibraryAndExitThread(_hmoduleDLL, 0);

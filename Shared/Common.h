@@ -50,5 +50,3 @@
 #else
 #define DLL_PUBLIC 
 #endif
-
-typedef unsigned short Entity;

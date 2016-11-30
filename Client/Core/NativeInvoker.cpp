@@ -29,10 +29,11 @@ uint64_t * nativeCall() {
 		}
 		__except (exceptionAddress = (GetExceptionInformation())->ExceptionRecord->ExceptionAddress, EXCEPTION_EXECUTE_HANDLER)
 		{
-			Logger::Error("Failed executing native 0x%016llx at address %p.", g_hash, exceptionAddress);
+			Logger::Error("executing native 0x%016llx at address %p.", g_hash, exceptionAddress);
 		}
 	}
 
 	return reinterpret_cast<uint64_t*>(g_context.GetResultPointer());
 }
+
 

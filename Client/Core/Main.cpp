@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-DWORD WINAPI ControlThread(LPVOID lpParam)
+DWORD WINAPI MainThread(LPVOID lpParam)
 {
 	Hooking::Start((HMODULE)lpParam);
 	return 0;
@@ -11,7 +11,7 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReser
 	switch (ul_reason_for_call)
 	{
 	case DLL_PROCESS_ATTACH:
-		CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)ControlThread, hModule, NULL, NULL);
+		CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)MainThread, hModule, NULL, NULL);
 		break;
 	case DLL_THREAD_ATTACH:
 		break;

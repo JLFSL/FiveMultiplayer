@@ -9,9 +9,16 @@ public:
 	// Native function handler type
 	typedef void(__cdecl * NativeHandler)(scrNativeCallContext * context);
 	static NativeHandler GetNativeHandler(uint64_t origHash);
+	static eGameState GetGameState();
+	static BlipList* GetBlipList();
+
+	static void InitNativeHook();
+	static void onTickInit();
+	static bool HookNatives();
 
 private:
-	static bool InitializeHooks();
+	static BOOL InitializeHooks();
 	static void FindPatterns();
 	static void FailPatterns(const char* name, Memory::pattern ptn);
-};
+
+};	void WAIT(DWORD ms);

@@ -5252,24 +5252,32 @@ void CrossMapping::initNativeMap() {
 	}
 
 	p2q = reinterpret_cast<twoQwords *>(__HASHMAPDATA);
+	//DEBUG_OUT("p2q: %p", p2q);
+	//DEBUG_OUT("p2q->first: %llx", p2q->first);
+	//DEBUG_OUT("p2q->second: %llx", p2q->second);
 	while (p2q->first) {
+		//DEBUG_OUT("initNHM: %llx, %llx", p2q->first, p2q->second);
 		nativeHashMap.emplace(p2q->first, p2q->second);
+		//DEBUG_OUT("nativeHashMap now has %lli members", nativeHashMap.size());
 		++p2q;
 	}
 	init = 1;
 	DEBUGMSG("nativeHashMap has %lli members", nativeHashMap.size());
 }
+/*##################################################################################################*/
 
 static nMap nativeCache;
 
 bool CrossMapping::searchMap(nMap map, uint64_t inNative, uint64_t *outNative)
 {
 	bool found = false;
+	//LOG_DEBUG("inNative 0x%016llx", inNative);
 	for (nMap::const_iterator it = map.begin(); it != map.end(); ++it)
 	{
 		found = (inNative == it->first);
 		if (found) {
 			*outNative = it->second;
+			//LOG_DEBUG("outNative 0x%016llx", outNative);
 			break;
 		}
 	}
@@ -5308,13 +5316,18 @@ void CrossMapping::dumpNativeMappingCache()
 	FILE *file;
 	int file_exists;
 
+
 	size_t sz = 0;
 	char* appdata = nullptr;
 	if (_dupenv_s(&appdata, &sz, "APPDATA") == 0 && appdata != nullptr)
 	{
+		//char * appdata = getenv("APPDATA");
+		//if (!appdata) 
+		//{
+		//	MessageBoxA(NULL, "Error saving native cache!", "[ERROR]", MB_OK);
+		//}
 		char filename[0x400];
 		snprintf(filename, sizeof(filename), "%s\\GTAV\\Authority\\natives_blob.txt", appdata);
-
 		/*first check if the file exists...*/
 		fopen_s(&file, filename, "r");
 		if (file == NULL) file_exists = 0;
