@@ -37,10 +37,10 @@ CNetworkManager::~CNetworkManager()
 
 bool CNetworkManager::Start()
 {
+	Logger::Msg("CNetworkManager::Started");
+
 	// Return whether Startup worked or not
 	return (g_RakPeer->Startup(1, &SocketDescriptor(), 1, THREAD_PRIORITY_NORMAL) == RAKNET_STARTED);
-
-	Logger::Msg("CNetworkManager::Started");
 }
 
 void CNetworkManager::Stop()
@@ -102,7 +102,7 @@ void CNetworkManager::Disconnect()
 void CNetworkManager::Pulse()
 {
 	// Don't do anything if we're disconnected
-	if (g_ConnectionState != CONSTATE_DISC || CONSTATE_FAIL)
+	if (g_ConnectionState != CONSTATE_DISC || g_ConnectionState != CONSTATE_FAIL)
 		return;
 
 	Packet *g_Packet = NULL;
@@ -111,10 +111,28 @@ void CNetworkManager::Pulse()
 	{
 		switch (g_Packet->data[0])
 		{
-			case ID_NO_FREE_INCOMING_CONNECTIONS || ID_INVALID_PASSWORD || ID_CONNECTION_ATTEMPT_FAILED || ID_CONNECTION_BANNED:
-				Logger::Msg("Failed to connect, packet: %d", g_Packet->data[0]);
+			case ID_NO_FREE_INCOMING_CONNECTIONS:
+			{
+				Logger::Msg("Failed to connect, max client", g_Packet->data[0]);
 				break;
+			}
+			case ID_INVALID_PASSWORD:
+			{
+				Logger::Msg("Failed to connect, invalid password", g_Packet->data[0]);
+				break;
+			}
+			case ID_CONNECTION_ATTEMPT_FAILED:
+			{
+				Logger::Msg("Failed to connect, failed", g_Packet->data[0]);
+				break;
+			}
+			case ID_CONNECTION_BANNED:
+			{
+				Logger::Msg("Failed to connect, banned", g_Packet->data[0]);
+				break;
+			}
 			case ID_CONNECTION_REQUEST_ACCEPTED:
+			{
 				// Set the server GUID
 				g_SystemAddr = g_Packet->systemAddress;
 
@@ -123,7 +141,10 @@ void CNetworkManager::Pulse()
 
 				Logger::Msg("CNetworkManager::Connected");
 				break;
+			}
+			Logger::Msg("%d", g_Packet->data[0]);
 		}
+		g_RakPeer->DeallocatePacket(g_Packet);
 	}
 }
 

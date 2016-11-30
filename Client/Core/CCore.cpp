@@ -82,6 +82,5 @@ void CCore::OnGameTick()
 		Logger::Msg("Disconnecting");
 	}
 
-	if (g_NetworkManager->g_ConnectionState == CONSTATE_COND || CONSTATE_CONN)
-		g_NetworkManager->Pulse();
+	g_NetworkManager->Pulse();
 }

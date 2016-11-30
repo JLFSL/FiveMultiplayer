@@ -40,7 +40,7 @@ bool CNetworkManager::Start()
 	cout << endl << "CNetworkManager::Starting..." << endl;
 	SocketDescriptor socketDescriptor(2322, "127.0.0.1");
 
-	if ((g_RakPeer->Startup(MAX_PLAYERS, &socketDescriptor, 1, 0) == RAKNET_STARTED))
+	if (g_RakPeer->Startup(MAX_PLAYERS, &socketDescriptor, 1, 0) == RAKNET_STARTED)
 	{
 		g_RakPeer->SetMaximumIncomingConnections(MAX_PLAYERS);
 		g_RakPeer->SetIncomingPassword(CON_PASS, sizeof(CON_PASS));
@@ -71,6 +71,7 @@ void CNetworkManager::Pulse()
 				cout << "CNetworkManager::Disconnection: " << g_Packet->systemAddress.ToString(false) << endl;
 				break;
 			}
+			cout << g_Packet->data[0] << endl;
 		}
 		g_RakPeer->DeallocatePacket(g_Packet);
 	}
