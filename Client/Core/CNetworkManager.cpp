@@ -102,7 +102,7 @@ void CNetworkManager::Disconnect()
 void CNetworkManager::Pulse()
 {
 	// Don't do anything if we're disconnected
-	if (g_ConnectionState != CONSTATE_DISC || g_ConnectionState != CONSTATE_FAIL)
+	if (g_ConnectionState == CONSTATE_DISC || g_ConnectionState == CONSTATE_FAIL)
 		return;
 
 	Packet *g_Packet = NULL;
