@@ -52,12 +52,25 @@ bool CNetworkManager::Start()
 	return false;
 }
 
+unsigned long m_ulLastSyncSent;
+
+float x;
+float y;
+float z;
+
+float rx;
+float ry;
+float rz;
+float rw;
+
 void CNetworkManager::Pulse()
 {
 	Packet *g_Packet = NULL;
 
 	while (g_Packet = g_RakPeer->Receive())
 	{
+		BitStream playerpackrec(g_Packet->data + 1, g_Packet->length + 1, false);
+
 		switch (g_Packet->data[0])
 		{
 			case ID_NEW_INCOMING_CONNECTION:
@@ -71,8 +84,41 @@ void CNetworkManager::Pulse()
 				cout << "CNetworkManager::Disconnection: " << g_Packet->systemAddress.ToString(false) << endl;
 				break;
 			}
+
+			case ID_PACKET_TEST:
+			{
+				playerpackrec.Read(x);
+				playerpackrec.Read(y);
+				playerpackrec.Read(z);
+				playerpackrec.Read(rx);
+				playerpackrec.Read(ry);
+				playerpackrec.Read(rz);
+				playerpackrec.Read(rw);
+
+				cout << "packet received" << endl;
+				break;
+			}
 			cout << g_Packet->data[0] << endl;
 		}
 		g_RakPeer->DeallocatePacket(g_Packet);
+	}
+
+	if (m_ulLastSyncSent + (1000 / CServer::GetInstance()->GetSyncRate()) <= timeGetTime())
+	{
+		BitStream playerpack;
+
+		playerpack.Write((unsigned char)ID_PACKET_TEST);
+		playerpack.Write(x);
+		playerpack.Write(y);
+		playerpack.Write(z);
+
+		playerpack.Write(rx);
+		playerpack.Write(ry);
+		playerpack.Write(rz);
+		playerpack.Write(rw);
+
+		g_RakPeer->Send(&playerpack, HIGH_PRIORITY, UNRELIABLE_SEQUENCED, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
+
+		cout << "packetsent" << endl;
 	}
 }

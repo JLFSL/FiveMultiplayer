@@ -1,11 +1,7 @@
 #include "stdafx.h"
 
-typedef CEntityManager<CPlayerEntity, MAX_PLAYERS> CPlayerManager;
-
-CNetworkManager*	g_Network;
 CAPI*				g_API;
-
-CPlayerManager	* g_Players;
+CNetworkManager*	g_Network;
 
 CServer* CServer::p_Instance = nullptr;
 
@@ -32,7 +28,7 @@ CServer::CServer()
 	Sleep(500);
 
 	// Construct CPlayerManager
-	g_Players = new CPlayerManager();
+	//g_Players = new CPlayerManager();
 
 	Sleep(500);
 
@@ -44,7 +40,7 @@ CServer::~CServer()
 {
 	SAFE_DELETE(g_Network);
 	SAFE_DELETE(g_API);
-	SAFE_DELETE(g_Players);
+	//SAFE_DELETE(g_Players);
 
 	cout << "CServer::Deconstructed" << endl;
 }
@@ -102,7 +98,7 @@ void CServer::Process()
 	g_Network->Pulse();
 
 	// Not working yet
-	g_Players->Pulse();
+	//g_Players->Pulse();
 
 	// Show FPS in console window (windows only)
 	if (p_ShowFPS) ShowFPS();

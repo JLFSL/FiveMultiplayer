@@ -2,7 +2,8 @@
 
 class CPlayerEntity {
 private:
-	unsigned long m_ulLastSyncSent;
+	
+
 public:
 	CPlayerEntity();
 	~CPlayerEntity();

@@ -31,8 +31,8 @@ bool CCore::Initialize()
 	return true;
 }
 
-bool cloned = false;
-Ped clonedped;
+/*bool cloned = false;
+Ped clonedped;*/
 
 void CCore::OnGameTick()
 {
@@ -41,7 +41,7 @@ void CCore::OnGameTick()
 
 	if (!PLAYER::IS_PLAYER_PLAYING(player)) return;
 
-	Vector3 coords = ENTITY::GET_ENTITY_COORDS(ped, ENTITY::IS_ENTITY_DEAD(ped));;
+	/*Vector3 coords = ENTITY::GET_ENTITY_COORDS(ped, ENTITY::IS_ENTITY_DEAD(ped));;
 	Vector4 rotation;
 
 	float heading;
@@ -68,7 +68,7 @@ void CCore::OnGameTick()
 	{
 		ENTITY::SET_ENTITY_COORDS(clonedped, coords.x + 2.0f, coords.y + 2.0f, coords.z, false, false, false, false);
 		ENTITY::SET_ENTITY_QUATERNION(clonedped, rotation.x, rotation.y, rotation.z, rotation.w);
-	}
+	}*/
 
 	if (KeyJustUp(VK_F8))
 	{

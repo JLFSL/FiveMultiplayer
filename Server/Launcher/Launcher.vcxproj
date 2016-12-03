@@ -170,7 +170,6 @@
     <ClInclude Include="CModule.h" />
     <ClInclude Include="CNetworkManager.h" />
     <ClInclude Include="CPlayer.h" />
-    <ClInclude Include="CEntityManager.h" />
     <ClInclude Include="CServer.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>

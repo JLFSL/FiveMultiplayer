@@ -20,6 +20,7 @@ using namespace std;
 
 // Shared
 #include "CVector3.h"
+#include "CMaths.h"
 #include "Common.h"
 
 // Vendor

@@ -35,6 +35,6 @@ using namespace RakNet;
 
 	// Network
 	#include "CNetworkManager.h"
-	#include "CEntityManager.h"
+	//#include "CEntityManager.h"
 	#include "CPlayer.h"
 // End of Server.Launcher

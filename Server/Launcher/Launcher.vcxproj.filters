@@ -74,9 +74,6 @@
     <ClInclude Include="CPlayer.h">
       <Filter>Entity</Filter>
     </ClInclude>
-    <ClInclude Include="CEntityManager.h">
-      <Filter>Network</Filter>
-    </ClInclude>
     <ClInclude Include="API_Server.h">
       <Filter>Scripting\Functions</Filter>
     </ClInclude>

@@ -34,8 +34,6 @@
 #define CONSTATE_COND	2
 #define CONSTATE_FAIL	3
 
-typedef unsigned short Entities;
-
 #ifdef WIN32
 #define LIBRARY_EXTENSION ".dll"
 #else
