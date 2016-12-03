@@ -123,15 +123,12 @@ void CNetworkManager::Update()
 		//ENTITY::SET_ENTITY_COORDS(clonedped, x + 3.0f, y + 3.0f, z, false, false, false, false);
 		ENTITY::SET_ENTITY_QUATERNION(clonedped, rx, ry, rz, rw);
 
-		unsigned long ulCurrentTime = timeGetTime();
-
 		Vector3 coords = ENTITY::GET_ENTITY_COORDS(clonedped, ENTITY::IS_ENTITY_DEAD(PLAYER::PLAYER_ID()));;
 
+		unsigned long ulCurrentTime = timeGetTime();
+
 		// Get our position
-		CVector3 vecCurrentPosition;
-		vecCurrentPosition.fX = coords.x;
-		vecCurrentPosition.fY = coords.y;
-		vecCurrentPosition.fZ = coords.z;
+		CVector3 vecCurrentPosition = { coords.x, coords.y, coords.z };
 
 		// Get the factor of time spent from the interpolation start
 		// to the current time.
@@ -160,8 +157,6 @@ void CNetworkManager::Update()
 			// Abort all interpolation
 			m_pInterpolationData->pPosition.ulFinishTime = 0;
 			vecNewPosition = m_pInterpolationData->pPosition.vecTarget;
-
-			cout << "too far" << endl;
 		}
 
 		// Set our new position
@@ -280,26 +275,20 @@ void CNetworkManager::Pulse()
 
 				cout << "packetreceived" << endl;
 
-				unsigned int interpolationtime = timeGetTime() - m_ulLastSyncReceived;
-
 				Update();
 
-				CVector3 vecCurrentPosition2;
-				Vector3 coords2 = ENTITY::GET_ENTITY_COORDS(clonedped, ENTITY::IS_ENTITY_DEAD(PLAYER::PLAYER_ID()));;
-				vecCurrentPosition2.fX = coords2.x;
-				vecCurrentPosition2.fY = coords2.y;
-				vecCurrentPosition2.fZ = coords2.z;
+				unsigned int interpolationtime = timeGetTime() - m_ulLastSyncReceived;
 
-				CVector3 targetposition;
-				targetposition.fX = x;
-				targetposition.fY = y;
-				targetposition.fZ = z;
+				// Get our position
+				Vector3 coords = ENTITY::GET_ENTITY_COORDS(clonedped, ENTITY::IS_ENTITY_DEAD(PLAYER::PLAYER_ID()));;
+				CVector3 vecCurrentPosition = { coords.x, coords.y, coords.z };
 
 				// Set the target position
-				m_pInterpolationData->pPosition.vecTarget = targetposition;
+				CVector3 vecPosition = { x, y, z };
+				m_pInterpolationData->pPosition.vecTarget = vecPosition;
 
 				// Calculate the relative error
-				m_pInterpolationData->pPosition.vecError = (targetposition - vecCurrentPosition2);
+				m_pInterpolationData->pPosition.vecError = (vecPosition - vecCurrentPosition);
 
 				// Get the interpolation interval
 				unsigned long ulTime = timeGetTime();
