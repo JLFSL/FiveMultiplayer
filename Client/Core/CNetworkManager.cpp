@@ -86,13 +86,25 @@ float x;
 float y;
 float z;
 
+float vx;
+float vy;
+float vz;
+
 float rx;
 float ry;
 float rz;
 float rw;
 
 bool cloned = false;
+bool veh = true;
 Ped clonedped;
+Vehicle clonedveh;
+
+int returnclone() {
+	if (veh)
+		return clonedveh;
+	return clonedped;
+}
 
 void CNetworkManager::Disconnect()
 {
@@ -115,29 +127,54 @@ void CNetworkManager::Disconnect()
 
 	Logger::Msg("CNetworkManager::Disconnected");
 
-	PED::DELETE_PED(&clonedped);
-	cloned = !cloned;
-	clonedped = NULL;
+	if (!veh)
+	{
+		PED::DELETE_PED(&clonedped);
+		cloned = !cloned;
+		clonedped = NULL;
+	}
+	else
+	{
+		VEHICLE::DELETE_VEHICLE(&clonedveh);
+		cloned = !cloned;
+		clonedveh = NULL;
+	}
 }
 
 void CNetworkManager::Update()
 {
 	//cout << m_pInterpolationData->pPosition.ulFinishTime << endl;
 	if (m_pInterpolationData->pPosition.ulFinishTime != 0) {
-		ENTITY::SET_ENTITY_QUATERNION(clonedped, rx, ry, rz, rw);
-
-		unsigned long ulCurrentTime = timeGetTime();
+		CVector3 vecCurrentPosition;
 
 		// Get our position
-		Vector3 coords = ENTITY::GET_ENTITY_COORDS(clonedped, ENTITY::IS_ENTITY_DEAD(PLAYER::PLAYER_ID()));;
-		CVector3 vecCurrentPosition(coords.x, coords.y, coords.z-1.0f);
+		Vector3 coords = ENTITY::GET_ENTITY_COORDS(returnclone(), ENTITY::IS_ENTITY_DEAD(PLAYER::PLAYER_ID()));
+		if (!veh)
+		{
+			vecCurrentPosition.fX = coords.x;
+			vecCurrentPosition.fY = coords.y;
+			vecCurrentPosition.fZ = coords.z-1.0f;
+		}
+		else
+		{
+			vecCurrentPosition.fX = coords.x;
+			vecCurrentPosition.fY = coords.y;
+			vecCurrentPosition.fZ = coords.z;
+		}
 
 		// Get the factor of time spent from the interpolation start
 		// to the current time.
+		unsigned long ulCurrentTime = timeGetTime();
 		float fAlpha = Math::Unlerp(m_pInterpolationData->pPosition.ulStartTime, ulCurrentTime, m_pInterpolationData->pPosition.ulFinishTime);
 
+		float alphathing;
+		if (!veh)
+			alphathing = 1.0f;
+		if (veh)
+			alphathing = 1.5f;
+
 		// Don't let it overcompensate the error
-		fAlpha = Math::Clamp(0.0f, fAlpha, 1.0f);
+		fAlpha = Math::Clamp(0.0f, fAlpha, alphathing);
 
 		// Get the current error portion to compensate
 		float fCurrentAlpha = (fAlpha - m_pInterpolationData->pPosition.fLastAlpha);
@@ -147,11 +184,11 @@ void CNetworkManager::Update()
 		CVector3 vecCompensation = Math::Lerp(CVector3(), fCurrentAlpha, m_pInterpolationData->pPosition.vecError);
 
 		// If we finished compensating the error, finish it for the next pulse
-		if (fAlpha == 1.0f)
+		if (fAlpha == alphathing)
 			m_pInterpolationData->pPosition.ulFinishTime = 0;
 
 		// Calculate the new position
-		CVector3 vecNewPosition = (vecCurrentPosition + vecCompensation);
+		CVector3 vecNewPosition = vecCurrentPosition + vecCompensation;
 
 		// Check if the distance to interpolate is too far
 		if ((vecCurrentPosition - m_pInterpolationData->pPosition.vecTarget).Length() > 750.0f)
@@ -162,7 +199,49 @@ void CNetworkManager::Update()
 		}
 
 		// Set our new position
-		ENTITY::SET_ENTITY_COORDS(clonedped, vecNewPosition.fX, vecNewPosition.fY, vecNewPosition.fZ, false, false, false, false);
+		ENTITY::SET_ENTITY_COORDS_NO_OFFSET(returnclone(), vecNewPosition.fX, vecNewPosition.fY, vecNewPosition.fZ, false, false, false);
+		ENTITY::SET_ENTITY_VELOCITY(returnclone(), vx, vy, vz);
+
+		//cout << "cur " << vecCurrentPosition.fX << vecCurrentPosition.fY << vecCurrentPosition.fZ << endl;
+		//cout << "com " << vecCompensation.fX << vecCompensation.fY << vecCompensation.fZ << endl;
+		//cout << "new " << vecNewPosition.fX << vecNewPosition.fY << vecNewPosition.fZ << endl;
+	}
+}
+
+void CNetworkManager::UpdateRotation()
+{
+	//cout << m_pInterpolationData->pPosition.ulFinishTime << endl;
+	if (m_pInterpolationData->pRotation.ulFinishTime != 0) {
+		CVector3 vecCurrentRotation;
+
+		// Get our rotation
+		float unusedw;
+		ENTITY::GET_ENTITY_QUATERNION(returnclone(), &vecCurrentRotation.fX, &vecCurrentRotation.fY, &vecCurrentRotation.fZ, &unusedw);
+
+		// Get the factor of time spent from the interpolation start
+		// to the current time.
+		unsigned long ulCurrentTime = timeGetTime();
+		float fAlpha = Math::Unlerp(m_pInterpolationData->pRotation.ulStartTime, ulCurrentTime, m_pInterpolationData->pRotation.ulFinishTime);
+
+		// Don't let it overcompensate the error
+		fAlpha = Math::Clamp(0.0f, fAlpha, 1.0f);
+
+		// Get the current error portion to compensate
+		float fCurrentAlpha = (fAlpha - m_pInterpolationData->pRotation.fLastAlpha);
+		m_pInterpolationData->pRotation.fLastAlpha = fAlpha;
+
+		// Apply the error compensation
+		CVector3 vecCompensation = Math::Lerp(CVector3(), fCurrentAlpha, m_pInterpolationData->pRotation.fError);
+
+		// If we finished compensating the error, finish it for the next pulse
+		if (fAlpha == 1.0f)
+			m_pInterpolationData->pRotation.ulFinishTime = 0;
+
+		// Calculate the new position
+		CVector3 vecNewRotation = vecCurrentRotation + vecCompensation;
+
+		// Set our new position
+		ENTITY::SET_ENTITY_QUATERNION(returnclone(), vecNewRotation.fX, vecNewRotation.fY, vecNewRotation.fZ, unusedw);
 
 		//cout << "cur " << vecCurrentPosition.fX << vecCurrentPosition.fY << vecCurrentPosition.fZ << endl;
 		//cout << "com " << vecCompensation.fX << vecCompensation.fY << vecCompensation.fZ << endl;
@@ -178,37 +257,78 @@ void CNetworkManager::Pulse()
 
 	if (!cloned)
 	{
-		char *name = "a_f_y_tourist_02";
-		int PedHash = GAMEPLAY::GET_HASH_KEY(name);
-		if (STREAMING::IS_MODEL_IN_CDIMAGE(PedHash) && STREAMING::IS_MODEL_VALID(PedHash))
+		if (!veh) 
 		{
-			STREAMING::REQUEST_MODEL(PedHash);
-			while (!STREAMING::HAS_MODEL_LOADED(PedHash)) WAIT(0);
-			clonedped = PED::CREATE_PED(26, PedHash, x, y, z, 0.0f, 1, true);
-			STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(PedHash);
+			char *name = "a_f_y_tourist_02";
+			int PedHash = GAMEPLAY::GET_HASH_KEY(name);
+			if (STREAMING::IS_MODEL_IN_CDIMAGE(PedHash) && STREAMING::IS_MODEL_VALID(PedHash))
+			{
+				STREAMING::REQUEST_MODEL(PedHash);
+				while (!STREAMING::HAS_MODEL_LOADED(PedHash)) WAIT(0);
+				clonedped = PED::CREATE_PED(26, PedHash, x, y, z, 0.0f, false, true);
+				STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(PedHash);
 
-			ENTITY::SET_ENTITY_NO_COLLISION_ENTITY(PLAYER::GET_PLAYER_PED(PLAYER::PLAYER_ID()), clonedped, false);
-			ENTITY::SET_ENTITY_NO_COLLISION_ENTITY(clonedped, PLAYER::GET_PLAYER_PED(PLAYER::PLAYER_ID()), false);
+				ENTITY::SET_ENTITY_NO_COLLISION_ENTITY(PLAYER::GET_PLAYER_PED(PLAYER::PLAYER_ID()), clonedped, false);
+				ENTITY::SET_ENTITY_NO_COLLISION_ENTITY(clonedped, PLAYER::GET_PLAYER_PED(PLAYER::PLAYER_ID()), false);
 
-			m_pInterpolationData = new sPlayerEntity_InterpolationData;
+				m_pInterpolationData = new sPlayerEntity_InterpolationData;
 
-			cloned = !cloned;
+				cloned = !cloned;
+			}
 		}
-		cout << "cloned" << endl;
+		else
+		{
+			char *name = "BUFFALO2";
+			int VehHash = GAMEPLAY::GET_HASH_KEY(name);
+			if (STREAMING::IS_MODEL_IN_CDIMAGE(VehHash) && STREAMING::IS_MODEL_VALID(VehHash))
+			{
+				STREAMING::REQUEST_MODEL(VehHash);
+				while (!STREAMING::HAS_MODEL_LOADED(VehHash)) WAIT(0);
+
+				clonedveh = VEHICLE::CREATE_VEHICLE(VehHash, x, y, z, 0.0f, false, true);
+
+				STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(VehHash);
+
+				ENTITY::SET_ENTITY_NO_COLLISION_ENTITY(PED::GET_VEHICLE_PED_IS_IN(PLAYER::GET_PLAYER_PED(PLAYER::PLAYER_ID()), false), clonedveh, false);
+				ENTITY::SET_ENTITY_NO_COLLISION_ENTITY(clonedveh, PED::GET_VEHICLE_PED_IS_IN(PLAYER::GET_PLAYER_PED(PLAYER::PLAYER_ID()), false), false);
+
+				m_pInterpolationData = new sPlayerEntity_InterpolationData;
+
+				cloned = !cloned;
+			}
+		}
 	} else {
 		Update();
+		UpdateRotation();
 	}
 
 	unsigned long ulCurrentTime = timeGetTime();
-	if (ulCurrentTime >= m_ulLastPureSyncTime + (1000.0f / 100))
+	if (ulCurrentTime >= m_ulLastPureSyncTime + (1000.0f / 50 ))
 	{
 		//if (g_ConnectionState == CONSTATE_CONN)
 		//	return;
 
-		Vector3 coords = ENTITY::GET_ENTITY_COORDS(PLAYER::GET_PLAYER_PED(PLAYER::PLAYER_ID()), ENTITY::IS_ENTITY_DEAD(PLAYER::PLAYER_ID()));;
+		Vector3 coords;
 		Vector4 rotation;
+		Vector3 velocity;
 
-		ENTITY::GET_ENTITY_QUATERNION(PLAYER::GET_PLAYER_PED(PLAYER::PLAYER_ID()), &rotation.fX, &rotation.fY, &rotation.fZ, &rotation.fW);
+		Player player = PLAYER::PLAYER_ID();
+		Ped playerped = PLAYER::GET_PLAYER_PED(player);
+
+		if (!veh)
+		{
+			coords = ENTITY::GET_ENTITY_COORDS(playerped, ENTITY::IS_ENTITY_DEAD(playerped));
+			ENTITY::GET_ENTITY_QUATERNION(playerped, &rotation.fX, &rotation.fY, &rotation.fZ, &rotation.fW);
+			velocity = ENTITY::GET_ENTITY_VELOCITY(playerped);
+		}
+		else
+		{
+			Vehicle veh = PED::GET_VEHICLE_PED_IS_IN(playerped, false);
+
+			coords = ENTITY::GET_ENTITY_COORDS(veh, ENTITY::IS_ENTITY_DEAD(PLAYER::PLAYER_ID()));
+			ENTITY::GET_ENTITY_QUATERNION(veh, &rotation.fX, &rotation.fY, &rotation.fZ, &rotation.fW);
+			velocity = ENTITY::GET_ENTITY_VELOCITY(veh);
+		}
 
 		m_ulLastPureSyncTime = ulCurrentTime;
 
@@ -223,6 +343,10 @@ void CNetworkManager::Pulse()
 		playerpack.Write(rotation.fY);
 		playerpack.Write(rotation.fZ);
 		playerpack.Write(rotation.fW);
+
+		playerpack.Write(velocity.x);
+		playerpack.Write(velocity.y);
+		playerpack.Write(velocity.z);
 
 		g_RakPeer->Send(&playerpack, MEDIUM_PRIORITY, UNRELIABLE_SEQUENCED, 0, g_SystemAddr, false);
 
@@ -279,35 +403,86 @@ void CNetworkManager::Pulse()
 				playerpackrec.Read(ry);
 				playerpackrec.Read(rz);
 				playerpackrec.Read(rw);
+				playerpackrec.Read(vx);
+				playerpackrec.Read(vy);
+				playerpackrec.Read(vz);
 
 				//cout << "packetreceived" << endl;
 
 				Update();
 
-				unsigned int interpolationtime = timeGetTime() - m_ulLastSyncReceived;
+				// position interpolation
+				{
+					unsigned int interpolationtime = timeGetTime() - m_ulLastSyncReceived;
+					unsigned long ulTime = timeGetTime();
 
-				// Get our position
-				Vector3 coords = ENTITY::GET_ENTITY_COORDS(clonedped, ENTITY::IS_ENTITY_DEAD(PLAYER::PLAYER_ID()));;
-				CVector3 vecCurrentPosition(coords.x, coords.y, coords.z - 1.0f);
+					// Get our position
+					CVector3 vecCurrentPosition;
+					Vector3 coords = ENTITY::GET_ENTITY_COORDS(returnclone(), ENTITY::IS_ENTITY_DEAD(PLAYER::PLAYER_ID()));
+					if (!veh)
+					{
+						vecCurrentPosition.fX = coords.x;
+						vecCurrentPosition.fY = coords.y;
+						vecCurrentPosition.fZ = coords.z - 1.0f;
+					}
+					else
+					{
+						vecCurrentPosition.fX = coords.x;
+						vecCurrentPosition.fY = coords.y;
+						vecCurrentPosition.fZ = coords.z;
+					}
 
-				// Set the target position
-				CVector3 vecPosition = { x, y, z };
-				m_pInterpolationData->pPosition.vecTarget = vecPosition;
+					// Set the target position
+					CVector3 vecPosition = { x, y, z };
+					m_pInterpolationData->pPosition.vecTarget = vecPosition;
 
-				// Calculate the relative error
-				m_pInterpolationData->pPosition.vecError = (vecPosition - vecCurrentPosition);
+					// Calculate the relative error
+					m_pInterpolationData->pPosition.vecError = vecPosition - vecCurrentPosition;
 
-				// Get the interpolation interval
-				unsigned long ulTime = timeGetTime();
-				m_pInterpolationData->pPosition.ulStartTime = ulTime;
-				m_pInterpolationData->pPosition.ulFinishTime = (ulTime + interpolationtime);
+					if (veh) {
+						// Apply the error over 400ms (i.e. 1/4 per 100ms)
+						m_pInterpolationData->pPosition.vecError *= Math::Lerp<const float>(0.25f, Math::UnlerpClamped(100, interpolationtime, 400), 1.0f);
+					}
 
-				// Initialize the interpolation
-				m_pInterpolationData->pPosition.fLastAlpha = 0.0f;
+					// Get the interpolation interval
+					m_pInterpolationData->pPosition.ulStartTime = ulTime;
+					m_pInterpolationData->pPosition.ulFinishTime = (ulTime + interpolationtime);
+
+					// Initialize the interpolation
+					m_pInterpolationData->pPosition.fLastAlpha = 0.0f;
+
+					//cout << m_pInterpolationData->pPosition.ulFinishTime << " " << interpolationtime << " " << ulTime << endl;
+				}
+
+				UpdateRotation();
+
+				// rotation interpolation
+				{
+					unsigned int interpolationtime = timeGetTime() - m_ulLastSyncReceived;
+					unsigned long ulTime = timeGetTime();
+
+					// Get our position
+					CVector3 vecLocalRotation;
+					float unusedw;
+					ENTITY::GET_ENTITY_QUATERNION(returnclone(), &vecLocalRotation.fX, &vecLocalRotation.fY, &vecLocalRotation.fZ, &unusedw);
+
+					// Set the target rotation
+					CVector3 vecRotation = { rx, ry, rz };
+					m_pInterpolationData->pRotation.fTarget = vecRotation;
+
+					// Get the error
+					m_pInterpolationData->pRotation.fError = Math::GetOffsetDegrees(vecLocalRotation, vecRotation);
+					m_pInterpolationData->pRotation.fError *= Math::Lerp < const float >(0.40f, Math::UnlerpClamped(100, interpolationtime, 400), 1.0f);
+
+					// Get the interpolation interval
+					m_pInterpolationData->pRotation.ulStartTime = ulTime;
+					m_pInterpolationData->pRotation.ulFinishTime = (ulTime + interpolationtime);
+
+					// Initialize the interpolation
+					m_pInterpolationData->pRotation.fLastAlpha = 0.0f;
+				}
 
 				m_ulLastSyncReceived = timeGetTime();
-
-				//cout << m_pInterpolationData->pPosition.ulFinishTime << " " << interpolationtime << " " << ulTime << endl;
 				break;
 			}
 			Logger::Msg("%d", g_Packet->data[0]);

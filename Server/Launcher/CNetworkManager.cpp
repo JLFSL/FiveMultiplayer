@@ -58,10 +58,16 @@ float x;
 float y;
 float z;
 
+float vx;
+float vy;
+float vz;
+
 float rx;
 float ry;
 float rz;
 float rw;
+
+bool veh = true;
 
 void CNetworkManager::Pulse()
 {
@@ -94,6 +100,9 @@ void CNetworkManager::Pulse()
 				playerpackrec.Read(ry);
 				playerpackrec.Read(rz);
 				playerpackrec.Read(rw);
+				playerpackrec.Read(vx);
+				playerpackrec.Read(vy);
+				playerpackrec.Read(vz);
 
 				cout << "packet received" << endl;
 				break;
@@ -108,14 +117,24 @@ void CNetworkManager::Pulse()
 		BitStream playerpack;
 
 		playerpack.Write((unsigned char)ID_PACKET_TEST);
-		playerpack.Write(x);
-		playerpack.Write(y);
-		playerpack.Write(z-1.0f);
+		playerpack.Write(x+2.0f);
+		playerpack.Write(y+2.0f);
+		if (!veh)
+		{
+			playerpack.Write(z - 1.0f);
+		}
+		else
+		{
+			playerpack.Write(z);
+		}
 
 		playerpack.Write(rx);
 		playerpack.Write(ry);
 		playerpack.Write(rz);
 		playerpack.Write(rw);
+		playerpack.Write(vx);
+		playerpack.Write(vy);
+		playerpack.Write(vz);
 
 		g_RakPeer->Send(&playerpack, MEDIUM_PRIORITY, UNRELIABLE_SEQUENCED, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
 

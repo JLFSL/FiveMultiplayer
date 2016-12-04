@@ -13,9 +13,9 @@ struct sPlayerEntity_InterpolationData
 	}				pPosition;
 	struct
 	{
-		float         fStart;
-		float         fTarget;
-		float         fError;
+		CVector3         fStart;
+		CVector3         fTarget;
+		CVector3         fError;
 		float         fLastAlpha;
 		unsigned long ulStartTime;
 		unsigned long ulFinishTime;
@@ -46,6 +46,7 @@ public:
 	void Disconnect();
 
 	void Update();
+	void UpdateRotation();
 
 	void Pulse();
 
