@@ -108,16 +108,16 @@ void CNetworkManager::Pulse()
 		BitStream playerpack;
 
 		playerpack.Write((unsigned char)ID_PACKET_TEST);
-		playerpack.Write(x+2.0f);
-		playerpack.Write(y+2.0f);
-		playerpack.Write((z-1.0f));
+		playerpack.Write(x);
+		playerpack.Write(y);
+		playerpack.Write(z-1.0f);
 
 		playerpack.Write(rx);
 		playerpack.Write(ry);
 		playerpack.Write(rz);
 		playerpack.Write(rw);
 
-		g_RakPeer->Send(&playerpack, HIGH_PRIORITY, UNRELIABLE_SEQUENCED, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
+		g_RakPeer->Send(&playerpack, MEDIUM_PRIORITY, UNRELIABLE_SEQUENCED, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
 
 		cout << "packetsent" << endl;
 

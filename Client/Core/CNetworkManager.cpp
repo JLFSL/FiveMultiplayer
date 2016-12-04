@@ -79,6 +79,21 @@ void CNetworkManager::Connect()
 	}
 }
 
+unsigned long m_ulLastPureSyncTime = 0;
+unsigned long m_ulLastSyncReceived = 0;
+
+float x;
+float y;
+float z;
+
+float rx;
+float ry;
+float rz;
+float rw;
+
+bool cloned = false;
+Ped clonedped;
+
 void CNetworkManager::Disconnect()
 {
 	// Don't do anything if we're not connected
@@ -99,26 +114,15 @@ void CNetworkManager::Disconnect()
 	g_SystemAddr = UNASSIGNED_SYSTEM_ADDRESS;
 
 	Logger::Msg("CNetworkManager::Disconnected");
+
+	PED::DELETE_PED(&clonedped);
+	cloned = !cloned;
+	clonedped = NULL;
 }
-
-unsigned long m_ulLastPureSyncTime = 0;
-unsigned long m_ulLastSyncReceived = 0;
-
-float x;
-float y;
-float z;
-
-float rx;
-float ry;
-float rz;
-float rw;
-
-bool cloned = false;
-Ped clonedped;
 
 void CNetworkManager::Update()
 {
-	cout << m_pInterpolationData->pPosition.ulFinishTime << endl;
+	//cout << m_pInterpolationData->pPosition.ulFinishTime << endl;
 	if (m_pInterpolationData->pPosition.ulFinishTime != 0) {
 		ENTITY::SET_ENTITY_QUATERNION(clonedped, rx, ry, rz, rw);
 
@@ -150,19 +154,19 @@ void CNetworkManager::Update()
 		CVector3 vecNewPosition = (vecCurrentPosition + vecCompensation);
 
 		// Check if the distance to interpolate is too far
-		if ((vecCurrentPosition - m_pInterpolationData->pPosition.vecTarget).Length() > 5)
+		if ((vecCurrentPosition - m_pInterpolationData->pPosition.vecTarget).Length() > 750.0f)
 		{
 			// Abort all interpolation
 			m_pInterpolationData->pPosition.ulFinishTime = 0;
-			//vecNewPosition = m_pInterpolationData->pPosition.vecTarget;
+			vecNewPosition = m_pInterpolationData->pPosition.vecTarget;
 		}
 
 		// Set our new position
 		ENTITY::SET_ENTITY_COORDS(clonedped, vecNewPosition.fX, vecNewPosition.fY, vecNewPosition.fZ, false, false, false, false);
 
-		cout << "cur " << vecCurrentPosition.fX << vecCurrentPosition.fY << vecCurrentPosition.fZ << endl;
-		cout << "com " << vecCompensation.fX << vecCompensation.fY << vecCompensation.fZ << endl;
-		cout << "new " << vecNewPosition.fX << vecNewPosition.fY << vecNewPosition.fZ << endl;
+		//cout << "cur " << vecCurrentPosition.fX << vecCurrentPosition.fY << vecCurrentPosition.fZ << endl;
+		//cout << "com " << vecCompensation.fX << vecCompensation.fY << vecCompensation.fZ << endl;
+		//cout << "new " << vecNewPosition.fX << vecNewPosition.fY << vecNewPosition.fZ << endl;
 	}
 }
 
@@ -178,14 +182,13 @@ void CNetworkManager::Pulse()
 		int PedHash = GAMEPLAY::GET_HASH_KEY(name);
 		if (STREAMING::IS_MODEL_IN_CDIMAGE(PedHash) && STREAMING::IS_MODEL_VALID(PedHash))
 		{
-			Logger::Msg("%s %x", name, PedHash);;
 			STREAMING::REQUEST_MODEL(PedHash);
 			while (!STREAMING::HAS_MODEL_LOADED(PedHash)) WAIT(0);
 			clonedped = PED::CREATE_PED(26, PedHash, x, y, z, 0.0f, 1, true);
 			STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(PedHash);
 
-			ENTITY::SET_ENTITY_NO_COLLISION_ENTITY(PLAYER::GET_PLAYER_PED(PLAYER::PLAYER_ID()), clonedped, true);
-			ENTITY::SET_ENTITY_NO_COLLISION_ENTITY(clonedped, PLAYER::GET_PLAYER_PED(PLAYER::PLAYER_ID()), true);
+			ENTITY::SET_ENTITY_NO_COLLISION_ENTITY(PLAYER::GET_PLAYER_PED(PLAYER::PLAYER_ID()), clonedped, false);
+			ENTITY::SET_ENTITY_NO_COLLISION_ENTITY(clonedped, PLAYER::GET_PLAYER_PED(PLAYER::PLAYER_ID()), false);
 
 			m_pInterpolationData = new sPlayerEntity_InterpolationData;
 
@@ -197,7 +200,7 @@ void CNetworkManager::Pulse()
 	}
 
 	unsigned long ulCurrentTime = timeGetTime();
-	if (ulCurrentTime >= m_ulLastPureSyncTime + (1000.0f / 50))
+	if (ulCurrentTime >= m_ulLastPureSyncTime + (1000.0f / 100))
 	{
 		//if (g_ConnectionState == CONSTATE_CONN)
 		//	return;
@@ -221,9 +224,9 @@ void CNetworkManager::Pulse()
 		playerpack.Write(rotation.fZ);
 		playerpack.Write(rotation.fW);
 
-		g_RakPeer->Send(&playerpack, HIGH_PRIORITY, UNRELIABLE_SEQUENCED, 0, g_SystemAddr, false);
+		g_RakPeer->Send(&playerpack, MEDIUM_PRIORITY, UNRELIABLE_SEQUENCED, 0, g_SystemAddr, false);
 
-		cout << ulCurrentTime << " " << m_ulLastPureSyncTime << endl;
+		//cout << ulCurrentTime << " " << m_ulLastPureSyncTime << endl;
 	}
 
 	Packet *g_Packet = NULL;
@@ -277,7 +280,7 @@ void CNetworkManager::Pulse()
 				playerpackrec.Read(rz);
 				playerpackrec.Read(rw);
 
-				cout << "packetreceived" << endl;
+				//cout << "packetreceived" << endl;
 
 				Update();
 
@@ -304,7 +307,7 @@ void CNetworkManager::Pulse()
 
 				m_ulLastSyncReceived = timeGetTime();
 
-				cout << m_pInterpolationData->pPosition.ulFinishTime << " " << interpolationtime << " " << ulTime << endl;
+				//cout << m_pInterpolationData->pPosition.ulFinishTime << " " << interpolationtime << " " << ulTime << endl;
 				break;
 			}
 			Logger::Msg("%d", g_Packet->data[0]);
