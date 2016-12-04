@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Include">
+      <UniqueIdentifier>{b3d81bdb-a903-464f-b57f-f943600cf0e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{89006fa2-7992-427a-ae7f-249851bd3c37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CEF">
+      <UniqueIdentifier>{c6f56a22-3eff-4bbf-807d-b64a0a5d5a63}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="CEFLauncher.h">
+      <Filter>CEF</Filter>
+    </ClInclude>
+    <ClInclude Include="CEFLauncher_Handler.h">
+      <Filter>CEF</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Include</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="CEFLauncher.cpp">
+      <Filter>CEF</Filter>
+    </ClCompile>
+    <ClCompile Include="CEFLauncher_Handler.cpp">
+      <Filter>CEF</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

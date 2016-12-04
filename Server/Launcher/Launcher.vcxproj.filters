@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Common">
+      <UniqueIdentifier>{21570311-5f9c-44db-bb3f-ac15c5ef5083}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include">
+      <UniqueIdentifier>{f3223ef8-e473-4b92-82ee-e8cdc3839fa7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tests">
+      <UniqueIdentifier>{564fd536-015e-4d3c-8517-3ce36b3763ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Network">
+      <UniqueIdentifier>{56666e83-7732-4d69-8d35-99aec252b21a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Server">
+      <UniqueIdentifier>{c2eedb14-1bac-4d97-837f-0cec9c99a27f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entity">
+      <UniqueIdentifier>{8cf06a15-8b1a-4cb9-9257-fcbe3679ef20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripting">
+      <UniqueIdentifier>{636df4ea-0645-474e-a5ef-c664807ace8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripting\Functions">
+      <UniqueIdentifier>{f66f59b2-1152-479c-9b64-efb22b85565f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scripting\Callbacks">
+      <UniqueIdentifier>{37585daf-a858-441e-8d04-da22a9a4edb7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Include</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="CModule.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="CServer.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="CNetworkManager.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="CPlayer.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="API_Server.cpp">
+      <Filter>Scripting\Functions</Filter>
+    </ClCompile>
+    <ClCompile Include="CAPI.cpp">
+      <Filter>Scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="apitest.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="CModule.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="CServer.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="CNetworkManager.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="CPlayer.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="API_Server.h">
+      <Filter>Scripting\Functions</Filter>
+    </ClInclude>
+    <ClInclude Include="CAPI.h">
+      <Filter>Scripting</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

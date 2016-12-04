@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Common">
+      <UniqueIdentifier>{69e3780e-9ece-4b81-a448-c6e6fd5f982c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include">
+      <UniqueIdentifier>{f0808b32-249a-431d-a99a-6a95cb4b0b83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shared">
+      <UniqueIdentifier>{edd16916-2da4-458c-8406-43d8b9e728dd}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Include</Filter>
+    </ClCompile>
+    <ClCompile Include="Util.cpp">
+      <Filter>Shared</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Util.h">
+      <Filter>Shared</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

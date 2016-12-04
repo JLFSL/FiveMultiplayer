@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Common">
+      <UniqueIdentifier>{d0a7c0c7-e789-4a0b-870a-e3b93059a04e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include">
+      <UniqueIdentifier>{6d148f97-a402-4b04-8c40-fefb0f2bf2f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Hooks">
+      <UniqueIdentifier>{201352f6-fb01-4cd7-bbed-efdc1063e6d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Hooks\SudoMod">
+      <UniqueIdentifier>{a424b7d2-45ea-4e2a-8d9b-f8886b78304b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Hooks\SudoMod\Structs">
+      <UniqueIdentifier>{3cfc1228-5717-43ed-a4f9-7134a46bd699}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Network">
+      <UniqueIdentifier>{5bc3601d-10be-4ffc-9bd3-ba1ef8ee8186}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game">
+      <UniqueIdentifier>{20a0455a-8453-4734-9b24-dcb213a83354}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics">
+      <UniqueIdentifier>{17c376e7-2302-44f8-997e-c5de4a72c7eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI">
+      <UniqueIdentifier>{f0d4ee51-5441-4b0a-b5d3-bfbe75ed6a16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Client">
+      <UniqueIdentifier>{0418d678-5ce0-439d-b4ae-fef5f594f530}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Include</Filter>
+    </ClCompile>
+    <ClCompile Include="Hooking.cpp">
+      <Filter>Hooks\SudoMod</Filter>
+    </ClCompile>
+    <ClCompile Include="NativeInvoker.cpp">
+      <Filter>Hooks\SudoMod</Filter>
+    </ClCompile>
+    <ClCompile Include="Logger.cpp">
+      <Filter>Hooks\SudoMod</Filter>
+    </ClCompile>
+    <ClCompile Include="CrossMapping.cpp">
+      <Filter>Hooks\SudoMod</Filter>
+    </ClCompile>
+    <ClCompile Include="Memory.cpp">
+      <Filter>Hooks\SudoMod</Filter>
+    </ClCompile>
+    <ClCompile Include="InputHook.cpp">
+      <Filter>Hooks\SudoMod</Filter>
+    </ClCompile>
+    <ClCompile Include="Keyboard.cpp">
+      <Filter>Hooks\SudoMod</Filter>
+    </ClCompile>
+    <ClCompile Include="Script.cpp">
+      <Filter>Hooks\SudoMod</Filter>
+    </ClCompile>
+    <ClCompile Include="CCore.cpp">
+      <Filter>Client</Filter>
+    </ClCompile>
+    <ClCompile Include="CNetworkManager.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Hooking.h">
+      <Filter>Hooks\SudoMod</Filter>
+    </ClInclude>
+    <ClInclude Include="NativeInvoker.h">
+      <Filter>Hooks\SudoMod</Filter>
+    </ClInclude>
+    <ClInclude Include="Logger.h">
+      <Filter>Hooks\SudoMod</Filter>
+    </ClInclude>
+    <ClInclude Include="Enums.h">
+      <Filter>Hooks\SudoMod\Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="Structs.h">
+      <Filter>Hooks\SudoMod\Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="Types.h">
+      <Filter>Hooks\SudoMod\Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="CrossMapping.h">
+      <Filter>Hooks\SudoMod</Filter>
+    </ClInclude>
+    <ClInclude Include="Natives.h">
+      <Filter>Hooks\SudoMod\Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="NativeCaller.h">
+      <Filter>Hooks\SudoMod</Filter>
+    </ClInclude>
+    <ClInclude Include="Memory.h">
+      <Filter>Hooks\SudoMod</Filter>
+    </ClInclude>
+    <ClInclude Include="InputHook.h">
+      <Filter>Hooks\SudoMod</Filter>
+    </ClInclude>
+    <ClInclude Include="Keyboard.h">
+      <Filter>Hooks\SudoMod</Filter>
+    </ClInclude>
+    <ClInclude Include="Script.h">
+      <Filter>Hooks\SudoMod</Filter>
+    </ClInclude>
+    <ClInclude Include="CCore.h">
+      <Filter>Client</Filter>
+    </ClInclude>
+    <ClInclude Include="CNetworkManager.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
