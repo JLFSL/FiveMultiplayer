@@ -108,9 +108,9 @@ void CNetworkManager::Pulse()
 		BitStream playerpack;
 
 		playerpack.Write((unsigned char)ID_PACKET_TEST);
-		playerpack.Write(x);
-		playerpack.Write(y);
-		playerpack.Write(z);
+		playerpack.Write(x+2.0f);
+		playerpack.Write(y+2.0f);
+		playerpack.Write((z-1.0f));
 
 		playerpack.Write(rx);
 		playerpack.Write(ry);

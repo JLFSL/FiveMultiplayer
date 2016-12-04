@@ -82,7 +82,7 @@ void CNetworkManager::Connect()
 void CNetworkManager::Disconnect()
 {
 	// Don't do anything if we're not connected
-	if (g_ConnectionState != CONSTATE_COND)
+	if (g_ConnectionState == CONSTATE_DISC)
 		return;
 
 	// Stop RakPeer from accepting anymore incoming packets
@@ -120,15 +120,13 @@ void CNetworkManager::Update()
 {
 	cout << m_pInterpolationData->pPosition.ulFinishTime << endl;
 	if (m_pInterpolationData->pPosition.ulFinishTime != 0) {
-		//ENTITY::SET_ENTITY_COORDS(clonedped, x + 3.0f, y + 3.0f, z, false, false, false, false);
 		ENTITY::SET_ENTITY_QUATERNION(clonedped, rx, ry, rz, rw);
-
-		Vector3 coords = ENTITY::GET_ENTITY_COORDS(clonedped, ENTITY::IS_ENTITY_DEAD(PLAYER::PLAYER_ID()));;
 
 		unsigned long ulCurrentTime = timeGetTime();
 
 		// Get our position
-		CVector3 vecCurrentPosition = { coords.x, coords.y, coords.z };
+		Vector3 coords = ENTITY::GET_ENTITY_COORDS(clonedped, ENTITY::IS_ENTITY_DEAD(PLAYER::PLAYER_ID()));;
+		CVector3 vecCurrentPosition(coords.x, coords.y, coords.z-1.0f);
 
 		// Get the factor of time spent from the interpolation start
 		// to the current time.
@@ -156,11 +154,11 @@ void CNetworkManager::Update()
 		{
 			// Abort all interpolation
 			m_pInterpolationData->pPosition.ulFinishTime = 0;
-			vecNewPosition = m_pInterpolationData->pPosition.vecTarget;
+			//vecNewPosition = m_pInterpolationData->pPosition.vecTarget;
 		}
 
 		// Set our new position
-		ENTITY::SET_ENTITY_COORDS(clonedped, vecNewPosition.fX + 1.25f, vecNewPosition.fY + 1.25f, vecNewPosition.fZ-1.0f, false, false, false, false);
+		ENTITY::SET_ENTITY_COORDS(clonedped, vecNewPosition.fX, vecNewPosition.fY, vecNewPosition.fZ, false, false, false, false);
 
 		cout << "cur " << vecCurrentPosition.fX << vecCurrentPosition.fY << vecCurrentPosition.fZ << endl;
 		cout << "com " << vecCompensation.fX << vecCompensation.fY << vecCompensation.fZ << endl;
@@ -186,16 +184,24 @@ void CNetworkManager::Pulse()
 			clonedped = PED::CREATE_PED(26, PedHash, x, y, z, 0.0f, 1, true);
 			STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(PedHash);
 
+			ENTITY::SET_ENTITY_NO_COLLISION_ENTITY(PLAYER::GET_PLAYER_PED(PLAYER::PLAYER_ID()), clonedped, true);
+			ENTITY::SET_ENTITY_NO_COLLISION_ENTITY(clonedped, PLAYER::GET_PLAYER_PED(PLAYER::PLAYER_ID()), true);
+
 			m_pInterpolationData = new sPlayerEntity_InterpolationData;
 
 			cloned = !cloned;
 		}
 		cout << "cloned" << endl;
+	} else {
+		Update();
 	}
 
 	unsigned long ulCurrentTime = timeGetTime();
 	if (ulCurrentTime >= m_ulLastPureSyncTime + (1000.0f / 50))
 	{
+		//if (g_ConnectionState == CONSTATE_CONN)
+		//	return;
+
 		Vector3 coords = ENTITY::GET_ENTITY_COORDS(PLAYER::GET_PLAYER_PED(PLAYER::PLAYER_ID()), ENTITY::IS_ENTITY_DEAD(PLAYER::PLAYER_ID()));;
 		Vector4 rotation;
 
@@ -219,8 +225,6 @@ void CNetworkManager::Pulse()
 
 		cout << ulCurrentTime << " " << m_ulLastPureSyncTime << endl;
 	}
-
-	
 
 	Packet *g_Packet = NULL;
 
@@ -281,7 +285,7 @@ void CNetworkManager::Pulse()
 
 				// Get our position
 				Vector3 coords = ENTITY::GET_ENTITY_COORDS(clonedped, ENTITY::IS_ENTITY_DEAD(PLAYER::PLAYER_ID()));;
-				CVector3 vecCurrentPosition = { coords.x, coords.y, coords.z };
+				CVector3 vecCurrentPosition(coords.x, coords.y, coords.z - 1.0f);
 
 				// Set the target position
 				CVector3 vecPosition = { x, y, z };
