@@ -120,5 +120,7 @@ void CNetworkManager::Pulse()
 		g_RakPeer->Send(&playerpack, HIGH_PRIORITY, UNRELIABLE_SEQUENCED, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
 
 		cout << "packetsent" << endl;
+
+		m_ulLastSyncSent = timeGetTime();
 	}
 }
