@@ -103,7 +103,8 @@ Vehicle clonedveh;
 int returnclone() {
 	if (veh)
 		return clonedveh;
-	return clonedped;
+	if (!veh)
+		return clonedped;
 }
 
 void CNetworkManager::Disconnect()
@@ -130,13 +131,13 @@ void CNetworkManager::Disconnect()
 	if (!veh)
 	{
 		PED::DELETE_PED(&clonedped);
-		cloned = !cloned;
+		cloned = false;
 		clonedped = NULL;
 	}
 	else
 	{
 		VEHICLE::DELETE_VEHICLE(&clonedveh);
-		cloned = !cloned;
+		cloned = false;
 		clonedveh = NULL;
 	}
 }
@@ -145,10 +146,9 @@ void CNetworkManager::Update()
 {
 	//cout << m_pInterpolationData->pPosition.ulFinishTime << endl;
 	if (m_pInterpolationData->pPosition.ulFinishTime != 0) {
-		CVector3 vecCurrentPosition;
-
 		// Get our position
 		Vector3 coords = ENTITY::GET_ENTITY_COORDS(returnclone(), ENTITY::IS_ENTITY_DEAD(PLAYER::PLAYER_ID()));
+		CVector3 vecCurrentPosition;
 		if (!veh)
 		{
 			vecCurrentPosition.fX = coords.x;
@@ -273,7 +273,7 @@ void CNetworkManager::Pulse()
 
 				m_pInterpolationData = new sPlayerEntity_InterpolationData;
 
-				cloned = !cloned;
+				cloned = true;
 			}
 		}
 		else
@@ -294,7 +294,7 @@ void CNetworkManager::Pulse()
 
 				m_pInterpolationData = new sPlayerEntity_InterpolationData;
 
-				cloned = !cloned;
+				cloned = true;
 			}
 		}
 	} else {
@@ -409,7 +409,7 @@ void CNetworkManager::Pulse()
 
 				//cout << "packetreceived" << endl;
 
-				Update();
+				//Update();
 
 				// position interpolation
 				{
@@ -418,22 +418,20 @@ void CNetworkManager::Pulse()
 
 					// Get our position
 					CVector3 vecCurrentPosition;
-					Vector3 coords = ENTITY::GET_ENTITY_COORDS(returnclone(), ENTITY::IS_ENTITY_DEAD(PLAYER::PLAYER_ID()));
-					if (!veh)
-					{
-						vecCurrentPosition.fX = coords.x;
-						vecCurrentPosition.fY = coords.y;
+					Vector3 coords = ENTITY::GET_ENTITY_COORDS(returnclone(), ENTITY::IS_ENTITY_DEAD(returnclone()));
+					vecCurrentPosition.fX = coords.x;
+					vecCurrentPosition.fY = coords.y;
+					if (!veh) {
 						vecCurrentPosition.fZ = coords.z - 1.0f;
 					}
-					else
-					{
-						vecCurrentPosition.fX = coords.x;
-						vecCurrentPosition.fY = coords.y;
+					else {
 						vecCurrentPosition.fZ = coords.z;
 					}
 
 					// Set the target position
 					CVector3 vecPosition = { x, y, z };
+					if (!veh)
+						vecPosition = { x, y, z - 1.0f };
 					m_pInterpolationData->pPosition.vecTarget = vecPosition;
 
 					// Calculate the relative error
@@ -454,7 +452,7 @@ void CNetworkManager::Pulse()
 					//cout << m_pInterpolationData->pPosition.ulFinishTime << " " << interpolationtime << " " << ulTime << endl;
 				}
 
-				UpdateRotation();
+				//UpdateRotation();
 
 				// rotation interpolation
 				{

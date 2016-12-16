@@ -8,7 +8,15 @@ public:
 
 	// Native function handler type
 	typedef void(__cdecl * NativeHandler)(scrNativeCallContext * context);
+	struct NativeRegistration
+	{
+		NativeRegistration * nextRegistration;
+		Hooking::NativeHandler handlers[7];
+		uint32_t numEntries;
+		uint64_t hashes[7];
+	};
 	static NativeHandler GetNativeHandler(uint64_t origHash);
+
 	static eGameState GetGameState();
 	static BlipList* GetBlipList();
 

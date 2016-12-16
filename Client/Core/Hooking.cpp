@@ -5,10 +5,10 @@ HMODULE _hmoduleDLL;
 HANDLE mainFiber;
 DWORD wakeAt;
 
-static eGameState* 				m_gameState;
-static uint64_t					m_worldPtr;
-static BlipList*				m_blipList;
-static NativeRegistration**		m_registrationTable;
+static eGameState* 							m_gameState;
+static uint64_t								m_worldPtr;
+static BlipList*							m_blipList;
+static Hooking::NativeRegistration**		m_registrationTable;
 
 /* Start Hooking */
 
@@ -152,7 +152,7 @@ void Hooking::onTickInit()
 
 void Hooking::FailPatterns(const char* name, pattern ptn)
 {
-	Logger::Error("finding %s (%s)");
+	Logger::Error("finding %s", name);
 	Cleanup();
 }
 

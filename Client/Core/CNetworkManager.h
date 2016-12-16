@@ -11,6 +11,7 @@ struct sPlayerEntity_InterpolationData
 		unsigned long ulStartTime;
 		unsigned long ulFinishTime;
 	}				pPosition;
+
 	struct
 	{
 		CVector3         fStart;
