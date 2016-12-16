@@ -1,15 +1,5 @@
 #include "stdafx.h"
 
-#if defined _WIN32 || defined __CYGWIN__
-#ifdef __GNUC__
-#define DLL_PUBLIC __attribute__ ((dllexport))
-#else
-#define DLL_PUBLIC __declspec(dllexport) // Note: actually gcc seems to also supports this syntax.
-#endif
-#else
-#define DLL_PUBLIC 
-#endif
-
 int main(int argc, char *argv[]) {
 	// Provide the modification, version and gamename to the user.
 	cout << "Loading " INFO_NAME "(" INFO_VERSION ") for " INFO_GAME_NAME << endl;
