@@ -43,7 +43,7 @@ public:
 	bool Start();
 	void Stop();
 
-	void Connect();
+	void Connect(const char *ip, const char *pass, int port);
 	void Disconnect();
 
 	void Update();
@@ -51,7 +51,7 @@ public:
 
 	void Pulse();
 
-	void LastConnection(string ip, string pass, int port) { g_lastIP = ip; g_lastPass = pass; g_lastPort = port; }
+	void LastConnection(const char *ip, const char *pass, int port) { g_lastIP = ip; g_lastPass = pass; g_lastPort = port; }
 
 	int g_ConnectionState;
 	/*

@@ -57,18 +57,18 @@ void CNetworkManager::Stop()
 	Logger::Msg("CNetworkManager::Stopped");
 }
 
-void CNetworkManager::Connect()
+void CNetworkManager::Connect(const char *ip, const char *pass, int port)
 {
 	// Disconnect if we're already connected
 	if (g_ConnectionState == CONSTATE_COND)
 		Disconnect();
 
 	// Set our last connection so we can connect again later and we set our state to connecting
-	LastConnection(CON_IP, CON_PASS, CON_PORT);
+	LastConnection(ip, pass, port);
 	g_ConnectionState = CONSTATE_CONN;
 
 	// Connect to the server, leaving the result
-	int Result = g_RakPeer->Connect(CON_IP, CON_PORT, CON_PASS, sizeof(CON_PASS));
+	int Result = g_RakPeer->Connect(ip, port, pass, sizeof(pass));
 
 	// Check if connection failed, then set our state to failed
 	if (Result != 0)

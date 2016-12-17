@@ -42,8 +42,10 @@ bool CNetworkManager::Start()
 
 	if (g_RakPeer->Startup(MAX_PLAYERS, &socketDescriptor, 1, 0) == RAKNET_STARTED)
 	{
+		const char *pass = "";
+
 		g_RakPeer->SetMaximumIncomingConnections(MAX_PLAYERS);
-		g_RakPeer->SetIncomingPassword(CON_PASS, sizeof(CON_PASS));
+		g_RakPeer->SetIncomingPassword(pass, sizeof(pass));
 		g_RakPeer->SetTimeoutTime(15000, UNASSIGNED_SYSTEM_ADDRESS);
 
 		cout << "CNetworkManager::Successfully started" << endl;
