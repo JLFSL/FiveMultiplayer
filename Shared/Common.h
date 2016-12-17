@@ -71,5 +71,5 @@
 #define DLL_PUBLIC_I __declspec(dllimport)
 #endif
 #else
-#define DLL_PUBLIC 
+#define DLL_PUBLIC_I 
 #endif
