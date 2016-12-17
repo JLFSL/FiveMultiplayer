@@ -11,15 +11,18 @@ CAPI::CAPI()
 CAPI::~CAPI()
 {
 	Instance = nullptr;
-	Module = NULL;
 
 	cout << "CAPI::Deconstructed" << endl;
 }
 
 bool CAPI::Load(LPCSTR Filename)
 {
+#ifdef _WIN32
 	Instance = ::LoadLibraryA(Filename);
-	Module = Filename;
+#else
+	Instance = dlopen(Filename, RTLD_LAZY);
+#endif
+	Module = (char *)Filename;
 	if (!Instance)
 		return false;
 	cout << endl << "CAPI::" << ModuleName() << " loaded" << endl;
@@ -30,7 +33,11 @@ bool CAPI::Unload()
 {
 	if (Instance) 
 	{
+#ifdef _WIN32
 		FreeLibrary(Instance);
+#else
+		dlclose(Instance);
+#endif
 		if (!Instance) {
 			cout << "CAPI::" << ModuleName() << " unloaded" << endl;
 			return true;
@@ -44,7 +51,12 @@ bool CAPI::Initialize()
 {
 	if (Instance) 
 	{
-		LPFN_DHFDLL API_Initialize = (LPFN_DHFDLL)::GetProcAddress(Instance, "API_Initialize");
+		typedef void(*API_Initialize_t)();
+#ifdef WIN32
+		API_Initialize_t API_Initialize = (API_Initialize_t)::GetProcAddress(Instance, "API_Initialize");
+#else
+		API_Initialize_t API_Initialize = (API_Initialize_t)dlsym(handle, "API_Initialize");
+#endif
 		API_Initialize();
 		if (!API_Initialize)
 			return false;
@@ -58,7 +70,12 @@ bool CAPI::Close()
 {
 	if (Instance)
 	{
-		LPFN_DHFDLL API_Close = (LPFN_DHFDLL)::GetProcAddress(Instance, "API_Close");
+		typedef void(*API_Close_t)();
+#ifdef WIN32
+		API_Close_t API_Close = (API_Close_t)::GetProcAddress(Instance, "API_Initialize");
+#else
+		API_Close_t API_Close = (API_Close_t)dlsym(handle, "API_Initialize");
+#endif
 		API_Close();
 		if (!API_Close)
 			return false;

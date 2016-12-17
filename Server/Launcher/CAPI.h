@@ -2,10 +2,8 @@
 class CAPI
 {
 private:
-	LPCSTR Module;
-
-	HINSTANCE Instance;
-	typedef VOID(CALLBACK* LPFN_DHFDLL)();
+	char *Module;
+	HMODULE Instance;
 
 public:
 	CAPI();
@@ -17,6 +15,6 @@ public:
 	bool Initialize();
 	bool Close();
 
-	LPCSTR ModuleName() { return Module; };
+	char *ModuleName() { return Module; };
 };
 
