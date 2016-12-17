@@ -8,11 +8,15 @@
 #endif
 #include <iostream>
 #include <ctime>
+#include <vector>
+#include <algorithm>
+#include <string>
 using namespace std;
 
 // Shared
 #include <Common.h>
 #include <CVector3.h>
+#include <CVector4.h>
 
 // Vendor.RakNet
 #include <RakNet/RakPeerInterface.h>

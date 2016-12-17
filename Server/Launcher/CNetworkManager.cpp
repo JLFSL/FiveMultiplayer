@@ -82,12 +82,24 @@ void CNetworkManager::Pulse()
 			case ID_NEW_INCOMING_CONNECTION:
 			{
 				cout << "CNetworkManager::Incoming connection: " << g_Packet->systemAddress.ToString(false) << endl;
+
+				CPlayerEntity newPlayer;
+				newPlayer.Create("test", g_Packet->guid.ToString());
+
+				g_Players.push_back(newPlayer);
 				break;
 			}
 			
 			case ID_DISCONNECTION_NOTIFICATION:
 			{
 				cout << "CNetworkManager::Disconnection: " << g_Packet->systemAddress.ToString(false) << endl;
+
+				for (int i = 0; i < g_Players.size(); i++) {
+					if (g_Players[i].GetGuid() == g_Packet->guid.ToString()) {
+						g_Players.erase(g_Players.begin() + i);
+						g_Players.shrink_to_fit();
+					}
+				}
 				break;
 			}
 
@@ -104,7 +116,7 @@ void CNetworkManager::Pulse()
 				playerpackrec.Read(vy);
 				playerpackrec.Read(vz);
 
-				cout << "packet received" << endl;
+				//cout << "packet received" << endl;
 				break;
 			}
 			cout << g_Packet->data[0] << endl;
@@ -138,7 +150,7 @@ void CNetworkManager::Pulse()
 
 		g_RakPeer->Send(&playerpack, MEDIUM_PRIORITY, UNRELIABLE_SEQUENCED, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
 
-		cout << "packetsent" << endl;
+		//cout << "packetsent" << endl;
 
 		m_ulLastSyncSent = clock();
 	}

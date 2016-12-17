@@ -5,6 +5,8 @@ CNetworkManager*	g_Network;
 
 CServer* CServer::p_Instance = nullptr;
 
+vector<CPlayerEntity> g_Players;
+
 CServer::CServer()
 {
 	// Tell CServer we're using this particular class
@@ -91,8 +93,10 @@ void CServer::Process()
 	// Keep CNetworkManager active
 	g_Network->Pulse();
 
-	// Not working yet
-	//g_Players->Pulse();
+	// Pulse all players
+	for (int i = 0; i < g_Players.size(); i++) {
+		g_Players[i].Pulse();
+	}
 
 	// Show FPS in console window (windows only)
 	if (p_ShowFPS) ShowFPS();
