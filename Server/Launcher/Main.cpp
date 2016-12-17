@@ -34,7 +34,5 @@ int main(int argc, char *argv[]) {
 
 	// Destroy CServer
 	SAFE_DELETE(g_Server);
-
-	ExitProcess(EXIT_SUCCESS);
 	return 1;
 }
