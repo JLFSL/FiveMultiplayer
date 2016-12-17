@@ -1,3 +1,2 @@
 Server.Launcher: Main.cpp
-	g++ Main.cpp -o ../../bin/Linux/Server.Launcher -ldl
-	g++ Main.cpp -o ../../bin/Linux/_32/Server.Launcher -m32 -ldl
+	g++ -I../../Shared -I../../Vendor -I../../Vendor/RakNet *.cpp -o ../../bin/Linux/Server.Launcher -L../../Vendor/RakNet libRakNetDLL.so -ldl
