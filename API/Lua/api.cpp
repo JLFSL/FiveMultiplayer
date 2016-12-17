@@ -1,10 +1,10 @@
-#include "../../Shared/Common.h"
-#include "inc_lua/lua.hpp"
+#include "..\..\Shared/Common.h"
+#include "inc_lua\lua.hpp"
 
 #include <iostream>
 using namespace std;
 
-char scriptName[64] = "gamemodes//test.lua";
+char scriptName[64] = "gamemodes\\test.lua";
 lua_State* stateLua;
 
 int OnGameModeInit(lua_State* state);
