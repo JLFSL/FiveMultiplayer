@@ -72,13 +72,13 @@ void CCore::OnGameTick()
 
 	if (KeyJustUp(VK_F8))
 	{
-		g_NetworkManager->Connect("127.0.0.1", "", CON_PORT);
+		g_NetworkManager->Connect("127.0.0.1", "test", CON_PORT);
 		Logger::Msg("Connecting");
 	}
 
 	if (KeyJustUp(VK_F7))
 	{
-		g_NetworkManager->Connect("188.166.76.252", "", CON_PORT);
+		g_NetworkManager->Connect("188.166.76.252", "test", CON_PORT);
 		Logger::Msg("Connecting");
 	}
 

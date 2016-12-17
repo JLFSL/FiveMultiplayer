@@ -42,7 +42,7 @@ bool CNetworkManager::Start()
 
 	if (g_RakPeer->Startup(MAX_PLAYERS, &socketDescriptor, 1, 0) == RAKNET_STARTED)
 	{
-		const char *pass = "";
+		const char *pass = "test";
 
 		g_RakPeer->SetMaximumIncomingConnections(MAX_PLAYERS);
 		g_RakPeer->SetIncomingPassword(pass, sizeof(pass));
