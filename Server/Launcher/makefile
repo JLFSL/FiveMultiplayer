@@ -1,3 +1,3 @@
-Server.Core: main.cpp
-	g++ main.cpp -o ../../bin/Linux/Server.Core -ldl
-	g++ main.cpp -o ../../bin/Linux/_32/Server.Core -m32 -ldl
+Server.Launcher: Main.cpp
+	g++ Main.cpp -o ../../bin/Linux/Server.Launcher -ldl
+	g++ Main.cpp -o ../../bin/Linux/_32/Server.Launcher -m32 -ldl
