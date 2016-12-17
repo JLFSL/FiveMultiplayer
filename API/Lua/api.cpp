@@ -11,7 +11,7 @@ int OnGameModeInit(lua_State* state);
 int OnGameModeExit(lua_State* state);
 
 extern "C" int ex_PrintMessage(lua_State* state) {
-	__declspec(dllimport) int PrintMessage(const char *message);
+	DLL_PUBLIC_I int PrintMessage(const char *message);
 	PrintMessage(lua_tostring(stateLua, 1));
 	return 1;
 }
