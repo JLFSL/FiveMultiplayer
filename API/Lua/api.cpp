@@ -1,5 +1,5 @@
 #include "../../Shared/Common.h"
-#include "inc_lua\lua.hpp"
+#include "inc_lua/lua.hpp"
 
 #include <iostream>
 using namespace std;
