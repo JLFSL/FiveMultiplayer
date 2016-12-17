@@ -26,7 +26,6 @@ using namespace RakNet;
 // Server.Launcher
 	// Server
 	#include "CServer.h"
-	#include "CModule.h"
 
 	// API
 	#include "CAPI.h"

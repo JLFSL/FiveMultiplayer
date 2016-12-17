@@ -167,7 +167,6 @@
   <ItemGroup>
     <ClInclude Include="API_Server.h" />
     <ClInclude Include="CAPI.h" />
-    <ClInclude Include="CModule.h" />
     <ClInclude Include="CNetworkManager.h" />
     <ClInclude Include="CPlayer.h" />
     <ClInclude Include="CServer.h" />
@@ -177,7 +176,6 @@
     <ClCompile Include="apitest.cpp" />
     <ClCompile Include="API_Server.cpp" />
     <ClCompile Include="CAPI.cpp" />
-    <ClCompile Include="CModule.cpp" />
     <ClCompile Include="CNetworkManager.cpp" />
     <ClCompile Include="CPlayer.cpp" />
     <ClCompile Include="CServer.cpp" />

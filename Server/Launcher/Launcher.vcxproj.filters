@@ -36,9 +36,6 @@
     <ClCompile Include="Main.cpp">
       <Filter>Common</Filter>
     </ClCompile>
-    <ClCompile Include="CModule.cpp">
-      <Filter>Server</Filter>
-    </ClCompile>
     <ClCompile Include="CServer.cpp">
       <Filter>Server</Filter>
     </ClCompile>
@@ -61,9 +58,6 @@
   <ItemGroup>
     <ClInclude Include="stdafx.h">
       <Filter>Include</Filter>
-    </ClInclude>
-    <ClInclude Include="CModule.h">
-      <Filter>Server</Filter>
     </ClInclude>
     <ClInclude Include="CServer.h">
       <Filter>Server</Filter>
