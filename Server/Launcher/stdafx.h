@@ -7,6 +7,7 @@
 #include <dlfcn.h>
 #endif
 #include <iostream>
+#include <ctime>
 using namespace std;
 
 // Shared

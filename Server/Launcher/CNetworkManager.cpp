@@ -112,7 +112,7 @@ void CNetworkManager::Pulse()
 		g_RakPeer->DeallocatePacket(g_Packet);
 	}
 
-	if (m_ulLastSyncSent + (1000 / CServer::GetInstance()->GetSyncRate()) <= timeGetTime())
+	if (m_ulLastSyncSent + (1000 / CServer::GetInstance()->GetSyncRate()) <= clock())
 	{
 		BitStream playerpack;
 
@@ -140,6 +140,6 @@ void CNetworkManager::Pulse()
 
 		cout << "packetsent" << endl;
 
-		m_ulLastSyncSent = timeGetTime();
+		m_ulLastSyncSent = clock();
 	}
 }
