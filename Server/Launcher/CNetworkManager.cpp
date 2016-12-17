@@ -81,10 +81,8 @@ void CNetworkManager::Pulse()
 		{
 			case ID_NEW_INCOMING_CONNECTION:
 			{
-				cout << "CNetworkManager::Incoming connection: " << g_Packet->systemAddress.ToString(false) << endl;
-
 				CPlayerEntity newPlayer;
-				newPlayer.Create("test", g_Packet->guid.ToString());
+				newPlayer.Create("User", g_Packet->guid.ToString(), g_Packet->systemAddress.ToString(false));
 
 				g_Players.push_back(newPlayer);
 				break;
@@ -92,10 +90,10 @@ void CNetworkManager::Pulse()
 			
 			case ID_DISCONNECTION_NOTIFICATION:
 			{
-				cout << "CNetworkManager::Disconnection: " << g_Packet->systemAddress.ToString(false) << endl;
-
 				for (int i = 0; i < g_Players.size(); i++) {
-					if (g_Players[i].GetGuid() == g_Packet->guid.ToString()) {
+					if (strcmp(g_Players[i].GetIp(), g_Packet->systemAddress.ToString(false)) == 0) {
+						g_Players[i].Destroy();
+
 						g_Players.erase(g_Players.begin() + i);
 						g_Players.shrink_to_fit();
 					}

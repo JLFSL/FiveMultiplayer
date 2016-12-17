@@ -58,7 +58,7 @@ bool CServer::Load(int argc, char ** argv)
 	}
 
 	// Load API.Lua plugin
-	if (!g_API->Load("plugins/API.Lua" LIBRARY_EXTENSION))
+	/*if (!g_API->Load("plugins/API.Lua" LIBRARY_EXTENSION))
 	{
 		cout << "CAPI::" << g_API->ModuleName() << " could not be loaded" << endl;
 		getc(stdin);
@@ -71,7 +71,7 @@ bool CServer::Load(int argc, char ** argv)
 		cout << "CAPI::" << g_API->ModuleName() << " could not be initialized" << endl;
 		getc(stdin);
 		return false;
-	}
+	}*/
 
 	p_Active = true;
 	return true;

@@ -6,6 +6,7 @@ private:
 		int			Id;
 		string		Name;
 		const char	*Guid;
+		const char	*Ip;
 	} Information;
 	
 	struct PlayerStats{
@@ -21,10 +22,11 @@ private:
 public:
 	static int Amount;
 
-	CPlayerEntity();
-	~CPlayerEntity();
+	CPlayerEntity() { };
+	~CPlayerEntity() { };
 
-	void Create(string Name, const char *Guid);
+	void Create(string Name, const char *Guid, const char *Ip);
+	void Destroy();
 
 	void Pulse();
 	void Update(Packet packet);
@@ -32,6 +34,7 @@ public:
 	int GetId()					{ return Information.Id; };
 	string GetUsername()		{ return Information.Name; };
 	const char *GetGuid()		{ return Information.Guid; };
+	const char *GetIp()			{ return Information.Ip; };
 
 	int GetScore()				{ return Statistics.Score; };
 
