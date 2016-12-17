@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="v8-platform.h" />
+    <ClInclude Include="v8-profiler.h" />
+    <ClInclude Include="v8-testing.h" />
+    <ClInclude Include="v8-util.h" />
+    <ClInclude Include="v8-version.h" />
+    <ClInclude Include="libplatform\libplatform-export.h" />
+    <ClInclude Include="libplatform\libplatform.h" />
+    <ClInclude Include="libplatform\v8-tracing.h" />
+    <ClInclude Include="v8.h" />
+    <ClInclude Include="v8config.h" />
+    <ClInclude Include="v8-debug.h" />
+    <ClInclude Include="v8-experimental.h" />
+    <ClInclude Include="v8-inspector.h" />
+    <ClInclude Include="v8-inspector-protocol.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DEPS" />
+    <None Include="OWNERS" />
+  </ItemGroup>
+</Project>
