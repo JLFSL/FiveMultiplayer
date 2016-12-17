@@ -19,18 +19,12 @@ CServer::CServer()
 
 	// Construct CNetworkManager
 	g_Network = new CNetworkManager();
-	
-	Sleep(500);
 
 	// Construct CAPI
 	g_API = new CAPI;
 
-	Sleep(500);
-
 	// Construct CPlayerManager
 	//g_Players = new CPlayerManager();
-
-	Sleep(500);
 
 	cout << "CServer::Constructed" << endl;
 }
@@ -102,8 +96,6 @@ void CServer::Process()
 
 	// Show FPS in console window (windows only)
 	if (p_ShowFPS) ShowFPS();
-
-	Sleep(10);
 }
 
 void CServer::ShowFPS()

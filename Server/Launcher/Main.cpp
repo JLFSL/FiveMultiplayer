@@ -7,8 +7,6 @@ int main(int argc, char *argv[]) {
 	// Create CServer
 	CServer* g_Server = new CServer;
 
-	Sleep(500);
-
 	// Check if CServer is created
 	if (!g_Server)
 	{
@@ -16,8 +14,6 @@ int main(int argc, char *argv[]) {
 		getc(stdin);
 		return 1;
 	}
-
-	Sleep(500);
 
 	// Call OnLoad
 	if (!g_Server->Load(argc, argv))
@@ -27,15 +23,11 @@ int main(int argc, char *argv[]) {
 		return 1;
 	}
 
-	Sleep(500);
-
 	// Main Server Process Loop
 	while (g_Server->IsActive())
 	{
 		g_Server->Process();
 	}
-
-	Sleep(500);
 
 	// Call OnUnload
 	g_Server->Stop();

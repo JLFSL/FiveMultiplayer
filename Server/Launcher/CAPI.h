@@ -3,13 +3,13 @@ class CAPI
 {
 private:
 	char *Module;
-	HMODULE Instance;
+	void* Instance;
 
 public:
 	CAPI();
 	~CAPI();
 
-	bool Load(LPCSTR Filename);
+	bool Load(char *Filename);
 	bool Unload();
 
 	bool Initialize();
