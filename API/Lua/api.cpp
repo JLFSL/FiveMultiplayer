@@ -1,5 +1,10 @@
 #include "../../Shared/Common.h"
-#include "inc_lua/lua.hpp"
+
+extern "C" {
+	#include "inc_lua/lua.h"
+	#include "inc_lua/lualib.h"
+	#include "inc_lua/lauxlib.h"
+}
 
 #include <iostream>
 using namespace std;
