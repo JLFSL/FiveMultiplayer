@@ -72,9 +72,9 @@ bool CAPI::Close()
 	{
 		typedef void(*API_Close_t)();
 #ifdef WIN32
-		API_Close_t API_Close = (API_Close_t)::GetProcAddress((HMODULE)Instance, "API_Initialize");
+		API_Close_t API_Close = (API_Close_t)::GetProcAddress((HMODULE)Instance, "API_Close");
 #else
-		API_Close_t API_Close = (API_Close_t)dlsym(Instance, "API_Initialize");
+		API_Close_t API_Close = (API_Close_t)dlsym(Instance, "API_Close");
 #endif
 		API_Close();
 		if (!API_Close)
