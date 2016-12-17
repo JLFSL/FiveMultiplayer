@@ -55,7 +55,7 @@ bool CAPI::Initialize()
 #ifdef WIN32
 		API_Initialize_t API_Initialize = (API_Initialize_t)::GetProcAddress((HMODULE)Instance, "API_Initialize");
 #else
-		API_Initialize_t API_Initialize = (API_Initialize_t)dlsym(handle, "API_Initialize");
+		API_Initialize_t API_Initialize = (API_Initialize_t)dlsym(Instance, "API_Initialize");
 #endif
 		API_Initialize();
 		if (!API_Initialize)
@@ -74,7 +74,7 @@ bool CAPI::Close()
 #ifdef WIN32
 		API_Close_t API_Close = (API_Close_t)::GetProcAddress((HMODULE)Instance, "API_Initialize");
 #else
-		API_Close_t API_Close = (API_Close_t)dlsym(handle, "API_Initialize");
+		API_Close_t API_Close = (API_Close_t)dlsym(Instance, "API_Initialize");
 #endif
 		API_Close();
 		if (!API_Close)
