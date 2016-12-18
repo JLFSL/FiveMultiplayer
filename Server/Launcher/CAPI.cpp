@@ -4,7 +4,7 @@ CAPI::CAPI()
 {
 	Instance = nullptr;
 
-	cout << "CAPI::Constructed" << endl;
+	cout << "[CAPI] Constructed" << endl;
 }
 
 
@@ -12,7 +12,7 @@ CAPI::~CAPI()
 {
 	Instance = nullptr;
 
-	cout << "CAPI::Deconstructed" << endl;
+	cout << "[CAPI] Deconstructed" << endl;
 }
 
 bool CAPI::Load(char *Filename)
@@ -25,7 +25,7 @@ bool CAPI::Load(char *Filename)
 	Module = Filename;
 	if (!Instance)
 		return false;
-	cout << endl << "CAPI::" << ModuleName() << " loaded" << endl;
+	cout << endl << "[CAPI] " << ModuleName() << " loaded" << endl;
 	return true;
 }
 
@@ -39,7 +39,7 @@ bool CAPI::Unload()
 		dlclose(Instance);
 #endif
 		if (!Instance) {
-			cout << "CAPI::" << ModuleName() << " unloaded" << endl;
+			cout << "[CAPI] " << ModuleName() << " unloaded" << endl;
 			return true;
 		}
 		return false;
@@ -60,7 +60,7 @@ bool CAPI::Initialize()
 		API_Initialize();
 		if (!API_Initialize)
 			return false;
-		cout << endl << "CAPI::" << ModuleName() << " initialized" << endl;
+		cout << endl << "[CAPI] " << ModuleName() << " initialized" << endl;
 		return true;
 	}
 	return false;
@@ -79,7 +79,7 @@ bool CAPI::Close()
 		API_Close();
 		if (!API_Close)
 			return false;
-		cout << "CAPI::" << ModuleName() << " closed" << endl;
+		cout << "[CAPI] " << ModuleName() << " closed" << endl;
 		return true;
 	}
 	return false;

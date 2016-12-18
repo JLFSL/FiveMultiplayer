@@ -28,7 +28,7 @@ CServer::CServer()
 	// Construct CPlayerManager
 	//g_Players = new CPlayerManager();
 
-	cout << "CServer::Constructed" << endl;
+	cout << "[CServer] Constructed" << endl;
 }
 
 
@@ -38,7 +38,7 @@ CServer::~CServer()
 	SAFE_DELETE(g_API);
 	//SAFE_DELETE(g_Players);
 
-	cout << "CServer::Deconstructed" << endl;
+	cout << "[CServer] Deconstructed" << endl;
 }
 
 bool CServer::Load(int argc, char ** argv)
@@ -52,15 +52,16 @@ bool CServer::Load(int argc, char ** argv)
 
 	if (!g_API)
 	{
-		cout << "CAPI::invalid" << endl;
+		cout << "[CServer] invalid" << endl;
 		getc(stdin);
 		return 1;
 	}
 
 	// Load API.Lua plugin
-	/*if (!g_API->Load("plugins/API.Lua" LIBRARY_EXTENSION))
+#ifdef USEAPI
+	if (!g_API->Load("plugins/API.Lua" LIBRARY_EXTENSION))
 	{
-		cout << "CAPI::" << g_API->ModuleName() << " could not be loaded" << endl;
+		cout << "[CAPI]" << g_API->ModuleName() << " could not be loaded" << endl;
 		getc(stdin);
 		return false;
 	}
@@ -68,10 +69,11 @@ bool CServer::Load(int argc, char ** argv)
 	// Call Initialize function on our API
 	if (!g_API->Initialize())
 	{
-		cout << "CAPI::" << g_API->ModuleName() << " could not be initialized" << endl;
+		cout << "[CAPI]" << g_API->ModuleName() << " could not be initialized" << endl;
 		getc(stdin);
 		return false;
-	}*/
+	}
+#endif
 
 	p_Active = true;
 	return true;
@@ -82,7 +84,7 @@ void CServer::Stop()
 	// Call Close function on our API
 	if (!g_API->Close())
 	{
-		cout << "CAPI::" << g_API->ModuleName() << " could not be closed" << endl;
+		cout << "[CServer] " << g_API->ModuleName() << " could not be closed" << endl;
 		getc(stdin);
 	}
 	p_Active = false;

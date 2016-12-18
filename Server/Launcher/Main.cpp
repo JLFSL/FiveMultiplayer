@@ -10,7 +10,7 @@ int main(int argc, char *argv[]) {
 	// Check if CServer is created
 	if (!g_Server)
 	{
-		cout << "CServer is invalid" << endl;
+		cout << "[CServer] Invalid" << endl;
 		getc(stdin);
 		return 1;
 	}
@@ -18,7 +18,7 @@ int main(int argc, char *argv[]) {
 	// Call OnLoad
 	if (!g_Server->Load(argc, argv))
 	{
-		cout << "CServer could not be started" << endl;
+		cout << "[CServer] Could not be started" << endl;
 		getc(stdin);
 		return 1;
 	}
