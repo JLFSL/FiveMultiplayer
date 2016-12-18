@@ -11,6 +11,7 @@
 #include <vector>
 #include <algorithm>
 #include <string>
+#include <sstream>
 using namespace std;
 
 // Shared
@@ -18,15 +19,22 @@ using namespace std;
 #include <CVector3.h>
 #include <CVector4.h>
 
-// Vendor.RakNet
-#include <RakNet/RakPeerInterface.h>
-#include <RakNet/BitStream.h>
-#include <RakNet/MessageIdentifiers.h>
-#include <RakNet/RPC4Plugin.h>
-#include <RakNet/DirectoryDeltaTransfer.h>
-#include <RakNet/FileListTransfer.h>
-#include <RakNet/IncrementalReadInterface.h>
-using namespace RakNet;
+// Vendor
+	// Vendor.RakNet
+	#include <RakNet/RakPeerInterface.h>
+	#include <RakNet/BitStream.h>
+	#include <RakNet/MessageIdentifiers.h>
+	#include <RakNet/RPC4Plugin.h>
+	#include <RakNet/DirectoryDeltaTransfer.h>
+	#include <RakNet/FileListTransfer.h>
+	#include <RakNet/IncrementalReadInterface.h>
+	using namespace RakNet;
+
+	// Vendor.LibCurl
+	#include <LibCurl/curl/curl.h>
+#pragma comment(lib, "LibCurl.lib")
+
+// End of Vendor
 
 // Server.Launcher
 	// Server
@@ -41,4 +49,5 @@ using namespace RakNet;
 	#include "CNetworkManager.h"
 	//#include "CEntityManager.h"
 	#include "CPlayer.h"
+
 // End of Server.Launcher

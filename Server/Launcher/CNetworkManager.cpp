@@ -87,6 +87,8 @@ void CNetworkManager::Pulse()
 				newPlayer.Create("User", g_Packet->guid.ToString(), g_Packet->systemAddress.ToString(false));
 
 				g_Players.push_back(newPlayer);
+
+				PulseMaster();
 				break;
 			}
 			
@@ -100,6 +102,7 @@ void CNetworkManager::Pulse()
 						g_Players.shrink_to_fit();
 					}
 				}
+				PulseMaster();
 				break;
 			}
 
@@ -154,4 +157,47 @@ void CNetworkManager::Pulse()
 
 		m_ulLastSyncSent = clock();
 	}
+	
+	if (clock() - p_LastMasterUpdate > (120 * 1000)) {
+		PulseMaster();
+		p_LastMasterUpdate = clock();
+	}
+}
+
+void CNetworkManager::PulseMaster()
+{
+	string playerList;
+
+	if (!g_Players.empty()) {
+		for (int p = 0; p < g_Players.size(); p++) {
+			if (g_Players[p].GetId() != -1) {
+				ostringstream oss;
+				oss << "{\"id\":" << g_Players[p].GetId() << ",\"name\":\"" << g_Players[p].GetUsername() << "\"}";
+				string player = oss.str();
+
+				if (p < g_Players.size() - 1)
+					player.push_back(',');
+
+				playerList.append(player);
+			}
+		}
+	}
+
+	CURL *hnd = curl_easy_init();
+
+	struct curl_slist *headers = NULL;
+	char content[1024];
+
+	sprintf_s(content, "Content: {\"port\":%s, \"name\":\"%s\", \"players\":{\"amount\":%d, \"max\":%d, \"list\":[%s]}}", "2322", "(0.2a) Testing Server [Ubuntu,FR]", g_Players.size(), 50, playerList.c_str());
+	headers = curl_slist_append(headers, "content-type: application/x-www-form-urlencoded");
+	headers = curl_slist_append(headers, "cache-control: no-cache");
+	headers = curl_slist_append(headers, content);
+	headers = curl_slist_append(headers, "authorization: FiveMP Token 13478817f618329e");
+
+	curl_easy_setopt(hnd, CURLOPT_CUSTOMREQUEST, "POST");
+	curl_easy_setopt(hnd, CURLOPT_URL, "http://176.31.142.113:7001/v2/servers");
+	curl_easy_setopt(hnd, CURLOPT_HTTPHEADER, headers);
+	curl_easy_setopt(hnd, CURLOPT_NOBODY, 1);
+
+	CURLcode ret = curl_easy_perform(hnd);
 }
