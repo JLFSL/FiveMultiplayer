@@ -2,19 +2,20 @@
 class CAPI
 {
 private:
-	char *Module;
+	string Module;
 	void* Instance;
 
 public:
 	CAPI();
 	~CAPI();
 
-	bool Load(char *Filename);
+	bool Load(const char *Filename);
 	bool Unload();
 
 	bool Initialize();
 	bool Close();
+	bool OnTick();
 
-	char *ModuleName() { return Module; };
+	string ModuleName() { return Module; };
 };
 

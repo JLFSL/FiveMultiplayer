@@ -14,5 +14,7 @@ public:
 	bool Start();
 	void Pulse();
 	void PulseMaster();
+
+	RakPeerInterface *GetInterface() { return g_RakPeer; };
 };
 

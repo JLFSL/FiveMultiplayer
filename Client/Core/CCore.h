@@ -3,6 +3,7 @@ class CCore
 {
 private:
 	CNetworkManager	*g_NetworkManager;
+	CLocalPlayer	*g_LocalPlayer;
 
 public:
 	CCore();
@@ -12,6 +13,7 @@ public:
 
 	void OnGameTick();
 
-	CNetworkManager *GetNetworkManager() { return g_NetworkManager; }
+	CNetworkManager *GetNetworkManager()	{ return g_NetworkManager; }
+	CLocalPlayer *GetLocalPlayer()		{ return g_LocalPlayer; }
 };
 

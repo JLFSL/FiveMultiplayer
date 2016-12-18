@@ -1,5 +1,7 @@
 #include "stdafx.h"
 
+CConfig* g_Config;
+
 CNetworkManager::CNetworkManager()
 {
 	// Get RakPeerInterface
@@ -14,7 +16,7 @@ CNetworkManager::CNetworkManager()
 	// RakPeerInterface Settings
 	g_RakPeer->SetSplitMessageProgressInterval(100);
 
-	cout << endl << "[CNetworkManager] Constructed" << endl;
+	cout << "[CNetworkManager] Constructed" << endl;
 }
 
 
@@ -38,14 +40,12 @@ CNetworkManager::~CNetworkManager()
 bool CNetworkManager::Start()
 {
 	cout << endl << "[CNetworkManager] Starting..." << endl;
-	SocketDescriptor socketDescriptor(2322, "127.0.0.1");
+	SocketDescriptor socketDescriptor(g_Config->GetPort(), g_Config->GetIp().c_str());
 
-	if (g_RakPeer->Startup(MAX_PLAYERS, &socketDescriptor, 1, 0) == RAKNET_STARTED)
+	if (g_RakPeer->Startup(g_Config->GetMaxPlayers(), &socketDescriptor, 1, 0) == RAKNET_STARTED)
 	{
-		const char *pass = "test";
-
-		g_RakPeer->SetMaximumIncomingConnections(MAX_PLAYERS);
-		g_RakPeer->SetIncomingPassword(pass, sizeof(pass));
+		g_RakPeer->SetMaximumIncomingConnections(g_Config->GetMaxPlayers());
+		g_RakPeer->SetIncomingPassword(g_Config->GetPassword().c_str(), sizeof(g_Config->GetPassword().c_str()));
 		g_RakPeer->SetTimeoutTime(15000, UNASSIGNED_SYSTEM_ADDRESS);
 
 		cout << "[CNetworkManager] Successfully started" << endl;
@@ -54,30 +54,13 @@ bool CNetworkManager::Start()
 	return false;
 }
 
-unsigned long m_ulLastSyncSent;
-
-float x;
-float y;
-float z;
-
-float vx;
-float vy;
-float vz;
-
-float rx;
-float ry;
-float rz;
-float rw;
-
-bool veh = true;
-
 void CNetworkManager::Pulse()
 {
 	Packet *g_Packet = NULL;
 
 	while (g_Packet = g_RakPeer->Receive())
 	{
-		BitStream playerpackrec(g_Packet->data + 1, g_Packet->length + 1, false);
+		BitStream g_BitStream(g_Packet->data + 1, g_Packet->length + 1, false);
 
 		switch (g_Packet->data[0])
 		{
@@ -108,16 +91,11 @@ void CNetworkManager::Pulse()
 
 			case ID_PACKET_TEST:
 			{
-				playerpackrec.Read(x);
-				playerpackrec.Read(y);
-				playerpackrec.Read(z);
-				playerpackrec.Read(rx);
-				playerpackrec.Read(ry);
-				playerpackrec.Read(rz);
-				playerpackrec.Read(rw);
-				playerpackrec.Read(vx);
-				playerpackrec.Read(vy);
-				playerpackrec.Read(vz);
+				for (int i = 0; i < g_Players.size(); i++) {
+					if (strcmp(g_Players[i].GetIp(), g_Packet->systemAddress.ToString(false)) == 0) {
+						g_Players[i].Update(&g_BitStream);
+					}
+				}
 
 				//cout << "packet received" << endl;
 				break;
@@ -125,37 +103,6 @@ void CNetworkManager::Pulse()
 			cout << g_Packet->data[0] << endl;
 		}
 		g_RakPeer->DeallocatePacket(g_Packet);
-	}
-
-	if (m_ulLastSyncSent + (1000 / CServer::GetInstance()->GetSyncRate()) <= clock())
-	{
-		BitStream playerpack;
-
-		playerpack.Write((unsigned char)ID_PACKET_TEST);
-		playerpack.Write(x);
-		playerpack.Write(y);
-		if (!veh)
-		{
-			playerpack.Write(z - 1.0f);
-		}
-		else
-		{
-			playerpack.Write(z);
-		}
-
-		playerpack.Write(rx);
-		playerpack.Write(ry);
-		playerpack.Write(rz);
-		playerpack.Write(rw);
-		playerpack.Write(vx);
-		playerpack.Write(vy);
-		playerpack.Write(vz);
-
-		g_RakPeer->Send(&playerpack, MEDIUM_PRIORITY, UNRELIABLE_SEQUENCED, 0, UNASSIGNED_SYSTEM_ADDRESS, true);
-
-		//cout << "packetsent" << endl;
-
-		m_ulLastSyncSent = clock();
 	}
 	
 	if (clock() - p_LastMasterUpdate > (120 * 1000)) {
@@ -189,7 +136,7 @@ void CNetworkManager::PulseMaster()
 	struct curl_slist *headers = NULL;
 	char content[1024];
 
-	sprintf_s(content, "Content: {\"port\":%s, \"name\":\"%s\", \"players\":{\"amount\":%d, \"max\":%d, \"list\":[%s]}}", "2322", "(0.2a) Testing Server [Ubuntu,FR]", g_Players.size(), 50, playerList.c_str());
+	sprintf_s(content, "Content: {\"port\":%d, \"name\":\"%s\", \"players\":{\"amount\":%d, \"max\":%d, \"list\":[%s]}}", g_Config->GetPort(), g_Config->GetServerName().c_str(), g_Players.size(), g_Config->GetMaxPlayers(), playerList.c_str());
 	headers = curl_slist_append(headers, "content-type: application/x-www-form-urlencoded");
 	headers = curl_slist_append(headers, "cache-control: no-cache");
 	headers = curl_slist_append(headers, content);

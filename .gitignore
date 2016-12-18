@@ -80,3 +80,4 @@ ipch/
 *.idb
 *.iobj
 *.ipdb
+/PublicAPI/

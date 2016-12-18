@@ -15,7 +15,7 @@ CAPI::~CAPI()
 	cout << "[CAPI] Deconstructed" << endl;
 }
 
-bool CAPI::Load(char *Filename)
+bool CAPI::Load(const char *Filename)
 {
 #ifdef _WIN32
 	Instance = ::LoadLibraryA(Filename);
@@ -80,6 +80,24 @@ bool CAPI::Close()
 		if (!API_Close)
 			return false;
 		cout << "[CAPI] " << ModuleName() << " closed" << endl;
+		return true;
+	}
+	return false;
+}
+
+bool CAPI::OnTick()
+{
+	if (Instance)
+	{
+		typedef void(*API_OnTick_t)();
+#ifdef WIN32
+		API_OnTick_t API_OnTick = (API_OnTick_t)::GetProcAddress((HMODULE)Instance, "API_OnTick");
+#else
+		API_OnTick_t API_OnTick = (API_Initialize_t)dlsym(Instance, "API_OnTick");
+#endif
+		API_OnTick();
+		if (!API_OnTick)
+			return false;
 		return true;
 	}
 	return false;

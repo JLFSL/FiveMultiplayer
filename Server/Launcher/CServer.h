@@ -31,4 +31,3 @@ public:
 	static CServer* GetInstance() { return p_Instance; }
 	unsigned int GetSyncRate() { return p_SyncRate; }
 };
-

@@ -31,6 +31,9 @@
     <Filter Include="Client">
       <UniqueIdentifier>{0418d678-5ce0-439d-b4ae-fef5f594f530}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Entity">
+      <UniqueIdentifier>{7b27c7c2-80d5-4d5d-85dc-d57118cc2325}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -69,6 +72,10 @@
     <ClCompile Include="CNetworkManager.cpp">
       <Filter>Network</Filter>
     </ClCompile>
+    <ClCompile Include="CPlayerEntity.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="CLocalPlayer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -119,5 +126,9 @@
     <ClInclude Include="CNetworkManager.h">
       <Filter>Network</Filter>
     </ClInclude>
+    <ClInclude Include="CPlayerEntity.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="CLocalPlayer.h" />
   </ItemGroup>
 </Project>

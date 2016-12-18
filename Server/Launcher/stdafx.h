@@ -12,6 +12,11 @@
 #include <algorithm>
 #include <string>
 #include <sstream>
+#include <map>
+#include <cctype>
+#include <cstdlib>
+#include <cstdio>
+#include <stdio.h>
 using namespace std;
 
 // Shared
@@ -32,22 +37,23 @@ using namespace std;
 
 	// Vendor.LibCurl
 	#include <LibCurl/curl/curl.h>
-#pragma comment(lib, "LibCurl.lib")
-
 // End of Vendor
 
 // Server.Launcher
+	// Include
+	#include "IniReader.h"
+	#include "ini.h"
+
 	// Server
 	#include "CServer.h"
+	#include "CConfig.h"
 
 	// API
 	#include "CAPI.h"
-
 	#include "API_Server.h"
 
 	// Network
 	#include "CNetworkManager.h"
-	//#include "CEntityManager.h"
-	#include "CPlayer.h"
+	#include "CPlayerEntity.h"
 
 // End of Server.Launcher

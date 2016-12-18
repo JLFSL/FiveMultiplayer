@@ -1,11 +1,16 @@
 #include "stdafx.h"
 
 CAPI*				g_API;
-CNetworkManager*	g_Network;
+extern CNetworkManager*		g_Network;
+extern CConfig*				g_Config;
 
 CServer* CServer::p_Instance = nullptr;
 
 vector<CPlayerEntity> g_Players;
+
+#if _WIN32
+#define USEAPI
+#endif
 
 CServer::CServer()
 {
@@ -19,14 +24,16 @@ CServer::CServer()
 	// If true, it shows the FPS in the console window. (windows only)
 	p_ShowFPS = true;
 
+	cout << endl;
+
+	// Construct CConfig
+	g_Config = new CConfig();
+
 	// Construct CNetworkManager
 	g_Network = new CNetworkManager();
 
 	// Construct CAPI
 	g_API = new CAPI;
-
-	// Construct CPlayerManager
-	//g_Players = new CPlayerManager();
 
 	cout << "[CServer] Constructed" << endl;
 }
@@ -34,9 +41,9 @@ CServer::CServer()
 
 CServer::~CServer()
 {
-	SAFE_DELETE(g_Network);
 	SAFE_DELETE(g_API);
-	//SAFE_DELETE(g_Players);
+	SAFE_DELETE(g_Network);
+	SAFE_DELETE(g_Config);
 
 	cout << "[CServer] Deconstructed" << endl;
 }
@@ -48,20 +55,51 @@ bool CServer::Load(int argc, char ** argv)
 	SetConsoleTitle(L"" INFO_NAME "(" INFO_VERSION ") - " INFO_BUILD);
 #endif
 
-	g_Network->Start();
-
-	if (!g_API)
+	if (!g_Config)
 	{
-		cout << "[CServer] invalid" << endl;
+		cout << "[CConfig] Invalid" << endl;
 		getc(stdin);
 		return 1;
 	}
 
+	if (!g_Config->Read())
+	{
+		cout << "[CConfig] Could not read config file (there is an option missing)" << endl;
+		getc(stdin);
+		return 1;
+	}
+
+	if (!g_Network)
+	{
+		cout << "[CNetworkManager] Invalid" << endl;
+		getc(stdin);
+		return 1;
+	}
+
+	if (!g_Network->Start())
+	{
+		cout << "[CNetworkManager] Could not be started" << endl;
+		getc(stdin);
+		return 1;
+	}
+
+	if (!g_API)
+	{
+		cout << "[CAPI] Invalid" << endl;
+		getc(stdin);
+		return 1;
+	}
+
+	string language("plugin/");
+	language += g_Config->GetLanguage();
+	language += LIBRARY_EXTENSION;
+
 	// Load API.Lua plugin
 #ifdef USEAPI
-	if (!g_API->Load("plugins/API.Lua" LIBRARY_EXTENSION))
+
+	if (!g_API->Load(language.c_str()))
 	{
-		cout << "[CAPI]" << g_API->ModuleName() << " could not be loaded" << endl;
+		cout << "[CAPI] " << g_API->ModuleName() << " could not be loaded" << endl;
 		getc(stdin);
 		return false;
 	}
@@ -69,7 +107,7 @@ bool CServer::Load(int argc, char ** argv)
 	// Call Initialize function on our API
 	if (!g_API->Initialize())
 	{
-		cout << "[CAPI]" << g_API->ModuleName() << " could not be initialized" << endl;
+		cout << "[CAPI] " << g_API->ModuleName() << " could not be initialized" << endl;
 		getc(stdin);
 		return false;
 	}
@@ -99,6 +137,8 @@ void CServer::Process()
 	for (int i = 0; i < g_Players.size(); i++) {
 		g_Players[i].Pulse();
 	}
+
+	g_API->OnTick();
 
 	// Show FPS in console window (windows only)
 	if (p_ShowFPS) ShowFPS();

@@ -51,6 +51,12 @@ extern "C" DLL_PUBLIC bool API_Close(void) {
 	return true;
 }
 
+extern "C" DLL_PUBLIC bool API_OnTick(void) {
+	// Every server tick this gets called
+	//std::cout << "tick" << std::endl;
+	return true;
+}
+
 int OnGameModeInit(lua_State* state)
 {
 	int result;

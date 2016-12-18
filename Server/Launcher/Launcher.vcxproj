@@ -168,8 +168,12 @@
     <ClInclude Include="API_Server.h" />
     <ClInclude Include="CAPI.h" />
     <ClInclude Include="CNetworkManager.h" />
-    <ClInclude Include="CPlayer.h" />
+    <ClInclude Include="CConfig.h" />
+    <ClInclude Include="CPlayerEntity.h" />
     <ClInclude Include="CServer.h" />
+    <ClInclude Include="ini.h" />
+    <ClInclude Include="IniReader.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
@@ -177,13 +181,19 @@
     <ClCompile Include="API_Server.cpp" />
     <ClCompile Include="CAPI.cpp" />
     <ClCompile Include="CNetworkManager.cpp" />
-    <ClCompile Include="CPlayer.cpp" />
+    <ClCompile Include="CConfig.cpp" />
+    <ClCompile Include="CPlayerEntity.cpp" />
     <ClCompile Include="CServer.cpp" />
+    <ClCompile Include="ini.cpp" />
+    <ClCompile Include="IniReader.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Server.Launcher.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -31,10 +31,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Server.Launcher", "Server\L
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{0950D899-A041-46F3-AA49-80E584460F5B}"
 	ProjectSection(SolutionItems) = preProject
-		Shared\CMaths.h = Shared\CMaths.h
 		Shared\Common.h = Shared\Common.h
-		Shared\CVector3.h = Shared\CVector3.h
-		Shared\CVector4.h = Shared\CVector4.h
 		Shared\SharedUtility.cpp = Shared\SharedUtility.cpp
 		Shared\SharedUtility.hpp = Shared\SharedUtility.hpp
 	EndProjectSection
@@ -61,6 +58,21 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Vendor.V8", "Vendor\V8\V8.vcxproj", "{9A186FE5-6FD2-441B-961E-61490946D9DA}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Vendor.LibCurl", "Vendor\LibCurl\LibCurl.vcxproj", "{3BC8675D-D3A2-45B4-B20A-D1532FB1C81B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TinyXML", "TinyXML", "{1EC2619D-1A5E-4771-933D-E2B330BA7B50}"
+	ProjectSection(SolutionItems) = preProject
+		Shared\TinyXML2.cpp = Shared\TinyXML2.cpp
+		Shared\TinyXML2.h = Shared\TinyXML2.h
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Math", "Math", "{68F68C83-9960-4FC4-8666-73BDDB86B78D}"
+	ProjectSection(SolutionItems) = preProject
+		Shared\CMaths.h = Shared\CMaths.h
+		Shared\CVector3.h = Shared\CVector3.h
+		Shared\CVector4.h = Shared\CVector4.h
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "API.Base", "API\Base\Base.vcxproj", "{62BEAF06-48E0-4B13-A40D-8CF54E308F22}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -158,6 +170,14 @@ Global
 		{3BC8675D-D3A2-45B4-B20A-D1532FB1C81B}.Release|x64.Build.0 = Release|x64
 		{3BC8675D-D3A2-45B4-B20A-D1532FB1C81B}.Release|x86.ActiveCfg = Release|Win32
 		{3BC8675D-D3A2-45B4-B20A-D1532FB1C81B}.Release|x86.Build.0 = Release|Win32
+		{62BEAF06-48E0-4B13-A40D-8CF54E308F22}.Debug|x64.ActiveCfg = Debug|x64
+		{62BEAF06-48E0-4B13-A40D-8CF54E308F22}.Debug|x64.Build.0 = Debug|x64
+		{62BEAF06-48E0-4B13-A40D-8CF54E308F22}.Debug|x86.ActiveCfg = Debug|Win32
+		{62BEAF06-48E0-4B13-A40D-8CF54E308F22}.Debug|x86.Build.0 = Debug|Win32
+		{62BEAF06-48E0-4B13-A40D-8CF54E308F22}.Release|x64.ActiveCfg = Release|x64
+		{62BEAF06-48E0-4B13-A40D-8CF54E308F22}.Release|x64.Build.0 = Release|x64
+		{62BEAF06-48E0-4B13-A40D-8CF54E308F22}.Release|x86.ActiveCfg = Release|Win32
+		{62BEAF06-48E0-4B13-A40D-8CF54E308F22}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -174,5 +194,8 @@ Global
 		{828F4EFD-DA5C-4064-9361-BD6212DE8976} = {B45ABA37-5234-44B3-88C8-5FCE2A280A6E}
 		{9A186FE5-6FD2-441B-961E-61490946D9DA} = {C025875C-F80B-4AA9-AF7B-7C6C122761B6}
 		{3BC8675D-D3A2-45B4-B20A-D1532FB1C81B} = {C025875C-F80B-4AA9-AF7B-7C6C122761B6}
+		{1EC2619D-1A5E-4771-933D-E2B330BA7B50} = {0950D899-A041-46F3-AA49-80E584460F5B}
+		{68F68C83-9960-4FC4-8666-73BDDB86B78D} = {0950D899-A041-46F3-AA49-80E584460F5B}
+		{62BEAF06-48E0-4B13-A40D-8CF54E308F22} = {88800344-6139-43B7-A387-E057594FF685}
 	EndGlobalSection
 EndGlobal

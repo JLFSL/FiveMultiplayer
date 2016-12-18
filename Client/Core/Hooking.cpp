@@ -5,6 +5,8 @@ HMODULE _hmoduleDLL;
 HANDLE mainFiber;
 DWORD wakeAt;
 
+CCore *g_Core;
+
 static eGameState* 							m_gameState;
 static uint64_t								m_worldPtr;
 static BlipList*							m_blipList;
@@ -109,7 +111,6 @@ bool Hooking::HookNatives()
 
 void __stdcall ScriptFunction(LPVOID lpParameter)
 {
-	CCore *g_Core;
 	g_Core = new CCore;
 
 	if (g_Core->Initialize())

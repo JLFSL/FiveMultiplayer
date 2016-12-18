@@ -20,6 +20,7 @@ using namespace std;
 
 // Shared
 #include "CVector3.h"
+#include "CVector4.h"
 #include "CMaths.h"
 #include "Common.h"
 
@@ -38,12 +39,6 @@ using namespace std;
 using namespace RakNet;
 
 // Client.Core
-	// Network
-	#include "CNetworkManager.h"
-
-	// Client
-	#include "CCore.h"
-
 	// Hooks
 		// SudoMod
 		#include "Logger.h"
@@ -59,3 +54,15 @@ using namespace RakNet;
 		#include "Hooking.h"
 		#include "Structs.h"
 		#include "script.h"
+
+	// Entity
+	#include "CPlayerEntity.h"
+	#include "CLocalPlayer.h"
+
+	// Network
+	#include "CNetworkManager.h"
+
+	// Client
+	#include "CCore.h"
+
+extern CCore *g_Core;
