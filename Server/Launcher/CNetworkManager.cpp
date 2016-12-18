@@ -166,6 +166,7 @@ void CNetworkManager::Pulse()
 
 void CNetworkManager::PulseMaster()
 {
+#ifdef _WIN32
 	string playerList;
 
 	if (!g_Players.empty()) {
@@ -200,4 +201,5 @@ void CNetworkManager::PulseMaster()
 	curl_easy_setopt(hnd, CURLOPT_NOBODY, 1);
 
 	CURLcode ret = curl_easy_perform(hnd);
+#endif
 }
