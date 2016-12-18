@@ -8,10 +8,6 @@ CServer* CServer::p_Instance = nullptr;
 
 vector<CPlayerEntity> g_Players;
 
-#if _WIN32
-#define USEAPI
-#endif
-
 CServer::CServer()
 {
 	// Tell CServer we're using this particular class

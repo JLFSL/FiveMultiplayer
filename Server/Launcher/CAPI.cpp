@@ -93,7 +93,7 @@ bool CAPI::OnTick()
 #ifdef WIN32
 		API_OnTick_t API_OnTick = (API_OnTick_t)::GetProcAddress((HMODULE)Instance, "API_OnTick");
 #else
-		API_OnTick_t API_OnTick = (API_Initialize_t)dlsym(Instance, "API_OnTick");
+		API_OnTick_t API_OnTick = (API_OnTick_t)dlsym(Instance, "API_OnTick");
 #endif
 		API_OnTick();
 		if (!API_OnTick)
