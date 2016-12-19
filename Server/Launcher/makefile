@@ -1,2 +1,2 @@
 Server.Launcher: Main.cpp
-	g++ -I../../Shared -I../../Vendor -I../../Vendor/RakNet *.cpp -o ../../bin/Linux/Server.Launcher.so -L../../Vendor/RakNet libRakNetLibStatic.a -pthread -ldl
+	g++ -std=c++0x -I../../Shared -I../../Vendor -I../../Vendor/RakNet *.cpp -o ../../bin/Linux/Server.Launcher.so -L../../Vendor/RakNet libRakNetLibStatic.a -pthread -ldl
