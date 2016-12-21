@@ -5,6 +5,7 @@ class CConfig
 		string Ip;
 		int Port;
 		string Pass;
+		bool Announce;
 	} Connection;
 
 	struct CLimits {
@@ -26,7 +27,8 @@ public:
 	string GetIp()					{ return Connection.Ip; };
 	int GetPort()					{ return Connection.Port; };
 	string GetPassword()			{ return Connection.Pass; };
-	int GetMaxPlayers()				{ return Limits.MaxPlayers; };
+	bool GetAnnounce()				{ return Connection.Announce; }
+	unsigned short GetMaxPlayers()	{ return Limits.MaxPlayers; };
 	string GetServerName()			{ return Information.Name; };
 	string GetLanguage()			{ return Plugins.Language; };
 	string GetAdditionalPlugins()	{ return Plugins.Additional; };

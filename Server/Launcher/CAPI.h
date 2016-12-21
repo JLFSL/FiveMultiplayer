@@ -18,4 +18,3 @@ public:
 
 	string ModuleName() { return Module; };
 };
-

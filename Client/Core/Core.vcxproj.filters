@@ -75,7 +75,9 @@
     <ClCompile Include="CPlayerEntity.cpp">
       <Filter>Entity</Filter>
     </ClCompile>
-    <ClCompile Include="CLocalPlayer.cpp" />
+    <ClCompile Include="CLocalPlayer.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -129,6 +131,8 @@
     <ClInclude Include="CPlayerEntity.h">
       <Filter>Entity</Filter>
     </ClInclude>
-    <ClInclude Include="CLocalPlayer.h" />
+    <ClInclude Include="CLocalPlayer.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

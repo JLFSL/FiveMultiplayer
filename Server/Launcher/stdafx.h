@@ -1,11 +1,15 @@
 #pragma once
 
+// Windows/UNIX
 #ifdef _WIN32
 #include <winsock2.h>
 #include <Windows.h>
 #else
 #include <dlfcn.h>
 #endif
+#include <stdio.h>
+
+// C++
 #include <iostream>
 #include <ctime>
 #include <vector>
@@ -16,7 +20,7 @@
 #include <cctype>
 #include <cstdlib>
 #include <cstdio>
-#include <stdio.h>
+#include <functional>
 using namespace std;
 
 // Shared

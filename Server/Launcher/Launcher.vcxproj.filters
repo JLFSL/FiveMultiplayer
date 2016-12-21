@@ -92,12 +92,8 @@
     <ClInclude Include="CConfig.h">
       <Filter>Server</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h" />
     <ClInclude Include="CPlayerEntity.h">
       <Filter>Entity</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="Server.Launcher.rc" />
   </ItemGroup>
 </Project>

@@ -57,6 +57,8 @@ void CCore::OnGameTick()
 		Logger::Msg("Disconnecting");
 	}
 
+	g_LocalPlayer->Pulse();
+
 	g_NetworkManager->Pulse();
 	
 	for (int i = 0; i < g_Players.size(); i++)

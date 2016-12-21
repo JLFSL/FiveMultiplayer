@@ -30,9 +30,11 @@ void CLocalPlayer::Pulse()
 
 		BitStream bitstream;
 		bitstream.Write((unsigned char)ID_PACKET_TEST);
+
 		bitstream.Write(Information);
 		bitstream.Write(Statistics);
 		bitstream.Write(Data);
+
 		g_Core->GetNetworkManager()->GetInterface()->Send(&bitstream, MEDIUM_PRIORITY, UNRELIABLE_SEQUENCED, 0, g_Core->GetNetworkManager()->GetSystemAddress(), false);
 
 		Network.LastSyncSent = timeGetTime();

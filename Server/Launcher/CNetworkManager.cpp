@@ -60,16 +60,24 @@ void CNetworkManager::Pulse()
 
 	while (g_Packet = g_RakPeer->Receive())
 	{
-		BitStream g_BitStream(g_Packet->data + 1, g_Packet->length + 1, false);
-
 		switch (g_Packet->data[0])
 		{
 			case ID_NEW_INCOMING_CONNECTION:
 			{
 				CPlayerEntity newPlayer;
-				newPlayer.Create("User", g_Packet->guid.ToString(), g_Packet->systemAddress.ToString(false));
+				newPlayer.Create("User", g_Packet->guid, g_Packet->systemAddress);
 
 				g_Players.push_back(newPlayer);
+
+				BitStream bitstream;
+				bitstream.Write((unsigned char)ID_PACKET_SHIT);
+				for (int i = 0; i < g_Players.size(); i++) {
+					if (g_Players[i].GetSynchronized()) {
+						bitstream.Write(g_Players[i].GetId());
+						bitstream.Write(g_Players[i].GetUsername());
+						g_RakPeer->Send(&bitstream, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, g_Packet->systemAddress, false);
+					}
+				}
 
 				PulseMaster();
 				break;
@@ -78,7 +86,7 @@ void CNetworkManager::Pulse()
 			case ID_DISCONNECTION_NOTIFICATION:
 			{
 				for (int i = 0; i < g_Players.size(); i++) {
-					if (strcmp(g_Players[i].GetIp(), g_Packet->systemAddress.ToString(false)) == 0) {
+					if (g_Players[i].GetGUID() == g_Packet->guid) {
 						g_Players[i].Destroy();
 
 						g_Players.erase(g_Players.begin() + i);
@@ -92,12 +100,10 @@ void CNetworkManager::Pulse()
 			case ID_PACKET_TEST:
 			{
 				for (int i = 0; i < g_Players.size(); i++) {
-					if (strcmp(g_Players[i].GetIp(), g_Packet->systemAddress.ToString(false)) == 0) {
-						g_Players[i].Update(&g_BitStream);
+					if (g_Players[i].GetGUID() == g_Packet->guid) {
+						g_Players[i].Update(g_Packet);
 					}
 				}
-
-				//cout << "packet received" << endl;
 				break;
 			}
 			cout << g_Packet->data[0] << endl;
@@ -114,39 +120,41 @@ void CNetworkManager::Pulse()
 void CNetworkManager::PulseMaster()
 {
 #ifdef _WIN32
-	string playerList;
+	if (g_Config->GetAnnounce()) {
+		string playerList;
 
-	if (!g_Players.empty()) {
-		for (int p = 0; p < g_Players.size(); p++) {
-			if (g_Players[p].GetId() != -1) {
-				ostringstream oss;
-				oss << "{\"id\":" << g_Players[p].GetId() << ",\"name\":\"" << g_Players[p].GetUsername() << "\"}";
-				string player = oss.str();
+		if (!g_Players.empty()) {
+			for (int p = 0; p < g_Players.size(); p++) {
+				if (g_Players[p].GetId() != -1) {
+					ostringstream oss;
+					oss << "{\"id\":" << g_Players[p].GetId() << ",\"name\":\"" << g_Players[p].GetUsername() << "\"}";
+					string player = oss.str();
 
-				if (p < g_Players.size() - 1)
-					player.push_back(',');
+					if (p < g_Players.size() - 1)
+						player.push_back(',');
 
-				playerList.append(player);
+					playerList.append(player);
+				}
 			}
 		}
+
+		CURL *hnd = curl_easy_init();
+
+		struct curl_slist *headers = NULL;
+		char content[1024];
+
+		sprintf_s(content, "Content: {\"port\":%d, \"name\":\"%s\", \"players\":{\"amount\":%d, \"max\":%d, \"list\":[%s]}}", g_Config->GetPort(), g_Config->GetServerName().c_str(), g_Players.size(), g_Config->GetMaxPlayers(), playerList.c_str());
+		headers = curl_slist_append(headers, "content-type: application/x-www-form-urlencoded");
+		headers = curl_slist_append(headers, "cache-control: no-cache");
+		headers = curl_slist_append(headers, content);
+		headers = curl_slist_append(headers, "authorization: FiveMP Token 13478817f618329e");
+
+		curl_easy_setopt(hnd, CURLOPT_CUSTOMREQUEST, "POST");
+		curl_easy_setopt(hnd, CURLOPT_URL, "http://176.31.142.113:7001/v2/servers");
+		curl_easy_setopt(hnd, CURLOPT_HTTPHEADER, headers);
+		curl_easy_setopt(hnd, CURLOPT_NOBODY, 1);
+
+		CURLcode ret = curl_easy_perform(hnd);
 	}
-
-	CURL *hnd = curl_easy_init();
-
-	struct curl_slist *headers = NULL;
-	char content[1024];
-
-	sprintf_s(content, "Content: {\"port\":%d, \"name\":\"%s\", \"players\":{\"amount\":%d, \"max\":%d, \"list\":[%s]}}", g_Config->GetPort(), g_Config->GetServerName().c_str(), g_Players.size(), g_Config->GetMaxPlayers(), playerList.c_str());
-	headers = curl_slist_append(headers, "content-type: application/x-www-form-urlencoded");
-	headers = curl_slist_append(headers, "cache-control: no-cache");
-	headers = curl_slist_append(headers, content);
-	headers = curl_slist_append(headers, "authorization: FiveMP Token 13478817f618329e");
-
-	curl_easy_setopt(hnd, CURLOPT_CUSTOMREQUEST, "POST");
-	curl_easy_setopt(hnd, CURLOPT_URL, "http://176.31.142.113:7001/v2/servers");
-	curl_easy_setopt(hnd, CURLOPT_HTTPHEADER, headers);
-	curl_easy_setopt(hnd, CURLOPT_NOBODY, 1);
-
-	CURLcode ret = curl_easy_perform(hnd);
 #endif
 }

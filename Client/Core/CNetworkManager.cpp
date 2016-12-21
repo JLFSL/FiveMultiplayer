@@ -149,10 +149,31 @@ void CNetworkManager::Pulse()
 			case ID_PACKET_TEST:
 			{
 				for (int i = 0; i < g_Players.size(); i++) {
-					if (strcmp(g_Players[i].GetIp(), g_Packet->systemAddress.ToString(false)) == 0) {
-						g_Players[i].Update(&g_BitStream);
+					if (g_Players[i].GetGUID() == g_Packet->guid) {
+						g_Players[i].Update(g_Packet);
 					}
 				}
+				break;
+			}
+			case ID_PACKET_SHIT:
+			{
+				CPlayerEntity newPlayer;
+				
+				int			Id;
+				string		Name;
+				const char	*Guid;
+				const char	*Ip;
+
+				g_BitStream.Read(Id);
+				g_BitStream.Read(Name);
+				g_BitStream.Read(Guid);
+				g_BitStream.Read(Ip);
+
+				//newPlayer.Create("User", Guid, Ip);
+
+				cout << Id << Name << Guid << Ip << endl;
+
+				g_Players.push_back(newPlayer);
 				break;
 			}
 			Logger::Msg("%d", g_Packet->data[0]);

@@ -2,16 +2,14 @@
 
 int CPlayerEntity::Amount = 0;
 
-void CPlayerEntity::Create(string Name, const char *Guid, const char *Ip)
+void CPlayerEntity::Create(string Name)
 {
 	Information.Name = Name;
 	Information.Id = Amount;
-	Information.Guid = Guid;
-	Information.Ip = Ip;
 
 	Amount++;
 
-	cout << "[CPlayerEntity] Added Player: " << Information.Name << " [" << Information.Ip << "]" << endl;
+	cout << "[CPlayerEntity] Added Player: " << Information.Name << endl;
 	cout << "[CPlayerEntity] Players Online: " << Amount << endl;
 
 	char *name = "a_f_y_tourist_02";
@@ -34,7 +32,7 @@ void CPlayerEntity::Create(string Name, const char *Guid, const char *Ip)
 
 void CPlayerEntity::Destroy()
 {
-	cout << "[CPlayerEntity] Removing Player: " << Information.Name << " [" << Information.Ip << "]" << endl;
+	cout << "[CPlayerEntity] Removing Player: " << Information.Name << endl;
 
 	Information = {};
 	Statistics = {};
@@ -49,17 +47,33 @@ void CPlayerEntity::Destroy()
 
 void CPlayerEntity::Pulse()
 {
-	
+	Interpolate();
 }
 
-void CPlayerEntity::Update(BitStream *bitstream)
+void CPlayerEntity::Update(Packet *packet)
 {
-	bitstream->Read(Information);
-	bitstream->Read(Statistics);
-	bitstream->Read(Data);
+	BitStream bitstream(packet->data + 1, packet->length + 1, false);
+
+	bitstream.Read(Information.Id);
+	bitstream.Read(Information.Name);
+
+	bitstream.Read(Statistics.Score);
+
+	bitstream.Read(Data.Position.fX);
+	bitstream.Read(Data.Position.fY);
+	bitstream.Read(Data.Position.fZ);
+
+	bitstream.Read(Data.Velocity.fX);
+	bitstream.Read(Data.Velocity.fY);
+	bitstream.Read(Data.Velocity.fZ);
+
+	bitstream.Read(Data.Quaternion.fX);
+	bitstream.Read(Data.Quaternion.fY);
+	bitstream.Read(Data.Quaternion.fZ);
+	bitstream.Read(Data.Quaternion.fW);
 
 	if (!Game.Created)
-		Create(Information.Name, Information.Guid, Information.Ip);
+		Create(Information.Name);
 }
 
 void CPlayerEntity::Interpolate()

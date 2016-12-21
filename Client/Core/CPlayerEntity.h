@@ -10,8 +10,6 @@ private:
 	struct PlayerInfo {
 		int			Id;
 		string		Name;
-		const char	*Guid;
-		const char	*Ip;
 	} Information;
 	
 	struct PlayerStats{
@@ -25,7 +23,8 @@ private:
 	} Data;
 
 	struct PlayerNetwork {
-		unsigned long LastSyncReceived;
+		unsigned long	LastSyncReceived;
+		RakNetGUID		GUID;
 	} Network;
 
 	struct PlayerInterpolationData
@@ -57,11 +56,11 @@ public:
 	CPlayerEntity() { };
 	~CPlayerEntity() { };
 
-	void Create(string Name, const char *Guid, const char *Ip);
+	void Create(string Name);
 	void Destroy();
 
 	void Pulse();
-	void Update(BitStream *bitstream);
+	void Update(Packet *packet);
 
 	void Interpolate();
 
@@ -73,13 +72,13 @@ public:
 
 	int GetId()					{ return Information.Id; };
 	string GetUsername()		{ return Information.Name; };
-	const char *GetGuid()		{ return Information.Guid; };
-	const char *GetIp()			{ return Information.Ip; };
 
 	int GetScore()				{ return Statistics.Score; };
 
 	CVector3 GetPosition()		{ return Data.Position; };
-	CVector4 GetQuaternion()	{ return Data.Quaternion; }
+	CVector4 GetQuaternion()	{ return Data.Quaternion; };
+
+	RakNetGUID GetGUID()		{ return Network.GUID; };
 
 	PlayerInfo SetInfo(PlayerInfo newinfo)		{ Information = newinfo; }
 	PlayerStats SetStats(PlayerStats newstats)	{ Statistics = newstats; }
