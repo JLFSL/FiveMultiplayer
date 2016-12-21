@@ -6,6 +6,7 @@
 #include <Windows.h>
 #else
 #include <dlfcn.h>
+#include <sys/time.h>
 #endif
 #include <stdio.h>
 
