@@ -5,7 +5,7 @@ bool CConfig::Read()
 	INIReader Config("Server.Config.ini");
 
 	if (Config.ParseError() < 0) {
-		std::cout << "Can't load 'Server.Core.ini'\n";
+		cout << "[CConfig] Can't read configuration file" << endl;
 #ifdef NDEBUG
 		return false;
 	}

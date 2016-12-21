@@ -60,7 +60,7 @@ bool CServer::Load(int argc, char ** argv)
 
 	if (!g_Config->Read())
 	{
-		cout << "[CConfig] Could not read config file (there is an option missing)" << endl;
+		cout << "[CConfig] Could not read config file" << endl;
 		getc(stdin);
 		return 1;
 	}
