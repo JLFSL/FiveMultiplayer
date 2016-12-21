@@ -33,5 +33,5 @@ public:
 };
 
 #ifndef _WIN32
-unsigned int timeGetTime()
+unsigned int timeGetTime();
 #endif
