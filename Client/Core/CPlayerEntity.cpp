@@ -79,7 +79,7 @@ void CPlayerEntity::Update(Packet *packet)
 	bitstream.Read(Data.Quaternion.fW);
 
 	UpdateTargetPosition();
-	UpdateTargetRotation();
+	//UpdateTargetRotation();
 
 	if (!Game.Created)
 		Create(Information.Name, Network.GUID);
@@ -88,7 +88,7 @@ void CPlayerEntity::Update(Packet *packet)
 void CPlayerEntity::Interpolate()
 {
 	SetTargetPosition();
-	SetTargetRotation();
+	//SetTargetRotation();
 }
 
 void CPlayerEntity::UpdateTargetPosition()
@@ -102,7 +102,7 @@ void CPlayerEntity::UpdateTargetPosition()
 
 	// Set the target position
 	CVector3 TargetPosition = { Data.Position.fX, Data.Position.fY, Data.Position.fY };
-	InterpolationData->Position.Target = CurrentPosition;
+	InterpolationData->Position.Target = TargetPosition;
 
 	// Calculate the relative error
 	InterpolationData->Position.Error = TargetPosition - CurrentPosition;
@@ -154,8 +154,7 @@ void CPlayerEntity::SetTargetPosition()
 		// Set our new position
 		ENTITY::SET_ENTITY_COORDS_NO_OFFSET(Game.Ped, vecNewPosition.fX, vecNewPosition.fY, vecNewPosition.fZ, false, false, false);
 		ENTITY::SET_ENTITY_VELOCITY(Game.Ped, Data.Velocity.fX, Data.Velocity.fY, Data.Velocity.fZ);
-
-		cout << vecNewPosition.fX << " " << vecNewPosition.fY << " " << vecNewPosition.fZ << endl;
+		ENTITY::SET_ENTITY_QUATERNION(Game.Ped, Data.Quaternion.fX, Data.Quaternion.fY, Data.Quaternion.fZ, Data.Quaternion.fW);
 	}
 }
 
