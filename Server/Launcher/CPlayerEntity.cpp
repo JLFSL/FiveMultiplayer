@@ -42,6 +42,8 @@ void CPlayerEntity::Pulse()
 	{
 		BitStream bitstream;
 		bitstream.Write((unsigned char)ID_PACKET_TEST);
+		bitstream.Write(Network.GUID);
+
 		bitstream.Write(Information.Id);
 		bitstream.Write(Information.Name);
 
@@ -59,7 +61,7 @@ void CPlayerEntity::Pulse()
 		bitstream.Write(Data.Quaternion.fY);
 		bitstream.Write(Data.Quaternion.fZ);
 		bitstream.Write(Data.Quaternion.fW);
-		//g_Network->GetInterface()->Send(&bitstream, MEDIUM_PRIORITY, UNRELIABLE_SEQUENCED, 0, UNASSIGNED_RAKNET_GUID, true);
+		g_Network->GetInterface()->Send(&bitstream, MEDIUM_PRIORITY, UNRELIABLE_SEQUENCED, 0, UNASSIGNED_RAKNET_GUID, true);
 
 		Network.LastSyncSent = timeGetTime();
 	}
@@ -69,9 +71,23 @@ void CPlayerEntity::Update(Packet *packet)
 {
 	BitStream bitstream(packet->data + 1, packet->length + 1, false);
 
-	bitstream.Read(Information);
-	bitstream.Read(Statistics);
-	bitstream.Read(Data);
+	bitstream.Read(Information.Id);
+	bitstream.Read(Information.Name);
+
+	bitstream.Read(Statistics.Score);
+
+	bitstream.Read(Data.Position.fX);
+	bitstream.Read(Data.Position.fY);
+	bitstream.Read(Data.Position.fZ);
+
+	bitstream.Read(Data.Velocity.fX);
+	bitstream.Read(Data.Velocity.fY);
+	bitstream.Read(Data.Velocity.fZ);
+
+	bitstream.Read(Data.Quaternion.fX);
+	bitstream.Read(Data.Quaternion.fY);
+	bitstream.Read(Data.Quaternion.fZ);
+	bitstream.Read(Data.Quaternion.fW);
 
 	Network.GUID = packet->guid;
 	Network.Ip = packet->systemAddress;

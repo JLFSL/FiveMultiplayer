@@ -148,10 +148,22 @@ void CNetworkManager::Pulse()
 			}
 			case ID_PACKET_TEST:
 			{
+				RakNetGUID tempGUID;
+				g_BitStream.Read(tempGUID);
+
+				bool exist = false;
+
 				for (int i = 0; i < g_Players.size(); i++) {
-					if (g_Players[i].GetGUID() == g_Packet->guid) {
+					if (g_Players[i].GetGUID() == tempGUID) {
 						g_Players[i].Update(g_Packet);
+						exist = true;
+						i = 9999;
 					}
+				}
+				if (!exist) {
+					CPlayerEntity newPlayer;
+					newPlayer.Create("User", tempGUID);
+					g_Players.push_back(newPlayer);
 				}
 				break;
 			}

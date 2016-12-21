@@ -31,9 +31,23 @@ void CLocalPlayer::Pulse()
 		BitStream bitstream;
 		bitstream.Write((unsigned char)ID_PACKET_TEST);
 
-		bitstream.Write(Information);
-		bitstream.Write(Statistics);
-		bitstream.Write(Data);
+		bitstream.Write(Information.Id);
+		bitstream.Write(Information.Name);
+
+		bitstream.Write(Statistics.Score);
+
+		bitstream.Write(Data.Position.fX);
+		bitstream.Write(Data.Position.fY);
+		bitstream.Write(Data.Position.fZ);
+
+		bitstream.Write(Data.Velocity.fX);
+		bitstream.Write(Data.Velocity.fY);
+		bitstream.Write(Data.Velocity.fZ);
+
+		bitstream.Write(Data.Quaternion.fX);
+		bitstream.Write(Data.Quaternion.fY);
+		bitstream.Write(Data.Quaternion.fZ);
+		bitstream.Write(Data.Quaternion.fW);
 
 		g_Core->GetNetworkManager()->GetInterface()->Send(&bitstream, MEDIUM_PRIORITY, UNRELIABLE_SEQUENCED, 0, g_Core->GetNetworkManager()->GetSystemAddress(), false);
 

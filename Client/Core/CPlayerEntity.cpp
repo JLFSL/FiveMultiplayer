@@ -28,6 +28,7 @@ void CPlayerEntity::Create(string Name, RakNetGUID GUID)
 		InterpolationData = new PlayerInterpolationData;
 
 		Game.Created = true;
+		cout << "[CPlayerEntity] Created Ped" << endl;
 	}
 }
 
@@ -35,9 +36,12 @@ void CPlayerEntity::Destroy()
 {
 	cout << "[CPlayerEntity] Removing Player: " << Information.Name << endl;
 
+	Game = {};
 	Information = {};
 	Statistics = {};
 	Data = {};
+	Network = {};
+	InterpolationData = {};
 
 	Information.Id = -1;
 
@@ -54,7 +58,8 @@ void CPlayerEntity::Pulse()
 void CPlayerEntity::Update(Packet *packet)
 {
 	BitStream bitstream(packet->data + 1, packet->length + 1, false);
-
+	
+	bitstream.Read(Network.GUID);
 	bitstream.Read(Information.Id);
 	bitstream.Read(Information.Name);
 
@@ -72,6 +77,9 @@ void CPlayerEntity::Update(Packet *packet)
 	bitstream.Read(Data.Quaternion.fY);
 	bitstream.Read(Data.Quaternion.fZ);
 	bitstream.Read(Data.Quaternion.fW);
+
+	UpdateTargetPosition();
+	UpdateTargetRotation();
 
 	if (!Game.Created)
 		Create(Information.Name, Network.GUID);
@@ -146,6 +154,8 @@ void CPlayerEntity::SetTargetPosition()
 		// Set our new position
 		ENTITY::SET_ENTITY_COORDS_NO_OFFSET(Game.Ped, vecNewPosition.fX, vecNewPosition.fY, vecNewPosition.fZ, false, false, false);
 		ENTITY::SET_ENTITY_VELOCITY(Game.Ped, Data.Velocity.fX, Data.Velocity.fY, Data.Velocity.fZ);
+
+		cout << vecNewPosition.fX << " " << vecNewPosition.fY << " " << vecNewPosition.fZ << endl;
 	}
 }
 

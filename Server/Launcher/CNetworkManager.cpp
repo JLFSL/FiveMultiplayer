@@ -66,19 +66,7 @@ void CNetworkManager::Pulse()
 			{
 				CPlayerEntity newPlayer;
 				newPlayer.Create("User", g_Packet->guid, g_Packet->systemAddress);
-
 				g_Players.push_back(newPlayer);
-
-				BitStream bitstream;
-				bitstream.Write((unsigned char)ID_PACKET_SHIT);
-				for (int i = 0; i < g_Players.size(); i++) {
-					if (g_Players[i].GetSynchronized()) {
-						bitstream.Write(g_Players[i].GetId());
-						bitstream.Write(g_Players[i].GetUsername());
-						bitstream.Write(g_Players[i].GetGUID());
-						g_RakPeer->Send(&bitstream, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, g_Packet->systemAddress, false);
-					}
-				}
 
 				PulseMaster();
 				break;
