@@ -101,7 +101,7 @@ void CPlayerEntity::UpdateTargetPosition()
 	CVector3 CurrentPosition = { Coordinates.x, Coordinates.y, Coordinates.z };
 
 	// Set the target position
-	CVector3 TargetPosition = { Data.Position.fX, Data.Position.fY, Data.Position.fY };
+	CVector3 TargetPosition = { Data.Position.fX, Data.Position.fY, Data.Position.fZ };
 	InterpolationData->Position.Target = TargetPosition;
 
 	// Calculate the relative error
