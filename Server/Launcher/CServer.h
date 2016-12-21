@@ -31,3 +31,12 @@ public:
 	static CServer* GetInstance() { return p_Instance; }
 	unsigned int GetSyncRate() { return p_SyncRate; }
 };
+
+#ifndef _WIN32
+unsigned int timeGetTime()
+{
+	struct timeval now;
+	gettimeofday(&now, NULL);
+	return now.tv_usec / 1000;
+}
+#endif
