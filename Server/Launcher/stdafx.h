@@ -3,8 +3,10 @@
 // Windows/UNIX
 #ifdef _WIN32
 #include <winsock2.h>
-#include <Windows.h>
+#include <Windows.h>0
 #else
+#define _BSD_SOURCE
+
 #include <dlfcn.h>
 #include <sys/time.h>
 #endif
