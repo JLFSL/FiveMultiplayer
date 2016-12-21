@@ -48,6 +48,7 @@ bool CConfig::Read()
 		Plugins.Additional = Config.Get("Plugins", "etc", "");
 
 		cout << "[CConfig] Read config" << endl;
+		return true;
 	}
 	return false;
 }
