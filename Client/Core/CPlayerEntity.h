@@ -56,7 +56,7 @@ public:
 	CPlayerEntity() { };
 	~CPlayerEntity() { };
 
-	void Create(string Name);
+	void Create(string Name, RakNetGUID GUID);
 	void Destroy();
 
 	void Pulse();

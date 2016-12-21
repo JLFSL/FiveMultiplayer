@@ -161,17 +161,15 @@ void CNetworkManager::Pulse()
 				
 				int			Id;
 				string		Name;
-				const char	*Guid;
-				const char	*Ip;
+				RakNetGUID	GUID;
 
 				g_BitStream.Read(Id);
 				g_BitStream.Read(Name);
-				g_BitStream.Read(Guid);
-				g_BitStream.Read(Ip);
+				g_BitStream.Read(GUID);
 
-				//newPlayer.Create("User", Guid, Ip);
+				newPlayer.Create("User", GUID);
 
-				cout << Id << Name << Guid << Ip << endl;
+				cout << Id << Name << endl;
 
 				g_Players.push_back(newPlayer);
 				break;

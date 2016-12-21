@@ -2,10 +2,11 @@
 
 int CPlayerEntity::Amount = 0;
 
-void CPlayerEntity::Create(string Name)
+void CPlayerEntity::Create(string Name, RakNetGUID GUID)
 {
 	Information.Name = Name;
 	Information.Id = Amount;
+	Network.GUID = GUID;
 
 	Amount++;
 
@@ -73,7 +74,7 @@ void CPlayerEntity::Update(Packet *packet)
 	bitstream.Read(Data.Quaternion.fW);
 
 	if (!Game.Created)
-		Create(Information.Name);
+		Create(Information.Name, Network.GUID);
 }
 
 void CPlayerEntity::Interpolate()

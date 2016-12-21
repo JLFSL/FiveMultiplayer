@@ -75,6 +75,7 @@ void CNetworkManager::Pulse()
 					if (g_Players[i].GetSynchronized()) {
 						bitstream.Write(g_Players[i].GetId());
 						bitstream.Write(g_Players[i].GetUsername());
+						bitstream.Write(g_Players[i].GetGUID());
 						g_RakPeer->Send(&bitstream, HIGH_PRIORITY, RELIABLE_SEQUENCED, 0, g_Packet->systemAddress, false);
 					}
 				}
