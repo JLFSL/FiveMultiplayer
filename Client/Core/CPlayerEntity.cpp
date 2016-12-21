@@ -12,7 +12,10 @@ void CPlayerEntity::Create(string Name, RakNetGUID GUID)
 
 	cout << "[CPlayerEntity] Added Player: " << Information.Name << endl;
 	cout << "[CPlayerEntity] Players Online: " << Amount << endl;
+}
 
+void CPlayerEntity::CreatePed()
+{
 	char *name = "a_f_y_tourist_02";
 	int PedHash = GAMEPLAY::GET_HASH_KEY(name);
 	if (STREAMING::IS_MODEL_IN_CDIMAGE(PedHash) && STREAMING::IS_MODEL_VALID(PedHash))
@@ -52,7 +55,8 @@ void CPlayerEntity::Destroy()
 
 void CPlayerEntity::Pulse()
 {
-	Interpolate();
+	if(Game.Created)
+		Interpolate();
 }
 
 void CPlayerEntity::Update(Packet *packet)
@@ -82,7 +86,7 @@ void CPlayerEntity::Update(Packet *packet)
 	//UpdateTargetRotation();
 
 	if (!Game.Created)
-		Create(Information.Name, Network.GUID);
+		CreatePed();
 }
 
 void CPlayerEntity::Interpolate()
