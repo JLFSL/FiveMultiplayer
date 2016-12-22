@@ -4,6 +4,7 @@ compiler: g++
 sudo: required
 
 script: 
+  - sudo update
   - sudo unlink /usr/bin/gcc && sudo ln -s /usr/bin/gcc-5 /usr/bin/gcc
   - sudo unlink /usr/bin/g++ && sudo ln -s /usr/bin/g++-5 /usr/bin/g++
   - make
@@ -17,3 +18,4 @@ addons:
     - g++-5
     - g++-multilib
     - gcc-multilib
+    - binutils
