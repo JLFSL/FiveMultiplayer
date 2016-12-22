@@ -61,8 +61,9 @@ void CPlayerEntity::Pulse()
 
 void CPlayerEntity::Update(Packet *packet)
 {
+	CreatePed();
 	BitStream bitstream(packet->data + 1, packet->length + 1, false);
-	
+
 	bitstream.Read(Network.GUID);
 	bitstream.Read(Information.Id);
 	bitstream.Read(Information.Name);
@@ -84,9 +85,6 @@ void CPlayerEntity::Update(Packet *packet)
 
 	UpdateTargetPosition();
 	//UpdateTargetRotation();
-
-	if (!Game.Created)
-		CreatePed();
 }
 
 void CPlayerEntity::Interpolate()
