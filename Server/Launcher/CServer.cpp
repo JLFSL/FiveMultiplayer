@@ -59,16 +59,12 @@ bool CServer::Load(int argc, char ** argv)
 		return 1;
 	}
 
-#ifdef _WIN32
 	if (!g_Config->Read())
 	{
 		cout << "[CConfig] Could not read config file" << endl;
 		getc(stdin);
 		return 1;
 	}
-#else
-	g_Config->Read();
-#endif
 
 	if (!g_Network)
 	{
