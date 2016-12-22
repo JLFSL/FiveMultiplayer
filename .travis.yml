@@ -2,7 +2,7 @@ language: cpp
 compiler: g++
 
 before_install:
-- sudo add-apt-repository main
+- sudo add-apt-repository main -qq
 - sudo apt-get update -qq
 - sudo apt-get install -qq g++-5 g++-multilib gcc-multilib
 script: make
