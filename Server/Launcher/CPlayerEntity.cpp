@@ -2,8 +2,6 @@
 
 int CPlayerEntity::Amount = 0;
 
-CNetworkManager* g_Network;
-
 void CPlayerEntity::Create(string Name, RakNetGUID GUID, SystemAddress Ip)
 {
 	Information.Name = Name;

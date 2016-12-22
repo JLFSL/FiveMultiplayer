@@ -1,8 +1,9 @@
 #include "stdafx.h"
 
 CAPI*				g_API;
-extern CNetworkManager*		g_Network;
-extern CConfig*				g_Config;
+
+CConfig*			g_Config;
+CNetworkManager*	g_Network;
 
 CServer* CServer::p_Instance = nullptr;
 

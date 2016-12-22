@@ -1,7 +1,5 @@
 #include "stdafx.h"
 
-CConfig* g_Config;
-
 CNetworkManager::CNetworkManager()
 {
 	// Get RakPeerInterface
