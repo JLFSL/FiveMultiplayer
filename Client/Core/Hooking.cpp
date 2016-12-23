@@ -159,6 +159,7 @@ void Hooking::FailPatterns(const char* name, pattern ptn)
 
 void Hooking::FindPatterns()
 {
+	auto p_fixVector3Result = pattern("83 79 18 00 48 8B D1 74 4A FF 4A 18");
 	auto p_gameState = pattern("83 3D ? ? ? ? ? 8A D9 74 0A");
 	auto p_worldPtr = pattern("48 8B 05 ? ? ? ? 45 ? ? ? ? 48 8B 48 08 48 85 C9 74 07");
 	auto p_blipList = pattern("4C 8D 05 ? ? ? ? 0F B7 C1");
@@ -167,6 +168,7 @@ void Hooking::FindPatterns()
 	auto p_gameLegals = pattern("72 1F E8 ? ? ? ? 8B 0D");
 	auto p_modelCheck = pattern("48 85 C0 0F 84 ? ? ? ? 8B 48 50");
 	auto p_modelSpawn = pattern("48 8B C8 FF 52 30 84 C0 74 05 48");
+
 
 	char * c_location = nullptr;
 
@@ -186,6 +188,10 @@ void Hooking::FindPatterns()
 	// Wait for legals
 	DWORD ticks = GetTickCount();
 	while (*m_gameState != GameStateLicenseShit || GetTickCount() < ticks + 5000) Sleep(50);
+
+	// Get vector3 result fixer function
+	auto void_location = p_fixVector3Result.count(1).get(0).get<void>(0);
+	if (void_location != nullptr) scrNativeCallContext::SetVectorResults = (void(*)(scrNativeCallContext*))(void_location);
 
 	// Skip game legals
 	Memory::nop(p_gameLegals.count(1).get(0).get<void>(0), 2);

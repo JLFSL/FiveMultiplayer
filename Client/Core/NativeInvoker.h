@@ -11,6 +11,7 @@ protected:
 	void *		m_pArgs;
 
 	uint32_t	m_nDataCount;
+	alignas(uintptr_t)uint8_t m_vectorSpace[192];
 
 public:
 
@@ -39,6 +40,8 @@ public:
 		intptr_t * returnValues = (intptr_t*)m_pReturn;
 		return *(T*)&returnValues[idx];
 	}
+
+	static void(*SetVectorResults)(scrNativeCallContext*);
 };
 
 class NativeContext : public scrNativeCallContext {

@@ -4,6 +4,8 @@ static NativeManagerContext g_context;
 
 static UINT64 g_hash;
 
+void(*scrNativeCallContext::SetVectorResults)(scrNativeCallContext*) = nullptr;
+
 void nativeInit(UINT64 hash) {
 
 	g_context.Reset();
@@ -26,6 +28,7 @@ uint64_t * nativeCall() {
 		__try
 		{
 			fn(&g_context);
+			scrNativeCallContext::SetVectorResults(&g_context);
 		}
 		__except (exceptionAddress = (GetExceptionInformation())->ExceptionRecord->ExceptionAddress, EXCEPTION_EXECUTE_HANDLER)
 		{
