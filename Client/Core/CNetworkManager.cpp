@@ -100,8 +100,6 @@ void CNetworkManager::Disconnect()
 	// Remove all existing players
 	for (int i = 0; i < g_Players.size(); i++) {
 		g_Players[i].Destroy();
-
-		g_Players.erase(g_Players.begin() + i);
 	}
 
 	Logger::Msg("CNetworkManager::Disconnected");
