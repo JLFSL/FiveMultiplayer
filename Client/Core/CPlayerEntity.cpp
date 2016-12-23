@@ -52,6 +52,10 @@ void CPlayerEntity::CreatePed()
 void CPlayerEntity::Destroy()
 {
 	std::cout << "[CPlayerEntity] Removing Player: " << Information.Name << std::endl;
+	
+	PED::DELETE_PED(&Game.Ped);
+	Game.Created = false;
+	UI::REMOVE_BLIP(&Game.Blip);
 
 	Game = {};
 	Information = {};

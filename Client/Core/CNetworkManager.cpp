@@ -19,7 +19,6 @@ CNetworkManager::CNetworkManager()
 	g_ConnectionState = CONSTATE_DISC;
 }
 
-
 CNetworkManager::~CNetworkManager()
 {
 	// Stop RakNet, stops synchronization
@@ -97,6 +96,14 @@ void CNetworkManager::Disconnect()
 
 	// Clean the server GUID
 	g_SystemAddr = UNASSIGNED_SYSTEM_ADDRESS;
+
+	// Remove all existing players
+	for (int i = 0; i < g_Players.size(); i++) {
+		g_Players[i].Destroy();
+
+		g_Players.erase(g_Players.begin() + i);
+		g_Players.shrink_to_fit();
+	}
 
 	Logger::Msg("CNetworkManager::Disconnected");
 }
