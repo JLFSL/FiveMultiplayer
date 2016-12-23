@@ -29,7 +29,7 @@
       <UniqueIdentifier>{37585daf-a858-441e-8d04-da22a9a4edb7}</UniqueIdentifier>
     </Filter>
     <Filter Include="Include\INIReader">
-      <UniqueIdentifier>{8c32bbf4-15ca-4b2e-8077-9de181498556}</UniqueIdentifier>
+      <UniqueIdentifier>{28c21ed1-aa87-4e78-8373-b998735b4acf}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -54,17 +54,17 @@
     <ClCompile Include="apitest.cpp">
       <Filter>Tests</Filter>
     </ClCompile>
-    <ClCompile Include="IniReader.cpp">
-      <Filter>Include\INIReader</Filter>
-    </ClCompile>
-    <ClCompile Include="ini.cpp">
-      <Filter>Include\INIReader</Filter>
-    </ClCompile>
     <ClCompile Include="CConfig.cpp">
       <Filter>Server</Filter>
     </ClCompile>
     <ClCompile Include="CPlayerEntity.cpp">
       <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="ini.cpp">
+      <Filter>Include\INIReader</Filter>
+    </ClCompile>
+    <ClCompile Include="IniReader.cpp">
+      <Filter>Include\INIReader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -83,17 +83,17 @@
     <ClInclude Include="CAPI.h">
       <Filter>Scripting</Filter>
     </ClInclude>
-    <ClInclude Include="IniReader.h">
-      <Filter>Include\INIReader</Filter>
-    </ClInclude>
-    <ClInclude Include="ini.h">
-      <Filter>Include\INIReader</Filter>
-    </ClInclude>
     <ClInclude Include="CConfig.h">
       <Filter>Server</Filter>
     </ClInclude>
     <ClInclude Include="CPlayerEntity.h">
       <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="ini.h">
+      <Filter>Include\INIReader</Filter>
+    </ClInclude>
+    <ClInclude Include="IniReader.h">
+      <Filter>Include\INIReader</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -14,6 +14,6 @@ public:
 	void OnGameTick();
 
 	CNetworkManager *GetNetworkManager()	{ return g_NetworkManager; }
-	CLocalPlayer *GetLocalPlayer()		{ return g_LocalPlayer; }
+	CLocalPlayer *GetLocalPlayer() { return g_LocalPlayer; }
 };
 

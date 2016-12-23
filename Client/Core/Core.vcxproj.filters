@@ -34,6 +34,9 @@
     <Filter Include="Entity">
       <UniqueIdentifier>{7b27c7c2-80d5-4d5d-85dc-d57118cc2325}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Include\INIReader">
+      <UniqueIdentifier>{e60b09db-7dad-405c-b556-1978863e560c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -77,6 +80,15 @@
     </ClCompile>
     <ClCompile Include="CLocalPlayer.cpp">
       <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="CConfig.cpp">
+      <Filter>Client</Filter>
+    </ClCompile>
+    <ClCompile Include="ini.cpp">
+      <Filter>Include\INIReader</Filter>
+    </ClCompile>
+    <ClCompile Include="IniReader.cpp">
+      <Filter>Include\INIReader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -133,6 +145,15 @@
     </ClInclude>
     <ClInclude Include="CLocalPlayer.h">
       <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="CConfig.h">
+      <Filter>Client</Filter>
+    </ClInclude>
+    <ClInclude Include="ini.h">
+      <Filter>Include\INIReader</Filter>
+    </ClInclude>
+    <ClInclude Include="IniReader.h">
+      <Filter>Include\INIReader</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

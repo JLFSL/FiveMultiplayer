@@ -159,11 +159,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CConfig.cpp" />
     <ClCompile Include="CCore.cpp" />
     <ClCompile Include="CNetworkManager.cpp" />
     <ClCompile Include="CPlayerEntity.cpp" />
     <ClCompile Include="CrossMapping.cpp" />
     <ClCompile Include="Hooking.cpp" />
+    <ClCompile Include="ini.cpp" />
+    <ClCompile Include="IniReader.cpp" />
     <ClCompile Include="InputHook.cpp" />
     <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="CLocalPlayer.cpp" />
@@ -180,12 +183,15 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CConfig.h" />
     <ClInclude Include="CCore.h" />
     <ClInclude Include="CNetworkManager.h" />
     <ClInclude Include="CPlayerEntity.h" />
     <ClInclude Include="CrossMapping.h" />
     <ClInclude Include="Enums.h" />
     <ClInclude Include="Hooking.h" />
+    <ClInclude Include="ini.h" />
+    <ClInclude Include="IniReader.h" />
     <ClInclude Include="InputHook.h" />
     <ClInclude Include="Keyboard.h" />
     <ClInclude Include="CLocalPlayer.h" />

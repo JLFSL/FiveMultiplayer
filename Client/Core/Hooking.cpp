@@ -5,7 +5,8 @@ HMODULE _hmoduleDLL;
 HANDLE mainFiber;
 DWORD wakeAt;
 
-CCore *g_Core;
+CCore			*g_Core;
+CConfig			*g_Config;
 
 static eGameState* 							m_gameState;
 static uint64_t								m_worldPtr;
@@ -18,6 +19,21 @@ void Hooking::Start(HMODULE hmoduleDLL)
 {
 	_hmoduleDLL = hmoduleDLL;
 	Logger::Init(hmoduleDLL);
+
+	g_Config = new CConfig();
+
+	if (!g_Config)
+	{
+		std::cout << "[CConfig] Invalid" << std::endl;
+		getc(stdin);
+	}
+
+	if (!g_Config->Read())
+	{
+		std::cout << "[CConfig] Could not read config file" << std::endl;
+		getc(stdin);
+	}
+
 	FindPatterns();
 	if (!InitializeHooks()) Cleanup();
 }

@@ -53,6 +53,10 @@ using namespace RakNet;
 		#include "Hooking.h"
 		#include "Structs.h"
 		#include "script.h"
+	
+	// Include
+	#include "IniReader.h"
+	#include "ini.h"
 
 	// Entity
 	#include "CPlayerEntity.h"
@@ -63,5 +67,7 @@ using namespace RakNet;
 
 	// Client
 	#include "CCore.h"
+	#include "CConfig.h"
 
 extern CCore *g_Core;
+extern CConfig *g_Config;
