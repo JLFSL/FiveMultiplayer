@@ -1,7 +1,5 @@
 #include "stdafx.h"
 
-CConfig* g_Config;
-
 CNetworkManager::CNetworkManager()
 {
 	// Get RakPeerInterface
@@ -42,7 +40,8 @@ bool CNetworkManager::Start()
 	cout << endl << "[CNetworkManager] Starting..." << endl;
 	SocketDescriptor socketDescriptor(g_Config->GetPort(), g_Config->GetIp().c_str());
 
-	if (g_RakPeer->Startup(g_Config->GetMaxPlayers(), &socketDescriptor, 1, 0) == RAKNET_STARTED)
+	int Startup = g_RakPeer->Startup(g_Config->GetMaxPlayers(), &socketDescriptor, 1, 0);
+	if (!Startup)
 	{
 		g_RakPeer->SetMaximumIncomingConnections(g_Config->GetMaxPlayers());
 		g_RakPeer->SetIncomingPassword(g_Config->GetPassword().c_str(), sizeof(g_Config->GetPassword().c_str()));
@@ -51,6 +50,7 @@ bool CNetworkManager::Start()
 		cout << "[CNetworkManager] Successfully started" << endl;
 		return true;
 	}
+	cout << "[CNetworkManager] Startup error " << Startup << endl;
 	return false;
 }
 

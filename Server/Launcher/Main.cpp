@@ -1,11 +1,13 @@
 #include "stdafx.h"
 
+CServer*			g_Server;
+
 int main(int argc, char *argv[]) {
 	// Provide the modification, version and gamename to the user.
 	cout << "Loading " INFO_NAME "(" INFO_VERSION ") for " INFO_GAME_NAME << endl;
 
 	// Create CServer
-	CServer* g_Server = new CServer;
+	g_Server = new CServer;
 
 	// Check if CServer is created
 	if (!g_Server)

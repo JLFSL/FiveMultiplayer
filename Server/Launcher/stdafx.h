@@ -64,3 +64,7 @@ using namespace std;
 	#include "CPlayerEntity.h"
 
 // End of Server.Launcher
+
+extern CServer* g_Server;
+extern CConfig*	g_Config;
+extern CNetworkManager*	g_Network;

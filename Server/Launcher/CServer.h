@@ -3,7 +3,7 @@
 class CServer
 {
 private:
-	static CServer	*p_Instance;
+	static CServer* p_Instance;
 
 	bool			p_Active;
 

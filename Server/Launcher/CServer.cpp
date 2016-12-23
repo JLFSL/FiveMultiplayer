@@ -1,8 +1,9 @@
 #include "stdafx.h"
 
 CAPI*				g_API;
-extern CNetworkManager*		g_Network;
-extern CConfig*				g_Config;
+
+CConfig*			g_Config;
+CNetworkManager*	g_Network;
 
 CServer* CServer::p_Instance = nullptr;
 
@@ -58,16 +59,12 @@ bool CServer::Load(int argc, char ** argv)
 		return 1;
 	}
 
-#ifdef _WIN32
 	if (!g_Config->Read())
 	{
 		cout << "[CConfig] Could not read config file" << endl;
 		getc(stdin);
 		return 1;
 	}
-#else
-	g_Config->Read();
-#endif
 
 	if (!g_Network)
 	{
