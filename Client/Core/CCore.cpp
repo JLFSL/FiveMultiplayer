@@ -7,12 +7,14 @@ CCore::CCore()
 	// Construct CNetworkManager
 	g_NetworkManager = new CNetworkManager;
 	g_LocalPlayer = new CLocalPlayer;
+	g_Scipts = new Scripts;
 }
 
 CCore::~CCore()
 {
 	SAFE_DELETE(g_NetworkManager);
 	SAFE_DELETE(g_LocalPlayer);
+	SAFE_DELETE(g_Scipts);
 }
 
 bool CCore::Initialize()
@@ -30,6 +32,8 @@ bool CCore::Initialize()
 		Logger::Msg("CNetworkManager could not be started");
 		return false;
 	}
+
+	g_Scipts->StopAll();
 
 	return true;
 }

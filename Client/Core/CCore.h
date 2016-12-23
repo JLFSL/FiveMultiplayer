@@ -4,6 +4,7 @@ class CCore
 private:
 	CNetworkManager	*g_NetworkManager;
 	CLocalPlayer	*g_LocalPlayer;
+	Scripts			*g_Scipts;
 
 public:
 	CCore();

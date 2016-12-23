@@ -54,6 +54,9 @@ using namespace RakNet;
 		#include "Structs.h"
 		#include "script.h"
 
+	// Game
+	#include "Scripts.h"
+
 	// Entity
 	#include "CPlayerEntity.h"
 	#include "CLocalPlayer.h"

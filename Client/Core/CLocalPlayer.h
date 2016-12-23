@@ -16,9 +16,9 @@ class CLocalPlayer
 	} Statistics;
 
 	struct PlayerData {
-		CVector3	Position;
-		CVector3	Velocity;
-		CVector4	Quaternion;
+		CVector3		Position;
+		CVector3		Velocity;
+		CVector4		Quaternion;
 	} Data;
 
 	struct PlayerNetwork {
