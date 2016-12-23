@@ -23,16 +23,10 @@ void Hooking::Start(HMODULE hmoduleDLL)
 	g_Config = new CConfig();
 
 	if (!g_Config)
-	{
 		std::cout << "[CConfig] Invalid" << std::endl;
-		getc(stdin);
-	}
 
 	if (!g_Config->Read())
-	{
 		std::cout << "[CConfig] Could not read config file" << std::endl;
-		getc(stdin);
-	}
 
 	FindPatterns();
 	if (!InitializeHooks()) Cleanup();
