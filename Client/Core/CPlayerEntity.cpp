@@ -120,7 +120,7 @@ void CPlayerEntity::UpdateTargetPosition()
 		// Initialize the interpolation
 		InterpolationData.Position.LastAlpha = 0.0f;
 
-		Network.LastSyncReceived = true;
+		Network.LastSyncReceived = timeGetTime();
 	}
 }
 
