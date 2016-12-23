@@ -156,19 +156,13 @@ void CNetworkManager::Pulse()
 				if (!g_Players.empty()) {
 					for (int i = 0; i < g_Players.size(); i++) {
 						if (std::strcmp(g_Players[i].GetGUID().ToString(), tempGUID.ToString()) == 0) {
-							g_Players[i].Update(g_Packet);
+							//g_Players[i].Update(g_Packet);
 							exist = true;
-							break;
+							i = g_Players.size();
 						}
 					}
 				}
 				if (!exist) {
-					std::string name;
-					int score;
-
-					g_BitStream.Read(name);
-
-					g_BitStream.Read(score);
 					CPlayerEntity newPlayer;
 					newPlayer.Create("User", tempGUID);
 					g_Players.push_back(newPlayer);
