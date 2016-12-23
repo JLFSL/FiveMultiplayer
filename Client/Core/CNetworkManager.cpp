@@ -156,7 +156,7 @@ void CNetworkManager::Pulse()
 				if (!g_Players.empty()) {
 					for (int i = 0; i < g_Players.size(); i++) {
 						if (std::strcmp(g_Players[i].GetGUID().ToString(), tempGUID.ToString()) == 0) {
-							//g_Players[i].Update(g_Packet);
+							g_Players[i].Update(g_Packet);
 							exist = true;
 							i = g_Players.size();
 						}

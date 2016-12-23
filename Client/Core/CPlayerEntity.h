@@ -53,7 +53,7 @@ private:
 public:
 	static int Amount;
 
-	CPlayerEntity() { };
+	CPlayerEntity() { Game.Created = false; Game.Ped = NULL; };
 	~CPlayerEntity() { };
 
 	void Create(std::string Name, RakNetGUID GUID);

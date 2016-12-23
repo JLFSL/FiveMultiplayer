@@ -28,8 +28,6 @@ void CLocalPlayer::Pulse()
 		Data.Quaternion = { Quaternion.fX, Quaternion.fY, Quaternion.fZ, Quaternion.fW };
 		Data.Velocity = { Velocity.x, Velocity.y, Velocity.z };
 
-		std::cout << "[CPlayerEntity] My Pos " << Data.Position.fX << ", " << Data.Position.fY << ", " << Data.Position.fZ << std::endl;
-
 		BitStream bitstream;
 		bitstream.Write((unsigned char)ID_PACKET_TEST);
 

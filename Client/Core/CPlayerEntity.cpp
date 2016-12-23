@@ -2,6 +2,7 @@
 
 int CPlayerEntity::Amount = 0;
 
+
 void CPlayerEntity::Create(std::string Name, RakNetGUID GUID) {
 	Information.Name = Name;
 	Information.Id = Amount;
@@ -25,8 +26,10 @@ void CPlayerEntity::CreatePed()
 
 		STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(PedHash);
 
-		//ENTITY::SET_ENTITY_NO_COLLISION_ENTITY(g_Core->GetLocalPlayer()->GetPed(), Game.Ped, false);
-		//ENTITY::SET_ENTITY_NO_COLLISION_ENTITY(Game.Ped, g_Core->GetLocalPlayer()->GetPed(), false);
+		ENTITY::SET_ENTITY_NO_COLLISION_ENTITY(g_Core->GetLocalPlayer()->GetPed(), Game.Ped, false);
+		ENTITY::SET_ENTITY_NO_COLLISION_ENTITY(Game.Ped, g_Core->GetLocalPlayer()->GetPed(), false);
+
+		ENTITY::SET_ENTITY_COORDS_NO_OFFSET(Game.Ped, Data.Position.fX, Data.Position.fY, Data.Position.fZ, false, false, false);
 
 		Game.Created = true;
 		std::cout << "[CPlayerEntity] Created Ped" << std::endl;
@@ -70,6 +73,7 @@ void CPlayerEntity::Update(Packet *packet)
 	bitstream.Read(Data.Position.fX);
 	bitstream.Read(Data.Position.fY);
 	bitstream.Read(Data.Position.fZ);
+	std::cout << "packet " << Data.Position.fX << " " << Data.Position.fY << " " << Data.Position.fZ << std::endl;
 
 	bitstream.Read(Data.Velocity.fX);
 	bitstream.Read(Data.Velocity.fY);
@@ -95,31 +99,33 @@ void CPlayerEntity::Interpolate()
 
 void CPlayerEntity::UpdateTargetPosition()
 {
-	unsigned long CurrentTime = timeGetTime();
-	unsigned int InterpolationTime = CurrentTime - Network.LastSyncReceived;
+	if (Game.Created) {
+		unsigned long CurrentTime = timeGetTime();
+		unsigned int InterpolationTime = CurrentTime - Network.LastSyncReceived;
 
-	// Get our position
-	Vector3 Coordinates = ENTITY::GET_ENTITY_COORDS(Game.Ped, ENTITY::IS_ENTITY_DEAD(Game.Ped));
-	CVector3 CurrentPosition = { Coordinates.x, Coordinates.y, Coordinates.z };
+		// Get our position
+		Vector3 Coordinates = ENTITY::GET_ENTITY_COORDS(Game.Ped, ENTITY::IS_ENTITY_DEAD(Game.Ped));
+		CVector3 CurrentPosition = { Coordinates.x, Coordinates.y, Coordinates.z };
 
-	// Set the target position
-	CVector3 TargetPosition = { Data.Position.fX, Data.Position.fY, Data.Position.fZ };
-	InterpolationData.Position.Target = TargetPosition;
+		// Set the target position
+		CVector3 TargetPosition = { Data.Position.fX, Data.Position.fY, Data.Position.fZ };
+		InterpolationData.Position.Target = TargetPosition;
 
-	// Calculate the relative error
-	InterpolationData.Position.Error = TargetPosition - CurrentPosition;
+		// Calculate the relative error
+		InterpolationData.Position.Error = TargetPosition - CurrentPosition;
 
-	// Get the interpolation interval
-	InterpolationData.Position.StartTime = CurrentTime;
-	InterpolationData.Position.FinishTime = (CurrentTime + InterpolationTime);
+		// Get the interpolation interval
+		InterpolationData.Position.StartTime = CurrentTime;
+		InterpolationData.Position.FinishTime = (CurrentTime + InterpolationTime);
 
-	// Initialize the interpolation
-	InterpolationData.Position.LastAlpha = 0.0f;
+		// Initialize the interpolation
+		InterpolationData.Position.LastAlpha = 0.0f;
+	}
 }
 
 void CPlayerEntity::SetTargetPosition()
 {
-	if (InterpolationData.Position.FinishTime != 0) {
+	if (InterpolationData.Position.FinishTime != 0 && Game.Created) {
 		// Get our position
 		Vector3 Coordinates = ENTITY::GET_ENTITY_COORDS(Game.Ped, ENTITY::IS_ENTITY_DEAD(Game.Ped));
 		CVector3 vecCurrentPosition = { Coordinates.x, Coordinates.y, Coordinates.z };
