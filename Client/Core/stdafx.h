@@ -58,6 +58,9 @@ using namespace RakNet;
 	#include "IniReader.h"
 	#include "ini.h"
 
+	// Game
+	#include "Scripts.h"
+
 	// Entity
 	#include "CPlayerEntity.h"
 	#include "CLocalPlayer.h"

@@ -90,6 +90,9 @@
     <ClCompile Include="IniReader.cpp">
       <Filter>Include\INIReader</Filter>
     </ClCompile>
+    <ClCompile Include="Scripts.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -145,6 +148,9 @@
     </ClInclude>
     <ClInclude Include="CLocalPlayer.h">
       <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts.h">
+      <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="CConfig.h">
       <Filter>Client</Filter>
