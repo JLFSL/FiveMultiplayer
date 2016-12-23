@@ -6,6 +6,8 @@ private:
 	CLocalPlayer	*g_LocalPlayer;
 	Scripts			*g_Scipts;
 
+	unsigned long	LastCleanUp;
+
 public:
 	CCore();
 	~CCore();
@@ -13,6 +15,8 @@ public:
 	bool Initialize();
 
 	void OnGameTick();
+	void CleanUp();
+	void CleanUpTick();
 
 	CNetworkManager *GetNetworkManager()	{ return g_NetworkManager; }
 	CLocalPlayer *GetLocalPlayer()		{ return g_LocalPlayer; }

@@ -34,6 +34,9 @@ public:
 	Player GetPlayer()	{ return Game.Player; }
 	Ped	GetPed()		{ return Game.Ped; }
 
+	CVector3 GetPos()		{ return Data.Position; }
+	Vector3_t GetPosEx()	{ Vector3_t Pos = { Data.Position.fX, Data.Position.fY, Data.Position.fZ }; return Pos; }
+
 	BOOL IsPlaying() { return PLAYER::IS_PLAYER_PLAYING(Game.Player); }
 };
 
