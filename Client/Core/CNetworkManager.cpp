@@ -102,7 +102,6 @@ void CNetworkManager::Disconnect()
 		g_Players[i].Destroy();
 
 		g_Players.erase(g_Players.begin() + i);
-		g_Players.shrink_to_fit();
 	}
 
 	Logger::Msg("CNetworkManager::Disconnected");
