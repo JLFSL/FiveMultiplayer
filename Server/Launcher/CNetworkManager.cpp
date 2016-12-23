@@ -38,7 +38,8 @@ CNetworkManager::~CNetworkManager()
 bool CNetworkManager::Start()
 {
 	cout << endl << "[CNetworkManager] Starting..." << endl;
-	SocketDescriptor socketDescriptor(g_Config->GetPort(), g_Config->GetIp().c_str());
+	SocketDescriptor socketDescriptor;
+	socketDescriptor.port = g_Config->GetPort();
 
 	int Startup = g_RakPeer->Startup(g_Config->GetMaxPlayers(), &socketDescriptor, 1, 0);
 	if (!Startup)
