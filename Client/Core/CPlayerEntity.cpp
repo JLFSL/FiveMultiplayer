@@ -73,7 +73,6 @@ void CPlayerEntity::Update(Packet *packet)
 	bitstream.Read(Data.Position.fX);
 	bitstream.Read(Data.Position.fY);
 	bitstream.Read(Data.Position.fZ);
-	std::cout << "packet " << Data.Position.fX << " " << Data.Position.fY << " " << Data.Position.fZ << std::endl;
 
 	bitstream.Read(Data.Velocity.fX);
 	bitstream.Read(Data.Velocity.fY);
