@@ -20,9 +20,9 @@ bool CConfig::Read()
 		Connection.Port = Config.GetInteger("Connection", "port", 2322);
 		Connection.Pass = Config.Get("Connection", "pass", "default");
 		
-		Information.Name = Config.Get("Information", "Name", "Player");
-		Information.LatestVersion = Config.GetBoolean("Information", "LatestVersion", true);
-		Information.Steam = Config.GetBoolean("Information", "Steam", false);
+		Information.Name = Config.Get("Information", "name", "Player");
+		Information.LatestVersion = Config.GetBoolean("Information", "latestversion", true);
+		Information.Steam = Config.GetBoolean("Information", "steam", false);
 
 		std::cout << "[CConfig] Read config" << std::endl;
 		return true;
