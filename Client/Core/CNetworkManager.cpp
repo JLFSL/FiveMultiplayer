@@ -169,25 +169,6 @@ void CNetworkManager::Pulse()
 				}
 				break;
 			}
-			case ID_PACKET_SHIT:
-			{
-				CPlayerEntity newPlayer;
-				
-				int			Id;
-				std::string	Name;
-				RakNetGUID	GUID;
-
-				g_BitStream.Read(Id);
-				g_BitStream.Read(Name);
-				g_BitStream.Read(GUID);
-
-				newPlayer.Create(Name, GUID);
-
-				std::cout << Id << Name << std::endl;
-
-				g_Players.push_back(newPlayer);
-				break;
-			}
 			Logger::Msg("%d", g_Packet->data[0]);
 		}
 		g_RakPeer->DeallocatePacket(g_Packet);

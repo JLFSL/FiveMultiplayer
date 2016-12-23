@@ -57,6 +57,11 @@ void CCore::OnGameTick()
 		Logger::Msg("Connecting");
 	}
 
+	if (KeyJustUp(VK_F5))
+	{
+		ENTITY::SET_ENTITY_COORDS_NO_OFFSET(g_LocalPlayer->GetPed(), 0.0f, 0.0f, 73.5f, false, false, false);
+	}
+
 	if (KeyJustUp(VK_F9))
 	{
 		g_NetworkManager->Disconnect();

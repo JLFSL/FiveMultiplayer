@@ -5,6 +5,8 @@ private:
 	struct GameInfo {
 		Ped			Ped;
 		bool		Created;
+
+		Blip		Blip;
 	} Game;
 
 	struct PlayerInfo {

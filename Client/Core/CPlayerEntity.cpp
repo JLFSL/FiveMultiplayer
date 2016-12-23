@@ -31,6 +31,19 @@ void CPlayerEntity::CreatePed()
 
 		ENTITY::SET_ENTITY_COORDS_NO_OFFSET(Game.Ped, Data.Position.fX, Data.Position.fY, Data.Position.fZ, false, false, false);
 
+		PED::SET_BLOCKING_OF_NON_TEMPORARY_EVENTS(Game.Ped, true);
+		PED::SET_PED_FLEE_ATTRIBUTES(Game.Ped, 0, 0);
+		PED::SET_PED_COMBAT_ATTRIBUTES(Game.Ped, 17, true);
+		PED::SET_PED_CAN_RAGDOLL(Game.Ped, false);
+		PED::UNREGISTER_PEDHEADSHOT(Game.Ped);
+
+		WEAPON::SET_PED_DROPS_WEAPONS_WHEN_DEAD(Game.Ped, false);
+
+		AI::TASK_SET_BLOCKING_OF_NON_TEMPORARY_EVENTS(Game.Ped, true);
+
+		Game.Blip = UI::ADD_BLIP_FOR_ENTITY(Game.Ped);
+		UI::SET_BLIP_AS_FRIENDLY(Game.Blip, true);
+
 		Game.Created = true;
 		std::cout << "[CPlayerEntity] Created Ped" << std::endl;
 	}
@@ -83,10 +96,12 @@ void CPlayerEntity::Update(Packet *packet)
 	bitstream.Read(Data.Quaternion.fZ);
 	bitstream.Read(Data.Quaternion.fW);
 
-	if(!Game.Created)
-		CreatePed();
+	if(g_Core->GetNetworkManager()->GetInterface()->GetMyGUID() != Network.GUID) {
+		if (!Game.Created)
+			CreatePed();
 
-	UpdateTargetPosition();
+		UpdateTargetPosition();
+	}
 	//UpdateTargetRotation();
 }
 
