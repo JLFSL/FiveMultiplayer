@@ -87,6 +87,22 @@ void CNetworkManager::Pulse()
 				break;
 			}
 
+			case ID_CONNECTION_LOST:
+			{
+				for (int i = 0; i < g_Players.size(); i++)
+				{
+					if (g_Players[i].GetGUID() == g_Packet->guid)
+					{
+						g_Players[i].Destroy();
+
+						g_Players.erase(g_Players.begin() + i);
+						g_Players.shrink_to_fit();
+					}
+				}
+				PulseMaster();
+				break;
+			}
+
 			case ID_PACKET_TEST:
 			{
 				for (int i = 0; i < g_Players.size(); i++) {
