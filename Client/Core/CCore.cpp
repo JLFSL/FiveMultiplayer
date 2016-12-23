@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-vector<CPlayerEntity> g_Players;
+std::vector<CPlayerEntity> g_Players;
 
 CCore::CCore()
 {
@@ -61,8 +61,9 @@ void CCore::OnGameTick()
 
 	g_NetworkManager->Pulse();
 	
-	for (int i = 0; i < g_Players.size(); i++)
-	{
-		g_Players[i].Pulse();
+	if (!g_Players.empty()) {
+		for (int i = 0; i < g_Players.size(); i++) {
+			g_Players[i].Pulse();
+		}
 	}
 }

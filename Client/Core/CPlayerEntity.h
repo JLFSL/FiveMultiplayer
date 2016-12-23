@@ -9,7 +9,7 @@ private:
 
 	struct PlayerInfo {
 		int			Id;
-		string		Name;
+		std::string	Name;
 	} Information;
 	
 	struct PlayerStats{
@@ -56,7 +56,7 @@ public:
 	CPlayerEntity() { };
 	~CPlayerEntity() { };
 
-	void Create(string Name, RakNetGUID GUID);
+	void Create(std::string Name, RakNetGUID GUID);
 	void CreatePed();
 	void Destroy();
 
@@ -72,7 +72,7 @@ public:
 	void SetTargetRotation();
 
 	int GetId()					{ return Information.Id; };
-	string GetUsername()		{ return Information.Name; };
+	std::string GetUsername()		{ return Information.Name; };
 
 	int GetScore()				{ return Statistics.Score; };
 
@@ -85,6 +85,6 @@ public:
 	PlayerStats SetStats(PlayerStats newstats)	{ Statistics = newstats; }
 	PlayerData SetData(PlayerData newdata)		{ Data = newdata; }
 
-	PlayerInterpolationData	*InterpolationData;
+	PlayerInterpolationData	InterpolationData;
 };
-extern vector<CPlayerEntity> g_Players;
+extern std::vector<CPlayerEntity> g_Players;

@@ -153,14 +153,22 @@ void CNetworkManager::Pulse()
 
 				bool exist = false;
 
-				for (int i = 0; i < g_Players.size(); i++) {
-					if (g_Players[i].GetGUID() == tempGUID) {
-						g_Players[i].Update(g_Packet);
-						exist = true;
-						i = 9999;
+				if (!g_Players.empty()) {
+					for (int i = 0; i < g_Players.size(); i++) {
+						if (std::strcmp(g_Players[i].GetGUID().ToString(), tempGUID.ToString()) == 0) {
+							g_Players[i].Update(g_Packet);
+							exist = true;
+							break;
+						}
 					}
 				}
 				if (!exist) {
+					std::string name;
+					int score;
+
+					g_BitStream.Read(name);
+
+					g_BitStream.Read(score);
 					CPlayerEntity newPlayer;
 					newPlayer.Create("User", tempGUID);
 					g_Players.push_back(newPlayer);
@@ -172,16 +180,16 @@ void CNetworkManager::Pulse()
 				CPlayerEntity newPlayer;
 				
 				int			Id;
-				string		Name;
+				std::string	Name;
 				RakNetGUID	GUID;
 
 				g_BitStream.Read(Id);
 				g_BitStream.Read(Name);
 				g_BitStream.Read(GUID);
 
-				newPlayer.Create("User", GUID);
+				newPlayer.Create(Name, GUID);
 
-				cout << Id << Name << endl;
+				std::cout << Id << Name << std::endl;
 
 				g_Players.push_back(newPlayer);
 				break;

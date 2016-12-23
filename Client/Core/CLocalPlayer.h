@@ -8,7 +8,7 @@ class CLocalPlayer
 
 	struct PlayerInfo {
 		int			Id;
-		string		Name;
+		std::string	Name;
 	} Information;
 
 	struct PlayerStats {

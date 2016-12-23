@@ -2,16 +2,15 @@
 
 int CPlayerEntity::Amount = 0;
 
-void CPlayerEntity::Create(string Name, RakNetGUID GUID)
-{
+void CPlayerEntity::Create(std::string Name, RakNetGUID GUID) {
 	Information.Name = Name;
 	Information.Id = Amount;
 	Network.GUID = GUID;
 
 	Amount++;
 
-	cout << "[CPlayerEntity] Added Player: " << Information.Name << endl;
-	cout << "[CPlayerEntity] Players Online: " << Amount << endl;
+	std::cout << "[CPlayerEntity] Added Player: " << Information.Name << std::endl;
+	std::cout << "[CPlayerEntity] Players Online: " << Amount << std::endl;
 }
 
 void CPlayerEntity::CreatePed()
@@ -23,21 +22,20 @@ void CPlayerEntity::CreatePed()
 		STREAMING::REQUEST_MODEL(PedHash);
 		while (!STREAMING::HAS_MODEL_LOADED(PedHash)) WAIT(0);
 		Game.Ped = PED::CREATE_PED(26, PedHash, Data.Position.fX, Data.Position.fY, Data.Position.fZ, 0.0f, false, true);
+
 		STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(PedHash);
 
-		ENTITY::SET_ENTITY_NO_COLLISION_ENTITY(g_Core->GetLocalPlayer()->GetPed(), Game.Ped, false);
-		ENTITY::SET_ENTITY_NO_COLLISION_ENTITY(Game.Ped, g_Core->GetLocalPlayer()->GetPed(), false);
-
-		InterpolationData = new PlayerInterpolationData;
+		//ENTITY::SET_ENTITY_NO_COLLISION_ENTITY(g_Core->GetLocalPlayer()->GetPed(), Game.Ped, false);
+		//ENTITY::SET_ENTITY_NO_COLLISION_ENTITY(Game.Ped, g_Core->GetLocalPlayer()->GetPed(), false);
 
 		Game.Created = true;
-		cout << "[CPlayerEntity] Created Ped" << endl;
+		std::cout << "[CPlayerEntity] Created Ped" << std::endl;
 	}
 }
 
 void CPlayerEntity::Destroy()
 {
-	cout << "[CPlayerEntity] Removing Player: " << Information.Name << endl;
+	std::cout << "[CPlayerEntity] Removing Player: " << Information.Name << std::endl;
 
 	Game = {};
 	Information = {};
@@ -50,7 +48,7 @@ void CPlayerEntity::Destroy()
 
 	Amount--;
 
-	cout << "[CPlayerEntity] Players Online: " << Amount << endl;
+	std::cout << "[CPlayerEntity] Players Online: " << Amount << std::endl;
 }
 
 void CPlayerEntity::Pulse()
@@ -61,7 +59,6 @@ void CPlayerEntity::Pulse()
 
 void CPlayerEntity::Update(Packet *packet)
 {
-	CreatePed();
 	BitStream bitstream(packet->data + 1, packet->length + 1, false);
 
 	bitstream.Read(Network.GUID);
@@ -82,6 +79,9 @@ void CPlayerEntity::Update(Packet *packet)
 	bitstream.Read(Data.Quaternion.fY);
 	bitstream.Read(Data.Quaternion.fZ);
 	bitstream.Read(Data.Quaternion.fW);
+
+	if(!Game.Created)
+		CreatePed();
 
 	UpdateTargetPosition();
 	//UpdateTargetRotation();
@@ -104,53 +104,53 @@ void CPlayerEntity::UpdateTargetPosition()
 
 	// Set the target position
 	CVector3 TargetPosition = { Data.Position.fX, Data.Position.fY, Data.Position.fZ };
-	InterpolationData->Position.Target = TargetPosition;
+	InterpolationData.Position.Target = TargetPosition;
 
 	// Calculate the relative error
-	InterpolationData->Position.Error = TargetPosition - CurrentPosition;
+	InterpolationData.Position.Error = TargetPosition - CurrentPosition;
 
 	// Get the interpolation interval
-	InterpolationData->Position.StartTime = CurrentTime;
-	InterpolationData->Position.FinishTime = (CurrentTime + InterpolationTime);
+	InterpolationData.Position.StartTime = CurrentTime;
+	InterpolationData.Position.FinishTime = (CurrentTime + InterpolationTime);
 
 	// Initialize the interpolation
-	InterpolationData->Position.LastAlpha = 0.0f;
+	InterpolationData.Position.LastAlpha = 0.0f;
 }
 
 void CPlayerEntity::SetTargetPosition()
 {
-	if (InterpolationData->Position.FinishTime != 0) {
+	if (InterpolationData.Position.FinishTime != 0) {
 		// Get our position
 		Vector3 Coordinates = ENTITY::GET_ENTITY_COORDS(Game.Ped, ENTITY::IS_ENTITY_DEAD(Game.Ped));
 		CVector3 vecCurrentPosition = { Coordinates.x, Coordinates.y, Coordinates.z };
 
 		// Get the factor of time spent from the interpolation start to the current time.
 		unsigned long CurrentTime = timeGetTime();
-		float fAlpha = Math::Unlerp(InterpolationData->Position.StartTime, CurrentTime, InterpolationData->Position.FinishTime);
+		float fAlpha = Math::Unlerp(InterpolationData.Position.StartTime, CurrentTime, InterpolationData.Position.FinishTime);
 
 		// Don't let it overcompensate the error
 		fAlpha = Math::Clamp(0.0f, fAlpha, 1.0f);
 
 		// Get the current error portion to compensate
-		float fCurrentAlpha = (fAlpha - InterpolationData->Position.LastAlpha);
-		InterpolationData->Position.LastAlpha = fAlpha;
+		float fCurrentAlpha = (fAlpha - InterpolationData.Position.LastAlpha);
+		InterpolationData.Position.LastAlpha = fAlpha;
 
 		// Apply the error compensation
-		CVector3 vecCompensation = Math::Lerp(CVector3(), fCurrentAlpha, InterpolationData->Position.Error);
+		CVector3 vecCompensation = Math::Lerp(CVector3(), fCurrentAlpha, InterpolationData.Position.Error);
 
 		// If we finished compensating the error, finish it for the next pulse
 		if (fAlpha == 1.0f)
-			InterpolationData->Position.FinishTime = 0;
+			InterpolationData.Position.FinishTime = 0;
 
 		// Calculate the new position
 		CVector3 vecNewPosition = vecCurrentPosition + vecCompensation;
 
 		// Check if the distance to interpolate is too far
-		if ((vecCurrentPosition - InterpolationData->Position.Target).Length() > 750.0f)
+		if ((vecCurrentPosition - InterpolationData.Position.Target).Length() > 750.0f)
 		{
 			// Abort all interpolation
-			InterpolationData->Position.FinishTime = 0;
-			vecNewPosition = InterpolationData->Position.Target;
+			InterpolationData.Position.FinishTime = 0;
+			vecNewPosition = InterpolationData.Position.Target;
 		}
 
 		// Set our new position
@@ -172,23 +172,23 @@ void CPlayerEntity::UpdateTargetRotation()
 
 	// Set the target rotation
 	CVector3 vecRotation = { Data.Quaternion.fX, Data.Quaternion.fY, Data.Quaternion.fZ };
-	InterpolationData->Rotation.Target = vecRotation;
+	InterpolationData.Rotation.Target = vecRotation;
 
 	// Get the error
-	InterpolationData->Rotation.Error = Math::GetOffsetDegrees(vecLocalRotation, vecRotation);
-	InterpolationData->Rotation.Error *= Math::Lerp < const float >(0.40f, Math::UnlerpClamped(100, interpolationtime, 400), 1.0f);
+	InterpolationData.Rotation.Error = Math::GetOffsetDegrees(vecLocalRotation, vecRotation);
+	InterpolationData.Rotation.Error *= Math::Lerp < const float >(0.40f, Math::UnlerpClamped(100, interpolationtime, 400), 1.0f);
 
 	// Get the interpolation interval
-	InterpolationData->Rotation.StartTime = ulTime;
-	InterpolationData->Rotation.FinishTime = (ulTime + interpolationtime);
+	InterpolationData.Rotation.StartTime = ulTime;
+	InterpolationData.Rotation.FinishTime = (ulTime + interpolationtime);
 
 	// Initialize the interpolation
-	InterpolationData->Rotation.LastAlpha = 0.0f;
+	InterpolationData.Rotation.LastAlpha = 0.0f;
 }
 
 void CPlayerEntity::SetTargetRotation()
 {
-	if (InterpolationData->Rotation.FinishTime != 0) {
+	if (InterpolationData.Rotation.FinishTime != 0) {
 		CVector3 vecCurrentRotation;
 
 		// Get our rotation
@@ -197,21 +197,21 @@ void CPlayerEntity::SetTargetRotation()
 
 		// Get the factor of time spent from the interpolation start to the current time.
 		unsigned long ulCurrentTime = timeGetTime();
-		float fAlpha = Math::Unlerp(InterpolationData->Rotation.StartTime, ulCurrentTime, InterpolationData->Rotation.FinishTime);
+		float fAlpha = Math::Unlerp(InterpolationData.Rotation.StartTime, ulCurrentTime, InterpolationData.Rotation.FinishTime);
 
 		// Don't let it overcompensate the error
 		fAlpha = Math::Clamp(0.0f, fAlpha, 1.0f);
 
 		// Get the current error portion to compensate
-		float fCurrentAlpha = (fAlpha - InterpolationData->Rotation.LastAlpha);
-		InterpolationData->Rotation.LastAlpha = fAlpha;
+		float fCurrentAlpha = (fAlpha - InterpolationData.Rotation.LastAlpha);
+		InterpolationData.Rotation.LastAlpha = fAlpha;
 
 		// Apply the error compensation
-		CVector3 vecCompensation = Math::Lerp(CVector3(), fCurrentAlpha, InterpolationData->Rotation.Error);
+		CVector3 vecCompensation = Math::Lerp(CVector3(), fCurrentAlpha, InterpolationData.Rotation.Error);
 
 		// If we finished compensating the error, finish it for the next pulse
 		if (fAlpha == 1.0f)
-			InterpolationData->Rotation.FinishTime = 0;
+			InterpolationData.Rotation.FinishTime = 0;
 
 		// Calculate the new position
 		CVector3 vecNewRotation = vecCurrentRotation + vecCompensation;

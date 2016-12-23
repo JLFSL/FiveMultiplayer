@@ -8,8 +8,8 @@ private:
 	RPC4				*g_RPC;
 
 	/* Previous/Current connection */
-	string			g_lastIP;
-	string			g_lastPass;
+	std::string		g_lastIP;
+	std::string		g_lastPass;
 	int				g_lastPort;
 	SystemAddress	g_SystemAddr;
 
