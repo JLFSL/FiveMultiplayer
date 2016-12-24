@@ -8,6 +8,7 @@ CCore::CCore()
 	g_NetworkManager = new CNetworkManager;
 	g_LocalPlayer = new CLocalPlayer;
 	g_Scipts = new Scripts;
+	g_Doors = new Doors;
 }
 
 CCore::~CCore()
@@ -15,6 +16,7 @@ CCore::~CCore()
 	SAFE_DELETE(g_NetworkManager);
 	SAFE_DELETE(g_LocalPlayer);
 	SAFE_DELETE(g_Scipts);
+	SAFE_DELETE(g_Doors);
 }
 
 bool CCore::Initialize()
