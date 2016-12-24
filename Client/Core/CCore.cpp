@@ -48,6 +48,7 @@ void CCore::OnGameTick()
 	{
 		CleanUp();			// World Clean Up
 		g_Scipts->Pulse();	// Script Clean Up
+		g_Doors->Pulse();	// Unlocks doors
 	}
 
 	CleanUpTick();

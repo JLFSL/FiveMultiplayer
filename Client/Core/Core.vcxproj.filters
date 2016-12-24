@@ -93,6 +93,9 @@
     <ClCompile Include="IniReader.cpp">
       <Filter>Include\INIReader</Filter>
     </ClCompile>
+    <ClCompile Include="Doors.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -160,6 +163,9 @@
     </ClInclude>
     <ClInclude Include="IniReader.h">
       <Filter>Include\INIReader</Filter>
+    </ClInclude>
+    <ClInclude Include="Doors.h">
+      <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

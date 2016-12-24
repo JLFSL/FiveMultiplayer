@@ -789,12 +789,14 @@ void Scripts::StopAll()
 
 /*
 	- GTAV Enables scripts every so often so to keep on top of that we will just pulse every
-	  second and clean them up.
+	  X seconds and clean them up.
 */
 void Scripts::Pulse()
 {
 	for (int i = 0; i<sizeof(scriptnames) / sizeof(ScriptInfo); i++)
 	{
+		SCRIPT::SET_SCRIPT_AS_NO_LONGER_NEEDED(scriptnames[i].name);
+		PLAYER::FORCE_CLEANUP_FOR_ALL_THREADS_WITH_THIS_NAME(scriptnames[i].name, 8);
 		GAMEPLAY::TERMINATE_ALL_SCRIPTS_WITH_THIS_NAME(scriptnames[i].name);
 	}
 }
