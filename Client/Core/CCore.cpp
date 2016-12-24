@@ -45,7 +45,10 @@ void CCore::OnGameTick()
 		return;
 
 	if (timeGetTime() >= LastCleanUp + 60000)
-		CleanUp();
+	{
+		CleanUp();			// World Clean Up
+		g_Scipts->Pulse();	// Script Clean Up
+	}
 
 	CleanUpTick();
 

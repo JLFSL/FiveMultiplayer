@@ -101,6 +101,8 @@ void CNetworkManager::Disconnect()
 	for (int i = 0; i < g_Players.size(); i++) {
 		g_Players[i].Destroy();
 	}
+	// Shrink vector so size is correct.
+	g_Players.shrink_to_fit();
 	std::cout << "[CPlayerEntity] Players Online: " << g_Players.size() << std::endl;
 
 	Logger::Msg("CNetworkManager::Disconnected");

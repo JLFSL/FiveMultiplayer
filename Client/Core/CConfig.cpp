@@ -22,6 +22,8 @@ bool CConfig::Read()
 		Information.LatestVersion = Config.GetBoolean("Information", "latestversion", true);
 		Information.Steam = Config.GetBoolean("Information", "steam", false);
 
+		Game.Editor = Config.GetBoolean("Game", "editor", false);
+
 		std::cout << "[CConfig] Read config" << std::endl;
 		return true;
 	}

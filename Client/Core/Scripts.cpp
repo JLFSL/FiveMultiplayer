@@ -640,7 +640,7 @@ Scripts::ScriptInfo scriptnames[] = {
 	{ "re_snatched" },
 	{ "re_stag_do" },
 	{ "re_yetarian" },
-	{ "replay_controller" },
+	//{ "replay_controller" },
 	{ "rerecord_recording" },
 	{ "respawn_controller" },
 	{ "restrictedareas" },
@@ -665,7 +665,7 @@ Scripts::ScriptInfo scriptnames[] = {
 	{ "scripttest3" },
 	{ "scripttest4" },
 	{ "sctv" },
-	{ "selector" },
+	//{ "selector" },
 	{ "selector_example" },
 	{ "selling_short_1" },
 	{ "selling_short_2" },
@@ -769,9 +769,32 @@ Scripts::ScriptInfo scriptnames[] = {
 
 void Scripts::StopAll()
 {
+	if (!g_Config->GetEditor())
+	{
+		SCRIPT::SET_SCRIPT_AS_NO_LONGER_NEEDED("selector");
+		PLAYER::FORCE_CLEANUP_FOR_ALL_THREADS_WITH_THIS_NAME("selector", 8);
+		GAMEPLAY::TERMINATE_ALL_SCRIPTS_WITH_THIS_NAME("selector");
+
+		SCRIPT::SET_SCRIPT_AS_NO_LONGER_NEEDED("replay_controller");
+		PLAYER::FORCE_CLEANUP_FOR_ALL_THREADS_WITH_THIS_NAME("replay_controller", 8);
+		GAMEPLAY::TERMINATE_ALL_SCRIPTS_WITH_THIS_NAME("replay_controller");
+	}
+
 	for (int i = 0; i<sizeof(scriptnames) / sizeof(ScriptInfo); i++) {
 		SCRIPT::SET_SCRIPT_AS_NO_LONGER_NEEDED(scriptnames[i].name);
 		PLAYER::FORCE_CLEANUP_FOR_ALL_THREADS_WITH_THIS_NAME(scriptnames[i].name, 8); //Cleanup first
 		GAMEPLAY::TERMINATE_ALL_SCRIPTS_WITH_THIS_NAME(scriptnames[i].name); //Terminate
+	}
+}
+
+/*
+	- GTAV Enables scripts every so often so to keep on top of that we will just pulse every
+	  second and clean them up.
+*/
+void Scripts::Pulse()
+{
+	for (int i = 0; i<sizeof(scriptnames) / sizeof(ScriptInfo); i++)
+	{
+		GAMEPLAY::TERMINATE_ALL_SCRIPTS_WITH_THIS_NAME(scriptnames[i].name);
 	}
 }
