@@ -5,6 +5,7 @@ private:
 	CNetworkManager	*g_NetworkManager;
 	CLocalPlayer	*g_LocalPlayer;
 	Scripts			*g_Scipts;
+	Doors			*g_Doors;
 
 	unsigned long	LastCleanUp;
 

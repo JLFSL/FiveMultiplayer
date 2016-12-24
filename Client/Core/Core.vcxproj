@@ -164,6 +164,7 @@
     <ClCompile Include="CNetworkManager.cpp" />
     <ClCompile Include="CPlayerEntity.cpp" />
     <ClCompile Include="CrossMapping.cpp" />
+    <ClCompile Include="Doors.cpp" />
     <ClCompile Include="Hooking.cpp" />
     <ClCompile Include="ini.cpp" />
     <ClCompile Include="IniReader.cpp" />
@@ -189,6 +190,7 @@
     <ClInclude Include="CNetworkManager.h" />
     <ClInclude Include="CPlayerEntity.h" />
     <ClInclude Include="CrossMapping.h" />
+    <ClInclude Include="Doors.h" />
     <ClInclude Include="Enums.h" />
     <ClInclude Include="Hooking.h" />
     <ClInclude Include="ini.h" />

@@ -8,6 +8,7 @@ CCore::CCore()
 	g_NetworkManager = new CNetworkManager;
 	g_LocalPlayer = new CLocalPlayer;
 	g_Scipts = new Scripts;
+	g_Doors = new Doors;
 }
 
 CCore::~CCore()
@@ -15,6 +16,7 @@ CCore::~CCore()
 	SAFE_DELETE(g_NetworkManager);
 	SAFE_DELETE(g_LocalPlayer);
 	SAFE_DELETE(g_Scipts);
+	SAFE_DELETE(g_Doors);
 }
 
 bool CCore::Initialize()
@@ -33,6 +35,9 @@ bool CCore::Initialize()
 		return false;
 	}
 
+	GAMEPLAY::_ENABLE_MP_DLC_MAPS(true);
+	DLC2::_LOAD_MP_DLC_MAPS();
+
 	g_Scipts->StopAll();
 	CleanUp();
 
@@ -45,7 +50,11 @@ void CCore::OnGameTick()
 		return;
 
 	if (timeGetTime() >= LastCleanUp + 60000)
-		CleanUp();
+	{
+		CleanUp();			// World Clean Up
+		g_Scipts->Pulse();	// Script Clean Up
+		g_Doors->Pulse();	// Unlocks doors
+	}
 
 	CleanUpTick();
 

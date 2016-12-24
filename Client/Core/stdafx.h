@@ -60,6 +60,7 @@ using namespace RakNet;
 
 	// Game
 	#include "Scripts.h"
+	#include "Doors.h"
 
 	// Entity
 	#include "CPlayerEntity.h"

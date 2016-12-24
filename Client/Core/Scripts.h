@@ -6,6 +6,7 @@ public:
 	~Scripts() { };
 
 	void StopAll();
+	void Pulse();
 
 	typedef struct {
 		char *name;
