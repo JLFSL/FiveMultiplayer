@@ -1,17 +1,11 @@
 #include "stdafx.h"
 
-int CPlayerEntity::Amount = 0;
-
-
 void CPlayerEntity::Create(std::string Name, RakNetGUID GUID) {
 	Information.Name = Name;
-	Information.Id = Amount;
+	Information.Id = g_Players.size();
 	Network.GUID = GUID;
 
-	Amount++;
-
 	std::cout << "[CPlayerEntity] Added Player: " << Information.Name << std::endl;
-	std::cout << "[CPlayerEntity] Players Online: " << Amount << std::endl;
 }
 
 void CPlayerEntity::CreatePed()
@@ -65,10 +59,6 @@ void CPlayerEntity::Destroy()
 	InterpolationData = {};
 
 	Information.Id = -1;
-
-	Amount--;
-
-	std::cout << "[CPlayerEntity] Players Online: " << Amount << std::endl;
 }
 
 void CPlayerEntity::Pulse()

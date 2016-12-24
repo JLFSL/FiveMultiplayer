@@ -101,6 +101,7 @@ void CNetworkManager::Disconnect()
 	for (int i = 0; i < g_Players.size(); i++) {
 		g_Players[i].Destroy();
 	}
+	std::cout << "[CPlayerEntity] Players Online: " << g_Players.size() << std::endl;
 
 	Logger::Msg("CNetworkManager::Disconnected");
 }
@@ -170,6 +171,8 @@ void CNetworkManager::Pulse()
 					CPlayerEntity newPlayer;
 					newPlayer.Create("User", tempGUID);
 					g_Players.push_back(newPlayer);
+
+					std::cout << "[CPlayerEntity] Players Online: " << g_Players.size() << std::endl;
 				}
 				break;
 			}

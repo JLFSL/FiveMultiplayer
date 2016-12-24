@@ -53,8 +53,6 @@ private:
 	};
 
 public:
-	static int Amount;
-
 	CPlayerEntity() { Game.Created = false; Game.Ped = NULL; };
 	~CPlayerEntity() { };
 
