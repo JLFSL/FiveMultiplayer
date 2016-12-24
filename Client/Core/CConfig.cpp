@@ -9,11 +9,9 @@ bool CConfig::Read()
 	{
 		std::cout << "[CConfig] Can't read configuration file" << std::endl;
 		return false;
-#ifdef NDEBUG
 	}
 	else
 	{
-#endif
 		std::cout << "[CConfig] Loaded config" << std::endl;
 
 		Connection.Ip = Config.Get("Connection", "ip", "127.0.0.1");

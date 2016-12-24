@@ -7,11 +7,9 @@ bool CConfig::Read()
 	if (Config.ParseError() < 0) {
 		cout << "[CConfig] Can't read configuration file" << endl;
 		return false;
-#ifdef NDEBUG
 	}
 	else 
 	{
-#endif
 		cout << "[CConfig] Loaded config" << endl;
 
 		Connection.Ip		= Config.Get("Connection", "ip", "127.0.0.1");

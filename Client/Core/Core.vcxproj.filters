@@ -35,7 +35,7 @@
       <UniqueIdentifier>{7b27c7c2-80d5-4d5d-85dc-d57118cc2325}</UniqueIdentifier>
     </Filter>
     <Filter Include="Include\INIReader">
-      <UniqueIdentifier>{e60b09db-7dad-405c-b556-1978863e560c}</UniqueIdentifier>
+      <UniqueIdentifier>{7a1ff569-7c60-4765-99f2-3e73688c92af}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -84,14 +84,14 @@
     <ClCompile Include="CConfig.cpp">
       <Filter>Client</Filter>
     </ClCompile>
+    <ClCompile Include="Scripts.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
     <ClCompile Include="ini.cpp">
       <Filter>Include\INIReader</Filter>
     </ClCompile>
     <ClCompile Include="IniReader.cpp">
       <Filter>Include\INIReader</Filter>
-    </ClCompile>
-    <ClCompile Include="Scripts.cpp">
-      <Filter>Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
