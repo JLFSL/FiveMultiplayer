@@ -795,8 +795,6 @@ void Scripts::Pulse()
 {
 	for (int i = 0; i<sizeof(scriptnames) / sizeof(ScriptInfo); i++)
 	{
-		SCRIPT::SET_SCRIPT_AS_NO_LONGER_NEEDED(scriptnames[i].name);
-		PLAYER::FORCE_CLEANUP_FOR_ALL_THREADS_WITH_THIS_NAME(scriptnames[i].name, 8);
 		GAMEPLAY::TERMINATE_ALL_SCRIPTS_WITH_THIS_NAME(scriptnames[i].name);
 	}
 }

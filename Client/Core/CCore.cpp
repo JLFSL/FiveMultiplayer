@@ -21,6 +21,9 @@ CCore::~CCore()
 
 bool CCore::Initialize()
 {
+	GAMEPLAY::_ENABLE_MP_DLC_MAPS(true);
+	DLC2::_LOAD_MP_DLC_MAPS();
+
 	// Check if CServer is created
 	if (!g_NetworkManager)
 	{
@@ -34,9 +37,6 @@ bool CCore::Initialize()
 		Logger::Msg("CNetworkManager could not be started");
 		return false;
 	}
-
-	GAMEPLAY::_ENABLE_MP_DLC_MAPS(true);
-	DLC2::_LOAD_MP_DLC_MAPS();
 
 	g_Scipts->StopAll();
 	CleanUp();
@@ -53,7 +53,12 @@ void CCore::OnGameTick()
 	{
 		CleanUp();			// World Clean Up
 		g_Scipts->Pulse();	// Script Clean Up
+	}
+
+	if (timeGetTime() >= LastUnlock + 2000)
+	{
 		g_Doors->Pulse();	// Unlocks doors
+		LastUnlock = timeGetTime();
 	}
 
 	CleanUpTick();

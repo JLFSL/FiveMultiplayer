@@ -11,7 +11,7 @@ public:
 
 	typedef struct
 	{
-		int modelInfoHash;	//doorType
+		Hash modelInfoHash;	//doorType
 		CVector3 coords;	//doorCords
 		int doorState;		//doorState
 		int doorHash;		//doorHash/Model

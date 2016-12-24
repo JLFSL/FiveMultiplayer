@@ -8,6 +8,7 @@ private:
 	Doors			*g_Doors;
 
 	unsigned long	LastCleanUp;
+	unsigned long	LastUnlock;
 
 public:
 	CCore();
