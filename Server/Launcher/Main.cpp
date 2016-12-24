@@ -2,6 +2,12 @@
 
 CServer*			g_Server;
 
+#ifndef _WIN32
+void Sleep(unsigned int seconds) {
+	sleep(seconds);
+}
+#endif
+
 int main(int argc, char *argv[]) {
 	// Provide the modification, version and gamename to the user.
 	cout << "Loading " INFO_NAME "(" INFO_VERSION ") for " INFO_GAME_NAME << endl;
@@ -29,6 +35,7 @@ int main(int argc, char *argv[]) {
 	while (g_Server->IsActive())
 	{
 		g_Server->Process();
+		Sleep(15);
 	}
 
 	// Call OnUnload
