@@ -9,6 +9,7 @@
 
 #include <dlfcn.h>
 #include <sys/time.h>
+#include <unistd.h>
 #endif
 #include <stdio.h>
 
