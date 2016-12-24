@@ -35,6 +35,9 @@ bool CCore::Initialize()
 		return false;
 	}
 
+	GAMEPLAY::_ENABLE_MP_DLC_MAPS(true);
+	DLC2::_LOAD_MP_DLC_MAPS();
+
 	g_Scipts->StopAll();
 	CleanUp();
 
