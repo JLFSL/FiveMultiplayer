@@ -2,7 +2,7 @@
 
 void CPlayerEntity::Create(std::string Name, RakNetGUID GUID) {
 	Information.Name = Name;
-	Information.Id = g_Players.size();
+	Information.Id = g_Players.size() + 1;
 	Network.GUID = GUID;
 
 	std::cout << "[CPlayerEntity] Added Player: " << Information.Name << std::endl;
