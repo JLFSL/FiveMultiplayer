@@ -24,6 +24,7 @@ void CLocalPlayer::Pulse()
 		Vector4 Quaternion; ENTITY::GET_ENTITY_QUATERNION(Game.Ped, &Quaternion.fX, &Quaternion.fY, &Quaternion.fZ, &Quaternion.fW);
 		Vector3 Velocity = ENTITY::GET_ENTITY_VELOCITY(Game.Ped);
 
+		Data.ForwardSpeed = ENTITY::GET_ENTITY_SPEED(Game.Ped);
 		Data.Position = { Coordinates.x, Coordinates.y, Coordinates.z };
 		Data.Quaternion = { Quaternion.fX, Quaternion.fY, Quaternion.fZ, Quaternion.fW };
 		Data.Velocity = { Velocity.x, Velocity.y, Velocity.z };
@@ -35,6 +36,8 @@ void CLocalPlayer::Pulse()
 		bitstream.Write(Information.Name);
 
 		bitstream.Write(Statistics.Score);
+
+		bitstream.Write(Data.ForwardSpeed);
 
 		bitstream.Write(Data.Position.fX);
 		bitstream.Write(Data.Position.fY);

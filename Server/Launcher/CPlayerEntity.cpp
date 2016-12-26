@@ -47,6 +47,8 @@ void CPlayerEntity::Pulse()
 
 		bitstream.Write(Statistics.Score);
 
+		bitstream.Write(Data.ForwardSpeed);
+
 		bitstream.Write(Data.Position.fX);
 		bitstream.Write(Data.Position.fY);
 		bitstream.Write(Data.Position.fZ);
@@ -73,6 +75,8 @@ void CPlayerEntity::Update(Packet *packet)
 	bitstream.Read(Information.Name);
 
 	bitstream.Read(Statistics.Score);
+
+	bitstream.Read(Data.ForwardSpeed);
 
 	bitstream.Read(Data.Position.fX);
 	bitstream.Read(Data.Position.fY);

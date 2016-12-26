@@ -12,6 +12,7 @@ private:
 	} Statistics;
 
 	struct PlayerData {
+		float		ForwardSpeed;
 		CVector3	Position;
 		CVector3	Velocity;
 		CVector4	Quaternion;

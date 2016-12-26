@@ -82,6 +82,8 @@ void CPlayerEntity::Update(Packet *packet)
 
 	bitstream.Read(Statistics.Score);
 
+	bitstream.Read(Data.ForwardSpeed);
+
 	bitstream.Read(Data.Position.fX);
 	bitstream.Read(Data.Position.fY);
 	bitstream.Read(Data.Position.fZ);
