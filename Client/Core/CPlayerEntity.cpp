@@ -10,13 +10,14 @@ void CPlayerEntity::Create(std::string Name, RakNetGUID GUID) {
 
 void CPlayerEntity::CreatePed()
 {
-	char *name = "a_f_y_tourist_02";
+	//char *name = "a_f_y_tourist_02";
+	char *name = "a_c_cow";
 	Data.Model = GAMEPLAY::GET_HASH_KEY(name);
 	if (STREAMING::IS_MODEL_IN_CDIMAGE(Data.Model) && STREAMING::IS_MODEL_VALID(Data.Model))
 	{
 		STREAMING::REQUEST_MODEL(Data.Model);
 		while (!STREAMING::HAS_MODEL_LOADED(Data.Model)) WAIT(0);
-		Game.Ped = PED::CREATE_PED(26, Data.Model, Data.Position.fX, Data.Position.fY, Data.Position.fZ, 0.0f, false, true);
+		Game.Ped = PED::CREATE_PED(1, Data.Model, Data.Position.fX, Data.Position.fY, Data.Position.fZ, 0.0f, false, true);
 
 		STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(Data.Model);
 
@@ -247,10 +248,55 @@ void CPlayerEntity::UpdateTargetAnimations()
 	Animations& animation = Animations();
 	if (IsTargetAnimal())
 	{
-		std::string animDict = animation.GetAnimalAnimationDictionary(Data.Model);
+		std::string dict;
+		std::string name;
+
+		if (Data.Velocity.fX < 2.0f && Data.Velocity.fX > 1.0f && Data.MovementState != 1)
+		{
+			animation.GetAnimalAnimation(Data.Model, 1, &dict, &name);
+
+			if (!STREAMING::HAS_ANIM_DICT_LOADED((char*)dict.c_str()))
+				STREAMING::REQUEST_ANIM_DICT((char*)dict.c_str());
+
+			AI::TASK_PLAY_ANIM(Game.Ped, (char*)dict.c_str(), (char*)name.c_str(), 8.0f, 0.0f, -1, 1, 0.0f, false, false, false);
+			Data.MovementState = 1;
+		}
+		else if (Data.Velocity.fX > 2.0f && Data.Velocity.fX <= 5.2f && Data.MovementState != 2)
+		{
+			animation.GetAnimalAnimation(Data.Model, 2, &dict, &name);
+
+			if (!STREAMING::HAS_ANIM_DICT_LOADED((char*)dict.c_str()))
+				STREAMING::REQUEST_ANIM_DICT((char*)dict.c_str());
+
+			AI::TASK_PLAY_ANIM(Game.Ped, (char*)dict.c_str(), (char*)name.c_str(), 8.0f, 0.0f, -1, 1, 0.0f, false, false, false);
+			Data.MovementState = 2;
+		}
+		else if (Data.Velocity.fX > 5.2f && Data.MovementState != 3)
+		{
+			animation.GetAnimalAnimation(Data.Model, 3, &dict, &name);
+
+			if (!STREAMING::HAS_ANIM_DICT_LOADED((char*)dict.c_str()))
+				STREAMING::REQUEST_ANIM_DICT((char*)dict.c_str());
+
+			AI::TASK_PLAY_ANIM(Game.Ped, (char*)dict.c_str(), (char*)name.c_str(), 8.0f, 0.0f, -1, 1, 0.0f, false, false, false);
+			Data.MovementState = 3;
+		}
+		else if (Data.Velocity.fX < 1.0f && Data.MovementState != 0)
+		{
+			animation.GetAnimalAnimation(Data.Model, 0, &dict, &name);
+
+			if (!STREAMING::HAS_ANIM_DICT_LOADED((char*)dict.c_str()))
+				STREAMING::REQUEST_ANIM_DICT((char*)dict.c_str());
+
+			AI::TASK_PLAY_ANIM(Game.Ped, (char*)dict.c_str(), (char*)name.c_str(), 8.0f, 0.0f, -1, 1, 0.0f, false, false, false);
+			Data.MovementState = 0;
+		}
 	}
 	else
 	{
+		if (!STREAMING::HAS_ANIM_DICT_LOADED("move_m@generic"))
+			STREAMING::REQUEST_ANIM_DICT("move_m@generic");
+
 		if (Data.Velocity.fX < 2.0f && Data.Velocity.fX > 1.0f && Data.MovementState != 1)
 		{
 			AI::TASK_PLAY_ANIM(Game.Ped, "move_m@generic", "walk", 8.0f, 0.0f, -1, 1, 0.0f, false, false, false);

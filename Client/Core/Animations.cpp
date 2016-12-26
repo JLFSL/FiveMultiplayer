@@ -1,70 +1,477 @@
 #include "stdafx.h"
 
 
-std::string Animations::GetAnimalAnimationDictionary(int modelhash)
+void Animations::GetAnimalAnimation(int modelhash, int movement, std::string *dict, std::string *name)
 {
 #pragma region Animals
 	switch (modelhash)
 	{
 	case -832573324:
-		return "creatures@boar@move";
+		*dict = "creatures@boar@move";
+		if (movement == 1) //walking
+		{
+			*name = "walk";
+		}
+		else if (movement == 2) //running
+		{
+			*name = "trot";
+		}
+		else if (movement == 3) //sprinting
+		{
+			*name = "gallop";
+		}
+		else if (movement == 0) //idle
+		{
+			*name = "idle";
+		}
+		break;
 	case 1462895032:
-		return "creatures@cat@move";
+		*dict = "creatures@cat@move";
+		if (movement == 1)
+		{
+			*name = "walk";
+		}
+		else if (movement == 2)
+		{
+			*name = "canter";
+		}
+		else if (movement == 3)
+		{
+			*name = "gallop";
+		}
+		else if (movement == 0)
+		{
+			*name = "idle";
+		}
+		break;
 	case -1430839454:
-		return "creatures@chickenhawk@move";
+		*dict = "creatures@chickenhawk@move";
+		if (movement == 1)
+		{
+			*name = "walk";
+		}
+		else if (movement == 2)
+		{
+			*name = "glide";
+		}
+		else if (movement == 3)
+		{
+			*name = "flapping";
+		}
+		else if (movement == 0)
+		{
+			*name = "idle";
+		}
+		break;
 	case 51016938:
 	case 1126154828:
-		return "creatures@dog@move";
+		*dict = "creatures@dog@move";
+		if (movement == 1)
+		{
+			*name = "walk";
+		}
+		else if (movement == 2)
+		{
+			*name = "run";
+		}
+		else if (movement == 3)
+		{
+			*name = "gallop";
+		}
+		else if (movement == 0)
+		{
+			*name = "idle";
+		}
+		break;
 	case 1457690978:
-		return "creatures@cormorant@move";
+		*dict = "creatures@cormorant@move";
+		if (movement == 1)
+		{
+			*name = "walk";
+		}
+		else if (movement == 2)
+		{
+			*name = "glide";
+		}
+		else if (movement == 3)
+		{
+			*name = "flapping";
+		}
+		else if (movement == 0)
+		{
+			*name = "idle";
+		}
+		break;
 	case -50684386:
-		return "creatures@cow@move";
+		*dict = "creatures@cow@move";
+		if (movement == 1)
+		{
+			*name = "walk";
+		}
+		else if (movement == 2)
+		{
+			*name = "trot";
+		}
+		else if (movement == 3)
+		{
+			*name = "gallop";
+		}
+		else if (movement == 0)
+		{
+			*name = "idle";
+		}
+		break;
 	case 1682622302:
-		return "creatures@coyote@move";
+		*dict = "creatures@coyote@move";
+		if (movement == 1)
+		{
+			*name = "walk";
+		}
+		else if (movement == 2)
+		{
+			*name = "trot";
+		}
+		else if (movement == 3)
+		{
+			*name = "gallop";
+		}
+		else if (movement == 0)
+		{
+			*name = "idle";
+		}
+		break;
 	case 402729631:
-		return "creatures@crow@move";
+		*dict = "creatures@crow@move";
+		if (movement == 1)
+		{
+			*name = "walk";
+		}
+		else if (movement == 2)
+		{
+			*name = "glide";
+		}
+		else if (movement == 3)
+		{
+			*name = "flapping";
+		}
+		else if (movement == 0)
+		{
+			*name = "idle";
+		}
+		break;
 	case -664053099:
-		return "creatures@deer@move";
+		*dict = "creatures@deer@move";
+		if (movement == 1)
+		{
+			*name = "walk";
+		}
+		else if (movement == 2)
+		{
+			*name = "trot";
+		}
+		else if (movement == 3)
+		{
+			*name = "gallop";
+		}
+		else if (movement == 0)
+		{
+			*name = "idle";
+		}
+		break;
 	case -1950698411:
-		return "creatures@dolphin@move";
+		*dict = "creatures@dolphin@move";
+		if (movement == 1)
+		{
+			*name = "swim";
+		}
+		else if (movement == 2)
+		{
+			*name = "accelerate";
+		}
+		else if (movement == 3)
+		{
+			*name = "accelerate";
+		}
+		else if (movement == 0)
+		{
+			*name = "idle";
+		}
+		break;
 	case 802685111:
-		return "creatures@fish@move";
+		*dict = "creatures@fish@move";
+		if (movement == 1)
+		{
+			*name = "swim";
+		}
+		else if (movement == 2)
+		{
+			*name = "accelerate";
+		}
+		else if (movement == 3)
+		{
+			*name = "accelerate";
+		}
+		else if (movement == 0)
+		{
+			*name = "idle";
+		}
+		break;
 	case 1794449327:
-		return "creatures@hen@move";
+		*dict = "creatures@hen@move";
+		if (movement == 1)
+		{
+			*name = "walk";
+		}
+		else if (movement == 2)
+		{
+			*name = "run";
+		}
+		else if (movement == 3)
+		{
+			*name = "run";
+		}
+		else if (movement == 0)
+		{
+			*name = "idle";
+		}
+		break;
 	case 1193010354:
-		return "creatures@humpback@move";
+		*dict = "creatures@humpback@move";
+		if (movement == 1)
+		{
+			*name = "swim";
+		}
+		else if (movement == 2)
+		{
+			*name = "accelerate";
+		}
+		else if (movement == 3)
+		{
+			*name = "accelerate";
+		}
+		else if (movement == 0)
+		{
+			*name = "idle";
+		}
+		break;
 	case 1318032802:
-		return "creatures@husky@move";
+		*dict = "creatures@husky@move";
+		if (movement == 1)
+		{
+			*name = "walk";
+		}
+		else if (movement == 2)
+		{
+			*name = "canter";
+		}
+		else if (movement == 3)
+		{
+			*name = "gallop";
+		}
+		else if (movement == 0)
+		{
+			*name = "idle";
+		}
+		break;
 	case -1920284487:
-		return "creatures@killerwhale@move";
+		*dict = "creatures@killerwhale@move";
+		if (movement == 1)
+		{
+			*name = "swim";
+		}
+		else if (movement == 2)
+		{
+			*name = "accelerate";
+		}
+		else if (movement == 3)
+		{
+			*name = "accelerate";
+		}
+		else if (movement == 0)
+		{
+			*name = "idle";
+		}
+		break;
 	case -1323586730:
-		return "creatures@pig@move";
+		*dict = "creatures@pig@move";
+		if (movement == 1)
+		{
+			*name = "walk";
+		}
+		else if (movement == 2)
+		{
+			*name = "trot";
+		}
+		else if (movement == 3)
+		{
+			*name = "gallop";
+		}
+		else if (movement == 0)
+		{
+			*name = "idle";
+		}
+		break;
+	case -745300483:
 	case 111281960:
-		return "creatures@pigeon@move";
+		*dict = "creatures@pigeon@move";
+		if (movement == 1)
+		{
+			*name = "walk";
+		}
+		else if (movement == 2)
+		{
+			*name = "glide";
+		}
+		else if (movement == 3)
+		{
+			*name = "flapping";
+		}
+		else if (movement == 0)
+		{
+			*name = "idle";
+		}
+		break;
 	case 1125994524:
 	case 1832265812:
 	case -1384627013:
-		return "creatures@pug@move";
+		*dict = "creatures@pug@move";
+		if (movement == 1)
+		{
+			*name = "walk";
+		}
+		else if (movement == 2)
+		{
+			*name = "canter";
+		}
+		else if (movement == 3)
+		{
+			*name = "gallop";
+		}
+		else if (movement == 0)
+		{
+			*name = "idle";
+		}
+		break;
 	case -541762431:
-		return "creatures@rabbit@move";
+		*dict = "creatures@rabbit@move";
+		if (movement == 1)
+		{
+			*name = "walk";
+		}
+		else if (movement == 2)
+		{
+			*name = "canter";
+		}
+		else if (movement == 3)
+		{
+			*name = "gallop";
+		}
+		else if (movement == 0)
+		{
+			*name = "idle";
+		}
+		break;
 	case -1011537562:
-		return "creatures@rat@move";
+		*dict = "creatures@rat@move";
+		if (movement == 1)
+		{
+			*name = "walk";
+		}
+		else if (movement == 2)
+		{
+			*name = "trot";
+		}
+		else if (movement == 3)
+		{
+			*name = "gallop";
+		}
+		else if (movement == 0)
+		{
+			*name = "idle";
+		}
+		break;
 	case 882848737:
-		return "creatures@retriever@move";
+		*dict = "creatures@retriever@move";
+		if (movement == 1)
+		{
+			*name = "walk";
+		}
+		else if (movement == 2)
+		{
+			*name = "canter";
+		}
+		else if (movement == 3)
+		{
+			*name = "gallop";
+		}
+		else if (movement == 0)
+		{
+			*name = "idle";
+		}
+		break;
 	case -1788665315:
-		return "creatures@rottweiler@move";
-	case -745300483:
-		return "creatures@pigeon@move";
+		*dict = "creatures@rottweiler@move";
+		if (movement == 1)
+		{
+			*name = "walk";
+		}
+		else if (movement == 2)
+		{
+			*name = "canter";
+		}
+		else if (movement == 3)
+		{
+			*name = "gallop";
+		}
+		else if (movement == 0)
+		{
+			*name = "idle";
+		}
+		break;
 	case 1015224100:
 	case 113504370:
-		return "creatures@shark@move";
+		*dict = "creatures@shark@move";
+		if (movement == 1)
+		{
+			*name = "swim";
+		}
+		else if (movement == 2)
+		{
+			*name = "glide";
+		}
+		else if (movement == 3)
+		{
+			*name = "accelerate";
+		}
+		else if (movement == 0)
+		{
+			*name = "idle";
+		}
+		break;
 	case -1589092019:
-		return "creatures@stingray@move";
+		*dict = "creatures@stingray@move";
+		if (movement == 1)
+		{
+			*name = "swim";
+		}
+		else if (movement == 2)
+		{
+			*name = "accelerate";
+		}
+		else if (movement == 3)
+		{
+			*name = "accelerate";
+		}
+		else if (movement == 0)
+		{
+			*name = "idle";
+		}
+		break;
 #pragma endregion Animals Animation Dictionaries
 #pragma region Female
 		
 #pragma endregion Female Animation Dictionaries
 	default:
-		return NULL;
+		return;
 	}
 }

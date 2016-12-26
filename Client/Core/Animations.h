@@ -5,5 +5,5 @@ public:
 	Animations() {};
 	~Animations() {};
 
-	std::string GetAnimalAnimationDictionary(int modelhash);
+	void GetAnimalAnimation(int modelhash, int movement, std::string *dict, std::string *name);
 };

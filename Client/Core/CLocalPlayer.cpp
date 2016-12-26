@@ -17,7 +17,7 @@ void CLocalPlayer::Pulse()
 	unsigned long ulCurrentTime = timeGetTime();
 	if (ulCurrentTime >= Network.LastSyncSent + (1000.0f / 50))
 	{
-		if (g_Core->GetNetworkManager()->g_ConnectionState == CONSTATE_COND)
+		if (!g_Core->GetNetworkManager()->g_ConnectionState == CONSTATE_COND)
 			return;
 
 		Vector3 Coordinates = ENTITY::GET_ENTITY_COORDS(Game.Ped, ENTITY::IS_ENTITY_DEAD(Game.Ped));
