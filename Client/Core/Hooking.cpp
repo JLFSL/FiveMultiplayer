@@ -182,6 +182,7 @@ void Hooking::FindPatterns()
 
 
 	char * c_location = nullptr;
+	int(*LoadGameNow)(char);
 
 	// Executable Base Address
 	DEBUGMSG("baseAddr\t\t 0x%p", get_base());
@@ -207,6 +208,27 @@ void Hooking::FindPatterns()
 	// Skip game legals
 	Memory::nop(p_gameLegals.count(1).get(0).get<void>(0), 2);
 
+	//Wait for Menu or Game
+	while (true)
+	{
+		if (*m_gameState == GameStateMainMenu)
+			break;
+
+		if (*m_gameState == GameStatePlaying)
+			break;
+
+		Sleep(100);
+	}
+
+	if (*m_gameState == GameStateMainMenu)
+	{
+		//Auto-Load Singleplayer
+		char* func = pattern("33 C9 E8 ? ? ? ? 8B 0D ? ? ? ? 48 8B 5C 24 ? 8D 41 FC 83 F8 01 0F 47 CF 89 0D ? ? ? ?").count(1).get(0).get<char>(2);
+		c_location = p_skipToSP.count(1).get(0).get<char>(2);
+		Memory::set_call(&LoadGameNow, c_location);
+		//LoadGameNow(0); //Crashes for Steam Version IDK abut SC maybe the pattern is diffrent now. We do need/want this though
+	}
+
 	// Get native registration table
 	c_location = p_nativeTable.count(1).get(0).get<char>(9);
 	c_location == nullptr ? FailPatterns("native registration Table", p_nativeTable) : m_registrationTable = reinterpret_cast<decltype(m_registrationTable)>(c_location + *(int32_t*)c_location + 4);
@@ -227,26 +249,6 @@ void Hooking::FindPatterns()
 
 	DEBUGMSG("Initializing natives");
 	CrossMapping::initNativeMap();
-	//GameStateLoadingSP_MP
-	while (true)
-	{
-		if (*m_gameState == GameStateMainMenu)
-			break;
-
-		if (*m_gameState == GameStateLoadingSP_MP)
-			break;
-
-		Sleep(100);
-	}
-
-	if (*m_gameState == GameStateMainMenu)
-	{
-		//Auto-Load Singleplayer
-		int(*LoadGameNow)(char);
-		char* func = pattern("33 C9 E8 ? ? ? ? 8B 0D ? ? ? ? 48 8B 5C 24 ? 8D 41 FC 83 F8 01 0F 47 CF 89 0D ? ? ? ?").count(1).get(0).get<char>(2);
-		c_location = p_skipToSP.count(1).get(0).get<char>(2);
-		Memory::set_call(&LoadGameNow, c_location);
-	}
 
 	// Check if game is ready
 	Logger::Msg("Checking if game is ready...");
