@@ -253,7 +253,7 @@ void CPlayerEntity::UpdateTargetAnimations()
 		std::string dict;
 		std::string name;
 
-		if (Data.Velocity.fX < 2.0f && Data.Velocity.fX > 1.0f && Data.MovementState != 1)
+		if (Data.ForwardSpeed < 2.0f && Data.ForwardSpeed > 1.0f && Data.MovementState != 1)
 		{
 			animation.GetAnimalAnimation(Data.Model, 1, &dict, &name);
 
@@ -263,7 +263,7 @@ void CPlayerEntity::UpdateTargetAnimations()
 			AI::TASK_PLAY_ANIM(Game.Ped, (char*)dict.c_str(), (char*)name.c_str(), 8.0f, 0.0f, -1, 1, 0.0f, false, false, false);
 			Data.MovementState = 1;
 		}
-		else if (Data.Velocity.fX > 2.0f && Data.Velocity.fX <= 5.2f && Data.MovementState != 2)
+		else if (Data.ForwardSpeed > 2.0f && Data.ForwardSpeed <= 5.2f && Data.MovementState != 2)
 		{
 			animation.GetAnimalAnimation(Data.Model, 2, &dict, &name);
 
@@ -273,7 +273,7 @@ void CPlayerEntity::UpdateTargetAnimations()
 			AI::TASK_PLAY_ANIM(Game.Ped, (char*)dict.c_str(), (char*)name.c_str(), 8.0f, 0.0f, -1, 1, 0.0f, false, false, false);
 			Data.MovementState = 2;
 		}
-		else if (Data.Velocity.fX > 5.2f && Data.MovementState != 3)
+		else if (Data.ForwardSpeed > 5.2f && Data.MovementState != 3)
 		{
 			animation.GetAnimalAnimation(Data.Model, 3, &dict, &name);
 
@@ -283,7 +283,7 @@ void CPlayerEntity::UpdateTargetAnimations()
 			AI::TASK_PLAY_ANIM(Game.Ped, (char*)dict.c_str(), (char*)name.c_str(), 8.0f, 0.0f, -1, 1, 0.0f, false, false, false);
 			Data.MovementState = 3;
 		}
-		else if (Data.Velocity.fX < 1.0f && Data.MovementState != 0)
+		else if (Data.ForwardSpeed < 1.0f && Data.MovementState != 0)
 		{
 			animation.GetAnimalAnimation(Data.Model, 0, &dict, &name);
 
