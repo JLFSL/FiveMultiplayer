@@ -9,6 +9,7 @@ CCore::CCore()
 	g_LocalPlayer = new CLocalPlayer;
 	g_Scipts = new Scripts;
 	g_Doors = new Doors;
+	g_Animations = new Animations;
 }
 
 CCore::~CCore()
@@ -17,6 +18,7 @@ CCore::~CCore()
 	SAFE_DELETE(g_LocalPlayer);
 	SAFE_DELETE(g_Scipts);
 	SAFE_DELETE(g_Doors);
+	SAFE_DELETE(g_Animations);
 }
 
 bool CCore::Initialize()

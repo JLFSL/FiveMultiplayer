@@ -11,14 +11,14 @@ void CPlayerEntity::Create(std::string Name, RakNetGUID GUID) {
 void CPlayerEntity::CreatePed()
 {
 	char *name = "a_f_y_tourist_02";
-	int PedHash = GAMEPLAY::GET_HASH_KEY(name);
-	if (STREAMING::IS_MODEL_IN_CDIMAGE(PedHash) && STREAMING::IS_MODEL_VALID(PedHash))
+	Data.Model = GAMEPLAY::GET_HASH_KEY(name);
+	if (STREAMING::IS_MODEL_IN_CDIMAGE(Data.Model) && STREAMING::IS_MODEL_VALID(Data.Model))
 	{
-		STREAMING::REQUEST_MODEL(PedHash);
-		while (!STREAMING::HAS_MODEL_LOADED(PedHash)) WAIT(0);
-		Game.Ped = PED::CREATE_PED(26, PedHash, Data.Position.fX, Data.Position.fY, Data.Position.fZ, 0.0f, false, true);
+		STREAMING::REQUEST_MODEL(Data.Model);
+		while (!STREAMING::HAS_MODEL_LOADED(Data.Model)) WAIT(0);
+		Game.Ped = PED::CREATE_PED(26, Data.Model, Data.Position.fX, Data.Position.fY, Data.Position.fZ, 0.0f, false, true);
 
-		STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(PedHash);
+		STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(Data.Model);
 
 		ENTITY::SET_ENTITY_NO_COLLISION_ENTITY(g_Core->GetLocalPlayer()->GetPed(), Game.Ped, false);
 		ENTITY::SET_ENTITY_NO_COLLISION_ENTITY(Game.Ped, g_Core->GetLocalPlayer()->GetPed(), false);
@@ -34,6 +34,10 @@ void CPlayerEntity::CreatePed()
 		WEAPON::SET_PED_DROPS_WEAPONS_WHEN_DEAD(Game.Ped, false);
 
 		AI::TASK_SET_BLOCKING_OF_NON_TEMPORARY_EVENTS(Game.Ped, true);
+
+		Hash relationshipGroup;
+		PED::ADD_RELATIONSHIP_GROUP("FIVEMPPLAYER", &relationshipGroup);
+		PED::SET_PED_RELATIONSHIP_GROUP_HASH(Game.Ped, relationshipGroup);
 
 		Game.Blip = UI::ADD_BLIP_FOR_ENTITY(Game.Ped);
 		UI::SET_BLIP_AS_FRIENDLY(Game.Blip, true);
@@ -95,6 +99,7 @@ void CPlayerEntity::Update(Packet *packet)
 			CreatePed();
 
 		UpdateTargetPosition();
+		UpdateTargetAnimations();
 	}
 	//UpdateTargetRotation();
 }
@@ -234,5 +239,76 @@ void CPlayerEntity::SetTargetRotation()
 
 		// Set our new position
 		ENTITY::SET_ENTITY_QUATERNION(Game.Ped, vecNewRotation.fX, vecNewRotation.fY, vecNewRotation.fZ, unusedw);
+	}
+}
+
+void CPlayerEntity::UpdateTargetAnimations()
+{
+	Animations& animation = Animations();
+	if (IsTargetAnimal())
+	{
+		std::string animDict = animation.GetAnimalAnimationDictionary(Data.Model);
+	}
+	else
+	{
+		if (Data.Velocity.fX < 2.0f && Data.Velocity.fX > 1.0f && Data.MovementState != 1)
+		{
+			AI::TASK_PLAY_ANIM(Game.Ped, "move_m@generic", "walk", 8.0f, 0.0f, -1, 1, 0.0f, false, false, false);
+			Data.MovementState = 1;
+		}
+		else if (Data.Velocity.fX > 2.0f && Data.Velocity.fX <= 5.2f && Data.MovementState != 2)
+		{
+			AI::TASK_PLAY_ANIM(Game.Ped, "move_m@generic", "run", 8.0f, 0.0f, -1, 1, 0.0f, false, false, false);
+			Data.MovementState = 2;
+		}
+		else if (Data.Velocity.fX > 5.2f && Data.MovementState != 3)
+		{
+			AI::TASK_PLAY_ANIM(Game.Ped, "move_m@generic", "sprint", 8.0f, 0.0f, -1, 1, 0.0f, false, false, false);
+			Data.MovementState = 3;
+		}
+		else if (Data.Velocity.fX < 1.0f && Data.MovementState != 0)
+		{
+			AI::TASK_PLAY_ANIM(Game.Ped, "move_m@generic", "idle", 8.0f, 0.0f, -1, 1, 0.0f, false, false, false);
+			Data.MovementState = 0;
+		}
+	}
+}
+
+bool CPlayerEntity::IsTargetAnimal()
+{
+	switch (Data.Model)
+	{
+	case -832573324:
+	case 1462895032:
+	case -1430839454:
+	case 51016938:
+	case 1126154828:
+	case 1457690978:
+	case -50684386:
+	case 1682622302:
+	case 402729631:
+	case -664053099:
+	case -1950698411:
+	case 802685111:
+	case 1794449327:
+	case 1193010354:
+	case 1318032802:
+	case -1920284487:
+	case -1323586730:
+	case 111281960:
+	case 1125994524:
+	case 1832265812:
+	case -1384627013:
+	case -541762431:
+	case -1011537562:
+	case 882848737:
+	case -1788665315:
+	case -745300483:
+	case 1015224100:
+	case 113504370:
+	case -1589092019:
+		return true;
+	default:
+		return false;
 	}
 }

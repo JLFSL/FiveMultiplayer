@@ -19,6 +19,9 @@ private:
 	} Statistics;
 	
 	struct PlayerData {
+		int			Model;
+		int			MovementState;
+
 		CVector3	Position;
 		CVector3	Velocity;
 		CVector4	Quaternion;
@@ -70,6 +73,10 @@ public:
 
 	void UpdateTargetRotation();
 	void SetTargetRotation();
+
+	void UpdateTargetAnimations();
+
+	bool IsTargetAnimal();
 
 	int GetId()					{ return Information.Id; };
 	std::string GetUsername()		{ return Information.Name; };

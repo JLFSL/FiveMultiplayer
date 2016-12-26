@@ -159,6 +159,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Animations.cpp" />
     <ClCompile Include="CConfig.cpp" />
     <ClCompile Include="CCore.cpp" />
     <ClCompile Include="CNetworkManager.cpp" />
@@ -185,6 +186,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Animations.h" />
     <ClInclude Include="CConfig.h" />
     <ClInclude Include="CCore.h" />
     <ClInclude Include="CNetworkManager.h" />

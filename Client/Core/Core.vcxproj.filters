@@ -96,6 +96,9 @@
     <ClCompile Include="Doors.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="Animations.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -165,6 +168,9 @@
       <Filter>Include\INIReader</Filter>
     </ClInclude>
     <ClInclude Include="Doors.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Animations.h">
       <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>

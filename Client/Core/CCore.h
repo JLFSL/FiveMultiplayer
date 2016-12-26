@@ -6,6 +6,7 @@ private:
 	CLocalPlayer	*g_LocalPlayer;
 	Scripts			*g_Scipts;
 	Doors			*g_Doors;
+	Animations		*g_Animations;
 
 	unsigned long	LastCleanUp;
 	unsigned long	LastUnlock;
