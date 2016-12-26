@@ -178,6 +178,7 @@ void Hooking::FindPatterns()
 	auto p_gameLegals = pattern("72 1F E8 ? ? ? ? 8B 0D");
 	auto p_modelCheck = pattern("48 85 C0 0F 84 ? ? ? ? 8B 48 50");
 	auto p_modelSpawn = pattern("48 8B C8 FF 52 30 84 C0 74 05 48");
+	auto p_skipToSP = pattern("33 C9 E8 ? ? ? ? 8B 0D ? ? ? ? 48 8B 5C 24 ? 8D 41 FC 83 F8 01 0F 47 CF 89 0D ? ? ? ?");
 
 
 	char * c_location = nullptr;
@@ -226,6 +227,26 @@ void Hooking::FindPatterns()
 
 	DEBUGMSG("Initializing natives");
 	CrossMapping::initNativeMap();
+	//GameStateLoadingSP_MP
+	while (true)
+	{
+		if (*m_gameState == GameStateMainMenu)
+			break;
+
+		if (*m_gameState == GameStateLoadingSP_MP)
+			break;
+
+		Sleep(100);
+	}
+
+	if (*m_gameState == GameStateMainMenu)
+	{
+		//Auto-Load Singleplayer
+		int(*LoadGameNow)(char);
+		char* func = pattern("33 C9 E8 ? ? ? ? 8B 0D ? ? ? ? 48 8B 5C 24 ? 8D 41 FC 83 F8 01 0F 47 CF 89 0D ? ? ? ?").count(1).get(0).get<char>(2);
+		c_location = p_skipToSP.count(1).get(0).get<char>(2);
+		Memory::set_call(&LoadGameNow, c_location);
+	}
 
 	// Check if game is ready
 	Logger::Msg("Checking if game is ready...");
