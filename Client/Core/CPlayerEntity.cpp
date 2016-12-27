@@ -42,12 +42,14 @@ void CPlayerEntity::CreatePed()
 
 		Game.Created = true;
 		std::cout << "[CPlayerEntity] Created Ped" << std::endl;
+		return;
 	}
+	std::cout << "[CPlayerEntity] Tried to create" << Information.Id << ", but model does not exist!" << std::endl;
 }
 
 void CPlayerEntity::Destroy()
 {
-	std::cout << "[CPlayerEntity] Removing Player: " << Information.Name << std::endl;
+	std::cout << "[CPlayerEntity] Removing Player: " << Information.Id << std::endl;
 	
 	ENTITY::DELETE_ENTITY(&Game.Ped);
 	Game.Created = false;
