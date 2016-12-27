@@ -55,6 +55,7 @@ void CCore::OnGameTick()
 	{
 		CleanUp();			// World Clean Up
 		g_Scipts->Pulse();	// Script Clean Up
+		PreventCheat();
 	}
 
 	if (timeGetTime() >= LastUnlock + 2000)
@@ -155,4 +156,12 @@ void CCore::CleanUpTick()
 	VEHICLE::SET_VEHICLE_DENSITY_MULTIPLIER_THIS_FRAME(0.0f);
 	DECISIONEVENT::SUPPRESS_SHOCKING_EVENTS_NEXT_FRAME();
 	DECISIONEVENT::SUPPRESS_AGITATION_EVENTS_NEXT_FRAME();
+}
+
+void CCore::PreventCheat()
+{
+	Ped tempped = g_LocalPlayer->GetPed();
+
+	PED::SET_PED_MAX_HEALTH(tempped, 200.0f);
+	PED::SET_PED_CAN_BE_KNOCKED_OFF_VEHICLE(tempped, true);
 }

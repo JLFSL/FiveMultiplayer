@@ -16,10 +16,12 @@ public:
 	~CCore();
 
 	bool Initialize();
-
 	void OnGameTick();
+
 	void CleanUp();
 	void CleanUpTick();
+
+	void PreventCheat();
 
 	CNetworkManager *GetNetworkManager()	{ return g_NetworkManager; }
 	CLocalPlayer *GetLocalPlayer() { return g_LocalPlayer; }
