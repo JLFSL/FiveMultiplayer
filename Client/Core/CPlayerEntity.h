@@ -19,14 +19,24 @@ private:
 	} Statistics;
 	
 	struct PlayerData {
-		int			Model;
-		int			MovementState;
+		struct PlayerModelData {
+			Hash		Model;
+			int			Type;
+			int			MovementState;
+		} Model;
 
-		float		ForwardSpeed;
+		struct PlayerWeaponData {
+			Hash			Weapon;
 
-		CVector3	Position;
-		CVector3	Velocity;
-		CVector4	Quaternion;
+			BOOL			Reload;
+			unsigned long	LastReload;
+		} Weapon;
+
+		float				ForwardSpeed;
+
+		CVector3			Position;
+		CVector3			Velocity;
+		CVector4			Quaternion;
 	} Data;
 
 	struct PlayerNetwork {
@@ -77,6 +87,7 @@ public:
 	void SetTargetRotation();
 
 	void UpdateTargetAnimations();
+	void UpdateTargetData();
 
 	bool IsTargetAnimal();
 

@@ -16,6 +16,16 @@ class CLocalPlayer
 	} Statistics;
 
 	struct PlayerData {
+		struct PlayerModelData {
+			Hash		Model;
+			int			Type;
+		} Model;
+
+		struct PlayerWeaponData {
+			Hash		Weapon;
+			BOOL		Reload;
+		} Weapon;
+
 		float			ForwardSpeed;
 
 		CVector3		Position;

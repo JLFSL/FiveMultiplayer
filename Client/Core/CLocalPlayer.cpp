@@ -24,6 +24,12 @@ void CLocalPlayer::Pulse()
 		Vector4 Quaternion; ENTITY::GET_ENTITY_QUATERNION(Game.Ped, &Quaternion.fX, &Quaternion.fY, &Quaternion.fZ, &Quaternion.fW);
 		Vector3 Velocity = ENTITY::GET_ENTITY_VELOCITY(Game.Ped);
 
+		Data.Model.Model = ENTITY::GET_ENTITY_MODEL(Game.Ped);
+		Data.Model.Type = PED::GET_PED_TYPE(Game.Ped);
+
+		WEAPON::GET_CURRENT_PED_WEAPON(Game.Ped, &Data.Weapon.Weapon, true);
+		Data.Weapon.Reload = WEAPON::_IS_PED_RELOADING(Game.Ped);
+
 		Data.ForwardSpeed = ENTITY::GET_ENTITY_SPEED(Game.Ped);
 		Data.Position = { Coordinates.x, Coordinates.y, Coordinates.z };
 		Data.Quaternion = { Quaternion.fX, Quaternion.fY, Quaternion.fZ, Quaternion.fW };
@@ -36,6 +42,12 @@ void CLocalPlayer::Pulse()
 		bitstream.Write(Information.Name);
 
 		bitstream.Write(Statistics.Score);
+
+		bitstream.Write(Data.Model.Model);
+		bitstream.Write(Data.Model.Type);
+
+		bitstream.Write(Data.Weapon.Weapon);
+		bitstream.Write(Data.Weapon.Reload);
 
 		bitstream.Write(Data.ForwardSpeed);
 

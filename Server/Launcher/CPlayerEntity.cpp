@@ -47,6 +47,12 @@ void CPlayerEntity::Pulse()
 
 		bitstream.Write(Statistics.Score);
 
+		bitstream.Write(Data.Model.Model);
+		bitstream.Write(Data.Model.Type);
+
+		bitstream.Write(Data.Weapon.Weapon);
+		bitstream.Write(Data.Weapon.Reload);
+
 		bitstream.Write(Data.ForwardSpeed);
 
 		bitstream.Write(Data.Position.fX);
@@ -75,6 +81,12 @@ void CPlayerEntity::Update(Packet *packet)
 	bitstream.Read(Information.Name);
 
 	bitstream.Read(Statistics.Score);
+
+	bitstream.Read(Data.Model.Model);
+	bitstream.Read(Data.Model.Type);
+
+	bitstream.Read(Data.Weapon.Weapon);
+	bitstream.Read(Data.Weapon.Reload);
 
 	bitstream.Read(Data.ForwardSpeed);
 

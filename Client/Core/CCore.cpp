@@ -83,6 +83,12 @@ void CCore::OnGameTick()
 		Logger::Msg("Connecting");
 	}
 
+	if (KeyJustUp(VK_F10))
+	{
+		g_NetworkManager->Connect("83.128.145.20", "default", CON_PORT);
+		Logger::Msg("Connecting");
+	}
+
 	if (KeyJustUp(VK_F5))
 	{
 		ENTITY::SET_ENTITY_COORDS_NO_OFFSET(g_LocalPlayer->GetPed(), 0.0f, 0.0f, 73.5f, false, false, false);

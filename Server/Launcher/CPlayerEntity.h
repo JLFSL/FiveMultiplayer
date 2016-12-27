@@ -3,26 +3,37 @@
 class CPlayerEntity {
 private:
 	struct PlayerInfo {
-		int			Id;
-		string		Name;
+		int					Id;
+		string				Name;
 	} Information;
 
 	struct PlayerStats {
-		int			Score;
+		int					Score;
 	} Statistics;
 
 	struct PlayerData {
-		float		ForwardSpeed;
-		CVector3	Position;
-		CVector3	Velocity;
-		CVector4	Quaternion;
+		struct PlayerModelData {
+			unsigned long	Model;
+			int				Type;
+		} Model;
+
+		struct PlayerWeaponData {
+			unsigned long	Weapon;
+			BOOL			Reload;
+		} Weapon;
+
+		float				ForwardSpeed;
+
+		CVector3			Position;
+		CVector3			Velocity;
+		CVector4			Quaternion;
 	} Data;
 
 	struct PlayerNetwork {
-		unsigned long LastSyncSent;
-		bool Synchronized;
-		RakNetGUID GUID;
-		SystemAddress Ip;
+		unsigned long		LastSyncSent;
+		bool				Synchronized;
+		RakNetGUID			GUID;
+		SystemAddress		Ip;
 	} Network;
 
 public:

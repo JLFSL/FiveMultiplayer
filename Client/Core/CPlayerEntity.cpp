@@ -10,16 +10,13 @@ void CPlayerEntity::Create(std::string Name, RakNetGUID GUID) {
 
 void CPlayerEntity::CreatePed()
 {
-	//char *name = "a_f_y_tourist_02";
-	char *name = "a_c_cow";
-	Data.Model = GAMEPLAY::GET_HASH_KEY(name);
-	if (STREAMING::IS_MODEL_IN_CDIMAGE(Data.Model) && STREAMING::IS_MODEL_VALID(Data.Model))
+	if (STREAMING::IS_MODEL_IN_CDIMAGE(Data.Model.Model) && STREAMING::IS_MODEL_VALID(Data.Model.Model))
 	{
-		STREAMING::REQUEST_MODEL(Data.Model);
-		while (!STREAMING::HAS_MODEL_LOADED(Data.Model)) WAIT(0);
-		Game.Ped = PED::CREATE_PED(1, Data.Model, Data.Position.fX, Data.Position.fY, Data.Position.fZ, 0.0f, false, true);
+		STREAMING::REQUEST_MODEL(Data.Model.Model);
+		while (!STREAMING::HAS_MODEL_LOADED(Data.Model.Model)) WAIT(0);
+		Game.Ped = PED::CREATE_PED(Data.Model.Type, Data.Model.Model, Data.Position.fX, Data.Position.fY, Data.Position.fZ, 0.0f, false, true);
 
-		STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(Data.Model);
+		STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(Data.Model.Model);
 
 		ENTITY::SET_ENTITY_NO_COLLISION_ENTITY(g_Core->GetLocalPlayer()->GetPed(), Game.Ped, false);
 		ENTITY::SET_ENTITY_NO_COLLISION_ENTITY(Game.Ped, g_Core->GetLocalPlayer()->GetPed(), false);
@@ -82,6 +79,12 @@ void CPlayerEntity::Update(Packet *packet)
 
 	bitstream.Read(Statistics.Score);
 
+	bitstream.Read(Data.Model.Model);
+	bitstream.Read(Data.Model.Type);
+
+	bitstream.Read(Data.Weapon.Weapon);
+	bitstream.Read(Data.Weapon.Reload);
+
 	bitstream.Read(Data.ForwardSpeed);
 
 	bitstream.Read(Data.Position.fX);
@@ -103,8 +106,9 @@ void CPlayerEntity::Update(Packet *packet)
 
 		UpdateTargetPosition();
 		UpdateTargetAnimations();
+		UpdateTargetData();
+		//UpdateTargetRotation();
 	}
-	//UpdateTargetRotation();
 }
 
 void CPlayerEntity::Interpolate()
@@ -253,45 +257,45 @@ void CPlayerEntity::UpdateTargetAnimations()
 		std::string dict;
 		std::string name;
 
-		if (Data.ForwardSpeed < 2.0f && Data.ForwardSpeed > 1.0f && Data.MovementState != 1)
+		if (Data.ForwardSpeed < 2.0f && Data.ForwardSpeed > 1.0f && Data.Model.MovementState != 1)
 		{
-			animation.GetAnimalAnimation(Data.Model, 1, &dict, &name);
+			animation.GetAnimalAnimation(Data.Model.Model, 1, &dict, &name);
 
 			if (!STREAMING::HAS_ANIM_DICT_LOADED((char*)dict.c_str()))
 				STREAMING::REQUEST_ANIM_DICT((char*)dict.c_str());
 
 			AI::TASK_PLAY_ANIM(Game.Ped, (char*)dict.c_str(), (char*)name.c_str(), 8.0f, 0.0f, -1, 1, 0.0f, false, false, false);
-			Data.MovementState = 1;
+			Data.Model.MovementState = 1;
 		}
-		else if (Data.ForwardSpeed > 2.0f && Data.ForwardSpeed <= 5.2f && Data.MovementState != 2)
+		else if (Data.ForwardSpeed > 2.0f && Data.ForwardSpeed <= 5.2f && Data.Model.MovementState != 2)
 		{
-			animation.GetAnimalAnimation(Data.Model, 2, &dict, &name);
+			animation.GetAnimalAnimation(Data.Model.Model, 2, &dict, &name);
 
 			if (!STREAMING::HAS_ANIM_DICT_LOADED((char*)dict.c_str()))
 				STREAMING::REQUEST_ANIM_DICT((char*)dict.c_str());
 
 			AI::TASK_PLAY_ANIM(Game.Ped, (char*)dict.c_str(), (char*)name.c_str(), 8.0f, 0.0f, -1, 1, 0.0f, false, false, false);
-			Data.MovementState = 2;
+			Data.Model.MovementState = 2;
 		}
-		else if (Data.ForwardSpeed > 5.2f && Data.MovementState != 3)
+		else if (Data.ForwardSpeed > 5.2f && Data.Model.MovementState != 3)
 		{
-			animation.GetAnimalAnimation(Data.Model, 3, &dict, &name);
+			animation.GetAnimalAnimation(Data.Model.Model, 3, &dict, &name);
 
 			if (!STREAMING::HAS_ANIM_DICT_LOADED((char*)dict.c_str()))
 				STREAMING::REQUEST_ANIM_DICT((char*)dict.c_str());
 
 			AI::TASK_PLAY_ANIM(Game.Ped, (char*)dict.c_str(), (char*)name.c_str(), 8.0f, 0.0f, -1, 1, 0.0f, false, false, false);
-			Data.MovementState = 3;
+			Data.Model.MovementState = 3;
 		}
-		else if (Data.ForwardSpeed < 1.0f && Data.MovementState != 0)
+		else if (Data.ForwardSpeed < 1.0f && Data.Model.MovementState != 0)
 		{
-			animation.GetAnimalAnimation(Data.Model, 0, &dict, &name);
+			animation.GetAnimalAnimation(Data.Model.Model, 0, &dict, &name);
 
 			if (!STREAMING::HAS_ANIM_DICT_LOADED((char*)dict.c_str()))
 				STREAMING::REQUEST_ANIM_DICT((char*)dict.c_str());
 
 			AI::TASK_PLAY_ANIM(Game.Ped, (char*)dict.c_str(), (char*)name.c_str(), 8.0f, 0.0f, -1, 1, 0.0f, false, false, false);
-			Data.MovementState = 0;
+			Data.Model.MovementState = 0;
 		}
 	}
 	else
@@ -299,32 +303,54 @@ void CPlayerEntity::UpdateTargetAnimations()
 		if (!STREAMING::HAS_ANIM_DICT_LOADED("move_m@generic"))
 			STREAMING::REQUEST_ANIM_DICT("move_m@generic");
 
-		if (Data.ForwardSpeed < 2.0f && Data.ForwardSpeed > 1.0f && Data.MovementState != 1)
+		if (Data.ForwardSpeed < 2.0f && Data.ForwardSpeed > 1.0f && Data.Model.MovementState != 1)
 		{
 			AI::TASK_PLAY_ANIM(Game.Ped, "move_m@generic", "walk", 8.0f, 0.0f, -1, 1, 0.0f, false, false, false);
-			Data.MovementState = 1;
+			Data.Model.MovementState = 1;
 		}
-		else if (Data.ForwardSpeed > 2.0f && Data.ForwardSpeed <= 5.2f && Data.MovementState != 2)
+		else if (Data.ForwardSpeed > 2.0f && Data.ForwardSpeed <= 5.2f && Data.Model.MovementState != 2)
 		{
 			AI::TASK_PLAY_ANIM(Game.Ped, "move_m@generic", "run", 8.0f, 0.0f, -1, 1, 0.0f, false, false, false);
-			Data.MovementState = 2;
+			Data.Model.MovementState = 2;
 		}
-		else if (Data.ForwardSpeed > 5.2f && Data.MovementState != 3)
+		else if (Data.ForwardSpeed > 5.2f && Data.Model.MovementState != 3)
 		{
 			AI::TASK_PLAY_ANIM(Game.Ped, "move_m@generic", "sprint", 8.0f, 0.0f, -1, 1, 0.0f, false, false, false);
-			Data.MovementState = 3;
+			Data.Model.MovementState = 3;
 		}
-		else if (Data.ForwardSpeed < 1.0f && Data.MovementState != 0)
+		else if (Data.ForwardSpeed < 1.0f && Data.Model.MovementState != 0)
 		{
 			AI::TASK_PLAY_ANIM(Game.Ped, "move_m@generic", "idle", 8.0f, 0.0f, -1, 1, 0.0f, false, false, false);
-			Data.MovementState = 0;
+			Data.Model.MovementState = 0;
 		}
+	}
+}
+
+void CPlayerEntity::UpdateTargetData()
+{
+	if (WEAPON::GET_SELECTED_PED_WEAPON(Game.Ped) != Data.Weapon.Weapon) {
+		WEAPON::GIVE_WEAPON_TO_PED(Game.Ped, Data.Weapon.Weapon, 999, true, true);
+	}
+
+	unsigned long CurrentTime;
+	if (Data.Weapon.Reload && CurrentTime >= Data.Weapon.LastReload + 2000)
+	{
+		WEAPON::MAKE_PED_RELOAD(Game.Ped);
+
+		Data.Weapon.LastReload = CurrentTime;
+		Data.Weapon.Reload = false;
+	}
+
+	if (PED::IS_PED_DEAD_OR_DYING(Game.Ped, 1) && ENTITY::GET_ENTITY_HEALTH(Game.Ped) > 0) {
+		PED::RESURRECT_PED(Game.Ped);
+		PED::CLEAR_PED_BLOOD_DAMAGE(Game.Ped);
+		AI::CLEAR_PED_TASKS_IMMEDIATELY(Game.Ped);
 	}
 }
 
 bool CPlayerEntity::IsTargetAnimal()
 {
-	switch (Data.Model)
+	switch (Data.Model.Model)
 	{
 	case -832573324:
 	case 1462895032:
