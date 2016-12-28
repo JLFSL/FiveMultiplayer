@@ -1,2 +1,2 @@
 Vendor.Raknet: 
-	g++ -c -pthread -g *.cpp
+	g++ *.cpp -o ../../Server/Launcher/Vendor.RakNet.a -pthread -shared -fPIC
