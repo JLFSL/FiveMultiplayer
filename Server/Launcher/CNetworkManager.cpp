@@ -125,7 +125,6 @@ void CNetworkManager::Pulse()
 
 void CNetworkManager::PulseMaster()
 {
-#ifdef _WIN32
 	if (g_Config->GetAnnounce()) {
 		string playerList;
 
@@ -149,7 +148,7 @@ void CNetworkManager::PulseMaster()
 		struct curl_slist *headers = NULL;
 		char content[1024];
 
-		sprintf_s(content, "Content: {\"port\":%d, \"name\":\"%s\", \"players\":{\"amount\":%d, \"max\":%d, \"list\":[%s]}}", g_Config->GetPort(), g_Config->GetServerName().c_str(), g_Players.size(), g_Config->GetMaxPlayers(), playerList.c_str());
+		std::sprintf(content, "Content: {\"port\":%d, \"name\":\"%s\", \"players\":{\"amount\":%d, \"max\":%d, \"list\":[%s]}}", g_Config->GetPort(), g_Config->GetServerName().c_str(), g_Players.size(), g_Config->GetMaxPlayers(), playerList.c_str());
 		headers = curl_slist_append(headers, "content-type: application/x-www-form-urlencoded");
 		headers = curl_slist_append(headers, "cache-control: no-cache");
 		headers = curl_slist_append(headers, content);
@@ -162,5 +161,4 @@ void CNetworkManager::PulseMaster()
 
 		CURLcode ret = curl_easy_perform(hnd);
 	}
-#endif
 }
