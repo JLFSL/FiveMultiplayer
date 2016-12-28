@@ -10,7 +10,7 @@ public:
 
 	CVector4()
 	{
-		fX = fY = fZ = fZ = 0.0f;
+		fX = fY = fZ = fW = 0.0f;
 	}
 
 	CVector4(float _fX, float _fY, float _fZ, float _fW)
