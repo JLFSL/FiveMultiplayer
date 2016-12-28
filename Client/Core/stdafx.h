@@ -24,18 +24,23 @@
 #include "Common.h"
 
 // Vendor
-// Vendor.MinHook
-#include <MinHook/include/MinHook.h>
+	// Vendor.MinHook
+	#include <MinHook/include/MinHook.h>
 
-// Vendor.RakNet
-#include <RakNet/RakPeerInterface.h>
-#include <RakNet/BitStream.h>
-#include <RakNet/MessageIdentifiers.h>
-#include <RakNet/RPC4Plugin.h>
-#include <RakNet/DirectoryDeltaTransfer.h>
-#include <RakNet/FileListTransfer.h>
-#include <RakNet/IncrementalReadInterface.h>
-using namespace RakNet;
+	// Vendor.RakNet
+	#include <RakNet/RakPeerInterface.h>
+	#include <RakNet/BitStream.h>
+	#include <RakNet/MessageIdentifiers.h>
+	#include <RakNet/RPC4Plugin.h>
+	#include <RakNet/DirectoryDeltaTransfer.h>
+	#include <RakNet/FileListTransfer.h>
+	#include <RakNet/IncrementalReadInterface.h>
+	using namespace RakNet;
+
+	// Vendor.CEF
+	#include <include/cef_app.h>
+	#include <include/cef_client.h>
+	#include <include/cef_render_handler.h>
 
 // Client.Core
 	// Hooks
@@ -73,6 +78,10 @@ using namespace RakNet;
 	// Client
 	#include "CCore.h"
 	#include "CConfig.h"
+
+	// UI
+	#include "RenderHandler.h"
+	#include "CefRenderer.h"
 
 extern CCore *g_Core;
 extern CConfig *g_Config;
