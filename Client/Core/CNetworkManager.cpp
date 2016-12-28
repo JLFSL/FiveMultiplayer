@@ -150,6 +150,9 @@ void CNetworkManager::Pulse()
 				// Set our state to connected
 				g_ConnectionState = CONSTATE_COND;
 
+				// Set our last packet update so it sends our own packets too
+				g_Core->GetLocalPlayer()->SetLastSync(timeGetTime());
+
 				Logger::Msg("CNetworkManager::Connected");
 				break;
 			}

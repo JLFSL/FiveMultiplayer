@@ -49,6 +49,8 @@ public:
 	CVector3 GetPos()		{ return Data.Position; }
 	Vector3_t GetPosEx()	{ Vector3_t Pos = { Data.Position.fX, Data.Position.fY, Data.Position.fZ }; return Pos; }
 
+	void SetLastSync(unsigned long Time) { Network.LastSyncSent = Time; }
+
 	BOOL IsPlaying() { return PLAYER::IS_PLAYER_PLAYING(Game.Player); }
 };
 

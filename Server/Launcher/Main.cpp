@@ -35,9 +35,7 @@ int main(int argc, char *argv[]) {
 	while (g_Server->IsActive())
 	{
 		g_Server->Process();
-		#ifdef _WIN32
-			Sleep(15);
-		#endif
+		RakSleep(50);
 	}
 
 	// Call OnUnload
