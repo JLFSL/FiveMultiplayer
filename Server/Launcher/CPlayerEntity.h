@@ -19,7 +19,7 @@ private:
 
 		struct PlayerWeaponData {
 			unsigned long	Weapon;
-			BOOL			Reload;
+			bool			Reload;
 		} Weapon;
 
 		float				ForwardSpeed;
