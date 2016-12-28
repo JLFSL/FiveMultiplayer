@@ -35,7 +35,7 @@ int main(int argc, char *argv[]) {
 	while (g_Server->IsActive())
 	{
 		g_Server->Process();
-		#ifndef _WIN32
+		#ifdef _WIN32
 			Sleep(15);
 		#endif
 	}
