@@ -16,4 +16,7 @@
     <ClCompile Include="hde\hde64.c" />
     <ClCompile Include="buffer.c" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="MinHook.def" />
+  </ItemGroup>
 </Project>
