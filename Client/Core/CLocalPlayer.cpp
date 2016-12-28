@@ -21,7 +21,7 @@ void CLocalPlayer::Pulse()
 			return;
 
 		Vector3 Coordinates = ENTITY::GET_ENTITY_COORDS(Game.Ped, ENTITY::IS_ENTITY_DEAD(Game.Ped));
-		Vector4 Quaternion; ENTITY::GET_ENTITY_QUATERNION(Game.Ped, &Quaternion.fX, &Quaternion.fY, &Quaternion.fZ, &Quaternion.fW);
+		ENTITY::GET_ENTITY_QUATERNION(Game.Ped, &Data.Quaternion.fX, &Data.Quaternion.fY, &Data.Quaternion.fZ, &Data.Quaternion.fW);
 		Vector3 Velocity = ENTITY::GET_ENTITY_VELOCITY(Game.Ped);
 
 		Data.Model.Model = ENTITY::GET_ENTITY_MODEL(Game.Ped);
@@ -32,7 +32,6 @@ void CLocalPlayer::Pulse()
 
 		Data.ForwardSpeed = ENTITY::GET_ENTITY_SPEED(Game.Ped);
 		Data.Position = { Coordinates.x, Coordinates.y, Coordinates.z };
-		Data.Quaternion = { Quaternion.fX, Quaternion.fY, Quaternion.fZ, Quaternion.fW };
 		Data.Velocity = { Velocity.x, Velocity.y, Velocity.z };
 
 		BitStream bitstream;

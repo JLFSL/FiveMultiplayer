@@ -102,7 +102,7 @@ void CPlayerEntity::Update(Packet *packet)
 	bitstream.Read(Data.Quaternion.fY);
 	bitstream.Read(Data.Quaternion.fZ);
 	bitstream.Read(Data.Quaternion.fW);
-
+	
 	Network.GUID = packet->guid;
 	Network.Ip = packet->systemAddress;
 }

@@ -23,7 +23,7 @@ class CLocalPlayer
 
 		struct PlayerWeaponData {
 			Hash		Weapon;
-			BOOL		Reload;
+			bool		Reload;
 		} Weapon;
 
 		float			ForwardSpeed;

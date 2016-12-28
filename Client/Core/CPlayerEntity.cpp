@@ -76,6 +76,7 @@ void CPlayerEntity::Update(Packet *packet)
 	BitStream bitstream(packet->data + 1, packet->length + 1, false);
 
 	bitstream.Read(Network.GUID);
+
 	bitstream.Read(Information.Id);
 	bitstream.Read(Information.Name);
 
@@ -102,7 +103,7 @@ void CPlayerEntity::Update(Packet *packet)
 	bitstream.Read(Data.Quaternion.fZ);
 	bitstream.Read(Data.Quaternion.fW);
 
-	if(g_Core->GetNetworkManager()->GetInterface()->GetMyGUID() != Network.GUID) {
+	if (g_Core->GetNetworkManager()->GetInterface()->GetMyGUID() != Network.GUID) {
 		if (!Game.Created)
 			CreatePed();
 

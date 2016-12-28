@@ -28,7 +28,7 @@ private:
 		struct PlayerWeaponData {
 			Hash			Weapon;
 
-			BOOL			Reload;
+			bool			Reload;
 			unsigned long	LastReload;
 		} Weapon;
 
