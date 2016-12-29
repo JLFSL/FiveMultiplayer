@@ -184,6 +184,9 @@
     <ClCompile Include="CrossMapping.cpp" />
     <ClCompile Include="DirectXDraw.cpp" />
     <ClCompile Include="DirectXRenderer.cpp" />
+    <ClCompile Include="CRPCManager.cpp" />
+    <ClCompile Include="CRPCVisual.cpp" />
+    <ClCompile Include="CVisual.cpp" />
     <ClCompile Include="Doors.cpp" />
     <ClCompile Include="Hooking.cpp" />
     <ClCompile Include="imgui\imgui.cpp">
@@ -237,6 +240,9 @@
     <ClInclude Include="CrossMapping.h" />
     <ClInclude Include="DirectXDraw.h" />
     <ClInclude Include="DirectXRenderer.h" />
+    <ClInclude Include="CRPCManager.h" />
+    <ClInclude Include="CRPCVisual.h" />
+    <ClInclude Include="CVisual.h" />
     <ClInclude Include="Doors.h" />
     <ClInclude Include="Enums.h" />
     <ClInclude Include="Hooking.h" />

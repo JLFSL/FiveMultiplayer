@@ -89,10 +89,14 @@
 
 	// Network
 	#include "CNetworkManager.h"
+	#include "CRPCManager.h"
+		// RPC Handlers
+		#include "CRPCVisual.h"
 
 	// Client
 	#include "CCore.h"
 	#include "CConfig.h"
+	#include "CVisual.h"
 
 	// Graphics
 		// UI

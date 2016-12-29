@@ -49,6 +49,9 @@
     <Filter Include="Graphics\UI\ImGui">
       <UniqueIdentifier>{968a08da-2dec-4f3f-aa7f-a56bf7a8e8f6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Network\RPC">
+      <UniqueIdentifier>{f88e65bc-0bf1-47f3-90d9-b684c02a0b14}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -131,6 +134,15 @@
     </ClCompile>
     <ClCompile Include="imgui\imgui_impl_dx11.cpp">
       <Filter>Graphics\UI\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="CVisual.cpp">
+      <Filter>Client</Filter>
+    </ClCompile>
+    <ClCompile Include="CRPCManager.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="CRPCVisual.cpp">
+      <Filter>Network\RPC</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -250,6 +262,15 @@
     </ClInclude>
     <ClInclude Include="imgui\imgui_impl_dx11.h">
       <Filter>Graphics\UI\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="CVisual.h">
+      <Filter>Client</Filter>
+    </ClInclude>
+    <ClInclude Include="CRPCManager.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="CRPCVisual.h">
+      <Filter>Network\RPC</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -136,6 +136,7 @@ void CServer::Process()
 	}
 
 	g_API->OnTick();
+	API::Visual::ShowMessageAboveMap("HAHA");
 
 	// Show FPS in console window (windows only)
 	if (p_ShowFPS) ShowFPS();

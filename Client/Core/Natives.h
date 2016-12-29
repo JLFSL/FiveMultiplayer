@@ -3075,7 +3075,7 @@ namespace UI
 	static void _ADD_TEXT_COMPONENT_SUBSTRING_CASH(int cashAmount, BOOL p1) { invoke<Void>(0x0E4C749FF9DE9CC4, cashAmount, p1); } // 0x0E4C749FF9DE9CC4 0x12929BDF
 	static void _0x761B77454205A61D(char* p0, int p1) { invoke<Void>(0x761B77454205A61D, p0, p1); } // 0x761B77454205A61D 0x65E1D404
 	static void ADD_TEXT_COMPONENT_SUBSTRING_WEBSITE(char* website) { invoke<Void>(0x94CF4AC034C9C986, website); } // 0x94CF4AC034C9C986 0xC736999E
-	static void _0x5F68520888E69014(char* p0) { invoke<Void>(0x5F68520888E69014, p0); } // 0x5F68520888E69014 0x0829A799
+	static void _ADD_TEXT_COMPONENT(char* p0) { invoke<Void>(0x5F68520888E69014, p0); } // 0x5F68520888E69014 0x0829A799
 	static void _0x39BBF623FC803EAC(int p0) { invoke<Void>(0x39BBF623FC803EAC, p0); } // 0x39BBF623FC803EAC 0x6F1A1901
 	static char* _GET_TEXT_SUBSTRING(char* text, int position, int length) { return invoke<char*>(0x169BD9382084C8C0, text, position, length); } // 0x169BD9382084C8C0 0x34A396EE
 	static char* _GET_TEXT_SUBSTRING_SAFE(char* text, int position, int length, int maxLength) { return invoke<char*>(0xB2798643312205C5, text, position, length, maxLength); } // 0xB2798643312205C5 0x0183A66C

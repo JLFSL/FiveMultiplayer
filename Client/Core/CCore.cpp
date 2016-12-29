@@ -5,16 +5,18 @@ std::vector<CPlayerEntity> g_Players;
 CCore::CCore()
 {
 	// Construct CNetworkManager
-	g_NetworkManager = new CNetworkManager;
-	g_LocalPlayer = new CLocalPlayer;
-	g_Scipts = new Scripts;
-	g_Doors = new Doors;
-	g_Animations = new Animations;
+	g_NetworkManager	= new CNetworkManager;
+	g_RPCManager		= new CRPCManager;
+	g_LocalPlayer		= new CLocalPlayer;
+	g_Scipts			= new Scripts;
+	g_Doors				= new Doors;
+	g_Animations		= new Animations;
 }
 
 CCore::~CCore()
 {
 	SAFE_DELETE(g_NetworkManager);
+	SAFE_DELETE(g_RPCManager);
 	SAFE_DELETE(g_LocalPlayer);
 	SAFE_DELETE(g_Scipts);
 	SAFE_DELETE(g_Doors);
@@ -39,6 +41,8 @@ bool CCore::Initialize()
 		Logger::Msg("CNetworkManager could not be started");
 		return false;
 	}
+
+	g_RPCManager->RegisterRPCMessages();
 
 	g_Scipts->StopAll();
 	CleanUp();

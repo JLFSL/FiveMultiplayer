@@ -90,9 +90,15 @@ void CNetworkManager::Disconnect()
 	// Set our state to disconnected
 	g_ConnectionState = CONSTATE_DISC;
 
+	// Unregister RPCs
+	g_Core->GetRPCManager()->UnregisterRPCMessages();
+
 	// Reinitialize our RakPeerInterface
 	Stop();
 	Start();
+
+	// Register RPCs
+	g_Core->GetRPCManager()->RegisterRPCMessages();
 
 	// Clean the server GUID
 	g_SystemAddr = UNASSIGNED_SYSTEM_ADDRESS;

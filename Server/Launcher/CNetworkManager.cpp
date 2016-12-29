@@ -68,7 +68,7 @@ void CNetworkManager::Pulse()
 				CPlayerEntity newPlayer;
 				newPlayer.Create("User", g_Packet->guid, g_Packet->systemAddress);
 				g_Players.push_back(newPlayer);
-
+				
 				PulseMaster();
 				break;
 			}

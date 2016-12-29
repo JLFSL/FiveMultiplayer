@@ -16,5 +16,6 @@ public:
 	void PulseMaster();
 
 	RakPeerInterface *GetInterface() { return g_RakPeer; };
+	RPC4& GetRPC() { return *g_RPC; };
 };
 

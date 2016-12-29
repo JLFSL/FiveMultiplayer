@@ -185,6 +185,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="API_Server.h" />
+    <ClInclude Include="API_Visual.h" />
     <ClInclude Include="CAPI.h" />
     <ClInclude Include="CNetworkManager.h" />
     <ClInclude Include="CConfig.h" />
@@ -197,6 +198,7 @@
   <ItemGroup>
     <ClCompile Include="apitest.cpp" />
     <ClCompile Include="API_Server.cpp" />
+    <ClCompile Include="API_Visual.cpp" />
     <ClCompile Include="CAPI.cpp" />
     <ClCompile Include="CNetworkManager.cpp" />
     <ClCompile Include="CConfig.cpp" />
