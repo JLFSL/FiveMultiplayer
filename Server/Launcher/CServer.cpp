@@ -45,6 +45,8 @@ CServer::~CServer()
 	cout << "[CServer] Deconstructed" << endl;
 }
 
+#define USEAPI
+
 bool CServer::Load(int argc, char ** argv)
 {
 #ifdef _WIN32
@@ -136,7 +138,6 @@ void CServer::Process()
 	}
 
 	g_API->OnTick();
-	API::Visual::ShowMessageAboveMap("HAHA");
 
 	// Show FPS in console window (windows only)
 	if (p_ShowFPS) ShowFPS();
