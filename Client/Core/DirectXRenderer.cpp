@@ -14,7 +14,7 @@ DirectXRenderer::~DirectXRenderer()
 	Instance = nullptr;
 }
 
-bool show_app_about = true;
+bool show_app_about = false;
 
 HRESULT __stdcall Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags)
 {
@@ -37,7 +37,21 @@ HRESULT __stdcall Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Fl
 		DirectXRenderer::GetInstance()->FirstRender = false;
 	}
 
-	curInstance->pFontWrapper->DrawString(curInstance->pContext, L"Loaded", 25.0f, 16.0f, 16.0f, 0xffffffff, FW1_RESTORESTATE);
+	float fontsize = 24.0f;
+
+	curInstance->pFontWrapper->DrawString(curInstance->pContext, L"Loaded", fontsize, 34.0f, 32.0f, 0xff000000, FW1_RESTORESTATE);
+	curInstance->pFontWrapper->DrawString(curInstance->pContext, L"Loaded", fontsize, 30.0f, 32.0f, 0xff000000, FW1_RESTORESTATE);
+
+	curInstance->pFontWrapper->DrawString(curInstance->pContext, L"Loaded", fontsize, 32.0f, 34.0f, 0xff000000, FW1_RESTORESTATE);
+	curInstance->pFontWrapper->DrawString(curInstance->pContext, L"Loaded", fontsize, 32.0f, 30.0f, 0xff000000, FW1_RESTORESTATE);
+
+	curInstance->pFontWrapper->DrawString(curInstance->pContext, L"Loaded", fontsize, 34.0f, 34.0f, 0xff000000, FW1_RESTORESTATE);
+	curInstance->pFontWrapper->DrawString(curInstance->pContext, L"Loaded", fontsize, 30.0f, 30.0f, 0xff000000, FW1_RESTORESTATE);
+
+	curInstance->pFontWrapper->DrawString(curInstance->pContext, L"Loaded", fontsize, 34.0f, 30.0f, 0xff000000, FW1_RESTORESTATE);
+	curInstance->pFontWrapper->DrawString(curInstance->pContext, L"Loaded", fontsize, 30.0f, 34.0f, 0xff000000, FW1_RESTORESTATE);
+
+	curInstance->pFontWrapper->DrawString(curInstance->pContext, L"Loaded", fontsize, 32.0f, 32.0f, 0xffffffff, FW1_RESTORESTATE);
 
 	ImGui_ImplDX11_NewFrame();
 
@@ -51,9 +65,9 @@ HRESULT __stdcall Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Fl
 		ImGui::End();
 	}
 
-	DirectXDraw::GetInstance()->BeginScene();
-	DirectXDraw::GetInstance()->DrawScene();
-	DirectXDraw::GetInstance()->EndScene();
+	//DirectXDraw::GetInstance()->BeginScene();
+	///DirectXDraw::GetInstance()->DrawScene();
+	//DirectXDraw::GetInstance()->EndScene();
 
 	ImGui::Render();
 

@@ -17,8 +17,8 @@ void DirectXDraw::Initialize()
 	// This is my example of font initializing
 	// First font used for UI
 	// Second for rendering, 32.0f is pixel size, not font size.
-	io.Fonts->AddFontFromFileTTF("Roboto-Regular.ttf", 16.0f);
-	m_pFont = io.Fonts->AddFontFromFileTTF("Roboto-Regular.ttf", 32.0f);
+	io.Fonts->AddFontFromFileTTF("Roboto-Bold.ttf", 18.0f);
+	m_pFont = io.Fonts->AddFontFromFileTTF("Roboto-Bold.ttf", 36.0f);
 }
 
 void DirectXDraw::BeginScene()
@@ -34,7 +34,9 @@ void DirectXDraw::DrawScene()
 {
 	ImGuiIO& io = ImGui::GetIO();
 
-	_DrawText(m_pFont, "test", ImVec2(10, 50), 32.0f, 0xFFFFFFFF);
+	_DrawText(m_pFont, "Ronin(1): I need some milk", ImVec2(50, 50), 18.0f, 0xFFFFFFFF);
+	_DrawText(m_pFont, "Jack(420): Give this Ronin some babypandamilk!", ImVec2(50, 70), 18.0f, 0xFFB04329);
+	_DrawText(m_pFont, "NoHalfMeasures(1337): We don't have any milk!", ImVec2(50, 90), 18.0f, 0xFFF88842);
 }
 
 void DirectXDraw::EndScene()
