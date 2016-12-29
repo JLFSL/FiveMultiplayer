@@ -25,9 +25,6 @@
     <Filter Include="Graphics">
       <UniqueIdentifier>{17c376e7-2302-44f8-997e-c5de4a72c7eb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GUI">
-      <UniqueIdentifier>{f0d4ee51-5441-4b0a-b5d3-bfbe75ed6a16}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Client">
       <UniqueIdentifier>{0418d678-5ce0-439d-b4ae-fef5f594f530}</UniqueIdentifier>
     </Filter>
@@ -36,6 +33,21 @@
     </Filter>
     <Filter Include="Include\INIReader">
       <UniqueIdentifier>{7a1ff569-7c60-4765-99f2-3e73688c92af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\UI">
+      <UniqueIdentifier>{f0d4ee51-5441-4b0a-b5d3-bfbe75ed6a16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\UI\CEF">
+      <UniqueIdentifier>{5f610539-5e0c-4e20-ac2f-f58a9ae3eb12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\BeaEngine">
+      <UniqueIdentifier>{a3830985-7998-42d6-978d-673df445dca3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\DirectX 11">
+      <UniqueIdentifier>{c7037e18-e660-4c4f-9081-88b505706c48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\UI\ImGui">
+      <UniqueIdentifier>{968a08da-2dec-4f3f-aa7f-a56bf7a8e8f6}</UniqueIdentifier>
     </Filter>
     <Filter Include="Network\RPC">
       <UniqueIdentifier>{f88e65bc-0bf1-47f3-90d9-b684c02a0b14}</UniqueIdentifier>
@@ -101,6 +113,27 @@
     </ClCompile>
     <ClCompile Include="Animations.cpp">
       <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderHandler.cpp">
+      <Filter>Graphics\UI\CEF</Filter>
+    </ClCompile>
+    <ClCompile Include="CefRenderer.cpp">
+      <Filter>Graphics\UI\CEF</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXDraw.cpp">
+      <Filter>Graphics\DirectX 11</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXRenderer.cpp">
+      <Filter>Graphics\DirectX 11</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui.cpp">
+      <Filter>Graphics\UI\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_draw.cpp">
+      <Filter>Graphics\UI\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_impl_dx11.cpp">
+      <Filter>Graphics\UI\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="CVisual.cpp">
       <Filter>Client</Filter>
@@ -184,6 +217,51 @@
     </ClInclude>
     <ClInclude Include="Animations.h">
       <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderHandler.h">
+      <Filter>Graphics\UI\CEF</Filter>
+    </ClInclude>
+    <ClInclude Include="CefRenderer.h">
+      <Filter>Graphics\UI\CEF</Filter>
+    </ClInclude>
+    <ClInclude Include="beaengine\export.h">
+      <Filter>Include\BeaEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="beaengine\macros.h">
+      <Filter>Include\BeaEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="beaengine\basic_types.h">
+      <Filter>Include\BeaEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="beaengine\BeaEngine.h">
+      <Filter>Include\BeaEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXDraw.h">
+      <Filter>Graphics\DirectX 11</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXRenderer.h">
+      <Filter>Graphics\DirectX 11</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imgui_internal.h">
+      <Filter>Graphics\UI\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\stb_rect_pack.h">
+      <Filter>Graphics\UI\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\stb_textedit.h">
+      <Filter>Graphics\UI\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\stb_truetype.h">
+      <Filter>Graphics\UI\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imconfig.h">
+      <Filter>Graphics\UI\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imgui.h">
+      <Filter>Graphics\UI\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui\imgui_impl_dx11.h">
+      <Filter>Graphics\UI\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="CVisual.h">
       <Filter>Client</Filter>

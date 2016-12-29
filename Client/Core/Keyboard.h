@@ -41,7 +41,7 @@
 #define VK_KEY_Y	0x59                //('Y')	Y
 #define VK_KEY_Z	0x5A                //('Z')	Z
 
-#define IsKeyPressed(key) GetAsyncKeyState(key) & 0x8000
+#define k_IsKeyPressed(key) GetAsyncKeyState(key) & 0x8000
 
 // parameters are the same as with aru's ScriptHook for IV
 void OnKeyboardMessage(DWORD key, WORD repeats, BYTE scanCode, BOOL isExtended, BOOL isWithAlt, BOOL wasDownBefore, BOOL isUpNow);

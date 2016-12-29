@@ -91,15 +91,15 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;CORE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_WINDOWS;_USRDLL;CORE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalIncludeDirectories>../../Vendor;../../Shared</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../Vendor;../../Shared;..\..\Vendor\CEF\;../Core</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>RakNet.lib;ws2_32.lib;MinHook.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3dcompiler.lib;FW1FontWrapper.lib;BeaEngine.lib;detours.lib;d3d11.lib;libcef.lib;libcef_dll_wrapper.lib;MinHook.lib;RakNet.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)\lib\$(Configuration)\32</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
@@ -111,19 +111,19 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;_USRDLL;CORE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_DEBUG;_WINDOWS;_USRDLL;CORE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <AdditionalIncludeDirectories>../../Vendor;../../Shared</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../Vendor;../../Shared;..\..\Vendor\CEF\;../Core</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>MinHook.lib;RakNet.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3dcompiler.lib;FW1FontWrapper.lib;BeaEngine.lib;detours.lib;d3d11.lib;libcef.lib;libcef_dll_wrapper.lib;MinHook.lib;RakNet.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)\lib\$(Configuration)\</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(SolutionDir)lib\$(Configuration)\*.dll"  "$(TargetDir)" </Command>
+      <Command>copy "$(SolutionDir)lib\$(Configuration)\*.dll"  "$(TargetDir)\gamedir\" </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -133,9 +133,9 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;CORE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;NDEBUG;_WINDOWS;_USRDLL;CORE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>../../Vendor;../../Shared</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../Vendor;../../Shared;..\..\Vendor\CEF\;../Core</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
@@ -143,7 +143,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>RakNet.lib;ws2_32.lib;MinHook.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3dcompiler.lib;FW1FontWrapper.lib;BeaEngine.lib;detours.lib;d3d11.lib;libcef.lib;libcef_dll_wrapper.lib;MinHook.lib;RakNet.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)\lib\$(Configuration)\32</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
@@ -157,9 +157,9 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;_USRDLL;CORE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;NDEBUG;_WINDOWS;_USRDLL;CORE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <AdditionalIncludeDirectories>../../Vendor;../../Shared</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../Vendor;../../Shared;..\..\Vendor\CEF\;../Core</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
@@ -167,25 +167,46 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>MinHook.lib;RakNet.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d3dcompiler.lib;FW1FontWrapper.lib;BeaEngine.lib;detours.lib;d3d11.lib;libcef.lib;libcef_dll_wrapper.lib;MinHook.lib;RakNet.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)\lib\$(Configuration)\</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(SolutionDir)lib\$(Configuration)\*.dll"  "$(TargetDir)" </Command>
+      <Command>copy "$(SolutionDir)lib\$(Configuration)\*.dll"  "$(TargetDir)\gamedir\" </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Animations.cpp" />
     <ClCompile Include="CConfig.cpp" />
     <ClCompile Include="CCore.cpp" />
+    <ClCompile Include="CefRenderer.cpp" />
     <ClCompile Include="CNetworkManager.cpp" />
     <ClCompile Include="CPlayerEntity.cpp" />
     <ClCompile Include="CrossMapping.cpp" />
+    <ClCompile Include="DirectXDraw.cpp" />
+    <ClCompile Include="DirectXRenderer.cpp" />
     <ClCompile Include="CRPCManager.cpp" />
     <ClCompile Include="CRPCVisual.cpp" />
     <ClCompile Include="CVisual.cpp" />
     <ClCompile Include="Doors.cpp" />
     <ClCompile Include="Hooking.cpp" />
+    <ClCompile Include="imgui\imgui.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_draw.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="imgui\imgui_impl_dx11.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Use</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="ini.cpp" />
     <ClCompile Include="IniReader.cpp" />
     <ClCompile Include="InputHook.cpp" />
@@ -195,6 +216,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Memory.cpp" />
     <ClCompile Include="NativeInvoker.cpp" />
+    <ClCompile Include="RenderHandler.cpp" />
     <ClCompile Include="Script.cpp" />
     <ClCompile Include="Scripts.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -206,17 +228,31 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h" />
+    <ClInclude Include="beaengine\basic_types.h" />
+    <ClInclude Include="beaengine\BeaEngine.h" />
+    <ClInclude Include="beaengine\export.h" />
+    <ClInclude Include="beaengine\macros.h" />
     <ClInclude Include="CConfig.h" />
     <ClInclude Include="CCore.h" />
+    <ClInclude Include="CefRenderer.h" />
     <ClInclude Include="CNetworkManager.h" />
     <ClInclude Include="CPlayerEntity.h" />
     <ClInclude Include="CrossMapping.h" />
+    <ClInclude Include="DirectXDraw.h" />
+    <ClInclude Include="DirectXRenderer.h" />
     <ClInclude Include="CRPCManager.h" />
     <ClInclude Include="CRPCVisual.h" />
     <ClInclude Include="CVisual.h" />
     <ClInclude Include="Doors.h" />
     <ClInclude Include="Enums.h" />
     <ClInclude Include="Hooking.h" />
+    <ClInclude Include="imgui\imconfig.h" />
+    <ClInclude Include="imgui\imgui.h" />
+    <ClInclude Include="imgui\imgui_impl_dx11.h" />
+    <ClInclude Include="imgui\imgui_internal.h" />
+    <ClInclude Include="imgui\stb_rect_pack.h" />
+    <ClInclude Include="imgui\stb_textedit.h" />
+    <ClInclude Include="imgui\stb_truetype.h" />
     <ClInclude Include="ini.h" />
     <ClInclude Include="IniReader.h" />
     <ClInclude Include="InputHook.h" />
@@ -227,6 +263,7 @@
     <ClInclude Include="NativeCaller.h" />
     <ClInclude Include="NativeInvoker.h" />
     <ClInclude Include="Natives.h" />
+    <ClInclude Include="RenderHandler.h" />
     <ClInclude Include="Script.h" />
     <ClInclude Include="Scripts.h" />
     <ClInclude Include="stdafx.h" />
