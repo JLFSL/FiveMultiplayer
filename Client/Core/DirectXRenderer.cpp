@@ -29,7 +29,10 @@ HRESULT __stdcall Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Fl
 		curInstance->pFW1Factory->CreateFontWrapper(curInstance->pDevice, L"Segoe UI", &curInstance->pFontWrapper);
 		curInstance->pFW1Factory->Release();
 
+		DirectXDraw::GetInstance()->Initialize();
+
 		ImGui_ImplDX11_Init(curInstance->hWnd, curInstance->pDevice, curInstance->pContext);
+		ImGui_ImplDX11_CreateDeviceObjects();
 
 		DirectXRenderer::GetInstance()->FirstRender = false;
 	}
@@ -47,6 +50,10 @@ HRESULT __stdcall Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Fl
 		ImGui::Text("ImGui is licensed under the MIT License, see LICENSE for more information.");
 		ImGui::End();
 	}
+
+	DirectXDraw::GetInstance()->BeginScene();
+	DirectXDraw::GetInstance()->DrawScene();
+	DirectXDraw::GetInstance()->EndScene();
 
 	ImGui::Render();
 

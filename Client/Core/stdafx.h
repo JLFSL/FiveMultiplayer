@@ -95,10 +95,6 @@
 	#include "CConfig.h"
 
 	// Graphics
-		// Direct X 11
-		#include "DirectXRenderer.h"
-		#include "DirectXDraw.h"
-
 		// UI
 			// CEF
 			#include "RenderHandler.h"
@@ -110,6 +106,10 @@
 			#define IMGUI_DEFINE_MATH_OPERATORS
 			#define IMGUI_DEFINE_PLACEMENT_NEW
 			#include "imgui/imgui_internal.h"
+
+		// Direct X 11
+		#include "DirectXRenderer.h"
+		#include "DirectXDraw.h"
 
 extern CCore *g_Core;
 extern CConfig *g_Config;
