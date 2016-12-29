@@ -5,6 +5,17 @@
 #include <Windows.h>
 #include <stdint.h>
 #include <time.h>
+#include <stdint.h>
+#include <ctype.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <limits.h>
+
+// DirectX // DirectInput
+#include <d3d11.h>
+#include <d3dcompiler.h>
+#define DIRECTINPUT_VERSION 0x0800
+#include <dinput.h>
 
 // Windows C++
 #include <cstdio>
@@ -42,6 +53,9 @@
 	#include <include/cef_client.h>
 	#include <include/cef_render_handler.h>
 
+	// Vendor.FW1FontWrapper
+	#include <FW1FontWrapper/FW1FontWrapper.h>
+
 // Client.Core
 	// Hooks
 		// SudoMod
@@ -62,6 +76,7 @@
 	// Include
 	#include "IniReader.h"
 	#include "ini.h"
+	#include "beaengine/BeaEngine.h"
 
 	// Game
 	#include "Scripts.h"
@@ -79,9 +94,22 @@
 	#include "CCore.h"
 	#include "CConfig.h"
 
-	// UI
-	#include "RenderHandler.h"
-	#include "CefRenderer.h"
+	// Graphics
+		// Direct X 11
+		#include "DirectXRenderer.h"
+		#include "DirectXDraw.h"
+
+		// UI
+			// CEF
+			#include "RenderHandler.h"
+			#include "CefRenderer.h"
+			
+			// ImGui
+			#include "imgui/imgui.h"
+			#include "imgui/imgui_impl_dx11.h"
+			#define IMGUI_DEFINE_MATH_OPERATORS
+			#define IMGUI_DEFINE_PLACEMENT_NEW
+			#include "imgui/imgui_internal.h"
 
 extern CCore *g_Core;
 extern CConfig *g_Config;
