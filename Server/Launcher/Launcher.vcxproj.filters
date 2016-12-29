@@ -66,6 +66,9 @@
     <ClCompile Include="IniReader.cpp">
       <Filter>Include\INIReader</Filter>
     </ClCompile>
+    <ClCompile Include="API_Visual.cpp">
+      <Filter>Scripting\Functions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -94,6 +97,9 @@
     </ClInclude>
     <ClInclude Include="IniReader.h">
       <Filter>Include\INIReader</Filter>
+    </ClInclude>
+    <ClInclude Include="API_Visual.h">
+      <Filter>Scripting\Functions</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

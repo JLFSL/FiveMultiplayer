@@ -37,6 +37,9 @@
     <Filter Include="Include\INIReader">
       <UniqueIdentifier>{7a1ff569-7c60-4765-99f2-3e73688c92af}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Network\RPC">
+      <UniqueIdentifier>{f88e65bc-0bf1-47f3-90d9-b684c02a0b14}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -98,6 +101,15 @@
     </ClCompile>
     <ClCompile Include="Animations.cpp">
       <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="CVisual.cpp">
+      <Filter>Client</Filter>
+    </ClCompile>
+    <ClCompile Include="CRPCManager.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="CRPCVisual.cpp">
+      <Filter>Network\RPC</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -172,6 +184,15 @@
     </ClInclude>
     <ClInclude Include="Animations.h">
       <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="CVisual.h">
+      <Filter>Client</Filter>
+    </ClInclude>
+    <ClInclude Include="CRPCManager.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="CRPCVisual.h">
+      <Filter>Network\RPC</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

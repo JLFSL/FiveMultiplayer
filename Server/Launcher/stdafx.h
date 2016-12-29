@@ -59,6 +59,7 @@ using namespace std;
 	// API
 	#include "CAPI.h"
 	#include "API_Server.h"
+	#include "API_Visual.h"
 
 	// Network
 	#include "CNetworkManager.h"

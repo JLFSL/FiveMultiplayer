@@ -29,6 +29,7 @@ public:
 
 	RakPeerInterface *GetInterface() { return g_RakPeer; }
 	SystemAddress GetSystemAddress() { return g_SystemAddr; }
+	RPC4& GetRPC() { return *g_RPC; };
 
 	int g_ConnectionState; /* 0 = Disconnected - 1 = Connecting - 2 = Connected - 3 = Connection Failed */
 };

@@ -3,6 +3,7 @@ class CCore
 {
 private:
 	CNetworkManager	*g_NetworkManager;
+	CRPCManager		*g_RPCManager;
 	CLocalPlayer	*g_LocalPlayer;
 	Scripts			*g_Scipts;
 	Doors			*g_Doors;
@@ -24,6 +25,7 @@ public:
 	void PreventCheat();
 
 	CNetworkManager *GetNetworkManager()	{ return g_NetworkManager; }
+	CRPCManager *GetRPCManager() { return g_RPCManager; }
 	CLocalPlayer *GetLocalPlayer() { return g_LocalPlayer; }
 };
 

@@ -69,10 +69,14 @@ using namespace RakNet;
 
 	// Network
 	#include "CNetworkManager.h"
+	#include "CRPCManager.h"
+		// RPC Handlers
+		#include "CRPCVisual.h"
 
 	// Client
 	#include "CCore.h"
 	#include "CConfig.h"
+	#include "CVisual.h"
 
 extern CCore *g_Core;
 extern CConfig *g_Config;
