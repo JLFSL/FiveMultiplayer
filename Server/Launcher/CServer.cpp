@@ -1,13 +1,12 @@
 #include "stdafx.h"
 
-CAPI*				g_API;
-
 CConfig*			g_Config;
 CNetworkManager*	g_Network;
 
 CServer* CServer::p_Instance = nullptr;
 
-vector<CPlayerEntity> g_Players;
+vector<CPlayerEntity>	g_Players;
+vector<CAPI>			g_ApiModules;
 
 CServer::CServer()
 {
@@ -29,16 +28,12 @@ CServer::CServer()
 	// Construct CNetworkManager
 	g_Network = new CNetworkManager();
 
-	// Construct CAPI
-	g_API = new CAPI;
-
 	cout << "[CServer] Constructed" << endl;
 }
 
 
 CServer::~CServer()
 {
-	SAFE_DELETE(g_API);
 	SAFE_DELETE(g_Network);
 	SAFE_DELETE(g_Config);
 
@@ -81,34 +76,54 @@ bool CServer::Load(int argc, char ** argv)
 		getc(stdin);
 		return 1;
 	}
+	
+	CAPI NewModule;
+	string module = "plugin/";
 
-	if (!g_API)
+	for (int c = 0; c < g_Config->GetLanguage().size(); c++)
 	{
-		cout << "[CAPI] Invalid" << endl;
-		getc(stdin);
-		return 1;
+		if (g_Config->GetLanguage()[c] != ' ')
+		{
+			module.push_back(g_Config->GetLanguage()[c]);
+		}
+		else
+		{
+			module += LIBRARY_EXTENSION;
+			NewModule.SetModuleName(module);
+			g_ApiModules.push_back(NewModule);
+			module = "plugin/";
+		}
+
+		if (c == g_Config->GetLanguage().size() - 1)
+		{
+			module += LIBRARY_EXTENSION;
+			NewModule.SetModuleName(module);
+			g_ApiModules.push_back(NewModule);
+		}
 	}
 
-	string language("plugin/");
-	language += g_Config->GetLanguage();
-	language += LIBRARY_EXTENSION;
-
-	// Load API.Lua plugin
+	// Load plugin modules
 #ifdef USEAPI
 
-	if (!g_API->Load(language.c_str()))
+	for (int i = 0; i < g_ApiModules.size(); i++)
 	{
-		cout << "[CAPI] " << g_API->ModuleName() << " could not be loaded" << endl;
-		getc(stdin);
-		return false;
+		if (!g_ApiModules[i].Load(g_ApiModules[i].ModuleName().c_str()))
+		{
+			cout << "[CAPI] " << g_ApiModules[i].ModuleName() << " could not be loaded" << endl;
+			getc(stdin);
+			return false;
+		}
 	}
 
 	// Call Initialize function on our API
-	if (!g_API->Initialize())
+	for (int i = 0; i < g_ApiModules.size(); i++)
 	{
-		cout << "[CAPI] " << g_API->ModuleName() << " could not be initialized" << endl;
-		getc(stdin);
-		return false;
+		if (!g_ApiModules[i].Initialize())
+		{
+			cout << "[CAPI] " << g_ApiModules[i].ModuleName() << " could not be initialized" << endl;
+			getc(stdin);
+			return false;
+		}
 	}
 #endif
 
@@ -119,10 +134,13 @@ bool CServer::Load(int argc, char ** argv)
 void CServer::Stop()
 {
 	// Call Close function on our API
-	if (!g_API->Close())
+	for (int i = 0; i < g_ApiModules.size(); i++)
 	{
-		cout << "[CServer] " << g_API->ModuleName() << " could not be closed" << endl;
-		getc(stdin);
+		if (!g_ApiModules[i].Close())
+		{
+			cout << "[CServer] " << g_ApiModules[i].ModuleName() << " could not be closed" << endl;
+			getc(stdin);
+		}
 	}
 	p_Active = false;
 }
@@ -137,7 +155,10 @@ void CServer::Process()
 		g_Players[i].Pulse();
 	}
 
-	g_API->OnTick();
+	for (int i = 0; i < g_ApiModules.size(); i++)
+	{
+		g_ApiModules[i].OnTick();
+	}
 
 	// Show FPS in console window (windows only)
 	if (p_ShowFPS) ShowFPS();
