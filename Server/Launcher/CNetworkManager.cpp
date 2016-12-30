@@ -65,10 +65,21 @@ void CNetworkManager::Pulse()
 		{
 			case ID_NEW_INCOMING_CONNECTION:
 			{
+				// API::Network::OnPlayerConnecting Execute
+				for (int i = 0; i < g_ApiModules.size(); i++)
+				{
+					void *Instance = g_ApiModules[i].GetInstance();
+					if (!API::Network::OnPlayerConnecting(Instance, g_Packet->guid.ToString()))
+					{
+						g_RakPeer->CloseConnection(g_Packet->systemAddress, true);
+					}
+				}
+
 				CPlayerEntity newPlayer;
 				newPlayer.Create("User", g_Packet->guid, g_Packet->systemAddress);
 				g_Players.push_back(newPlayer);
 
+				// API::Network::OnPlayerConnected Execute
 				for (int i = 0; i < g_ApiModules.size(); i++)
 				{
 					void *Instance = g_ApiModules[i].GetInstance();
