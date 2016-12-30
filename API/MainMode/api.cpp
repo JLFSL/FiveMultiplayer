@@ -14,7 +14,8 @@
 
 extern "C" DLL_PUBLIC bool API_Initialize(void) {
 	// When Plugin gets loaded
-	std::cout << "init" << std::endl;
+	DLL_PUBLIC_I int PrintMessage(const char *message);
+	PrintMessage("init");
 	return true;
 }
 
@@ -26,8 +27,16 @@ extern "C" DLL_PUBLIC bool API_Close(void) {
 
 extern "C" DLL_PUBLIC bool API_OnTick(void) {
 	// Every server tick this gets called
-
 	DLL_PUBLIC_I int ShowMessageAboveMap(const char *message);
-	std::cout << ShowMessageAboveMap("I don't like people!") << std::endl;
+	ShowMessageAboveMap("I don't like people!");
+	ShowMessageAboveMap("Hello World");
+	return true;
+}
+
+extern "C" DLL_PUBLIC bool API_OnPlayerConnected(void)
+{
+	// Player Connected
+	DLL_PUBLIC_I int ShowMessageAboveMap(const char *message);
+	ShowMessageAboveMap("~g~YOU CONNECTED!");
 	return true;
 }

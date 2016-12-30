@@ -77,6 +77,7 @@ bool CServer::Load(int argc, char ** argv)
 		return 1;
 	}
 	
+	// Split the plugin string for each defined plugin and insert into the pool.
 	CAPI NewModule;
 	string module = "plugin/";
 
@@ -102,9 +103,8 @@ bool CServer::Load(int argc, char ** argv)
 		}
 	}
 
-	// Load plugin modules
 #ifdef USEAPI
-
+	// Load plugin modules
 	for (int i = 0; i < g_ApiModules.size(); i++)
 	{
 		if (!g_ApiModules[i].Load(g_ApiModules[i].ModuleName().c_str()))

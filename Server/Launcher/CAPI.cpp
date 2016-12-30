@@ -3,16 +3,12 @@
 CAPI::CAPI()
 {
 	Instance = nullptr;
-
-	cout << "[CAPI] Constructed" << endl;
 }
 
 
 CAPI::~CAPI()
 {
 	Instance = nullptr;
-
-	cout << "[CAPI] Deconstructed" << endl;
 }
 
 bool CAPI::Load(const char *Filename)

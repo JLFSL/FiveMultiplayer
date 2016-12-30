@@ -16,6 +16,8 @@ public:
 	bool Close();
 	bool OnTick();
 
+	void* GetInstance() { return Instance;  };
+
 	string ModuleName() { return Module; };
 	void SetModuleName(string _module) { Module = _module; };
 };

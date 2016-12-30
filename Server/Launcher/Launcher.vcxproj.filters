@@ -69,6 +69,9 @@
     <ClCompile Include="API_Visual.cpp">
       <Filter>Scripting\Functions</Filter>
     </ClCompile>
+    <ClCompile Include="API_Callback_Network.cpp">
+      <Filter>Scripting\Callbacks</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -100,6 +103,9 @@
     </ClInclude>
     <ClInclude Include="API_Visual.h">
       <Filter>Scripting\Functions</Filter>
+    </ClInclude>
+    <ClInclude Include="API_Callback_Network.h">
+      <Filter>Scripting\Callbacks</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

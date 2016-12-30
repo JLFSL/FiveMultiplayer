@@ -58,6 +58,9 @@ using namespace std;
 
 	// API
 	#include "CAPI.h"
+	// Callbacks
+	#include "API_Callback_Network.h"
+	// Functions
 	#include "API_Server.h"
 	#include "API_Visual.h"
 

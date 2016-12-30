@@ -68,6 +68,12 @@ void CNetworkManager::Pulse()
 				CPlayerEntity newPlayer;
 				newPlayer.Create("User", g_Packet->guid, g_Packet->systemAddress);
 				g_Players.push_back(newPlayer);
+
+				for (int i = 0; i < g_ApiModules.size(); i++)
+				{
+					void *Instance = g_ApiModules[i].GetInstance();
+					API::Network::OnPlayerConnected(Instance);
+				}
 				
 				PulseMaster();
 				break;
