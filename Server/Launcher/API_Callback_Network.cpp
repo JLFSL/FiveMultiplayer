@@ -4,7 +4,7 @@ namespace API
 {
 	namespace Network
 	{
-		char *ThisNamespace = "API::Callback::Network";
+		char *ThisNamespace = "API::Network";
 
 		bool OnPlayerConnected(void *Instance)
 		{
