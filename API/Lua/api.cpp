@@ -1,3 +1,13 @@
+#if defined _WIN32 || defined __CYGWIN__
+#ifdef __GNUC__
+#define DLL_PUBLIC __attribute__ ((dllexport))
+#else
+#define DLL_PUBLIC __declspec(dllexport)
+#endif
+#else
+#define DLL_PUBLIC 
+#endif
+
 #include "../../Shared/Common.h"
 
 extern "C" {
@@ -17,6 +27,7 @@ extern "C" int ex_PrintMessage(lua_State* state) {
 	PrintMessage(lua_tostring(stateLua, 1));
 	return 1;
 }
+
 #pragma region CallBacks
 extern "C" DLL_PUBLIC bool API_Initialize(void) {
 	stateLua = luaL_newstate();

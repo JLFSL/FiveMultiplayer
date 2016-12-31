@@ -4,6 +4,6 @@ namespace API
 {
 	namespace Visual
 	{
-		extern "C" DLL_PUBLIC int ShowMessageAboveMap(const char *message);
+		extern "C" DLL_PUBLIC void ShowMessageAboveMap(const char *message);
 	}
 }
