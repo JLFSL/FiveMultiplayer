@@ -17,7 +17,7 @@ extern "C" int ex_PrintMessage(lua_State* state) {
 	PrintMessage(lua_tostring(stateLua, 1));
 	return 1;
 }
-
+#pragma region CallBacks
 extern "C" DLL_PUBLIC bool API_Initialize(void) {
 	stateLua = luaL_newstate();
 	cout << endl << "API.Lua: Lua state created." << endl;
@@ -48,3 +48,50 @@ extern "C" DLL_PUBLIC bool API_OnTick(void) {
 	//std::cout << "tick" << std::endl;
 	return true;
 }
+
+extern "C" DLL_PUBLIC bool API_OnPlayerConnecting(const char *guid)
+{
+	int result;
+
+	cout << "OnPlayerConnecting() was called." << endl;
+
+	int call = lua_getglobal(stateLua, "OnPlayerConnecting");
+	if (call != 0)
+	{
+
+		int error = lua_pcall(stateLua, 0, 1, 0);
+		if (error != 0)
+		{
+			cout << "Error occured when executing OnPlayerConnecting" << endl;
+			cout << "Error: " << lua_tostring(stateLua, -1) << endl;
+		}
+
+		result = (int)lua_tointeger(stateLua, -1);
+		lua_pop(stateLua, 1);
+	}
+	return result;
+}
+
+extern "C" DLL_PUBLIC bool API_OnPlayerConnected(void)
+{
+	int result;
+
+	cout << "OnPlayerConnected() was called." << endl;
+
+	int call = lua_getglobal(stateLua, "OnPlayerConnected");
+	if (call != 0)
+	{
+
+		int error = lua_pcall(stateLua, 0, 1, 0);
+		if (error != 0)
+		{
+			cout << "Error occured when executing OnPlayerConnected" << endl;
+			cout << "Error: " << lua_tostring(stateLua, -1) << endl;
+		}
+
+		result = (int)lua_tointeger(stateLua, -1);
+		lua_pop(stateLua, 1);
+	}
+	return result;
+}
+#pragma endregion
