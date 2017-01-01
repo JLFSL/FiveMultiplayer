@@ -3,4 +3,17 @@
   <ItemGroup>
     <ClCompile Include="api.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Filter Include="API">
+      <UniqueIdentifier>{352e5012-375d-47b5-9d3c-dbad34390915}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="APIVisual.h">
+      <Filter>API</Filter>
+    </ClInclude>
+    <ClInclude Include="APIServer.h">
+      <Filter>API</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>

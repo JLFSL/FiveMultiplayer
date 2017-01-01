@@ -46,6 +46,7 @@ bool CNetworkManager::Start()
 	{
 		g_RakPeer->SetMaximumIncomingConnections(g_Config->GetMaxPlayers());
 		g_RakPeer->SetIncomingPassword(g_Config->GetPassword().c_str(), sizeof(g_Config->GetPassword().c_str()));
+		g_RakPeer->SetLimitIPConnectionFrequency(true);
 		g_RakPeer->SetTimeoutTime(15000, UNASSIGNED_SYSTEM_ADDRESS);
 
 		cout << "[CNetworkManager] Successfully started" << endl;
@@ -89,7 +90,6 @@ void CNetworkManager::Pulse()
 				PulseMaster();
 				break;
 			}
-			
 			case ID_DISCONNECTION_NOTIFICATION:
 			{
 				for (int i = 0; i < g_Players.size(); i++) {
@@ -103,7 +103,6 @@ void CNetworkManager::Pulse()
 				PulseMaster();
 				break;
 			}
-
 			case ID_CONNECTION_LOST:
 			{
 				for (int i = 0; i < g_Players.size(); i++)
@@ -119,7 +118,6 @@ void CNetworkManager::Pulse()
 				PulseMaster();
 				break;
 			}
-
 			case ID_PACKET_TEST:
 			{
 				for (int i = 0; i < g_Players.size(); i++) {

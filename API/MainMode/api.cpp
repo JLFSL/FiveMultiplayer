@@ -12,41 +12,42 @@
 
 #include "../../Shared/Common.h"
 
-extern "C" DLL_PUBLIC bool API_Initialize(void) {
-	// When Plugin gets loaded
-	DLL_PUBLIC_I int PrintMessage(const char *message);
-	PrintMessage("init");
+// API Function Imports
+#include "APIServer.h"
+#include "APIVisual.h"
+
+// When Plugin gets loaded
+extern "C" DLL_PUBLIC bool API_Initialize(void) 
+{
+	API::Server::_PrintMessage("init");
 	return true;
 }
 
-extern "C" DLL_PUBLIC bool API_Close(void) {
-	// When plugin gets unloaded
+// When plugin gets unloaded
+extern "C" DLL_PUBLIC bool API_Close(void) 
+{
 	std::cout << "close" << std::endl;
 	return true;
 }
 
-extern "C" DLL_PUBLIC bool API_OnTick(void) {
-	// Every server tick this gets called
-	DLL_PUBLIC_I int ShowMessageAboveMap(const char *message);
-	ShowMessageAboveMap("I don't like people!");
+// Every server tick this gets called
+extern "C" DLL_PUBLIC bool API_OnTick(void) 
+{
+	API::Visual::_ShowMessageAboveMap("I don't like people!");
 	return true;
 }
 
+// Player Connecting
 extern "C" DLL_PUBLIC bool API_OnPlayerConnecting(const char *guid )
 {
-	// Player Connected
-	DLL_PUBLIC_I int PrintMessage(const char *message);
-	PrintMessage(("Player connecting with [guid: %s]", guid));
-
-	DLL_PUBLIC_I int ShowMessageAboveMap(const char *message);
-	ShowMessageAboveMap(("~p~You are Connecting [guid: %s]", guid));
+	API::Server::_PrintMessage(("Player connecting with [guid: %s]", guid));
+	API::Visual::_ShowMessageAboveMap(("~p~You are Connecting [guid: %s]", guid));
 	return true;
 }
 
+// Player Connected
 extern "C" DLL_PUBLIC bool API_OnPlayerConnected(void)
 {
-	// Player Connected
-	DLL_PUBLIC_I int ShowMessageAboveMap(const char *message);
-	ShowMessageAboveMap("~g~YOU CONNECTED!");
+	API::Visual::_ShowMessageAboveMap("~g~YOU CONNECTED!");
 	return true;
 }

@@ -128,6 +128,33 @@ void CNetworkManager::Pulse()
 
 		switch (g_Packet->data[0])
 		{
+			case ID_UNCONNECTED_PONG:
+			{
+				break;
+			}
+			case ID_ADVERTISE_SYSTEM:
+			{
+				break;
+			}
+			case ID_DOWNLOAD_PROGRESS:
+			{
+				break;
+			}
+			case ID_IP_RECENTLY_CONNECTED:
+			{
+				Logger::Msg("Failed to connect, recently connected", g_Packet->data[0]);
+				break;
+			}
+			case ID_INCOMPATIBLE_PROTOCOL_VERSION:
+			{
+				Logger::Msg("Failed to connect, incompatible protocol version", g_Packet->data[0]);
+				break;
+			}
+			case ID_ALREADY_CONNECTED:
+			{
+				Logger::Msg("Failed to connect, already connected", g_Packet->data[0]);
+				break;
+			}
 			case ID_NO_FREE_INCOMING_CONNECTIONS:
 			{
 				Logger::Msg("Failed to connect, max client", g_Packet->data[0]);
