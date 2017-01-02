@@ -33,7 +33,7 @@ extern "C" DLL_PUBLIC bool API_Close(void)
 // Every server tick this gets called
 extern "C" DLL_PUBLIC bool API_OnTick(void) 
 {
-	API::Visual::_ShowMessageAboveMap("I don't like people!");
+	API::Visual::_ShowMessageAboveMap("I don't like people!", "CHAR_DEFAULT", 1, "Jack", "");
 	return true;
 }
 
@@ -41,13 +41,13 @@ extern "C" DLL_PUBLIC bool API_OnTick(void)
 extern "C" DLL_PUBLIC bool API_OnPlayerConnecting(const char *guid )
 {
 	API::Server::_PrintMessage(("Player connecting with [guid: %s]", guid));
-	API::Visual::_ShowMessageAboveMap(("~p~You are Connecting [guid: %s]", guid));
+	API::Visual::_ShowMessageAboveMap(("~p~You are Connecting [guid: %s]", guid), "CHAR_DEFAULT", 1, "Server", "Connecting...");
 	return true;
 }
 
 // Player Connected
 extern "C" DLL_PUBLIC bool API_OnPlayerConnected(void)
 {
-	API::Visual::_ShowMessageAboveMap("~g~YOU CONNECTED!");
+	API::Visual::_ShowMessageAboveMap("~g~You Connected!", "CHAR_YOUTUBE", 1, "Jack", "Test");
 	return true;
 }
