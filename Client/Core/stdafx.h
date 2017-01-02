@@ -52,6 +52,7 @@
 	#include <include/cef_app.h>
 	#include <include/cef_client.h>
 	#include <include/cef_render_handler.h>
+	#include <include/cef_sandbox_win.h>
 
 	// Vendor.FW1FontWrapper
 	#include <FW1FontWrapper/FW1FontWrapper.h>

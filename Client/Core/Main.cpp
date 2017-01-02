@@ -8,8 +8,8 @@ DWORD WINAPI MainThread(LPVOID lpParam)
 
 DWORD WINAPI CEFThread(LPVOID lpParam)
 {
-	/*if (CefRenderer::Initialize((HMODULE)lpParam))
-		CefRenderer::OnTick();*/
+	if (CefRenderer::Initialize((HMODULE)lpParam))
+		CefRenderer::OnTick();
 	return 0;
 }
 
