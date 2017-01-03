@@ -15,5 +15,8 @@
     <ClInclude Include="APIServer.h">
       <Filter>API</Filter>
     </ClInclude>
+    <ClInclude Include="APIEntity.h">
+      <Filter>API</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

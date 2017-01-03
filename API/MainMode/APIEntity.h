@@ -5,9 +5,9 @@ extern "C" {
 #endif
 	namespace API
 	{
-		namespace Server
+		namespace Entity
 		{
-			DLL_PUBLIC_I void PrintMessage(const char *message);
+			
 		}
 	}
 #ifdef __cplusplus
