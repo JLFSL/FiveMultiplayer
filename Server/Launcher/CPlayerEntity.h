@@ -39,8 +39,8 @@ private:
 public:
 	static int Amount;
 
-	CPlayerEntity() { };
-	~CPlayerEntity() { };
+	CPlayerEntity() {};
+	~CPlayerEntity() {};
 
 	void Create(string Name, RakNetGUID GUID, SystemAddress Ip);
 	void Destroy();
@@ -48,24 +48,25 @@ public:
 	void Pulse();
 	void Update(Packet *packet);
 
-	int GetId() { return Information.Id; };
-	string GetUsername() { return Information.Name; };
+	int				GetId() { return Information.Id; };
+	string			GetUsername() { return Information.Name; };
 
-	int GetScore() { return Statistics.Score; };
+	int				GetScore() { return Statistics.Score; };
 
-	CVector3 GetPosition() { return Data.Position; };
-	CVector4 GetQuaternion() { return Data.Quaternion; }
+	CVector3		GetPosition() { return Data.Position; };
+	void			SetPosition(CVector3 position) { Data.Position = position; };
+	CVector4		GetQuaternion() { return Data.Quaternion; }
 
-	bool GetSynchronized()	{ return Network.Synchronized; }
-	RakNetGUID GetGUID()	{ return Network.GUID; };
-	SystemAddress GetIp()	{ return Network.Ip; }
+	bool			GetSynchronized()	{ return Network.Synchronized; }
+	RakNetGUID		GetGUID()	{ return Network.GUID; };
+	SystemAddress	GetIp()	{ return Network.Ip; }
 
-	PlayerInfo SetInfo(PlayerInfo newinfo) { Information = newinfo; }
-	PlayerStats SetStats(PlayerStats newstats) { Statistics = newstats; }
-	PlayerData SetData(PlayerData newdata) { Data = newdata; }
+	PlayerInfo		SetInfo(PlayerInfo newinfo) { Information = newinfo; }
+	PlayerStats		SetStats(PlayerStats newstats) { Statistics = newstats; }
+	PlayerData		SetData(PlayerData newdata) { Data = newdata; }
 
-	PlayerInfo GetInfo() { return Information; }
-	PlayerStats GetStats() { return Statistics; }
-	PlayerData GetData() { return Data; }
+	PlayerInfo		GetInfo() { return Information; }
+	PlayerStats		GetStats() { return Statistics; }
+	PlayerData		GetData() { return Data; }
 };
 extern vector<CPlayerEntity> g_Players;

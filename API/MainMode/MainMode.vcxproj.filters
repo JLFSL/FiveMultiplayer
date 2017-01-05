@@ -7,6 +7,9 @@
     <Filter Include="API">
       <UniqueIdentifier>{352e5012-375d-47b5-9d3c-dbad34390915}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Math">
+      <UniqueIdentifier>{70f61da8-a43a-4a1c-a97f-cdecd6c8826f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="APIVisual.h">
@@ -17,6 +20,18 @@
     </ClInclude>
     <ClInclude Include="APIEntity.h">
       <Filter>API</Filter>
+    </ClInclude>
+    <ClInclude Include="CMaths.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Common.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="CVector3.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="CVector4.h">
+      <Filter>Math</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

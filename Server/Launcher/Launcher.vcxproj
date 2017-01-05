@@ -186,9 +186,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="API_Callback_Network.h" />
+    <ClInclude Include="API_Entity.h" />
     <ClInclude Include="API_Server.h" />
     <ClInclude Include="API_Visual.h" />
     <ClInclude Include="CAPI.h" />
+    <ClInclude Include="CServerEntity.h" />
     <ClInclude Include="CNetworkManager.h" />
     <ClInclude Include="CConfig.h" />
     <ClInclude Include="CPlayerEntity.h" />
@@ -200,9 +202,11 @@
   <ItemGroup>
     <ClCompile Include="apitest.cpp" />
     <ClCompile Include="API_Callback_Network.cpp" />
+    <ClCompile Include="API_Entity.cpp" />
     <ClCompile Include="API_Server.cpp" />
     <ClCompile Include="API_Visual.cpp" />
     <ClCompile Include="CAPI.cpp" />
+    <ClCompile Include="CServerEntity.cpp" />
     <ClCompile Include="CNetworkManager.cpp" />
     <ClCompile Include="CConfig.cpp" />
     <ClCompile Include="CPlayerEntity.cpp" />

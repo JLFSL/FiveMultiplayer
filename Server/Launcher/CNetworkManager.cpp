@@ -84,7 +84,7 @@ void CNetworkManager::Pulse()
 				for (int i = 0; i < g_ApiModules.size(); i++)
 				{
 					void *Instance = g_ApiModules[i].GetInstance();
-					API::Network::OnPlayerConnected(Instance);
+					API::Network::OnPlayerConnected(Instance, newPlayer.GetId());
 				}
 				
 				PulseMaster();

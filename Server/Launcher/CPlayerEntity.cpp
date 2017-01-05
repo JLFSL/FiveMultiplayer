@@ -4,10 +4,14 @@ int CPlayerEntity::Amount = 0;
 
 void CPlayerEntity::Create(string Name, RakNetGUID GUID, SystemAddress Ip)
 {
+	CServerEntity newServerEntity;
+
 	Information.Name = Name;
-	Information.Id = Amount;
+	Information.Id = newServerEntity.Create(/**this*/);
 	Network.GUID = GUID;
 	Network.Ip = Ip;
+
+	g_Entities.push_back(newServerEntity);
 
 	Amount++;
 

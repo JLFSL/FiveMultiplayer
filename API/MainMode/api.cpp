@@ -9,11 +9,18 @@
 #endif
 
 #include <iostream>
+#include <sstream>
 
 #include "../../Shared/Common.h"
 
+// Math
+#include "Common.h"
+#include "CVector3.h"
+#include "CVector4.h"
+
 // API Function Imports
 #include "APIServer.h"
+#include "APIEntity.h"
 #include "APIVisual.h"
 
 // When Plugin gets loaded
@@ -46,8 +53,14 @@ extern "C" DLL_PUBLIC bool API_OnPlayerConnecting(const char *guid )
 }
 
 // Player Connected
-extern "C" DLL_PUBLIC bool API_OnPlayerConnected(void)
+extern "C" DLL_PUBLIC bool API_OnPlayerConnected(int player)
 {
 	API::Visual::ShowMessageAboveMap("~g~You Connected!", "CHAR_YOUTUBE", 1, "Jack", "Test");
+
+	CVector3 position = API::Entity::GetPosition(player);
+	std::ostringstream oss;
+	oss << "~p~Position: " << position.fX << " " << position.fY << " " << position.fZ;
+	
+	API::Visual::ShowMessageAboveMap(oss.str().c_str(), "CHAR_STRIPPER_CHEETAH", 5, "Jack", "Test");
 	return true;
 }

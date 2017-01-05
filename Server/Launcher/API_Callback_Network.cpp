@@ -21,17 +21,17 @@ namespace API
 			return false;
 		}
 
-		bool OnPlayerConnected(void *Instance)
+		bool OnPlayerConnected(void *Instance, int entity)
 		{
 			if (Instance)
 			{
-				typedef bool(*API_OnPlayerConnected_t)();
+				typedef bool(*API_OnPlayerConnected_t)(int);
 #ifdef WIN32
 				API_OnPlayerConnected_t API_OnPlayerConnected = (API_OnPlayerConnected_t)::GetProcAddress((HMODULE)Instance, "API_OnPlayerConnected");
 #else
 				API_OnPlayerConnected_t API_OnPlayerConnected = (API_OnPlayerConnected_t)dlsym(&Instance, "API_OnPlayerConnected");
 #endif
-				return API_OnPlayerConnected();
+				return API_OnPlayerConnected(entity);
 			}
 			return false;
 		}

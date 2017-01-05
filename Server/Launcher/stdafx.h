@@ -62,10 +62,12 @@ using namespace std;
 	#include "API_Callback_Network.h"
 	// Functions
 	#include "API_Server.h"
+	#include "API_Entity.h"
 	#include "API_Visual.h"
 
 	// Network
 	#include "CNetworkManager.h"
+	#include "CServerEntity.h"
 	#include "CPlayerEntity.h"
 
 // End of Server.Launcher

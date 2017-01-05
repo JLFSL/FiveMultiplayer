@@ -5,6 +5,7 @@ CNetworkManager*	g_Network;
 
 CServer* CServer::p_Instance = nullptr;
 
+vector<CServerEntity>	g_Entities;
 vector<CPlayerEntity>	g_Players;
 vector<CAPI>			g_ApiModules;
 
