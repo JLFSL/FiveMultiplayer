@@ -14,14 +14,12 @@
 #define CEF_LIBCEF_DLL_CTOCPP_SSLSTATUS_CTOCPP_H_
 #pragma once
 
-#ifndef USING_CEF_SHARED
-#pragma message("Warning: "__FILE__" may be accessed wrapper-side only")
-#else  // USING_CEF_SHARED
+#if !defined(WRAPPING_CEF_SHARED)
+#error This file can be included wrapper-side only
+#endif
 
 #include "include/cef_ssl_status.h"
 #include "include/capi/cef_ssl_status_capi.h"
-#include "include/cef_x509_certificate.h"
-#include "include/capi/cef_x509_certificate_capi.h"
 #include "libcef_dll/ctocpp/ctocpp.h"
 
 // Wrap a C structure with a C++ class.
@@ -39,5 +37,4 @@ class CefSSLStatusCToCpp
   CefRefPtr<CefX509Certificate> GetX509Certificate() OVERRIDE;
 };
 
-#endif  // USING_CEF_SHARED
 #endif  // CEF_LIBCEF_DLL_CTOCPP_SSLSTATUS_CTOCPP_H_

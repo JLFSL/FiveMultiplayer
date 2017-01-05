@@ -12,6 +12,8 @@
 
 #include "include/cef_app.h"
 #include "include/capi/cef_app_capi.h"
+#include "include/cef_file_util.h"
+#include "include/capi/cef_file_util_capi.h"
 #include "include/cef_geolocation.h"
 #include "include/capi/cef_geolocation_capi.h"
 #include "include/cef_origin_whitelist.h"
@@ -134,6 +136,7 @@
 #include "libcef_dll/ctocpp/stream_writer_ctocpp.h"
 #include "libcef_dll/ctocpp/task_runner_ctocpp.h"
 #include "libcef_dll/ctocpp/views/textfield_ctocpp.h"
+#include "libcef_dll/ctocpp/thread_ctocpp.h"
 #include "libcef_dll/ctocpp/urlrequest_ctocpp.h"
 #include "libcef_dll/ctocpp/v8context_ctocpp.h"
 #include "libcef_dll/ctocpp/v8exception_ctocpp.h"
@@ -142,6 +145,7 @@
 #include "libcef_dll/ctocpp/v8value_ctocpp.h"
 #include "libcef_dll/ctocpp/value_ctocpp.h"
 #include "libcef_dll/ctocpp/views/view_ctocpp.h"
+#include "libcef_dll/ctocpp/waitable_event_ctocpp.h"
 #include "libcef_dll/ctocpp/web_plugin_info_ctocpp.h"
 #include "libcef_dll/ctocpp/views/window_ctocpp.h"
 #include "libcef_dll/ctocpp/x509cert_principal_ctocpp.h"
@@ -313,6 +317,7 @@ CEF_GLOBAL void CefShutdown() {
   DCHECK(base::AtomicRefCountIsZero(&CefTaskRunnerCToCpp::DebugObjCt));
   DCHECK(base::AtomicRefCountIsZero(&CefTextfieldCToCpp::DebugObjCt));
   DCHECK(base::AtomicRefCountIsZero(&CefTextfieldDelegateCppToC::DebugObjCt));
+  DCHECK(base::AtomicRefCountIsZero(&CefThreadCToCpp::DebugObjCt));
   DCHECK(base::AtomicRefCountIsZero(&CefURLRequestCToCpp::DebugObjCt));
   DCHECK(base::AtomicRefCountIsZero(&CefURLRequestClientCppToC::DebugObjCt));
   DCHECK(base::AtomicRefCountIsZero(&CefV8AccessorCppToC::DebugObjCt));
@@ -326,6 +331,7 @@ CEF_GLOBAL void CefShutdown() {
   DCHECK(base::AtomicRefCountIsZero(&CefValueCToCpp::DebugObjCt));
   DCHECK(base::AtomicRefCountIsZero(&CefViewCToCpp::DebugObjCt));
   DCHECK(base::AtomicRefCountIsZero(&CefViewDelegateCppToC::DebugObjCt));
+  DCHECK(base::AtomicRefCountIsZero(&CefWaitableEventCToCpp::DebugObjCt));
   DCHECK(base::AtomicRefCountIsZero(&CefWebPluginInfoCToCpp::DebugObjCt));
   DCHECK(base::AtomicRefCountIsZero(
       &CefWebPluginInfoVisitorCppToC::DebugObjCt));
@@ -375,6 +381,124 @@ CEF_GLOBAL void CefEnableHighDPISupport() {
 
   // Execute
   cef_enable_highdpi_support();
+}
+
+CEF_GLOBAL bool CefCreateDirectory(const CefString& full_path) {
+  // AUTO-GENERATED CONTENT - DELETE THIS COMMENT BEFORE MODIFYING
+
+  // Verify param: full_path; type: string_byref_const
+  DCHECK(!full_path.empty());
+  if (full_path.empty())
+    return false;
+
+  // Execute
+  int _retval = cef_create_directory(
+      full_path.GetStruct());
+
+  // Return type: bool
+  return _retval?true:false;
+}
+
+CEF_GLOBAL bool CefGetTempDirectory(CefString& temp_dir) {
+  // AUTO-GENERATED CONTENT - DELETE THIS COMMENT BEFORE MODIFYING
+
+  // Execute
+  int _retval = cef_get_temp_directory(
+      temp_dir.GetWritableStruct());
+
+  // Return type: bool
+  return _retval?true:false;
+}
+
+CEF_GLOBAL bool CefCreateNewTempDirectory(const CefString& prefix,
+    CefString& new_temp_path) {
+  // AUTO-GENERATED CONTENT - DELETE THIS COMMENT BEFORE MODIFYING
+
+  // Unverified params: prefix
+
+  // Execute
+  int _retval = cef_create_new_temp_directory(
+      prefix.GetStruct(),
+      new_temp_path.GetWritableStruct());
+
+  // Return type: bool
+  return _retval?true:false;
+}
+
+CEF_GLOBAL bool CefCreateTempDirectoryInDirectory(const CefString& base_dir,
+    const CefString& prefix, CefString& new_dir) {
+  // AUTO-GENERATED CONTENT - DELETE THIS COMMENT BEFORE MODIFYING
+
+  // Verify param: base_dir; type: string_byref_const
+  DCHECK(!base_dir.empty());
+  if (base_dir.empty())
+    return false;
+  // Unverified params: prefix
+
+  // Execute
+  int _retval = cef_create_temp_directory_in_directory(
+      base_dir.GetStruct(),
+      prefix.GetStruct(),
+      new_dir.GetWritableStruct());
+
+  // Return type: bool
+  return _retval?true:false;
+}
+
+CEF_GLOBAL bool CefDirectoryExists(const CefString& path) {
+  // AUTO-GENERATED CONTENT - DELETE THIS COMMENT BEFORE MODIFYING
+
+  // Verify param: path; type: string_byref_const
+  DCHECK(!path.empty());
+  if (path.empty())
+    return false;
+
+  // Execute
+  int _retval = cef_directory_exists(
+      path.GetStruct());
+
+  // Return type: bool
+  return _retval?true:false;
+}
+
+CEF_GLOBAL bool CefDeleteFile(const CefString& path, bool recursive) {
+  // AUTO-GENERATED CONTENT - DELETE THIS COMMENT BEFORE MODIFYING
+
+  // Verify param: path; type: string_byref_const
+  DCHECK(!path.empty());
+  if (path.empty())
+    return false;
+
+  // Execute
+  int _retval = cef_delete_file(
+      path.GetStruct(),
+      recursive);
+
+  // Return type: bool
+  return _retval?true:false;
+}
+
+CEF_GLOBAL bool CefZipDirectory(const CefString& src_dir,
+    const CefString& dest_file, bool include_hidden_files) {
+  // AUTO-GENERATED CONTENT - DELETE THIS COMMENT BEFORE MODIFYING
+
+  // Verify param: src_dir; type: string_byref_const
+  DCHECK(!src_dir.empty());
+  if (src_dir.empty())
+    return false;
+  // Verify param: dest_file; type: string_byref_const
+  DCHECK(!dest_file.empty());
+  if (dest_file.empty())
+    return false;
+
+  // Execute
+  int _retval = cef_zip_directory(
+      src_dir.GetStruct(),
+      dest_file.GetStruct(),
+      include_hidden_files);
+
+  // Return type: bool
+  return _retval?true:false;
 }
 
 CEF_GLOBAL bool CefGetGeolocation(
