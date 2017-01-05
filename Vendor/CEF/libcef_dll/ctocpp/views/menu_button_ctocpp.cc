@@ -24,6 +24,7 @@
 #include "libcef_dll/ctocpp/views/view_ctocpp.h"
 #include "libcef_dll/ctocpp/views/window_ctocpp.h"
 
+
 // STATIC METHODS - Body may be edited by hand.
 
 CefRefPtr<CefMenuButton> CefMenuButton::CreateMenuButton(
