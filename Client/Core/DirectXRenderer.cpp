@@ -116,7 +116,7 @@ void DirectXRenderer::Initialize()
 
 	if (FAILED(D3D11CreateDeviceAndSwapChain(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, NULL, featureLevel, sizeof(featureLevel) / sizeof(D3D_FEATURE_LEVEL), D3D11_SDK_VERSION, &swapChainDesc, &pSwapChain, &pDevice, &obtainedLevel, &pContext)))
 	{
-		MessageBoxA(hWnd, "Failed to load FiveMP with DirectX, make sure your game is using DirectX 11 or 10.1!", "FiveMP", MB_ICONERROR);
+		MessageBoxA(hWnd, "Failed to load FiveMP with DirectX, make sure your game is using DirectX 11, 10.1 or 10!", "FiveMP", MB_ICONERROR);
 		return;
 	}
 
@@ -129,15 +129,15 @@ void DirectXRenderer::Initialize()
 	pDeviceContextVTable = (DWORD_PTR*)pDeviceContextVTable[0];
 
 	if (MH_Initialize() != MH_OK) {
-		Logger::Error("MinHook failed to initialize");
+		Logger::Error("Failed to initialize hook");
 		return;
 	}
 	if (MH_CreateHook((DWORD_PTR*)pSwapChainVtable[8], Present, reinterpret_cast<void**>(&phookD3D11Present)) != MH_OK) {
-		Logger::Error("MinHook failed to create dxhook");
+		Logger::Error("Failed to create directx hook");
 		return;
 	}
 	if (MH_EnableHook((DWORD_PTR*)pSwapChainVtable[8]) != MH_OK) {
-		Logger::Error("MinHook failed to enable dxhook");
+		Logger::Error("Failed to enable directx hook");
 		return;
 	}
 

@@ -20,7 +20,6 @@ bool CConfig::Read()
 		
 		Information.Name = Config.Get("Information", "name", "Player");
 		Information.LatestVersion = Config.GetBoolean("Information", "latestversion", true);
-		Information.Steam = Config.GetBoolean("Information", "steam", false);
 
 		Game.Editor = Config.GetBoolean("Game", "editor", false);
 
