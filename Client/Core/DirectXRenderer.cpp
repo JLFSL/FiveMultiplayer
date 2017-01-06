@@ -120,8 +120,6 @@ void DirectXRenderer::Initialize()
 		return;
 	}
 
-	std::cout << "passed" << std::endl;
-
 	pSwapChainVtable = (DWORD_PTR*)pSwapChain;
 	pSwapChainVtable = (DWORD_PTR*)pSwapChainVtable[0];
 
