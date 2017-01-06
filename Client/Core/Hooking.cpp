@@ -60,10 +60,10 @@ BOOL Hooking::InitializeHooks()
 	}
 
 	// init minhook
-	if (MH_Initialize() != MH_OK) {
+	/*if (MH_Initialize() != MH_OK) {
 		Logger::Error("MinHook failed to initialize");
 		returnVal = TRUE;
-	}
+	}*/
 
 	// init reset write watch
 	if (MH_CreateHook(&ResetWriteWatch, &my_ResetWriteWatch, reinterpret_cast<void**>(&orig_ResetWriteWatch)) != MH_OK || (MH_EnableHook(&ResetWriteWatch) != MH_OK)) {

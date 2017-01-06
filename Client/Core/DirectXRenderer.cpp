@@ -14,9 +14,9 @@ DirectXRenderer::~DirectXRenderer()
 	Instance = nullptr;
 }
 
-bool show_app_about = false;
+bool show_app_about = true;
 
-HRESULT __stdcall Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags)
+HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags)
 {
 	DirectXRenderer *curInstance = DirectXRenderer::GetInstance();
 
@@ -24,6 +24,20 @@ HRESULT __stdcall Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Fl
 	{
 		pSwapChain->GetDevice(__uuidof(curInstance->pDevice), (void**)&curInstance->pDevice);
 		curInstance->pDevice->GetImmediateContext(&curInstance->pContext);
+
+		DXGI_SWAP_CHAIN_DESC sd;
+		pSwapChain->GetDesc(&sd);
+
+		// Create the render target
+		ID3D11Texture2D* pBackBuffer;
+		D3D11_RENDER_TARGET_VIEW_DESC render_target_view_desc;
+		ZeroMemory(&render_target_view_desc, sizeof(render_target_view_desc));
+		render_target_view_desc.Format = sd.BufferDesc.Format;
+		render_target_view_desc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+		pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer);
+		curInstance->pDevice->CreateRenderTargetView(pBackBuffer, &render_target_view_desc, &curInstance->phookD3D11RenderTargetView);
+		curInstance->pContext->OMSetRenderTargets(1, &curInstance->phookD3D11RenderTargetView, NULL);
+		pBackBuffer->Release();
 
 		FW1CreateFactory(FW1_VERSION, &curInstance->pFW1Factory);
 		curInstance->pFW1Factory->CreateFontWrapper(curInstance->pDevice, L"Segoe UI", &curInstance->pFontWrapper);
@@ -79,24 +93,34 @@ void DirectXRenderer::Initialize()
 	hWnd = FindWindowA(NULL, "Grand Theft Auto V");
 	IDXGISwapChain* pSwapChain;
 
-	D3D_FEATURE_LEVEL featureLevel = D3D_FEATURE_LEVEL_11_0;
+	D3D_FEATURE_LEVEL featureLevel[] = { D3D_FEATURE_LEVEL_11_0, D3D_FEATURE_LEVEL_10_1, D3D_FEATURE_LEVEL_10_0};
+	D3D_FEATURE_LEVEL obtainedLevel;
+
 	DXGI_SWAP_CHAIN_DESC swapChainDesc;
 	ZeroMemory(&swapChainDesc, sizeof(swapChainDesc));
+
 	swapChainDesc.BufferCount = 1;
 	swapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 	swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-	swapChainDesc.OutputWindow = hWnd;
-	swapChainDesc.SampleDesc.Count = 1;
-	swapChainDesc.Windowed = TRUE;//((GetWindowLong(hWnd, GWL_STYLE) & WS_POPUP) != 0) ? FALSE : TRUE; 
 	swapChainDesc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
 	swapChainDesc.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
+	swapChainDesc.BufferDesc.Width = 1;
+	swapChainDesc.BufferDesc.Height = 1;
+	swapChainDesc.BufferDesc.RefreshRate.Numerator = 0;
+	swapChainDesc.BufferDesc.RefreshRate.Denominator = 1;
+
+	swapChainDesc.OutputWindow = hWnd;
+	swapChainDesc.SampleDesc.Count = 1;
+	swapChainDesc.Windowed = TRUE;
 	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
 
-	if (FAILED(D3D11CreateDeviceAndSwapChain(NULL, D3D_DRIVER_TYPE_HARDWARE, NULL, NULL, &featureLevel, 1, D3D11_SDK_VERSION, &swapChainDesc, &pSwapChain, &pDevice, NULL, &pContext)))
+	if (FAILED(D3D11CreateDeviceAndSwapChain(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, NULL, featureLevel, sizeof(featureLevel) / sizeof(D3D_FEATURE_LEVEL), D3D11_SDK_VERSION, &swapChainDesc, &pSwapChain, &pDevice, &obtainedLevel, &pContext)))
 	{
-		MessageBoxA(hWnd, "Failed to load FiveMP with DirectX, make sure your game is using DirectX 11!", "FiveMP", MB_ICONERROR);
+		MessageBoxA(hWnd, "Failed to load FiveMP with DirectX, make sure your game is using DirectX 11 or 10.1!", "FiveMP", MB_ICONERROR);
 		return;
 	}
+
+	std::cout << "passed" << std::endl;
 
 	pSwapChainVtable = (DWORD_PTR*)pSwapChain;
 	pSwapChainVtable = (DWORD_PTR*)pSwapChainVtable[0];
@@ -104,106 +128,23 @@ void DirectXRenderer::Initialize()
 	pDeviceContextVTable = (DWORD_PTR*)pContext;
 	pDeviceContextVTable = (DWORD_PTR*)pDeviceContextVTable[0];
 
-
-	if (g_Config->GetSteam()) {
-		phookD3D11Present = (D3D11PresentHook)DetourFunc64((BYTE*)pSwapChainVtable[8] + 0x5, (BYTE*)Present, 16);
+	if (MH_Initialize() != MH_OK) {
+		Logger::Error("MinHook failed to initialize");
+		return;
 	}
-	else {
-		phookD3D11Present = (D3D11PresentHook)DetourFunc64((BYTE*)pSwapChainVtable[8], (BYTE*)Present, 16);
+	if (MH_CreateHook((DWORD_PTR*)pSwapChainVtable[8], Present, reinterpret_cast<void**>(&phookD3D11Present)) != MH_OK) {
+		Logger::Error("MinHook failed to create dxhook");
+		return;
+	}
+	if (MH_EnableHook((DWORD_PTR*)pSwapChainVtable[8]) != MH_OK) {
+		Logger::Error("MinHook failed to enable dxhook");
+		return;
 	}
 
-	//phookD3D11DrawIndexed = (D3D11DrawIndexedHook)DetourFunc64((BYTE*)pDeviceContextVTable[12], (BYTE*)hookD3D11DrawIndexed, 16);
-	//phookD3D11ClearRenderTargetView = (D3D11ClearRenderTargetViewHook)DetourFunc64((BYTE*)pDeviceContextVTable[50], (BYTE*)hookD3D11ClearRenderTargetView, 16);
+	DWORD dwOld;
+	VirtualProtect(phookD3D11Present, 2, PAGE_EXECUTE_READWRITE, &dwOld);
 
 	pDevice->Release();
 	pContext->Release();
 	pSwapChain->Release();
-}
-
-const void* DirectXRenderer::DetourFunc64(BYTE* const src, const BYTE* dest, const unsigned int jumplength)
-{
-	// Allocate a memory page that is going to contain executable code. 
-	MEMORY_BASIC_INFORMATION mbi;
-	for (SIZE_T addr = (SIZE_T)src; addr > (SIZE_T)src - 0x80000000; addr = (SIZE_T)mbi.BaseAddress - 1)
-	{
-		if (!VirtualQuery((LPCVOID)addr, &mbi, sizeof(mbi)))
-		{
-			break;
-		}
-
-		if (mbi.State == MEM_FREE)
-		{
-			if (presenthook64 = (HookContext*)VirtualAlloc(mbi.BaseAddress, 0x1000, MEM_RESERVE | MEM_COMMIT, PAGE_EXECUTE_READWRITE))
-			{
-				break;
-			}
-		}
-	}
-
-	// If allocating a memory page failed, the function failed. 
-	if (!presenthook64)
-	{
-		return NULL;
-	}
-
-	// Select a pointer slot for the memory page to be freed on unload. 
-	for (int i = 0; i < sizeof(detourBuffer) / sizeof(void*); ++i)
-	{
-		if (!detourBuffer[i])
-		{
-			detourBuffer[i] = presenthook64;
-			break;
-		}
-	}
-
-	// Save original code and apply detour. The detour code is: 
-	// push rax 
-	// movabs rax, 0xCCCCCCCCCCCCCCCC 
-	// xchg rax, [rsp] 
-	// ret 
-	BYTE detour[] = { 0x50, 0x48, 0xB8, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC, 0x48, 0x87, 0x04, 0x24, 0xC3 };
-	const unsigned int length = DisasmLengthCheck((SIZE_T)src, jumplength);
-	memcpy(presenthook64->original_code, src, length);
-	memcpy(&presenthook64->original_code[length], detour, sizeof(detour));
-	*(SIZE_T*)&presenthook64->original_code[length + 3] = (SIZE_T)src + length;
-
-	// Build a far jump to the destination function. 
-	*(WORD*)&presenthook64->far_jmp = 0x25FF;
-	*(DWORD*)(presenthook64->far_jmp + 2) = (DWORD)((SIZE_T)presenthook64 - (SIZE_T)src + FIELD_OFFSET(HookContext, dst_ptr) - 6);
-	presenthook64->dst_ptr = (SIZE_T)dest;
-
-	// Write the hook to the original function. 
-	DWORD flOld = 0;
-	VirtualProtect(src, 6, PAGE_EXECUTE_READWRITE, &flOld);
-	memcpy(src, presenthook64->far_jmp, sizeof(presenthook64->far_jmp));
-	VirtualProtect(src, 6, flOld, &flOld);
-
-	// Return a pointer to the original code. 
-	return presenthook64->original_code;
-}
-
-const unsigned int DirectXRenderer::DisasmLengthCheck(const SIZE_T address, const unsigned int jumplength)
-{
-	DISASM disasm;
-	memset(&disasm, 0, sizeof(DISASM));
-
-	disasm.EIP = (UIntPtr)address;
-	disasm.Archi = 0x40;
-
-	unsigned int processed = 0;
-	while (processed < jumplength)
-	{
-		const int len = Disasm(&disasm);
-		if (len == UNKNOWN_OPCODE)
-		{
-			++disasm.EIP;
-		}
-		else
-		{
-			processed += len;
-			disasm.EIP += len;
-		}
-	}
-
-	return processed;
 }

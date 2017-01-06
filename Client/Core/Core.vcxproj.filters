@@ -40,9 +40,6 @@
     <Filter Include="Graphics\UI\CEF">
       <UniqueIdentifier>{5f610539-5e0c-4e20-ac2f-f58a9ae3eb12}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Include\BeaEngine">
-      <UniqueIdentifier>{a3830985-7998-42d6-978d-673df445dca3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Graphics\DirectX 11">
       <UniqueIdentifier>{c7037e18-e660-4c4f-9081-88b505706c48}</UniqueIdentifier>
     </Filter>
@@ -226,18 +223,6 @@
     </ClInclude>
     <ClInclude Include="CefRenderer.h">
       <Filter>Graphics\UI\CEF</Filter>
-    </ClInclude>
-    <ClInclude Include="beaengine\export.h">
-      <Filter>Include\BeaEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="beaengine\macros.h">
-      <Filter>Include\BeaEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="beaengine\basic_types.h">
-      <Filter>Include\BeaEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="beaengine\BeaEngine.h">
-      <Filter>Include\BeaEngine</Filter>
     </ClInclude>
     <ClInclude Include="DirectXDraw.h">
       <Filter>Graphics\DirectX 11</Filter>

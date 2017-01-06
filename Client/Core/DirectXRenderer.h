@@ -16,9 +16,9 @@ public:
 
 	void Initialize();
 	
-	typedef HRESULT(__stdcall *D3D11PresentHook) (IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags);
-	typedef void(__stdcall *D3D11DrawIndexedHook) (ID3D11DeviceContext* pContext, UINT IndexCount, UINT StartIndexLocation, INT BaseVertexLocation);
-	typedef void(__stdcall *D3D11ClearRenderTargetViewHook) (ID3D11DeviceContext* pContext, ID3D11RenderTargetView *pRenderTargetView, const FLOAT ColorRGBA[4]);
+	typedef HRESULT(WINAPI *D3D11PresentHook) (IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags);
+	typedef void(WINAPI *D3D11DrawIndexedHook) (ID3D11DeviceContext* pContext, UINT IndexCount, UINT StartIndexLocation, INT BaseVertexLocation);
+	typedef void(WINAPI *D3D11ClearRenderTargetViewHook) (ID3D11DeviceContext* pContext, ID3D11RenderTargetView *pRenderTargetView, const FLOAT ColorRGBA[4]);
 
 	void __stdcall DrawIndexed(ID3D11DeviceContext* pContext, UINT IndexCount, UINT StartIndexLocation, INT BaseVertexLocation);
 	void __stdcall ClearRenderTargetView(ID3D11DeviceContext* pContext, ID3D11RenderTargetView *pRenderTargetView, const FLOAT ColorRGBA[4]);
@@ -31,22 +31,12 @@ public:
 	D3D11PresentHook phookD3D11Present;
 	D3D11DrawIndexedHook phookD3D11DrawIndexed;
 	D3D11ClearRenderTargetViewHook phookD3D11ClearRenderTargetView;
-
-	void* GetBuffer() { return detourBuffer; }
+	ID3D11RenderTargetView* phookD3D11RenderTargetView;
 
 private:
 	DWORD_PTR* pSwapChainVtable;
 	DWORD_PTR* pDeviceContextVTable;
 	
 	static DirectXRenderer* Instance;
-
-	struct HookContext
-	{
-		BYTE original_code[64];
-		SIZE_T dst_ptr;
-		BYTE far_jmp[6];
-	};
-	HookContext* presenthook64;
-	void* detourBuffer[3];
 };
 

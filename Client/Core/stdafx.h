@@ -77,7 +77,6 @@
 	// Include
 	#include "IniReader.h"
 	#include "ini.h"
-	#include "beaengine/BeaEngine.h"
 
 	// Game
 	#include "Scripts.h"
