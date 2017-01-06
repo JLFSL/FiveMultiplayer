@@ -40,7 +40,7 @@ extern "C" DLL_PUBLIC bool API_Close(void)
 // Every server tick this gets called
 extern "C" DLL_PUBLIC bool API_OnTick(void) 
 {
-	API::Visual::ShowMessageAboveMap("I don't like people!", "CHAR_DEFAULT", 1, "Jack", "");
+	//API::Visual::ShowMessageAboveMap("I don't like people!", "CHAR_DEFAULT", 1, "Jack", "");
 	return true;
 }
 
