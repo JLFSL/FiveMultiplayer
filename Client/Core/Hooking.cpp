@@ -8,10 +8,11 @@ DWORD wakeAt;
 CCore			*g_Core;
 CConfig			*g_Config;
 
-static eGameState* 							m_gameState;
-static uint64_t								m_worldPtr;
-static BlipList*							m_blipList;
-static Hooking::NativeRegistration**		m_registrationTable;
+static eGameState* 												m_gameState;
+static uint64_t													m_worldPtr;
+static BlipList*												m_blipList;
+static Hooking::NativeRegistration**							m_registrationTable;
+static std::unordered_map<uint64_t, Hooking::NativeHandler>		m_handlerCache;
 
 /* Start Hooking */
 
@@ -32,21 +33,6 @@ void Hooking::Start(HMODULE hmoduleDLL)
 	if (!InitializeHooks()) Cleanup();
 }
 
-/* Hooks */
-
-// Originals
-extern "C"
-{
-	static UINT(WINAPI *orig_ResetWriteWatch)(LPVOID lpBaseAddress, SIZE_T dwRegionSize) = ResetWriteWatch;
-}
-
-// Detoured
-UINT WINAPI my_ResetWriteWatch(LPVOID lpBaseAddress, SIZE_T dwRegionSize)
-{
-	Hooking::InitNativeHook();
-	return orig_ResetWriteWatch(lpBaseAddress, dwRegionSize);
-}
-
 // Initialization
 BOOL Hooking::InitializeHooks()
 {
@@ -59,9 +45,9 @@ BOOL Hooking::InitializeHooks()
 		returnVal = TRUE;
 	}
 
-	// init reset write watch
-	if (MH_CreateHook(&ResetWriteWatch, &my_ResetWriteWatch, reinterpret_cast<void**>(&orig_ResetWriteWatch)) != MH_OK || (MH_EnableHook(&ResetWriteWatch) != MH_OK)) {
-		Logger::Error("Failed to hook ResetWriteWatch");
+	// init init native hook
+	if (!HookNatives()) {
+		Logger::Error("Failed to initialize NativeHooks");
 		returnVal = TRUE;
 	}
 
@@ -87,21 +73,10 @@ bool Native(DWORD64 hash, LPVOID hookFunction, T** trampoline)
 	return false;
 }
 
-void Hooking::InitNativeHook()
-{
-	if (!GetGameState() == GameStatePlaying) return;
-
-	static bool initialized = false;
-	if (!initialized)
-	{
-		HookNatives() ? initialized = true : initialized = false;
-	}
-}
-
 Hooking::NativeHandler ORIG_GET_FRAME_COUNT = NULL;
 void* __cdecl MY_GET_FRAME_COUNT(NativeContext *cxt)
 {
-	Hooking::onTickInit();
+		Hooking::onTickInit();
 	return cxt;
 }
 
@@ -186,6 +161,7 @@ void Hooking::FindPatterns()
 
 	// Get game state
 	c_location = p_gameState.count(1).get(0).get<char>(2);
+	while (c_location == nullptr) Sleep(60);
 	c_location == nullptr ? FailPatterns("gameState", p_gameState) : m_gameState = reinterpret_cast<decltype(m_gameState)>(c_location + *(int32_t*)c_location + 5);
 
 	// Skip game logos
@@ -252,14 +228,14 @@ void Hooking::FindPatterns()
 	Logger::Msg("Game ready");
 }
 
-Hooking::NativeHandler Hooking::GetNativeHandler(uint64_t origHash) {
+static Hooking::NativeHandler _Handler(uint64_t origHash) {
 
 	uint64_t newHash = CrossMapping::MapNative(origHash);
 	if (newHash == 0) {
 		return nullptr;
 	}
 
-	NativeRegistration * table = m_registrationTable[newHash & 0xFF];
+	Hooking::NativeRegistration * table = m_registrationTable[newHash & 0xFF];
 
 	for (; table; table = table->nextRegistration)
 	{
@@ -276,6 +252,16 @@ Hooking::NativeHandler Hooking::GetNativeHandler(uint64_t origHash) {
 	return nullptr;
 }
 
+Hooking::NativeHandler Hooking::GetNativeHandler(uint64_t origHash)
+{
+	auto& handler = m_handlerCache[origHash];
+	if (handler == nullptr)
+	{
+		handler = _Handler(origHash);
+	}
+	return handler;
+}
+
 eGameState Hooking::GetGameState()
 {
 	return *m_gameState;
@@ -284,6 +270,10 @@ eGameState Hooking::GetGameState()
 BlipList* Hooking::GetBlipList()
 {
 	return m_blipList;
+}
+uint64_t Hooking::getWorldPtr()
+{
+	return m_worldPtr;
 }
 void WAIT(DWORD ms)
 {

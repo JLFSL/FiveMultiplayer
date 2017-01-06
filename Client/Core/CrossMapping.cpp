@@ -5238,7 +5238,14 @@ uint64_t __HASHMAPDATA[] = {
 	0x3c5fd37b5499582e, 0x11b1cd473c92a76d,
 	0xe2a99a9b524befff, 0xc388f8c52ede8188,
 	0xd47a2c1ba117471d, 0x3484a6a20d2332da,
-	0xc2f7fe5309181c7d, 0xf2a477e110f00779
+	0xc2f7fe5309181c7d, 0xf2a477e110f00779,
+	0x36D782F68B309BDA, 0x36D782F68B309BDA,
+	0x3D34E80EED4AE3BE, 0x3D34E80EED4AE3BE,
+	0x81E1552E35DC3839, 0x81E1552E35DC3839,
+	0x9078C0C5EF8C19E9, 0x9078C0C5EF8C19E9,
+	0xBC9CFF381338CB4F, 0xBC9CFF381338CB4F,
+	0xA916396DF4154EE3, 0xA916396DF4154EE3,
+	0x0BFFB028B3DD0A97, 0x0BFFB028B3DD0A97
 };
 
 uint64_t __HASHMAPDATA877[] = {
@@ -10495,32 +10502,24 @@ void CrossMapping::initNativeMap() {
 	else
 		p2q = reinterpret_cast<twoQwords *>(__HASHMAPDATA);
 	
-	//DEBUG_OUT("p2q: %p", p2q);
-	//DEBUG_OUT("p2q->first: %llx", p2q->first);
-	//DEBUG_OUT("p2q->second: %llx", p2q->second);
 	while (p2q->first) {
-		//DEBUG_OUT("initNHM: %llx, %llx", p2q->first, p2q->second);
 		nativeHashMap.emplace(p2q->first, p2q->second);
-		//DEBUG_OUT("nativeHashMap now has %lli members", nativeHashMap.size());
 		++p2q;
 	}
 	init = 1;
 	DEBUGMSG("nativeHashMap has %lli members", nativeHashMap.size());
 }
-/*##################################################################################################*/
 
 static nMap nativeCache;
 
 bool CrossMapping::searchMap(nMap map, uint64_t inNative, uint64_t *outNative)
 {
 	bool found = false;
-	//LOG_DEBUG("inNative 0x%016llx", inNative);
 	for (nMap::const_iterator it = map.begin(); it != map.end(); ++it)
 	{
 		found = (inNative == it->first);
 		if (found) {
 			*outNative = it->second;
-			//LOG_DEBUG("outNative 0x%016llx", outNative);
 			break;
 		}
 	}
@@ -10555,50 +10554,36 @@ uint64_t CrossMapping::MapNative(uint64_t inNative)
 
 void CrossMapping::dumpNativeMappingCache()
 {
-	// read the mapping table
 	FILE *file;
 	int file_exists;
+	char filename[0x400];
+	snprintf(filename, sizeof(filename), "nativelog.log");
+	/*first check if the file exists...*/
+	fopen_s(&file, filename, "r");
+	if (file == NULL) file_exists = 0;
+	else { file_exists = 1; fclose(file); }
 
-
-	size_t sz = 0;
-	char* appdata = nullptr;
-	if (_dupenv_s(&appdata, &sz, "APPDATA") == 0 && appdata != nullptr)
+	/*...then open it in the appropriate way*/
+	if (file_exists == 1)
 	{
-		//char * appdata = getenv("APPDATA");
-		//if (!appdata) 
-		//{
-		//	MessageBoxA(NULL, "Error saving native cache!", "[ERROR]", MB_OK);
-		//}
-		char filename[0x400];
-		snprintf(filename, sizeof(filename), "%s\\GTAV\\Authority\\natives_blob.txt", appdata);
-		/*first check if the file exists...*/
-		fopen_s(&file, filename, "r");
-		if (file == NULL) file_exists = 0;
-		else { file_exists = 1; fclose(file); }
-
-		/*...then open it in the appropriate way*/
-		if (file_exists == 1)
-		{
-			fopen_s(&file, filename, "r+b");
-		}
-		else
-		{
-			fopen_s(&file, filename, "w+b");
-		}
-
-		if (file != NULL)
-		{
-			char buffer[50];
-			for (nMap::const_iterator it = nativeCache.begin(); it != nativeCache.end(); ++it)
-			{
-				sprintf_s(buffer, "{ 0x%llx, 0x%llx },\n", it->first, it->second);
-				fputs(buffer, file);
-			}
-
-			fclose(file);
-		}
+		fopen_s(&file, filename, "r+b");
+	}
+	else
+	{
+		fopen_s(&file, filename, "w+b");
 	}
 
-	free(appdata);
+	if (file != NULL)
+	{
+		char buffer[50];
+		for (nMap::const_iterator it = nativeCache.begin(); it != nativeCache.end(); ++it)
+		{
+			sprintf_s(buffer, "{ 0x%llx, 0x%llx },\n", it->first, it->second);
+			fputs(buffer, file);
+		}
 
+		//PlaySound("C:\\WINDOWS\\Media\\tada.wav.wav", NULL, SND_ASYNC);
+
+		fclose(file);
+	}
 }

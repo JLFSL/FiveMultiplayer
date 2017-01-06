@@ -18,9 +18,9 @@ public:
 	static NativeHandler GetNativeHandler(uint64_t origHash);
 
 	static eGameState GetGameState();
+	static uint64_t getWorldPtr();
 	static BlipList* GetBlipList();
 
-	static void InitNativeHook();
 	static void onTickInit();
 	static bool HookNatives();
 
