@@ -103,7 +103,7 @@ void CPlayerEntity::Update(Packet *packet)
 	bitstream.Read(Data.Quaternion.fZ);
 	bitstream.Read(Data.Quaternion.fW);
 
-	//if (g_Core->GetNetworkManager()->GetInterface()->GetMyGUID() != Network.GUID) {
+	if (g_Core->GetNetworkManager()->GetInterface()->GetMyGUID() != Network.GUID) {
 		if (!Game.Created)
 			CreatePed();
 
@@ -111,7 +111,7 @@ void CPlayerEntity::Update(Packet *packet)
 		UpdateTargetAnimations();
 		UpdateTargetData();
 		//UpdateTargetRotation();
-	//}
+	}
 }
 
 void CPlayerEntity::Interpolate()
