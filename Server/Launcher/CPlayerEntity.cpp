@@ -43,7 +43,7 @@ void CPlayerEntity::Pulse()
 	if (Network.LastSyncSent + (1000 / CServer::GetInstance()->GetSyncRate()) <= timeGetTime())
 	{
 		BitStream bitstream;
-		bitstream.Write((unsigned char)ID_PACKET_TEST);
+		bitstream.Write((unsigned char)ID_PACKET_PLAYER);
 		bitstream.Write(Network.GUID);
 
 		bitstream.Write(Information.Id);

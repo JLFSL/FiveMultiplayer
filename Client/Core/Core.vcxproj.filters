@@ -144,6 +144,9 @@
     <ClCompile Include="CRPCVisual.cpp">
       <Filter>Network\RPC</Filter>
     </ClCompile>
+    <ClCompile Include="CVehicleEntity.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -271,6 +274,9 @@
     </ClInclude>
     <ClInclude Include="CRPCVisual.h">
       <Filter>Network\RPC</Filter>
+    </ClInclude>
+    <ClInclude Include="CVehicleEntity.h">
+      <Filter>Entity</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

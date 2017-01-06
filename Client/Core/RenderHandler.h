@@ -1,39 +1,13 @@
 #pragma once
 
-class RenderHandler : public CefClient, public CefLifeSpanHandler, public CefRenderHandler
+class CWebApp : public CefApp, public CefSchemeHandlerFactory
 {
 public:
-	RenderHandler();
-	virtual ~RenderHandler();
+	virtual void OnRegisterCustomSchemes(CefRefPtr<CefSchemeRegistrar> registrar) override;
+	virtual void OnBeforeCommandLineProcessing(const CefString& process_type, CefRefPtr<CefCommandLine> command_line) override;
 
-	virtual CefRefPtr<CefLifeSpanHandler> GetLifeSpanHandler() OVERRIDE {
-		return this;
-	}
+	// CefSchemeHandlerFactory methods
+	virtual CefRefPtr<CefResourceHandler> Create(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& scheme_name, CefRefPtr<CefRequest> request) override;
 
-	virtual CefRefPtr<CefRenderHandler> GetRenderHandler() OVERRIDE {
-		return this;
-	}
-
-	virtual void OnPaint(CefRefPtr<CefBrowser> browser,
-		PaintElementType type,
-		const RectList& dirtyRects,
-		const void* buffer,
-		int width, int height) OVERRIDE;
-
-	// CefLifeSpanHandler methods
-	virtual void OnAfterCreated(CefRefPtr<CefBrowser> browser) OVERRIDE;
-	virtual void OnBeforeClose(CefRefPtr<CefBrowser> browser) OVERRIDE;
-
-	CefRefPtr<CefBrowser> GetBrowser() { return m_browser; }
-
-	virtual bool GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& rect) OVERRIDE { rect.Set(0, 0, 1280, 720);  return true; };
-
-	// private:
-	// The child browser window
-	CefRefPtr<CefBrowser> m_browser;
-
-	// Include the default reference counting implementation.
-	IMPLEMENT_REFCOUNTING(RenderHandler);
-	// Include the default locking implementation.
-	// IMPLEMENT_LOCKING(OffscreenClient);
+	IMPLEMENT_REFCOUNTING(CWebApp);
 };

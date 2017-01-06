@@ -101,9 +101,9 @@ public:
 
 	RakNetGUID GetGUID()		{ return Network.GUID; };
 
-	PlayerInfo SetInfo(PlayerInfo newinfo)		{ Information = newinfo; }
-	PlayerStats SetStats(PlayerStats newstats)	{ Statistics = newstats; }
-	PlayerData SetData(PlayerData newdata)		{ Data = newdata; }
+	void SetInfo(PlayerInfo newinfo)		{ Information = newinfo; }
+	void SetStats(PlayerStats newstats)		{ Statistics = newstats; }
+	void SetData(PlayerData newdata)		{ Data = newdata; }
 
 	PlayerInterpolationData	InterpolationData;
 };

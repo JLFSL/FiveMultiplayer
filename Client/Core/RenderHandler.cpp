@@ -1,33 +1,20 @@
 #include "stdafx.h"
 
-RenderHandler::RenderHandler()
-{
-}
-
-RenderHandler::~RenderHandler()
-{
-}
-
-void RenderHandler::OnAfterCreated(CefRefPtr<CefBrowser> browser)
-{
-	//AutoLock lock_scope(this);
-	// keep browser reference
-	m_browser = browser;
-}
-
-bool doLoop = true;
-
-void RenderHandler::OnBeforeClose(CefRefPtr<CefBrowser> browser)
-{
-	//AutoLock lock_scope(this);
-
-	// quit message loop
-	doLoop = false;
-
-	m_browser = NULL;
-}
-
-void RenderHandler::OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const RectList& dirtyRects, const void* buffer, int width, int height)
+void CWebApp::OnRegisterCustomSchemes(CefRefPtr < CefSchemeRegistrar > registrar)
 {
 	
+}
+
+void CWebApp::OnBeforeCommandLineProcessing(const CefString& process_type, CefRefPtr<CefCommandLine> command_line)
+{
+	command_line->AppendSwitch("disable-gpu-compositing");
+	command_line->AppendSwitch("disable-gpu");
+	//command_line->AppendSwitch("disable-d3d11");
+	command_line->AppendSwitch("enable-begin-frame-scheduling");
+}
+
+CefRefPtr<CefResourceHandler> CWebApp::Create(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, const CefString& scheme_name, CefRefPtr<CefRequest> request)
+{
+	
+	return nullptr;
 }

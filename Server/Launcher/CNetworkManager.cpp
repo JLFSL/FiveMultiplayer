@@ -118,7 +118,7 @@ void CNetworkManager::Pulse()
 				PulseMaster();
 				break;
 			}
-			case ID_PACKET_TEST:
+			case ID_PACKET_PLAYER:
 			{
 				for (int i = 0; i < g_Players.size(); i++) {
 					if (g_Players[i].GetGUID() == g_Packet->guid) {

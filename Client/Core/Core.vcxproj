@@ -182,6 +182,7 @@
     <ClCompile Include="CNetworkManager.cpp" />
     <ClCompile Include="CPlayerEntity.cpp" />
     <ClCompile Include="CrossMapping.cpp" />
+    <ClCompile Include="CVehicleEntity.cpp" />
     <ClCompile Include="DirectXDraw.cpp" />
     <ClCompile Include="DirectXRenderer.cpp" />
     <ClCompile Include="CRPCManager.cpp" />
@@ -238,6 +239,7 @@
     <ClInclude Include="CNetworkManager.h" />
     <ClInclude Include="CPlayerEntity.h" />
     <ClInclude Include="CrossMapping.h" />
+    <ClInclude Include="CVehicleEntity.h" />
     <ClInclude Include="DirectXDraw.h" />
     <ClInclude Include="DirectXRenderer.h" />
     <ClInclude Include="CRPCManager.h" />

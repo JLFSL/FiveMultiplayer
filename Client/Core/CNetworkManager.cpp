@@ -189,7 +189,7 @@ void CNetworkManager::Pulse()
 				Logger::Msg("CNetworkManager::Connected");
 				break;
 			}
-			case ID_PACKET_TEST:
+			case ID_PACKET_PLAYER:
 			{
 				RakNetGUID tempGUID;
 				g_BitStream.Read(tempGUID);
