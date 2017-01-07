@@ -8,11 +8,19 @@ extern "C" {
 		namespace Entity
 		{
 			/// <summary>
-			/// Sends a notification message that displays above the game minimap to all clients.
+			/// Gets the position of the entity.
 			/// </summary>
 			/// <param name="entity">The entity you wish to get the position off.</param>
 			/// <returns name="position">The CVector3 position of the entity</returns>
 			DLL_PUBLIC_I CVector3 GetPosition(int entity);
+
+			/// <summary>
+			/// Sets the position of the entity.
+			/// </summary>
+			/// <param name="entity">The entity you wish to set the position off.</param>
+			/// <param name="position">The position you wish to set they entity off.</param>
+			/// <returns></returns>
+			DLL_PUBLIC_I void SetPosition(int entity, CVector3 position);
 			
 		}
 	}

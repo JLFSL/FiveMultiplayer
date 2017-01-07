@@ -71,7 +71,7 @@ public:
 	CPlayerEntity() { Game.Created = false; Game.Ped = NULL; };
 	~CPlayerEntity() { };
 
-	void Create(std::string Name, RakNetGUID GUID);
+	void Create(std::string Name, RakNetGUID GUID, int entity);
 	void CreatePed();
 	void Destroy();
 
@@ -92,7 +92,8 @@ public:
 	bool IsTargetAnimal();
 
 	int GetId()					{ return Information.Id; };
-	std::string GetUsername()		{ return Information.Name; };
+	std::string GetUsername()	{ return Information.Name; };
+	Ped	GetPed()				{ return Game.Ped; };
 
 	int GetScore()				{ return Statistics.Score; };
 

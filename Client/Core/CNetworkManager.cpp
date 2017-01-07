@@ -111,6 +111,15 @@ void CNetworkManager::Disconnect()
 	g_Players.shrink_to_fit();
 	std::cout << "[CPlayerEntity] Players Online: " << g_Players.size() << std::endl;
 
+	// Remove all existing vehicles
+	for (int i = 0; i < g_Vehicles.size(); i++)
+	{
+		g_Vehicles[i].Destroy();
+	}
+	// Shrink vector so size is correct.
+	g_Vehicles.shrink_to_fit();
+	std::cout << "[CPlayerEntity] Vehicles: " << g_Vehicles.size() << std::endl;
+
 	Logger::Msg("CNetworkManager::Disconnected");
 }
 
@@ -177,7 +186,7 @@ void CNetworkManager::Pulse()
 			}
 			case ID_CONNECTION_REQUEST_ACCEPTED:
 			{
-				// Set the server GUID
+				// Set the server Adress
 				g_SystemAddr = g_Packet->systemAddress;
 
 				// Set our state to connected
@@ -206,11 +215,43 @@ void CNetworkManager::Pulse()
 					}
 				}
 				if (!exist) {
+					int entityId;
+					g_BitStream.Read(entityId);
+
 					CPlayerEntity newPlayer;
-					newPlayer.Create("User", tempGUID);
+					newPlayer.Create("User", tempGUID, entityId);
 					g_Players.push_back(newPlayer);
 
 					std::cout << "[CPlayerEntity] Players Online: " << g_Players.size() << std::endl;
+				}
+				break;
+			}
+			case ID_PACKET_VEHICLE:
+			{
+				int tempId;
+				g_BitStream.Read(tempId);
+
+				bool exist = false;
+
+				if (!g_Vehicles.empty())
+				{
+					for (int i = 0; i < g_Vehicles.size(); i++)
+					{
+						if (g_Vehicles[i].GetId() == tempId)
+						{
+							g_Vehicles[i].Update(g_Packet);
+							exist = true;
+							i = g_Vehicles.size();
+						}
+					}
+				}
+				if (!exist)
+				{
+					CVehicleEntity newVehicle;
+					newVehicle.Create(tempId);
+					g_Vehicles.push_back(newVehicle);
+
+					std::cout << "[CPlayerEntity] Vehicle Count: " << g_Vehicles.size() << std::endl;
 				}
 				break;
 			}

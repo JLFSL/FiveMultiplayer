@@ -33,5 +33,8 @@
     <ClInclude Include="CVector4.h">
       <Filter>Math</Filter>
     </ClInclude>
+    <ClInclude Include="APIVehicle.h">
+      <Filter>API</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

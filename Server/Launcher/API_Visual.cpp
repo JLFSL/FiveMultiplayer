@@ -8,17 +8,17 @@ namespace API
 
 		void ShowMessageAboveMap(const char *message, const char *pic, int icontype, const char *sender, const char *subject)
 		{
-			RakNet::RakString _message = RakNet::RakString(message);
-			RakNet::RakString _pic = RakNet::RakString(pic);
-			RakNet::RakString _sender = RakNet::RakString(sender);
-			RakNet::RakString _subject = RakNet::RakString(subject);
+			RakNet::RakString rakMessage = RakNet::RakString(message);
+			RakNet::RakString rakPic = RakNet::RakString(pic);
+			RakNet::RakString rakSender = RakNet::RakString(sender);
+			RakNet::RakString rakSubject = RakNet::RakString(subject);
 
 			RakNet::BitStream sData;
-			sData.Write(_message);
-			sData.Write(_pic);
+			sData.Write(rakMessage);
+			sData.Write(rakPic);
 			sData.Write(icontype);
-			sData.Write(_sender);
-			sData.Write(_subject);
+			sData.Write(rakSender);
+			sData.Write(rakSubject);
 
 			g_Network->GetRPC().Signal("ShowMessageAboveMap", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
 		}

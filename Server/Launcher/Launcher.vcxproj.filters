@@ -31,6 +31,9 @@
     <Filter Include="Include\INIReader">
       <UniqueIdentifier>{28c21ed1-aa87-4e78-8373-b998735b4acf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Math">
+      <UniqueIdentifier>{e4c219a3-67cb-4d6a-928b-d67c52fed246}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -78,6 +81,15 @@
     <ClCompile Include="CServerEntity.cpp">
       <Filter>Entity</Filter>
     </ClCompile>
+    <ClCompile Include="CNetworkData.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="CVehicleEntity.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="API_Vehicle.cpp">
+      <Filter>Scripting\Functions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -118,6 +130,15 @@
     </ClInclude>
     <ClInclude Include="CServerEntity.h">
       <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="CNetworkData.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="CVehicleEntity.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="API_Vehicle.h">
+      <Filter>Scripting\Functions</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

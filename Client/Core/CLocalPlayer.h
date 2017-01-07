@@ -43,8 +43,10 @@ public:
 
 	void Pulse();
 
-	Player GetPlayer()	{ return Game.Player; }
-	Ped	GetPed()		{ return Game.Ped; }
+	Player GetPlayer()		{ return Game.Player; }
+	Ped	GetPed()			{ return Game.Ped; }
+	int	GetId()				{ return Information.Id; }
+	void SetId(int id)		{ Information.Id = id; }
 
 	CVector3 GetPos()		{ return Data.Position; }
 	Vector3_t GetPosEx()	{ Vector3_t Pos = { Data.Position.fX, Data.Position.fY, Data.Position.fZ }; return Pos; }

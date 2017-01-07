@@ -1,7 +1,12 @@
 #include "stdafx.h"
 
 CRPCManager::RPCMessage rpcmessages[] = {
-	{ "ShowMessageAboveMap", CRPCVisual::ShowMessageAboveMap }
+#pragma region Visual
+	{ "ShowMessageAboveMap", CRPCVisual::ShowMessageAboveMap },
+#pragma endregion
+#pragma region Entity
+	{ "SetPosition", CRPCEntity::SetPosition }
+#pragma endregion
 };
 
 void CRPCManager::RegisterRPCMessages()

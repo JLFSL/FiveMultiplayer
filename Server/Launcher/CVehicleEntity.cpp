@@ -1,34 +1,33 @@
 #include "stdafx.h"
 
-int CPlayerEntity::Amount = 0;
+int CVehicleEntity::Amount = 0;
 
-void CPlayerEntity::Create(string Name, RakNetGUID GUID, SystemAddress Ip)
+void CVehicleEntity::Create(string model, CVector3 position, float heading)
 {
 	CServerEntity newServerEntity;
-	newServerEntity.SetType(newServerEntity.Player);
+	newServerEntity.SetType(newServerEntity.Vehicle);
 
-	Information.Name = Name;
+	Data.Model = model;
+	Data.Position = position;
+	Data.Heading = heading;
 	Information.Id = newServerEntity.Create();
-	Network.GUID = GUID;
-	Network.Ip = Ip;
-	
+
 	g_Entities.push_back(newServerEntity);
 
 	Amount++;
 
-	cout << "[CPlayerEntity] Added Player: " << Information.Name << " [" << Network.Ip.ToString(false) << "]" << endl;
-	cout << "[CPlayerEntity] Players Online: " << Amount << endl;
+	cout << "[CVehicleEntity] Create Vehicle [" << Information.Id << "] " << Data.Model.c_str() << " at " << Data.Position.fX << ", " << Data.Position.fY << ", " << Data.Position.fZ << endl;
+	cout << "[CVehicleEntity] " << Amount << " vehicles in the world." << endl;
 
 	Network.LastSyncSent = timeGetTime();
 	Network.Synchronized = true;
 }
 
-void CPlayerEntity::Destroy()
+void CVehicleEntity::Destroy()
 {
-	cout << "[CPlayerEntity] Removing Player: " << Information.Name << " [" << Network.Ip.ToString(false) << "]" << endl;
+	cout << "[CVehicleEntity] Removing Vehicle [" << Information.Id << "] " << Data.Model.c_str() << endl;
 
 	Information = {};
-	Statistics = {};
 	Data = {};
 	Network = {};
 
@@ -36,33 +35,29 @@ void CPlayerEntity::Destroy()
 
 	Amount--;
 
-	cout << "[CPlayerEntity] Players Online: " << Amount << endl;
+	cout << "[CVehicleEntity] " << Amount << " vehicles in the world." << endl;
 }
 
-void CPlayerEntity::Pulse()
+void CVehicleEntity::Pulse()
 {
 	if (Network.LastSyncSent + (1000 / CServer::GetInstance()->GetSyncRate()) <= timeGetTime())
 	{
 		BitStream bitstream;
-		bitstream.Write((unsigned char)ID_PACKET_PLAYER);
-		bitstream.Write(Network.GUID);
+		bitstream.Write((unsigned char)ID_PACKET_VEHICLE);
 
 		bitstream.Write(Information.Id);
-		bitstream.Write(Information.Name);
 
-		bitstream.Write(Statistics.Score);
+		bitstream.Write(RakString(Data.Model.c_str()));
 
-		bitstream.Write(Data.Model.Model);
-		bitstream.Write(Data.Model.Type);
+		//bitstream.Write(Information.Driver);
 
-		bitstream.Write(Data.Weapon.Weapon);
-		bitstream.Write(Data.Weapon.Reload);
-
-		bitstream.Write(Data.ForwardSpeed);
+		bitstream.Write(Data.Heading);
 
 		bitstream.Write(Data.Position.fX);
 		bitstream.Write(Data.Position.fY);
 		bitstream.Write(Data.Position.fZ);
+
+		bitstream.Write(Data.ForwardSpeed);
 
 		bitstream.Write(Data.Velocity.fX);
 		bitstream.Write(Data.Velocity.fY);
@@ -78,26 +73,21 @@ void CPlayerEntity::Pulse()
 	}
 }
 
-void CPlayerEntity::Update(Packet *packet)
+void CVehicleEntity::Update(Packet *packet)
 {
 	BitStream bitstream(packet->data + 1, packet->length + 1, false);
 
 	bitstream.Read(Information.Id);
-	bitstream.Read(Information.Name);
 
-	bitstream.Read(Statistics.Score);
+	bitstream.Read(Data.Model);
 
-	bitstream.Read(Data.Model.Model);
-	bitstream.Read(Data.Model.Type);
-
-	bitstream.Read(Data.Weapon.Weapon);
-	bitstream.Read(Data.Weapon.Reload);
-
-	bitstream.Read(Data.ForwardSpeed);
+	//bitstream.Read(Information.Driver);
 
 	bitstream.Read(Data.Position.fX);
 	bitstream.Read(Data.Position.fY);
 	bitstream.Read(Data.Position.fZ);
+
+	bitstream.Read(Data.ForwardSpeed);
 
 	bitstream.Read(Data.Velocity.fX);
 	bitstream.Read(Data.Velocity.fY);
@@ -107,7 +97,4 @@ void CPlayerEntity::Update(Packet *packet)
 	bitstream.Read(Data.Quaternion.fY);
 	bitstream.Read(Data.Quaternion.fZ);
 	bitstream.Read(Data.Quaternion.fW);
-	
-	Network.GUID = packet->guid;
-	Network.Ip = packet->systemAddress;
 }

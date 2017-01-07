@@ -1,8 +1,13 @@
 #include "stdafx.h"
 
-void CPlayerEntity::Create(std::string Name, RakNetGUID GUID) {
+void CPlayerEntity::Create(std::string Name, RakNetGUID GUID, int entity) {
+	CServerEntity newServerEntity;
+	newServerEntity.Create(entity);
+	newServerEntity.SetType(newServerEntity.Player);
+	g_Entities.push_back(newServerEntity);
+
 	Information.Name = Name;
-	Information.Id = g_Players.size() + 1;
+	Information.Id = entity;
 	Network.GUID = GUID;
 
 	std::cout << "[CPlayerEntity] Added Player: " << Information.Name << std::endl;
@@ -112,6 +117,12 @@ void CPlayerEntity::Update(Packet *packet)
 		UpdateTargetData();
 		//UpdateTargetRotation();
 	}
+	/*else
+	{
+		// Simple way to make the local player aware of its own server entity id.
+		if (Information.Id != g_Core->GetLocalPlayer()->GetId())
+			g_Core->GetLocalPlayer()->SetId(Information.Id);
+	}*/
 }
 
 void CPlayerEntity::Interpolate()

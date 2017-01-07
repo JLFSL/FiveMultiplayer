@@ -1,6 +1,8 @@
 #include "stdafx.h"
 
-std::vector<CPlayerEntity> g_Players;
+std::vector<CServerEntity>	g_Entities;
+std::vector<CPlayerEntity>	g_Players;
+std::vector<CVehicleEntity>	g_Vehicles;
 
 CCore::CCore()
 {
@@ -25,6 +27,7 @@ CCore::~CCore()
 
 bool CCore::Initialize()
 {
+	//Loads multiplayer World (wish to have this executed sooner befor the loading screne is terminated)
 	GAMEPLAY::_ENABLE_MP_DLC_MAPS(true);
 	DLC2::_LOAD_MP_DLC_MAPS();
 
@@ -55,7 +58,7 @@ void CCore::OnGameTick()
 	if (g_LocalPlayer->IsPlaying() == FALSE)
 		return;
 
-	if (timeGetTime() >= LastCleanUp + 60000)
+	if (timeGetTime() >= LastCleanUp + 10000)
 	{
 		CleanUp();			// World Clean Up
 		g_Scipts->Pulse();	// Script Clean Up
@@ -147,7 +150,7 @@ void CCore::CleanUp()
 
 	MOBILE::DESTROY_MOBILE_PHONE();
 
-	std::cout << "[CCore] Clean up" << std::endl;
+	//std::cout << "[CCore] Clean up" << std::endl;
 
 	LastCleanUp = timeGetTime();
 }

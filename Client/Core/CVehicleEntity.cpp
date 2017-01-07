@@ -1,46 +1,47 @@
 #include "stdafx.h"
-#include "CVehicleEntity.h"
 
-void CVehicleEntity::Create(Hash Model)
+void CVehicleEntity::Create(int entityid)
 {
-	Information.Id = g_Players.size() + 1;
+	Information.Id	= entityid;
 
 	std::cout << "[CVehicleEntity] Added Vehicle: " << Information.Id << std::endl;
 }
 
 void CVehicleEntity::CreateVehicle()
 {
-	if (!STREAMING::IS_MODEL_IN_CDIMAGE(Data.Model) && STREAMING::IS_MODEL_VALID(Data.Model))
-		Data.Model = GAMEPLAY::GET_HASH_KEY("dilettante");
+	Hash model = GAMEPLAY::GET_HASH_KEY((char*)Data.Model.c_str());
+	if (STREAMING::IS_MODEL_IN_CDIMAGE(model) && STREAMING::IS_MODEL_VALID(model))
+	{
+		STREAMING::REQUEST_COLLISION_AT_COORD(Data.Position.fX, Data.Position.fY, Data.Position.fZ);
+		STREAMING::REQUEST_MODEL(model);
+		while (!STREAMING::HAS_MODEL_LOADED(model))
+			WAIT(0);
 
-	STREAMING::REQUEST_COLLISION_AT_COORD(Data.Position.fX, Data.Position.fY, Data.Position.fZ);
-	STREAMING::REQUEST_MODEL(Data.Model);
-	while (!STREAMING::HAS_MODEL_LOADED(Data.Model)) 
-		WAIT(0);
+		Game.Vehicle = VEHICLE::CREATE_VEHICLE(model, Data.Position.fX, Data.Position.fY, Data.Position.fZ, Data.Heading, false, true);
 
-	Game.Vehicle = VEHICLE::CREATE_VEHICLE(Data.Model, Data.Position.fX, Data.Position.fY, Data.Position.fZ, Data.Heading, false, true);
+		ENTITY::FREEZE_ENTITY_POSITION(Game.Vehicle, true);
+		ENTITY::SET_ENTITY_COLLISION(Game.Vehicle, true, false);
+		ENTITY::SET_ENTITY_LOAD_COLLISION_FLAG(Game.Vehicle, true);
+		//ENTITY::SET_ENTITY_QUATERNION(Game.Vehicle, Data.Quaternion.fX, Data.Quaternion.fY, Data.Quaternion.fZ, Data.Quaternion.fW);
 
-	ENTITY::FREEZE_ENTITY_POSITION(Game.Vehicle, true);
-	ENTITY::SET_ENTITY_COLLISION(Game.Vehicle, true, false);
-	ENTITY::SET_ENTITY_LOAD_COLLISION_FLAG(Game.Vehicle, true);
-	ENTITY::SET_ENTITY_QUATERNION(Game.Vehicle, Data.Quaternion.fX, Data.Quaternion.fY, Data.Quaternion.fZ, Data.Quaternion.fW);
+		VEHICLE::SET_VEHICLE_MOD_KIT(Game.Vehicle, 0);
+		//VEHICLE::SET_VEHICLE_COLOURS(Game.Vehicle, color1, color2);
+		VEHICLE::SET_TAXI_LIGHTS(Game.Vehicle, true);
+		VEHICLE::SET_VEHICLE_NUMBER_PLATE_TEXT(Game.Vehicle, "FiveMP");
 
-	VEHICLE::SET_VEHICLE_MOD_KIT(Game.Vehicle, 0);
-	//VEHICLE::SET_VEHICLE_COLOURS(Game.Vehicle, color1, color2);
-	VEHICLE::SET_TAXI_LIGHTS(Game.Vehicle, true);
-	VEHICLE::SET_VEHICLE_NUMBER_PLATE_TEXT(Game.Vehicle, "FiveMP");
+		const int Class = VEHICLE::GET_VEHICLE_CLASS(Game.Vehicle);
+		if (Class == 18 || Class == 17 || Class == 15 || Class == 16 || Class == 20 || Class == 14)
+		{
+			VEHICLE::SET_VEHICLE_MOD(Game.Vehicle, 48, 0, 0);
+			VEHICLE::SET_VEHICLE_LIVERY(Game.Vehicle, 0);
+		}
 
-	const int Class = VEHICLE::GET_VEHICLE_CLASS(Game.Vehicle);
-	if (Class == 18 || Class == 17 || Class == 15 || Class == 16 || Class == 20 || Class == 14) {
-		VEHICLE::SET_VEHICLE_MOD(Game.Vehicle, 48, 0, 0);
-		VEHICLE::SET_VEHICLE_LIVERY(Game.Vehicle, 0);
+		DECORATOR::DECOR_REGISTER("FiveMP_Vehicle", 2);
+		DECORATOR::DECOR_SET_BOOL(Game.Vehicle, "FiveMP_Vehicle", true);
+
+		std::cout << "[CVehicleEntity] Created Vehicle" << std::endl;
+		Game.Created = true;
 	}
-
-	DECORATOR::DECOR_REGISTER("FiveMP_Vehicle", 2);
-	DECORATOR::DECOR_SET_BOOL(Game.Vehicle, "FiveMP_Vehicle", true);
-
-	std::cout << "[CVehicleEntity] Created Vehicle" << std::endl;
-	Game.Created = true;
 }
 
 void CVehicleEntity::Destroy()
@@ -72,14 +73,16 @@ void CVehicleEntity::Update(Packet * packet)
 
 	bitstream.Read(Information.Id);
 
-	bitstream.Read(Data.Model);
-
-	bitstream.Read(Data.ForwardSpeed);
+	RakString model;
+	bitstream.Read(model);
+	Data.Model = model.C_String();
 
 	bitstream.Read(Data.Heading);
 	bitstream.Read(Data.Position.fX);
 	bitstream.Read(Data.Position.fY);
 	bitstream.Read(Data.Position.fZ);
+
+	bitstream.Read(Data.ForwardSpeed);
 
 	bitstream.Read(Data.Velocity.fX);
 	bitstream.Read(Data.Velocity.fY);

@@ -84,14 +84,17 @@
 	#include "Animations.h"
 
 	// Entity
+	#include "CServerEntity.h"
 	#include "CPlayerEntity.h"
 	#include "CLocalPlayer.h"
+	#include "CVehicleEntity.h"
 
 	// Network
 	#include "CNetworkManager.h"
 	#include "CRPCManager.h"
 		// RPC Handlers
 		#include "CRPCVisual.h"
+		#include "CRPCEntity.h"
 
 	// Client
 	#include "CCore.h"

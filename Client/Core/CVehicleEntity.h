@@ -14,7 +14,7 @@ private:
 	} Information;
 
 	struct VehicleData {
-		Hash		Model;
+		std::string		Model;
 
 		float			ForwardSpeed;
 
@@ -56,7 +56,7 @@ public:
 	CVehicleEntity() { Game.Created = false; Game.Vehicle = NULL; };
 	~CVehicleEntity() { };
 
-	void Create(Hash Model);
+	void Create(int entityid);
 	void CreateVehicle();
 	void Destroy();
 

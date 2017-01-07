@@ -7,6 +7,7 @@ CServer* CServer::p_Instance = nullptr;
 
 vector<CServerEntity>	g_Entities;
 vector<CPlayerEntity>	g_Players;
+vector<CVehicleEntity>	g_Vehicles;
 vector<CAPI>			g_ApiModules;
 
 CServer::CServer()
@@ -154,6 +155,12 @@ void CServer::Process()
 	// Pulse all players
 	for (int i = 0; i < g_Players.size(); i++) {
 		g_Players[i].Pulse();
+	}
+
+	// Pulse all vehicles
+	for (int i = 0; i < g_Vehicles.size(); i++)
+	{
+		g_Vehicles[i].Pulse();
 	}
 
 	for (int i = 0; i < g_ApiModules.size(); i++)

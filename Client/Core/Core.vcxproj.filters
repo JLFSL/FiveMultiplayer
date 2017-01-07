@@ -144,6 +144,12 @@
     <ClCompile Include="CVehicleEntity.cpp">
       <Filter>Entity</Filter>
     </ClCompile>
+    <ClCompile Include="CRPCEntity.cpp">
+      <Filter>Network\RPC</Filter>
+    </ClCompile>
+    <ClCompile Include="CServerEntity.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -261,6 +267,12 @@
       <Filter>Network\RPC</Filter>
     </ClInclude>
     <ClInclude Include="CVehicleEntity.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="CRPCEntity.h">
+      <Filter>Network\RPC</Filter>
+    </ClInclude>
+    <ClInclude Include="CServerEntity.h">
       <Filter>Entity</Filter>
     </ClInclude>
   </ItemGroup>

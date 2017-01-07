@@ -21,12 +21,14 @@
 // API Function Imports
 #include "APIServer.h"
 #include "APIEntity.h"
+#include "APIVehicle.h"
 #include "APIVisual.h"
 
 // When Plugin gets loaded
 extern "C" DLL_PUBLIC bool API_Initialize(void) 
 {
 	API::Server::PrintMessage("init");
+	API::Vehicle::CreateVehicle("dilettante", CVector3{ 0.0f,0.0f,100.0f }, 90.0f);
 	return true;
 }
 
@@ -55,12 +57,16 @@ extern "C" DLL_PUBLIC bool API_OnPlayerConnecting(const char *guid )
 // Player Connected
 extern "C" DLL_PUBLIC bool API_OnPlayerConnected(int player)
 {
-	API::Visual::ShowMessageAboveMap("~g~You Connected!", "CHAR_YOUTUBE", 1, "Jack", "Test");
+	std::ostringstream oss;
+	oss << "~g~You Connected! [ID: " << player << "]";
+	API::Visual::ShowMessageAboveMap(oss.str().c_str(), "CHAR_CREATOR_PORTRAITS", 1, "Server", "");
+
+	API::Entity::SetPosition(player, CVector3{ 0.0f,0.0f,75.0f });
 
 	CVector3 position = API::Entity::GetPosition(player);
-	std::ostringstream oss;
+	oss = std::ostringstream("");
 	oss << "~p~Position: " << position.fX << " " << position.fY << " " << position.fZ;
 	
-	API::Visual::ShowMessageAboveMap(oss.str().c_str(), "CHAR_STRIPPER_CHEETAH", 5, "Jack", "Test");
+	API::Visual::ShowMessageAboveMap(oss.str().c_str(), "CHAR_STRIPPER_CHEETAH", 5, "Server", "Position");
 	return true;
 }

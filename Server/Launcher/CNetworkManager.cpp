@@ -80,6 +80,8 @@ void CNetworkManager::Pulse()
 				newPlayer.Create("User", g_Packet->guid, g_Packet->systemAddress);
 				g_Players.push_back(newPlayer);
 
+				
+
 				// API::Network::OnPlayerConnected Execute
 				for (int i = 0; i < g_ApiModules.size(); i++)
 				{
