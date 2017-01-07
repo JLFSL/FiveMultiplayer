@@ -3,4 +3,35 @@
   <ItemGroup>
     <ClCompile Include="api.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CMaths.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="CVector3.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="CVector4.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="APIEntity.h">
+      <Filter>API</Filter>
+    </ClInclude>
+    <ClInclude Include="APIServer.h">
+      <Filter>API</Filter>
+    </ClInclude>
+    <ClInclude Include="APIVisual.h">
+      <Filter>API</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="API">
+      <UniqueIdentifier>{a7d41232-faa1-4fc7-b81c-befc7a001548}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{7b7e828b-6503-4b1a-891d-11ca8f414d12}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
 </Project>

@@ -55,8 +55,8 @@ bool CCore::Initialize()
 
 void CCore::OnGameTick()
 {
-	if (g_LocalPlayer->IsPlaying() == FALSE)
-		return;
+	//if (g_LocalPlayer->IsPlaying() == FALSE)
+		//return;
 
 	if (timeGetTime() >= LastCleanUp + 10000)
 	{
@@ -102,6 +102,15 @@ void CCore::OnGameTick()
 		ENTITY::SET_ENTITY_COORDS_NO_OFFSET(g_LocalPlayer->GetPed(), 0.0f, 0.0f, 73.5f, false, false, false);
 	}
 
+	if (KeyJustUp(VK_F4))
+	{
+		CVehicleEntity newVehicle;
+		newVehicle.Create(GAMEPLAY::GET_HASH_KEY("ADDER"), g_LocalPlayer->GetPos());
+		g_Vehicles.push_back(newVehicle);
+
+		std::cout << "[CVehicleEntity] Vehicles spawned: " << g_Vehicles.size() << std::endl;
+	}
+
 	if (KeyJustUp(VK_F9))
 	{
 		g_NetworkManager->Disconnect();
@@ -109,7 +118,6 @@ void CCore::OnGameTick()
 	}
 
 	g_LocalPlayer->Pulse();
-
 	g_NetworkManager->Pulse();
 	
 	if (!g_Players.empty()) {
