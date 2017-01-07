@@ -1,9 +1,15 @@
 #include "stdafx.h"
-#include "CVehicleEntity.h"
 
-void CVehicleEntity::Create(Hash Model)
+void CVehicleEntity::Create(Hash Model, CVector3 Position)
 {
-	Information.Id = g_Players.size() + 1;
+	Information.Id = (int)g_Vehicles.size() + 1;
+
+	Data.Model = Model;
+	Data.Position = Position;
+
+	std::cout << Model <<" " << Data.Position.fX << " " << Data.Position.fY << " " << Data.Position.fZ << std::endl;
+
+	CreateVehicle();
 
 	std::cout << "[CVehicleEntity] Added Vehicle: " << Information.Id << std::endl;
 }
@@ -20,6 +26,7 @@ void CVehicleEntity::CreateVehicle()
 
 	Game.Vehicle = VEHICLE::CREATE_VEHICLE(Data.Model, Data.Position.fX, Data.Position.fY, Data.Position.fZ, Data.Heading, false, true);
 
+	ENTITY::SET_ENTITY_COORDS_NO_OFFSET(Game.Vehicle, Data.Position.fX, Data.Position.fY, Data.Position.fZ, false, false, false);
 	ENTITY::FREEZE_ENTITY_POSITION(Game.Vehicle, true);
 	ENTITY::SET_ENTITY_COLLISION(Game.Vehicle, true, false);
 	ENTITY::SET_ENTITY_LOAD_COLLISION_FLAG(Game.Vehicle, true);
@@ -38,6 +45,8 @@ void CVehicleEntity::CreateVehicle()
 
 	DECORATOR::DECOR_REGISTER("FiveMP_Vehicle", 2);
 	DECORATOR::DECOR_SET_BOOL(Game.Vehicle, "FiveMP_Vehicle", true);
+
+	ENTITY::FREEZE_ENTITY_POSITION(Game.Vehicle, false);
 
 	std::cout << "[CVehicleEntity] Created Vehicle" << std::endl;
 	Game.Created = true;

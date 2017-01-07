@@ -25,7 +25,7 @@ public:
 	void PreventCheat();
 
 	CNetworkManager *GetNetworkManager()	{ return g_NetworkManager; }
-	CRPCManager *GetRPCManager() { return g_RPCManager; }
-	CLocalPlayer *GetLocalPlayer() { return g_LocalPlayer; }
+	CRPCManager *GetRPCManager()			{ return g_RPCManager; }
+	CLocalPlayer *GetLocalPlayer()			{ return g_LocalPlayer; }
 };
 

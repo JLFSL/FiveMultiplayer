@@ -56,7 +56,7 @@ public:
 	CVehicleEntity() { Game.Created = false; Game.Vehicle = NULL; };
 	~CVehicleEntity() { };
 
-	void Create(Hash Model);
+	void Create(Hash Model, CVector3 Position);
 	void CreateVehicle();
 	void Destroy();
 

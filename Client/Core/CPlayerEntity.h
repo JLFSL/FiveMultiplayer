@@ -58,9 +58,9 @@ private:
 
 		struct
 		{
-			CVector3      Start;
-			CVector3      Target;
-			CVector3      Error;
+			CVector4      Start;
+			CVector4      Target;
+			CVector4      Error;
 			float         LastAlpha;
 			unsigned long StartTime;
 			unsigned long FinishTime;

@@ -27,4 +27,76 @@ public:
 	{
 		return CVector4(fX + vecRight.fX, fY + vecRight.fY, fZ + vecRight.fZ, fW + vecRight.fW);
 	}
+
+	CVector4 operator+ (float fRight) const
+	{
+		return CVector4(fX + fRight, fY + fRight, fZ + fRight, fW + fRight);
+	}
+
+	CVector4 operator- (const CVector4& vecRight) const
+	{
+		return CVector4(fX - vecRight.fX, fY - vecRight.fY, fZ - vecRight.fZ, fW - vecRight.fW);
+	}
+
+	CVector4 operator- (float fRight) const
+	{
+		return CVector4(fX - fRight, fY - fRight, fZ - fRight, fW - fRight);
+	}
+
+	CVector4 operator* (const CVector4& vecRight) const
+	{
+		return CVector4(fX * vecRight.fX, fY * vecRight.fY, fZ * vecRight.fZ, fW * vecRight.fW);
+	}
+
+	CVector4 operator* (float fRight) const
+	{
+		return CVector4(fX * fRight, fY * fRight, fZ * fRight, fW * fRight);
+	}
+
+	CVector4 operator/ (const CVector4& vecRight) const
+	{
+		return CVector4(fX / vecRight.fX, fY / vecRight.fY, fZ / vecRight.fZ, fW / vecRight.fW);
+	}
+
+	CVector4 operator/ (float fRight) const
+	{
+		return CVector4(fX / fRight, fY / fRight, fZ / fRight, fW / fRight);
+	}
+
+	CVector4 operator - () const
+	{
+		return CVector4(-fX, -fY, -fZ, -fW);
+	}
+
+	void operator += (float fRight)
+	{
+		fX += fRight;
+		fY += fRight;
+		fZ += fRight;
+		fW += fRight;
+	}
+
+	void operator -= (float fRight)
+	{
+		fX -= fRight;
+		fY -= fRight;
+		fZ -= fRight;
+		fW -= fRight;
+	}
+
+	void operator *= (float fRight)
+	{
+		fX *= fRight;
+		fY *= fRight;
+		fZ *= fRight;
+		fW *= fRight;
+	}
+
+	void operator /= (float fRight)
+	{
+		fX /= fRight;
+		fY /= fRight;
+		fZ /= fRight;
+		fW /= fRight;
+	}
 };

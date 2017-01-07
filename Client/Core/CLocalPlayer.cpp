@@ -28,7 +28,7 @@ void CLocalPlayer::Pulse()
 		Data.Model.Type = PED::GET_PED_TYPE(Game.Ped);
 
 		WEAPON::GET_CURRENT_PED_WEAPON(Game.Ped, &Data.Weapon.Weapon, true);
-		Data.Weapon.Reload = WEAPON::_IS_PED_RELOADING(Game.Ped);
+		Data.Weapon.Reload = (bool)WEAPON::_IS_PED_RELOADING(Game.Ped);
 
 		Data.ForwardSpeed = ENTITY::GET_ENTITY_SPEED(Game.Ped);
 		Data.Position = { Coordinates.x, Coordinates.y, Coordinates.z };

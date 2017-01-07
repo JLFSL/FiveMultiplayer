@@ -84,6 +84,7 @@
 	#include "Animations.h"
 
 	// Entity
+	#include "CVehicleEntity.h"
 	#include "CPlayerEntity.h"
 	#include "CLocalPlayer.h"
 
