@@ -20,6 +20,7 @@ void CVehicleEntity::CreateVehicle()
 		Game.Vehicle = VEHICLE::CREATE_VEHICLE(model, Data.Position.fX, Data.Position.fY, Data.Position.fZ, Data.Heading, false, true);
 
 		ENTITY::FREEZE_ENTITY_POSITION(Game.Vehicle, true);
+		ENTITY::SET_ENTITY_COORDS_NO_OFFSET(Game.Vehicle, Data.Position.fX, Data.Position.fY, Data.Position.fZ, false, false, false);
 		ENTITY::SET_ENTITY_COLLISION(Game.Vehicle, true, false);
 		ENTITY::SET_ENTITY_LOAD_COLLISION_FLAG(Game.Vehicle, true);
 		//ENTITY::SET_ENTITY_QUATERNION(Game.Vehicle, Data.Quaternion.fX, Data.Quaternion.fY, Data.Quaternion.fZ, Data.Quaternion.fW);
@@ -39,6 +40,7 @@ void CVehicleEntity::CreateVehicle()
 		DECORATOR::DECOR_REGISTER("FiveMP_Vehicle", 2);
 		DECORATOR::DECOR_SET_BOOL(Game.Vehicle, "FiveMP_Vehicle", true);
 
+		ENTITY::FREEZE_ENTITY_POSITION(Game.Vehicle, false);
 		std::cout << "[CVehicleEntity] Created Vehicle" << std::endl;
 		Game.Created = true;
 	}
