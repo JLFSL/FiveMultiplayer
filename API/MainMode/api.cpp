@@ -28,10 +28,10 @@
 extern "C" DLL_PUBLIC bool API_Initialize(void) 
 {
 	API::Server::PrintMessage("init");
-	API::Vehicle::CreateVehicle("dilettante", CVector3{ -3.0f, 6.0f, 73.0f }, 90.0f);
-	API::Vehicle::CreateVehicle("dilettante", CVector3{ -6.0f, 8.0f, 73.0f }, 90.0f);
-	API::Vehicle::CreateVehicle("dilettante", CVector3{ -9.0f, 10.0f, 75.0f }, 90.0f);
-	API::Vehicle::CreateVehicle("dilettante", CVector3{ -12.0f, 12.0f, 73.0f }, 90.0f);
+	API::Vehicle::CreateVehicle("dilettante", CVector3{ -3.0f, 6.0f, 73.0f }, 360.0f);
+	API::Vehicle::CreateVehicle("dilettante", CVector3{ -6.0f, 8.0f, 73.0f }, 360.0f);
+	API::Vehicle::CreateVehicle("dilettante", CVector3{ -9.0f, 10.0f, 75.0f }, 360.0f);
+	API::Vehicle::CreateVehicle("dilettante", CVector3{ -12.0f, 12.0f, 73.0f }, 360.0f);
 	return true;
 }
 
