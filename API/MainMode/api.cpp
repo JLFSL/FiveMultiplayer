@@ -30,7 +30,7 @@ extern "C" DLL_PUBLIC bool API_Initialize(void)
 	API::Server::PrintMessage("init");
 	API::Vehicle::CreateVehicle("dilettante", CVector3{ -3.0f, 6.0f, 73.0f }, 360.0f);
 	API::Vehicle::CreateVehicle("dilettante", CVector3{ -6.0f, 8.0f, 73.0f }, 360.0f);
-	API::Vehicle::CreateVehicle("dilettante", CVector3{ -9.0f, 10.0f, 75.0f }, 360.0f);
+	API::Vehicle::CreateVehicle("dilettante", CVector3{ -9.0f, 10.0f, 73.0f }, 360.0f);
 	API::Vehicle::CreateVehicle("dilettante", CVector3{ -12.0f, 12.0f, 73.0f }, 360.0f);
 	return true;
 }
@@ -66,10 +66,10 @@ extern "C" DLL_PUBLIC bool API_OnPlayerConnected(int player)
 
 	API::Entity::SetPosition(player, CVector3{ 0.0f,0.0f,75.0f });
 
+	std::ostringstream oss2;
 	CVector3 position = API::Entity::GetPosition(player);
-	oss = std::ostringstream("");
-	oss << "~p~Position: " << position.fX << " " << position.fY << " " << position.fZ;
+	oss2 << "~p~Position: " << position.fX << " " << position.fY << " " << position.fZ;
 	
-	API::Visual::ShowMessageAboveMap(oss.str().c_str(), "CHAR_STRIPPER_CHEETAH", 5, "Server", "Position");
+	API::Visual::ShowMessageAboveMap(oss2.str().c_str(), "CHAR_STRIPPER_CHEETAH", 5, "Server", "Position");
 	return true;
 }
