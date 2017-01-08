@@ -71,11 +71,11 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 
 	if (show_app_about)
 	{
-		ImGui::Begin("About ImGui", &show_app_about, ImGuiWindowFlags_AlwaysAutoResize);
-		ImGui::Text("dear imgui, %s", ImGui::GetVersion());
-		ImGui::Separator();
-		ImGui::Text("By Omar Cornut and all github contributors.");
-		ImGui::Text("ImGui is licensed under the MIT License, see LICENSE for more information.");
+		ImGui::Begin("FiveMP - Statistics", &show_app_about, ImGuiWindowFlags_AlwaysAutoResize);
+
+		ImGui::Text("Player Pool Size: %d", (int)g_Players.size());
+		ImGui::Text("Vehicle Pool Size: %d", (int)g_Vehicles.size());
+
 		ImGui::End();
 	}
 
