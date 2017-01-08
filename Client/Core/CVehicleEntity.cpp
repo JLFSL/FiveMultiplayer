@@ -33,8 +33,9 @@ void CVehicleEntity::CreateVehicle()
 
 	ENTITY::FREEZE_ENTITY_POSITION(Game.Vehicle, TRUE);
 	ENTITY::SET_ENTITY_COORDS_NO_OFFSET(Game.Vehicle, Data.Position.fX, Data.Position.fY, Data.Position.fZ, FALSE, FALSE, FALSE);
-	ENTITY::SET_ENTITY_COLLISION(Game.Vehicle, TRUE, FALSE);
+	
 	ENTITY::SET_ENTITY_LOAD_COLLISION_FLAG(Game.Vehicle, TRUE);
+	ENTITY::SET_ENTITY_COLLISION(Game.Vehicle, TRUE, FALSE);
 	//ENTITY::SET_ENTITY_QUATERNION(Game.Vehicle, Data.Quaternion.fX, Data.Quaternion.fY, Data.Quaternion.fZ, Data.Quaternion.fW);
 
 	VEHICLE::SET_VEHICLE_MOD_KIT(Game.Vehicle, 0);
@@ -53,6 +54,7 @@ void CVehicleEntity::CreateVehicle()
 	DECORATOR::DECOR_SET_BOOL(Game.Vehicle, "FiveMP_Vehicle", TRUE);
 
 	ENTITY::FREEZE_ENTITY_POSITION(Game.Vehicle, FALSE);
+	ENTITY::SET_ENTITY_DYNAMIC(Game.Vehicle, TRUE);
 	std::cout << "[CVehicleEntity] Created Vehicle" << std::endl;
 	Game.Created = true;
 }
