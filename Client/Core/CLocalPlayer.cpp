@@ -79,7 +79,7 @@ int CLocalPlayer::GetVehicleID()
 	for (int i = 0; i < g_Vehicles.size(); i++)
 	{
 		if (g_Vehicles[i].GetEntity() == t_CurrentVehicle)
-			return i;
+			return g_Vehicles[i].GetId();
 	}
 
 	return -1;
