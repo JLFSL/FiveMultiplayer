@@ -48,6 +48,9 @@ public:
 	int	GetId()				{ return Information.Id; }
 	void SetId(int id)		{ Information.Id = id; }
 
+	int GetVehicleID()		{ if (PED::IS_PED_IN_ANY_VEHICLE(Game.Ped, FALSE)) return DECORATOR::DECOR_GET_INT(PED::GET_VEHICLE_PED_IS_IN(Game.Ped, FALSE), "FiveMP_EntityID"); return -1; }
+	bool IsInAnyVehicle()	{ return (bool)PED::IS_PED_IN_ANY_VEHICLE(Game.Ped, FALSE); }
+
 	CVector3 GetPos()		{ return Data.Position; }
 	Vector3_t GetPosEx()	{ Vector3_t Pos = { Data.Position.fX, Data.Position.fY, Data.Position.fZ }; return Pos; }
 

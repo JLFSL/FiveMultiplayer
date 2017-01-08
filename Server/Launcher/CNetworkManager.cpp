@@ -62,6 +62,8 @@ void CNetworkManager::Pulse()
 
 	while (g_Packet = g_RakPeer->Receive())
 	{
+		BitStream g_BitStream(g_Packet->data + 1, g_Packet->length + 1, false);
+
 		switch (g_Packet->data[0])
 		{
 			case ID_NEW_INCOMING_CONNECTION:
@@ -125,6 +127,18 @@ void CNetworkManager::Pulse()
 				for (int i = 0; i < g_Players.size(); i++) {
 					if (g_Players[i].GetGUID() == g_Packet->guid) {
 						g_Players[i].Update(g_Packet);
+					}
+				}
+				break;
+			}
+			case ID_PACKET_VEHICLE:
+			{
+				int t_Id;
+				g_BitStream.Read(t_Id);
+
+				for (int i = 0; i < g_Vehicles.size(); i++) {
+					if (g_Vehicles[i].GetId() == t_Id) {
+						g_Vehicles[i].Update(g_Packet);
 					}
 				}
 				break;

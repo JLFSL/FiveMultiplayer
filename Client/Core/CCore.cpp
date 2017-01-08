@@ -111,6 +111,12 @@ void CCore::OnGameTick()
 			g_Players[i].Pulse();
 		}
 	}
+
+	if (!g_Vehicles.empty()) {
+		for (int i = 0; i < g_Vehicles.size(); i++) {
+			g_Vehicles[i].Pulse();
+		}
+	}
 }
 
 void CCore::CleanUp()
@@ -163,6 +169,6 @@ void CCore::PreventCheat()
 {
 	Ped tempped = g_LocalPlayer->GetPed();
 
-	PED::SET_PED_MAX_HEALTH(tempped, 200.0f);
+	PED::SET_PED_MAX_HEALTH(tempped, 200);
 	PED::SET_PED_CAN_BE_KNOCKED_OFF_VEHICLE(tempped, true);
 }

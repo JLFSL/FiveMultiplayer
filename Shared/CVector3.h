@@ -22,9 +22,31 @@ public:
 		return (fX == 0 && fY == 0 && fZ == 0);
 	}
 
+	bool SameAs(CVector3 vec) const
+	{
+		CVector3 thisVec = { fX, fY, fZ };
+		if (thisVec == vec)
+			return true;
+		return false;
+	}
+
 	float Length() const
 	{
 		return sqrt((fX * fX) + (fY * fY) + (fZ * fZ));
+	}
+
+	bool operator== (CVector3 vec) const
+	{
+		if (fX == vec.fX && fY == vec.fY && fZ == vec.fZ)
+			return true;
+		return false;
+	}
+
+	bool operator!= (CVector3 vec) const
+	{
+		if (fX != vec.fX && fY != vec.fY && fZ != vec.fZ)
+			return true;
+		return false;
 	}
 
 	CVector3 operator+ (const CVector3& vecRight) const

@@ -67,6 +67,7 @@ void CVehicleEntity::Pulse()
 		bitstream.Write(Data.Quaternion.fY);
 		bitstream.Write(Data.Quaternion.fZ);
 		bitstream.Write(Data.Quaternion.fW);
+
 		g_Network->GetInterface()->Send(&bitstream, MEDIUM_PRIORITY, UNRELIABLE_SEQUENCED, 0, UNASSIGNED_RAKNET_GUID, true);
 
 		Network.LastSyncSent = timeGetTime();
@@ -79,7 +80,9 @@ void CVehicleEntity::Update(Packet *packet)
 
 	bitstream.Read(Information.Id);
 
-	bitstream.Read(Data.Model);
+	RakString model;
+	bitstream.Read(model);
+	Data.Model = model.C_String();
 
 	//bitstream.Read(Information.Driver);
 

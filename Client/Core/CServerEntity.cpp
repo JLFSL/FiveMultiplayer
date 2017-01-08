@@ -5,7 +5,7 @@ void CServerEntity::Create(int entity)
 	if (g_Entities.empty())
 		Data.Id = 0;
 	else
-		Data.Id = g_Entities.size();
+		Data.Id = (int)g_Entities.size();
 }
 
 void CServerEntity::SetType(Type type)

@@ -210,7 +210,7 @@ void CNetworkManager::Pulse()
 						if (std::strcmp(g_Players[i].GetGUID().ToString(), tempGUID.ToString()) == 0) {
 							g_Players[i].Update(g_Packet);
 							exist = true;
-							i = g_Players.size();
+							i = (int)g_Players.size();
 						}
 					}
 				}
@@ -228,27 +228,27 @@ void CNetworkManager::Pulse()
 			}
 			case ID_PACKET_VEHICLE:
 			{
-				int tempId;
-				g_BitStream.Read(tempId);
+				int t_Id;
+				g_BitStream.Read(t_Id);
 
-				bool exist = false;
+				bool t_Existing = false;
 
 				if (!g_Vehicles.empty())
 				{
 					for (int i = 0; i < g_Vehicles.size(); i++)
 					{
-						if (g_Vehicles[i].GetId() == tempId)
+						if (g_Vehicles[i].GetId() == t_Id)
 						{
 							g_Vehicles[i].Update(g_Packet);
-							exist = true;
-							i = g_Vehicles.size();
+							t_Existing = true;
+							i = (int)g_Vehicles.size();
 						}
 					}
 				}
-				if (!exist)
+				if (!t_Existing)
 				{
 					CVehicleEntity newVehicle;
-					newVehicle.Create(tempId);
+					newVehicle.Create(t_Id);
 					g_Vehicles.push_back(newVehicle);
 
 					std::cout << "[CPlayerEntity] Vehicle Count: " << g_Vehicles.size() << std::endl;

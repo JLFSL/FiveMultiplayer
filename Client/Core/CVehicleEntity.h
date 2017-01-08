@@ -26,7 +26,7 @@ private:
 
 	struct VehicleNetwork {
 		unsigned long	LastSyncReceived;
-		RakNetGUID		GUID;
+		unsigned long	LastSyncSent;
 	} Network;
 
 	struct VehicleInterpolationData
@@ -52,8 +52,10 @@ private:
 		} Rotation;
 	};
 
+	int Occupants[12];
+
 public:
-	CVehicleEntity() { Game.Created = false; Game.Vehicle = NULL; };
+	CVehicleEntity();
 	~CVehicleEntity() { };
 
 	void Create(int entityid);
@@ -77,8 +79,6 @@ public:
 
 	CVector3 GetPosition() { return Data.Position; };
 	CVector4 GetQuaternion() { return Data.Quaternion; };
-
-	RakNetGUID GetGUID() { return Network.GUID; };
 
 	void SetInfo(VehicleInfo newinfo) { Information = newinfo; }
 	void SetData(VehicleData newdata) { Data = newdata; }

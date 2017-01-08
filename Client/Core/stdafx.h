@@ -84,10 +84,10 @@
 	#include "Animations.h"
 
 	// Entity
-	#include "CServerEntity.h"
-	#include "CPlayerEntity.h"
 	#include "CLocalPlayer.h"
 	#include "CVehicleEntity.h"
+	#include "CServerEntity.h"
+	#include "CPlayerEntity.h"
 
 	// Network
 	#include "CNetworkManager.h"
