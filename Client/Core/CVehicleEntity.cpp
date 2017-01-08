@@ -103,8 +103,6 @@ void CVehicleEntity::Pulse()
 
 				bitstream.Write(t_CurrentVehicle);
 
-				bitstream.Write(RakString(Data.Model.c_str()));
-
 				bitstream.Write(Data.Position.fX);
 				bitstream.Write(Data.Position.fY);
 				bitstream.Write(Data.Position.fZ);

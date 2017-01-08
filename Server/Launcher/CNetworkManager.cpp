@@ -83,7 +83,6 @@ void CNetworkManager::Pulse()
 				g_Players.push_back(newPlayer);
 
 				
-
 				// API::Network::OnPlayerConnected Execute
 				for (int i = 0; i < g_ApiModules.size(); i++)
 				{
