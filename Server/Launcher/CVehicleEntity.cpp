@@ -80,10 +80,6 @@ void CVehicleEntity::Update(Packet *packet)
 
 	bitstream.Read(Information.Id);
 
-	RakString model;
-	bitstream.Read(model);
-	Data.Model = model.C_String();
-
 	//bitstream.Read(Information.Driver);
 
 	bitstream.Read(Data.Position.fX);
