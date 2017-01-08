@@ -68,3 +68,19 @@ void CLocalPlayer::Pulse()
 		Network.LastSyncSent = timeGetTime();
 	}
 }
+
+int CLocalPlayer::GetVehicleID()
+{
+	Vehicle t_CurrentVehicle = PED::GET_VEHICLE_PED_IS_IN(Game.Ped, false);
+
+	if (Game.LastVehicle == t_CurrentVehicle)
+		return Game.LastVehicle;
+
+	for (int i = 0; i < g_Vehicles.size(); i++)
+	{
+		if (g_Vehicles[i].GetEntity() == t_CurrentVehicle)
+			return i;
+	}
+
+	return -1;
+}

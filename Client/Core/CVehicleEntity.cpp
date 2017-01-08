@@ -52,9 +52,6 @@ void CVehicleEntity::CreateVehicle()
 	DECORATOR::DECOR_REGISTER("FiveMP_Vehicle", 2);
 	DECORATOR::DECOR_SET_BOOL(Game.Vehicle, "FiveMP_Vehicle", TRUE);
 
-	DECORATOR::DECOR_REGISTER("FiveMP_EntityID", 3);
-	DECORATOR::DECOR_SET_INT(Game.Vehicle, "FiveMP_EntityID", Information.Id);
-
 	ENTITY::FREEZE_ENTITY_POSITION(Game.Vehicle, FALSE);
 	std::cout << "[CVehicleEntity] Created Vehicle" << std::endl;
 	Game.Created = true;
@@ -81,44 +78,50 @@ void CVehicleEntity::Pulse()
 {
 	if (Game.Created)
 	{
-		if (g_Core->GetLocalPlayer()->GetVehicleID() != Information.Id) {
+		int t_CurrentVehicle = g_Core->GetLocalPlayer()->GetVehicleID();
+
+		if (t_CurrentVehicle != Information.Id) 
+		{
 			Interpolate();
 		}
-		else if(g_Core->GetLocalPlayer()->IsInAnyVehicle() == TRUE)
+		else 
 		{
-			Vector3 Coordinates = ENTITY::GET_ENTITY_COORDS(Game.Vehicle, ENTITY::IS_ENTITY_DEAD(Game.Vehicle));
-			ENTITY::GET_ENTITY_QUATERNION(Game.Vehicle, &Data.Quaternion.fX, &Data.Quaternion.fY, &Data.Quaternion.fZ, &Data.Quaternion.fW);
-			Vector3 Velocity = ENTITY::GET_ENTITY_VELOCITY(Game.Vehicle);
+			if (t_CurrentVehicle == Information.Id && g_Core->GetLocalPlayer()->IsInAnyVehicle() == TRUE) 
+			{
+				Vector3 Coordinates = ENTITY::GET_ENTITY_COORDS(Game.Vehicle, ENTITY::IS_ENTITY_DEAD(Game.Vehicle));
+				ENTITY::GET_ENTITY_QUATERNION(Game.Vehicle, &Data.Quaternion.fX, &Data.Quaternion.fY, &Data.Quaternion.fZ, &Data.Quaternion.fW);
+				Vector3 Velocity = ENTITY::GET_ENTITY_VELOCITY(Game.Vehicle);
 
-			Data.ForwardSpeed = ENTITY::GET_ENTITY_SPEED(Game.Vehicle);
-			Data.Position = { Coordinates.x, Coordinates.y, Coordinates.z };
-			Data.Velocity = { Velocity.x, Velocity.y, Velocity.z };
+				Data.ForwardSpeed = ENTITY::GET_ENTITY_SPEED(Game.Vehicle);
+				Data.Position = { Coordinates.x, Coordinates.y, Coordinates.z };
+				Data.Velocity = { Velocity.x, Velocity.y, Velocity.z };
 
-			BitStream bitstream;
-			bitstream.Write((unsigned char)ID_PACKET_VEHICLE);
+				BitStream bitstream;
+				bitstream.Write((unsigned char)ID_PACKET_VEHICLE);
 
-			bitstream.Write(Information.Id);
+				bitstream.Write(t_CurrentVehicle);
 
-			bitstream.Write(RakString(Data.Model.c_str()));
+				bitstream.Write(RakString(Data.Model.c_str()));
 
-			bitstream.Write(Data.Position.fX);
-			bitstream.Write(Data.Position.fY);
-			bitstream.Write(Data.Position.fZ);
+				bitstream.Write(Data.Position.fX);
+				bitstream.Write(Data.Position.fY);
+				bitstream.Write(Data.Position.fZ);
 
-			bitstream.Write(Data.ForwardSpeed);
+				bitstream.Write(Data.ForwardSpeed);
 
-			bitstream.Write(Data.Velocity.fX);
-			bitstream.Write(Data.Velocity.fY);
-			bitstream.Write(Data.Velocity.fZ);
+				bitstream.Write(Data.Velocity.fX);
+				bitstream.Write(Data.Velocity.fY);
+				bitstream.Write(Data.Velocity.fZ);
 
-			bitstream.Write(Data.Quaternion.fX);
-			bitstream.Write(Data.Quaternion.fY);
-			bitstream.Write(Data.Quaternion.fZ);
-			bitstream.Write(Data.Quaternion.fW);
+				bitstream.Write(Data.Quaternion.fX);
+				bitstream.Write(Data.Quaternion.fY);
+				bitstream.Write(Data.Quaternion.fZ);
+				bitstream.Write(Data.Quaternion.fW);
 
-			g_Core->GetNetworkManager()->GetInterface()->Send(&bitstream, MEDIUM_PRIORITY, UNRELIABLE_SEQUENCED, 0, g_Core->GetNetworkManager()->GetSystemAddress(), false);
+				g_Core->GetNetworkManager()->GetInterface()->Send(&bitstream, MEDIUM_PRIORITY, UNRELIABLE_SEQUENCED, 0, g_Core->GetNetworkManager()->GetSystemAddress(), false);
 
-			Network.LastSyncSent = timeGetTime();
+				Network.LastSyncSent = timeGetTime();
+			}
 		}
 	}
 }
@@ -153,7 +156,7 @@ void CVehicleEntity::Update(Packet * packet)
 	if (!Game.Created)
 		CreateVehicle();
 
-	if (g_Core->GetLocalPlayer()->GetVehicleID() != Information.Id && g_Core->GetLocalPlayer()->IsInAnyVehicle() == TRUE) {
+	if (g_Core->GetLocalPlayer()->GetVehicleID() != Information.Id && g_Core->GetLocalPlayer()->IsInAnyVehicle()) {
 		UpdateTargetPosition();
 		UpdateTargetData();
 		//UpdateTargetRotation();

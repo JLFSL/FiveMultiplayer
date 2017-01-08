@@ -76,6 +76,7 @@ public:
 	void UpdateTargetData();
 
 	int GetId() { return Information.Id; };
+	Vehicle GetEntity() { return Game.Vehicle; }
 
 	CVector3 GetPosition() { return Data.Position; };
 	CVector4 GetQuaternion() { return Data.Quaternion; };
