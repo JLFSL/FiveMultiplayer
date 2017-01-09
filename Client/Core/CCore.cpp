@@ -7,22 +7,22 @@ std::vector<CVehicleEntity>	g_Vehicles;
 CCore::CCore()
 {
 	// Construct CNetworkManager
-	g_NetworkManager	= new CNetworkManager;
-	g_RPCManager		= new CRPCManager;
-	g_LocalPlayer		= new CLocalPlayer;
-	g_Scipts			= new Scripts;
-	g_Doors				= new Doors;
-	g_Animations		= new Animations;
+	g_NetworkManager = std::unique_ptr<CNetworkManager>(new CNetworkManager);
+	g_RPCManager = std::unique_ptr<CRPCManager>(new CRPCManager);
+	g_LocalPlayer = std::unique_ptr<CLocalPlayer>(new CLocalPlayer);
+	g_Scipts = std::unique_ptr<Scripts>(new Scripts);
+	g_Doors = std::unique_ptr<Doors>(new Doors);
+	g_Animations = std::unique_ptr<Animations>(new Animations);
 }
 
 CCore::~CCore()
 {
-	SAFE_DELETE(g_NetworkManager);
+	/*SAFE_DELETE(g_NetworkManager);
 	SAFE_DELETE(g_RPCManager);
 	SAFE_DELETE(g_LocalPlayer);
 	SAFE_DELETE(g_Scipts);
 	SAFE_DELETE(g_Doors);
-	SAFE_DELETE(g_Animations);
+	SAFE_DELETE(g_Animations);*/
 }
 
 bool CCore::Initialize()

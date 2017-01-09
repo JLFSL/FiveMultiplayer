@@ -1486,7 +1486,7 @@ enum eHudComponent
 enum eGameState {
 	GameStatePlaying,
 	GameStateIntro,
-	GameStateLicenseShit = 3,
+	GameStateLicense = 3,
 	GameStateMainMenu = 5,
 	GameStateLoadingSP_MP = 6
 };
