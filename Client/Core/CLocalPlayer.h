@@ -6,6 +6,7 @@ class CLocalPlayer
 		Ped			Ped;
 
 		Vehicle		LastVehicle;
+		int			LastVehicleId;
 	} Game;
 
 	struct PlayerInfo {

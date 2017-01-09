@@ -73,13 +73,17 @@ int CLocalPlayer::GetVehicleID()
 {
 	Vehicle t_CurrentVehicle = PED::GET_VEHICLE_PED_IS_IN(Game.Ped, false);
 
-	if (Game.LastVehicle == t_CurrentVehicle)
-		return Game.LastVehicle;
+	if (Game.LastVehicle == t_CurrentVehicle) 
+		return Game.LastVehicleId;
 
 	for (int i = 0; i < g_Vehicles.size(); i++)
 	{
 		if (g_Vehicles[i].GetEntity() == t_CurrentVehicle)
-			return g_Vehicles[i].GetId();
+		{
+			Game.LastVehicle = t_CurrentVehicle;
+			Game.LastVehicleId = g_Vehicles[i].GetId();
+			return Game.LastVehicleId;
+		}
 	}
 
 	return -1;
