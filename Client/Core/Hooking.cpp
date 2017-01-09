@@ -10,6 +10,7 @@ CConfig			*g_Config;
 
 static eGameState* 												m_gameState;
 static uint64_t													m_worldPtr;
+static uint64_t													m_replayPtr;
 static BlipList*												m_blipList;
 static Hooking::NativeRegistration**							m_registrationTable;
 static std::unordered_map<uint64_t, Hooking::NativeHandler>		m_handlerCache;
@@ -28,6 +29,9 @@ void Hooking::Start(HMODULE hmoduleDLL)
 
 	if (!g_Config->Read())
 		std::cout << "[CConfig] Could not read config file" << std::endl;
+
+	DirectXRenderer *Renderer = new DirectXRenderer;
+	Renderer->Initialize();
 
 	FindPatterns();
 	if (!InitializeHooks()) Cleanup();
@@ -141,6 +145,7 @@ void Hooking::FindPatterns()
 	auto p_fixVector3Result = pattern("83 79 18 00 48 8B D1 74 4A FF 4A 18");
 	auto p_gameState = pattern("83 3D ? ? ? ? ? 8A D9 74 0A");
 	auto p_worldPtr = pattern("48 8B 05 ? ? ? ? 45 ? ? ? ? 48 8B 48 08 48 85 C9 74 07");
+	auto p_replayPtr = pattern("48 8D 0D ? ? ? ? 48 8B D7 E8 ? ? ? ? 48 8D 0D ? ? ? ? 8A D8 E8 ? ? ? ? 84 DB 75 13 48 8D 0D ? ? ? ?");
 	auto p_blipList = pattern("4C 8D 05 ? ? ? ? 0F B7 C1");
 	auto p_nativeTable = pattern("76 61 49 8B 7A 40 48 8D 0D");
 	auto p_gameLogos = pattern("70 6C 61 74 66 6F 72 6D 3A");
@@ -149,9 +154,7 @@ void Hooking::FindPatterns()
 	auto p_modelSpawn = pattern("48 8B C8 FF 52 30 84 C0 74 05 48");
 	auto p_skipToSP = pattern("33 C9 E8 ? ? ? ? 8B 0D ? ? ? ? 48 8B 5C 24 ? 8D 41 FC 83 F8 01 0F 47 CF 89 0D ? ? ? ?");
 
-
 	char * c_location = nullptr;
-	int(*LoadGameNow)(char);
 
 	// Executable Base Address
 	DEBUGMSG("baseAddr\t\t 0x%p", get_base());
@@ -169,7 +172,7 @@ void Hooking::FindPatterns()
 
 	// Wait for legals
 	DWORD ticks = GetTickCount();
-	while (*m_gameState != GameStateLicenseShit || GetTickCount() < ticks + 5000) Sleep(50);
+	while (*m_gameState != GameStateLicense || GetTickCount() < ticks + 5000) Sleep(50);
 
 	// Get vector3 result fixer function
 	auto void_location = p_fixVector3Result.count(1).get(0).get<void>(0);
@@ -187,16 +190,24 @@ void Hooking::FindPatterns()
 		if (*m_gameState == GameStatePlaying)
 			break;
 
-		Sleep(100);
+		if (*m_gameState == GameStateLoadingSP_MP)
+			break;
+
+		Sleep(2000);
 	}
 
 	if (*m_gameState == GameStateMainMenu)
 	{
 		//Auto-Load Singleplayer
-		char* func = pattern("33 C9 E8 ? ? ? ? 8B 0D ? ? ? ? 48 8B 5C 24 ? 8D 41 FC 83 F8 01 0F 47 CF 89 0D ? ? ? ?").count(1).get(0).get<char>(2);
-		c_location = p_skipToSP.count(1).get(0).get<char>(2);
-		Memory::set_call(&LoadGameNow, c_location);
-		//LoadGameNow(0); //Crashes for Steam Version IDK abut SC maybe the pattern is diffrent now. We do need/want this though
+
+		/* Pattern has changed ^Jack
+			int(*LoadGameNow)(char);
+
+			char* func = pattern("33 C9 E8 ? ? ? ? 8B 0D ? ? ? ? 48 8B 5C 24 ? 8D 41 FC 83 F8 01 0F 47 CF 89 0D ? ? ? ?").count(1).get(0).get<char>(2);
+			c_location = p_skipToSP.count(1).get(0).get<char>(2);
+			Memory::set_call(&LoadGameNow, c_location);
+			LoadGameNow(0); 
+		*/
 	}
 
 	// Get native registration table
@@ -206,6 +217,10 @@ void Hooking::FindPatterns()
 	// Get world pointer
 	c_location = p_worldPtr.count(1).get(0).get<char>(0);
 	c_location == nullptr ? FailPatterns("world Pointer", p_worldPtr) : m_worldPtr = reinterpret_cast<uint64_t>(c_location) + *reinterpret_cast<int*>(reinterpret_cast<uint64_t>(c_location) + 3) + 7;
+
+	// Get replay interface pointer
+	c_location = p_replayPtr.count(1).get(0).get<char>(0);
+	c_location == nullptr ? FailPatterns("replayinterface Pointer", p_replayPtr) : m_replayPtr = reinterpret_cast<uint64_t>(c_location) + *reinterpret_cast<int*>(reinterpret_cast<uint64_t>(c_location) + 3) + 7;
 
 	// Get blip list
 	c_location = p_blipList.count(1).get(0).get<char>(0);
@@ -274,6 +289,10 @@ BlipList* Hooking::GetBlipList()
 uint64_t Hooking::getWorldPtr()
 {
 	return m_worldPtr;
+}
+uint64_t Hooking::getReplayPtr()
+{
+	return m_replayPtr;
 }
 void WAIT(DWORD ms)
 {

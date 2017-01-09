@@ -19,6 +19,7 @@ public:
 
 	static eGameState GetGameState();
 	static uint64_t getWorldPtr();
+	static uint64_t getReplayPtr();
 	static BlipList* GetBlipList();
 
 	static void onTickInit();
