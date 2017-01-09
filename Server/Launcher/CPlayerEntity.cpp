@@ -42,7 +42,7 @@ void CPlayerEntity::Destroy()
 
 void CPlayerEntity::Pulse()
 {
-	if (Network.LastSyncSent + (1000 / CServer::GetInstance()->GetSyncRate()) <= timeGetTime())
+	if (Network.LastSyncSent + (1000 / CServer::GetInstance()->GetSyncRate()) <= timeGetTime() && Information.Entity != -1 && Information.PlayerID != -1)
 	{
 		BitStream bitstream;
 		bitstream.Write((unsigned char)ID_PACKET_PLAYER);
