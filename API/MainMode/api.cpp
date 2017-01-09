@@ -58,18 +58,17 @@ extern "C" DLL_PUBLIC bool API_OnPlayerConnecting(const char *guid )
 }
 
 // Player Connected
-extern "C" DLL_PUBLIC bool API_OnPlayerConnected(int player)
+extern "C" DLL_PUBLIC bool API_OnPlayerConnected(int entity, int playerid)
 {
 	std::ostringstream oss;
-	oss << "~g~You Connected! [ID: " << player << "]";
+	oss << "~g~You Connected! ~o~[~w~ID: " << playerid << "~o~]";
 	API::Visual::ShowMessageAboveMap(oss.str().c_str(), "CHAR_CREATOR_PORTRAITS", 1, "Server", "");
 
-	API::Entity::SetPosition(player, CVector3{ 0.0f,0.0f,75.0f });
+	API::Entity::SetPosition(entity, CVector3{ 0.0f,0.0f,75.0f });
 
 	std::ostringstream oss2;
-	CVector3 position = API::Entity::GetPosition(player);
+	CVector3 position = API::Entity::GetPosition(entity);
 	oss2 << "~p~Position: " << position.fX << " " << position.fY << " " << position.fZ;
-	
-	API::Visual::ShowMessageAboveMap(oss2.str().c_str(), "CHAR_STRIPPER_CHEETAH", 5, "Server", "Position");
+	API::Visual::ShowMessageAboveMap(oss2.str().c_str(), "CHAR_CREATOR_PORTRAITS", 5, "Server", "Position");
 	return true;
 }

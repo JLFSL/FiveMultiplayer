@@ -78,16 +78,31 @@ void CNetworkManager::Pulse()
 					}
 				}
 
-				CPlayerEntity newPlayer;
-				newPlayer.Create("User", g_Packet->guid, g_Packet->systemAddress);
-				g_Players.push_back(newPlayer);
+				int playerID = -1;
+				for (int i = 0; i < g_Players.size(); i++)
+				{
+					if (g_Players[i].GetPlayerID() == -1)
+					{
+						g_Players[i].SetPlayerID(i);
+						playerID = i;
+						break;
+					}
+				}
 
+				if (playerID == -1)
+				{
+					playerID = g_Players.size();
+					CPlayerEntity newPlayer;
+					newPlayer.Create("User", g_Packet->guid, g_Packet->systemAddress);
+					newPlayer.SetPlayerID(playerID);
+					g_Players.push_back(newPlayer);
+				}
 				
 				// API::Network::OnPlayerConnected Execute
 				for (int i = 0; i < g_ApiModules.size(); i++)
 				{
 					void *Instance = g_ApiModules[i].GetInstance();
-					API::Network::OnPlayerConnected(Instance, newPlayer.GetId());
+					API::Network::OnPlayerConnected(Instance, g_Players[playerID].GetEntity(), g_Players[playerID].GetPlayerID());
 				}
 				
 				PulseMaster();
@@ -96,12 +111,8 @@ void CNetworkManager::Pulse()
 			case ID_DISCONNECTION_NOTIFICATION:
 			{
 				for (int i = 0; i < g_Players.size(); i++) {
-					if (g_Players[i].GetGUID() == g_Packet->guid) {
+					if (g_Players[i].GetGUID() == g_Packet->guid)
 						g_Players[i].Destroy();
-
-						g_Players.erase(g_Players.begin() + i);
-						g_Players.shrink_to_fit();
-					}
 				}
 				PulseMaster();
 				break;
@@ -111,12 +122,7 @@ void CNetworkManager::Pulse()
 				for (int i = 0; i < g_Players.size(); i++)
 				{
 					if (g_Players[i].GetGUID() == g_Packet->guid)
-					{
 						g_Players[i].Destroy();
-
-						g_Players.erase(g_Players.begin() + i);
-						g_Players.shrink_to_fit();
-					}
 				}
 				PulseMaster();
 				break;
@@ -160,9 +166,9 @@ void CNetworkManager::PulseMaster()
 
 		if (!g_Players.empty()) {
 			for (int p = 0; p < g_Players.size(); p++) {
-				if (g_Players[p].GetId() != -1) {
+				if (g_Players[p].GetEntity() != -1) {
 					ostringstream oss;
-					oss << "{\"id\":" << g_Players[p].GetId() << ",\"name\":\"" << g_Players[p].GetUsername() << "\"}";
+					oss << "{\"id\":" << g_Players[p].GetEntity() << ",\"name\":\"" << g_Players[p].GetUsername() << "\"}";
 					string player = oss.str();
 
 					if (p < g_Players.size() - 1)
