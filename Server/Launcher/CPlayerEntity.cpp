@@ -8,7 +8,7 @@ void CPlayerEntity::Create(string Name, RakNetGUID GUID, SystemAddress Ip)
 	newServerEntity.SetType(newServerEntity.Player);
 
 	Information.Name = Name;
-	Information.Id = newServerEntity.Create();
+	Information.Entity = newServerEntity.Create();
 	Network.GUID = GUID;
 	Network.Ip = Ip;
 	
@@ -32,7 +32,8 @@ void CPlayerEntity::Destroy()
 	Data = {};
 	Network = {};
 
-	Information.Id = -1;
+	Information.Entity = -1;
+	Information.PlayerID = -1;
 
 	Amount--;
 
@@ -47,7 +48,7 @@ void CPlayerEntity::Pulse()
 		bitstream.Write((unsigned char)ID_PACKET_PLAYER);
 		bitstream.Write(Network.GUID);
 
-		bitstream.Write(Information.Id);
+		bitstream.Write(Information.Entity);
 		bitstream.Write(Information.Name);
 
 		bitstream.Write(Statistics.Score);
@@ -82,7 +83,7 @@ void CPlayerEntity::Update(Packet *packet)
 {
 	BitStream bitstream(packet->data + 1, packet->length + 1, false);
 
-	bitstream.Read(Information.Id);
+	bitstream.Read(Information.Entity);
 	bitstream.Read(Information.Name);
 
 	bitstream.Read(Statistics.Score);

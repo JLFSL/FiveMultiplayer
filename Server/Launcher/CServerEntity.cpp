@@ -24,7 +24,7 @@ CVector3 CServerEntity::GetPosition()
 		{
 			for (int i = 0; i < g_Players.size(); i++)
 			{
-				if(g_Players[i].GetId() == Data.Id)
+				if(g_Players[i].GetEntity() == Data.Id)
 					return g_Players[i].GetPosition();
 			}
 		}
@@ -52,7 +52,7 @@ void CServerEntity::SetPosition(CVector3 position)
 		{
 			for (int i = 0; i < g_Players.size(); i++)
 			{
-				if (g_Players[i].GetId() == Data.Id)
+				if (g_Players[i].GetEntity() == Data.Id)
 				{
 					RakNet::BitStream sData;
 					sData.Write(-1);

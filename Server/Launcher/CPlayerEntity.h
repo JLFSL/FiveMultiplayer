@@ -3,7 +3,8 @@
 class CPlayerEntity {
 private:
 	struct PlayerInfo {
-		int					Id;
+		int					Entity;
+		int					PlayerID;
 		string				Name;
 	} Information;
 
@@ -48,7 +49,9 @@ public:
 	void Pulse();
 	void Update(Packet *packet);
 
-	int				GetId() { return Information.Id; };
+	int				GetPlayerID() { return Information.PlayerID; };
+	void			SetPlayerID(int playerid) { Information.PlayerID = playerid; };
+	int				GetEntity() { return Information.Entity; };
 	string			GetUsername() { return Information.Name; };
 
 	int				GetScore() { return Statistics.Score; };
