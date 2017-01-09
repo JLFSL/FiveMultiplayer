@@ -49,7 +49,7 @@ void CPlayerEntity::CreatePed()
 		std::cout << "[CPlayerEntity] Created Ped" << std::endl;
 		return;
 	}
-	std::cout << "[CPlayerEntity] Tried to create" << Information.Id << ", but model does not exist!" << std::endl;
+	std::cout << "[CPlayerEntity] Tried to create " << Information.Id << ", but model does not exist!" << std::endl;
 }
 
 void CPlayerEntity::Destroy()

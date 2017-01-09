@@ -101,7 +101,7 @@ void CVehicleEntity::Pulse()
 				BitStream bitstream;
 				bitstream.Write((unsigned char)ID_PACKET_VEHICLE);
 
-				bitstream.Write(t_CurrentVehicle);
+				bitstream.Write(Information.Id);
 
 				bitstream.Write(Data.Position.fX);
 				bitstream.Write(Data.Position.fY);
@@ -156,7 +156,7 @@ void CVehicleEntity::Update(Packet * packet)
 	if (!Game.Created)
 		CreateVehicle();
 
-	if (g_Core->GetLocalPlayer()->GetVehicleID() != Information.Id && g_Core->GetLocalPlayer()->IsInAnyVehicle()) {
+	if (g_Core->GetLocalPlayer()->GetVehicleID() != Information.Id) {
 		UpdateTargetPosition();
 		UpdateTargetData();
 		//UpdateTargetRotation();
