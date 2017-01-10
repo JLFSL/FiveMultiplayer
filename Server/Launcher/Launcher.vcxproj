@@ -190,6 +190,7 @@
     <ClInclude Include="API_Server.h" />
     <ClInclude Include="API_Vehicle.h" />
     <ClInclude Include="API_Visual.h" />
+    <ClInclude Include="API_World.h" />
     <ClInclude Include="CAPI.h" />
     <ClInclude Include="CNetworkData.h" />
     <ClInclude Include="CServerEntity.h" />
@@ -198,6 +199,7 @@
     <ClInclude Include="CPlayerEntity.h" />
     <ClInclude Include="CServer.h" />
     <ClInclude Include="CVehicleEntity.h" />
+    <ClInclude Include="CWorld.h" />
     <ClInclude Include="ini.h" />
     <ClInclude Include="IniReader.h" />
     <ClInclude Include="stdafx.h" />
@@ -209,6 +211,7 @@
     <ClCompile Include="API_Server.cpp" />
     <ClCompile Include="API_Vehicle.cpp" />
     <ClCompile Include="API_Visual.cpp" />
+    <ClCompile Include="API_World.cpp" />
     <ClCompile Include="CAPI.cpp" />
     <ClCompile Include="CNetworkData.cpp" />
     <ClCompile Include="CServerEntity.cpp" />
@@ -217,6 +220,7 @@
     <ClCompile Include="CPlayerEntity.cpp" />
     <ClCompile Include="CServer.cpp" />
     <ClCompile Include="CVehicleEntity.cpp" />
+    <ClCompile Include="CWorld.cpp" />
     <ClCompile Include="ini.cpp" />
     <ClCompile Include="IniReader.cpp" />
     <ClCompile Include="Main.cpp" />

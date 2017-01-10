@@ -3,10 +3,9 @@ class CNetworkData
 {
 private:
 	
-
 public:
-	CNetworkData();
-	~CNetworkData();
+	CNetworkData() {};
+	~CNetworkData() {};
 
 	void SyncPlayersLocalData(RakNetGUID GUID, int id);
 	void SyncServerWorld(RakNetGUID GUID);

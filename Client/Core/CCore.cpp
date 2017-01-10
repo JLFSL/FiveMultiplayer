@@ -30,6 +30,24 @@ bool CCore::Initialize()
 	//Loads multiplayer World (wish to have this executed sooner befor the loading screne is terminated)
 	GAMEPLAY::_ENABLE_MP_DLC_MAPS(true);
 	DLC2::_LOAD_MP_DLC_MAPS();
+	SCRIPT::SHUTDOWN_LOADING_SCREEN();
+
+	STREAMING::LOAD_ALL_OBJECTS_NOW();		//I think this loads everyobject to memory
+
+	TIME::PAUSE_CLOCK(true);
+	GAMEPLAY::CLEAR_OVERRIDE_WEATHER();
+
+	//Disable Hospitals
+	for (int i = 0; i <= 5; i++)
+	{
+		GAMEPLAY::DISABLE_HOSPITAL_RESTART(i, true);
+	}
+	//Disable Stunt Jumps
+	for (int i = 0; i < 50; i++)
+	{
+		GAMEPLAY::DISABLE_STUNT_JUMP_SET(i);
+		GAMEPLAY::DELETE_STUNT_JUMP(i);
+	}
 
 	// Check if CServer is created
 	if (!g_NetworkManager)

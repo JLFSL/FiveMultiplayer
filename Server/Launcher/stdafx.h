@@ -55,6 +55,7 @@ using namespace std;
 	// Server
 	#include "CServer.h"
 	#include "CConfig.h"
+	#include "CWorld.h"
 
 	// API
 	#include "CAPI.h"
@@ -62,6 +63,7 @@ using namespace std;
 	#include "API_Callback_Network.h"
 	// Functions
 	#include "API_Server.h"
+	#include "API_World.h"
 	#include "API_Entity.h"
 	#include "API_Vehicle.h"
 	#include "API_Visual.h"
@@ -78,3 +80,5 @@ using namespace std;
 extern CServer* g_Server;
 extern CConfig*	g_Config;
 extern CNetworkManager*	g_Network;
+extern CNetworkData*	g_NetworkData;
+extern CWorld* g_World;

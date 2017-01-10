@@ -150,6 +150,9 @@
     <ClCompile Include="CServerEntity.cpp">
       <Filter>Entity</Filter>
     </ClCompile>
+    <ClCompile Include="CRPCWorld.cpp">
+      <Filter>Network\RPC</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -274,6 +277,9 @@
     </ClInclude>
     <ClInclude Include="CServerEntity.h">
       <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="CRPCWorld.h">
+      <Filter>Network\RPC</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

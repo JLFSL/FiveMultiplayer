@@ -36,5 +36,8 @@
     <ClInclude Include="APIVehicle.h">
       <Filter>API</Filter>
     </ClInclude>
+    <ClInclude Include="APIWorld.h">
+      <Filter>API</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

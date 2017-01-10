@@ -95,6 +95,7 @@
 		// RPC Handlers
 		#include "CRPCVisual.h"
 		#include "CRPCEntity.h"
+		#include "CRPCWorld.h"
 
 	// Client
 	#include "CCore.h"

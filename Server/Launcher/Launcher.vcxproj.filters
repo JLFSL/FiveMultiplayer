@@ -90,6 +90,12 @@
     <ClCompile Include="API_Vehicle.cpp">
       <Filter>Scripting\Functions</Filter>
     </ClCompile>
+    <ClCompile Include="CWorld.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
+    <ClCompile Include="API_World.cpp">
+      <Filter>Scripting\Functions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -138,6 +144,12 @@
       <Filter>Entity</Filter>
     </ClInclude>
     <ClInclude Include="API_Vehicle.h">
+      <Filter>Scripting\Functions</Filter>
+    </ClInclude>
+    <ClInclude Include="CWorld.h">
+      <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="API_World.h">
       <Filter>Scripting\Functions</Filter>
     </ClInclude>
   </ItemGroup>

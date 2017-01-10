@@ -4,6 +4,10 @@ CRPCManager::RPCMessage rpcmessages[] = {
 #pragma region Visual
 	{ "ShowMessageAboveMap", CRPCVisual::ShowMessageAboveMap },
 #pragma endregion
+#pragma region World
+	{ "SetTime", CRPCWorld::SetTime },
+	{ "SetWeather", CRPCWorld::SetWeather },
+#pragma endregion
 #pragma region Entity
 	{ "SetPosition", CRPCEntity::SetPosition }
 #pragma endregion
