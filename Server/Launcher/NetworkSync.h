@@ -1,13 +1,7 @@
 #pragma once
-class CNetworkData
+namespace NetworkSync
 {
-private:
-	
-public:
-	CNetworkData() {};
-	~CNetworkData() {};
-
 	void SyncPlayersLocalData(RakNetGUID GUID, int id);
 	void SyncServerWorld(RakNetGUID GUID);
-};
+}
 

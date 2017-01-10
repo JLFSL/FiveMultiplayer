@@ -81,9 +81,6 @@
     <ClCompile Include="CServerEntity.cpp">
       <Filter>Entity</Filter>
     </ClCompile>
-    <ClCompile Include="CNetworkData.cpp">
-      <Filter>Network</Filter>
-    </ClCompile>
     <ClCompile Include="CVehicleEntity.cpp">
       <Filter>Entity</Filter>
     </ClCompile>
@@ -95,6 +92,9 @@
     </ClCompile>
     <ClCompile Include="API_World.cpp">
       <Filter>Scripting\Functions</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkSync.cpp">
+      <Filter>Network</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -137,9 +137,6 @@
     <ClInclude Include="CServerEntity.h">
       <Filter>Entity</Filter>
     </ClInclude>
-    <ClInclude Include="CNetworkData.h">
-      <Filter>Network</Filter>
-    </ClInclude>
     <ClInclude Include="CVehicleEntity.h">
       <Filter>Entity</Filter>
     </ClInclude>
@@ -151,6 +148,9 @@
     </ClInclude>
     <ClInclude Include="API_World.h">
       <Filter>Scripting\Functions</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkSync.h">
+      <Filter>Network</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -98,7 +98,7 @@ void CNetworkManager::Pulse()
 					g_Players.push_back(newPlayer);
 				}
 
-				g_NetworkData->SyncServerWorld(g_Packet->guid);
+				NetworkSync::SyncServerWorld(g_Packet->guid);
 				
 				// API::Network::OnPlayerConnected Execute
 				for (int i = 0; i < g_ApiModules.size(); i++)

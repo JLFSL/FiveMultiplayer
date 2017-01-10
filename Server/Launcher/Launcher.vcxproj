@@ -192,7 +192,7 @@
     <ClInclude Include="API_Visual.h" />
     <ClInclude Include="API_World.h" />
     <ClInclude Include="CAPI.h" />
-    <ClInclude Include="CNetworkData.h" />
+    <ClInclude Include="NetworkSync.h" />
     <ClInclude Include="CServerEntity.h" />
     <ClInclude Include="CNetworkManager.h" />
     <ClInclude Include="CConfig.h" />
@@ -213,7 +213,7 @@
     <ClCompile Include="API_Visual.cpp" />
     <ClCompile Include="API_World.cpp" />
     <ClCompile Include="CAPI.cpp" />
-    <ClCompile Include="CNetworkData.cpp" />
+    <ClCompile Include="NetworkSync.cpp" />
     <ClCompile Include="CServerEntity.cpp" />
     <ClCompile Include="CNetworkManager.cpp" />
     <ClCompile Include="CConfig.cpp" />

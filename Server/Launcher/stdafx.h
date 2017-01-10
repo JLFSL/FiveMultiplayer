@@ -70,15 +70,14 @@ using namespace std;
 
 	// Network
 	#include "CNetworkManager.h"
-	#include "CNetworkData.h"
 	#include "CServerEntity.h"
 	#include "CPlayerEntity.h"
 	#include "CVehicleEntity.h"
+	#include "NetworkSync.h"
 
 // End of Server.Launcher
 
 extern CServer* g_Server;
 extern CConfig*	g_Config;
 extern CNetworkManager*	g_Network;
-extern CNetworkData*	g_NetworkData;
 extern CWorld* g_World;
