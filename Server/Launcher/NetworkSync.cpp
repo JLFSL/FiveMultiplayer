@@ -22,4 +22,5 @@ namespace NetworkSync
 
 		g_Network->GetRPC().Signal("SetWeather", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, GUID, false, false);
 	}
+
 }
