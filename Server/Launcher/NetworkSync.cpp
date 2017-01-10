@@ -8,7 +8,7 @@ namespace NetworkSync
 		server->Send(&sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, packet->systemAddress, false);*/
 	}
 
-	void NetworkSync::SyncServerWorld(RakNetGUID GUID)
+	void SyncServerWorld(RakNetGUID GUID)
 	{
 		RakNet::BitStream sData;
 		sData.Write(g_World->GetTime().Hour);
