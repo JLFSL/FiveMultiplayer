@@ -19,6 +19,7 @@ void CRPCEntity::SetPosition(RakNet::BitStream *bitStream, RakNet::Packet *packe
 	}
 	else
 	{
+		STREAMING::LOAD_SCENE(position.fX, position.fY, position.fZ);
 		ENTITY::SET_ENTITY_COORDS(g_Core->GetLocalPlayer()->GetPed(), position.fX, position.fY, position.fZ, false, false, false, false);
 	}
 }
