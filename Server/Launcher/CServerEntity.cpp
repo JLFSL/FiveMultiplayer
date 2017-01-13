@@ -96,14 +96,14 @@ namespace ServerEntity
 					for (int i = 0; i < g_Players.size(); i++)
 					{
 						if (entity == g_Players[i].GetEntity())
-							return TRUE;
+							return true;
 					}
 					break;
 				case 1: // Vehicle
 					for (int i = 0; i < g_Vehicles.size(); i++)
 					{
 						if (entity == g_Vehicles[i].GetId())
-							return TRUE;
+							return true;
 					}
 					break;
 				case 2: // Object
@@ -120,7 +120,7 @@ namespace ServerEntity
 			}
 		}
 
-		return FALSE;
+		return false;
 	}
 
 	RakNetGUID GetAssignee(int entity)
