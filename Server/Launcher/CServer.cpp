@@ -1,5 +1,7 @@
 #include "stdafx.h"
 
+#include "RPCManager.h"
+
 CConfig*			g_Config;
 CNetworkManager*	g_Network;
 CWorld*				g_World;
@@ -83,6 +85,9 @@ bool CServer::Load(int argc, char ** argv)
 		getc(stdin);
 		return 1;
 	}
+
+	// Register RPG Messages
+	RPC::Manager::RegisterRPCMessages();
 	
 	// Split the plugin string for each defined plugin and insert into the pool.
 	CAPI NewModule;

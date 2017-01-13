@@ -9,7 +9,9 @@ CRPCManager::RPCMessage rpcmessages[] = {
 	{ "SetWeather", CRPCWorld::SetWeather },
 #pragma endregion
 #pragma region Entity
-	{ "SetPosition", CRPCEntity::SetPosition }
+	{ "SetPosition", CRPCEntity::SetPosition },
+	{ "TakeEntityAssignment", CRPCEntity::TakeEntityAssignment },
+	{ "DropEntityAssignment", CRPCEntity::DropEntityAssignment }
 #pragma endregion
 };
 

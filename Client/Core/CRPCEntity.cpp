@@ -23,3 +23,34 @@ void CRPCEntity::SetPosition(RakNet::BitStream *bitStream, RakNet::Packet *packe
 		ENTITY::SET_ENTITY_COORDS(g_Core->GetLocalPlayer()->GetPed(), position.fX, position.fY, position.fZ, false, false, false, false);
 	}
 }
+
+void CRPCEntity::TakeEntityAssignment(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+{
+	int entity;
+	RakNetGUID guid;
+
+	bitStream->Read(entity);
+	bitStream->Read(entity);
+
+	// I need to make this a function so we don't have to make loops all the dam time
+	if (ServerEntity::IsValid(entity))
+	{
+		if (ServerEntity::GetAssignee(entity) != guid)
+		{
+			ServerEntity::SetAssignee(entity, guid);
+		}
+	}
+}
+
+void CRPCEntity::DropEntityAssignment(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+{
+	int entity;
+
+	bitStream->Read(entity);
+
+	if (ServerEntity::IsValid(entity))
+	{
+		ServerEntity::SetAssignee(entity, UNASSIGNED_RAKNET_GUID);
+	}
+	
+}

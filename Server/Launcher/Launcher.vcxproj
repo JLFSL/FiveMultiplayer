@@ -202,6 +202,8 @@
     <ClInclude Include="CWorld.h" />
     <ClInclude Include="ini.h" />
     <ClInclude Include="IniReader.h" />
+    <ClInclude Include="RPCEntity.h" />
+    <ClInclude Include="RPCManager.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
@@ -224,6 +226,8 @@
     <ClCompile Include="ini.cpp" />
     <ClCompile Include="IniReader.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="RPCEntity.cpp" />
+    <ClCompile Include="RPCManagercpp.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

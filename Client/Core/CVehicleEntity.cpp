@@ -4,6 +4,7 @@ CVehicleEntity::CVehicleEntity()
 {
 	Game.Created = false; 
 	Game.Vehicle = NULL; 
+	Network.Assigned = UNASSIGNED_RAKNET_GUID;
 	
 	for (int i = 0; i < sizeof(Occupants); i++) 
 	{ 
@@ -66,6 +67,7 @@ void CVehicleEntity::Destroy()
 	ENTITY::DELETE_ENTITY(&Game.Vehicle);
 	Game.Created = false;
 	UI::REMOVE_BLIP(&Game.Blip);
+	Network.Assigned = UNASSIGNED_RAKNET_GUID;
 
 	Game = {};
 	Information = {};
@@ -78,17 +80,45 @@ void CVehicleEntity::Destroy()
 
 void CVehicleEntity::Pulse()
 {
-	if (Game.Created)
+	if (Game.Created && Information.Id != -1)
 	{
 		int t_CurrentVehicle = g_Core->GetLocalPlayer()->GetVehicleID();
 
-		if (t_CurrentVehicle != Information.Id) 
+		// Assignment System
+		if (Network.Assigned == UNASSIGNED_RAKNET_GUID)
+		{
+			if ((g_Core->GetLocalPlayer()->GetPos() - Data.Position).Length() < 50.0f)
+			{
+				Network.Assigned = g_Core->GetNetworkManager()->GetInterface()->GetMyGUID();
+
+				RakNet::BitStream sData;
+				sData.Write(Information.Id);
+				g_Core->GetNetworkManager()->GetRPC().Signal("TakeEntityAssignment", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, g_Core->GetNetworkManager()->GetSystemAddress(), false, false);
+			}
+		}
+		else
+		{
+			if (g_Core->GetNetworkManager()->GetInterface()->GetMyGUID() == Network.Assigned)
+			{
+				if ((g_Core->GetLocalPlayer()->GetPos() - Data.Position).Length() > 50.0f)
+				{
+					Network.Assigned = UNASSIGNED_RAKNET_GUID;
+
+					RakNet::BitStream sData;
+					sData.Write(Information.Id);
+					g_Core->GetNetworkManager()->GetRPC().Signal("DropEntityAssignment", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, g_Core->GetNetworkManager()->GetSystemAddress(), false, false);
+				}
+			}
+		}
+
+		// Sync
+		if (t_CurrentVehicle != Information.Id && g_Core->GetNetworkManager()->GetInterface()->GetMyGUID() != Network.Assigned)
 		{
 			Interpolate();
 		}
 		else 
 		{
-			if (t_CurrentVehicle == Information.Id && g_Core->GetLocalPlayer()->IsInAnyVehicle() == TRUE) 
+			if ((t_CurrentVehicle == Information.Id || g_Core->GetNetworkManager()->GetInterface()->GetMyGUID() == Network.Assigned) /*&& g_Core->GetLocalPlayer()->IsInAnyVehicle() == TRUE*/)
 			{
 				Vector3 Coordinates = ENTITY::GET_ENTITY_COORDS(Game.Vehicle, ENTITY::IS_ENTITY_DEAD(Game.Vehicle));
 				ENTITY::GET_ENTITY_QUATERNION(Game.Vehicle, &Data.Quaternion.fX, &Data.Quaternion.fY, &Data.Quaternion.fZ, &Data.Quaternion.fW);

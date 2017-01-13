@@ -34,6 +34,9 @@
     <Filter Include="Math">
       <UniqueIdentifier>{e4c219a3-67cb-4d6a-928b-d67c52fed246}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Network\RPC">
+      <UniqueIdentifier>{be7804ff-34c1-4493-b533-7f8bce17bf34}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -96,6 +99,12 @@
     <ClCompile Include="NetworkSync.cpp">
       <Filter>Network</Filter>
     </ClCompile>
+    <ClCompile Include="RPCManagercpp.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="RPCEntity.cpp">
+      <Filter>Network\RPC</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -151,6 +160,12 @@
     </ClInclude>
     <ClInclude Include="NetworkSync.h">
       <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="RPCManager.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="RPCEntity.h">
+      <Filter>Network\RPC</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -81,3 +81,112 @@ void CServerEntity::SetPosition(CVector3 position)
 		break;
 	}
 }
+
+namespace ServerEntity
+{
+	bool IsValid(int entity)
+	{
+		for (int i = 0; i < g_Entities.size(); i++)
+		{
+			if (entity == g_Entities[i].GetId())
+			{
+				switch (g_Entities[i].GetType())
+				{
+				case 0: // Player
+					for (int i = 0; i < g_Players.size(); i++)
+					{
+						if (entity == g_Players[i].GetEntity())
+							return TRUE;
+					}
+					break;
+				case 1: // Vehicle
+					for (int i = 0; i < g_Vehicles.size(); i++)
+					{
+						if (entity == g_Vehicles[i].GetId())
+							return TRUE;
+					}
+					break;
+				case 2: // Object
+						/*for (int i = 0; i < g_Objects.size(); i++)
+						{
+						if (entity == g_Objects[i].GetId())
+						return TRUE;
+						}*/
+					break;
+				default:
+					std::cout << std::endl << "[ServerEntity::GetAssignee] Invalid entity" << std::endl;
+					break;
+				}
+			}
+		}
+
+		return FALSE;
+	}
+
+	RakNetGUID GetAssignee(int entity)
+	{
+		for (int i = 0; i < g_Entities.size(); i++)
+		{
+			if (entity == g_Entities[i].GetId())
+			{
+				switch (g_Entities[i].GetType())
+				{
+				case 0: // Player
+					return UNASSIGNED_RAKNET_GUID;
+					break;
+				case 1: // Vehicle
+					for (int i = 0; i < g_Vehicles.size(); i++)
+					{
+						if (entity == g_Vehicles[i].GetId())
+							return g_Vehicles[i].GetAssignee();
+					}
+					break;
+				case 2: // Object
+						/*for (int i = 0; i < g_Objects.size(); i++)
+						{
+						if (entity == g_Objects[i].GetId())
+						return g_Objects[i].GetAssignee();
+						}*/
+					break;
+				default:
+					std::cout << std::endl << "[ServerEntity::GetAssignee] Invalid entity" << std::endl;
+					break;
+				}
+			}
+		}
+
+		return UNASSIGNED_RAKNET_GUID;
+	}
+
+	void SetAssignee(int entity, RakNetGUID assignee)
+	{
+		for (int i = 0; i < g_Entities.size(); i++)
+		{
+			if (entity == g_Entities[i].GetId())
+			{
+				switch (g_Entities[i].GetType())
+				{
+				case 0: // Player
+					break;
+				case 1: // Vehicle
+					for (int i = 0; i < g_Vehicles.size(); i++)
+					{
+						if (entity == g_Vehicles[i].GetId())
+							return g_Vehicles[i].SetAssignee(assignee);
+					}
+					break;
+				case 2: // Object
+						/*for (int i = 0; i < g_Objects.size(); i++)
+						{
+						if (entity == g_Objects[i].GetId())
+						return g_Objects[i].SetAssignee(assignee);
+						}*/
+					break;
+				default:
+					std::cout << std::endl << "[ServerEntity::SetAssignee] Invalid entity" << std::endl;
+					break;
+				}
+			}
+		}
+	}
+}

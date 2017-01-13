@@ -25,6 +25,7 @@ private:
 	} Data;
 
 	struct VehicleNetwork {
+		RakNetGUID		Assigned;
 		unsigned long	LastSyncReceived;
 		unsigned long	LastSyncSent;
 	} Network;
@@ -75,14 +76,17 @@ public:
 
 	void UpdateTargetData();
 
-	int GetId() { return Information.Id; };
-	Vehicle GetEntity() { return Game.Vehicle; }
+	int				GetId() { return Information.Id; }
+	Vehicle			GetEntity() { return Game.Vehicle; }
 
-	CVector3 GetPosition() { return Data.Position; };
-	CVector4 GetQuaternion() { return Data.Quaternion; };
+	CVector3		GetPosition() { return Data.Position; }
+	CVector4		GetQuaternion() { return Data.Quaternion; }
 
-	void SetInfo(VehicleInfo newinfo) { Information = newinfo; }
-	void SetData(VehicleData newdata) { Data = newdata; }
+	RakNetGUID		GetAssignee() { return Network.Assigned; }
+	void			SetAssignee(RakNetGUID assignee) { Network.Assigned = assignee; }
+
+	void			SetInfo(VehicleInfo newinfo) { Information = newinfo; }
+	void			SetData(VehicleData newdata) { Data = newdata; }
 
 	VehicleInterpolationData InterpolationData;
 };

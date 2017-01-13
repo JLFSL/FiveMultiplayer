@@ -23,6 +23,7 @@ private:
 
 	struct VehicleNetwork
 	{
+		RakNetGUID			Assigned;
 		unsigned long		LastSyncSent;
 		bool				Synchronized;
 	} Network;
@@ -46,6 +47,9 @@ public:
 	CVector4		GetQuaternion() { return Data.Quaternion; }
 
 	bool			GetSynchronized() { return Network.Synchronized; }
+
+	RakNetGUID		GetAssignee() { return Network.Assigned; }
+	void			SetAssignee(RakNetGUID assignee) { Network.Assigned = assignee; }
 
 	VehicleInfo		SetInfo(VehicleInfo newinfo) { Information = newinfo; }
 	VehicleData		SetData(VehicleData newdata) { Data = newdata; }
