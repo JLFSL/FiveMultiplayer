@@ -6,7 +6,6 @@ private:
 	struct VehicleInfo
 	{
 		int					Id;
-		RakNetGUID			Driver;
 	} Information;
 
 	struct VehicleData
@@ -28,10 +27,12 @@ private:
 		bool				Synchronized;
 	} Network;
 
+	int Occupants[12];
+
 public:
 	static int Amount;
 
-	CVehicleEntity() {};
+	CVehicleEntity();
 	~CVehicleEntity() {};
 
 	void Create(std::string model, CVector3 position, float heading);
@@ -41,6 +42,9 @@ public:
 	void Update(Packet *packet);
 
 	int				GetId() { return Information.Id; };
+
+	int				GetOccupant(int seat) { return Occupants[seat]; }
+	void			SetOccupant(int seat, int player) {  Occupants[seat] = player; }
 	
 	CVector3		GetPosition() { return Data.Position; };
 	void			SetPosition(CVector3 position) { Data.Position = position; };
@@ -50,6 +54,8 @@ public:
 
 	RakNetGUID		GetAssignee() { return Network.Assigned; }
 	void			SetAssignee(RakNetGUID assignee) { Network.Assigned = assignee; }
+
+	void			RequestData(RakNetGUID requester);
 
 	VehicleInfo		SetInfo(VehicleInfo newinfo) { Information = newinfo; }
 	VehicleData		SetData(VehicleData newdata) { Data = newdata; }

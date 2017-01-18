@@ -2,6 +2,16 @@
 
 int CVehicleEntity::Amount = 0;
 
+CVehicleEntity::CVehicleEntity()
+{
+	Network.Assigned = UNASSIGNED_RAKNET_GUID;
+
+	for (int i = 0; i < SizeOfArray(Occupants); i++)
+	{
+		Occupants[i] = -1;
+	}
+}
+
 void CVehicleEntity::Create(string model, CVector3 position, float heading)
 {
 	CServerEntity newServerEntity;
@@ -49,8 +59,6 @@ void CVehicleEntity::Pulse()
 
 		bitstream.Write(RakString(Data.Model.c_str()));
 
-		//bitstream.Write(Information.Driver);
-
 		bitstream.Write(Data.Heading);
 
 		bitstream.Write(Data.Position.fX);
@@ -67,6 +75,11 @@ void CVehicleEntity::Pulse()
 		bitstream.Write(Data.Quaternion.fY);
 		bitstream.Write(Data.Quaternion.fZ);
 		bitstream.Write(Data.Quaternion.fW);
+
+		for (int i = 0; i < SizeOfArray(Occupants); i++)
+		{
+			bitstream.Write(Occupants[i]);
+		}
 
 		g_Network->GetInterface()->Send(&bitstream, MEDIUM_PRIORITY, UNRELIABLE_SEQUENCED, 0, UNASSIGNED_RAKNET_GUID, true);
 
@@ -96,4 +109,17 @@ void CVehicleEntity::Update(Packet *packet)
 	bitstream.Read(Data.Quaternion.fY);
 	bitstream.Read(Data.Quaternion.fZ);
 	bitstream.Read(Data.Quaternion.fW);
+
+}
+
+void CVehicleEntity::RequestData(RakNetGUID requester)
+{
+	RakNet::BitStream sData;
+
+	// Assignment Data
+	sData.Write(Information.Id);
+	sData.Write(Network.Assigned);
+	g_Network->GetRPC().Signal("TakeEntityAssignment", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, requester, false, false);
+
+	sData.Reset();
 }

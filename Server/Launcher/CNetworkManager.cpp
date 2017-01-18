@@ -114,7 +114,25 @@ void CNetworkManager::Pulse()
 			{
 				for (int i = 0; i < g_Players.size(); i++) {
 					if (g_Players[i].GetGUID() == g_Packet->guid)
+					{
+						if (g_Players[i].GetVehicle() != -1)
+						{
+							for (int v = 0; v < g_Vehicles.size(); v++)
+							{
+								if (g_Players[i].GetVehicle() == g_Vehicles[i].GetId())
+								{
+									g_Vehicles[i].SetOccupant(g_Players[i].GetVehicleSeat(), -1);
+								}
+
+								if (g_Vehicles[i].GetAssignee() == g_Packet->guid)
+								{
+									ServerEntity::SetAssignee(g_Vehicles[i].GetId(), UNASSIGNED_RAKNET_GUID);
+								}
+							}
+						}
+
 						g_Players[i].Destroy();
+					}
 				}
 				PulseMaster();
 				break;
@@ -124,7 +142,25 @@ void CNetworkManager::Pulse()
 				for (int i = 0; i < g_Players.size(); i++)
 				{
 					if (g_Players[i].GetGUID() == g_Packet->guid)
+					{
+						if (g_Players[i].GetVehicle() != -1)
+						{
+							for (int v = 0; v < g_Vehicles.size(); v++)
+							{
+								if (g_Players[i].GetVehicle() == g_Vehicles[i].GetId())
+								{
+									g_Vehicles[i].SetOccupant(g_Players[i].GetVehicleSeat(), -1);
+								}
+
+								if (g_Vehicles[i].GetAssignee() == g_Packet->guid)
+								{
+									ServerEntity::SetAssignee(g_Vehicles[i].GetId(), UNASSIGNED_RAKNET_GUID);
+								}
+							}
+						}
+
 						g_Players[i].Destroy();
+					}
 				}
 				PulseMaster();
 				break;

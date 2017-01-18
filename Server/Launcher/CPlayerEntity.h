@@ -23,6 +23,12 @@ private:
 			bool			Reload;
 		} Weapon;
 
+		struct PlayerVehicle
+		{
+			int			VehicleID;
+			int			Seat;
+		} Vehicle;
+
 		float				ForwardSpeed;
 
 		CVector3			Position;
@@ -55,6 +61,9 @@ public:
 	string			GetUsername() { return Information.Name; };
 
 	int				GetScore() { return Statistics.Score; };
+
+	int				GetVehicle() { return Data.Vehicle.VehicleID; };
+	int				GetVehicleSeat() { return Data.Vehicle.Seat; };
 
 	CVector3		GetPosition() { return Data.Position; };
 	void			SetPosition(CVector3 position) { Data.Position = position; };

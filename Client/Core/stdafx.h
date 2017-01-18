@@ -82,6 +82,7 @@
 	#include "Scripts.h"
 	#include "Doors.h"
 	#include "Animations.h"
+	#include "Ped.h"
 
 	// Entity
 	#include "CLocalPlayer.h"

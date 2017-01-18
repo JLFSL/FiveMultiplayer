@@ -37,4 +37,5 @@ namespace ServerEntity
 	bool		IsValid(int entity);
 	RakNetGUID	GetAssignee(int entity);
 	void		SetAssignee(int entity, RakNetGUID assignee);
+	void		RequestData(int entity, RakNetGUID requester);
 }

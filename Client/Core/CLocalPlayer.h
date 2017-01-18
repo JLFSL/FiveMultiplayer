@@ -5,8 +5,7 @@ class CLocalPlayer
 		Player		Player;
 		Ped			Ped;
 
-		Vehicle		LastVehicle;
-		int			LastVehicleId;
+		Vehicle		VehicleEntering;
 	} Game;
 
 	struct PlayerInfo {
@@ -29,12 +28,23 @@ class CLocalPlayer
 			bool		Reload;
 		} Weapon;
 
+		struct PlayerVehicle
+		{
+			int			VehicleID;
+			int			Seat;
+		} Vehicle;
+
 		float			ForwardSpeed;
 
 		CVector3		Position;
 		CVector3		Velocity;
 		CVector4		Quaternion;
 	} Data;
+
+	struct PlayerControl
+	{
+		bool			ControlVehicleExit;
+	} Control;
 
 	struct PlayerNetwork {
 		unsigned long LastSyncSent;
@@ -45,13 +55,13 @@ public:
 	~CLocalPlayer();
 
 	void Pulse();
+	void VehicleChecks();
 
 	Player GetPlayer()		{ return Game.Player; }
 	Ped	GetPed()			{ return Game.Ped; }
 	int	GetId()				{ return Information.Id; }
 	void SetId(int id)		{ Information.Id = id; }
 
-	int GetVehicleID();
 	bool IsInAnyVehicle()	{ return (bool)PED::IS_PED_IN_ANY_VEHICLE(Game.Ped, FALSE); }
 
 	CVector3 GetPos()		{ return Data.Position; }

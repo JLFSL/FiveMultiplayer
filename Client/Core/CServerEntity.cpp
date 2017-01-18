@@ -176,7 +176,13 @@ namespace ServerEntity
 					for (int i = 0; i < g_Vehicles.size(); i++)
 					{
 						if (entity == g_Vehicles[i].GetId())
+						{
+							ENTITY::FREEZE_ENTITY_POSITION(g_Vehicles[i].GetEntity(), TRUE);
+							ENTITY::SET_ENTITY_DYNAMIC(g_Vehicles[i].GetEntity(), FALSE);
+
 							return g_Vehicles[i].SetAssignee(assignee);
+							break;
+						}
 					}
 					break;
 				case 2: // Object

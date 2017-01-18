@@ -11,6 +11,9 @@ void CPlayerEntity::Create(string Name, RakNetGUID GUID, SystemAddress Ip)
 	Information.Entity = newServerEntity.Create();
 	Network.GUID = GUID;
 	Network.Ip = Ip;
+
+	Data.Vehicle.VehicleID = -1;
+	Data.Vehicle.Seat = -1;
 	
 	g_Entities.push_back(newServerEntity);
 
@@ -34,6 +37,9 @@ void CPlayerEntity::Destroy()
 
 	Information.Entity = -1;
 	Information.PlayerID = -1;
+
+	Data.Vehicle.VehicleID = -1;
+	Data.Vehicle.Seat = -1;
 
 	Amount--;
 
@@ -73,6 +79,10 @@ void CPlayerEntity::Pulse()
 		bitstream.Write(Data.Quaternion.fY);
 		bitstream.Write(Data.Quaternion.fZ);
 		bitstream.Write(Data.Quaternion.fW);
+
+		bitstream.Write(Data.Vehicle.VehicleID);
+		bitstream.Write(Data.Vehicle.Seat);
+
 		g_Network->GetInterface()->Send(&bitstream, MEDIUM_PRIORITY, UNRELIABLE_SEQUENCED, 0, UNASSIGNED_RAKNET_GUID, true);
 
 		Network.LastSyncSent = timeGetTime();
@@ -81,6 +91,9 @@ void CPlayerEntity::Pulse()
 
 void CPlayerEntity::Update(Packet *packet)
 {
+	int lastVehicle = Data.Vehicle.VehicleID;
+	int lastSeat = Data.Vehicle.Seat;
+
 	BitStream bitstream(packet->data + 1, packet->length + 1, false);
 
 	bitstream.Read(Information.Entity);
@@ -108,7 +121,30 @@ void CPlayerEntity::Update(Packet *packet)
 	bitstream.Read(Data.Quaternion.fY);
 	bitstream.Read(Data.Quaternion.fZ);
 	bitstream.Read(Data.Quaternion.fW);
+
+	bitstream.Read(Data.Vehicle.VehicleID);
+	bitstream.Read(Data.Vehicle.Seat);
 	
 	Network.GUID = packet->guid;
 	Network.Ip = packet->systemAddress;
+
+
+	if (lastVehicle != Data.Vehicle.VehicleID)
+	{
+		for (int i = 0; i < g_Vehicles.size(); i++)
+		{
+			if (g_Vehicles[i].GetId() == Data.Vehicle.VehicleID && g_Vehicles[i].GetOccupant(Data.Vehicle.Seat) != Information.PlayerID)
+			{
+				g_Vehicles[i].SetOccupant(Data.Vehicle.Seat, Information.PlayerID);
+
+				//OnPlayerEnterVehicle(player,vehicle,seat);
+			}
+
+			if (g_Vehicles[i].GetId() == lastVehicle && lastSeat != -1 && lastVehicle != -1)
+			{
+				g_Vehicles[i].SetOccupant(lastSeat, -1);
+			}
+		}
+	}
+
 }

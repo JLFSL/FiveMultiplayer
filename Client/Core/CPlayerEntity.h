@@ -32,6 +32,12 @@ private:
 			unsigned long	LastReload;
 		} Weapon;
 
+		struct PlayerVehicle
+		{
+			int			VehicleID;
+			int			Seat;
+		} Vehicle;
+
 		float				ForwardSpeed;
 
 		CVector3			Position;

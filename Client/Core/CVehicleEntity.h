@@ -61,6 +61,7 @@ public:
 
 	void Create(int entityid);
 	void CreateVehicle();
+	void RequestData();
 	void Destroy();
 
 	void Pulse();
@@ -78,6 +79,8 @@ public:
 
 	int				GetId() { return Information.Id; }
 	Vehicle			GetEntity() { return Game.Vehicle; }
+
+	int				GetOccupant(int seat) { return Occupants[seat]; }
 
 	CVector3		GetPosition() { return Data.Position; }
 	CVector4		GetQuaternion() { return Data.Quaternion; }

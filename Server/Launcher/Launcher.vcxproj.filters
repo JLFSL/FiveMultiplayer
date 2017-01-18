@@ -99,11 +99,11 @@
     <ClCompile Include="NetworkSync.cpp">
       <Filter>Network</Filter>
     </ClCompile>
-    <ClCompile Include="RPCManagercpp.cpp">
-      <Filter>Network</Filter>
-    </ClCompile>
     <ClCompile Include="RPCEntity.cpp">
       <Filter>Network\RPC</Filter>
+    </ClCompile>
+    <ClCompile Include="RPCManager.cpp">
+      <Filter>Network</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

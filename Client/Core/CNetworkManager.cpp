@@ -106,6 +106,7 @@ void CNetworkManager::Disconnect()
 	// Remove all existing players
 	for (int i = 0; i < g_Players.size(); i++) {
 		g_Players[i].Destroy();
+		g_Players.erase(g_Players.begin() + i);
 	}
 	// Shrink vector so size is correct.
 	g_Players.shrink_to_fit();
@@ -115,6 +116,7 @@ void CNetworkManager::Disconnect()
 	for (int i = 0; i < g_Vehicles.size(); i++)
 	{
 		g_Vehicles[i].Destroy();
+		g_Vehicles.erase(g_Vehicles.begin() + i);
 	}
 	// Shrink vector so size is correct.
 	g_Vehicles.shrink_to_fit();
@@ -196,6 +198,12 @@ void CNetworkManager::Pulse()
 				g_Core->GetLocalPlayer()->SetLastSync(timeGetTime());
 
 				Logger::Msg("CNetworkManager::Connected");
+				break;
+			}
+			case ID_CONNECTION_LOST:
+			{
+				Disconnect();
+				Logger::Msg("CNetworkManager::ConnectionLost");
 				break;
 			}
 			case ID_PACKET_PLAYER:

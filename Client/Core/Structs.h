@@ -55,30 +55,31 @@
 #define OFFSET_VEHICLE_HANDLING_SUSPENSION_FORCE	0xBC			//fSuspensionForce 
 
 //weapon offsets
-#define OFFSET_WEAPON_MANAGER			0x10C8			//from playerbase
-#define OFFSET_WEAPON_CURRENT			0x20			//from weapon manager
-#define OFFSET_WEAPON_AMMOINFO			0x48			//from weaponbase
-#define OFFSET_WEAPON_AMMOINFO_MAX		0x28			//ammoinfo
-#define OFFSET_WEAPON_AMMOINFO_CUR_1	0x08			//ptr lvl 1, ptr 1
-#define OFFSET_WEAPON_AMMOINFO_CUR_2	0x00			//ptr tr lvl 2, ptr 1
-#define OFFSET_WEAPON_AMMOINFO_CURAMMO	0x18			//offset to cur ammo
-#define OFFSET_WEAPON_AMMOINFO_TYPE		0x0C			//offset to projectile type?
-#define OFFSET_WEAPON_SPREAD			0x5C			//float set to 0
-#define OFFSET_WEAPON_BULLET_DMG		0x98			//float times 10 (so when 0, it will stay 0)
-#define OFFSET_WEAPON_RELOAD_MULTIPLIER	0x114			//float times 10
-#define OFFSET_WEAPON_RECOIL			0x2A4			//float set to 0
-#define OFFSET_WEAPON_MODEL_HASH		0x14
-#define OFFSET_WEAPON_NAME_HASH			0x10
-#define OFFSET_WEAPON_RELOAD_VEHICLE	0x110
-#define OFFSET_WEAPON_RANGE				0x25C
-#define OFFSET_WEAPON_SPINUP			0x124
-#define OFFSET_WEAPON_SPIN				0x128
-#define OFFSET_WEAPON_BULLET_BATCH		0x100			//dwBulletInBatch
-#define OFFSET_WEAPON_MUZZLE_VELOCITY	0xFC			//fMuzzleVelocity
-#define OFFSET_WEAPON_BATCH_SPREAD		0x104			//fBatchSpread
+const int OFFSET_WEAPON_MANAGER				= 0x10C8;		//from playerbase
+const int OFFSET_WEAPON_CURRENT				= 0x20;			//from weapon manager
+const int OFFSET_WEAPON_AMMOINFO			= 0x48;			//from weaponbase
+const int OFFSET_WEAPON_AMMOINFO_MAX		= 0x28;			//ammoinfo
+const int OFFSET_WEAPON_AMMOINFO_CUR_1		= 0x08;			//ptr lvl 1, ptr 1
+const int OFFSET_WEAPON_AMMOINFO_CUR_2		= 0x00;			//ptr tr lvl 2, ptr 1
+const int OFFSET_WEAPON_AMMOINFO_CURAMMO	= 0x18;			//offset to cur ammo
+const int OFFSET_WEAPON_AMMOINFO_TYPE		= 0x0C;			//offset to projectile type?
+const int OFFSET_WEAPON_SPREAD				= 0x5C;			//float set to 0
+const int OFFSET_WEAPON_BULLET_DMG			= 0x98;			//float times 10 (so when 0, it will stay 0)
+const int OFFSET_WEAPON_RELOAD_MULTIPLIER	= 0x114;		//float times 10
+const int OFFSET_WEAPON_RECOIL				= 0x2A4;		//float set to 0
+const int OFFSET_WEAPON_MODEL_HASH			= 0x14;
+const int OFFSET_WEAPON_NAME_HASH			= 0x10;
+const int OFFSET_WEAPON_RELOAD_VEHICLE		= 0x110;
+const int OFFSET_WEAPON_RANGE				= 0x25C;
+const int OFFSET_WEAPON_SPINUP				= 0x124;
+const int OFFSET_WEAPON_SPIN				= 0x128;
+const int OFFSET_WEAPON_BULLET_BATCH		= 0x100;		//dwBulletInBatch
+const int OFFSET_WEAPON_MUZZLE_VELOCITY		= 0xFC;			//fMuzzleVelocity
+const int OFFSET_WEAPON_BATCH_SPREAD		= 0x104;		//fBatchSpread
 
 
-#define OFFSET_ATTACKER_DISTANCE		0x18			//changed to 0x18, from 0x10
+const int OFFSET_ATTACKER_DISTANCE			= 0x18;			//changed to 0x18, from 0x10
+
 
 class CReplayInterfacePed
 {

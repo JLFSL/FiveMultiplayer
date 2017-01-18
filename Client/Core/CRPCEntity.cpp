@@ -30,15 +30,11 @@ void CRPCEntity::TakeEntityAssignment(RakNet::BitStream *bitStream, RakNet::Pack
 	RakNetGUID guid;
 
 	bitStream->Read(entity);
-	bitStream->Read(entity);
+	bitStream->Read(guid);
 
-	// I need to make this a function so we don't have to make loops all the dam time
 	if (ServerEntity::IsValid(entity))
 	{
-		if (ServerEntity::GetAssignee(entity) != guid)
-		{
-			ServerEntity::SetAssignee(entity, guid);
-		}
+		ServerEntity::SetAssignee(entity, guid);
 	}
 }
 

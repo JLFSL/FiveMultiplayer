@@ -220,6 +220,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Memory.cpp" />
     <ClCompile Include="NativeInvoker.cpp" />
+    <ClCompile Include="Ped.cpp" />
     <ClCompile Include="RenderHandler.cpp" />
     <ClCompile Include="Script.cpp" />
     <ClCompile Include="Scripts.cpp" />
@@ -267,6 +268,7 @@
     <ClInclude Include="NativeCaller.h" />
     <ClInclude Include="NativeInvoker.h" />
     <ClInclude Include="Natives.h" />
+    <ClInclude Include="Ped.h" />
     <ClInclude Include="RenderHandler.h" />
     <ClInclude Include="Script.h" />
     <ClInclude Include="Scripts.h" />

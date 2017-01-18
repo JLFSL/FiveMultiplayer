@@ -10,8 +10,9 @@ namespace RPC
 		RPCMessage rpcmessages[] = {
 		#pragma region Assignment
 			{ "TakeEntityAssignment", RPC::Entity::TakeEntityAssignment },
-			{ "DropEntityAssignment", RPC::Entity::DropEntityAssignment }
+			{ "DropEntityAssignment", RPC::Entity::DropEntityAssignment },
 		#pragma endregion
+			{ "RequestEntityData", RPC::Entity::RequestData }
 		};
 
 		void RegisterRPCMessages()

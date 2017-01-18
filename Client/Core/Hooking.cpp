@@ -153,6 +153,7 @@ void Hooking::FindPatterns()
 	auto p_modelCheck = pattern("48 85 C0 0F 84 ? ? ? ? 8B 48 50");
 	auto p_modelSpawn = pattern("48 8B C8 FF 52 30 84 C0 74 05 48");
 	auto p_skipToSP = pattern("33 C9 E8 ? ? ? ? 8B 0D ? ? ? ? 48 8B 5C 24 ? 8D 41 FC 83 F8 01 0F 47 CF 89 0D ? ? ? ?");
+	//auto p_entityFunc = pattern("33 FF E8 00 00 00 00 48 85 C0 74 58"); //Pattern used to get entityFunc adress but i have no idea how to go about doing it atm
 
 	char * c_location = nullptr;
 
@@ -240,6 +241,7 @@ void Hooking::FindPatterns()
 	while (!*m_gameState == GameStatePlaying) {
 		Sleep(100);
 	}
+
 	Logger::Msg("Game ready");
 }
 

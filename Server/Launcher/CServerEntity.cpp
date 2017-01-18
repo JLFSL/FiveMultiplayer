@@ -189,4 +189,36 @@ namespace ServerEntity
 			}
 		}
 	}
+
+	void RequestData(int entity, RakNetGUID requester)
+	{
+		for (int i = 0; i < g_Entities.size(); i++)
+		{
+			if (entity == g_Entities[i].GetId())
+			{
+				switch (g_Entities[i].GetType())
+				{
+				case 0: // Player
+					break;
+				case 1: // Vehicle
+					for (int i = 0; i < g_Vehicles.size(); i++)
+					{
+						if (entity == g_Vehicles[i].GetId())
+							return g_Vehicles[i].RequestData(requester);
+					}
+					break;
+				case 2: // Object
+						/*for (int i = 0; i < g_Objects.size(); i++)
+						{
+						if (entity == g_Objects[i].GetId())
+						return g_Objects[i].RequestData(requester);
+						}*/
+					break;
+				default:
+					std::cout << std::endl << "[ServerEntity::RequestData] Invalid entity" << std::endl;
+					break;
+				}
+			}
+		}
+	}
 }

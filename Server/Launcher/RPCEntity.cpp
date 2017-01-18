@@ -20,15 +20,12 @@ namespace RPC
 
 			if (ServerEntity::IsValid(entity))
 			{
-				if (ServerEntity::GetAssignee(entity) != packet->guid)
-				{
-					ServerEntity::SetAssignee(entity, packet->guid);
+				ServerEntity::SetAssignee(entity, packet->guid);
 
-					RakNet::BitStream sData;
-					sData.Write(entity);
-					sData.Write(packet->guid);
-					g_Network->GetRPC().Signal("TakeEntityAssignment", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, packet->guid, true, false);
-				}
+				RakNet::BitStream sData;
+				sData.Write(entity);
+				sData.Write(packet->guid);
+				g_Network->GetRPC().Signal("TakeEntityAssignment", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, packet->guid, true, false);
 			}
 		}
 
@@ -47,6 +44,21 @@ namespace RPC
 					RakNet::BitStream sData;
 					sData.Write(entity);
 					g_Network->GetRPC().Signal("DropEntityAssignment", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, packet->guid, true, false);
+				}
+			}
+		}
+
+		void RequestData(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+		{
+			int entity;
+
+			bitStream->Read(entity);
+
+			if (ServerEntity::IsValid(entity))
+			{
+				if (ServerEntity::GetAssignee(entity) == packet->guid)
+				{
+					ServerEntity::RequestData(entity, packet->guid);
 				}
 			}
 		}

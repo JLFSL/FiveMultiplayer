@@ -10,6 +10,9 @@ void CPlayerEntity::Create(std::string Name, RakNetGUID GUID, int entity) {
 	Information.Id = entity;
 	Network.GUID = GUID;
 
+	Data.Vehicle.VehicleID = -1;
+	Data.Vehicle.Seat = -1;
+
 	std::cout << "[CPlayerEntity] Added Player: " << Information.Name << std::endl;
 }
 
@@ -68,6 +71,9 @@ void CPlayerEntity::Destroy()
 	InterpolationData = {};
 
 	Information.Id = -1;
+
+	Data.Vehicle.VehicleID = -1;
+	Data.Vehicle.Seat = -1;
 }
 
 void CPlayerEntity::Pulse()
@@ -107,6 +113,9 @@ void CPlayerEntity::Update(Packet *packet)
 	bitstream.Read(Data.Quaternion.fY);
 	bitstream.Read(Data.Quaternion.fZ);
 	bitstream.Read(Data.Quaternion.fW);
+
+	bitstream.Read(Data.Vehicle.VehicleID);
+	bitstream.Read(Data.Vehicle.Seat);
 
 	if (g_Core->GetNetworkManager()->GetInterface()->GetMyGUID() != Network.GUID) {
 		if (!Game.Created)
@@ -161,7 +170,7 @@ void CPlayerEntity::UpdateTargetPosition()
 
 void CPlayerEntity::SetTargetPosition()
 {
-	if (InterpolationData.Position.FinishTime != 0 && Game.Created) {
+	if (InterpolationData.Position.FinishTime != 0 && Game.Created && Data.Vehicle.VehicleID == -1) {
 		// Get our position
 		Vector3 Coordinates = ENTITY::GET_ENTITY_COORDS(Game.Ped, ENTITY::IS_ENTITY_DEAD(Game.Ped));
 		CVector3 vecCurrentPosition = { Coordinates.x, Coordinates.y, Coordinates.z };
@@ -231,7 +240,7 @@ void CPlayerEntity::UpdateTargetRotation()
 
 void CPlayerEntity::SetTargetRotation()
 {
-	if (InterpolationData.Rotation.FinishTime != 0 && Game.Created) {
+	if (InterpolationData.Rotation.FinishTime != 0 && Game.Created && Data.Vehicle.VehicleID == -1) {
 		// Get our rotation
 		CVector4 vecCurrentRotation;
 		ENTITY::GET_ENTITY_QUATERNION(Game.Ped, &vecCurrentRotation.fX, &vecCurrentRotation.fY, &vecCurrentRotation.fZ, &vecCurrentRotation.fW);
@@ -341,7 +350,9 @@ void CPlayerEntity::UpdateTargetAnimations()
 
 void CPlayerEntity::UpdateTargetData()
 {
-	if (WEAPON::GET_SELECTED_PED_WEAPON(Game.Ped) != Data.Weapon.Weapon) {
+	if (WEAPON::GET_SELECTED_PED_WEAPON(Game.Ped) != Data.Weapon.Weapon)
+	{
+		WEAPON::REMOVE_ALL_PED_WEAPONS(Game.Ped, true);
 		WEAPON::GIVE_WEAPON_TO_PED(Game.Ped, Data.Weapon.Weapon, 999, true, true);
 	}
 
@@ -354,10 +365,28 @@ void CPlayerEntity::UpdateTargetData()
 		Data.Weapon.Reload = false;
 	}
 
-	if (PED::IS_PED_DEAD_OR_DYING(Game.Ped, TRUE) && ENTITY::GET_ENTITY_HEALTH(Game.Ped) > 0) {
+	if (PED::IS_PED_DEAD_OR_DYING(Game.Ped, TRUE) && ENTITY::GET_ENTITY_HEALTH(Game.Ped) > 0)
+	{
 		PED::RESURRECT_PED(Game.Ped);
 		PED::CLEAR_PED_BLOOD_DAMAGE(Game.Ped);
 		AI::CLEAR_PED_TASKS_IMMEDIATELY(Game.Ped);
+	}
+
+	if (Data.Vehicle.VehicleID > -1 && !GamePed::GetVehicle(Game.Ped))
+	{
+		AI::CLEAR_PED_TASKS_IMMEDIATELY(Game.Ped);
+		for (int v = 0; v < g_Vehicles.size(); v++)
+		{
+			if (g_Vehicles[v].GetId() == Data.Vehicle.VehicleID)
+			{
+				PED::SET_PED_INTO_VEHICLE(Game.Ped, g_Vehicles[v].GetEntity(), Data.Vehicle.Seat - 1);
+				break;
+			}
+		}
+	}
+	else if (GamePed::GetVehicle(Game.Ped) && Data.Vehicle.VehicleID == -1)
+	{
+		AI::TASK_LEAVE_VEHICLE(Game.Ped, GamePed::GetVehicle(Game.Ped), 16);
 	}
 }
 

@@ -6,9 +6,9 @@ CVehicleEntity::CVehicleEntity()
 	Game.Vehicle = NULL; 
 	Network.Assigned = UNASSIGNED_RAKNET_GUID;
 	
-	for (int i = 0; i < sizeof(Occupants); i++) 
+	for (int i = 0; i < SizeOfArray(Occupants); i++) 
 	{ 
-		Occupants[i] = NULL; 
+		Occupants[i] = -1; 
 	}
 }
 
@@ -37,7 +37,7 @@ void CVehicleEntity::CreateVehicle()
 	
 	ENTITY::SET_ENTITY_LOAD_COLLISION_FLAG(Game.Vehicle, TRUE);
 	ENTITY::SET_ENTITY_COLLISION(Game.Vehicle, TRUE, FALSE);
-	//ENTITY::SET_ENTITY_QUATERNION(Game.Vehicle, Data.Quaternion.fX, Data.Quaternion.fY, Data.Quaternion.fZ, Data.Quaternion.fW);
+	ENTITY::SET_ENTITY_QUATERNION(Game.Vehicle, Data.Quaternion.fX, Data.Quaternion.fY, Data.Quaternion.fZ, Data.Quaternion.fW);
 
 	VEHICLE::SET_VEHICLE_MOD_KIT(Game.Vehicle, 0);
 	//VEHICLE::SET_VEHICLE_COLOURS(Game.Vehicle, color1, color2);
@@ -55,9 +55,18 @@ void CVehicleEntity::CreateVehicle()
 	DECORATOR::DECOR_SET_BOOL(Game.Vehicle, "FiveMP_Vehicle", TRUE);
 
 	ENTITY::FREEZE_ENTITY_POSITION(Game.Vehicle, FALSE);
-	ENTITY::SET_ENTITY_DYNAMIC(Game.Vehicle, TRUE);
 	std::cout << "[CVehicleEntity] Created Vehicle" << std::endl;
 	Game.Created = true;
+
+	RequestData();
+}
+
+// Gets the data thats only needed once thats not synced constantly
+void CVehicleEntity::RequestData()
+{
+	RakNet::BitStream sData;
+	sData.Write(Information.Id);
+	g_Core->GetNetworkManager()->GetRPC().Signal("RequestEntityData", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, g_Core->GetNetworkManager()->GetSystemAddress(), false, false);
 }
 
 void CVehicleEntity::Destroy()
@@ -82,13 +91,16 @@ void CVehicleEntity::Pulse()
 {
 	if (Game.Created && Information.Id != -1)
 	{
-		int t_CurrentVehicle = g_Core->GetLocalPlayer()->GetVehicleID();
+		int t_CurrentVehicle = GamePed::GetVehicleID(g_Core->GetLocalPlayer()->GetPed());
 
 		// Assignment System
-		if (Network.Assigned == UNASSIGNED_RAKNET_GUID)
+		if (Network.Assigned == UNASSIGNED_RAKNET_GUID && Occupants[0] == -1)
 		{
 			if ((g_Core->GetLocalPlayer()->GetPos() - Data.Position).Length() < 50.0f)
 			{
+				ENTITY::FREEZE_ENTITY_POSITION(Game.Vehicle, FALSE);
+				ENTITY::SET_ENTITY_DYNAMIC(Game.Vehicle, TRUE);
+
 				Network.Assigned = g_Core->GetNetworkManager()->GetInterface()->GetMyGUID();
 
 				RakNet::BitStream sData;
@@ -102,6 +114,9 @@ void CVehicleEntity::Pulse()
 			{
 				if ((g_Core->GetLocalPlayer()->GetPos() - Data.Position).Length() > 50.0f)
 				{
+					ENTITY::SET_ENTITY_DYNAMIC(Game.Vehicle, FALSE);
+					ENTITY::FREEZE_ENTITY_POSITION(Game.Vehicle, TRUE);
+
 					Network.Assigned = UNASSIGNED_RAKNET_GUID;
 
 					RakNet::BitStream sData;
@@ -183,10 +198,16 @@ void CVehicleEntity::Update(Packet * packet)
 	bitstream.Read(Data.Quaternion.fZ);
 	bitstream.Read(Data.Quaternion.fW);
 
+	for (int i = 0; i < SizeOfArray(Occupants); i++)
+	{
+		bitstream.Read(Occupants[i]);
+	}
+
+	
 	if (!Game.Created)
 		CreateVehicle();
 
-	if (g_Core->GetLocalPlayer()->GetVehicleID() != Information.Id) {
+	if (GamePed::GetVehicleID(g_Core->GetLocalPlayer()->GetPed()) != Information.Id) {
 		UpdateTargetPosition();
 		UpdateTargetData();
 		//UpdateTargetRotation();

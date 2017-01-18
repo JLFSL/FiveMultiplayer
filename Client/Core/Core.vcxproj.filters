@@ -153,6 +153,9 @@
     <ClCompile Include="CRPCWorld.cpp">
       <Filter>Network\RPC</Filter>
     </ClCompile>
+    <ClCompile Include="Ped.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -280,6 +283,9 @@
     </ClInclude>
     <ClInclude Include="CRPCWorld.h">
       <Filter>Network\RPC</Filter>
+    </ClInclude>
+    <ClInclude Include="Ped.h">
+      <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
