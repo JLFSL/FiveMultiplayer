@@ -1,8 +1,8 @@
+#include <cstddef>
 
-
-template <typename T, size_t N>
+template <typename T, std::size_t N>
 inline
-size_t SizeOfArray(const T(&)[N])
+std::size_t SizeOfArray(const T(&)[N])
 {
 	return N;
 }
