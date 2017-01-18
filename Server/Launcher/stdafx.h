@@ -24,6 +24,7 @@
 #include <cctype>
 #include <cstdlib>
 #include <cstdio>
+#include <cstddef>
 #include <functional>
 using namespace std;
 
