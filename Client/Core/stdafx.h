@@ -33,6 +33,7 @@
 #include "CVector4.h"
 #include "CMaths.h"
 #include "Common.h"
+#include <SharedUtility.h>
 
 // Vendor
 	// Vendor.MinHook

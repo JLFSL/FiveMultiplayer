@@ -32,6 +32,7 @@ using namespace std;
 #include <Common.h>
 #include <CVector3.h>
 #include <CVector4.h>
+#include <SharedUtility.h>
 
 // Vendor
 	// Vendor.RakNet
