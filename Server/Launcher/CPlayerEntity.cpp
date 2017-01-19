@@ -2,7 +2,7 @@
 
 int CPlayerEntity::Amount = 0;
 
-void CPlayerEntity::Create(string Name, RakNetGUID GUID, SystemAddress Ip)
+void CPlayerEntity::Create(std::string Name, RakNetGUID GUID, SystemAddress Ip)
 {
 	CServerEntity newServerEntity;
 	newServerEntity.SetType(newServerEntity.Player);
@@ -19,8 +19,8 @@ void CPlayerEntity::Create(string Name, RakNetGUID GUID, SystemAddress Ip)
 
 	Amount++;
 
-	cout << "[CPlayerEntity] Added Player: " << Information.Name << " [" << Network.Ip.ToString(false) << "]" << endl;
-	cout << "[CPlayerEntity] Players Online: " << Amount << endl;
+	std::cout << "[CPlayerEntity] Added Player: " << Information.Name << " [" << Network.Ip.ToString(false) << "]" << std::endl;
+	std::cout << "[CPlayerEntity] Players Online: " << Amount << std::endl;
 
 	Network.LastSyncSent = timeGetTime();
 	Network.Synchronized = true;
@@ -28,7 +28,7 @@ void CPlayerEntity::Create(string Name, RakNetGUID GUID, SystemAddress Ip)
 
 void CPlayerEntity::Destroy()
 {
-	cout << "[CPlayerEntity] Removing Player: " << Information.Name << " [" << Network.Ip.ToString(false) << "]" << endl;
+	std::cout << "[CPlayerEntity] Removing Player: " << Information.Name << " [" << Network.Ip.ToString(false) << "]" << std::endl;
 
 	Information = {};
 	Statistics = {};
@@ -43,7 +43,7 @@ void CPlayerEntity::Destroy()
 
 	Amount--;
 
-	cout << "[CPlayerEntity] Players Online: " << Amount << endl;
+	std::cout << "[CPlayerEntity] Players Online: " << Amount << std::endl;
 }
 
 void CPlayerEntity::Pulse()

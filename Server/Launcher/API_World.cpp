@@ -23,7 +23,7 @@ namespace API
 			return g_World->GetWeather().Weather;
 		}
 
-		void SetWeather(std::string weather)
+		void SetWeather(const std::string weather)
 		{
 			g_World->SetWeather(weather);
 		}

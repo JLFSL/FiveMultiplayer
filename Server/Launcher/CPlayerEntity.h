@@ -5,7 +5,7 @@ private:
 	struct PlayerInfo {
 		int					Entity;
 		int					PlayerID;
-		string				Name;
+		std::string			Name;
 	} Information;
 
 	struct PlayerStats {
@@ -49,7 +49,7 @@ public:
 	CPlayerEntity() {};
 	~CPlayerEntity() {};
 
-	void Create(string Name, RakNetGUID GUID, SystemAddress Ip);
+	void Create(std::string Name, RakNetGUID GUID, SystemAddress Ip);
 	void Destroy();
 
 	void Pulse();
@@ -58,7 +58,7 @@ public:
 	int				GetPlayerID() { return Information.PlayerID; };
 	void			SetPlayerID(int playerid) { Information.PlayerID = playerid; };
 	int				GetEntity() { return Information.Entity; };
-	string			GetUsername() { return Information.Name; };
+	std::string		GetUsername() { return Information.Name; };
 
 	int				GetScore() { return Statistics.Score; };
 
@@ -81,4 +81,4 @@ public:
 	PlayerStats		GetStats() { return Statistics; }
 	PlayerData		GetData() { return Data; }
 };
-extern vector<CPlayerEntity> g_Players;
+extern std::vector<CPlayerEntity> g_Players;

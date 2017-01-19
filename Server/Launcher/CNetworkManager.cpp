@@ -14,7 +14,7 @@ CNetworkManager::CNetworkManager()
 	// RakPeerInterface Settings
 	g_RakPeer->SetSplitMessageProgressInterval(100);
 
-	cout << "[CNetworkManager] Constructed" << endl;
+	std::cout << "[CNetworkManager] Constructed" << std::endl;
 }
 
 
@@ -32,12 +32,12 @@ CNetworkManager::~CNetworkManager()
 	// Destroy RakPeerInterface
 	RakPeerInterface::DestroyInstance(g_RakPeer);
 
-	cout << endl << "[CNetworkManager] Deconstructed" << endl;
+	std::cout << "[CNetworkManager] Deconstructed" << std::endl;
 }
 
 bool CNetworkManager::Start()
 {
-	cout << endl << "[CNetworkManager] Starting..." << endl;
+	std::cout << "[CNetworkManager] Starting..." << std::endl;
 	SocketDescriptor socketDescriptor;
 	socketDescriptor.port = g_Config->GetPort();
 
@@ -49,10 +49,10 @@ bool CNetworkManager::Start()
 		g_RakPeer->SetLimitIPConnectionFrequency(true);
 		g_RakPeer->SetTimeoutTime(15000, UNASSIGNED_SYSTEM_ADDRESS);
 
-		cout << "[CNetworkManager] Successfully started" << endl;
+		std::cout << "[CNetworkManager] Successfully started" << std::endl;
 		return true;
 	}
-	cout << "[CNetworkManager] Startup error " << Startup << endl;
+	std::cout << "[CNetworkManager] Startup error " << Startup << std::endl;
 	return false;
 }
 
@@ -186,7 +186,7 @@ void CNetworkManager::Pulse()
 				}
 				break;
 			}
-			cout << g_Packet->data[0] << endl;
+			std::cout << g_Packet->data[0] << std::endl;
 		}
 		g_RakPeer->DeallocatePacket(g_Packet);
 	}
@@ -200,14 +200,14 @@ void CNetworkManager::Pulse()
 void CNetworkManager::PulseMaster()
 {
 	if (g_Config->GetAnnounce()) {
-		string playerList;
+		std::string playerList;
 
 		if (!g_Players.empty()) {
 			for (int p = 0; p < g_Players.size(); p++) {
 				if (g_Players[p].GetEntity() != -1) {
-					ostringstream oss;
+					std::ostringstream oss;
 					oss << "{\"id\":" << g_Players[p].GetEntity() << ",\"name\":\"" << g_Players[p].GetUsername() << "\"}";
-					string player = oss.str();
+					std::string player = oss.str();
 
 					if (p < g_Players.size() - 1)
 						player.push_back(',');

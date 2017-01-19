@@ -6,12 +6,12 @@ namespace API
 	{
 		char *ThisNamespace = "API::Visual";
 
-		void ShowMessageAboveMap(const char *message, const char *pic, int icontype, const char *sender, const char *subject)
+		void ShowMessageAboveMap(const std::string message, const std::string pic, int icontype, const std::string sender, const std::string subject)
 		{
-			RakNet::RakString rakMessage = RakNet::RakString(message);
-			RakNet::RakString rakPic = RakNet::RakString(pic);
-			RakNet::RakString rakSender = RakNet::RakString(sender);
-			RakNet::RakString rakSubject = RakNet::RakString(subject);
+			RakNet::RakString rakMessage = RakNet::RakString(message.c_str());
+			RakNet::RakString rakPic = RakNet::RakString(pic.c_str());
+			RakNet::RakString rakSender = RakNet::RakString(sender.c_str());
+			RakNet::RakString rakSubject = RakNet::RakString(subject.c_str());
 
 			RakNet::BitStream sData;
 			sData.Write(rakMessage);

@@ -30,7 +30,7 @@ public:
 	CVector3	GetPosition();
 	void		SetPosition(CVector3 position);
 };
-extern vector<CServerEntity> g_Entities;
+extern std::vector<CServerEntity> g_Entities;
 
 namespace ServerEntity
 {

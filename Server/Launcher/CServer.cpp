@@ -8,10 +8,10 @@ CWorld*				g_World;
 
 CServer* CServer::p_Instance = nullptr;
 
-vector<CServerEntity>	g_Entities;
-vector<CPlayerEntity>	g_Players;
-vector<CVehicleEntity>	g_Vehicles;
-vector<CAPI>			g_ApiModules;
+std::vector<CServerEntity>	g_Entities;
+std::vector<CPlayerEntity>	g_Players;
+std::vector<CVehicleEntity>	g_Vehicles;
+std::vector<CAPI>			g_ApiModules;
 
 CServer::CServer()
 {
@@ -25,8 +25,6 @@ CServer::CServer()
 	// If true, it shows the FPS in the console window. (windows only)
 	p_ShowFPS = true;
 
-	cout << endl;
-
 	// Construct CConfig
 	g_Config = new CConfig();
 
@@ -36,7 +34,7 @@ CServer::CServer()
 	// Construct CWorld
 	g_World = new CWorld();
 
-	cout << "[CServer] Constructed" << endl;
+	std::cout << "[CServer] Constructed" << std::endl;
 }
 
 
@@ -46,7 +44,7 @@ CServer::~CServer()
 	SAFE_DELETE(g_Config);
 	SAFE_DELETE(g_World);
 
-	cout << "[CServer] Deconstructed" << endl;
+	std::cout << "[CServer] Deconstructed" << std::endl;
 }
 
 #define USEAPI
@@ -60,28 +58,28 @@ bool CServer::Load(int argc, char ** argv)
 
 	if (!g_Config)
 	{
-		cout << "[CConfig] Invalid" << endl;
+		std::cout << "[CConfig] Invalid" << std::endl;
 		getc(stdin);
 		return 1;
 	}
 
 	if (!g_Config->Read())
 	{
-		cout << "[CConfig] Could not read config file" << endl;
+		std::cout << "[CConfig] Could not read config file" << std::endl;
 		getc(stdin);
 		return 1;
 	}
 
 	if (!g_Network)
 	{
-		cout << "[CNetworkManager] Invalid" << endl;
+		std::cout << "[CNetworkManager] Invalid" << std::endl;
 		getc(stdin);
 		return 1;
 	}
 
 	if (!g_Network->Start())
 	{
-		cout << "[CNetworkManager] Could not be started" << endl;
+		std::cout << "[CNetworkManager] Could not be started" << std::endl;
 		getc(stdin);
 		return 1;
 	}
@@ -91,7 +89,7 @@ bool CServer::Load(int argc, char ** argv)
 	
 	// Split the plugin string for each defined plugin and insert into the pool.
 	CAPI NewModule;
-	string module = "plugin/";
+	std::string module = "plugin/";
 
 	for (int c = 0; c < g_Config->GetLanguage().size(); c++)
 	{
@@ -121,7 +119,7 @@ bool CServer::Load(int argc, char ** argv)
 	{
 		if (!g_ApiModules[i].Load(g_ApiModules[i].ModuleName().c_str()))
 		{
-			cout << "[CAPI] " << g_ApiModules[i].ModuleName() << " could not be loaded" << endl;
+			std::cout << "[CAPI] " << g_ApiModules[i].ModuleName() << " could not be loaded" << std::endl;
 			getc(stdin);
 			return false;
 		}
@@ -132,7 +130,7 @@ bool CServer::Load(int argc, char ** argv)
 	{
 		if (!g_ApiModules[i].Initialize())
 		{
-			cout << "[CAPI] " << g_ApiModules[i].ModuleName() << " could not be initialized" << endl;
+			std::cout << "[CAPI] " << g_ApiModules[i].ModuleName() << " could not be initialized" << std::endl;
 			getc(stdin);
 			return false;
 		}
@@ -150,7 +148,7 @@ void CServer::Stop()
 	{
 		if (!g_ApiModules[i].Close())
 		{
-			cout << "[CServer] " << g_ApiModules[i].ModuleName() << " could not be closed" << endl;
+			std::cout << "[CServer] " << g_ApiModules[i].ModuleName() << " could not be closed" << std::endl;
 			getc(stdin);
 		}
 	}

@@ -29,16 +29,16 @@ CVector3 CServerEntity::GetPosition()
 			}
 		}
 
-		cout << endl << "[CServerEntity::GetPosition] Invalid player ID: " << Data.Id << endl;
+		std::cout << "[CServerEntity::GetPosition] Invalid player ID: " << Data.Id << std::endl;
 		break;
 	case Vehicle:
-		cout << endl << "[CServerEntity::GetPosition] Invalid vehicle ID: " << Data.Id << endl;
+		std::cout << "[CServerEntity::GetPosition] Invalid vehicle ID: " << Data.Id << std::endl;
 		break;
 	case Object:
-		cout << endl << "[CServerEntity::GetPosition] Invalid object ID: " << Data.Id << endl;
+		std::cout << "[CServerEntity::GetPosition] Invalid object ID: " << Data.Id << std::endl;
 		break;
 	default:
-		cout << endl << "[CServerEntity::GetPosition] Invalid entity Type: " << Data.type << endl;
+		std::cout << "[CServerEntity::GetPosition] Invalid entity Type: " << Data.type << std::endl;
 		break;
 	}
 }
@@ -68,16 +68,16 @@ void CServerEntity::SetPosition(CVector3 position)
 			}
 		}
 
-		cout << endl << "[CServerEntity::SetPosition] Invalid player ID: " << Data.Id << endl;
+		std::cout << "[CServerEntity::SetPosition] Invalid player ID: " << Data.Id << std::endl;
 		break;
 	case Vehicle:
-		cout << endl << "[CServerEntity::SetPosition] Invalid vehicle ID: " << Data.Id << endl;
+		std::cout << "[CServerEntity::SetPosition] Invalid vehicle ID: " << Data.Id << std::endl;
 		break;
 	case Object:
-		cout << endl << "[CServerEntity::SetPosition] Invalid object ID: " << Data.Id << endl;
+		std::cout << "[CServerEntity::SetPosition] Invalid object ID: " << Data.Id << std::endl;
 		break;
 	default:
-		cout << endl << "[CServerEntity::SetPosition] Invalid entity Type: " << Data.type << endl;
+		std::cout << "[CServerEntity::SetPosition] Invalid entity Type: " << Data.type << std::endl;
 		break;
 	}
 }
@@ -114,7 +114,7 @@ namespace ServerEntity
 						}*/
 					break;
 				default:
-					std::cout << std::endl << "[ServerEntity::GetAssignee] Invalid entity" << std::endl;
+					std::cout << "[ServerEntity::GetAssignee] Invalid entity" << std::endl;
 					break;
 				}
 			}

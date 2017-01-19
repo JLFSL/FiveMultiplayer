@@ -10,7 +10,7 @@ void Sleep(unsigned int seconds) {
 
 int main(int argc, char *argv[]) {
 	// Provide the modification, version and gamename to the user.
-	cout << "Loading " INFO_NAME "(" INFO_VERSION ") for " INFO_GAME_NAME << endl;
+	std::cout << "Loading " INFO_NAME "(" INFO_VERSION ") for " INFO_GAME_NAME << std::endl;
 
 	// Create CServer
 	g_Server = new CServer;
@@ -18,7 +18,7 @@ int main(int argc, char *argv[]) {
 	// Check if CServer is created
 	if (!g_Server)
 	{
-		cout << "[CServer] Invalid" << endl;
+		std::cout << "[CServer] Invalid" << std::endl;
 		getc(stdin);
 		return 1;
 	}
@@ -26,7 +26,7 @@ int main(int argc, char *argv[]) {
 	// Call OnLoad
 	if (!g_Server->Load(argc, argv))
 	{
-		cout << "[CServer] Could not be started" << endl;
+		std::cout << "[CServer] Could not be started" << std::endl;
 		getc(stdin);
 		return 1;
 	}

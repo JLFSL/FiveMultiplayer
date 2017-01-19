@@ -14,7 +14,7 @@ void CWorld::SetTime(int hour, int minute, int second)
 	g_Network->GetRPC().Signal("SetTime", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
 };
 
-void CWorld::SetWeather(string weather)
+void CWorld::SetWeather(std::string weather)
 { 
 	Weather.Weather = weather;
 

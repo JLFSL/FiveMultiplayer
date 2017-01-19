@@ -21,7 +21,7 @@ bool CAPI::Load(const char *Filename)
 	Module = Filename;
 	if (!Instance)
 		return false;
-	cout << endl << "[CAPI] " << ModuleName() << " loaded" << endl;
+	std::cout << "[CAPI] " << ModuleName() << " loaded" << std::endl;
 	return true;
 }
 
@@ -35,7 +35,7 @@ bool CAPI::Unload()
 		dlclose(Instance);
 #endif
 		if (!Instance) {
-			cout << "[CAPI] " << ModuleName() << " unloaded" << endl;
+			std::cout << "[CAPI] " << ModuleName() << " unloaded" << std::endl;
 			return true;
 		}
 		return false;
@@ -56,7 +56,7 @@ bool CAPI::Initialize()
 		API_Initialize();
 		if (!API_Initialize)
 			return false;
-		cout << endl << "[CAPI] " << ModuleName() << " initialized" << endl;
+		std::cout << "[CAPI] " << ModuleName() << " initialized" << std::endl;
 		return true;
 	}
 	return false;
@@ -75,7 +75,7 @@ bool CAPI::Close()
 		API_Close();
 		if (!API_Close)
 			return false;
-		cout << "[CAPI] " << ModuleName() << " closed" << endl;
+		std::cout << "[CAPI] " << ModuleName() << " closed" << std::endl;
 		return true;
 	}
 	return false;

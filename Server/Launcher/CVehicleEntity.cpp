@@ -12,7 +12,7 @@ CVehicleEntity::CVehicleEntity()
 	}
 }
 
-void CVehicleEntity::Create(string model, CVector3 position, float heading)
+void CVehicleEntity::Create(std::string model, CVector3 position, float heading)
 {
 	CServerEntity newServerEntity;
 	newServerEntity.SetType(newServerEntity.Vehicle);
@@ -26,8 +26,8 @@ void CVehicleEntity::Create(string model, CVector3 position, float heading)
 
 	Amount++;
 
-	cout << "[CVehicleEntity] Create Vehicle [" << Information.Id << "] " << Data.Model.c_str() << " at " << Data.Position.fX << ", " << Data.Position.fY << ", " << Data.Position.fZ << endl;
-	cout << "[CVehicleEntity] " << Amount << " vehicles in the world." << endl;
+	std::cout << "[CVehicleEntity] Create Vehicle [" << Information.Id << "] " << Data.Model.c_str() << " at " << Data.Position.fX << ", " << Data.Position.fY << ", " << Data.Position.fZ << std::endl;
+	std::cout << "[CVehicleEntity] " << Amount << " vehicles in the world." << std::endl;
 
 	Network.LastSyncSent = timeGetTime();
 	Network.Synchronized = true;
@@ -35,7 +35,7 @@ void CVehicleEntity::Create(string model, CVector3 position, float heading)
 
 void CVehicleEntity::Destroy()
 {
-	cout << "[CVehicleEntity] Removing Vehicle [" << Information.Id << "] " << Data.Model.c_str() << endl;
+	std::cout << "[CVehicleEntity] Removing Vehicle [" << Information.Id << "] " << Data.Model.c_str() << std::endl;
 
 	Information = {};
 	Data = {};
@@ -45,7 +45,7 @@ void CVehicleEntity::Destroy()
 
 	Amount--;
 
-	cout << "[CVehicleEntity] " << Amount << " vehicles in the world." << endl;
+	std::cout << "[CVehicleEntity] " << Amount << " vehicles in the world." << std::endl;
 }
 
 void CVehicleEntity::Pulse()

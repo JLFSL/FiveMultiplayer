@@ -6,11 +6,11 @@ namespace API
 	{
 		char *ThisNamespace = "API::Network";
 
-		bool OnPlayerConnecting(void *Instance, const char *guid)
+		bool OnPlayerConnecting(void *Instance, const std::string guid)
 		{
 			if (Instance)
 			{
-				typedef bool(*API_OnPlayerConnecting_t)(const char*);
+				typedef bool(*API_OnPlayerConnecting_t)(const std::string);
 #ifdef WIN32
 				API_OnPlayerConnecting_t API_OnPlayerConnecting = (API_OnPlayerConnecting_t)::GetProcAddress((HMODULE)Instance, "API_OnPlayerConnecting");
 #else

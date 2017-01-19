@@ -25,7 +25,6 @@
 #include <cstdlib>
 #include <cstdio>
 #include <functional>
-using namespace std;
 
 // Shared
 #include <Common.h>

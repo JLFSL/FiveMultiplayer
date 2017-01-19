@@ -12,8 +12,8 @@ private:
 
 	struct WorldWeather
 	{
-		string	Weather;
-		bool	GroundSnow;
+		std::string	Weather;
+		bool		GroundSnow;
 	} Weather;
 
 public:
@@ -30,6 +30,6 @@ public:
 	void			SetTime(int hour, int minute, int second);
 
 	WorldWeather	GetWeather() { return Weather; };
-	void			SetWeather(string weather);
+	void			SetWeather(std::string weather);
 	void			SetGroundSnow(bool grndsnow) { Weather.GroundSnow = grndsnow; }
 };

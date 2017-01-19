@@ -10,7 +10,7 @@ private:
 
 	struct VehicleData
 	{
-		string				Model;
+		std::string			Model;
 
 		float				ForwardSpeed;
 		float				Heading;
@@ -63,4 +63,4 @@ public:
 	VehicleInfo		GetInfo() { return Information; }
 	VehicleData		GetData() { return Data; }
 };
-extern vector<CVehicleEntity> g_Vehicles;
+extern std::vector<CVehicleEntity> g_Vehicles;

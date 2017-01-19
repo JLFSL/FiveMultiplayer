@@ -2,9 +2,9 @@
 class CConfig
 {
 	struct CConnection {
-		string Ip;
+		std::string Ip;
 		int Port;
-		string Pass;
+		std::string Pass;
 		bool Announce;
 	} Connection;
 
@@ -13,24 +13,24 @@ class CConfig
 	} Limits;
 
 	struct CInformation {
-		string Name;
+		std::string Name;
 	} Information;
 
 	struct CPlugins {
-		string Language;
-		string Additional;
+		std::string Language;
+		std::string Additional;
 	} Plugins;
 
 public:
 	bool Read();
 
-	string GetIp()					{ return Connection.Ip; };
-	int GetPort()					{ return Connection.Port; };
-	string GetPassword()			{ return Connection.Pass; };
-	bool GetAnnounce()				{ return Connection.Announce; }
-	unsigned short GetMaxPlayers()	{ return Limits.MaxPlayers; };
-	string GetServerName()			{ return Information.Name; };
-	string GetLanguage()			{ return Plugins.Language; };
-	string GetAdditionalPlugins()	{ return Plugins.Additional; };
+	std::string GetIp()					{ return Connection.Ip; };
+	int GetPort()						{ return Connection.Port; };
+	std::string GetPassword()			{ return Connection.Pass; };
+	bool GetAnnounce()					{ return Connection.Announce; }
+	unsigned short GetMaxPlayers()		{ return Limits.MaxPlayers; };
+	std::string GetServerName()			{ return Information.Name; };
+	std::string GetLanguage()			{ return Plugins.Language; };
+	std::string GetAdditionalPlugins()	{ return Plugins.Additional; };
 };
 

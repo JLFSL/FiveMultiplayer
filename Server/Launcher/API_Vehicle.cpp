@@ -6,7 +6,7 @@ namespace API
 	{
 		char *ThisNamespace = "API::Vehicle";
 
-		int CreateVehicle(string model, CVector3 position, float heading)
+		int CreateVehicle(std::string model, CVector3 position, float heading)
 		{
 			CVehicleEntity newVehicle;
 			newVehicle.Create(model, position, heading);

@@ -33,7 +33,7 @@ extern "C" {
 			/// </summary>
 			/// <param name="weather">The weather you wish to set</param>
 			/// <returns></returns>
-			DLL_PUBLIC_I void SetWeather(std::string weather);
+			DLL_PUBLIC_I void SetWeather(const std::string weather);
 		}
 	}
 #ifdef __cplusplus

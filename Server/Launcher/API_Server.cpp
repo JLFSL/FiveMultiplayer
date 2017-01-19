@@ -4,9 +4,9 @@ namespace API {
 	namespace Server {
 		char *ThisNamespace = "API::Server";
 
-		int PrintMessage(const char *message)
+		int PrintMessage(const std::string message)
 		{
-			cout << "[" << ThisNamespace << "] " << message << endl;
+			std::cout << "[" << ThisNamespace << "] " << message << std::endl;
 			return 1;
 		}
 	}

@@ -2,8 +2,8 @@
 class CAPI
 {
 private:
-	string Module;
-	void* Instance;
+	std::string Module;
+	void*		Instance;
 
 public:
 	CAPI();
@@ -18,7 +18,7 @@ public:
 
 	void* GetInstance() { return Instance;  };
 
-	string ModuleName() { return Module; };
-	void SetModuleName(string _module) { Module = _module; };
+	std::string ModuleName() { return Module; };
+	void SetModuleName(std::string _module) { Module = _module; };
 };
-extern vector<CAPI> g_ApiModules;
+extern std::vector<CAPI> g_ApiModules;

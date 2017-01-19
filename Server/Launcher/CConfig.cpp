@@ -5,12 +5,12 @@ bool CConfig::Read()
 	INIReader Config("Server.Config.ini");
 
 	if (Config.ParseError() < 0) {
-		cout << "[CConfig] Can't read configuration file" << endl;
+		std::cout << "[CConfig] Can't read configuration file" << std::endl;
 		return false;
 	}
 	else 
 	{
-		cout << "[CConfig] Loaded config" << endl;
+		std::cout << "[CConfig] Loaded config" << std::endl;
 
 		Connection.Ip		= Config.Get("Connection", "ip", "127.0.0.1");
 		Connection.Port		= Config.GetInteger("Connection", "port", 2322);
@@ -24,7 +24,7 @@ bool CConfig::Read()
 		Plugins.Language = Config.Get("Plugins", "lang", "API.Lua");
 		Plugins.Additional = Config.Get("Plugins", "etc", "");
 
-		cout << "[CConfig] Read config" << endl;
+		std::cout << "[CConfig] Read config" << std::endl;
 		return true;
 	}
 	return false;
