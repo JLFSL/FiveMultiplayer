@@ -22,7 +22,7 @@ namespace RPC
 				g_Network->GetRPC().RegisterSlot(rpcmessages[i].name, rpcmessages[i].functionPointer, 0);
 			}
 
-			std::cout << "RPCManager:: Registered RPC Messages" << std::endl;
+			std::cout << "[RPCManager] Registered RPC Messages" << std::endl;
 		}
 
 		void UnregisterRPCMessages()
@@ -32,7 +32,7 @@ namespace RPC
 				g_Network->GetRPC().UnregisterSlot(rpcmessages[i].name);
 			}
 
-			std::cout << "RPCManager:: Unregistered RPC Messages" << std::endl;
+			std::cout << "[RPCManager] Unregistered RPC Messages" << std::endl;
 		}
 	}
 }
