@@ -4,7 +4,7 @@ CVehicleEntity::CVehicleEntity()
 {
 	Game.Created = false; 
 	Game.Vehicle = NULL; 
-	Network.Assigned = UNASSIGNED_RAKNET_GUID;
+	Network.Assigned = RakNetGUID(12345);
 	
 	for (int i = 0; i < SizeOfArray(Occupants); i++) 
 	{ 
@@ -94,7 +94,7 @@ void CVehicleEntity::Pulse()
 		int t_CurrentVehicle = GamePed::GetVehicleID(g_Core->GetLocalPlayer()->GetPed());
 
 		// Assignment System
-		if (Network.Assigned == UNASSIGNED_RAKNET_GUID && Occupants[0] == -1)
+		if (Network.Assigned != RakNetGUID(12345) && Network.Assigned == UNASSIGNED_RAKNET_GUID && Occupants[0] == -1)
 		{
 			if ((g_Core->GetLocalPlayer()->GetPos() - Data.Position).Length() < 50.0f)
 			{
