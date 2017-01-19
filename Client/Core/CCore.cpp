@@ -109,6 +109,12 @@ void CCore::OnGameTick()
 		Logger::Msg("Connecting");
 	}
 
+	if (KeyJustUp(VK_F5))
+	{
+		g_NetworkManager->Connect("188.166.76.252", "default", CON_PORT);
+		Logger::Msg("Connecting");
+	}
+
 	if (KeyJustUp(VK_F10))
 	{
 		g_NetworkManager->Connect("83.128.145.20", "default", CON_PORT);
