@@ -5,6 +5,8 @@ class CServer
 private:
 	static CServer* p_Instance;
 
+	std::unique_ptr<CWorld>			g_World;
+
 	bool			p_Active;
 
 	bool			p_ShowFPS;
@@ -30,6 +32,8 @@ public:
 
 	static CServer* GetInstance() { return p_Instance; }
 	unsigned int GetSyncRate() { return p_SyncRate; }
+
+	CWorld *GetWorld() { return p_Instance->g_World.get(); }
 };
 
 #ifndef _WIN32

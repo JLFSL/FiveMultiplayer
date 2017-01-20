@@ -11,14 +11,14 @@ namespace NetworkSync
 	void SyncServerWorld(RakNetGUID GUID)
 	{
 		RakNet::BitStream sData;
-		sData.Write(g_World->GetTime().Hour);
-		sData.Write(g_World->GetTime().Minute);
-		sData.Write(g_World->GetTime().Second);
+		sData.Write(g_Server->GetWorld()->GetTime().Hour);
+		sData.Write(g_Server->GetWorld()->GetTime().Minute);
+		sData.Write(g_Server->GetWorld()->GetTime().Second);
 
 		g_Network->GetRPC().Signal("SetTime", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, GUID, false, false);
 
 		sData.Reset(); //Resets the BitStream for reuse, Handy
-		sData.Write(RakString(g_World->GetWeather().Weather.c_str()));
+		sData.Write(RakString(g_Server->GetWorld()->GetWeather().Weather.c_str()));
 
 		g_Network->GetRPC().Signal("SetWeather", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, GUID, false, false);
 	}

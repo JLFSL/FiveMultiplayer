@@ -8,24 +8,29 @@ namespace API
 
 		void GetTime(int *hour, int *minute, int *second)
 		{
-			*hour = g_World->GetTime().Hour;
-			*minute = g_World->GetTime().Minute;
-			*second = g_World->GetTime().Second;
+			*hour = g_Server->GetWorld()->GetTime().Hour;
+			*minute = g_Server->GetWorld()->GetTime().Minute;
+			*second = g_Server->GetWorld()->GetTime().Second;
 		}
 
 		void SetTime(int hour, int minute, int second)
 		{
-			g_World->SetTime(hour, minute, second);
+			if (g_Server->GetWorld() == nullptr)
+			{
+				std::cout << "RAWRA" << std::endl;
+			}
+			std::cout << "RAWRA2" << std::endl;
+			g_Server->GetWorld()->SetTime(hour, minute, second);
 		}
 
 		std::string GetWeather()
 		{
-			return g_World->GetWeather().Weather;
+			return g_Server->GetWorld()->GetWeather().Weather;
 		}
 
 		void SetWeather(const std::string weather)
 		{
-			g_World->SetWeather(weather);
+			g_Server->GetWorld()->SetWeather(weather);
 		}
 	}
 }

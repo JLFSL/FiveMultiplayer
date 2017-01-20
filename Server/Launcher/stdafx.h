@@ -25,6 +25,7 @@
 #include <cstdlib>
 #include <cstdio>
 #include <functional>
+#include <memory>
 
 // Shared
 #include <Common.h>
@@ -53,9 +54,9 @@
 	#include "ini.h"
 
 	// Server
-	#include "CServer.h"
 	#include "CConfig.h"
 	#include "CWorld.h"
+	#include "CServer.h"
 
 	// API
 	#include "CAPI.h"
@@ -80,4 +81,3 @@
 extern CServer* g_Server;
 extern CConfig*	g_Config;
 extern CNetworkManager*	g_Network;
-extern CWorld* g_World;

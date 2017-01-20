@@ -4,7 +4,6 @@
 
 CConfig*			g_Config;
 CNetworkManager*	g_Network;
-CWorld*				g_World;
 
 CServer* CServer::p_Instance = nullptr;
 
@@ -31,8 +30,7 @@ CServer::CServer()
 	// Construct CNetworkManager
 	g_Network = new CNetworkManager();
 
-	// Construct CWorld
-	g_World = new CWorld();
+	g_World = std::unique_ptr<CWorld>(new CWorld);
 
 	std::cout << "[CServer] Constructed" << std::endl;
 }
@@ -42,7 +40,6 @@ CServer::~CServer()
 {
 	SAFE_DELETE(g_Network);
 	SAFE_DELETE(g_Config);
-	SAFE_DELETE(g_World);
 
 	std::cout << "[CServer] Deconstructed" << std::endl;
 }
