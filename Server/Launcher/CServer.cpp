@@ -118,7 +118,6 @@ bool CServer::Load(int argc, char ** argv)
 		{
 			std::cout << "[CAPI] " << g_ApiModules[i].ModuleName() << " could not be loaded" << std::endl;
 			g_ApiModules.erase(g_ApiModules.begin() + i);
-			getc(stdin);
 		}
 	}
 	
@@ -130,7 +129,6 @@ bool CServer::Load(int argc, char ** argv)
 		if (!g_ApiModules[i].Initialize())
 		{
 			std::cout << "[CAPI] " << g_ApiModules[i].ModuleName() << " could not be initialized" << std::endl;
-			getc(stdin);
 		}
 	}
 #endif
