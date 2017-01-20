@@ -15,11 +15,6 @@ namespace API
 
 		void SetTime(int hour, int minute, int second)
 		{
-			if (g_Server->GetWorld() == nullptr)
-			{
-				std::cout << "RAWRA" << std::endl;
-			}
-			std::cout << "RAWRA2" << std::endl;
 			g_Server->GetWorld()->SetTime(hour, minute, second);
 		}
 

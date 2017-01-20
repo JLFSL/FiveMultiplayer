@@ -22,7 +22,7 @@ extern "C" {
 			/// <param name="minute">The Minute you wish to set</param>
 			/// <param name="second">The Second you wish to set</param>
 			/// <returns></returns>
-			DLL_PUBLIC_I void SetTime(int hour, int minute, int second);
+			DLL_PUBLIC_I void SetTime(const int hour, const int minute, const int second);
 			/// <summary>
 			/// Gets the Weather
 			/// </summary>
