@@ -6,8 +6,7 @@ bool CConfig::Read()
 	GetModuleFileName(GetModuleHandle("Client.Core.dll"), buffer, sizeof(buffer));
 	
 	std::string filePath = buffer;
-	int start = filePath.find("Client.Core.dll");
-	filePath.erase(start, 15);
+	filePath.erase(filePath.find("Client.Core.dll"), std::string("Client.Core.dll").size());
 
 	INIReader Config(filePath + "Client.Config.ini");
 
@@ -29,7 +28,6 @@ bool CConfig::Read()
 
 		Game.Editor = Config.GetBoolean("Game", "editor", false);
 
-		std::cout << Information.Name << std::endl;
 		std::cout << "[CConfig] Read config" << std::endl;
 		return true;
 	}
