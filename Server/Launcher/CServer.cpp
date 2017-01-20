@@ -117,10 +117,12 @@ bool CServer::Load(int argc, char ** argv)
 		if (!g_ApiModules[i].Load(g_ApiModules[i].ModuleName().c_str()))
 		{
 			std::cout << "[CAPI] " << g_ApiModules[i].ModuleName() << " could not be loaded" << std::endl;
+			g_ApiModules.erase(g_ApiModules.begin() + i);
 			getc(stdin);
-			return false;
 		}
 	}
+	
+	g_ApiModules.shrink_to_fit();
 
 	// Call Initialize function on our API
 	for (int i = 0; i < g_ApiModules.size(); i++)
@@ -129,7 +131,6 @@ bool CServer::Load(int argc, char ** argv)
 		{
 			std::cout << "[CAPI] " << g_ApiModules[i].ModuleName() << " could not be initialized" << std::endl;
 			getc(stdin);
-			return false;
 		}
 	}
 #endif

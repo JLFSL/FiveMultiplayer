@@ -18,9 +18,10 @@ bool CAPI::Load(const char *Filename)
 #else
 	Instance = dlopen(Filename, RTLD_LAZY);
 #endif
-	Module = Filename;
 	if (!Instance)
 		return false;
+
+	Module = Filename;
 	std::cout << "[CAPI] " << ModuleName() << " loaded" << std::endl;
 	return true;
 }
@@ -53,9 +54,11 @@ bool CAPI::Initialize()
 #else
 		API_Initialize_t API_Initialize = (API_Initialize_t)dlsym(Instance, "API_Initialize");
 #endif
-		API_Initialize();
+		
 		if (!API_Initialize)
 			return false;
+
+		API_Initialize();
 		std::cout << "[CAPI] " << ModuleName() << " initialized" << std::endl;
 		return true;
 	}
@@ -72,9 +75,11 @@ bool CAPI::Close()
 #else
 		API_Close_t API_Close = (API_Close_t)dlsym(Instance, "API_Close");
 #endif
-		API_Close();
+		
 		if (!API_Close)
 			return false;
+
+		API_Close();
 		std::cout << "[CAPI] " << ModuleName() << " closed" << std::endl;
 		return true;
 	}
@@ -91,9 +96,11 @@ bool CAPI::OnTick()
 #else
 		API_OnTick_t API_OnTick = (API_OnTick_t)dlsym(Instance, "API_OnTick");
 #endif
-		API_OnTick();
+		
 		if (!API_OnTick)
 			return false;
+
+		API_OnTick();
 		return true;
 	}
 	return false;
