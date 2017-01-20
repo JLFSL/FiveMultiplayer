@@ -1,5 +1,14 @@
 #include "stdafx.h"
 
+CWorld::CWorld()
+{
+	Time.Hour = 12;
+	Time.Minute = 00;
+	Time.Second = 00;
+	Weather.Weather = "CLEAR";
+	Weather.GroundSnow = false;
+}
+
 void CWorld::SetTime(int hour, int minute, int second)
 {
 	Time.Hour = hour;
@@ -12,7 +21,7 @@ void CWorld::SetTime(int hour, int minute, int second)
 	sData.Write(Time.Second);
 
 	g_Network->GetRPC().Signal("SetTime", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
-};
+}
 
 void CWorld::SetWeather(std::string weather)
 { 
@@ -22,4 +31,4 @@ void CWorld::SetWeather(std::string weather)
 	sData.Write(RakString(weather.c_str()));
 
 	g_Network->GetRPC().Signal("SetWeather", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
-};
+}
