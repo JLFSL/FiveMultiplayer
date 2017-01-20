@@ -2,8 +2,14 @@
 
 bool CConfig::Read()
 {
-	// I wana make this the same location as the dll which we can do once everything is at the fivemp installl directory using the regkeys
-	INIReader Config("Client.Config.ini");
+	char buffer[MAX_PATH];//always use MAX_PATH for filepaths
+	GetModuleFileName(GetModuleHandle("Client.Core.dll"), buffer, sizeof(buffer));
+	
+	std::string filePath = buffer;
+	int start = filePath.find("Client.Core.dll");
+	filePath.erase(start, 15);
+
+	INIReader Config(filePath + "Client.Config.ini");
 
 	if (Config.ParseError() < 0)
 	{
@@ -23,6 +29,7 @@ bool CConfig::Read()
 
 		Game.Editor = Config.GetBoolean("Game", "editor", false);
 
+		std::cout << Information.Name << std::endl;
 		std::cout << "[CConfig] Read config" << std::endl;
 		return true;
 	}
