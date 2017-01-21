@@ -1,7 +1,11 @@
 #include "stdafx.h"
 
+std::unique_ptr<CWorld>	CWorld::s_instance = nullptr;
+
 CWorld::CWorld()
 {
+	s_instance = std::unique_ptr<CWorld>(this);
+
 	Time.Hour = 12;
 	Time.Minute = 00;
 	Time.Second = 00;

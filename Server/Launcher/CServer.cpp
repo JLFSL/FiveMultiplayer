@@ -30,8 +30,6 @@ CServer::CServer()
 	// Construct CNetworkManager
 	g_Network = new CNetworkManager();
 
-	g_World = std::unique_ptr<CWorld>(new CWorld);
-
 	std::cout << "[CServer] Constructed" << std::endl;
 }
 
