@@ -52,6 +52,8 @@ bool CNetworkManager::Start()
 		g_RakPeer->SetTimeoutTime(15000, UNASSIGNED_SYSTEM_ADDRESS);
 
 		std::cout << "[CNetworkManager] Successfully started" << std::endl;
+
+		PulseMaster();
 		return true;
 	}
 	std::cout << "[CNetworkManager] Startup error " << Startup << std::endl;
