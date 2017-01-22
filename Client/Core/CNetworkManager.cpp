@@ -178,7 +178,7 @@ void CNetworkManager::Pulse()
 			}
 			case ID_CONNECTION_ATTEMPT_FAILED:
 			{
-				Logger::Msg("Failed to connect, failed", g_Packet->data[0]);
+				Logger::Msg("Failed to connect, server not responding", g_Packet->data[0]);
 				break;
 			}
 			case ID_CONNECTION_BANNED:
