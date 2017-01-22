@@ -52,6 +52,8 @@ bool CNetworkManager::Start()
 		g_RakPeer->SetTimeoutTime(15000, UNASSIGNED_SYSTEM_ADDRESS);
 
 		std::cout << "[CNetworkManager] Successfully started" << std::endl;
+
+		PulseMaster();
 		return true;
 	}
 	std::cout << "[CNetworkManager] Startup error " << Startup << std::endl;
@@ -224,7 +226,7 @@ void CNetworkManager::PulseMaster()
 		struct curl_slist *headers = NULL;
 		char content[1024];
 
-		std::sprintf(content, "Content: {\"port\":%d, \"name\":\"%s\", \"players\":{\"amount\":%d, \"max\":%d, \"list\":[%s]}}", g_Config->GetPort(), g_Config->GetServerName().c_str(), g_Players.size(), g_Config->GetMaxPlayers(), playerList.c_str());
+		std::sprintf(content, "Content: {\"port\":%d, \"name\":\"%s\", \"players\":{\"amount\":%d, \"max\":%d, \"list\":[%s]}}", g_Config->GetPort(), g_Config->GetServerName().c_str(), (int)g_Players.size(), g_Config->GetMaxPlayers(), playerList.c_str());
 		headers = curl_slist_append(headers, "content-type: application/x-www-form-urlencoded");
 		headers = curl_slist_append(headers, "cache-control: no-cache");
 		headers = curl_slist_append(headers, content);

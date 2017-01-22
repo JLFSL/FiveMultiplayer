@@ -4,7 +4,7 @@ namespace API
 {
 	namespace Vehicle
 	{
-		char *ThisNamespace = "API::Vehicle";
+		const char *ThisNamespace = "API::Vehicle";
 
 		int CreateVehicle(std::string model, CVector3 position, float heading)
 		{

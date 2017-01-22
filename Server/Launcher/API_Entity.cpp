@@ -4,7 +4,7 @@ namespace API
 {
 	namespace Entity
 	{
-		char *ThisNamespace = "API::Entity";
+		const char *ThisNamespace = "API::Entity";
 
 		CVector3 GetPosition(int entity)
 		{

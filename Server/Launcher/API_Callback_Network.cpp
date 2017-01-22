@@ -4,7 +4,7 @@ namespace API
 {
 	namespace Network
 	{
-		char *ThisNamespace = "API::Network";
+		const char *ThisNamespace = "API::Network";
 
 		bool OnPlayerConnecting(void *Instance, const std::string guid)
 		{
