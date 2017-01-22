@@ -9,7 +9,7 @@ namespace RPC
 
 		typedef struct
 		{
-			char *name;
+			const char *name;
 			void(*functionPointer) (RakNet::BitStream *userData, Packet *packet);
 		} RPCMessage;
 	}
