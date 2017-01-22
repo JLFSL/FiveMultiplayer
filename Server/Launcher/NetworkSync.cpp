@@ -15,12 +15,12 @@ namespace NetworkSync
 		sData.Write(CWorld::instance()->GetTime().Minute);
 		sData.Write(CWorld::instance()->GetTime().Second);
 
-		g_Network->GetRPC().Signal("SetTime", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, GUID, false, false);
+		CNetworkManager::instance()->GetRPC().Signal("SetTime", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, GUID, false, false);
 
 		sData.Reset(); //Resets the BitStream for reuse, Handy
 		sData.Write(RakString(CWorld::instance()->GetWeather().Weather.c_str()));
 
-		g_Network->GetRPC().Signal("SetWeather", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, GUID, false, false);
+		CNetworkManager::instance()->GetRPC().Signal("SetWeather", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, GUID, false, false);
 	}
 
 }

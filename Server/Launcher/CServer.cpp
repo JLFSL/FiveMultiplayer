@@ -3,7 +3,6 @@
 #include "RPCManager.h"
 
 CConfig*			g_Config;
-CNetworkManager*	g_Network;
 
 CServer* CServer::p_Instance = nullptr;
 
@@ -27,16 +26,12 @@ CServer::CServer()
 	// Construct CConfig
 	g_Config = new CConfig();
 
-	// Construct CNetworkManager
-	g_Network = new CNetworkManager();
-
 	std::cout << "[CServer] Constructed" << std::endl;
 }
 
 
 CServer::~CServer()
 {
-	SAFE_DELETE(g_Network);
 	SAFE_DELETE(g_Config);
 
 	std::cout << "[CServer] Deconstructed" << std::endl;
@@ -65,14 +60,7 @@ bool CServer::Load(int argc, char ** argv)
 		return 1;
 	}
 
-	if (!g_Network)
-	{
-		std::cout << "[CNetworkManager] Invalid" << std::endl;
-		getc(stdin);
-		return 1;
-	}
-
-	if (!g_Network->Start())
+	if (!CNetworkManager::instance()->Start())
 	{
 		std::cout << "[CNetworkManager] Could not be started" << std::endl;
 		getc(stdin);
@@ -152,7 +140,7 @@ void CServer::Stop()
 void CServer::Process()
 {
 	// Keep CNetworkManager active
-	g_Network->Pulse();
+	CNetworkManager::instance()->Pulse();
 
 	// Pulse all players
 	for (int i = 0; i < g_Players.size(); i++) {

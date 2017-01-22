@@ -1,5 +1,7 @@
 #include "stdafx.h"
 
+std::unique_ptr<CNetworkManager>	CNetworkManager::s_instance = nullptr;
+
 CNetworkManager::CNetworkManager()
 {
 	// Get RakPeerInterface

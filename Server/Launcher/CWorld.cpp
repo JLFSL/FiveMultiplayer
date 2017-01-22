@@ -4,8 +4,6 @@ std::unique_ptr<CWorld>	CWorld::s_instance = nullptr;
 
 CWorld::CWorld()
 {
-	s_instance = std::unique_ptr<CWorld>(this);
-
 	Time.Hour = 12;
 	Time.Minute = 00;
 	Time.Second = 00;
@@ -24,7 +22,7 @@ void CWorld::SetTime(int hour, int minute, int second)
 	sData.Write(Time.Minute);
 	sData.Write(Time.Second);
 
-	g_Network->GetRPC().Signal("SetTime", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
+	CNetworkManager::instance()->GetRPC().Signal("SetTime", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
 }
 
 void CWorld::SetWeather(std::string weather)
@@ -34,5 +32,5 @@ void CWorld::SetWeather(std::string weather)
 	RakNet::BitStream sData;
 	sData.Write(RakString(weather.c_str()));
 
-	g_Network->GetRPC().Signal("SetWeather", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
+	CNetworkManager::instance()->GetRPC().Signal("SetWeather", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
 }

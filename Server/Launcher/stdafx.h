@@ -80,4 +80,3 @@
 
 extern CServer* g_Server;
 extern CConfig*	g_Config;
-extern CNetworkManager*	g_Network;

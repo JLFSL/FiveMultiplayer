@@ -83,7 +83,7 @@ void CPlayerEntity::Pulse()
 		bitstream.Write(Data.Vehicle.VehicleID);
 		bitstream.Write(Data.Vehicle.Seat);
 
-		g_Network->GetInterface()->Send(&bitstream, MEDIUM_PRIORITY, UNRELIABLE_SEQUENCED, 0, UNASSIGNED_RAKNET_GUID, true);
+		CNetworkManager::instance()->GetInterface()->Send(&bitstream, MEDIUM_PRIORITY, UNRELIABLE_SEQUENCED, 0, UNASSIGNED_RAKNET_GUID, true);
 
 		Network.LastSyncSent = timeGetTime();
 	}
