@@ -4,7 +4,7 @@ namespace API
 {
 	namespace World
 	{
-		char *ThisNamespace = "API::World";
+		const char *ThisNamespace = "API::World";
 
 		void GetTime(int *hour, int *minute, int *second)
 		{

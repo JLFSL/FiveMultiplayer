@@ -4,7 +4,7 @@ namespace API
 {
 	namespace Visual
 	{
-		char *ThisNamespace = "API::Visual";
+		const char *ThisNamespace = "API::Visual";
 
 		void ShowMessageAboveMap(const std::string message, const std::string pic, int icontype, const std::string sender, const std::string subject)
 		{

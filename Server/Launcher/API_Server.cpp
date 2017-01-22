@@ -2,7 +2,7 @@
 
 namespace API {
 	namespace Server {
-		char *ThisNamespace = "API::Server";
+		const char *ThisNamespace = "API::Server";
 
 		int PrintMessage(const std::string message)
 		{
