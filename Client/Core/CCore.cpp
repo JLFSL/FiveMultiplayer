@@ -105,7 +105,7 @@ void CCore::OnGameTick()
 
 	if (KeyJustUp(VK_F6))
 	{
-		g_NetworkManager->Connect("109.155.115.2", "default", CON_PORT);
+		g_NetworkManager->Connect("192.168.56.101", "default", CON_PORT);
 		Logger::Msg("Connecting");
 	}
 

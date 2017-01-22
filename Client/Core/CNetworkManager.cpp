@@ -202,7 +202,7 @@ void CNetworkManager::Pulse()
 			}
 			case ID_CONNECTION_LOST:
 			{
-				Disconnect();
+				//Disconnect();
 				Logger::Msg("CNetworkManager::ConnectionLost");
 				break;
 			}
