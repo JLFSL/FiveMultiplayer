@@ -6,6 +6,8 @@ CLocalPlayer::CLocalPlayer()
 	Game.Ped				= PLAYER::GET_PLAYER_PED(Game.Player);
 	Game.VehicleEntering	= 0;
 
+	Information.Id			= 0;
+
 	Data.Vehicle.VehicleID	= -1;
 	Data.Vehicle.Seat		= -1;
 }
@@ -52,8 +54,8 @@ void CLocalPlayer::Pulse()
 		BitStream bitstream;
 		bitstream.Write((unsigned char)ID_PACKET_PLAYER);
 
-		bitstream.Write(Information.Id);
-		bitstream.Write(Information.Name);
+		/*bitstream.Write(Information.Id);
+		bitstream.Write(Information.Name);*/
 
 		bitstream.Write(Statistics.Score);
 

@@ -91,14 +91,15 @@ void CPlayerEntity::Pulse()
 
 void CPlayerEntity::Update(Packet *packet)
 {
+	
 	int lastVehicle = Data.Vehicle.VehicleID;
 	int lastSeat = Data.Vehicle.Seat;
 
 	BitStream bitstream(packet->data + 1, packet->length + 1, false);
 
-	bitstream.Read(Information.Entity);
-	bitstream.Read(Information.Name);
-
+	/*bitstream.Read(Information.Entity);
+	bitstream.Read(Information.Name);*/
+	
 	bitstream.Read(Statistics.Score);
 
 	bitstream.Read(Data.Model.Model);
@@ -124,11 +125,12 @@ void CPlayerEntity::Update(Packet *packet)
 
 	bitstream.Read(Data.Vehicle.VehicleID);
 	bitstream.Read(Data.Vehicle.Seat);
-	
+
 	Network.GUID = packet->guid;
 	Network.Ip = packet->systemAddress;
-
-
+	packet->deleteData;
+	
+	/*
 	if (lastVehicle != Data.Vehicle.VehicleID)
 	{
 		for (int i = 0; i < g_Vehicles.size(); i++)
@@ -146,5 +148,5 @@ void CPlayerEntity::Update(Packet *packet)
 			}
 		}
 	}
-
+	*/
 }
