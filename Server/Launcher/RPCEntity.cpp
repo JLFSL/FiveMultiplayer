@@ -56,10 +56,7 @@ namespace RPC
 
 			if (ServerEntity::IsValid(entity))
 			{
-				if (ServerEntity::GetAssignee(entity) == packet->guid)
-				{
-					ServerEntity::RequestData(entity, packet->guid);
-				}
+				ServerEntity::RequestData(entity, packet->guid);
 			}
 		}
 	}
