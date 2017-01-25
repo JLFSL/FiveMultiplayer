@@ -19,10 +19,17 @@ bool CAPI::Load(const char *Filename)
 	Instance = dlopen(Filename, RTLD_LAZY);
 #endif
 	if (!Instance)
+	{
+#ifdef _WIN32
+		std::cout << "[CAPI] " << Filename << " could not be loaded" << std::endl;
+#else
+		std::cout << "[CAPI] Cannot open library " << Filename << ", " << dlerror() << std::endl;
+#endif
 		return false;
+	}
 
 	Module = Filename;
-	std::cout << "[CAPI] " << ModuleName() << " loaded" << std::endl;
+	std::cout << "[CAPI] " << ModuleName() << " loaded." << std::endl;
 	return true;
 }
 
@@ -36,7 +43,7 @@ bool CAPI::Unload()
 		dlclose(Instance);
 #endif
 		if (!Instance) {
-			std::cout << "[CAPI] " << ModuleName() << " unloaded" << std::endl;
+			std::cout << "[CAPI] " << ModuleName() << " unloaded." << std::endl;
 			return true;
 		}
 		return false;
