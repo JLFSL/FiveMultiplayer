@@ -104,7 +104,7 @@ void CNetworkManager::Disconnect()
 	g_SystemAddr = UNASSIGNED_SYSTEM_ADDRESS;
 
 	// Remove all existing players
-	for (int i = 0; i < g_Players.size(); i++) {
+	for (int i = (g_Players.size() - 1); i > -1; i--) {
 		g_Players[i].Destroy();
 		g_Players.erase(g_Players.begin() + i);
 	}
@@ -113,7 +113,7 @@ void CNetworkManager::Disconnect()
 	std::cout << "[CPlayerEntity] Players Online: " << g_Players.size() << std::endl;
 
 	// Remove all existing vehicles
-	for (int i = 0; i < g_Vehicles.size(); i++)
+	for (int i = (g_Vehicles.size() - 1); i > -1; i--)
 	{
 		g_Vehicles[i].Destroy();
 		g_Vehicles.erase(g_Vehicles.begin() + i);

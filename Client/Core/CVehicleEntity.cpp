@@ -73,10 +73,9 @@ void CVehicleEntity::Destroy()
 {
 	std::cout << "[CVehicleEntity] Removing Vehicle: " << Information.Id << std::endl;
 
-	ENTITY::DELETE_ENTITY(&Game.Vehicle);
+	VEHICLE::DELETE_VEHICLE(&Game.Vehicle);
 	Game.Created = false;
 	UI::REMOVE_BLIP(&Game.Blip);
-	Network.Assigned = UNASSIGNED_RAKNET_GUID;
 
 	Game = {};
 	Information = {};
@@ -94,7 +93,7 @@ void CVehicleEntity::Pulse()
 		int t_CurrentVehicle = GamePed::GetVehicleID(g_Core->GetLocalPlayer()->GetPed());
 
 		// Assignment System
-		if (Network.Assigned != RakNetGUID(12345) && Network.Assigned == UNASSIGNED_RAKNET_GUID && Occupants[0] == -1)
+		if (Network.Assigned == UNASSIGNED_RAKNET_GUID && Occupants[0] == -1)
 		{
 			if ((g_Core->GetLocalPlayer()->GetPos() - Data.Position).Length() < 50.0f)
 			{
