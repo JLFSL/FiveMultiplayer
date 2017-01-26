@@ -16,7 +16,7 @@ bool CAPI::Load(const char *Filename)
 #ifdef _WIN32
 	Instance = ::LoadLibraryA(Filename);
 #else
-	Instance = dlopen(Filename, RTLD_LAZY);
+	Instance = dlopen(Filename, RTLD_LAZY | RTLD_GLOBAL);
 #endif
 	if (!Instance)
 	{

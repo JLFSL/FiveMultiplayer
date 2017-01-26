@@ -53,6 +53,13 @@
 	#include "IniReader.h"
 	#include "ini.h"
 
+	// Network
+	#include "CNetworkManager.h"
+	#include "CServerEntity.h"
+	#include "CPlayerEntity.h"
+	#include "CVehicleEntity.h"
+	#include "NetworkSync.h"
+
 	// Server
 	#include "CConfig.h"
 	#include "CWorld.h"
@@ -68,13 +75,6 @@
 	#include "API_Entity.h"
 	#include "API_Vehicle.h"
 	#include "API_Visual.h"
-
-	// Network
-	#include "CNetworkManager.h"
-	#include "CServerEntity.h"
-	#include "CPlayerEntity.h"
-	#include "CVehicleEntity.h"
-	#include "NetworkSync.h"
 
 // End of Server.Launcher
 

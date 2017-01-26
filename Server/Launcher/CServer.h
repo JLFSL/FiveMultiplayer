@@ -4,6 +4,8 @@ class CServer
 {
 private:
 	static CServer* p_Instance;
+	std::unique_ptr<CNetworkManager> s_NetworkManager;
+	std::unique_ptr<CWorld> s_World;
 
 	bool			p_Active;
 
@@ -18,6 +20,9 @@ private:
 public:
 	CServer();
 	~CServer();
+
+	CNetworkManager *GetNetworkManager() { return s_NetworkManager.get(); }
+	CWorld *GetWorld() { return s_World.get(); }
 
 	bool Load(int argc, char ** argv);
 	void Stop();

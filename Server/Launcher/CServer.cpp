@@ -26,6 +26,12 @@ CServer::CServer()
 	// Construct CConfig
 	g_Config = new CConfig();
 
+	// Construct CNetworkManager
+	s_NetworkManager = std::unique_ptr<CNetworkManager>(new CNetworkManager);
+
+	// Construct CWorld
+	s_World = std::unique_ptr<CWorld>(new CWorld);
+
 	std::cout << "[CServer] Constructed" << std::endl;
 }
 
@@ -41,6 +47,7 @@ CServer::~CServer()
 
 bool CServer::Load(int argc, char ** argv)
 {
+
 #ifdef _WIN32
 	// Set Window Title containing the modname, modversion and build type
 	SetConsoleTitle(L"" INFO_NAME "(" INFO_VERSION ") - " INFO_BUILD);
@@ -60,7 +67,7 @@ bool CServer::Load(int argc, char ** argv)
 		return 1;
 	}
 
-	if (!CNetworkManager::instance()->Start())
+	if (!GetNetworkManager()->Start())
 	{
 		std::cout << "[CNetworkManager] Could not be started" << std::endl;
 		getc(stdin);
@@ -117,7 +124,7 @@ bool CServer::Load(int argc, char ** argv)
 		}
 	}
 #endif
-
+	
 	p_Active = true;
 	return true;
 }
@@ -139,7 +146,7 @@ void CServer::Stop()
 void CServer::Process()
 {
 	// Keep CNetworkManager active
-	CNetworkManager::instance()->Pulse();
+	GetNetworkManager()->Pulse();
 
 	// Pulse all players
 	for (int i = 0; i < g_Players.size(); i++) {

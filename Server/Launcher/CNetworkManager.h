@@ -2,8 +2,6 @@
 class CNetworkManager
 {
 private:
-	static std::unique_ptr<CNetworkManager> s_instance;
-
 	RakPeerInterface	*g_RakPeer;
 	RPC4				*g_RPC;
 
@@ -12,13 +10,6 @@ private:
 public:
 	CNetworkManager();
 	~CNetworkManager();
-
-	static CNetworkManager *instance()
-	{
-		if (!s_instance)
-			s_instance = std::unique_ptr<CNetworkManager>(new CNetworkManager);
-		return s_instance.get();
-	}
 
 	bool Start();
 	void Pulse();

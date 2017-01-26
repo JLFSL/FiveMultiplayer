@@ -1,7 +1,5 @@
 #include "stdafx.h"
 
-std::unique_ptr<CWorld>	CWorld::s_instance = nullptr;
-
 CWorld::CWorld()
 {
 	Time.Hour = 12;
@@ -21,8 +19,8 @@ void CWorld::SetTime(int hour, int minute, int second)
 	sData.Write(Time.Hour);
 	sData.Write(Time.Minute);
 	sData.Write(Time.Second);
-
-	CNetworkManager::instance()->GetRPC().Signal("SetTime", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
+	
+	g_Server->GetNetworkManager()->GetRPC().Signal("SetTime", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
 }
 
 void CWorld::SetWeather(std::string weather)
@@ -32,5 +30,5 @@ void CWorld::SetWeather(std::string weather)
 	RakNet::BitStream sData;
 	sData.Write(RakString(weather.c_str()));
 
-	CNetworkManager::instance()->GetRPC().Signal("SetWeather", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
+	g_Server->GetNetworkManager()->GetRPC().Signal("SetWeather", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
 }

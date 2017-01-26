@@ -81,7 +81,7 @@ void CVehicleEntity::Pulse()
 			bitstream.Write(Occupants[i]);
 		}
 
-		CNetworkManager::instance()->GetInterface()->Send(&bitstream, MEDIUM_PRIORITY, UNRELIABLE_SEQUENCED, 0, UNASSIGNED_RAKNET_GUID, true);
+		g_Server->GetNetworkManager()->GetInterface()->Send(&bitstream, MEDIUM_PRIORITY, UNRELIABLE_SEQUENCED, 0, UNASSIGNED_RAKNET_GUID, true);
 
 		Network.LastSyncSent = timeGetTime();
 	}
@@ -119,7 +119,7 @@ void CVehicleEntity::RequestData(RakNetGUID requester)
 	// Assignment Data
 	sData.Write(Information.Id);
 	sData.Write(Network.Assigned);
-	CNetworkManager::instance()->GetRPC().Signal("TakeEntityAssignment", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, requester, false, false);
+	g_Server->GetNetworkManager()->GetRPC().Signal("TakeEntityAssignment", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, requester, false, false);
 
 	sData.Reset();
 }

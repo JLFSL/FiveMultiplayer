@@ -25,7 +25,7 @@ namespace RPC
 				RakNet::BitStream sData;
 				sData.Write(entity);
 				sData.Write(packet->guid);
-				CNetworkManager::instance()->GetRPC().Signal("TakeEntityAssignment", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, packet->guid, true, false);
+				g_Server->GetNetworkManager()->GetRPC().Signal("TakeEntityAssignment", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, packet->guid, true, false);
 			}
 		}
 
@@ -43,7 +43,7 @@ namespace RPC
 
 					RakNet::BitStream sData;
 					sData.Write(entity);
-					CNetworkManager::instance()->GetRPC().Signal("DropEntityAssignment", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, packet->guid, true, false);
+					g_Server->GetNetworkManager()->GetRPC().Signal("DropEntityAssignment", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, packet->guid, true, false);
 				}
 			}
 		}

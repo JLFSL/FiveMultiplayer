@@ -60,7 +60,7 @@ void CServerEntity::SetPosition(CVector3 position)
 					sData.Write(position.fY);
 					sData.Write(position.fZ);
 
-					CNetworkManager::instance()->GetRPC().Signal("SetPosition", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, g_Players[i].GetGUID(), false, false);
+					g_Server->GetNetworkManager()->GetRPC().Signal("SetPosition", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, g_Players[i].GetGUID(), false, false);
 
 					g_Players[i].SetPosition(position);
 					return;
