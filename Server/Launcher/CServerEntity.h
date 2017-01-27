@@ -25,6 +25,7 @@ public:
 	~CServerEntity() { };
 
 	int			Create();
+	void		Destroy();
 
 	Type		GetType() { return Data.type; }
 	void		SetType(Type type);
@@ -45,6 +46,7 @@ extern std::vector<CServerEntity> g_Entities;
 
 namespace ServerEntity
 {
+	int			GetIndex(int entity);
 	bool		IsValid(int entity);
 	RakNetGUID	GetAssignee(int entity);
 	void		SetAssignee(int entity, RakNetGUID assignee);

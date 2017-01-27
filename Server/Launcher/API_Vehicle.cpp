@@ -14,19 +14,5 @@ namespace API
 
 			return newVehicle.GetId();
 		}
-
-		void RemoveVehicle(int entity)
-		{
-			if (!g_Vehicles.empty())
-			{
-				for (int i = 0; i < g_Vehicles.size(); i++)
-				{
-					if (g_Vehicles[i].GetId() == entity)
-					{
-						g_Vehicles[i].Destroy();
-					}
-				}
-			}
-		}
 	}
 }

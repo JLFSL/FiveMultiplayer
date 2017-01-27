@@ -6,6 +6,11 @@ namespace API
 	{
 		const char *ThisNamespace = "API::Entity";
 
+		void Destroy(int entity)
+		{
+			g_Entities[entity].Destroy();
+		}
+
 		CVector3 GetPosition(int entity)
 		{
 			if (!g_Entities.empty())

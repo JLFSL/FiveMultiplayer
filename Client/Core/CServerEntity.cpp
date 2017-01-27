@@ -8,6 +8,47 @@ void CServerEntity::Create(int entity)
 		Data.Id = (int)g_Entities.size();
 }
 
+void CServerEntity::Destroy()
+{
+	switch (Data.type)
+	{
+	case Player:
+		if (!g_Players.empty())
+		{
+			for (int i = 0; i < g_Players.size(); i++)
+			{
+				if (g_Players[i].GetId() == Data.Id)
+					g_Players[i].Destroy();
+			}
+		}
+
+		Data = {};
+
+		std::cout << std::endl << "[CServerEntity::Destroy] Invalid player ID: " << Data.Id << std::endl;
+		break;
+	case Vehicle:
+		if (!g_Vehicles.empty())
+		{
+			for (int i = 0; i < g_Vehicles.size(); i++)
+			{
+				if (g_Vehicles[i].GetId() == Data.Id)
+					g_Vehicles[i].Destroy();
+			}
+		}
+
+		Data = {};
+
+		std::cout << std::endl << "[CServerEntity::Destroy] Invalid vehicle ID: " << Data.Id << std::endl;
+		break;
+	case Object:
+		std::cout << std::endl << "[CServerEntity::Destroy] Invalid object ID: " << Data.Id << std::endl;
+		break;
+	default:
+		std::cout << std::endl << "[CServerEntity::Destroy] Invalid entity" << std::endl;
+		break;
+	}
+}
+
 void CServerEntity::SetType(Type type)
 {
 	Data.type = type;

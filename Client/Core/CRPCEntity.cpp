@@ -1,5 +1,24 @@
 #include "stdafx.h"
 
+void CRPCEntity::Destroy(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+{
+	int entity, type;
+
+	bitStream->Read(entity);
+	bitStream->Read(type);
+
+	if (entity != -1)
+	{
+		for (int i = 0; i < g_Entities.size(); i++)
+		{
+			if (g_Entities[i].GetId() == entity)
+			{
+				g_Entities[i].Destroy();
+			}
+		}
+	}
+}
+
 void CRPCEntity::SetPosition(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 {
 	int entity;
@@ -31,10 +50,9 @@ void CRPCEntity::TakeEntityAssignment(RakNet::BitStream *bitStream, RakNet::Pack
 
 	bitStream->Read(entity);
 	bitStream->Read(guid);
-	std::cout << "RequestData entity " << std::endl;
+
 	if (ServerEntity::IsValid(entity))
 	{
-		std::cout << "RequestData entity " << entity << " to " << guid.ToString() << std::endl;
 		ServerEntity::SetAssignee(entity, guid);
 	}
 }

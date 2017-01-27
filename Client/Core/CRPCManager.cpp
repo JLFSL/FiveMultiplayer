@@ -11,7 +11,8 @@ CRPCManager::RPCMessage rpcmessages[] = {
 #pragma region Entity
 	{ "SetPosition", CRPCEntity::SetPosition },
 	{ "TakeEntityAssignment", CRPCEntity::TakeEntityAssignment },
-	{ "DropEntityAssignment", CRPCEntity::DropEntityAssignment }
+	{ "DropEntityAssignment", CRPCEntity::DropEntityAssignment },
+	{ "DestroyEntity", CRPCEntity::Destroy }
 #pragma endregion
 };
 

@@ -4,6 +4,7 @@ extern "C" {
 	{
 		namespace Entity
 		{
+			DLL_PUBLIC void Destroy(int entity);
 			DLL_PUBLIC CVector3 GetPosition(int entity);
 			DLL_PUBLIC void SetPosition(int entity, CVector3 position);
 		}

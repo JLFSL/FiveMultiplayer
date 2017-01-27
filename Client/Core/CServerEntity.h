@@ -23,6 +23,7 @@ public:
 	~CServerEntity() {}
 
 	void Create(int entity);
+	void Destroy();
 
 	void SetId(int id) { Data.Id = id; }
 
