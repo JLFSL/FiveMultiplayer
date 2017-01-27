@@ -14,6 +14,10 @@ private:
 	struct Entity {
 		int Id;
 		Type type;
+
+		CPlayerEntity *player;
+		CVehicleEntity *vehicle;
+		//CObjectEntity *object;
 	} Data;
 
 public:
@@ -24,6 +28,10 @@ public:
 
 	Type		GetType() { return Data.type; }
 	void		SetType(Type type);
+
+	void		SetEntity(CPlayerEntity *player) { Data.player = player; };
+	void		SetEntity(CVehicleEntity *vehicle) { Data.vehicle = vehicle; };
+	//void		SetEntity(CObjectEntity *object) { Data.object = object; };
 
 	int			GetId() { return Data.Id; };
 

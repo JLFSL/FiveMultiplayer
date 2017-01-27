@@ -56,9 +56,9 @@
 
 	// Network
 	#include "CNetworkManager.h"
-	#include "CServerEntity.h"
 	#include "CPlayerEntity.h"
 	#include "CVehicleEntity.h"
+	#include "CServerEntity.h"
 	#include "NetworkSync.h"
 
 	// Server

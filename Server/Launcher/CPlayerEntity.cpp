@@ -6,6 +6,7 @@ void CPlayerEntity::Create(std::string Name, RakNetGUID GUID, SystemAddress Ip)
 {
 	CServerEntity newServerEntity;
 	newServerEntity.SetType(newServerEntity.Player);
+	newServerEntity.SetEntity(this);
 
 	Information.Name = Name;
 	Information.Entity = newServerEntity.Create();

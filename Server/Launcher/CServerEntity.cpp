@@ -20,18 +20,15 @@ CVector3 CServerEntity::GetPosition()
 	switch(Data.type)
 	{
 	case Player:
-		if (!g_Players.empty())
-		{
-			for (int i = 0; i < g_Players.size(); i++)
-			{
-				if(g_Players[i].GetEntity() == Data.Id)
-					return g_Players[i].GetPosition();
-			}
-		}
+		if (Data.player)
+			return Data.player->GetPosition();
 
 		std::cout << "[CServerEntity::GetPosition] Invalid player ID: " << Data.Id << std::endl;
 		break;
 	case Vehicle:
+		if (Data.vehicle)
+			return Data.vehicle->GetPosition();
+
 		std::cout << "[CServerEntity::GetPosition] Invalid vehicle ID: " << Data.Id << std::endl;
 		break;
 	case Object:
@@ -45,33 +42,38 @@ CVector3 CServerEntity::GetPosition()
 
 void CServerEntity::SetPosition(CVector3 position)
 {
+	RakNet::BitStream sData;
 	switch(Data.type)
 	{
 	case Player:
-		if (!g_Players.empty())
+		if (Data.player)
 		{
-			for (int i = 0; i < g_Players.size(); i++)
-			{
-				if (g_Players[i].GetEntity() == Data.Id)
-				{
-					RakNet::BitStream sData;
-					sData.Write(-1);
-					sData.Write(position.fX);
-					sData.Write(position.fY);
-					sData.Write(position.fZ);
+			sData.Write(-1);
+			sData.Write(position.fX);
+			sData.Write(position.fY);
+			sData.Write(position.fZ);
 
-					g_Server->GetNetworkManager()->GetRPC().Signal("SetPosition", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, g_Players[i].GetGUID(), false, false);
+			g_Server->GetNetworkManager()->GetRPC().Signal("SetPosition", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, Data.player->GetGUID(), false, false);
 
-					g_Players[i].SetPosition(position);
-					return;
-				}
-			}
+			Data.player->SetPosition(position);
 		}
-
-		std::cout << "[CServerEntity::SetPosition] Invalid player ID: " << Data.Id << std::endl;
+		else
+			std::cout << "[CServerEntity::SetPosition] Invalid player ID: " << Data.Id << std::endl;
 		break;
 	case Vehicle:
-		std::cout << "[CServerEntity::SetPosition] Invalid vehicle ID: " << Data.Id << std::endl;
+		if (Data.vehicle)
+		{
+			sData.Write(1);
+			sData.Write(position.fX);
+			sData.Write(position.fY);
+			sData.Write(position.fZ);
+
+			g_Server->GetNetworkManager()->GetRPC().Signal("SetPosition", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
+
+			Data.vehicle->SetPosition(position);
+		}
+		else
+			std::cout << "[CServerEntity::SetPosition] Invalid vehicle ID: " << Data.Id << std::endl;
 		break;
 	case Object:
 		std::cout << "[CServerEntity::SetPosition] Invalid object ID: " << Data.Id << std::endl;
