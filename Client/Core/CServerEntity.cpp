@@ -97,16 +97,16 @@ namespace ServerEntity
 				switch (g_Entities[i].GetType())
 				{
 				case 0: // Player
-					for (int i = 0; i < g_Players.size(); i++)
+					for (int v = 0; v < g_Players.size(); v++)
 					{
-						if (entity == g_Players[i].GetId())
+						if (entity == g_Players[v].GetId())
 							return true;
 					}
 					break;
 				case 1: // Vehicle
-					for (int i = 0; i < g_Vehicles.size(); i++)
+					for (int v = 0; v < g_Vehicles.size(); v++)
 					{
-						if (entity == g_Vehicles[i].GetId())
+						if (entity == g_Vehicles[v].GetId())
 							return true;
 					}
 					break;
@@ -139,10 +139,10 @@ namespace ServerEntity
 					return UNASSIGNED_RAKNET_GUID;
 					break;
 				case 1: // Vehicle
-					for (int i = 0; i < g_Vehicles.size(); i++)
+					for (int v = 0; v < g_Vehicles.size(); v++)
 					{
-						if (entity == g_Vehicles[i].GetId())
-							return g_Vehicles[i].GetAssignee();
+						if (entity == g_Vehicles[v].GetId())
+							return g_Vehicles[v].GetAssignee();
 					}
 					break;
 				case 2: // Object
@@ -173,14 +173,11 @@ namespace ServerEntity
 				case 0: // Player
 					break;
 				case 1: // Vehicle
-					for (int i = 0; i < g_Vehicles.size(); i++)
+					for (int v = 0; v < g_Vehicles.size(); v++)
 					{
-						if (entity == g_Vehicles[i].GetId())
+						if (entity == g_Vehicles[v].GetId())
 						{
-							ENTITY::FREEZE_ENTITY_POSITION(g_Vehicles[i].GetEntity(), TRUE);
-							ENTITY::SET_ENTITY_DYNAMIC(g_Vehicles[i].GetEntity(), FALSE);
-
-							return g_Vehicles[i].SetAssignee(assignee);
+							return g_Vehicles[v].SetAssignee(assignee);
 							break;
 						}
 					}

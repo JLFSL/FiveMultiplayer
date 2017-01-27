@@ -14,7 +14,7 @@ private:
 
 	struct PlayerData {
 		struct PlayerModelData {
-			unsigned long	Model;
+			std::string		Model;
 			int				Type;
 		} Model;
 

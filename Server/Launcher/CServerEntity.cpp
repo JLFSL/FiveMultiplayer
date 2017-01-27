@@ -137,10 +137,10 @@ namespace ServerEntity
 					return UNASSIGNED_RAKNET_GUID;
 					break;
 				case 1: // Vehicle
-					for (int i = 0; i < g_Vehicles.size(); i++)
+					for (int v = 0; v < g_Vehicles.size(); v++)
 					{
-						if (entity == g_Vehicles[i].GetId())
-							return g_Vehicles[i].GetAssignee();
+						if (entity == g_Vehicles[v].GetId())
+							return g_Vehicles[v].GetAssignee();
 					}
 					break;
 				case 2: // Object
@@ -171,10 +171,10 @@ namespace ServerEntity
 				case 0: // Player
 					break;
 				case 1: // Vehicle
-					for (int i = 0; i < g_Vehicles.size(); i++)
+					for (int v = 0; v < g_Vehicles.size(); v++)
 					{
-						if (entity == g_Vehicles[i].GetId())
-							return g_Vehicles[i].SetAssignee(assignee);
+						if (entity == g_Vehicles[v].GetId())
+							return g_Vehicles[v].SetAssignee(assignee);
 					}
 					break;
 				case 2: // Object
@@ -203,10 +203,10 @@ namespace ServerEntity
 				case 0: // Player
 					break;
 				case 1: // Vehicle
-					for (int i = 0; i < g_Vehicles.size(); i++)
+					for (int v = 0; v < g_Vehicles.size(); v++)
 					{
-						if (entity == g_Vehicles[i].GetId())
-							return g_Vehicles[i].RequestData(requester);
+						if (entity == g_Vehicles[v].GetId())
+							return g_Vehicles[v].RequestData(requester);
 					}
 					break;
 				case 2: // Object

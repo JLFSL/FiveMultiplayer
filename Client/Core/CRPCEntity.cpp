@@ -31,9 +31,10 @@ void CRPCEntity::TakeEntityAssignment(RakNet::BitStream *bitStream, RakNet::Pack
 
 	bitStream->Read(entity);
 	bitStream->Read(guid);
-
+	std::cout << "RequestData entity " << std::endl;
 	if (ServerEntity::IsValid(entity))
 	{
+		std::cout << "RequestData entity " << entity << " to " << guid.ToString() << std::endl;
 		ServerEntity::SetAssignee(entity, guid);
 	}
 }

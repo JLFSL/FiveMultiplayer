@@ -122,6 +122,6 @@ void CVehicleEntity::RequestData(RakNetGUID requester)
 	sData.Write(Information.Id);
 	sData.Write(Network.Assigned);
 	g_Server->GetNetworkManager()->GetRPC().Signal("TakeEntityAssignment", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, requester, false, false);
-
+	
 	sData.Reset();
 }

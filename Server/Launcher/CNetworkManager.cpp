@@ -61,11 +61,9 @@ bool CNetworkManager::Start()
 void CNetworkManager::Pulse()
 {
 	Packet *g_Packet = NULL;
-
 	while (g_Packet = g_RakPeer->Receive())
 	{
 		BitStream g_BitStream(g_Packet->data + 1, g_Packet->length + 1, false);
-
 		switch (g_Packet->data[0])
 		{
 			case ID_NEW_INCOMING_CONNECTION:

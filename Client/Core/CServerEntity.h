@@ -24,6 +24,8 @@ public:
 
 	void Create(int entity);
 
+	void SetId(int id) { Data.Id = id; }
+
 	Type GetType() { return Data.type; }
 	void SetType(Type type);
 

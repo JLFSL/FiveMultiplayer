@@ -59,7 +59,7 @@ public:
 	CVehicleEntity();
 	~CVehicleEntity() { };
 
-	void Create(int entityid);
+	void Create(int entity);
 	void CreateVehicle();
 	void RequestData();
 	void Destroy();

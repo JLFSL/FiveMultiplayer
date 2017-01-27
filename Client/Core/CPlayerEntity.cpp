@@ -2,7 +2,7 @@
 
 void CPlayerEntity::Create(std::string Name, RakNetGUID GUID, int entity) {
 	CServerEntity newServerEntity;
-	newServerEntity.Create(entity);
+	newServerEntity.SetId(entity);
 	newServerEntity.SetType(newServerEntity.Player);
 	g_Entities.push_back(newServerEntity);
 
@@ -21,13 +21,14 @@ void CPlayerEntity::Create(std::string Name, RakNetGUID GUID, int entity) {
 
 void CPlayerEntity::CreatePed()
 {
-	if (STREAMING::IS_MODEL_IN_CDIMAGE(Data.Model.Model) && STREAMING::IS_MODEL_VALID(Data.Model.Model))
+	Data.Model.hModel = GAMEPLAY::GET_HASH_KEY((char*)Data.Model.Model.c_str());
+	if (STREAMING::IS_MODEL_IN_CDIMAGE(Data.Model.hModel) && STREAMING::IS_MODEL_VALID(Data.Model.hModel))
 	{
-		STREAMING::REQUEST_MODEL(Data.Model.Model);
-		while (!STREAMING::HAS_MODEL_LOADED(Data.Model.Model)) WAIT(0);
-		Game.Ped = PED::CREATE_PED(Data.Model.Type, Data.Model.Model, Data.Position.fX, Data.Position.fY, Data.Position.fZ, 0.0f, false, true);
+		STREAMING::REQUEST_MODEL(Data.Model.hModel);
+		while (!STREAMING::HAS_MODEL_LOADED(Data.Model.hModel)) WAIT(0);
+		Game.Ped = PED::CREATE_PED(Data.Model.Type, Data.Model.hModel, Data.Position.fX, Data.Position.fY, Data.Position.fZ, 0.0f, false, true);
 
-		STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(Data.Model.Model);
+		STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(Data.Model.hModel);
 
 		ENTITY::SET_ENTITY_NO_COLLISION_ENTITY(g_Core->GetLocalPlayer()->GetPed(), Game.Ped, false);
 		ENTITY::SET_ENTITY_NO_COLLISION_ENTITY(Game.Ped, g_Core->GetLocalPlayer()->GetPed(), false);
@@ -94,11 +95,17 @@ void CPlayerEntity::Update(Packet *packet)
 	bitstream.Read(Network.GUID);
 
 	bitstream.Read(Information.Id);
-	bitstream.Read(Information.Name);
+
+	RakString name;
+	bitstream.Read(name);
+	Information.Name = name.C_String();
 
 	bitstream.Read(Statistics.Score);
 
-	bitstream.Read(Data.Model.Model);
+	RakString model;
+	bitstream.Read(model);
+	Data.Model.Model = model.C_String();
+
 	bitstream.Read(Data.Model.Type);
 
 	bitstream.Read(Data.Weapon.Weapon);
@@ -286,7 +293,7 @@ void CPlayerEntity::UpdateTargetAnimations()
 
 		if (Data.ForwardSpeed < 2.0f && Data.ForwardSpeed > 1.0f && Data.Model.MovementState != 1)
 		{
-			animation.GetAnimalAnimation(Data.Model.Model, 1, &dict, &name);
+			animation.GetAnimalAnimation(Data.Model.hModel, 1, &dict, &name);
 
 			if (!STREAMING::HAS_ANIM_DICT_LOADED((char*)dict.c_str()))
 				STREAMING::REQUEST_ANIM_DICT((char*)dict.c_str());
@@ -296,7 +303,7 @@ void CPlayerEntity::UpdateTargetAnimations()
 		}
 		else if (Data.ForwardSpeed > 2.0f && Data.ForwardSpeed <= 5.2f && Data.Model.MovementState != 2)
 		{
-			animation.GetAnimalAnimation(Data.Model.Model, 2, &dict, &name);
+			animation.GetAnimalAnimation(Data.Model.hModel, 2, &dict, &name);
 
 			if (!STREAMING::HAS_ANIM_DICT_LOADED((char*)dict.c_str()))
 				STREAMING::REQUEST_ANIM_DICT((char*)dict.c_str());
@@ -306,7 +313,7 @@ void CPlayerEntity::UpdateTargetAnimations()
 		}
 		else if (Data.ForwardSpeed > 5.2f && Data.Model.MovementState != 3)
 		{
-			animation.GetAnimalAnimation(Data.Model.Model, 3, &dict, &name);
+			animation.GetAnimalAnimation(Data.Model.hModel, 3, &dict, &name);
 
 			if (!STREAMING::HAS_ANIM_DICT_LOADED((char*)dict.c_str()))
 				STREAMING::REQUEST_ANIM_DICT((char*)dict.c_str());
@@ -316,7 +323,7 @@ void CPlayerEntity::UpdateTargetAnimations()
 		}
 		else if (Data.ForwardSpeed < 1.0f && Data.Model.MovementState != 0)
 		{
-			animation.GetAnimalAnimation(Data.Model.Model, 0, &dict, &name);
+			animation.GetAnimalAnimation(Data.Model.hModel, 0, &dict, &name);
 
 			if (!STREAMING::HAS_ANIM_DICT_LOADED((char*)dict.c_str()))
 				STREAMING::REQUEST_ANIM_DICT((char*)dict.c_str());
@@ -397,7 +404,7 @@ void CPlayerEntity::UpdateTargetData()
 
 bool CPlayerEntity::IsTargetAnimal()
 {
-	switch (Data.Model.Model)
+	switch (Data.Model.hModel)
 	{
 	case -832573324:
 	case 1462895032:

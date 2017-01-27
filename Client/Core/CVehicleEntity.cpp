@@ -4,7 +4,7 @@ CVehicleEntity::CVehicleEntity()
 {
 	Game.Created = false; 
 	Game.Vehicle = NULL; 
-	Network.Assigned = UNASSIGNED_RAKNET_GUID;
+	Network.Assigned = RakNetGUID(12345);
 	
 	for (int i = 0; i < SizeOfArray(Occupants); i++) 
 	{ 
@@ -12,9 +12,14 @@ CVehicleEntity::CVehicleEntity()
 	}
 }
 
-void CVehicleEntity::Create(int entityid)
+void CVehicleEntity::Create(int entity)
 {
-	Information.Id	= entityid;
+	Information.Id	= entity;
+
+	CServerEntity newServerEntity;
+	newServerEntity.SetId(entity);
+	newServerEntity.SetType(newServerEntity.Vehicle);
+	g_Entities.push_back(newServerEntity);
 
 	std::cout << "[CVehicleEntity] Added Vehicle: " << Information.Id << std::endl;
 }
@@ -55,6 +60,7 @@ void CVehicleEntity::CreateVehicle()
 	DECORATOR::DECOR_SET_BOOL(Game.Vehicle, "FiveMP_Vehicle", TRUE);
 
 	ENTITY::FREEZE_ENTITY_POSITION(Game.Vehicle, FALSE);
+	ENTITY::SET_ENTITY_DYNAMIC(Game.Vehicle, TRUE);
 	std::cout << "[CVehicleEntity] Created Vehicle" << std::endl;
 	Game.Created = true;
 
@@ -93,13 +99,10 @@ void CVehicleEntity::Pulse()
 		int t_CurrentVehicle = GamePed::GetVehicleID(g_Core->GetLocalPlayer()->GetPed());
 
 		// Assignment System
-		if (Network.Assigned == UNASSIGNED_RAKNET_GUID && Occupants[0] == -1)
+		if (Network.Assigned != RakNetGUID(12345) && Network.Assigned == UNASSIGNED_RAKNET_GUID && Occupants[0] == -1)
 		{
 			if ((g_Core->GetLocalPlayer()->GetPos() - Data.Position).Length() < 50.0f)
 			{
-				ENTITY::FREEZE_ENTITY_POSITION(Game.Vehicle, FALSE);
-				ENTITY::SET_ENTITY_DYNAMIC(Game.Vehicle, TRUE);
-
 				Network.Assigned = g_Core->GetNetworkManager()->GetInterface()->GetMyGUID();
 
 				RakNet::BitStream sData;
@@ -113,9 +116,6 @@ void CVehicleEntity::Pulse()
 			{
 				if ((g_Core->GetLocalPlayer()->GetPos() - Data.Position).Length() > 50.0f)
 				{
-					ENTITY::SET_ENTITY_DYNAMIC(Game.Vehicle, FALSE);
-					ENTITY::FREEZE_ENTITY_POSITION(Game.Vehicle, TRUE);
-
 					Network.Assigned = UNASSIGNED_RAKNET_GUID;
 
 					RakNet::BitStream sData;
@@ -128,8 +128,6 @@ void CVehicleEntity::Pulse()
 		// Sync
 		if (t_CurrentVehicle != Information.Id && g_Core->GetNetworkManager()->GetInterface()->GetMyGUID() != Network.Assigned)
 		{
-			ENTITY::SET_ENTITY_DYNAMIC(Game.Vehicle, FALSE);
-			ENTITY::FREEZE_ENTITY_POSITION(Game.Vehicle, TRUE);
 			Interpolate();
 		}
 		else 

@@ -28,9 +28,12 @@ public:
 
 	Type		GetType() { return Data.type; }
 	void		SetType(Type type);
-
-	void		SetEntity(CPlayerEntity *player) { Data.player = player; };
-	void		SetEntity(CVehicleEntity *vehicle) { Data.vehicle = vehicle; };
+	
+	CPlayerEntity* GetPEntity() { return Data.player; }
+	void		SetEntity(CPlayerEntity *player) { Data.player = player; }
+	CVehicleEntity* GetVEntity() { return Data.vehicle; }
+	void		SetEntity(CVehicleEntity *vehicle) { Data.vehicle = vehicle; }
+	//CObjectEntity* GetOEntity() { return Data.object; }
 	//void		SetEntity(CObjectEntity *object) { Data.object = object; };
 
 	int			GetId() { return Data.Id; };

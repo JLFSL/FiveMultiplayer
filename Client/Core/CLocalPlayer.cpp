@@ -58,8 +58,7 @@ void CLocalPlayer::Pulse()
 		bitstream.Write(Information.Name);*/
 
 		bitstream.Write(Statistics.Score);
-
-		bitstream.Write(Data.Model.Model);
+		
 		bitstream.Write(Data.Model.Type);
 
 		bitstream.Write(Data.Weapon.Weapon);

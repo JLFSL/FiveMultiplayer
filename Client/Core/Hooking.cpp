@@ -106,9 +106,15 @@ void __stdcall ScriptFunction(LPVOID lpParameter)
 				SwitchToFiber(mainFiber);
 			}
 		}
+		catch (const std::exception &e)
+		{
+			std::ostringstream oss;
+			oss << "Failed scriptFiber: " << e.what();
+			Logger::Fatal(oss.str().c_str());
+		}
 		catch (...)
 		{
-			Logger::Fatal("Failed scriptFiber");
+			Logger::Fatal("Failed scriptFiber: Unknown error");
 		}
 	}
 	else

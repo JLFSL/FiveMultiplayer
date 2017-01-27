@@ -88,8 +88,8 @@
 	// Entity
 	#include "CLocalPlayer.h"
 	#include "CVehicleEntity.h"
-	#include "CServerEntity.h"
 	#include "CPlayerEntity.h"
+	#include "CServerEntity.h"
 
 	// Network
 	#include "CNetworkManager.h"

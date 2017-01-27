@@ -20,7 +20,8 @@ private:
 	
 	struct PlayerData {
 		struct PlayerModelData {
-			Hash		Model;
+			std::string	Model;
+			Hash		hModel;
 			int			Type;
 			int			MovementState;
 		} Model;
