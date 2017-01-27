@@ -29,7 +29,7 @@ void CVehicleEntity::Create(std::string model, CVector3 position, float heading)
 	std::cout << "[CVehicleEntity] Create Vehicle [" << Information.Id << "] " << Data.Model.c_str() << " at " << Data.Position.fX << ", " << Data.Position.fY << ", " << Data.Position.fZ << std::endl;
 	std::cout << "[CVehicleEntity] " << Amount << " vehicles in the world." << std::endl;
 
-	Network.LastSyncSent = timeGetTime();
+	Network.LastSyncSent = std::chrono::system_clock::now();
 	Network.Synchronized = true;
 }
 
@@ -50,7 +50,8 @@ void CVehicleEntity::Destroy()
 
 void CVehicleEntity::Pulse()
 {
-	if (Network.LastSyncSent + (1000 / CServer::GetInstance()->GetSyncRate()) <= timeGetTime())
+	if (std::chrono::duration_cast<std::chrono::milliseconds>(Network.LastSyncSent.time_since_epoch()).count() + (1000 / CServer::GetInstance()->GetSyncRate()) 
+		<= std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count())
 	{
 		BitStream bitstream;
 		bitstream.Write((unsigned char)ID_PACKET_VEHICLE);
@@ -83,7 +84,7 @@ void CVehicleEntity::Pulse()
 
 		g_Server->GetNetworkManager()->GetInterface()->Send(&bitstream, MEDIUM_PRIORITY, UNRELIABLE_SEQUENCED, 0, UNASSIGNED_RAKNET_GUID, true);
 
-		Network.LastSyncSent = timeGetTime();
+		Network.LastSyncSent = std::chrono::system_clock::now();
 	}
 }
 

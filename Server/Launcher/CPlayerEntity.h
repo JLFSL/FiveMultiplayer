@@ -37,7 +37,7 @@ private:
 	} Data;
 
 	struct PlayerNetwork {
-		unsigned long		LastSyncSent;
+		std::chrono::time_point<std::chrono::system_clock> LastSyncSent;
 		bool				Synchronized;
 		RakNetGUID			GUID;
 		SystemAddress		Ip;

@@ -22,7 +22,7 @@ void CPlayerEntity::Create(std::string Name, RakNetGUID GUID, SystemAddress Ip)
 	std::cout << "[CPlayerEntity] Added Player: " << Information.Name << " [" << Network.Ip.ToString(false) << "]" << std::endl;
 	std::cout << "[CPlayerEntity] Players Online: " << Amount << std::endl;
 
-	Network.LastSyncSent = timeGetTime();
+	Network.LastSyncSent = std::chrono::system_clock::now();
 	Network.Synchronized = true;
 }
 
@@ -48,7 +48,8 @@ void CPlayerEntity::Destroy()
 
 void CPlayerEntity::Pulse()
 {
-	if (Network.LastSyncSent + (1000 / CServer::GetInstance()->GetSyncRate()) <= timeGetTime() && Information.Entity != -1 && Information.PlayerID != -1)
+	if (std::chrono::duration_cast<std::chrono::milliseconds>(Network.LastSyncSent.time_since_epoch()).count() + (1000 / CServer::GetInstance()->GetSyncRate()) 
+		<= std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count() && Information.Entity != -1 && Information.PlayerID != -1)
 	{
 		BitStream bitstream;
 		bitstream.Write((unsigned char)ID_PACKET_PLAYER);
@@ -85,7 +86,8 @@ void CPlayerEntity::Pulse()
 
 		g_Server->GetNetworkManager()->GetInterface()->Send(&bitstream, MEDIUM_PRIORITY, UNRELIABLE_SEQUENCED, 0, UNASSIGNED_RAKNET_GUID, true);
 
-		Network.LastSyncSent = timeGetTime();
+		Network.LastSyncSent = std::chrono::system_clock::now();
+		//timeGetTime();
 	}
 }
 

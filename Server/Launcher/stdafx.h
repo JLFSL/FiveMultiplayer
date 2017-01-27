@@ -26,6 +26,7 @@
 #include <cstdio>
 #include <functional>
 #include <memory>
+#include <chrono>
 
 // Shared
 #include <Common.h>
