@@ -6,6 +6,9 @@ void CPlayerEntity::Create(std::string Name, RakNetGUID GUID, int entity) {
 	newServerEntity.SetType(newServerEntity.Player);
 	g_Entities.push_back(newServerEntity);
 
+	Game.Ped = 0;
+	Game.Blip = 0;
+
 	Information.Name = Name;
 	Information.Id = entity;
 	Network.GUID = GUID;
@@ -59,9 +62,11 @@ void CPlayerEntity::Destroy()
 {
 	std::cout << "[CPlayerEntity] Removing Player: " << Information.Id << std::endl;
 	
-	ENTITY::DELETE_ENTITY(&Game.Ped);
+	if(Game.Ped)
+		ENTITY::DELETE_ENTITY(&Game.Ped);
 	Game.Created = false;
-	UI::REMOVE_BLIP(&Game.Blip);
+	if(Game.Blip)
+		UI::REMOVE_BLIP(&Game.Blip);
 
 	Game = {};
 	Information = {};
