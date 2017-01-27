@@ -4,7 +4,7 @@ CVehicleEntity::CVehicleEntity()
 {
 	Game.Created = false; 
 	Game.Vehicle = NULL; 
-	Network.Assigned = RakNetGUID(12345);
+	Network.Assigned = UNASSIGNED_RAKNET_GUID;
 	
 	for (int i = 0; i < SizeOfArray(Occupants); i++) 
 	{ 
@@ -128,6 +128,8 @@ void CVehicleEntity::Pulse()
 		// Sync
 		if (t_CurrentVehicle != Information.Id && g_Core->GetNetworkManager()->GetInterface()->GetMyGUID() != Network.Assigned)
 		{
+			ENTITY::SET_ENTITY_DYNAMIC(Game.Vehicle, FALSE);
+			ENTITY::FREEZE_ENTITY_POSITION(Game.Vehicle, TRUE);
 			Interpolate();
 		}
 		else 
