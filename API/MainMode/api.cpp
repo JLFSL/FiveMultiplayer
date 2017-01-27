@@ -66,7 +66,9 @@ extern "C" DLL_PUBLIC bool API_OnPlayerConnecting(const std::string guid )
 	oss << "Player connecting with [guid: " << guid << "]";
 	API::Server::PrintMessage(oss.str());
 
+	oss.str(std::string());
 	oss.clear();
+
 	oss << "~p~You are Connecting [guid: " << guid << "]";
 	API::Visual::ShowMessageAboveMap(oss.str(), "CHAR_DEFAULT", 1, "Server", "Connecting...");
 	return true;
@@ -83,7 +85,10 @@ extern "C" DLL_PUBLIC bool API_OnPlayerConnected(int entity, int playerid)
 
 	
 	CVector3 position = API::Entity::GetPosition(entity);
+	
+	oss.str(std::string());
 	oss.clear();
+
 	oss << "~p~Position: " << position.fX << " " << position.fY << " " << position.fZ;
 	API::Visual::ShowMessageAboveMap(oss.str().c_str(), "CHAR_CREATOR_PORTRAITS", 5, "Server", "Position");
 	return true;
