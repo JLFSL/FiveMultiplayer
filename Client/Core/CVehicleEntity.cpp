@@ -356,3 +356,36 @@ void CVehicleEntity::SetTargetRotation()
 void CVehicleEntity::UpdateTargetData()
 {
 }
+
+
+Vehicle CVehicleEntity::getClosestVehicleFromPedPos(Ped ped, int maxDistance)
+{
+
+	Vector3 ppos = ENTITY::GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(ped, 0.0, 0.0, -1.0f);
+	CVector3 playerPos = CVector3(ppos.x, ppos.y, ppos.z);
+
+	Vehicle vehicle = 0;
+	float lastMaxDistance = maxDistance;
+
+	if (!g_Vehicles.empty())
+	{
+		for (int i = 0; i < g_Vehicles.size(); i++)
+		{
+			if (g_Vehicles[i].GetId() != -1)
+			{
+				Vector3 vpos = ENTITY::GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(g_Vehicles[i].GetEntity(), 0.0, 0.0, 0.0f);
+				CVector3 vehiclePos = CVector3(vpos.x, vpos.y, vpos.z);
+
+				float distance = Math::GetDistanceBetweenPoints3D(ppos.x, ppos.y, ppos.z, vpos.x, vpos.y, vpos.z);
+				if (distance < lastMaxDistance)
+				{
+					lastMaxDistance = distance;
+					vehicle = g_Vehicles[i].GetEntity();
+				}
+
+			}
+		}
+	}
+
+	return vehicle;
+}

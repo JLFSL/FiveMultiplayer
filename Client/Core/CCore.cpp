@@ -127,6 +127,104 @@ void CCore::OnGameTick()
 		Logger::Msg("Disconnecting");
 	}
 
+	if (CONTROLS::IS_CONTROL_PRESSED(0, ControlEnter) && !PED::IS_PED_IN_ANY_VEHICLE(g_Core->GetLocalPlayer()->GetPed(), true) /*&& chatnotopen*/)
+	{
+		Vehicle vehicle = CVehicleEntity::getClosestVehicleFromPedPos(g_Core->GetLocalPlayer()->GetPed(), 10.0f);
+		if (vehicle)
+		{
+			int vehicleIndex = -1;
+
+			for (int v = 0; v < g_Vehicles.size(); v++)
+			{
+				if (g_Vehicles[v].GetEntity() == vehicle)
+				{
+					vehicleIndex = v;
+					break;
+				}
+			}
+
+			if (vehicleIndex != -1)
+			{
+				CVector3 playerPos = g_Core->GetLocalPlayer()->GetPos();
+				CVector3 seatpos;
+				seatpos.fX = ENTITY::GET_WORLD_POSITION_OF_ENTITY_BONE(vehicle, ENTITY::GET_ENTITY_BONE_INDEX_BY_NAME(vehicle, "seat_pside_r")).x;
+				seatpos.fY = ENTITY::GET_WORLD_POSITION_OF_ENTITY_BONE(vehicle, ENTITY::GET_ENTITY_BONE_INDEX_BY_NAME(vehicle, "seat_pside_r")).y;
+				seatpos.fZ = ENTITY::GET_WORLD_POSITION_OF_ENTITY_BONE(vehicle, ENTITY::GET_ENTITY_BONE_INDEX_BY_NAME(vehicle, "seat_pside_r")).z;
+
+				int seat = 0;
+
+				float distance = Math::GetDistanceBetweenPoints3D(playerPos.fX, playerPos.fY, playerPos.fZ, seatpos.fX, seatpos.fY, seatpos.fY);
+				if (VEHICLE::IS_VEHICLE_SEAT_FREE(vehicle, 2))
+					seat = 2;
+
+				seatpos.fX = ENTITY::GET_WORLD_POSITION_OF_ENTITY_BONE(vehicle, ENTITY::GET_ENTITY_BONE_INDEX_BY_NAME(vehicle, "seat_pside_f")).x;
+				seatpos.fY = ENTITY::GET_WORLD_POSITION_OF_ENTITY_BONE(vehicle, ENTITY::GET_ENTITY_BONE_INDEX_BY_NAME(vehicle, "seat_pside_f")).y;
+				seatpos.fZ = ENTITY::GET_WORLD_POSITION_OF_ENTITY_BONE(vehicle, ENTITY::GET_ENTITY_BONE_INDEX_BY_NAME(vehicle, "seat_pside_f")).z;
+
+				if (Math::GetDistanceBetweenPoints3D(playerPos.fX, playerPos.fY, playerPos.fZ, seatpos.fX, seatpos.fY, seatpos.fY) < distance)
+				{
+					if (VEHICLE::IS_VEHICLE_SEAT_FREE(vehicle, 0))
+					{
+						distance = Math::GetDistanceBetweenPoints3D(playerPos.fX, playerPos.fY, playerPos.fZ, seatpos.fX, seatpos.fY, seatpos.fY);
+						seat = 0;
+					}
+				}
+
+				seatpos.fX = ENTITY::GET_WORLD_POSITION_OF_ENTITY_BONE(vehicle, ENTITY::GET_ENTITY_BONE_INDEX_BY_NAME(vehicle, "seat_dside_r")).x;
+				seatpos.fY = ENTITY::GET_WORLD_POSITION_OF_ENTITY_BONE(vehicle, ENTITY::GET_ENTITY_BONE_INDEX_BY_NAME(vehicle, "seat_dside_r")).y;
+				seatpos.fZ = ENTITY::GET_WORLD_POSITION_OF_ENTITY_BONE(vehicle, ENTITY::GET_ENTITY_BONE_INDEX_BY_NAME(vehicle, "seat_dside_r")).z;
+
+				if (Math::GetDistanceBetweenPoints3D(playerPos.fX, playerPos.fY, playerPos.fZ, seatpos.fX, seatpos.fY, seatpos.fY) < distance)
+				{
+					if (VEHICLE::IS_VEHICLE_SEAT_FREE(vehicle, 1))
+					{
+						distance = Math::GetDistanceBetweenPoints3D(playerPos.fX, playerPos.fY, playerPos.fZ, seatpos.fX, seatpos.fY, seatpos.fY);
+						seat = 1;
+					}
+				}
+
+				seatpos.fX = ENTITY::GET_WORLD_POSITION_OF_ENTITY_BONE(vehicle, ENTITY::GET_ENTITY_BONE_INDEX_BY_NAME(vehicle, "seat_r")).x;
+				seatpos.fY = ENTITY::GET_WORLD_POSITION_OF_ENTITY_BONE(vehicle, ENTITY::GET_ENTITY_BONE_INDEX_BY_NAME(vehicle, "seat_r")).y;
+				seatpos.fZ = ENTITY::GET_WORLD_POSITION_OF_ENTITY_BONE(vehicle, ENTITY::GET_ENTITY_BONE_INDEX_BY_NAME(vehicle, "seat_r")).z;
+
+				if (Math::GetDistanceBetweenPoints3D(playerPos.fX, playerPos.fY, playerPos.fZ, seatpos.fX, seatpos.fY, seatpos.fY) < distance)
+				{
+					if (VEHICLE::IS_VEHICLE_SEAT_FREE(vehicle, 1))
+					{
+						distance = Math::GetDistanceBetweenPoints3D(playerPos.fX, playerPos.fY, playerPos.fZ, seatpos.fX, seatpos.fY, seatpos.fY);
+						seat = 0;
+					}
+				}
+
+				if (g_Vehicles[vehicleIndex].GetOccupant(0) == -1)
+				{
+					seatpos.fX = ENTITY::GET_WORLD_POSITION_OF_ENTITY_BONE(vehicle, ENTITY::GET_ENTITY_BONE_INDEX_BY_NAME(vehicle, "seat_dside_f")).x;
+					seatpos.fY = ENTITY::GET_WORLD_POSITION_OF_ENTITY_BONE(vehicle, ENTITY::GET_ENTITY_BONE_INDEX_BY_NAME(vehicle, "seat_dside_f")).y;
+					seatpos.fZ = ENTITY::GET_WORLD_POSITION_OF_ENTITY_BONE(vehicle, ENTITY::GET_ENTITY_BONE_INDEX_BY_NAME(vehicle, "seat_dside_f")).z;
+
+					if (Math::GetDistanceBetweenPoints3D(playerPos.fX, playerPos.fY, playerPos.fZ, seatpos.fX, seatpos.fY, seatpos.fY) < distance)
+					{
+						if (VEHICLE::IS_VEHICLE_SEAT_FREE(vehicle, -1))
+						{
+							//distance = Math::GetDistanceBetweenPoints3D(playerPos.fX, playerPos.fY, playerPos.fZ, seatpos.fX, seatpos.fY, seatpos.fY);
+							seat = -1;
+						}
+					}
+				}
+
+				AI::TASK_ENTER_VEHICLE(g_Core->GetLocalPlayer()->GetPed(), vehicle, 5000, seat, 2.0, 1, 0);
+			}
+			else
+			{
+				AI::CLEAR_PED_TASKS_IMMEDIATELY(g_Core->GetLocalPlayer()->GetPed());
+			}
+		}
+		else
+		{
+			AI::CLEAR_PED_TASKS_IMMEDIATELY(g_Core->GetLocalPlayer()->GetPed());
+		}
+	}
+
 	g_LocalPlayer->Pulse();
 	g_NetworkManager->Pulse();
 	

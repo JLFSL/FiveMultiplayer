@@ -77,6 +77,8 @@ public:
 
 	void UpdateTargetData();
 
+	static Vehicle getClosestVehicleFromPedPos(Ped ped, int maxDistance);
+
 	int				GetId() { return Information.Id; }
 	Vehicle			GetEntity() { return Game.Vehicle; }
 
