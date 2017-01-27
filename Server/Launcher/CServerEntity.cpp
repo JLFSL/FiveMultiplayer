@@ -2,7 +2,7 @@
 
 int CServerEntity::Create()
 {
-	if(g_Entities.empty())
+	if (g_Entities.empty())
 		Data.Id = 0;
 	else
 		Data.Id = g_Entities.size();

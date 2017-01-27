@@ -85,6 +85,11 @@ void CNetworkManager::Pulse()
 				{
 					if (g_Players[i].GetPlayerID() == -1)
 					{
+						playerID = g_Players.size();
+						CPlayerEntity newPlayer;
+						newPlayer.Create("User", g_Packet->guid, g_Packet->systemAddress);
+						newPlayer.SetPlayerID(playerID);
+						g_Players[i] = newPlayer;
 						g_Players[i].SetPlayerID(i);
 						playerID = i;
 						break;
