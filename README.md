@@ -1,6 +1,6 @@
 ![logo](https://five-multiplayer.net/assets/v1/images/common/logonoicon.png)
 
-[![Build Status](https://travis-ci.com/JLFSL/FiveMultiplayer.svg?token=ndkAzgRszzDBnAutf4mx&branch=master)](https://travis-ci.com/JLFSL/FiveMultiplayer)
+[![Build Status](https://travis-ci.com/JLFSL/FiveMultiplayer.svg?token=ndkAzgRszzDBnAutf4mx&branch=dev)](https://travis-ci.com/JLFSL/FiveMultiplayer)
 
 Five-Multiplayer is a multiplayer modification for the game called "Grand Theft Auto V" created by Rockstar Games and published by Take-Two Interactive Software.
 Five Multiplayer is in no way affiliated with Rockstar Games or Take-Two Interactive. The 'Grand Theft Auto' and the 'Grand Theft Auto' logos are trademarks of Take-Two Interactive Software.
