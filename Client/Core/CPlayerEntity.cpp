@@ -285,77 +285,80 @@ void CPlayerEntity::SetTargetRotation()
 
 void CPlayerEntity::UpdateTargetAnimations()
 {
-	Animations& animation = Animations();
-	if (IsTargetAnimal())
+	if (Game.Created && Data.Vehicle.VehicleID == -1)
 	{
-		std::string dict;
-		std::string name;
-
-		if (Data.ForwardSpeed < 2.0f && Data.ForwardSpeed > 1.0f && Data.Model.MovementState != 1)
+		Animations& animation = Animations();
+		if (IsTargetAnimal())
 		{
-			animation.GetAnimalAnimation(Data.Model.hModel, 1, &dict, &name);
+			std::string dict;
+			std::string name;
 
-			if (!STREAMING::HAS_ANIM_DICT_LOADED((char*)dict.c_str()))
-				STREAMING::REQUEST_ANIM_DICT((char*)dict.c_str());
+			if (Data.ForwardSpeed < 2.0f && Data.ForwardSpeed > 1.0f && Data.Model.MovementState != 1)
+			{
+				animation.GetAnimalAnimation(Data.Model.hModel, 1, &dict, &name);
 
-			AI::TASK_PLAY_ANIM(Game.Ped, (char*)dict.c_str(), (char*)name.c_str(), 8.0f, 0.0f, -1, 1, 0.0f, false, false, false);
-			Data.Model.MovementState = 1;
+				if (!STREAMING::HAS_ANIM_DICT_LOADED((char*)dict.c_str()))
+					STREAMING::REQUEST_ANIM_DICT((char*)dict.c_str());
+
+				AI::TASK_PLAY_ANIM(Game.Ped, (char*)dict.c_str(), (char*)name.c_str(), 8.0f, 0.0f, -1, 1, 0.0f, false, false, false);
+				Data.Model.MovementState = 1;
+			}
+			else if (Data.ForwardSpeed > 2.0f && Data.ForwardSpeed <= 5.2f && Data.Model.MovementState != 2)
+			{
+				animation.GetAnimalAnimation(Data.Model.hModel, 2, &dict, &name);
+
+				if (!STREAMING::HAS_ANIM_DICT_LOADED((char*)dict.c_str()))
+					STREAMING::REQUEST_ANIM_DICT((char*)dict.c_str());
+
+				AI::TASK_PLAY_ANIM(Game.Ped, (char*)dict.c_str(), (char*)name.c_str(), 8.0f, 0.0f, -1, 1, 0.0f, false, false, false);
+				Data.Model.MovementState = 2;
+			}
+			else if (Data.ForwardSpeed > 5.2f && Data.Model.MovementState != 3)
+			{
+				animation.GetAnimalAnimation(Data.Model.hModel, 3, &dict, &name);
+
+				if (!STREAMING::HAS_ANIM_DICT_LOADED((char*)dict.c_str()))
+					STREAMING::REQUEST_ANIM_DICT((char*)dict.c_str());
+
+				AI::TASK_PLAY_ANIM(Game.Ped, (char*)dict.c_str(), (char*)name.c_str(), 8.0f, 0.0f, -1, 1, 0.0f, false, false, false);
+				Data.Model.MovementState = 3;
+			}
+			else if (Data.ForwardSpeed < 1.0f && Data.Model.MovementState != 0)
+			{
+				animation.GetAnimalAnimation(Data.Model.hModel, 0, &dict, &name);
+
+				if (!STREAMING::HAS_ANIM_DICT_LOADED((char*)dict.c_str()))
+					STREAMING::REQUEST_ANIM_DICT((char*)dict.c_str());
+
+				AI::TASK_PLAY_ANIM(Game.Ped, (char*)dict.c_str(), (char*)name.c_str(), 8.0f, 0.0f, -1, 1, 0.0f, false, false, false);
+				Data.Model.MovementState = 0;
+			}
 		}
-		else if (Data.ForwardSpeed > 2.0f && Data.ForwardSpeed <= 5.2f && Data.Model.MovementState != 2)
+		else
 		{
-			animation.GetAnimalAnimation(Data.Model.hModel, 2, &dict, &name);
+			if (!STREAMING::HAS_ANIM_DICT_LOADED("move_m@generic"))
+				STREAMING::REQUEST_ANIM_DICT("move_m@generic");
 
-			if (!STREAMING::HAS_ANIM_DICT_LOADED((char*)dict.c_str()))
-				STREAMING::REQUEST_ANIM_DICT((char*)dict.c_str());
-
-			AI::TASK_PLAY_ANIM(Game.Ped, (char*)dict.c_str(), (char*)name.c_str(), 8.0f, 0.0f, -1, 1, 0.0f, false, false, false);
-			Data.Model.MovementState = 2;
-		}
-		else if (Data.ForwardSpeed > 5.2f && Data.Model.MovementState != 3)
-		{
-			animation.GetAnimalAnimation(Data.Model.hModel, 3, &dict, &name);
-
-			if (!STREAMING::HAS_ANIM_DICT_LOADED((char*)dict.c_str()))
-				STREAMING::REQUEST_ANIM_DICT((char*)dict.c_str());
-
-			AI::TASK_PLAY_ANIM(Game.Ped, (char*)dict.c_str(), (char*)name.c_str(), 8.0f, 0.0f, -1, 1, 0.0f, false, false, false);
-			Data.Model.MovementState = 3;
-		}
-		else if (Data.ForwardSpeed < 1.0f && Data.Model.MovementState != 0)
-		{
-			animation.GetAnimalAnimation(Data.Model.hModel, 0, &dict, &name);
-
-			if (!STREAMING::HAS_ANIM_DICT_LOADED((char*)dict.c_str()))
-				STREAMING::REQUEST_ANIM_DICT((char*)dict.c_str());
-
-			AI::TASK_PLAY_ANIM(Game.Ped, (char*)dict.c_str(), (char*)name.c_str(), 8.0f, 0.0f, -1, 1, 0.0f, false, false, false);
-			Data.Model.MovementState = 0;
-		}
-	}
-	else
-	{
-		if (!STREAMING::HAS_ANIM_DICT_LOADED("move_m@generic"))
-			STREAMING::REQUEST_ANIM_DICT("move_m@generic");
-
-		if (Data.ForwardSpeed < 2.0f && Data.ForwardSpeed > 1.0f && Data.Model.MovementState != 1)
-		{
-			AI::TASK_PLAY_ANIM(Game.Ped, "move_m@generic", "walk", 8.0f, 0.0f, -1, 1, 0.0f, false, false, false);
-			Data.Model.MovementState = 1;
-		}
-		else if (Data.ForwardSpeed > 2.0f && Data.ForwardSpeed <= 5.2f && Data.Model.MovementState != 2)
-		{
-			AI::TASK_PLAY_ANIM(Game.Ped, "move_m@generic", "run", 8.0f, 0.0f, -1, 1, 0.0f, false, false, false);
-			Data.Model.MovementState = 2;
-		}
-		else if (Data.ForwardSpeed > 5.2f && Data.Model.MovementState != 3)
-		{
-			AI::TASK_PLAY_ANIM(Game.Ped, "move_m@generic", "sprint", 8.0f, 0.0f, -1, 1, 0.0f, false, false, false);
-			Data.Model.MovementState = 3;
-		}
-		else if (Data.ForwardSpeed < 1.0f && Data.Model.MovementState != 0)
-		{
-			AI::TASK_PLAY_ANIM(Game.Ped, "move_m@generic", "idle", 8.0f, 0.0f, -1, 1, 0.0f, false, false, false);
-			Data.Model.MovementState = 0;
+			if (Data.ForwardSpeed < 2.0f && Data.ForwardSpeed > 1.0f && Data.Model.MovementState != 1)
+			{
+				AI::TASK_PLAY_ANIM(Game.Ped, "move_m@generic", "walk", 8.0f, 0.0f, -1, 1, 0.0f, false, false, false);
+				Data.Model.MovementState = 1;
+			}
+			else if (Data.ForwardSpeed > 2.0f && Data.ForwardSpeed <= 5.2f && Data.Model.MovementState != 2)
+			{
+				AI::TASK_PLAY_ANIM(Game.Ped, "move_m@generic", "run", 8.0f, 0.0f, -1, 1, 0.0f, false, false, false);
+				Data.Model.MovementState = 2;
+			}
+			else if (Data.ForwardSpeed > 5.2f && Data.Model.MovementState != 3)
+			{
+				AI::TASK_PLAY_ANIM(Game.Ped, "move_m@generic", "sprint", 8.0f, 0.0f, -1, 1, 0.0f, false, false, false);
+				Data.Model.MovementState = 3;
+			}
+			else if (Data.ForwardSpeed < 1.0f && Data.Model.MovementState != 0)
+			{
+				AI::TASK_PLAY_ANIM(Game.Ped, "move_m@generic", "idle", 8.0f, 0.0f, -1, 1, 0.0f, false, false, false);
+				Data.Model.MovementState = 0;
+			}
 		}
 	}
 }

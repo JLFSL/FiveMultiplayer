@@ -136,14 +136,14 @@ void CLocalPlayer::VehicleChecks()
 	// Check the Vehicle the Player is in
 	if (Data.Vehicle.VehicleID != GamePed::GetVehicleID(Game.Ped))
 	{
-		if (Data.Vehicle.VehicleID != -1)
+		if (Data.Vehicle.VehicleID != -1 && Data.Vehicle.Seat == 0)
 		{
 			sData.Reset();
 			sData.Write(Data.Vehicle.VehicleID);
 			g_Core->GetNetworkManager()->GetRPC().Signal("DropEntityAssignment", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, g_Core->GetNetworkManager()->GetSystemAddress(), false, false);
 		}
 
-		if (GamePed::GetVehicleID(Game.Ped) != -1)
+		if (GamePed::GetVehicleID(Game.Ped) != -1 && GamePed::GetVehicleSeat(Game.Ped) > 0)
 		{
 			for (int i = 0; i < g_Vehicles.size(); i++)
 			{
