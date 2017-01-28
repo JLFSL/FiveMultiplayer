@@ -93,7 +93,8 @@ void CCore::OnGameTick()
 
 	if (KeyJustUp(VK_F8))
 	{
-		g_NetworkManager->Connect("127.0.0.1", "default", CON_PORT);
+		g_Config->Read();
+		g_NetworkManager->Connect(g_Config->GetIp().c_str(), g_Config->GetPassword().c_str(), g_Config->GetPort());
 		Logger::Msg("Connecting");
 	}
 
