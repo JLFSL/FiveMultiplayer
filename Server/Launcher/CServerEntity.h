@@ -17,7 +17,7 @@ private:
 
 		CPlayerEntity *player;
 		CVehicleEntity *vehicle;
-		//CObjectEntity *object;
+		//std::unique_ptr<CObjectEntity> object;
 	} Data;
 
 public:
@@ -35,7 +35,7 @@ public:
 	CVehicleEntity* GetVEntity() { return Data.vehicle; }
 	void		SetEntity(CVehicleEntity *vehicle) { Data.vehicle = vehicle; }
 	//CObjectEntity* GetOEntity() { return Data.object; }
-	//void		SetEntity(CObjectEntity *object) { Data.object = object; };
+	//void		SetEntity(CObjectEntity *object) { Data.object = std::unique_ptr<CObjectEntity>(object); };
 
 	int			GetId() { return Data.Id; };
 

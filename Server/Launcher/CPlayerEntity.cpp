@@ -6,12 +6,13 @@ void CPlayerEntity::Create(std::string Name, RakNetGUID GUID, SystemAddress Ip)
 {
 	CServerEntity newServerEntity;
 	newServerEntity.SetType(newServerEntity.Player);
-	newServerEntity.SetEntity(this);
 
-	Information.Name = Name;
+	Information.Name = RakString(Name.c_str());
 	Information.Entity = newServerEntity.Create();
 	Network.GUID = GUID;
 	Network.Ip = Ip;
+
+	Data.Model.Model = "u_m_y_pogo_01";
 
 	Data.Vehicle.VehicleID = -1;
 	Data.Vehicle.Seat = -1;
@@ -20,7 +21,7 @@ void CPlayerEntity::Create(std::string Name, RakNetGUID GUID, SystemAddress Ip)
 
 	Amount++;
 
-	std::cout << "[CPlayerEntity] Added Player: " << Information.Name << " [" << Network.Ip.ToString(false) << "]" << std::endl;
+	std::cout << "[CPlayerEntity] Added Player: " << Information.Name.C_String() << " [" << Network.Ip.ToString(false) << "]" << std::endl;
 	std::cout << "[CPlayerEntity] Players Online: " << Amount << std::endl;
 
 	Network.LastSyncSent = std::chrono::system_clock::now();
@@ -61,7 +62,7 @@ void CPlayerEntity::Pulse()
 
 		bitstream.Write(Statistics.Score);
 
-		bitstream.Write(Data.Model.Model);
+		bitstream.Write(RakString( Data.Model.Model.c_str()));
 		bitstream.Write(Data.Model.Type);
 
 		bitstream.Write(Data.Weapon.Weapon);
@@ -104,8 +105,7 @@ void CPlayerEntity::Update(Packet *packet)
 	bitstream.Read(Information.Name);*/
 	
 	bitstream.Read(Statistics.Score);
-
-	bitstream.Read(Data.Model.Model);
+	
 	bitstream.Read(Data.Model.Type);
 
 	bitstream.Read(Data.Weapon.Weapon);
@@ -133,7 +133,6 @@ void CPlayerEntity::Update(Packet *packet)
 	Network.Ip = packet->systemAddress;
 	packet->deleteData;
 	
-	/*
 	if (lastVehicle != Data.Vehicle.VehicleID)
 	{
 		for (int i = 0; i < g_Vehicles.size(); i++)
@@ -151,5 +150,4 @@ void CPlayerEntity::Update(Packet *packet)
 			}
 		}
 	}
-	*/
 }

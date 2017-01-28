@@ -5,7 +5,7 @@ private:
 	struct PlayerInfo {
 		int					Entity;
 		int					PlayerID;
-		std::string			Name;
+		RakString			Name;
 	} Information;
 
 	struct PlayerStats {
@@ -58,7 +58,7 @@ public:
 	int				GetPlayerID() { return Information.PlayerID; };
 	void			SetPlayerID(int playerid) { Information.PlayerID = playerid; };
 	int				GetEntity() { return Information.Entity; };
-	std::string		GetUsername() { return Information.Name; };
+	std::string		GetUsername() { return Information.Name.C_String(); };
 
 	int				GetScore() { return Statistics.Score; };
 

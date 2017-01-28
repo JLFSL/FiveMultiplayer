@@ -79,18 +79,23 @@ void CNetworkManager::Pulse()
 				}
 
 				int playerID = -1;
-				for (int i = 0; i < g_Players.size(); i++)
+				if (!g_Players.empty())
 				{
-					if (g_Players[i].GetPlayerID() == -1)
+					for (int i = 0; i < g_Players.size(); i++)
 					{
-						playerID = g_Players.size();
-						CPlayerEntity newPlayer;
-						newPlayer.Create("User", g_Packet->guid, g_Packet->systemAddress);
-						newPlayer.SetPlayerID(playerID);
-						g_Players[i] = newPlayer;
-						g_Players[i].SetPlayerID(i);
-						playerID = i;
-						break;
+						if (g_Players[i].GetPlayerID() == -1)
+						{
+							playerID = g_Players.size();
+							CPlayerEntity newPlayer;
+							newPlayer.Create("User", g_Packet->guid, g_Packet->systemAddress);
+							newPlayer.SetPlayerID(playerID);
+							g_Players[i] = newPlayer;
+							g_Players[i].SetPlayerID(i);
+							playerID = i;
+
+							g_Entities[g_Players[i].GetEntity()].SetEntity(&g_Players[i]);
+							break;
+						}
 					}
 				}
 
@@ -101,6 +106,8 @@ void CNetworkManager::Pulse()
 					newPlayer.Create("User", g_Packet->guid, g_Packet->systemAddress);
 					newPlayer.SetPlayerID(playerID);
 					g_Players.push_back(newPlayer);
+
+					g_Entities[g_Players[playerID].GetEntity()].SetEntity(&g_Players[playerID]);
 				}
 
 				NetworkSync::SyncServerWorld(g_Packet->guid);
