@@ -54,9 +54,6 @@ void CLocalPlayer::Pulse()
 		BitStream bitstream;
 		bitstream.Write((unsigned char)ID_PACKET_PLAYER);
 
-		/*bitstream.Write(Information.Id);
-		bitstream.Write(Information.Name);*/
-
 		bitstream.Write(Statistics.Score);
 		
 		bitstream.Write(Data.Model.Type);

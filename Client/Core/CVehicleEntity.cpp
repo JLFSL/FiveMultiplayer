@@ -126,7 +126,7 @@ void CVehicleEntity::Pulse()
 		}
 
 		// Sync
-		if (t_CurrentVehicle != Information.Id && g_Core->GetNetworkManager()->GetInterface()->GetMyGUID() != Network.Assigned)
+		if ((t_CurrentVehicle != Information.Id || (t_CurrentVehicle == Information.Id && g_Core->GetLocalPlayer()->GetSeat() != 0)) && g_Core->GetNetworkManager()->GetInterface()->GetMyGUID() != Network.Assigned)
 		{
 			Interpolate();
 		}
