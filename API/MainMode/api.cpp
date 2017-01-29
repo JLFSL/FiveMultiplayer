@@ -1,20 +1,9 @@
-#if defined _WIN32 || defined __CYGWIN__
-#ifdef __GNUC__
-#define DLL_PUBLIC __attribute__ ((dllexport))
-#else
-#define DLL_PUBLIC __declspec(dllexport)
-#endif
-#else
-#define DLL_PUBLIC 
-#endif
-
 #include <iostream>
 #include <sstream>
 
-#include "../../Shared/Common.h"
+#include "api.h"
 
 // Math
-#include "Common.h"
 #include "CVector3.h"
 #include "CVector4.h"
 

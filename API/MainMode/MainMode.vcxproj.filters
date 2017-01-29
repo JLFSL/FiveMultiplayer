@@ -4,40 +4,35 @@
     <ClCompile Include="api.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="API">
+    <Filter Include="SDK">
       <UniqueIdentifier>{352e5012-375d-47b5-9d3c-dbad34390915}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Math">
-      <UniqueIdentifier>{70f61da8-a43a-4a1c-a97f-cdecd6c8826f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="APIVisual.h">
-      <Filter>API</Filter>
+      <Filter>SDK</Filter>
     </ClInclude>
     <ClInclude Include="APIServer.h">
-      <Filter>API</Filter>
+      <Filter>SDK</Filter>
     </ClInclude>
     <ClInclude Include="APIEntity.h">
-      <Filter>API</Filter>
-    </ClInclude>
-    <ClInclude Include="CMaths.h">
-      <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="Common.h">
-      <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="CVector3.h">
-      <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="CVector4.h">
-      <Filter>Math</Filter>
+      <Filter>SDK</Filter>
     </ClInclude>
     <ClInclude Include="APIVehicle.h">
-      <Filter>API</Filter>
+      <Filter>SDK</Filter>
     </ClInclude>
     <ClInclude Include="APIWorld.h">
-      <Filter>API</Filter>
+      <Filter>SDK</Filter>
     </ClInclude>
+    <ClInclude Include="CMaths.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="CVector3.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="CVector4.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="api.h" />
   </ItemGroup>
 </Project>

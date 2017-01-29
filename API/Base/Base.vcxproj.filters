@@ -4,34 +4,35 @@
     <ClCompile Include="api.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CMaths.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="Common.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="CVector3.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="CVector4.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="APIEntity.h">
-      <Filter>API</Filter>
-    </ClInclude>
-    <ClInclude Include="APIServer.h">
-      <Filter>API</Filter>
-    </ClInclude>
-    <ClInclude Include="APIVisual.h">
-      <Filter>API</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Filter Include="API">
+    <Filter Include="SDK">
       <UniqueIdentifier>{a7d41232-faa1-4fc7-b81c-befc7a001548}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Common">
-      <UniqueIdentifier>{7b7e828b-6503-4b1a-891d-11ca8f414d12}</UniqueIdentifier>
-    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="sdk\APIEntity.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\APIServer.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\APIVehicle.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\APIVisual.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\APIWorld.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\CMaths.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\CVector3.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\CVector4.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="api.h" />
   </ItemGroup>
 </Project>

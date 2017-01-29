@@ -1,14 +1,18 @@
+#include <iostream>
+#include <sstream>
+
+#include "api.h"
+
 // Math
-#include "Common.h"
-#include "CVector3.h"
-#include "CVector4.h"
+#include "sdk/CVector3.h"
+#include "sdk/CVector4.h"
 
 // API Function Imports
-#include "APIServer.h"
-#include "APIEntity.h"
-#include "APIVisual.h"
-
-#include <iostream>
+#include "sdk/APIServer.h"
+#include "sdk/APIWorld.h"
+#include "sdk/APIEntity.h"
+#include "sdk/APIVehicle.h"
+#include "sdk/APIVisual.h"
 
 extern "C" DLL_PUBLIC bool API_Initialize(void) {
 	// When Plugin gets loaded

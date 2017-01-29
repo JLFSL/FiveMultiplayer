@@ -166,13 +166,15 @@
     <ClCompile Include="api.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="APIEntity.h" />
-    <ClInclude Include="APIServer.h" />
-    <ClInclude Include="APIVisual.h" />
-    <ClInclude Include="CMaths.h" />
-    <ClInclude Include="Common.h" />
-    <ClInclude Include="CVector3.h" />
-    <ClInclude Include="CVector4.h" />
+    <ClInclude Include="api.h" />
+    <ClInclude Include="sdk\APIEntity.h" />
+    <ClInclude Include="sdk\APIServer.h" />
+    <ClInclude Include="sdk\APIVehicle.h" />
+    <ClInclude Include="sdk\APIVisual.h" />
+    <ClInclude Include="sdk\APIWorld.h" />
+    <ClInclude Include="sdk\CMaths.h" />
+    <ClInclude Include="sdk\CVector3.h" />
+    <ClInclude Include="sdk\CVector4.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

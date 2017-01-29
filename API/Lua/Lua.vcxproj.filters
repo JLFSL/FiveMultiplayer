@@ -4,6 +4,9 @@
     <Filter Include="inc_lua">
       <UniqueIdentifier>{d5e5e944-3f03-459e-acf7-0c96be7ed366}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SDK">
+      <UniqueIdentifier>{33266951-56f8-49de-aff1-d67830f6ed95}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="api.cpp" />
@@ -189,5 +192,30 @@
     <ClInclude Include="inc_lua\lauxlib.h">
       <Filter>inc_lua</Filter>
     </ClInclude>
+    <ClInclude Include="sdk\APIEntity.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\APIServer.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\APIVehicle.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\APIVisual.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\APIWorld.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\CMaths.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\CVector3.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\CVector4.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="api.h" />
   </ItemGroup>
 </Project>

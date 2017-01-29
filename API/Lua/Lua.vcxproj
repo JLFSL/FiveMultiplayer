@@ -56,6 +56,7 @@
     <ClCompile Include="inc_lua\lzio.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="api.h" />
     <ClInclude Include="inc_lua\lapi.h" />
     <ClInclude Include="inc_lua\lauxlib.h" />
     <ClInclude Include="inc_lua\lcode.h" />
@@ -82,6 +83,14 @@
     <ClInclude Include="inc_lua\lundump.h" />
     <ClInclude Include="inc_lua\lvm.h" />
     <ClInclude Include="inc_lua\lzio.h" />
+    <ClInclude Include="sdk\APIEntity.h" />
+    <ClInclude Include="sdk\APIServer.h" />
+    <ClInclude Include="sdk\APIVehicle.h" />
+    <ClInclude Include="sdk\APIVisual.h" />
+    <ClInclude Include="sdk\APIWorld.h" />
+    <ClInclude Include="sdk\CMaths.h" />
+    <ClInclude Include="sdk\CVector3.h" />
+    <ClInclude Include="sdk\CVector4.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{235D1887-3CD7-4754-963A-1BD2EAD55991}</ProjectGuid>
@@ -212,7 +221,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalOptions>Server.Launcher.lib </AdditionalOptions>
-      <AdditionalLibraryDirectories>$(SolutionDir)bin\$(Configuration)\Server</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)bin\$(Configuration)\Server;$(SolutionDir)\lib\$(Configuration)\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>LUA.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

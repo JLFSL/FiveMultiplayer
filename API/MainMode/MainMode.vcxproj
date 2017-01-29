@@ -158,13 +158,13 @@
     <ClCompile Include="api.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="api.h" />
     <ClInclude Include="APIEntity.h" />
     <ClInclude Include="APIServer.h" />
     <ClInclude Include="APIVehicle.h" />
     <ClInclude Include="APIVisual.h" />
     <ClInclude Include="APIWorld.h" />
     <ClInclude Include="CMaths.h" />
-    <ClInclude Include="Common.h" />
     <ClInclude Include="CVector3.h" />
     <ClInclude Include="CVector4.h" />
   </ItemGroup>
