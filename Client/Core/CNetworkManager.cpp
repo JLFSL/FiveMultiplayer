@@ -263,6 +263,27 @@ void CNetworkManager::Pulse()
 				}
 				break;
 			}
+			case ID_PLAYER_LEFT:
+			{
+				int t_Id;
+				g_BitStream.Read(t_Id);
+
+				if (!g_Players.empty())
+				{
+					for (int p = 0; p < g_Players.size(); p++)
+					{
+						if (g_Players[p].GetId() == t_Id)
+						{
+							g_Players[p].Destroy();
+							g_Players.erase(g_Players.begin() + p);
+							g_Players.shrink_to_fit();
+							break;
+						}
+					}
+				}
+				std::cout << "[CPlayerEntity] Players Online: " << g_Players.size() << std::endl;
+				break;
+			}
 			Logger::Msg("%d", g_Packet->data[0]);
 		}
 		g_RakPeer->DeallocatePacket(g_Packet);

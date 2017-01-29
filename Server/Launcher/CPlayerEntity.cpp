@@ -32,6 +32,11 @@ void CPlayerEntity::Destroy()
 {
 	std::cout << "[CPlayerEntity] Removing Player: " << Information.Name << " [" << Network.Ip.ToString(false) << "]" << std::endl;
 
+	BitStream bitstream;
+	bitstream.Write((unsigned char)ID_PLAYER_LEFT);
+	bitstream.Write(Information.Entity);
+	g_Server->GetNetworkManager()->GetInterface()->Send(&bitstream, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_RAKNET_GUID, true);
+
 	Information = {};
 	Statistics = {};
 	Data = {};
