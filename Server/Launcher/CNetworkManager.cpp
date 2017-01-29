@@ -144,6 +144,7 @@ void CNetworkManager::Pulse()
 						}
 
 						g_Players[i].Destroy();
+						break;
 					}
 				}
 				PulseMaster();
@@ -218,7 +219,7 @@ void CNetworkManager::PulseMaster()
 			for (int p = 0; p < g_Players.size(); p++) {
 				if (g_Players[p].GetEntity() != -1) {
 					std::ostringstream oss;
-					oss << "{\"id\":" << g_Players[p].GetEntity() << ",\"name\":\"" << g_Players[p].GetUsername() << "\"}";
+					oss << "{\"id\":" << g_Players[p].GetPlayerID() << ",\"name\":\"" << g_Players[p].GetUsername() << "\"}";
 					std::string player = oss.str();
 
 					if (p < g_Players.size() - 1)

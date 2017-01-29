@@ -137,16 +137,22 @@ void CPlayerEntity::Update(Packet *packet)
 	{
 		for (int i = 0; i < g_Vehicles.size(); i++)
 		{
-			if (g_Vehicles[i].GetId() == Data.Vehicle.VehicleID && g_Vehicles[i].GetOccupant(Data.Vehicle.Seat) != Information.PlayerID)
+			if (Data.Vehicle.VehicleID != -1)
 			{
-				g_Vehicles[i].SetOccupant(Data.Vehicle.Seat, Information.PlayerID);
+				if (g_Vehicles[i].GetId() == Data.Vehicle.VehicleID && g_Vehicles[i].GetOccupant(Data.Vehicle.Seat) != Information.PlayerID)
+				{
+					g_Vehicles[i].SetOccupant(Data.Vehicle.Seat, Information.PlayerID);
 
-				//OnPlayerEnterVehicle(player,vehicle,seat);
+					//OnPlayerEnterVehicle(player,vehicle,seat);
+				}
 			}
 
-			if (g_Vehicles[i].GetId() == lastVehicle && lastSeat != -1 && lastVehicle != -1)
+			if (lastSeat != -1 && lastVehicle != -1)
 			{
-				g_Vehicles[i].SetOccupant(lastSeat, -1);
+				if (g_Vehicles[i].GetId() == lastVehicle)
+				{
+					g_Vehicles[i].SetOccupant(lastSeat, -1);
+				}
 			}
 		}
 	}

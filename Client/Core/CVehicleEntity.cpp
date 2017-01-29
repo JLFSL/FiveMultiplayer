@@ -132,7 +132,7 @@ void CVehicleEntity::Pulse()
 		}
 		else 
 		{
-			if ((t_CurrentVehicle == Information.Id || g_Core->GetNetworkManager()->GetInterface()->GetMyGUID() == Network.Assigned) /*&& g_Core->GetLocalPlayer()->IsInAnyVehicle() == TRUE*/)
+			if ((t_CurrentVehicle == Information.Id || g_Core->GetNetworkManager()->GetInterface()->GetMyGUID() == Network.Assigned))
 			{
 				Vector3 Coordinates = ENTITY::GET_ENTITY_COORDS(Game.Vehicle, ENTITY::IS_ENTITY_DEAD(Game.Vehicle));
 				ENTITY::GET_ENTITY_QUATERNION(Game.Vehicle, &Data.Quaternion.fX, &Data.Quaternion.fY, &Data.Quaternion.fZ, &Data.Quaternion.fW);

@@ -134,44 +134,42 @@ namespace ServerEntity
 {
 	int GetIndex(int entity)
 	{
-		for (int i = 0; i < g_Entities.size(); i++)
+		if (!g_Entities.empty())
 		{
-			if (entity == g_Entities[i].GetId())
+			for (int i = 0; i < g_Entities.size(); i++)
 			{
-				return i;
+				if (entity == g_Entities[i].GetId())
+				{
+					return i;
+				}
 			}
 		}
+		return -1;
 	}
 
 	bool IsValid(int entity)
 	{
 		const int index = GetIndex(entity);
-		switch (g_Entities[index].GetType())
+		if (index != -1)
 		{
-		case 0: // Player
-			for (int i = 0; i < g_Players.size(); i++)
+			switch (g_Entities[index].GetType())
 			{
-				if (entity == g_Players[i].GetEntity())
+			case 0: // Player
+				if (entity == g_Entities[index].GetPEntity()->GetEntity())
 					return true;
-			}
-			break;
-		case 1: // Vehicle
-			for (int i = 0; i < g_Vehicles.size(); i++)
-			{
-				if (entity == g_Vehicles[i].GetId())
+				break;
+			case 1: // Vehicle
+				if (entity == g_Entities[index].GetVEntity()->GetId())
 					return true;
+				break;
+			case 2: // Object
+				/*if (entity == g_Entities[index].GetOEntity()->GetId())
+					return true;}*/
+				break;
+			default:
+				std::cout << "[ServerEntity::GetAssignee] Invalid entity" << std::endl;
+				break;
 			}
-			break;
-		case 2: // Object
-				/*for (int i = 0; i < g_Objects.size(); i++)
-				{
-				if (entity == g_Objects[i].GetId())
-				return TRUE;
-				}*/
-			break;
-		default:
-			std::cout << "[ServerEntity::GetAssignee] Invalid entity" << std::endl;
-			break;
 		}
 
 		return false;
@@ -180,28 +178,21 @@ namespace ServerEntity
 	RakNetGUID GetAssignee(int entity)
 	{
 		const int index = GetIndex(entity);
-		switch (g_Entities[index].GetType())
+		if (index != -1)
 		{
-		case 0: // Player
-			return UNASSIGNED_RAKNET_GUID;
-			break;
-		case 1: // Vehicle
-			for (int v = 0; v < g_Vehicles.size(); v++)
+			switch (g_Entities[index].GetType())
 			{
-				if (entity == g_Vehicles[v].GetId())
-					return g_Vehicles[v].GetAssignee();
+			case 0: // Player
+				return UNASSIGNED_RAKNET_GUID;
+			case 1: // Vehicle
+				return g_Entities[index].GetVEntity()->GetAssignee();
+			case 2: // Object
+				//return g_Entities[index].GetOEntity()->GetAssignee();
+				break;
+			default:
+				std::cout << std::endl << "[ServerEntity::GetAssignee] Invalid entity" << std::endl;
+				break;
 			}
-			break;
-		case 2: // Object
-				/*for (int i = 0; i < g_Objects.size(); i++)
-				{
-				if (entity == g_Objects[i].GetId())
-				return g_Objects[i].GetAssignee();
-				}*/
-			break;
-		default:
-			std::cout << std::endl << "[ServerEntity::GetAssignee] Invalid entity" << std::endl;
-			break;
 		}
 
 		return UNASSIGNED_RAKNET_GUID;
@@ -210,54 +201,58 @@ namespace ServerEntity
 	void SetAssignee(int entity, RakNetGUID assignee)
 	{
 		const int index = GetIndex(entity);
-		switch (g_Entities[index].GetType())
+		if (index != -1)
 		{
-		case 0: // Player
-			break;
-		case 1: // Vehicle
-			for (int v = 0; v < g_Vehicles.size(); v++)
+			switch (g_Entities[index].GetType())
 			{
-				if (entity == g_Vehicles[v].GetId())
-					return g_Vehicles[v].SetAssignee(assignee);
+			case 0: // Player
+				break;
+			case 1: // Vehicle
+				g_Entities[index].GetVEntity()->SetAssignee(assignee);
+				break;
+			case 2: // Object
+				//g_Entities[index].GetOEntity()->SetAssignee(assignee);
+				break;
+			default:
+				std::cout << std::endl << "[ServerEntity::SetAssignee] Invalid entity" << std::endl;
+				break;
 			}
-			break;
-		case 2: // Object
-				/*for (int i = 0; i < g_Objects.size(); i++)
-				{
-				if (entity == g_Objects[i].GetId())
-				return g_Objects[i].SetAssignee(assignee);
-				}*/
-			break;
-		default:
-			std::cout << std::endl << "[ServerEntity::SetAssignee] Invalid entity" << std::endl;
-			break;
+
+			if (assignee == UNASSIGNED_RAKNET_GUID)
+			{
+				RakNet::BitStream sData;
+				sData.Write(entity);
+				g_Server->GetNetworkManager()->GetRPC().Signal("DropEntityAssignment", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, assignee, true, false);
+			}
+			else
+			{
+				RakNet::BitStream sData;
+				sData.Write(entity);
+				sData.Write(assignee);
+				g_Server->GetNetworkManager()->GetRPC().Signal("TakeEntityAssignment", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, assignee, true, false);
+			}
 		}
 	}
 
 	void RequestData(int entity, RakNetGUID requester)
 	{
 		const int index = GetIndex(entity);
-		switch (g_Entities[index].GetType())
+		if (index != -1)
 		{
-		case 0: // Player
-			break;
-		case 1: // Vehicle
-			for (int v = 0; v < g_Vehicles.size(); v++)
+			switch (g_Entities[index].GetType())
 			{
-				if (entity == g_Vehicles[v].GetId())
-					return g_Vehicles[v].RequestData(requester);
+			case 0: // Player
+				break;
+			case 1: // Vehicle
+				g_Entities[index].GetVEntity()->RequestData(requester);
+				break;
+			case 2: // Object
+				//g_Entities[index].GetOEntity()->RequestData(requester);
+				break;
+			default:
+				std::cout << std::endl << "[ServerEntity::RequestData] Invalid entity" << std::endl;
+				break;
 			}
-			break;
-		case 2: // Object
-				/*for (int i = 0; i < g_Objects.size(); i++)
-				{
-				if (entity == g_Objects[i].GetId())
-				return g_Objects[i].RequestData(requester);
-				}*/
-			break;
-		default:
-			std::cout << std::endl << "[ServerEntity::RequestData] Invalid entity" << std::endl;
-			break;
 		}
 	}
 }

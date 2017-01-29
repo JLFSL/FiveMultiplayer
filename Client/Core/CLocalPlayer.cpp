@@ -105,7 +105,7 @@ void CLocalPlayer::VehicleChecks()
 	}
 
 	// Check the Vehicle the player is attempting to enter
-	if (PED::GET_VEHICLE_PED_IS_TRYING_TO_ENTER(Game.Ped))
+	/*if (PED::GET_VEHICLE_PED_IS_TRYING_TO_ENTER(Game.Ped))
 	{
 		Vehicle enteringVehicle = PED::GET_VEHICLE_PED_IS_TRYING_TO_ENTER(Game.Ped);
 		if (enteringVehicle != Game.VehicleEntering)
@@ -122,45 +122,35 @@ void CLocalPlayer::VehicleChecks()
 					{
 						Game.VehicleEntering = enteringVehicle;
 
-						/*sData.Reset();
-						sData.Write(g_Vehicles[i].GetId());
-						g_Core->GetNetworkManager()->GetRPC().Signal("OnPlayerEnteringVehicle", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, g_Core->GetNetworkManager()->GetSystemAddress(), false, false);*/
+						//sData.Reset();
+						//sData.Write(g_Vehicles[i].GetId());
+						//g_Core->GetNetworkManager()->GetRPC().Signal("OnPlayerEnteringVehicle", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, g_Core->GetNetworkManager()->GetSystemAddress(), false, false);
 					}
 					break;
 				}
 			}
 		}
-	}
+	}*/
 
 
 	// Check the Vehicle the Player is in
 	if (Data.Vehicle.VehicleID != GamePed::GetVehicleID(Game.Ped))
 	{
-		if (Data.Vehicle.VehicleID != -1 && Data.Vehicle.Seat == 0)
-		{
-			sData.Reset();
-			sData.Write(Data.Vehicle.VehicleID);
-			g_Core->GetNetworkManager()->GetRPC().Signal("DropEntityAssignment", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, g_Core->GetNetworkManager()->GetSystemAddress(), false, false);
-		}
-
-		if (GamePed::GetVehicleID(Game.Ped) != -1 && GamePed::GetVehicleSeat(Game.Ped) > 0)
+		if (GamePed::GetVehicleSeat(Game.Ped) == 0 && GamePed::GetVehicleID(Game.Ped) != -1)
 		{
 			for (int i = 0; i < g_Vehicles.size(); i++)
 			{
 				if (GamePed::GetVehicleID(Game.Ped) == g_Vehicles[i].GetId())
 				{
-					/* Check if there is already a driver
-					*  If, there is kick stop them getting in and taking assignment
-					*  Else, Take assignment */
-					if (g_Vehicles[i].GetOccupant(0) > -1)
-					{
-						AI::CLEAR_PED_TASKS_IMMEDIATELY(Game.Ped);
-					}
-					else
+					if (g_Vehicles[i].GetAssignee() == g_Core->GetNetworkManager()->GetInterface()->GetMyGUID() && g_Vehicles[i].GetOccupant(0) == -1)
 					{
 						sData.Reset();
 						sData.Write(GamePed::GetVehicleID(Game.Ped));
 						g_Core->GetNetworkManager()->GetRPC().Signal("TakeEntityAssignment", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, g_Core->GetNetworkManager()->GetSystemAddress(), false, false);
+					}
+					else if (g_Vehicles[i].GetOccupant(0) != -1)
+					{
+						AI::CLEAR_PED_TASKS_IMMEDIATELY(Game.Ped);
 					}
 					break;
 				}
