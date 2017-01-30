@@ -2,8 +2,10 @@
 class CNetworkManager
 {
 private:
-	RakPeerInterface	*g_RakPeer;
-	RPC4				*g_RPC;
+	RakPeerInterface		*g_RakPeer;
+	RPC4					*g_RPC;
+	DirectoryDeltaTransfer	*g_DirTransfer;
+	FileListTransfer		*g_FileTransfer;
 
 	unsigned long		p_LastMasterUpdate;
 	
