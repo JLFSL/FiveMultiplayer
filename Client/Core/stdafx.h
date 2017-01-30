@@ -47,6 +47,7 @@
 	#include <RakNet/DirectoryDeltaTransfer.h>
 	#include <RakNet/FileListTransfer.h>
 	#include <RakNet/IncrementalReadInterface.h>
+	#include <RakNet/FileListTransferCBInterface.h>
 	using namespace RakNet;
 
 	// Vendor.CEF

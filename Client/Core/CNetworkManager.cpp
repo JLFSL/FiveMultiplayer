@@ -5,11 +5,21 @@ CNetworkManager::CNetworkManager()
 	// Get RakPeerInterface
 	g_RakPeer = RakPeerInterface::GetInstance();
 
-	// Get RPC4
+	// Retrieve instances of RPC4, DirectoryDeltaTransfer and FileListTransfer
 	g_RPC = RPC4::GetInstance();
+	g_DirTransfer = DirectoryDeltaTransfer::GetInstance();
+	g_FileTransfer = FileListTransfer::GetInstance();
 
-	// Attach RPC4 to RakPeerInterface
+	// Attach RPC4, DirectoryDeltaTransfer and FileListTransfer to RakPeerInterface
 	g_RakPeer->AttachPlugin(g_RPC);
+	g_RakPeer->AttachPlugin(g_DirTransfer);
+	g_RakPeer->AttachPlugin(g_FileTransfer);
+
+	// Set the right transfer method
+	g_DirTransfer->SetFileListTransferPlugin(g_FileTransfer);
+
+	// Set our transfer directory
+	g_DirTransfer->SetApplicationDirectory(".//");
 
 	// RakPeerInterface Settings
 	g_RakPeer->SetSplitMessageProgressInterval(100);
@@ -27,11 +37,15 @@ CNetworkManager::~CNetworkManager()
 	// Detach RPC4 from RakPeerInterface
 	g_RakPeer->DetachPlugin(g_RPC);
 
-	// Destroy RPC4
-	RPC4::DestroyInstance(g_RPC);
+	// Detach RPC4, DirectoryDeltaTransfer and FileListTransfer from RakPeerInterface
+	g_RakPeer->DetachPlugin(g_RPC);
+	g_RakPeer->DetachPlugin(g_DirTransfer);
+	g_RakPeer->DetachPlugin(g_FileTransfer);
 
-	// Destroy RakPeerInterface
-	RakPeerInterface::DestroyInstance(g_RakPeer);
+	// Destroy RPC4, DirectoryDeltaTransfer and FileListTransfer
+	RPC4::DestroyInstance(g_RPC);
+	DirectoryDeltaTransfer::DestroyInstance(g_DirTransfer);
+	FileListTransfer::DestroyInstance(g_FileTransfer);
 
 	Logger::Msg("CNetworkManager::Deconstructed");
 }
@@ -125,6 +139,42 @@ void CNetworkManager::Disconnect()
 	Logger::Msg("CNetworkManager::Disconnected");
 }
 
+/*class TestCB : public RakNet::FileListTransferCBInterface
+{
+public:
+	bool OnFile(
+		OnFileStruct *onFileStruct)
+	{
+		assert(onFileStruct->byteLengthOfThisFile >= onFileStruct->bytesDownloadedForThisFile);
+		printf("%i. (100%%) %i/%i %s %ib / %ib\n", onFileStruct->setID, onFileStruct->fileIndex + 1, onFileStruct->numberOfFilesInThisSet, onFileStruct->fileName, onFileStruct->byteLengthOfThisFile, onFileStruct->byteLengthOfThisSet);
+
+		// Return true to have RakNet delete the memory allocated to hold this file.
+		// False if you hold onto the memory, and plan to delete it yourself later
+		return true;
+	}
+
+	virtual void OnFileProgress(FileProgressStruct *fps)
+	{
+		assert(fps->onFileStruct->byteLengthOfThisFile >= fps->onFileStruct->bytesDownloadedForThisFile);
+		printf("%i (%i%%) %i/%i %s %ib / %ib\n", fps->onFileStruct->setID, (int)(100.0*(double)fps->partCount / (double)fps->partTotal),
+			fps->onFileStruct->fileIndex + 1,
+			fps->onFileStruct->numberOfFilesInThisSet,
+			fps->onFileStruct->fileName,
+			fps->onFileStruct->byteLengthOfThisFile,
+			fps->onFileStruct->byteLengthOfThisSet,
+			fps->firstDataChunk);
+	}
+
+	virtual bool OnDownloadComplete(DownloadCompleteStruct *dcs)
+	{
+		printf("Download complete.\n");
+
+		// Returning false automatically deallocates the automatically allocated handler that was created by DirectoryDeltaTransfer
+		return false;
+	}
+
+} transferCallback;*/
+
 void CNetworkManager::Pulse()
 {
 	// Don't do anything if we're disconnected
@@ -196,6 +246,9 @@ void CNetworkManager::Pulse()
 
 				// Set our last packet update so it sends our own packets too
 				g_Core->GetLocalPlayer()->SetLastSync(timeGetTime());
+
+				//if (g_DirTransfer->DownloadFromSubdirectory("", "", true, g_SystemAddr, &transferCallback, HIGH_PRIORITY, 0, 0) == -1)
+				//	Logger::Msg("CNetworkManager::NoDownload");
 
 				Logger::Msg("CNetworkManager::Connected");
 				break;
