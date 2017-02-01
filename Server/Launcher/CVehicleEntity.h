@@ -17,6 +17,7 @@ private:
 		int				EngineState		= 0;
 		uint16_t		Gear			= 0;
 		float			RPM				= .0f;
+		float			Clutch			= .0f;
 		float			Throttle		= .0f;
 		float			ThrottleP		= .0f;
 		float			BrakeP			= .0f;
