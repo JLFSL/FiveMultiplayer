@@ -100,7 +100,9 @@ public:
 
 	int GetId()					{ return Information.Id; };
 	std::string GetUsername()	{ return Information.Name; };
+
 	Ped	GetPed()				{ return Game.Ped; };
+	bool IsCreated()			{ return Game.Created; }
 
 	int GetScore()				{ return Statistics.Score; };
 
