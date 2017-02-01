@@ -144,6 +144,7 @@ void CVehicleEntity::Pulse()
 
 				Data.Gear = vdata.GetGearCurr(Game.Vehicle);
 				Data.RPM = vdata.GetCurrentRPM(Game.Vehicle);
+				Data.Clutch = vdata.GetClutch(Game.Vehicle);
 				Data.Throttle = vdata.GetThrottle(Game.Vehicle);
 				Data.ThrottleP = vdata.GetThrottleP(Game.Vehicle);
 				Data.BrakeP = vdata.GetBrakeP(Game.Vehicle);
@@ -162,6 +163,7 @@ void CVehicleEntity::Pulse()
 
 				bitstream.Write(Data.Gear);
 				bitstream.Write(Data.RPM);
+				bitstream.Write(Data.Clutch);
 				bitstream.Write(Data.Throttle);
 				bitstream.Write(Data.ThrottleP);
 				bitstream.Write(Data.BrakeP);
@@ -204,6 +206,7 @@ void CVehicleEntity::Update(Packet * packet)
 
 	bitstream.Read(Data.Gear);
 	bitstream.Read(Data.RPM);
+	bitstream.Read(Data.Clutch);
 	bitstream.Read(Data.Throttle);
 	bitstream.Read(Data.ThrottleP);
 	bitstream.Read(Data.BrakeP);
@@ -376,6 +379,7 @@ void CVehicleEntity::UpdateTargetData()
 {
 	vdata.SetGearCurr(Game.Vehicle, Data.Gear);
 	vdata.SetCurrentRPM(Game.Vehicle, Data.RPM);
+	vdata.SetClutch(Game.Vehicle, Data.Clutch);
 	vdata.SetThrottle(Game.Vehicle, Data.Throttle);
 	vdata.SetThrottleP(Game.Vehicle, Data.ThrottleP);
 	vdata.SetBrakeP(Game.Vehicle, Data.BrakeP);
