@@ -88,6 +88,7 @@
 	#include "Animations.h"
 	#include "Ped.h"
 	#include "Vehicles.h"
+	#include "World.h"
 
 	// Entity
 	#include "CLocalPlayer.h"

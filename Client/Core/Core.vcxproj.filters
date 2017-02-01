@@ -165,6 +165,9 @@
     <ClCompile Include="Vehicles.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="World.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -300,6 +303,9 @@
       <Filter>Hooks\SudoMod\Custom</Filter>
     </ClInclude>
     <ClInclude Include="Vehicles.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="World.h">
       <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>
