@@ -81,7 +81,7 @@ uint32_t Vehicles::GetTopGear(Vehicle handle) {
 float Vehicles::GetCurrentRPM(Vehicle handle) {
 	auto address = GetAddress(handle);
 
-	auto offset = 0x814;
+	auto offset = 0x818;
 
 	return address == nullptr ? 0.0f : *reinterpret_cast<const float *>(address + offset);
 }
@@ -89,7 +89,7 @@ float Vehicles::GetCurrentRPM(Vehicle handle) {
 void Vehicles::SetCurrentRPM(Vehicle handle, float value) {
 	auto address = GetAddress(handle);
 
-	auto offset = 0x814;
+	auto offset = 0x818;
 
 	*reinterpret_cast<float *>(address + offset) = value;
 }
@@ -260,6 +260,23 @@ void Vehicles::SetSteeringInputAngle(Vehicle handle, float value) {
 
 	*reinterpret_cast<float *>(address + offset) = value;
 }*/
+
+// Front wheel angle
+float Vehicles::GetWheelAngle(Vehicle handle) {
+	auto address = GetAddress(handle);
+
+	auto offset = 0x8EC;
+
+	return *reinterpret_cast<float *>(address + offset);
+}
+
+void Vehicles::SetWheelAngle(Vehicle handle, float value) {
+	auto address = GetAddress(handle);
+
+	auto offset = 0x8EC;
+
+	*reinterpret_cast<float *>(address + offset) = value;
+}
 
 // Wheel angle, steering lock dependent
 float Vehicles::GetSteeringAngle(Vehicle handle) {
