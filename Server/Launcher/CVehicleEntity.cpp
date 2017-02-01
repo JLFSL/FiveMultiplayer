@@ -82,7 +82,6 @@ void CVehicleEntity::Pulse()
 		bitstream.Write(Data.WheelSpeed);
 		bitstream.Write(Data.SteeringAngle);
 		bitstream.Write(Data.ForwardWheelAngle);
-		
 
 		bitstream.Write(Data.Velocity.fX);
 		bitstream.Write(Data.Velocity.fY);

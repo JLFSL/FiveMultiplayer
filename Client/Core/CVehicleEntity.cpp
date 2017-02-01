@@ -405,14 +405,14 @@ void CVehicleEntity::SetTargetData()
 	vdata.SetCurrentGear(Game.Vehicle, Data.Gear);
 	vdata.SetCurrentRPM(Game.Vehicle, Data.RPM);
 
-	vdata.SetClutch(Game.Vehicle, Data.Clutch);
-	vdata.SetTurbo(Game.Vehicle, Data.Turbo);
+	//vdata.SetClutch(Game.Vehicle, Data.Clutch);
+	//vdata.SetTurbo(Game.Vehicle, Data.Turbo);
 	vdata.SetAcceleration(Game.Vehicle, Data.Acceleration);
-	vdata.SetBrake(Game.Vehicle, Data.Brake);
+	//vdata.SetBrake(Game.Vehicle, Data.Brake);
 
 	vdata.SetWheelSpeed(Game.Vehicle, Data.WheelSpeed);
 	vdata.SetSteeringAngle(Game.Vehicle, Data.SteeringAngle);
-	vdata.SetForwardWheelAngle(Game.Vehicle, Data.ForwardWheelAngle);
+	//vdata.SetForwardWheelAngle(Game.Vehicle, Data.ForwardWheelAngle);
 }
 
 
