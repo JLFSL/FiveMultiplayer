@@ -110,6 +110,12 @@ void CCore::OnGameTick()
 		Logger::Msg("Connecting");
 	}
 
+	if (KeyJustUp(VK_F4))
+	{
+		Vehicles veh;
+		std::cout << veh.GetSteeringAngle(PED::GET_VEHICLE_PED_IS_IN(g_LocalPlayer->GetPed(), false)) << std::endl;
+	}
+
 	if (KeyJustUp(VK_F5))
 	{
 		g_NetworkManager->Connect("188.166.76.252", "default", CON_PORT);
