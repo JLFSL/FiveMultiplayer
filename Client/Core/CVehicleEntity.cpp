@@ -142,6 +142,9 @@ void CVehicleEntity::Pulse()
 				Data.Position = { Coordinates.x, Coordinates.y, Coordinates.z };
 				Data.Velocity = { Velocity.x, Velocity.y, Velocity.z };
 
+				Vehicles veh;
+				Data.WheelAngle = veh.GetSteeringAngle(Game.Vehicle);
+
 				BitStream bitstream;
 				bitstream.Write((unsigned char)ID_PACKET_VEHICLE);
 
@@ -152,6 +155,8 @@ void CVehicleEntity::Pulse()
 				bitstream.Write(Data.Position.fZ);
 
 				bitstream.Write(Data.ForwardSpeed);
+
+				bitstream.Write(Data.WheelAngle);
 
 				bitstream.Write(Data.Velocity.fX);
 				bitstream.Write(Data.Velocity.fY);
@@ -187,6 +192,8 @@ void CVehicleEntity::Update(Packet * packet)
 	bitstream.Read(Data.Position.fZ);
 
 	bitstream.Read(Data.ForwardSpeed);
+
+	bitstream.Read(Data.WheelAngle);
 
 	bitstream.Read(Data.Velocity.fX);
 	bitstream.Read(Data.Velocity.fY);
@@ -353,12 +360,13 @@ void CVehicleEntity::SetTargetRotation()
 
 void CVehicleEntity::UpdateTargetData()
 {
+	Vehicles veh;
+	veh.SetSteeringAngle(Game.Vehicle, Data.WheelAngle);
 }
 
 
 Vehicle CVehicleEntity::getClosestVehicleFromPedPos(Ped ped, int maxDistance)
 {
-
 	Vector3 ppos = ENTITY::GET_OFFSET_FROM_ENTITY_IN_WORLD_COORDS(ped, 0.0, 0.0, -1.0f);
 	CVector3 playerPos = CVector3(ppos.x, ppos.y, ppos.z);
 

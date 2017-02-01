@@ -5,26 +5,28 @@ class CVehicleEntity
 private:
 	struct VehicleInfo
 	{
-		int					Id;
+		int				Id;
 	} Information;
 
 	struct VehicleData
 	{
-		std::string			Model;
+		std::string		Model;
 
-		float				ForwardSpeed;
-		float				Heading;
+		float			ForwardSpeed;
 
-		CVector3			Position;
-		CVector3			Velocity;
-		CVector4			Quaternion;
+		float			WheelAngle;
+
+		float			Heading;
+		CVector3		Position;
+		CVector3		Velocity;
+		CVector4		Quaternion;
 	} Data;
 
 	struct VehicleNetwork
 	{
-		RakNetGUID			Assigned;
+		RakNetGUID		Assigned;
 		std::chrono::time_point<std::chrono::system_clock> LastSyncSent;
-		bool				Synchronized;
+		bool			Synchronized;
 	} Network;
 
 	int Occupants[12];

@@ -18,6 +18,8 @@ private:
 
 		float			ForwardSpeed;
 
+		float			WheelAngle;
+
 		float			Heading;
 		CVector3		Position;
 		CVector3		Velocity;
@@ -92,6 +94,9 @@ public:
 
 	void			SetInfo(VehicleInfo newinfo) { Information = newinfo; }
 	void			SetData(VehicleData newdata) { Data = newdata; }
+
+	float			GetWheelAngle() { return Data.WheelAngle; }
+	void			SetWheelAngle(float WheelAngle) { Data.WheelAngle = WheelAngle; }
 
 	VehicleInterpolationData InterpolationData;
 };
