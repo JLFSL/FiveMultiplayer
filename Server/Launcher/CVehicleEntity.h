@@ -14,13 +14,13 @@ private:
 
 		float			ForwardSpeed;
 
-		int				EngineState = 0;
-		uint16_t		Gear = 0;
-		float			RPM = .0f;
-		float			Throttle = .0f;
-		float			ThrottleP = .0f;
-		float			BrakeP = .0f;
-		float			SteeringAngle = .0f;
+		int				EngineState		= 0;
+		uint16_t		Gear			= 0;
+		float			RPM				= .0f;
+		float			Throttle		= .0f;
+		float			ThrottleP		= .0f;
+		float			BrakeP			= .0f;
+		float			SteeringAngle	= .0f;
 
 		float			Heading;
 		CVector3		Position;
