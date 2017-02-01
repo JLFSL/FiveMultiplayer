@@ -134,12 +134,12 @@ struct Vehicle
 
 struct VehicleHelper
 {
-//	virtual void create(const char* string/*Vehicle* veh, const char* model, Vec position, float heading*/)
-//	{
+	virtual void create(const char* string/*Vehicle* veh, const char* model, Vec position, float heading*/)
+	{
 		//std::cout << string << std::endl;
 		//CVector3 pos = { position.coord[0], position.coord[1], position.coord[2] };
 		//veh->entity = API::Vehicle::CreateVehicle(model, pos, heading);
-	//}
+	}
 
 	static void create(const std::string& text)
 	{
@@ -239,7 +239,7 @@ extern "C" DLL_PUBLIC bool API_Initialize(void) {
 		.endClass()
 		.beginClass <Vehicle>("Vehicle")
 		.addConstructor <void(*)(void)>()
-		.addFunction("Create", &VehicleHelper::create)
+		//.addFunction("Create", &VehicleHelper::create)
 		//.addCFunction("Creates", &VehicleHelper::creates)
 		.endClass();
 		/*.beginClass <Vehicle>("Vehicle")

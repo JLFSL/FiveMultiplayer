@@ -44,19 +44,19 @@
 struct RefCountedPtrBase
 {
   // Declaration of container for the refcounts
-#ifdef _MSC_VER
+//#ifdef _MSC_VER
   typedef std::unordered_map <const void *, int> RefCountsType;
-#else
-  struct ptr_hash
-  {
-    size_t operator () (const void * const v) const
-    {
-      static __gnu_cxx::hash<unsigned int> H;
-      return H(uintptr_t(v));
-    }
-  };
-  typedef __gnu_cxx::unordered_map<const void *, int, ptr_hash> RefCountsType;
-#endif
+//#else
+//  struct ptr_hash
+//  {
+//    size_t operator () (const void * const v) const
+//    {
+//      static __gnu_cxx::hash<unsigned int> H;
+//      return H(uintptr_t(v));
+//    }
+//  };
+//  typedef __gnu_cxx::unordered_map<const void *, int, ptr_hash> RefCountsType;
+//#endif
 
 protected:
   inline RefCountsType& getRefCounts ()
