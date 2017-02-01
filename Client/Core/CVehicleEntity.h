@@ -55,6 +55,8 @@ private:
 		} Rotation;
 	};
 
+	Vehicles vdata;
+
 	int Occupants[12];
 
 public:
