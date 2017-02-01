@@ -67,6 +67,7 @@ public:
 	CVector3 GetPos()		{ return Data.Position; }
 	Vector3_t GetPosEx()	{ Vector3_t Pos = { Data.Position.fX, Data.Position.fY, Data.Position.fZ }; return Pos; }
 
+	int GetVehicleId()		{ return Data.Vehicle.VehicleID; }
 	int GetSeat()			{ return Data.Vehicle.Seat; }
 
 	void SetLastSync(unsigned long Time) { Network.LastSyncSent = Time; }

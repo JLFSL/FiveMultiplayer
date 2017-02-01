@@ -232,8 +232,8 @@ void CVehicleEntity::Update(Packet * packet)
 	
 	if (!Game.Created)
 		CreateVehicle();
-
-	if (GamePed::GetVehicleID(g_Core->GetLocalPlayer()->GetPed()) != Information.Id) {
+	
+	if (g_Core->GetLocalPlayer()->GetVehicleId() != Information.Id) {
 		UpdateTargetPosition();
 		UpdateTargetData();
 		//UpdateTargetRotation();
