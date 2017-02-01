@@ -134,11 +134,16 @@ struct Vehicle
 
 struct VehicleHelper
 {
-	virtual void create(const char* string/*Vehicle* veh, const char* model, Vec position, float heading*/)
-	{
-		std::cout << string << std::endl;
+//	virtual void create(const char* string/*Vehicle* veh, const char* model, Vec position, float heading*/)
+//	{
+		//std::cout << string << std::endl;
 		//CVector3 pos = { position.coord[0], position.coord[1], position.coord[2] };
 		//veh->entity = API::Vehicle::CreateVehicle(model, pos, heading);
+	//}
+
+	static void create(const std::string& text)
+	{
+		std::cout << ": " << text << std::endl;
 	}
 
 	int creates(lua_State* L)
@@ -227,15 +232,15 @@ extern "C" DLL_PUBLIC bool API_Initialize(void) {
 	
 	getGlobalNamespace(stateLua)
 		.beginClass <Vec>("Vector3")
-			.addConstructor <void(*)(void)>()
-			.addProperty("x", &VecHelper::get <0>, &VecHelper::set <0>)
-			.addProperty("y", &VecHelper::get <1>, &VecHelper::set <1>)
-			.addProperty("z", &VecHelper::get <2>, &VecHelper::set <2>)
+		.addConstructor <void(*)(void)>()
+		.addProperty("x", &VecHelper::get <0>, &VecHelper::set <0>)
+		.addProperty("y", &VecHelper::get <1>, &VecHelper::set <1>)
+		.addProperty("z", &VecHelper::get <2>, &VecHelper::set <2>)
 		.endClass()
 		.beginClass <Vehicle>("Vehicle")
-			.addConstructor <void(*)(void)>()
-			.addFunction("Create", &VehicleHelper::create)
-			.addCFunction("Creates", &VehicleHelper::creates)
+		.addConstructor <void(*)(void)>()
+		.addFunction("Create", &VehicleHelper::create)
+		//.addCFunction("Creates", &VehicleHelper::creates)
 		.endClass();
 		/*.beginClass <Vehicle>("Vehicle")
 			.addConstructor <void(*)(void)>()
