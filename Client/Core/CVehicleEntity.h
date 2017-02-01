@@ -18,6 +18,11 @@ private:
 
 		float			ForwardSpeed;
 
+		uint16_t		Gear = 0;
+		float			RPM = .0f;
+		float			Throttle = .0f;
+		float			ThrottleP = .0f;
+		float			BrakeP = .0f;
 		float			SteeringAngle = .0f;
 
 		float			Heading;
