@@ -380,8 +380,8 @@ void CVehicleEntity::SetTargetRotation()
 
 void CVehicleEntity::UpdateTargetData()
 {
-	VEHICLE::SET_VEHICLE_ENGINE_ON(Game.Vehicle, Data.EngineState, true, true);
-	VEHICLE::SET_VEHICLE_UNDRIVEABLE(Game.Vehicle, !Data.EngineState);
+	VEHICLE::SET_VEHICLE_ENGINE_ON(Game.Vehicle, Data.EngineState, false, true);
+	//VEHICLE::SET_VEHICLE_UNDRIVEABLE(Game.Vehicle, !Data.EngineState);
 
 	vdata.SetGearCurr(Game.Vehicle, Data.Gear);
 	vdata.SetCurrentRPM(Game.Vehicle, Data.RPM);
