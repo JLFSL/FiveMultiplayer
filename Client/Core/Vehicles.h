@@ -4,39 +4,28 @@ class Vehicles {
 public:
 	void ClearAddress();
 	BYTE *GetAddress(Vehicle handle);
-	uint16_t GetGearCurr(Vehicle handle);
-	uint16_t GetGearNext(Vehicle handle);
-	uint32_t GetGears(Vehicle handle);
-	void SetGears(Vehicle handle, uint32_t value);
-	void SetGearCurr(Vehicle handle, uint16_t value);
-	void SetGearNext(Vehicle handle, uint16_t value);
-	uint32_t GetTopGear(Vehicle handle);
+
+	uint16_t GetCurrentGear(Vehicle handle);
+	void SetCurrentGear(Vehicle handle, uint16_t value);
 	float GetCurrentRPM(Vehicle handle);
 	void SetCurrentRPM(Vehicle handle, float value);
+
 	float GetClutch(Vehicle handle);
 	void SetClutch(Vehicle handle, float value);
 	float GetTurbo(Vehicle handle);
 	void SetTurbo(Vehicle handle, float value);
-	float GetThrottle(Vehicle handle);
-	void SetThrottle(Vehicle handle, float value);
-	float GetThrottleP(Vehicle handle);
-	void SetThrottleP(Vehicle handle, float value);
-	float GetBrakeP(Vehicle handle);
-	void SetBrakeP(Vehicle handle, float value);
-	float GetFuelLevel(Vehicle handle);
-	void SetFuelLevel(Vehicle handle, float value);
-	uint64_t GetWheelsPtr(Vehicle handle);
-	void SetWheelsHealth(Vehicle handle, float health);
-	std::vector<float> GetWheelsCompression(Vehicle handle);
-	float GetSteeringInputAngle(Vehicle handle);
-	void SetSteeringInputAngle(Vehicle handle, float value);
-	float GetWheelAngle(Vehicle handle);
-	void SetWheelAngle(Vehicle handle, float value);
+	float GetAcceleration(Vehicle handle);
+	void SetAcceleration(Vehicle handle, float value);
+	float GetBrake(Vehicle handle);
+	void SetBrake(Vehicle handle, float value);
+
+	float GetWheelSpeed(Vehicle handle);
+	void SetWheelSpeed(Vehicle handle, float value);
 	float GetSteeringAngle(Vehicle handle);
 	void SetSteeringAngle(Vehicle handle, float value);
-	float GetEngineTemp(Vehicle handle);
-	float GetDirtLevel(Vehicle handle);
-	float GetDashSpeed(Vehicle handle);
+	float GetForwardWheelAngle(Vehicle handle);
+	void SetForwardWheelAngle(Vehicle handle, float value);
+
 
 private:
 	BYTE* currAddress = nullptr;

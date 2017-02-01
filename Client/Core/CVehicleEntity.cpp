@@ -143,14 +143,18 @@ void CVehicleEntity::Pulse()
 				Data.Velocity = { Velocity.x, Velocity.y, Velocity.z };
 
 				Data.EngineState = VEHICLE::GET_IS_VEHICLE_ENGINE_RUNNING(Game.Vehicle);
-				Data.Gear = vdata.GetGearCurr(Game.Vehicle);
+				
+				Data.Gear = vdata.GetCurrentGear(Game.Vehicle);
 				Data.RPM = vdata.GetCurrentRPM(Game.Vehicle);
+
 				Data.Clutch = vdata.GetClutch(Game.Vehicle);
-				Data.Throttle = vdata.GetThrottle(Game.Vehicle);
-				Data.ThrottleP = vdata.GetThrottleP(Game.Vehicle);
-				Data.BrakeP = vdata.GetBrakeP(Game.Vehicle);
-				Data.WheelAngle = vdata.GetWheelAngle(Game.Vehicle);
+				Data.Turbo = vdata.GetTurbo(Game.Vehicle);
+				Data.Acceleration = vdata.GetAcceleration(Game.Vehicle);
+				Data.Brake = vdata.GetBrake(Game.Vehicle);
+
+				Data.WheelSpeed = vdata.GetWheelSpeed(Game.Vehicle);
 				Data.SteeringAngle = vdata.GetSteeringAngle(Game.Vehicle);
+				Data.ForwardWheelAngle = vdata.GetForwardWheelAngle(Game.Vehicle);
 
 				BitStream bitstream;
 				bitstream.Write((unsigned char)ID_PACKET_VEHICLE);
@@ -164,14 +168,18 @@ void CVehicleEntity::Pulse()
 				bitstream.Write(Data.ForwardSpeed);
 
 				bitstream.Write(Data.EngineState);
+
 				bitstream.Write(Data.Gear);
 				bitstream.Write(Data.RPM);
+
 				bitstream.Write(Data.Clutch);
-				bitstream.Write(Data.Throttle);
-				bitstream.Write(Data.ThrottleP);
-				bitstream.Write(Data.BrakeP);
-				bitstream.Write(Data.WheelAngle);
+				bitstream.Write(Data.Turbo);
+				bitstream.Write(Data.Acceleration);
+				bitstream.Write(Data.Brake);
+
+				bitstream.Write(Data.WheelSpeed);
 				bitstream.Write(Data.SteeringAngle);
+				bitstream.Write(Data.ForwardWheelAngle);
 
 				bitstream.Write(Data.Velocity.fX);
 				bitstream.Write(Data.Velocity.fY);
@@ -209,14 +217,18 @@ void CVehicleEntity::Update(Packet * packet)
 	bitstream.Read(Data.ForwardSpeed);
 
 	bitstream.Read(Data.EngineState);
+
 	bitstream.Read(Data.Gear);
 	bitstream.Read(Data.RPM);
+
 	bitstream.Read(Data.Clutch);
-	bitstream.Read(Data.Throttle);
-	bitstream.Read(Data.ThrottleP);
-	bitstream.Read(Data.BrakeP);
-	bitstream.Read(Data.WheelAngle);
+	bitstream.Read(Data.Turbo);
+	bitstream.Read(Data.Acceleration);
+	bitstream.Read(Data.Brake);
+
+	bitstream.Read(Data.WheelSpeed);
 	bitstream.Read(Data.SteeringAngle);
+	bitstream.Read(Data.ForwardWheelAngle);
 
 	bitstream.Read(Data.Velocity.fX);
 	bitstream.Read(Data.Velocity.fY);
@@ -389,14 +401,17 @@ void CVehicleEntity::UpdateTargetData()
 		//VEHICLE::SET_VEHICLE_UNDRIVEABLE(Game.Vehicle, !Data.EngineState);
 	}
 
-	vdata.SetGearCurr(Game.Vehicle, Data.Gear);
+	vdata.SetCurrentGear(Game.Vehicle, Data.Gear);
 	vdata.SetCurrentRPM(Game.Vehicle, Data.RPM);
+
 	vdata.SetClutch(Game.Vehicle, Data.Clutch);
-	vdata.SetThrottle(Game.Vehicle, Data.Throttle);
-	vdata.SetThrottleP(Game.Vehicle, Data.ThrottleP);
-	vdata.SetBrakeP(Game.Vehicle, Data.BrakeP);
-	vdata.SetWheelAngle(Game.Vehicle, Data.WheelAngle);
+	vdata.SetTurbo(Game.Vehicle, Data.Turbo);
+	vdata.SetAcceleration(Game.Vehicle, Data.Acceleration);
+	vdata.SetBrake(Game.Vehicle, Data.Brake);
+
+	vdata.SetWheelSpeed(Game.Vehicle, Data.WheelSpeed);
 	vdata.SetSteeringAngle(Game.Vehicle, Data.SteeringAngle);
+	vdata.SetForwardWheelAngle(Game.Vehicle, Data.ForwardWheelAngle);
 }
 
 

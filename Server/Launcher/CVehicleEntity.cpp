@@ -70,14 +70,19 @@ void CVehicleEntity::Pulse()
 		bitstream.Write(Data.ForwardSpeed);
 
 		bitstream.Write(true);
+
 		bitstream.Write(Data.Gear);
 		bitstream.Write(Data.RPM);
+
 		bitstream.Write(Data.Clutch);
-		bitstream.Write(Data.Throttle);
-		bitstream.Write(Data.ThrottleP);
-		bitstream.Write(Data.BrakeP);
-		bitstream.Write(Data.WheelAngle);
+		bitstream.Write(Data.Turbo);
+		bitstream.Write(Data.Acceleration);
+		bitstream.Write(Data.Brake);
+
+		bitstream.Write(Data.WheelSpeed);
 		bitstream.Write(Data.SteeringAngle);
+		bitstream.Write(Data.ForwardWheelAngle);
+		
 
 		bitstream.Write(Data.Velocity.fX);
 		bitstream.Write(Data.Velocity.fY);
@@ -114,14 +119,18 @@ void CVehicleEntity::Update(Packet *packet)
 	bitstream.Read(Data.ForwardSpeed);
 
 	bitstream.Read(Data.EngineState);
+
 	bitstream.Read(Data.Gear);
 	bitstream.Read(Data.RPM);
+
 	bitstream.Read(Data.Clutch);
-	bitstream.Read(Data.Throttle);
-	bitstream.Read(Data.ThrottleP);
-	bitstream.Read(Data.BrakeP);
-	bitstream.Read(Data.WheelAngle);
+	bitstream.Read(Data.Turbo);
+	bitstream.Read(Data.Acceleration);
+	bitstream.Read(Data.Brake);
+
+	bitstream.Read(Data.WheelSpeed);
 	bitstream.Read(Data.SteeringAngle);
+	bitstream.Read(Data.ForwardWheelAngle);
 
 	bitstream.Read(Data.Velocity.fX);
 	bitstream.Read(Data.Velocity.fY);
