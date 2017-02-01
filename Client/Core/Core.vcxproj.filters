@@ -49,6 +49,9 @@
     <Filter Include="Network\RPC">
       <UniqueIdentifier>{f88e65bc-0bf1-47f3-90d9-b684c02a0b14}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Hooks\SudoMod\Custom">
+      <UniqueIdentifier>{8e82fbbc-41f0-47ab-b6ee-1d3c2ca3c7ee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -154,6 +157,12 @@
       <Filter>Network\RPC</Filter>
     </ClCompile>
     <ClCompile Include="Ped.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoryAccess.cpp">
+      <Filter>Hooks\SudoMod\Custom</Filter>
+    </ClCompile>
+    <ClCompile Include="Vehicles.cpp">
       <Filter>Game</Filter>
     </ClCompile>
   </ItemGroup>
@@ -285,6 +294,12 @@
       <Filter>Network\RPC</Filter>
     </ClInclude>
     <ClInclude Include="Ped.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="MemoryAccess.h">
+      <Filter>Hooks\SudoMod\Custom</Filter>
+    </ClInclude>
+    <ClInclude Include="Vehicles.h">
       <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>

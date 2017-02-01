@@ -5,11 +5,22 @@ CNetworkManager::CNetworkManager()
 	// Get RakPeerInterface
 	g_RakPeer = RakPeerInterface::GetInstance();
 	
-	// Get RPC4
+	// Retrieve instances of RPC4, DirectoryDeltaTransfer and FileListTransfer
 	g_RPC = RPC4::GetInstance();
-
-	// Attach RPC4 to RakPeerInterface
+	g_DirTransfer = DirectoryDeltaTransfer::GetInstance();
+	g_FileTransfer = FileListTransfer::GetInstance();
+	
+	// Attach RPC4, DirectoryDeltaTransfer and FileListTransfer to RakPeerInterface
 	g_RakPeer->AttachPlugin(g_RPC);
+	g_RakPeer->AttachPlugin(g_DirTransfer);
+	g_RakPeer->AttachPlugin(g_FileTransfer);
+
+	// Set the right transfer method
+	g_DirTransfer->SetFileListTransferPlugin(g_FileTransfer);
+
+	// Set our transfer directory and shared folder
+	g_DirTransfer->SetApplicationDirectory(".//");
+	g_DirTransfer->AddUploadsFromSubdirectory("clientplugins");
 
 	// RakPeerInterface Settings
 	g_RakPeer->SetSplitMessageProgressInterval(100);
@@ -23,11 +34,15 @@ CNetworkManager::~CNetworkManager()
 	// Stop RakNet, stops synchronization
 	g_RakPeer->Shutdown(2000);
 
-	// Detach RPC4 from RakPeerInterface
+	// Detach RPC4, DirectoryDeltaTransfer and FileListTransfer from RakPeerInterface
 	g_RakPeer->DetachPlugin(g_RPC);
+	g_RakPeer->DetachPlugin(g_DirTransfer);
+	g_RakPeer->DetachPlugin(g_FileTransfer);
 
-	// Destroy RPC4
+	// Destroy RPC4, DirectoryDeltaTransfer and FileListTransfer
 	RPC4::DestroyInstance(g_RPC);
+	DirectoryDeltaTransfer::DestroyInstance(g_DirTransfer);
+	FileListTransfer::DestroyInstance(g_FileTransfer);
 
 	// Destroy RakPeerInterface
 	RakPeerInterface::DestroyInstance(g_RakPeer);
@@ -44,13 +59,16 @@ bool CNetworkManager::Start()
 	int Startup = g_RakPeer->Startup(g_Config->GetMaxPlayers(), &socketDescriptor, 1, 0);
 	if (!Startup)
 	{
+		// Set all connection data after interface has started
 		g_RakPeer->SetMaximumIncomingConnections(g_Config->GetMaxPlayers());
 		g_RakPeer->SetIncomingPassword(g_Config->GetPassword().c_str(), sizeof(g_Config->GetPassword().c_str()));
 		g_RakPeer->SetLimitIPConnectionFrequency(true);
 		g_RakPeer->SetTimeoutTime(15000, UNASSIGNED_SYSTEM_ADDRESS);
 
 		std::cout << "[CNetworkManager] Successfully started" << std::endl;
+		std::cout << "[CNetworkManager] " << g_DirTransfer->GetNumberOfFilesForUpload() << " files suitable for upload to clients" << std::endl;
 
+		// Send data to the masterlist, so others can see that the server is online.
 		PulseMaster();
 		return true;
 	}

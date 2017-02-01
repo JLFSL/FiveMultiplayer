@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <limits.h>
+#include <Psapi.h>
 
 // DirectX // DirectInput
 #include <d3d11.h>
@@ -47,6 +48,7 @@
 	#include <RakNet/DirectoryDeltaTransfer.h>
 	#include <RakNet/FileListTransfer.h>
 	#include <RakNet/IncrementalReadInterface.h>
+	#include <RakNet/FileListTransferCBInterface.h>
 	using namespace RakNet;
 
 	// Vendor.CEF
@@ -74,6 +76,7 @@
 		#include "Hooking.h"
 		#include "Structs.h"
 		#include "script.h"
+		#include "MemoryAccess.h"
 	
 	// Include
 	#include "IniReader.h"
@@ -84,6 +87,7 @@
 	#include "Doors.h"
 	#include "Animations.h"
 	#include "Ped.h"
+	#include "Vehicles.h"
 
 	// Entity
 	#include "CLocalPlayer.h"
