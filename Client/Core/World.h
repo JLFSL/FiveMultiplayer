@@ -6,6 +6,4 @@ class World
 	static Vector3 ScreenRelToWorld(Vector3 camPos, Vector3 camRot, Vector2 coord);
 	static Vector3 RotationToDirection(Vector3 rotation);
 	static Vector3 DirectionToRotation(Vector3 direction);
-	static double DegToRad(double deg);
-	static double RadToDeg(double deg);
 };

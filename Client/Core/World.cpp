@@ -38,7 +38,7 @@ Vector3 World::ScreenRelToWorld(Vector3 camPos, Vector3 camRot, Vector2 coord)
 	camUp.y = RotationToDirection(rotDown).y;
 	camUp.z = RotationToDirection(rotDown).z;
 
-	double rollRad = -DegToRad(camRot.y);
+	double rollRad = -Math::ConvertDegreesToRadians(camRot.y);
 
 	Vector3 camRightRoll;
 	camRightRoll.x = camRight.x * (float)cos(rollRad) - camUp.x * (float)sin(rollRad);
@@ -102,8 +102,8 @@ Vector3 World::ScreenRelToWorld(Vector3 camPos, Vector3 camRot, Vector2 coord)
 
 Vector3 World::RotationToDirection(Vector3 rotation)
 {
-	float z = DegToRad(rotation.z);
-	float x = DegToRad(rotation.x);
+	float z = Math::ConvertDegreesToRadians(rotation.z);
+	float x = Math::ConvertDegreesToRadians(rotation.x);
 	float num = abs(cos(x));
 
 	Vector3 Direction;
@@ -121,19 +121,9 @@ Vector3 World::DirectionToRotation(Vector3 direction)
 	float z = -atan2(direction.x, direction.y);
 
 	Vector3 rot;
-	rot.x = (float)RadToDeg(x);
-	rot.y = (float)RadToDeg(y);
-	rot.z = (float)RadToDeg(z);
+	rot.x = Math::ConvertRadiansToDegrees(x);
+	rot.y = Math::ConvertRadiansToDegrees(y);
+	rot.z = Math::ConvertRadiansToDegrees(z);
 
 	return rot;
-}
-
-double World::DegToRad(double deg)
-{
-	return deg * PI / 180.0;
-}
-
-double World::RadToDeg(double deg)
-{
-	return deg * 180.0 / PI;
 }
