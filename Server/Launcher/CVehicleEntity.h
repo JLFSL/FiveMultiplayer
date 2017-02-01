@@ -14,7 +14,7 @@ private:
 
 		float			ForwardSpeed;
 
-		float			WheelAngle = .0f;
+		float			SteeringAngle = .0f;
 
 		float			Heading;
 		CVector3		Position;

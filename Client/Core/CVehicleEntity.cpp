@@ -142,7 +142,7 @@ void CVehicleEntity::Pulse()
 				Data.Position = { Coordinates.x, Coordinates.y, Coordinates.z };
 				Data.Velocity = { Velocity.x, Velocity.y, Velocity.z };
 
-				Data.WheelAngle = vdata.GetSteeringAngle(Game.Vehicle);
+				Data.SteeringAngle = vdata.GetSteeringAngle(Game.Vehicle);
 
 				BitStream bitstream;
 				bitstream.Write((unsigned char)ID_PACKET_VEHICLE);
@@ -155,7 +155,7 @@ void CVehicleEntity::Pulse()
 
 				bitstream.Write(Data.ForwardSpeed);
 
-				bitstream.Write(Data.WheelAngle);
+				bitstream.Write(Data.SteeringAngle);
 
 				bitstream.Write(Data.Velocity.fX);
 				bitstream.Write(Data.Velocity.fY);
@@ -192,7 +192,7 @@ void CVehicleEntity::Update(Packet * packet)
 
 	bitstream.Read(Data.ForwardSpeed);
 
-	bitstream.Read(Data.WheelAngle);
+	bitstream.Read(Data.SteeringAngle);
 
 	bitstream.Read(Data.Velocity.fX);
 	bitstream.Read(Data.Velocity.fY);
@@ -359,7 +359,7 @@ void CVehicleEntity::SetTargetRotation()
 
 void CVehicleEntity::UpdateTargetData()
 {
-	vdata.SetSteeringAngle(Game.Vehicle, Data.WheelAngle);
+	vdata.SetSteeringAngle(Game.Vehicle, Data.SteeringAngle);
 }
 
 

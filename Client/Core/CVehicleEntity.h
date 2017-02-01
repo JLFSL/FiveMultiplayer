@@ -18,7 +18,7 @@ private:
 
 		float			ForwardSpeed;
 
-		float			WheelAngle = .0f;
+		float			SteeringAngle = .0f;
 
 		float			Heading;
 		CVector3		Position;
@@ -96,9 +96,6 @@ public:
 
 	void			SetInfo(VehicleInfo newinfo) { Information = newinfo; }
 	void			SetData(VehicleData newdata) { Data = newdata; }
-
-	float			GetWheelAngle() { return Data.WheelAngle; }
-	void			SetWheelAngle(float WheelAngle) { Data.WheelAngle = WheelAngle; }
 
 	VehicleInterpolationData InterpolationData;
 };
