@@ -23,9 +23,14 @@ uint16_t Vehicles::GetCurrentGear(Vehicle handle) {
 void Vehicles::SetCurrentGear(Vehicle handle, uint16_t value) {
 	auto address = GetAddress(handle);
 
-	auto offset = 0x7E0;
-
-	*reinterpret_cast<uint32_t *>(address + offset) = value;
+	if (g_Config->GetLatestVersion())
+	{
+		*reinterpret_cast<uint32_t *>(address + 0x7E0) = value;
+	}
+	else
+	{
+		*reinterpret_cast<uint32_t *>(address + 0x7C0) = value;
+	}
 }
 
 float Vehicles::GetCurrentRPM(Vehicle handle) {

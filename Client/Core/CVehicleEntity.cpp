@@ -97,7 +97,7 @@ void CVehicleEntity::Pulse()
 	if (Game.Created && Information.Id != -1)
 	{
 		int t_CurrentVehicle = g_Core->GetLocalPlayer()->GetVehicleId();
-
+		
 		// Assignment System
 		if (Network.Assigned != RakNetGUID(12345) && Network.Assigned == UNASSIGNED_RAKNET_GUID && Occupants[0] == -1)
 		{

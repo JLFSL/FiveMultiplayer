@@ -55,7 +55,7 @@ struct RefCountedPtrBase
       return H(uintptr_t(v));
     }
   };
-  typedef __gnu_cxx::hash_map<const void *, int, ptr_hash> RefCountsType;
+  typedef __gnu_cxx::unordered_map<const void *, int, ptr_hash> RefCountsType;
 #endif
 
 protected:
