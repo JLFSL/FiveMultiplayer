@@ -94,12 +94,10 @@ void Vehicles::SetCurrentRPM(Vehicle handle, float value) {
 	*reinterpret_cast<float *>(address + offset) = value;
 }
 
-/*float Vehicles::GetClutch(Vehicle handle) {
+float Vehicles::GetClutch(Vehicle handle) {
 	auto address = GetAddress(handle);
 
-	auto offset = (gameVersion > 3 ? 0x7E0 : 0x7D0);
-	offset = (gameVersion > 25 ? 0x800 : offset);
-	offset = (gameVersion > 27 ? 0x820 : offset);
+	auto offset = 0x820;
 
 	return address == nullptr ? 0 : *reinterpret_cast<const float *>(address + offset);
 }
@@ -107,14 +105,12 @@ void Vehicles::SetCurrentRPM(Vehicle handle, float value) {
 void Vehicles::SetClutch(Vehicle handle, float value) {
 	auto address = GetAddress(handle);
 
-	auto offset = (gameVersion > 3 ? 0x7E0 : 0x7D0);
-	offset = (gameVersion > 25 ? 0x800 : offset);
-	offset = (gameVersion > 27 ? 0x820 : offset);
+	auto offset = 0x820;
 
 	*reinterpret_cast<float *>(address + offset) = value;
 }
 
-float Vehicles::GetTurbo(Vehicle handle) {
+/*float Vehicles::GetTurbo(Vehicle handle) {
 	auto address = GetAddress(handle);
 
 	auto offset = (gameVersion > 3 ? 0x7F8 : 0x7D8);
