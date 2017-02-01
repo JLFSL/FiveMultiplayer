@@ -142,6 +142,7 @@ void CVehicleEntity::Pulse()
 				Data.Position = { Coordinates.x, Coordinates.y, Coordinates.z };
 				Data.Velocity = { Velocity.x, Velocity.y, Velocity.z };
 
+				Data.EngineState = VEHICLE::GET_IS_VEHICLE_ENGINE_RUNNING(Game.Vehicle);
 				Data.Gear = vdata.GetGearCurr(Game.Vehicle);
 				Data.RPM = vdata.GetCurrentRPM(Game.Vehicle);
 				Data.Throttle = vdata.GetThrottle(Game.Vehicle);
@@ -160,6 +161,7 @@ void CVehicleEntity::Pulse()
 
 				bitstream.Write(Data.ForwardSpeed);
 
+				bitstream.Write(Data.EngineState);
 				bitstream.Write(Data.Gear);
 				bitstream.Write(Data.RPM);
 				bitstream.Write(Data.Throttle);
@@ -202,6 +204,7 @@ void CVehicleEntity::Update(Packet * packet)
 
 	bitstream.Read(Data.ForwardSpeed);
 
+	bitstream.Read(Data.EngineState);
 	bitstream.Read(Data.Gear);
 	bitstream.Read(Data.RPM);
 	bitstream.Read(Data.Throttle);
@@ -374,6 +377,9 @@ void CVehicleEntity::SetTargetRotation()
 
 void CVehicleEntity::UpdateTargetData()
 {
+	VEHICLE::SET_VEHICLE_ENGINE_ON(Game.Vehicle, Data.EngineState, true, true);
+	VEHICLE::SET_VEHICLE_UNDRIVEABLE(Game.Vehicle, !Data.EngineState);
+
 	vdata.SetGearCurr(Game.Vehicle, Data.Gear);
 	vdata.SetCurrentRPM(Game.Vehicle, Data.RPM);
 	vdata.SetThrottle(Game.Vehicle, Data.Throttle);

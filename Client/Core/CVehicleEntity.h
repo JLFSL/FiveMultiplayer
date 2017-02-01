@@ -17,7 +17,8 @@ private:
 		std::string		Model;
 
 		float			ForwardSpeed;
-
+		
+		int				EngineState = 0;
 		uint16_t		Gear = 0;
 		float			RPM = .0f;
 		float			Throttle = .0f;

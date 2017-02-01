@@ -69,6 +69,7 @@ void CVehicleEntity::Pulse()
 
 		bitstream.Write(Data.ForwardSpeed);
 
+		bitstream.Write(Data.EngineState);
 		bitstream.Write(Data.Gear);
 		bitstream.Write(Data.RPM);
 		bitstream.Write(Data.Throttle);
@@ -110,6 +111,7 @@ void CVehicleEntity::Update(Packet *packet)
 
 	bitstream.Read(Data.ForwardSpeed);
 
+	bitstream.Read(Data.EngineState);
 	bitstream.Read(Data.Gear);
 	bitstream.Read(Data.RPM);
 	bitstream.Read(Data.Throttle);
