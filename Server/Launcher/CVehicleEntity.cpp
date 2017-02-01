@@ -16,6 +16,7 @@ void CVehicleEntity::Create(std::string model, CVector3 position, float heading)
 {
 	CServerEntity newServerEntity;
 	newServerEntity.SetType(newServerEntity.Vehicle);
+	newServerEntity.SetEntity(this);
 
 	Data.Model = model;
 	Data.Position = position;
