@@ -19,3 +19,11 @@
 #else
 #define DLL_PUBLIC_I 
 #endif
+
+#pragma region API::Server Functions
+//static int ex_PrintMessage(lua_State* state);
+#pragma endregion
+#pragma region API::Entity Functions
+//static int ex_Destroy(lua_State* state);
+//static int ex_GetPosition(lua_State* state);
+#pragma endregion
