@@ -30,6 +30,8 @@ public:
 	std::vector<float> GetWheelsCompression(Vehicle handle);
 	float GetSteeringInputAngle(Vehicle handle);
 	void SetSteeringInputAngle(Vehicle handle, float value);
+	float GetWheelAngle(Vehicle handle);
+	void SetWheelAngle(Vehicle handle, float value);
 	float GetSteeringAngle(Vehicle handle);
 	void SetSteeringAngle(Vehicle handle, float value);
 	float GetEngineTemp(Vehicle handle);

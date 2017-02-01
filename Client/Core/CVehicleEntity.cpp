@@ -149,6 +149,7 @@ void CVehicleEntity::Pulse()
 				Data.Throttle = vdata.GetThrottle(Game.Vehicle);
 				Data.ThrottleP = vdata.GetThrottleP(Game.Vehicle);
 				Data.BrakeP = vdata.GetBrakeP(Game.Vehicle);
+				Data.WheelAngle = vdata.GetWheelAngle(Game.Vehicle);
 				Data.SteeringAngle = vdata.GetSteeringAngle(Game.Vehicle);
 
 				BitStream bitstream;
@@ -169,6 +170,7 @@ void CVehicleEntity::Pulse()
 				bitstream.Write(Data.Throttle);
 				bitstream.Write(Data.ThrottleP);
 				bitstream.Write(Data.BrakeP);
+				bitstream.Write(Data.WheelAngle);
 				bitstream.Write(Data.SteeringAngle);
 
 				bitstream.Write(Data.Velocity.fX);
@@ -213,6 +215,7 @@ void CVehicleEntity::Update(Packet * packet)
 	bitstream.Read(Data.Throttle);
 	bitstream.Read(Data.ThrottleP);
 	bitstream.Read(Data.BrakeP);
+	bitstream.Read(Data.WheelAngle);
 	bitstream.Read(Data.SteeringAngle);
 
 	bitstream.Read(Data.Velocity.fX);
@@ -389,6 +392,7 @@ void CVehicleEntity::UpdateTargetData()
 	vdata.SetThrottle(Game.Vehicle, Data.Throttle);
 	vdata.SetThrottleP(Game.Vehicle, Data.ThrottleP);
 	vdata.SetBrakeP(Game.Vehicle, Data.BrakeP);
+	vdata.SetWheelAngle(Game.Vehicle, Data.WheelAngle);
 	vdata.SetSteeringAngle(Game.Vehicle, Data.SteeringAngle);
 }
 
