@@ -250,7 +250,7 @@ void CVehicleEntity::Update(Packet * packet)
 	//std::cout << GamePed::GetVehicleID(g_Core->GetLocalPlayer()->GetPed()) << std::endl;
 	if (g_Core->GetLocalPlayer()->GetVehicleId() != Information.Id) {
 		UpdateTargetPosition();
-		UpdateTargetData();
+		SetTargetData();
 		//UpdateTargetRotation();
 
 		Network.LastSyncReceived = timeGetTime();
@@ -261,6 +261,7 @@ void CVehicleEntity::Interpolate()
 {
 	SetTargetPosition();
 	//SetTargetRotation();
+	SetTargetData();
 }
 
 void CVehicleEntity::UpdateTargetPosition()
@@ -393,7 +394,7 @@ void CVehicleEntity::SetTargetRotation()
 	}
 }
 
-void CVehicleEntity::UpdateTargetData()
+void CVehicleEntity::SetTargetData()
 {
 	if (VEHICLE::GET_IS_VEHICLE_ENGINE_RUNNING(Game.Vehicle) != Data.EngineState)
 	{

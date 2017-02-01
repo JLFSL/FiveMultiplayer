@@ -91,7 +91,7 @@ public:
 	void UpdateTargetRotation();
 	void SetTargetRotation();
 
-	void UpdateTargetData();
+	void SetTargetData();
 
 	static Vehicle getClosestVehicleFromPedPos(Ped ped, int maxDistance);
 
