@@ -18,7 +18,7 @@ private:
 
 		float			ForwardSpeed;
 		
-		int				EngineState		= 0;
+		bool			EngineState		= 0;
 		uint16_t		Gear			= 0;
 		float			RPM				= .0f;
 		float			Clutch			= .0f;
