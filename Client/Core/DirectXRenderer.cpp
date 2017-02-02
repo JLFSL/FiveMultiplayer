@@ -73,6 +73,7 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 	{
 		ImGui::Begin("FiveMP - Statistics", &show_app_about, ImGuiWindowFlags_AlwaysAutoResize);
 
+		ImGui::Text("Entity Pool Size: %d", (int)g_Entities.size());
 		ImGui::Text("Player Pool Size: %d", (int)g_Players.size());
 		ImGui::Text("Vehicle Pool Size: %d", (int)g_Vehicles.size());
 

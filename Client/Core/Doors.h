@@ -2,12 +2,9 @@
 class Doors
 {
 public:
-	Doors() {};
-	~Doors() {};
-
 	void Pulse();
 
-	const int MAXDOORS = 225;
+	static const int MAXDOORS = 225;
 
 	typedef struct
 	{
@@ -19,7 +16,7 @@ public:
 	} DoorsInfo;
 };
 
-inline Doors::DoorsInfo GetDoorInfo(int doorIndex)
+static inline Doors::DoorsInfo GetDoorInfo(int doorIndex)
 {
 	Doors::DoorsInfo doorInfo;
 	switch (doorIndex)

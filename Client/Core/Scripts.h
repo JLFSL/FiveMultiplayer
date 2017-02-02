@@ -2,11 +2,8 @@
 class Scripts
 {
 public:
-	Scripts() { };
-	~Scripts() { };
-
-	void StopAll();
-	void Pulse();
+	static void StopAll();
+	static void Pulse();
 
 	typedef struct {
 		char *name;
