@@ -13,32 +13,35 @@ int CServerEntity::Create()
 void CServerEntity::Destroy()
 {
 	RakNet::BitStream sData;
-
 	switch (Data.type)
 	{
 	case Player:
 		if (Data.player)
+		{
 			Data.player->Destroy();
-		
-		sData.Write(Data.Id);
-		sData.Write(0);
-		g_Server->GetNetworkManager()->GetRPC().Signal("DestroyEntity", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
 
-		Data.player = nullptr;
+			/*sData.Write(0);
+			sData.Write(Data.Id);
+			g_Server->GetNetworkManager()->GetRPC().Signal("DestroyEntity", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);*/
 
-		std::cout << "[CServerEntity::Destroy] Invalid player ID: " << Data.Id << std::endl;
+			Data.player = nullptr;
+		}
+		else
+			std::cout << "[CServerEntity::Destroy] Invalid player ID: " << Data.Id << std::endl;
 		break;
 	case Vehicle:
 		if (Data.vehicle)
+		{
 			Data.vehicle->Destroy();
 
-		sData.Write(Data.Id);
-		sData.Write(1);
-		g_Server->GetNetworkManager()->GetRPC().Signal("DestroyEntity", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
+			/*sData.Write(1);
+			sData.Write(Data.Id);
+			g_Server->GetNetworkManager()->GetRPC().Signal("DestroyEntity", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);*/
 
-		Data.vehicle = nullptr;
-
-		std::cout << "[CServerEntity::Destroy] Invalid vehicle ID: " << Data.Id << std::endl;
+			Data.vehicle = nullptr;
+		}
+		else
+			std::cout << "[CServerEntity::Destroy] Invalid vehicle ID: " << Data.Id << std::endl;
 		break;
 	case Object:
 
@@ -95,6 +98,7 @@ void CServerEntity::SetPosition(CVector3 position)
 		if (Data.player)
 		{
 			sData.Write(-1);
+			sData.Write(Data.Id);
 			sData.Write(position.fX);
 			sData.Write(position.fY);
 			sData.Write(position.fZ);
@@ -110,6 +114,7 @@ void CServerEntity::SetPosition(CVector3 position)
 		if (Data.vehicle)
 		{
 			sData.Write(1);
+			sData.Write(Data.Id);
 			sData.Write(position.fX);
 			sData.Write(position.fY);
 			sData.Write(position.fZ);

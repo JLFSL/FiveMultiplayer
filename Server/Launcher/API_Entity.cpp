@@ -8,7 +8,18 @@ namespace API
 
 		void Destroy(int entity)
 		{
-			g_Entities[entity].Destroy();
+			if (!g_Entities.empty())
+			{
+				for (int i = 0; i < g_Entities.size(); i++)
+				{
+					if (i == entity)
+					{
+						return g_Entities[i].Destroy();
+					}
+				}
+			}
+
+			std::cout << "[" << ThisNamespace << "] Entity " << entity << " invalid." << std::endl;
 		}
 
 		CVector3 GetPosition(int entity)
