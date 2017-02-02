@@ -33,7 +33,8 @@ void CRPCEntity::SetPosition(RakNet::BitStream *bitStream, RakNet::Packet *packe
 	{
 		for (int i = 0; i < g_Entities.size(); i++)
 		{
-			//CEntity::SetPosition();
+			if(entity == g_Entities[i].GetId())
+				return g_Entities[i].SetPosition(position);
 		}
 	}
 	else

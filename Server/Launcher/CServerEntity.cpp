@@ -10,6 +10,11 @@ int CServerEntity::Create()
 	return Data.Id;
 }
 
+void CServerEntity::SetType(Type type)
+{
+	Data.type = type;
+}
+
 void CServerEntity::Destroy()
 {
 	RakNet::BitStream sData;
@@ -20,8 +25,7 @@ void CServerEntity::Destroy()
 		{
 			Data.player->Destroy();
 
-			/*sData.Write(0);
-			sData.Write(Data.Id);
+			/*sData.Write(Data.Id);
 			g_Server->GetNetworkManager()->GetRPC().Signal("DestroyEntity", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);*/
 
 			Data.player = nullptr;
@@ -34,8 +38,7 @@ void CServerEntity::Destroy()
 		{
 			Data.vehicle->Destroy();
 
-			/*sData.Write(1);
-			sData.Write(Data.Id);
+			/*sData.Write(Data.Id);
 			g_Server->GetNetworkManager()->GetRPC().Signal("DestroyEntity", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);*/
 
 			Data.vehicle = nullptr;
@@ -57,11 +60,6 @@ void CServerEntity::Destroy()
 		std::cout << "[CServerEntity::Destroy] Invalid entity Type: " << Data.type << std::endl;
 		break;
 	}
-}
-
-void CServerEntity::SetType(Type type)
-{
-	Data.type = type;
 }
 
 CVector3 CServerEntity::GetPosition()
@@ -98,7 +96,6 @@ void CServerEntity::SetPosition(CVector3 position)
 		if (Data.player)
 		{
 			sData.Write(-1);
-			sData.Write(Data.Id);
 			sData.Write(position.fX);
 			sData.Write(position.fY);
 			sData.Write(position.fZ);
@@ -113,7 +110,6 @@ void CServerEntity::SetPosition(CVector3 position)
 	case Vehicle:
 		if (Data.vehicle)
 		{
-			sData.Write(1);
 			sData.Write(Data.Id);
 			sData.Write(position.fX);
 			sData.Write(position.fY);
