@@ -10,9 +10,6 @@ CCore::CCore()
 	g_NetworkManager = std::unique_ptr<CNetworkManager>(new CNetworkManager);
 	g_RPCManager = std::unique_ptr<CRPCManager>(new CRPCManager);
 	g_LocalPlayer = std::unique_ptr<CLocalPlayer>(new CLocalPlayer);
-	g_Scipts = std::unique_ptr<Scripts>(new Scripts);
-	g_Doors = std::unique_ptr<Doors>(new Doors);
-	g_Animations = std::unique_ptr<Animations>(new Animations);
 }
 
 CCore::~CCore()
@@ -65,7 +62,7 @@ bool CCore::Initialize()
 
 	g_RPCManager->RegisterRPCMessages();
 
-	g_Scipts->StopAll();
+	Scripts::StopAll();
 	CleanUp();
 
 	return true;
@@ -79,13 +76,13 @@ void CCore::OnGameTick()
 	if (timeGetTime() >= LastCleanUp + 10000)
 	{
 		CleanUp();			// World Clean Up
-		g_Scipts->Pulse();	// Script Clean Up
+		Scripts::Pulse();	// Script Clean Up
 		PreventCheat();
 	}
 
 	if (timeGetTime() >= LastUnlock + 2000)
 	{
-		g_Doors->Pulse();	// Unlocks doors
+		Scripts::Pulse();	// Unlocks doors
 		LastUnlock = timeGetTime();
 	}
 

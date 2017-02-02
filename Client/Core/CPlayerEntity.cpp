@@ -287,7 +287,6 @@ void CPlayerEntity::UpdateTargetAnimations()
 {
 	if (Game.Created && Data.Vehicle.VehicleID == -1)
 	{
-		Animations& animation = Animations();
 		if (IsTargetAnimal())
 		{
 			std::string dict;
@@ -295,7 +294,7 @@ void CPlayerEntity::UpdateTargetAnimations()
 
 			if (Data.ForwardSpeed < 2.0f && Data.ForwardSpeed > 1.0f && Data.Model.MovementState != 1)
 			{
-				animation.GetAnimalAnimation(Data.Model.hModel, 1, &dict, &name);
+				Animations::GetAnimalAnimation(Data.Model.hModel, 1, &dict, &name);
 
 				if (!STREAMING::HAS_ANIM_DICT_LOADED((char*)dict.c_str()))
 					STREAMING::REQUEST_ANIM_DICT((char*)dict.c_str());
@@ -305,7 +304,7 @@ void CPlayerEntity::UpdateTargetAnimations()
 			}
 			else if (Data.ForwardSpeed > 2.0f && Data.ForwardSpeed <= 5.2f && Data.Model.MovementState != 2)
 			{
-				animation.GetAnimalAnimation(Data.Model.hModel, 2, &dict, &name);
+				Animations::GetAnimalAnimation(Data.Model.hModel, 2, &dict, &name);
 
 				if (!STREAMING::HAS_ANIM_DICT_LOADED((char*)dict.c_str()))
 					STREAMING::REQUEST_ANIM_DICT((char*)dict.c_str());
@@ -315,7 +314,7 @@ void CPlayerEntity::UpdateTargetAnimations()
 			}
 			else if (Data.ForwardSpeed > 5.2f && Data.Model.MovementState != 3)
 			{
-				animation.GetAnimalAnimation(Data.Model.hModel, 3, &dict, &name);
+				Animations::GetAnimalAnimation(Data.Model.hModel, 3, &dict, &name);
 
 				if (!STREAMING::HAS_ANIM_DICT_LOADED((char*)dict.c_str()))
 					STREAMING::REQUEST_ANIM_DICT((char*)dict.c_str());
@@ -325,7 +324,7 @@ void CPlayerEntity::UpdateTargetAnimations()
 			}
 			else if (Data.ForwardSpeed < 1.0f && Data.Model.MovementState != 0)
 			{
-				animation.GetAnimalAnimation(Data.Model.hModel, 0, &dict, &name);
+				Animations::GetAnimalAnimation(Data.Model.hModel, 0, &dict, &name);
 
 				if (!STREAMING::HAS_ANIM_DICT_LOADED((char*)dict.c_str()))
 					STREAMING::REQUEST_ANIM_DICT((char*)dict.c_str());

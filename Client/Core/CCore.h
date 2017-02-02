@@ -5,9 +5,6 @@ private:
 	std::unique_ptr<CNetworkManager>	g_NetworkManager;
 	std::unique_ptr<CRPCManager>		g_RPCManager;
 	std::unique_ptr<CLocalPlayer>		g_LocalPlayer;
-	std::unique_ptr<Scripts>			g_Scipts;
-	std::unique_ptr<Doors>				g_Doors;
-	std::unique_ptr<Animations>			g_Animations;
 
 	unsigned long	LastCleanUp;
 	unsigned long	LastUnlock;
