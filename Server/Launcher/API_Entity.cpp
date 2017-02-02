@@ -19,7 +19,7 @@ namespace API
 				{
 					if (i == entity)
 					{
-						return g_Entities[entity].GetPosition();
+						return g_Entities[i].GetPosition();
 					}
 				}
 			}
@@ -29,7 +29,18 @@ namespace API
 
 		void SetPosition(int entity, CVector3 position)
 		{
-			g_Entities[entity].SetPosition(position);
+			if (!g_Entities.empty())
+			{
+				for (int i = 0; i < g_Entities.size(); i++)
+				{
+					if (i == entity)
+					{
+						return g_Entities[i].SetPosition(position);
+					}
+				}
+			}
+
+			std::cout << "[" << ThisNamespace << "] Entity " << entity << " invalid." << std::endl;
 		}
 	}
 }

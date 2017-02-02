@@ -36,14 +36,14 @@ typedef RefCountedObjectType <int> RefCountedObject;
 #pragma region Objects
 struct Vec
 {
-	Vec()
-	{
-		coord[0] = 0;
-		coord[1] = 0;
-		coord[2] = 0;
-	}
-
 	float coord[3];
+
+	Vec(float x, float y, float z)
+	{
+		coord[0] = x;
+		coord[1] = y;
+		coord[2] = z;
+	}
 };
 
 struct VecHelper
@@ -70,149 +70,151 @@ struct Vehicle
 		entity = -1;
 	}
 
-	//int Create(lua_State* L)
-	//{
-	//	// Arg 1 is the userdata of the object
-	//	// Arg 2 onwards is the input arguments
-	//	const int args = lua_gettop(L);
-	//	if (args == 4)
-	//	{
-	//		std::string model = lua_tostring(L, 2);
-	//		float heading = lua_tonumber(L, 4);
-	//		CVector3 poss;
-
-	//		if (lua_isuserdata(L, 3))
-	//		{
-	//			Vec* pos = reinterpret_cast<Vec*>(lua_touserdata(L, 3));
-	//			poss = { pos->coord[0], pos->coord[1], pos->coord[2] };
-	//		}
-	//		else if (lua_istable(L, 3))
-	//		{
-	//			lua_getfield(L, 3, "x");
-	//			lua_rawgeti(L, 3, 1);
-	//			poss.fX = lua_tonumber(L, -2);
-	//			lua_pop(L, 1);
-
-	//			lua_getfield(L, 3, "y");
-	//			lua_rawgeti(L, 3, 1);
-	//			poss.fY = lua_tonumber(L, -2);
-	//			lua_pop(L, 1);
-
-	//			lua_getfield(L, 3, "z");
-	//			lua_rawgeti(L, 3, 1);
-	//			poss.fZ = lua_tonumber(L, -2);
-	//			lua_pop(L, 1);
-	//		}
-
-	//		this->entity = API::Vehicle::CreateVehicle(model, poss, heading);
-	//	}
-	//	return 0;
-	//}
-
-	//int GetPosition(lua_State* L)
-	//{
-	//	CVector3 poss = API::Entity::GetPosition(entity);
-	//	//Vec pos = { poss.fX, poss.fY, poss.fZ };
-	//	//lua_pushlightuserdata(L, &pos);
-	//	return 1;
-	//}
-
-	//int SetPosition(lua_State* L)
-	//{
-	//	if (lua_isuserdata(L, 1))
-	//	{
-	//		Vec* pos = reinterpret_cast<Vec*>(lua_touserdata(L, 1));
-
-	//		std::cout << pos->coord[0] << ":" << pos->coord[1] << ":" << pos->coord[2] << std::endl;
-	//		CVector3 poss = { pos->coord[0], pos->coord[1], pos->coord[2] };
-	//		API::Entity::SetPosition(entity, poss);
-	//		//delete pos;
-	//	}
-	//	return 0;
-	//}
-};
-
-struct VehicleHelper
-{
-	virtual void create(const char* string/*Vehicle* veh, const char* model, Vec position, float heading*/)
+	int Create(lua_State* L)
 	{
-		//std::cout << string << std::endl;
-		//CVector3 pos = { position.coord[0], position.coord[1], position.coord[2] };
-		//veh->entity = API::Vehicle::CreateVehicle(model, pos, heading);
-	}
-
-	static void create(const std::string& text)
-	{
-		std::cout << ": " << text << std::endl;
-	}
-
-	int creates(lua_State* L)
-	{
-		// Arg 1 is the userdata of the object
-		// Arg 2 onwards is the input arguments
+		/*
+			Arg 1: The pointer of the Object
+			Arg 2+: The arguments entered
+		*/
 		const int args = lua_gettop(L);
-		if (args == 4)
+		if (args == 4 || args == 6)
 		{
+			Vehicle* veh = reinterpret_cast<Vehicle*>(lua_touserdata(L, 1));
 			std::string model = lua_tostring(L, 2);
-			float heading = lua_tonumber(L, 4);
+			float heading;
 			CVector3 poss;
-
-			if (lua_isuserdata(L, 3))
+			
+			if (args == 4)
 			{
-				Vec* pos = reinterpret_cast<Vec*>(lua_touserdata(L, 3));
-				poss = { pos->coord[0], pos->coord[1], pos->coord[2] };
+				heading = lua_tonumber(L, 4);
+
+				if (lua_isuserdata(L, 3))
+				{
+					Vec* pos = reinterpret_cast<Vec*>(lua_touserdata(L, 3));
+					poss = { pos->coord[0], pos->coord[1], pos->coord[2] };
+					pos = nullptr;
+				}
+				else if (lua_istable(L, 3))
+				{
+					lua_getfield(L, 3, "x");
+					lua_rawgeti(L, 3, 1);
+					poss.fX = lua_tonumber(L, -2);
+					lua_pop(L, 1);
+
+					lua_getfield(L, 3, "y");
+					lua_rawgeti(L, 3, 1);
+					poss.fY = lua_tonumber(L, -2);
+					lua_pop(L, 1);
+
+					lua_getfield(L, 3, "z");
+					lua_rawgeti(L, 3, 1);
+					poss.fZ = lua_tonumber(L, -2);
+					lua_pop(L, 1);
+				}
 			}
-			else if (lua_istable(L, 3))
+			else
 			{
-				lua_getfield(L, 3, "x");
-				lua_rawgeti(L, 3, 1);
-				poss.fX = lua_tonumber(L, -2);
-				lua_pop(L, 1);
-
-				lua_getfield(L, 3, "y");
-				lua_rawgeti(L, 3, 1);
-				poss.fY = lua_tonumber(L, -2);
-				lua_pop(L, 1);
-
-				lua_getfield(L, 3, "z");
-				lua_rawgeti(L, 3, 1);
-				poss.fZ = lua_tonumber(L, -2);
-				lua_pop(L, 1);
+				poss.fX = lua_tonumber(L, 3);
+				poss.fX = lua_tonumber(L, 4);
+				poss.fX = lua_tonumber(L, 5);
+				heading = lua_tonumber(L, 6);
 			}
 
-			//this->entity = API::Vehicle::CreateVehicle(model, poss, heading);
+			veh->entity = API::Vehicle::CreateVehicle(model, poss, heading);
+
+			veh = nullptr;
 		}
 		return 0;
 	}
 
-	template <unsigned index>
-	static void set(Vec* vec, float value)
+	int Destroy(lua_State* L)
 	{
-		vec->coord[index] = value;
-	}
-};
-
-struct C
-{
-	C() {}
-
-	Vec v;
-	Vec& get()
-	{
-		return v;
-	}
-	void set(Vec const& v_)
-	{
-		v = v_;
-	}
-
-	static int static_cfunc(lua_State*)
-	{
+		const int args = lua_gettop(L);
+		if (args == 1)
+		{
+			Vehicle* veh = reinterpret_cast<Vehicle*>(lua_touserdata(L, 1));
+			API::Entity::Destroy(veh->entity);
+			veh->entity = -1;
+			veh = nullptr;
+		}
 		return 0;
 	}
 
-	int cfunc(lua_State*)
+	int GetPosition(lua_State* L)
 	{
+		const int args = lua_gettop(L);
+		if (args == 1)
+		{
+			Vehicle* veh = reinterpret_cast<Vehicle*>(lua_touserdata(L, 1));
+
+			CVector3 poss = API::Entity::GetPosition(veh->entity);
+			/*Vec pos(poss.fX, poss.fY, poss.fZ);
+			lua_pushlightuserdata(L, &pos);*/
+			lua_newtable(L);
+
+			lua_pushinteger(L, poss.fX);
+			lua_setfield(L, -2, "x");
+
+			lua_pushinteger(L, poss.fY);
+			lua_setfield(L, -2, "y");
+
+			lua_pushinteger(L, poss.fZ);
+			lua_setfield(L, -2, "z");
+
+
+			veh = nullptr;
+		}
+		else
+		{
+			lua_pushnil(L);
+		}
+		return 1;
+	}
+
+	int SetPosition(lua_State* L)
+	{
+		const int args = lua_gettop(L);
+		if (args == 2 || args == 4)
+		{
+			Vehicle* veh = reinterpret_cast<Vehicle*>(lua_touserdata(L, 1));
+			CVector3 poss;
+
+			if (args == 2)
+			{
+				if (lua_isuserdata(L, 2))
+				{
+					Vec* pos = reinterpret_cast<Vec*>(lua_touserdata(L, 2));
+					poss = { pos->coord[0], pos->coord[1], pos->coord[2] };
+					pos = nullptr;
+				}
+				else if (lua_istable(L, 2))
+				{
+					lua_getfield(L, 2, "x");
+					lua_rawgeti(L, 2, 1);
+					poss.fX = lua_tonumber(L, -2);
+					lua_pop(L, 1);
+
+					lua_getfield(L, 2, "y");
+					lua_rawgeti(L, 2, 1);
+					poss.fY = lua_tonumber(L, -2);
+					lua_pop(L, 1);
+
+					lua_getfield(L, 2, "z");
+					lua_rawgeti(L, 2, 1);
+					poss.fZ = lua_tonumber(L, -2);
+					lua_pop(L, 1);
+				}
+			}
+			else
+			{
+				poss.fX = lua_tonumber(L, 2);
+				poss.fX = lua_tonumber(L, 3);
+				poss.fX = lua_tonumber(L, 4);
+			}
+			
+			API::Entity::SetPosition(veh->entity, poss);
+			veh = nullptr;
+		}
 		return 0;
 	}
 };
@@ -232,22 +234,18 @@ extern "C" DLL_PUBLIC bool API_Initialize(void) {
 	
 	getGlobalNamespace(stateLua)
 		.beginClass <Vec>("Vector3")
-		.addConstructor <void(*)(void)>()
-		.addProperty("x", &VecHelper::get <0>, &VecHelper::set <0>)
-		.addProperty("y", &VecHelper::get <1>, &VecHelper::set <1>)
-		.addProperty("z", &VecHelper::get <2>, &VecHelper::set <2>)
+			.addConstructor <void(*)(float, float, float)>()
+			.addProperty("x", &VecHelper::get <0>, &VecHelper::set <0>)
+			.addProperty("y", &VecHelper::get <1>, &VecHelper::set <1>)
+			.addProperty("z", &VecHelper::get <2>, &VecHelper::set <2>)
 		.endClass()
 		.beginClass <Vehicle>("Vehicle")
-		.addConstructor <void(*)(void)>()
-		//.addFunction("Create", &VehicleHelper::create)
-		//.addCFunction("Creates", &VehicleHelper::creates)
-		.endClass();
-		/*.beginClass <Vehicle>("Vehicle")
 			.addConstructor <void(*)(void)>()
 			.addCFunction("Create", &Vehicle::Create)
+			.addCFunction("Destroy", &Vehicle::Destroy)
 			.addCFunction("SetPosition", &Vehicle::SetPosition)
 			.addCFunction("GetPosition", &Vehicle::GetPosition)
-		.endClass();*/
+		.endClass();
 
 	// Load scripts
 	if (luaL_dofile(stateLua, scriptName) != 0) {
@@ -260,15 +258,12 @@ extern "C" DLL_PUBLIC bool API_Initialize(void) {
 	
 	lua_register(stateLua, "PrintMessage", ex_PrintMessage);
 
-	lua_register(stateLua, "CreateVehicle", ex_CreateVehicle);
-
 	std::cout << "OnGameModeInit() was called." << std::endl;
 
 	int result;
 	int call = lua_getglobal(stateLua, "OnGameModeInit");
 	if (call != 0)
 	{
-
 		int error = lua_pcall(stateLua, 0, 1, 0);
 		if (error != 0)
 		{
