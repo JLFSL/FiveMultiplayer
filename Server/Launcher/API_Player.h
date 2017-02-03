@@ -49,16 +49,16 @@ extern "C" {
 			DLL_PUBLIC const std::string GetModel(const int entity);
 			DLL_PUBLIC void SetModel(const int entity, const std::string model);
 
-			DLL_PUBLIC PlayerComponents GetModelComponent(const int entity, const int index);
-			DLL_PUBLIC void SetModelComponent(const int entity, const int index, PlayerComponents component);
-			DLL_PUBLIC PlayerHeadBlends GetModelHeadBlend(const int entity);
-			DLL_PUBLIC void SetModelHeadBlend(const int entity, PlayerHeadBlends headblend);
-			DLL_PUBLIC PlayerHeadOverlays GetModelHeadOverlay(const int entity, const int index);
-			DLL_PUBLIC void SetModelHeadOverlay(const int entity, const int index, PlayerHeadOverlays overlay);
-			DLL_PUBLIC PlayerProps	GetModelProp(const int entity, const int index);
-			DLL_PUBLIC void SetModelProp(const int entity, const int index, PlayerProps prop);
-			DLL_PUBLIC float GetModelFeature(const int entity, const int index);
-			DLL_PUBLIC void SetModelFeature(const int entity, const int index, float scale);
+			DLL_PUBLIC PlayerComponents GetPlayerComponent(const int entity, const int index);
+			DLL_PUBLIC void SetPlayerComponent(const int entity, const int index, PlayerComponents component);
+			DLL_PUBLIC PlayerHeadBlends GetPlayerHeadBlend(const int entity);
+			DLL_PUBLIC void SetPlayerHeadBlend(const int entity, PlayerHeadBlends headblend);
+			DLL_PUBLIC PlayerHeadOverlays GetPlayerHeadOverlay(const int entity, const int index);
+			DLL_PUBLIC void SetPlayerHeadOverlay(const int entity, const int index, PlayerHeadOverlays overlay);
+			DLL_PUBLIC PlayerProps	GetPlayerProp(const int entity, const int index);
+			DLL_PUBLIC void SetPlayerProp(const int entity, const int index, PlayerProps prop);
+			DLL_PUBLIC float GetPlayerFeature(const int entity, const int index);
+			DLL_PUBLIC void SetPlayerFeature(const int entity, const int index, float scale);
 		}
 	}
 }

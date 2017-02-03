@@ -32,7 +32,7 @@ namespace API
 			std::cout << "[" << ThisNamespace << "] Player Entity " << entity << " invalid." << std::endl;
 		}
 
-		PlayerComponents GetModelComponent(const int entity, const int index)
+		PlayerComponents GetPlayerComponent(const int entity, const int index)
 		{
 			for (int i = 0; i < g_Players.size(); i++)
 			{
@@ -49,7 +49,7 @@ namespace API
 			std::cout << "[" << ThisNamespace << "] Player Entity " << entity << " invalid." << std::endl;
 		}
 
-		void SetModelComponent(const int entity, const int index, PlayerComponents component)
+		void SetPlayerComponent(const int entity, const int index, PlayerComponents component)
 		{
 			for (int i = 0; i < g_Players.size(); i++)
 			{
@@ -62,7 +62,7 @@ namespace API
 			std::cout << "[" << ThisNamespace << "] Player Entity " << entity << " invalid." << std::endl;
 		}
 
-		PlayerHeadBlends GetModelHeadBlend(const int entity)
+		PlayerHeadBlends GetPlayerHeadBlend(const int entity)
 		{
 			for (int i = 0; i < g_Players.size(); i++)
 			{
@@ -85,7 +85,7 @@ namespace API
 			std::cout << "[" << ThisNamespace << "] Player Entity " << entity << " invalid." << std::endl;
 		}
 
-		void SetModelHeadBlend(const int entity, PlayerHeadBlends headblend)
+		void SetPlayerHeadBlend(const int entity, PlayerHeadBlends headblend)
 		{
 			for (int i = 0; i < g_Players.size(); i++)
 			{
@@ -98,7 +98,7 @@ namespace API
 			std::cout << "[" << ThisNamespace << "] Player Entity " << entity << " invalid." << std::endl;
 		}
 
-		PlayerHeadOverlays GetModelHeadOverlay(const int entity, const int index)
+		PlayerHeadOverlays GetPlayerHeadOverlay(const int entity, const int index)
 		{
 			for (int i = 0; i < g_Players.size(); i++)
 			{
@@ -117,7 +117,7 @@ namespace API
 			std::cout << "[" << ThisNamespace << "] Player Entity " << entity << " invalid." << std::endl;
 		}
 
-		void SetModelHeadOverlay(const int entity, const int index, PlayerHeadOverlays overlay)
+		void SetPlayerHeadOverlay(const int entity, const int index, PlayerHeadOverlays overlay)
 		{
 			for (int i = 0; i < g_Players.size(); i++)
 			{
@@ -130,7 +130,7 @@ namespace API
 			std::cout << "[" << ThisNamespace << "] Player Entity " << entity << " invalid." << std::endl;
 		}
 
-		PlayerProps	GetModelProp(const int entity, const int index)
+		PlayerProps	GetPlayerProp(const int entity, const int index)
 		{
 			for (int i = 0; i < g_Players.size(); i++)
 			{
@@ -146,7 +146,7 @@ namespace API
 			std::cout << "[" << ThisNamespace << "] Player Entity " << entity << " invalid." << std::endl;
 		}
 
-		void SetModelProp(const int entity, const int index, PlayerProps prop)
+		void SetPlayerProp(const int entity, const int index, PlayerProps prop)
 		{
 			for (int i = 0; i < g_Players.size(); i++)
 			{
@@ -159,7 +159,7 @@ namespace API
 			std::cout << "[" << ThisNamespace << "] Player Entity " << entity << " invalid." << std::endl;
 		}
 
-		float GetModelFeature(const int entity, const int index)
+		float GetPlayerFeature(const int entity, const int index)
 		{
 			for (int i = 0; i < g_Players.size(); i++)
 			{
@@ -172,7 +172,7 @@ namespace API
 			std::cout << "[" << ThisNamespace << "] Player Entity " << entity << " invalid." << std::endl;
 		}
 
-		void SetModelFeature(const int entity, const int index, const float scale)
+		void SetPlayerFeature(const int entity, const int index, const float scale)
 		{
 			for (int i = 0; i < g_Players.size(); i++)
 			{
