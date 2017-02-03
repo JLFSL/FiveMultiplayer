@@ -187,6 +187,7 @@
   <ItemGroup>
     <ClInclude Include="API_Callback_Network.h" />
     <ClInclude Include="API_Entity.h" />
+    <ClInclude Include="API_Player.h" />
     <ClInclude Include="API_Server.h" />
     <ClInclude Include="API_Vehicle.h" />
     <ClInclude Include="API_Visual.h" />
@@ -210,6 +211,7 @@
     <ClCompile Include="apitest.cpp" />
     <ClCompile Include="API_Callback_Network.cpp" />
     <ClCompile Include="API_Entity.cpp" />
+    <ClCompile Include="API_Player.cpp" />
     <ClCompile Include="API_Server.cpp" />
     <ClCompile Include="API_Vehicle.cpp" />
     <ClCompile Include="API_Visual.cpp" />

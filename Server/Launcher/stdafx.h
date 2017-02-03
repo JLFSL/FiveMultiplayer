@@ -76,6 +76,7 @@
 	#include "API_Entity.h"
 	#include "API_Vehicle.h"
 	#include "API_Visual.h"
+	#include "API_Player.h"
 
 // End of Server.Launcher
 

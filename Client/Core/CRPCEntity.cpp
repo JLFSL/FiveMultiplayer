@@ -2,19 +2,16 @@
 
 void CRPCEntity::Destroy(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 {
-	int entity, type;
+	int entity;
 
 	bitStream->Read(entity);
-	bitStream->Read(type);
 
 	if (entity != -1)
 	{
 		for (int i = 0; i < g_Entities.size(); i++)
 		{
 			if (g_Entities[i].GetId() == entity)
-			{
-				g_Entities[i].Destroy();
-			}
+				return g_Entities[i].Destroy();
 		}
 	}
 }

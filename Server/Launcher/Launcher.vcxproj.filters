@@ -105,6 +105,9 @@
     <ClCompile Include="RPCManager.cpp">
       <Filter>Network</Filter>
     </ClCompile>
+    <ClCompile Include="API_Player.cpp">
+      <Filter>Scripting\Functions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -166,6 +169,9 @@
     </ClInclude>
     <ClInclude Include="RPCEntity.h">
       <Filter>Network\RPC</Filter>
+    </ClInclude>
+    <ClInclude Include="API_Player.h">
+      <Filter>Scripting\Functions</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
