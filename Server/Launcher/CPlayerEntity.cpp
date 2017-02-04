@@ -221,6 +221,6 @@ void CPlayerEntity::RequestData(RakNetGUID requester)
 		sData.Write(i);
 		sData.Write(Data.ModelProp[i].drawableid);
 		sData.Write(Data.ModelProp[i].textureid);
-		g_Server->GetNetworkManager()->GetRPC().Signal("PlayerProp", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
+		g_Server->GetNetworkManager()->GetRPC().Signal("PlayerProp", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, requester, false, false);
 	}
 }
