@@ -32,13 +32,13 @@ namespace API
 			std::cout << "[" << ThisNamespace << "] Player Entity " << entity << " invalid." << std::endl;
 		}
 
-		PlayerComponents GetPlayerComponent(const int entity, const int componentid)
+		PlayerComponent GetPlayerComponent(const int entity, const int componentid)
 		{
 			for (int i = 0; i < g_Players.size(); i++)
 			{
 				if (g_Players[i].GetEntity() == entity)
 				{
-					PlayerComponents comp;
+					PlayerComponent comp;
 					comp.drawableid = g_Players[i].GetModelComponent(componentid).drawableid;
 					comp.paletteid = g_Players[i].GetModelComponent(componentid).paletteid;
 					comp.textureid = g_Players[i].GetModelComponent(componentid).textureid;
@@ -49,7 +49,7 @@ namespace API
 			std::cout << "[" << ThisNamespace << "] Player Entity " << entity << " invalid." << std::endl;
 		}
 
-		void SetPlayerComponent(const int entity, const int componentid, PlayerComponents component)
+		void SetPlayerComponent(const int entity, const int componentid, PlayerComponent component)
 		{
 			for (int i = 0; i < g_Players.size(); i++)
 			{
@@ -70,13 +70,13 @@ namespace API
 			std::cout << "[" << ThisNamespace << "] Player Entity " << entity << " invalid." << std::endl;
 		}
 
-		PlayerHeadBlends GetPlayerHeadBlend(const int entity)
+		PlayerHeadBlend GetPlayerHeadBlend(const int entity)
 		{
 			for (int i = 0; i < g_Players.size(); i++)
 			{
 				if (g_Players[i].GetEntity() == entity)
 				{
-					PlayerHeadBlends blend;
+					PlayerHeadBlend blend;
 					blend.shapeFirst = g_Players[i].GetModelHeadBlend().shapeFirst;
 					blend.shapeMix = g_Players[i].GetModelHeadBlend().shapeMix;
 					blend.shapeSecond = g_Players[i].GetModelHeadBlend().shapeSecond;
@@ -93,7 +93,7 @@ namespace API
 			std::cout << "[" << ThisNamespace << "] Player Entity " << entity << " invalid." << std::endl;
 		}
 
-		void SetPlayerHeadBlend(const int entity, PlayerHeadBlends headblend)
+		void SetPlayerHeadBlend(const int entity, PlayerHeadBlend headblend)
 		{
 			for (int i = 0; i < g_Players.size(); i++)
 			{
@@ -119,13 +119,13 @@ namespace API
 			std::cout << "[" << ThisNamespace << "] Player Entity " << entity << " invalid." << std::endl;
 		}
 
-		PlayerHeadOverlays GetPlayerHeadOverlay(const int entity, const int index)
+		PlayerHeadOverlay GetPlayerHeadOverlay(const int entity, const int index)
 		{
 			for (int i = 0; i < g_Players.size(); i++)
 			{
 				if (g_Players[i].GetEntity() == entity)
 				{
-					PlayerHeadOverlays overlay;
+					PlayerHeadOverlay overlay;
 					overlay.index = g_Players[i].GetModelHeadOverlay(index).index;
 					overlay.colorType = g_Players[i].GetModelHeadOverlay(index).colorType;
 					overlay.colorID = g_Players[i].GetModelHeadOverlay(index).colorID;
@@ -138,7 +138,7 @@ namespace API
 			std::cout << "[" << ThisNamespace << "] Player Entity " << entity << " invalid." << std::endl;
 		}
 
-		void SetPlayerHeadOverlay(const int entity, const int index, PlayerHeadOverlays overlay)
+		void SetPlayerHeadOverlay(const int entity, const int index, PlayerHeadOverlay overlay)
 		{
 			for (int i = 0; i < g_Players.size(); i++)
 			{
@@ -161,13 +161,13 @@ namespace API
 			std::cout << "[" << ThisNamespace << "] Player Entity " << entity << " invalid." << std::endl;
 		}
 
-		PlayerProps	GetPlayerProp(const int entity, const int index)
+		PlayerProp GetPlayerProp(const int entity, const int index)
 		{
 			for (int i = 0; i < g_Players.size(); i++)
 			{
 				if (g_Players[i].GetEntity() == entity)
 				{
-					PlayerProps prop;
+					PlayerProp prop;
 					prop.drawableid = g_Players[i].GetModelProp(index).drawableid;
 					prop.textureid = g_Players[i].GetModelProp(index).textureid;
 					return prop;
@@ -177,7 +177,7 @@ namespace API
 			std::cout << "[" << ThisNamespace << "] Player Entity " << entity << " invalid." << std::endl;
 		}
 
-		void SetPlayerProp(const int entity, const int index, PlayerProps prop)
+		void SetPlayerProp(const int entity, const int index, PlayerProp prop)
 		{
 			for (int i = 0; i < g_Players.size(); i++)
 			{

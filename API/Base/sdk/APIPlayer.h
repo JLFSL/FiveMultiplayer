@@ -7,14 +7,14 @@ extern "C" {
 	{
 		namespace Player
 		{
-			DLL_PUBLIC_I struct PlayerComponents
+			DLL_PUBLIC_I struct PlayerComponent
 			{
 				int drawableid = -1;
 				int textureid = -1;
 				int paletteid = -1;
 			};
-
-			DLL_PUBLIC_I struct PlayerHeadBlends
+			
+			DLL_PUBLIC_I struct PlayerHeadBlend
 			{
 				int shapeFirst = 0;
 				int shapeSecond = 0;
@@ -27,7 +27,7 @@ extern "C" {
 				float thirdMix = 0;
 			};
 
-			DLL_PUBLIC_I struct PlayerHeadOverlays
+			DLL_PUBLIC_I struct PlayerHeadOverlay
 			{
 				int index = 0;
 				float opacity = 0.0f;
@@ -36,13 +36,13 @@ extern "C" {
 				int secondColorID = 0;
 			};
 
-			DLL_PUBLIC_I struct PlayerProps
+			DLL_PUBLIC_I struct PlayerProp
 			{
 				int drawableid = 0;
 				int textureid = 0;
 			};
 
-			DLL_PUBLIC_I struct PlayerFeatures
+			DLL_PUBLIC_I struct PlayerFeature
 			{
 				float scale = 0.0f;
 			};
@@ -67,7 +67,7 @@ extern "C" {
 			/// <param name="entity">The entity of the player you wish to get their model Components.</param>
 			/// <param name="componentid">The componentid of the component you wish to get.</param>
 			/// <returns name="PlayerComponents">The PlayerComponents of the desired player and component</returns>
-			DLL_PUBLIC_I PlayerComponents GetPlayerComponent(const int entity, const int componentid);
+			DLL_PUBLIC_I PlayerComponent GetPlayerComponent(const int entity, const int componentid);
 			
 			/// <summary>
 			/// Sets the Player Component of the player entity.
@@ -75,21 +75,21 @@ extern "C" {
 			/// <param name="entity">The entity of the player you wish to set their model Components.</param>
 			/// <param name="componentid">The componentid of the component you wish to set.</param>
 			/// <param name="component">The component structure of the component you wish to set.</param>
-			DLL_PUBLIC_I void SetPlayerComponent(const int entity, const int componentid, PlayerComponents component);
+			DLL_PUBLIC_I void SetPlayerComponent(const int entity, const int componentid, PlayerComponent component);
 
 			/// <summary>
 			/// Gets the head blend data of the player entity.
 			/// </summary>
 			/// <param name="entity">The entity of the player you wish to get their model headblend data.</param>
 			/// <returns name="PlayerHeadBlends">The headblend data of the players model</returns>
-			DLL_PUBLIC_I PlayerHeadBlends GetPlayerHeadBlend(const int entity);
+			DLL_PUBLIC_I PlayerHeadBlend GetPlayerHeadBlend(const int entity);
 
 			/// <summary>
 			/// Sets the head blend data of the player entity.
 			/// </summary>
 			/// <param name="entity">The entity of the player you wish to set their model headblend.</param>
 			/// <param name="headblend">The headblend data.</param>
-			DLL_PUBLIC_I void SetPlayerHeadBlend(const int entity, PlayerHeadBlends headblend);
+			DLL_PUBLIC_I void SetPlayerHeadBlend(const int entity, PlayerHeadBlend headblend);
 
 			/// <summary>
 			/// Gets the headoverlay data of the player entity.
@@ -97,7 +97,7 @@ extern "C" {
 			/// <param name="entity">The entity of the player you wish to get their model headoverlay data.</param>
 			/// <param name="overlayid">The overlay id you wish to get the data off.</param>
 			/// <returns name="headoverlay">The headoverlay data of the overlay id</returns>
-			DLL_PUBLIC_I PlayerHeadOverlays GetPlayerHeadOverlay(const int entity, const int overlayid);
+			DLL_PUBLIC_I PlayerHeadOverlay GetPlayerHeadOverlay(const int entity, const int overlayid);
 
 			/// <summary>
 			/// Sets the headoverlay data of the player entity.
@@ -105,7 +105,7 @@ extern "C" {
 			/// <param name="entity">The entity of the player you wish to set their model headoverlay data.</param>
 			/// <param name="overlayid">The overlay id you wish to set the data off.</param>
 			/// <param name="overlay">The overlay data.</param>
-			DLL_PUBLIC_I void SetPlayerHeadOverlay(const int entity, const int overlayid, PlayerHeadOverlays overlay);
+			DLL_PUBLIC_I void SetPlayerHeadOverlay(const int entity, const int overlayid, PlayerHeadOverlay overlay);
 
 			/// <summary>
 			/// Gets the prop data of the player entity.
@@ -113,7 +113,7 @@ extern "C" {
 			/// <param name="entity">The entity of the player you wish to Get their model prop data.</param>
 			/// <param name="compotentid">The compotent id you wish to get the data off.</param>
 			/// <returns name="prop">The prop data.</returns>
-			DLL_PUBLIC_I PlayerProps GetPlayerProp(const int entity, const int compotentid);
+			DLL_PUBLIC_I PlayerProp GetPlayerProp(const int entity, const int compotentid);
 
 			/// <summary>
 			/// Sets the prop data of the player entity.
@@ -121,7 +121,7 @@ extern "C" {
 			/// <param name="entity">The entity of the player you wish to set their model prop data.</param>
 			/// <param name="compotentid">The compotent id you wish to set the data off.</param>
 			/// <param name="compotentid">The prop data.</param>
-			DLL_PUBLIC_I void SetPlayerProp(const int entity, const int compotentid, PlayerProps prop);
+			DLL_PUBLIC_I void SetPlayerProp(const int entity, const int compotentid, PlayerProp prop);
 
 			/// <summary>
 			/// Gets the face feature data of the player entity.

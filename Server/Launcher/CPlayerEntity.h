@@ -29,14 +29,14 @@ private:
 			int			Seat;
 		} Vehicle;
 
-		struct PlayerComponents
+		struct PlayerComponent
 		{
 			int drawableid	= -1;
 			int textureid	= -1;
 			int paletteid	= -1;
 		} ModelComponents[12];
 
-		struct PlayerHeadBlends
+		struct PlayerHeadBlend
 		{
 			int shapeFirst	= 0;
 			int shapeSecond = 0;
@@ -49,7 +49,7 @@ private:
 			float thirdMix	= 0;
 		} ModelHeadBlend;
 
-		struct PlayerHeadOverlays
+		struct PlayerHeadOverlay
 		{
 			int index			= 0;
 			float opacity		= 0.0f;
@@ -58,13 +58,13 @@ private:
 			int secondColorID	= 0;
 		} ModelHeadOverlay[13];
 
-		struct PlayerProps
+		struct PlayerProp
 		{
 			int drawableid	= 0;
 			int textureid	= 0;
 		} ModelProp[3];
 
-		struct PlayerFeatures
+		struct PlayerFeature
 		{
 			float scale = 0.0f;
 		} ModelFeature[20];
@@ -112,14 +112,14 @@ public:
 	const std::string GetModel() { return Data.Model.Model; }
 	void			SetModel(const std::string model) { Data.Model.Model = model; }
 
-	PlayerData::PlayerComponents GetModelComponent(const int index) { return Data.ModelComponents[index]; }
+	PlayerData::PlayerComponent GetModelComponent(const int index) { return Data.ModelComponents[index]; }
 	void			SetModelComponent(const int index, const int drawableid, const int textureid, const int paletteid)
 	{ 
 		Data.ModelComponents[index].drawableid = drawableid;
 		Data.ModelComponents[index].textureid = textureid;
 		Data.ModelComponents[index].paletteid = paletteid;
 	}
-	PlayerData::PlayerHeadBlends GetModelHeadBlend() { return Data.ModelHeadBlend; }
+	PlayerData::PlayerHeadBlend GetModelHeadBlend() { return Data.ModelHeadBlend; }
 	void			SetModelHeadBlend(const int shapeFirst, const float shapeMix, const int shapeSecond, const int shapeThird, const int skinFirst, const float skinMix, const int skinSecond, const int skinThird, const float thirdMix )
 	{
 		Data.ModelHeadBlend.shapeFirst = shapeFirst;
@@ -132,7 +132,7 @@ public:
 		Data.ModelHeadBlend.skinThird = skinThird;
 		Data.ModelHeadBlend.thirdMix = thirdMix;
 	}
-	PlayerData::PlayerHeadOverlays GetModelHeadOverlay(const int index) { return Data.ModelHeadOverlay[index]; }
+	PlayerData::PlayerHeadOverlay GetModelHeadOverlay(const int index) { return Data.ModelHeadOverlay[index]; }
 	void			SetModelHeadOverlay(const int index, const int type, const int colorType, const int colorID, const int secondColorID, const float opacity )
 	{
 		Data.ModelHeadOverlay[index].index = type;
@@ -141,7 +141,7 @@ public:
 		Data.ModelHeadOverlay[index].secondColorID = secondColorID;
 		Data.ModelHeadOverlay[index].opacity = opacity;
 	}
-	PlayerData::PlayerProps	GetModelProp(const int index) { return Data.ModelProp[index]; }
+	PlayerData::PlayerProp	GetModelProp(const int index) { return Data.ModelProp[index]; }
 	void			SetModelProp(const int index, const int drawableid, const int textureid)
 	{
 		Data.ModelProp[index].drawableid = drawableid;
