@@ -59,6 +59,7 @@ public:
 
 	Player GetPlayer()		{ return Game.Player; }
 	Ped	GetPed()			{ return Game.Ped; }
+	void SetPed(Ped ped)	{ Game.Ped = ped; }
 	int	GetId()				{ return Information.Id; }
 	void SetId(int id)		{ Information.Id = id; }
 

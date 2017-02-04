@@ -19,7 +19,8 @@ CRPCManager::RPCMessage rpcmessages[] = {
 	{ "PlayerHeadBlend", CRPCPlayer::PlayerHeadBlend },
 	{ "PlayerHeadOverlay", CRPCPlayer::PlayerHeadOverlay },
 	{ "PlayerProp", CRPCPlayer::PlayerProp },
-	{ "PlayerFaceFeature", CRPCPlayer::PlayerFaceFeature }
+	{ "PlayerFaceFeature", CRPCPlayer::PlayerFaceFeature },
+	{ "PlayerModel", CRPCPlayer::PlayerModel }
 #pragma endregion
 };
 

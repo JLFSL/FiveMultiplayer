@@ -76,6 +76,75 @@ namespace GamePed
 		return PED::GET_VEHICLE_PED_IS_IN(ped, false);
 	}
 
+	Hash GetPedSelectedWeapon(Ped ped)
+	{
+		return WEAPON::GET_SELECTED_PED_WEAPON(ped);
+	}
+
+	int GetPedHealth(Ped ped)
+	{
+		return ENTITY::GET_ENTITY_HEALTH(ped);
+	}
+
+	int SetPedHealth(Ped ped, int health)
+	{
+		ENTITY::SET_ENTITY_HEALTH(ped, health);
+	}
+
+	int GetPedArmour(Ped ped)
+	{
+		return PED::GET_PED_ARMOUR(ped);
+	}
+
+	int SetPedArmour(Ped ped, int armour)
+	{
+		PED::SET_PED_ARMOUR(ped, armour);
+	}
+
+	void PutPedInVehicle(Ped ped, Vehicle vehicle, int seat)
+	{
+		PED::SET_PED_INTO_VEHICLE(ped, vehicle, seat);
+	}
+
+	void SetPedModel(Ped ped, const std::string model)
+	{
+		Hash weapon = GetPedSelectedWeapon(ped);
+
+		int health = GetPedHealth(ped);
+		int armour = GetPedArmour(ped);
+
+		Vehicle vehicle = GetVehicle(ped);
+		int seat = GetVehicleSeat(ped);
+
+		Hash modelh = GAMEPLAY::GET_HASH_KEY((char*)model.c_str());
+
+		if (STREAMING::IS_MODEL_IN_CDIMAGE(modelh) && STREAMING::IS_MODEL_VALID(modelh))
+		{
+			STREAMING::REQUEST_MODEL(modelh);
+			while (!STREAMING::HAS_MODEL_LOADED(modelh))
+				WAIT(0);
+
+			PLAYER::SET_PLAYER_MODEL(0, modelh);
+
+			if (g_Core->GetLocalPlayer()->GetPed() == ped)
+			{
+				g_Core->GetLocalPlayer()->SetPed(PLAYER::GET_PLAYER_PED(0));
+				ped = PLAYER::GET_PLAYER_PED(0);
+			}
+
+			PED::SET_PED_DEFAULT_COMPONENT_VARIATION(ped);
+
+			if (vehicle)
+				PutPedInVehicle(ped, vehicle, seat);
+
+			SetPedHealth(ped, health);
+			SetPedArmour(ped, armour);
+
+			//SetPedHealthRegenRate(regenRate);
+			//UpdateWeapons(weapon);
+		}
+	}
+
 	void SetPedComponentVariation(Ped ped, const int componentid, const int drawableid, const int textureid, const int paletteid)
 	{
 		if (ENTITY::DOES_ENTITY_EXIST(ped))

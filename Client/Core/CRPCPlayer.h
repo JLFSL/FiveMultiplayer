@@ -3,6 +3,7 @@
 class CRPCPlayer
 {
 public:
+	static void PlayerModel(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 	static void PlayerComponent(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 	static void PlayerHeadBlend(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 	static void PlayerHeadOverlay(RakNet::BitStream *bitStream, RakNet::Packet *packet);

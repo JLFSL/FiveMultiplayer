@@ -25,6 +25,10 @@ namespace API
 			{
 				if (g_Players[i].GetEntity() == entity)
 				{
+					RakNet::BitStream sData;
+					sData.Write(RakString(model.c_str()));
+					g_Server->GetNetworkManager()->GetRPC().Signal("PlayerModel", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, g_Players[i].GetGUID(), false, false);
+
 					return g_Players[i].SetModel(model);
 				}
 			}
