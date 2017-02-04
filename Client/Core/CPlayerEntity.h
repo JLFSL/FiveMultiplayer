@@ -95,6 +95,7 @@ public:
 
 	void UpdateTargetAnimations();
 	void UpdateTargetData();
+	void UpdatePlayerModel();
 
 	bool IsTargetAnimal();
 
