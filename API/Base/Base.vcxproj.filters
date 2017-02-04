@@ -34,5 +34,8 @@
       <Filter>SDK</Filter>
     </ClInclude>
     <ClInclude Include="api.h" />
+    <ClInclude Include="sdk\APIPlayer.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
