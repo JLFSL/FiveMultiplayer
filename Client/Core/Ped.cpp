@@ -82,13 +82,13 @@ namespace GamePed
 			PED::SET_PED_COMPONENT_VARIATION(ped, componentid, drawableid, textureid, paletteid);
 	}
 
-	void SetPedHeadBlend(Ped ped, int shapeFirst, int shapeSecond, int shapeThird, int skinFirst, int skinSecond, int skinThird, float shapeMix, float skinMix, float thirdMix)
+	void SetPedHeadBlend(Ped ped, const int shapeFirst, const int shapeSecond, const int shapeThird, const int skinFirst, const int skinSecond, const int skinThird, const float shapeMix, const float skinMix, const float thirdMix)
 	{
 		if (ENTITY::DOES_ENTITY_EXIST(ped))
 			PED::SET_PED_HEAD_BLEND_DATA(ped, shapeFirst, shapeSecond, shapeThird, skinFirst, skinSecond, skinThird, shapeMix, skinMix, thirdMix, 0);
 	}
 
-	void SetPedHeadOverlayColor(Ped ped, int overlayid, int index, int colorType, int colorid, int secondColorid, float opacity)
+	void SetPedHeadOverlayColor(Ped ped, const int overlayid, const int index, const int colorType, const int colorid, const int secondColorid, const float opacity)
 	{
 		if (ENTITY::DOES_ENTITY_EXIST(ped))
 		{
@@ -97,13 +97,13 @@ namespace GamePed
 		}
 	}
 
-	void SetPedProp(Ped ped, int componentid, int drawableid, int textureid)
+	void SetPedProp(Ped ped, const int componentid, const int drawableid, const int textureid)
 	{
 		if (ENTITY::DOES_ENTITY_EXIST(ped))
 			PED::SET_PED_PROP_INDEX(ped, componentid, drawableid, textureid, true);
 	}
 
-	void SetPedFaceFeature(Ped ped, int index, float scale)
+	void SetPedFaceFeature(Ped ped, const int index, const float scale)
 	{
 		if (ENTITY::DOES_ENTITY_EXIST(ped))
 			PED::_SET_PED_FACE_FEATURE(ped, index, scale);
