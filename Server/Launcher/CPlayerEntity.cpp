@@ -163,3 +163,64 @@ void CPlayerEntity::Update(Packet *packet)
 		}
 	}
 }
+
+void CPlayerEntity::RequestData(RakNetGUID requester)
+{
+	RakNet::BitStream sData;
+
+	sData.Reset();
+	sData.Write(Information.Entity);
+	sData.Write(Data.ModelHeadBlend.shapeFirst);
+	sData.Write(Data.ModelHeadBlend.shapeMix);
+	sData.Write(Data.ModelHeadBlend.shapeSecond);
+	sData.Write(Data.ModelHeadBlend.shapeThird);
+	sData.Write(Data.ModelHeadBlend.skinFirst);
+	sData.Write(Data.ModelHeadBlend.skinMix);
+	sData.Write(Data.ModelHeadBlend.skinSecond);
+	sData.Write(Data.ModelHeadBlend.skinThird);
+	sData.Write(Data.ModelHeadBlend.thirdMix);
+	g_Server->GetNetworkManager()->GetRPC().Signal("PlayerHeadBlend", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, requester, false, false);
+
+	for (int i = 0; i < SizeOfArray(Data.ModelComponents); i++)
+	{
+		sData.Reset();
+		sData.Write(Information.Entity);
+		sData.Write(i);
+		sData.Write(Data.ModelComponents[i].drawableid);
+		sData.Write(Data.ModelComponents[i].paletteid);
+		sData.Write(Data.ModelComponents[i].textureid);
+		g_Server->GetNetworkManager()->GetRPC().Signal("PlayerComponent", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, requester, false, false);
+	}
+
+	for (int i = 0; i < SizeOfArray(Data.ModelFaceFeature); i++)
+	{
+		sData.Reset();
+		sData.Write(Information.Entity);
+		sData.Write(i);
+		sData.Write(Data.ModelFaceFeature[i].scale);
+		g_Server->GetNetworkManager()->GetRPC().Signal("PlayerFaceFeature", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, requester, false, false);
+	}
+
+	for (int i = 0; i < SizeOfArray(Data.ModelHeadOverlay); i++)
+	{
+		sData.Reset();
+		sData.Write(Information.Entity);
+		sData.Write(i);
+		sData.Write(Data.ModelHeadOverlay[i].index);
+		sData.Write(Data.ModelHeadOverlay[i].colorType);
+		sData.Write(Data.ModelHeadOverlay[i].colorID);
+		sData.Write(Data.ModelHeadOverlay[i].secondColorID);
+		sData.Write(Data.ModelHeadOverlay[i].opacity);
+		g_Server->GetNetworkManager()->GetRPC().Signal("PlayerHeadOverlay", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, requester, false, false);
+	}
+
+	for (int i = 0; i < SizeOfArray(Data.ModelProp); i++)
+	{
+		sData.Reset();
+		sData.Write(Information.Entity);
+		sData.Write(i);
+		sData.Write(Data.ModelProp[i].drawableid);
+		sData.Write(Data.ModelProp[i].textureid);
+		g_Server->GetNetworkManager()->GetRPC().Signal("PlayerProp", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
+	}
+}

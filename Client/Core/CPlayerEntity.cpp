@@ -60,6 +60,15 @@ void CPlayerEntity::CreatePed()
 	std::cout << "[CPlayerEntity] Tried to create " << Information.Id << ", but model does not exist!" << std::endl;
 }
 
+
+// Gets the data thats only needed once thats not synced constantly
+void CPlayerEntity::RequestData()
+{
+	RakNet::BitStream sData;
+	sData.Write(Information.Id);
+	g_Core->GetNetworkManager()->GetRPC().Signal("RequestEntityData", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, g_Core->GetNetworkManager()->GetSystemAddress(), false, false);
+}
+
 void CPlayerEntity::Destroy()
 {
 	std::cout << "[CPlayerEntity] Removing Player: " << Information.Id << std::endl;

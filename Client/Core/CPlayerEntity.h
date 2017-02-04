@@ -80,6 +80,7 @@ public:
 
 	void Create(std::string Name, RakNetGUID GUID, int entity);
 	void CreatePed();
+	void RequestData();
 	void Destroy();
 
 	void Pulse();

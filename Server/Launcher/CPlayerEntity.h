@@ -154,6 +154,8 @@ public:
 	RakNetGUID		GetGUID()	{ return Network.GUID; };
 	SystemAddress	GetIp()	{ return Network.Ip; }
 
+	void			RequestData(RakNetGUID requester);
+
 	PlayerInfo		SetInfo(PlayerInfo newinfo) { Information = newinfo; }
 	PlayerStats		SetStats(PlayerStats newstats) { Statistics = newstats; }
 	PlayerData		SetData(PlayerData newdata) { Data = newdata; }

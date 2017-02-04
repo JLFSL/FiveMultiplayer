@@ -243,6 +243,7 @@ namespace ServerEntity
 			switch (g_Entities[index].GetType())
 			{
 			case 0: // Player
+				g_Entities[index].GetPEntity()->RequestData(requester);
 				break;
 			case 1: // Vehicle
 				g_Entities[index].GetVEntity()->RequestData(requester);
