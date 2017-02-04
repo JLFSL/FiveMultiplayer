@@ -101,7 +101,7 @@ void CRPCPlayer::PlayerProp(RakNet::BitStream *bitStream, RakNet::Packet *packet
 	}
 }
 
-void CRPCPlayer::PlayerFeature(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+void CRPCPlayer::PlayerFaceFeature(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 {
 	int entity, index;
 	float scale;

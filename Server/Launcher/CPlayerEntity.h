@@ -67,7 +67,7 @@ private:
 		struct PlayerFeature
 		{
 			float scale = 0.0f;
-		} ModelFeature[20];
+		} ModelFaceFeature[20];
 
 		float				ForwardSpeed;
 
@@ -147,8 +147,8 @@ public:
 		Data.ModelProp[index].drawableid = drawableid;
 		Data.ModelProp[index].textureid = textureid;
 	}
-	float			GetModelFeature(const int index) { return Data.ModelFeature[index].scale; }
-	void			SetModelFeature(const int index, const float scale) { Data.ModelFeature[index].scale = scale; }
+	float			GetModelFaceFeature(const int index) { return Data.ModelFaceFeature[index].scale; }
+	void			SetModelFaceFeature(const int index, const float scale) { Data.ModelFaceFeature[index].scale = scale; }
 
 	bool			GetSynchronized()	{ return Network.Synchronized; }
 	RakNetGUID		GetGUID()	{ return Network.GUID; };

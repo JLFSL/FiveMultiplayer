@@ -129,7 +129,7 @@ extern "C" {
 			/// <param name="entity">The entity of the player you wish to get their model face feature data.</param>
 			/// <param name="index">The index you wish to get the data off (Index can be 0 - 19).</param>
 			/// <returns name="feature">The face feature scale. (Scale ranges from -1.0 to 1.0)</returns>
-			DLL_PUBLIC_I float GetPlayerFeature(const int entity, const int index);
+			DLL_PUBLIC_I float GetPlayerFaceFeature(const int entity, const int index);
 
 			/// <summary>
 			/// Sets the face feature data of the player entity.
@@ -137,7 +137,7 @@ extern "C" {
 			/// <param name="entity">The entity of the player you wish to set their model face feature data.</param>
 			/// <param name="index">The index you wish to set the data off (Index can be 0 - 19).</param>
 			/// <param name="scale">The face feature scale. (Scale ranges from -1.0 to 1.0)</param>
-			DLL_PUBLIC_I void SetPlayerFeature(const int entity, const int index, float scale);
+			DLL_PUBLIC_I void SetPlayerFaceFeature(const int entity, const int index, float scale);
 
 		}
 	}

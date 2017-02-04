@@ -197,20 +197,20 @@ namespace API
 			std::cout << "[" << ThisNamespace << "] Player Entity " << entity << " invalid." << std::endl;
 		}
 
-		float GetPlayerFeature(const int entity, const int index)
+		float GetPlayerFaceFeature(const int entity, const int index)
 		{
 			for (int i = 0; i < g_Players.size(); i++)
 			{
 				if (g_Players[i].GetEntity() == entity)
 				{
-					return g_Players[i].GetModelFeature(index);
+					return g_Players[i].GetModelFaceFeature(index);
 				}
 			}
 
 			std::cout << "[" << ThisNamespace << "] Player Entity " << entity << " invalid." << std::endl;
 		}
 
-		void SetPlayerFeature(const int entity, const int index, const float scale)
+		void SetPlayerFaceFeature(const int entity, const int index, const float scale)
 		{
 			for (int i = 0; i < g_Players.size(); i++)
 			{
@@ -220,9 +220,9 @@ namespace API
 					sData.Write(g_Players[i].GetEntity());
 					sData.Write(index);
 					sData.Write(scale);
-					g_Server->GetNetworkManager()->GetRPC().Signal("PlayerFeature", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
+					g_Server->GetNetworkManager()->GetRPC().Signal("PlayerFaceFeature", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
 
-					return g_Players[i].SetModelFeature(index, scale);
+					return g_Players[i].SetModelFaceFeature(index, scale);
 				}
 			}
 
