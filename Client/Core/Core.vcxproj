@@ -183,6 +183,7 @@
     <ClCompile Include="CPlayerEntity.cpp" />
     <ClCompile Include="CrossMapping.cpp" />
     <ClCompile Include="CRPCEntity.cpp" />
+    <ClCompile Include="CRPCPlayer.cpp" />
     <ClCompile Include="CRPCWorld.cpp" />
     <ClCompile Include="CServerEntity.cpp" />
     <ClCompile Include="CVehicleEntity.cpp" />
@@ -243,6 +244,7 @@
     <ClInclude Include="CPlayerEntity.h" />
     <ClInclude Include="CrossMapping.h" />
     <ClInclude Include="CRPCEntity.h" />
+    <ClInclude Include="CRPCPlayer.h" />
     <ClInclude Include="CRPCWorld.h" />
     <ClInclude Include="CServerEntity.h" />
     <ClInclude Include="CVehicleEntity.h" />

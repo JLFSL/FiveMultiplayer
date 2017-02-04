@@ -32,16 +32,16 @@ namespace API
 			std::cout << "[" << ThisNamespace << "] Player Entity " << entity << " invalid." << std::endl;
 		}
 
-		PlayerComponents GetPlayerComponent(const int entity, const int index)
+		PlayerComponents GetPlayerComponent(const int entity, const int componentid)
 		{
 			for (int i = 0; i < g_Players.size(); i++)
 			{
 				if (g_Players[i].GetEntity() == entity)
 				{
 					PlayerComponents comp;
-					comp.drawableid = g_Players[i].GetModelComponent(index).drawableid;
-					comp.paletteid = g_Players[i].GetModelComponent(index).paletteid;
-					comp.textureid = g_Players[i].GetModelComponent(index).textureid;
+					comp.drawableid = g_Players[i].GetModelComponent(componentid).drawableid;
+					comp.paletteid = g_Players[i].GetModelComponent(componentid).paletteid;
+					comp.textureid = g_Players[i].GetModelComponent(componentid).textureid;
 					return comp;
 				}
 			}
@@ -49,13 +49,21 @@ namespace API
 			std::cout << "[" << ThisNamespace << "] Player Entity " << entity << " invalid." << std::endl;
 		}
 
-		void SetPlayerComponent(const int entity, const int index, PlayerComponents component)
+		void SetPlayerComponent(const int entity, const int componentid, PlayerComponents component)
 		{
 			for (int i = 0; i < g_Players.size(); i++)
 			{
 				if (g_Players[i].GetEntity() == entity)
 				{
-					return g_Players[i].SetModelComponent(index, component.drawableid, component.textureid, component.paletteid);
+					RakNet::BitStream sData;
+					sData.Write(g_Players[i].GetEntity());
+					sData.Write(componentid);
+					sData.Write(component.drawableid);
+					sData.Write(component.paletteid);
+					sData.Write(component.textureid);
+					g_Server->GetNetworkManager()->GetRPC().Signal("PlayerComponent", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
+
+					return g_Players[i].SetModelComponent(componentid, component.drawableid, component.textureid, component.paletteid);
 				}
 			}
 
@@ -91,6 +99,19 @@ namespace API
 			{
 				if (g_Players[i].GetEntity() == entity)
 				{
+					RakNet::BitStream sData;
+					sData.Write(g_Players[i].GetEntity());
+					sData.Write(headblend.shapeFirst);
+					sData.Write(headblend.shapeMix);
+					sData.Write(headblend.shapeSecond);
+					sData.Write(headblend.shapeThird);
+					sData.Write(headblend.skinFirst);
+					sData.Write(headblend.skinMix);
+					sData.Write(headblend.skinSecond);
+					sData.Write(headblend.skinThird);
+					sData.Write(headblend.thirdMix);
+					g_Server->GetNetworkManager()->GetRPC().Signal("PlayerHeadBlend", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
+
 					return g_Players[i].SetModelHeadBlend(headblend.shapeFirst, headblend.shapeMix, headblend.shapeSecond, headblend.shapeThird, headblend.skinFirst, headblend.skinMix, headblend.skinSecond, headblend.skinThird, headblend.thirdMix);
 				}
 			}
@@ -123,6 +144,16 @@ namespace API
 			{
 				if (g_Players[i].GetEntity() == entity)
 				{
+					RakNet::BitStream sData;
+					sData.Write(g_Players[i].GetEntity());
+					sData.Write(index);
+					sData.Write(overlay.index);
+					sData.Write(overlay.colorType);
+					sData.Write(overlay.colorID);
+					sData.Write(overlay.secondColorID);
+					sData.Write(overlay.opacity);
+					g_Server->GetNetworkManager()->GetRPC().Signal("PlayerHeadOverlay", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
+
 					return g_Players[i].SetModelHeadOverlay(index, overlay.index, overlay.colorType, overlay.colorID, overlay.secondColorID, overlay.opacity);
 				}
 			}
@@ -152,6 +183,13 @@ namespace API
 			{
 				if (g_Players[i].GetEntity() == entity)
 				{
+					RakNet::BitStream sData;
+					sData.Write(g_Players[i].GetEntity());
+					sData.Write(index);
+					sData.Write(prop.drawableid);
+					sData.Write(prop.textureid);
+					g_Server->GetNetworkManager()->GetRPC().Signal("PlayerProp", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
+
 					return g_Players[i].SetModelProp(index, prop.drawableid, prop.textureid);
 				}
 			}
@@ -178,6 +216,12 @@ namespace API
 			{
 				if (g_Players[i].GetEntity() == entity)
 				{
+					RakNet::BitStream sData;
+					sData.Write(g_Players[i].GetEntity());
+					sData.Write(index);
+					sData.Write(scale);
+					g_Server->GetNetworkManager()->GetRPC().Signal("PlayerFeature", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
+
 					return g_Players[i].SetModelFeature(index, scale);
 				}
 			}

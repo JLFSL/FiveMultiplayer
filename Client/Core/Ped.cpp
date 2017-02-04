@@ -75,4 +75,37 @@ namespace GamePed
 	{
 		return PED::GET_VEHICLE_PED_IS_IN(ped, false);
 	}
+
+	void SetPedComponentVariation(Ped ped, const int componentid, const int drawableid, const int textureid, const int paletteid)
+	{
+		if (ENTITY::DOES_ENTITY_EXIST(ped))
+			PED::SET_PED_COMPONENT_VARIATION(ped, componentid, drawableid, textureid, paletteid);
+	}
+
+	void SetPedHeadBlend(Ped ped, int shapeFirst, int shapeSecond, int shapeThird, int skinFirst, int skinSecond, int skinThird, float shapeMix, float skinMix, float thirdMix)
+	{
+		if (ENTITY::DOES_ENTITY_EXIST(ped))
+			PED::SET_PED_HEAD_BLEND_DATA(ped, shapeFirst, shapeSecond, shapeThird, skinFirst, skinSecond, skinThird, shapeMix, skinMix, thirdMix, 0);
+	}
+
+	void SetPedHeadOverlayColor(Ped ped, int overlayid, int index, int colorType, int colorid, int secondColorid, float opacity)
+	{
+		if (ENTITY::DOES_ENTITY_EXIST(ped))
+		{
+			PED::SET_PED_HEAD_OVERLAY(ped, overlayid, index, opacity);
+			PED::_SET_PED_HEAD_OVERLAY_COLOR(ped, overlayid, colorType, colorid, secondColorid);
+		}
+	}
+
+	void SetPedProp(Ped ped, int componentid, int drawableid, int textureid)
+	{
+		if (ENTITY::DOES_ENTITY_EXIST(ped))
+			PED::SET_PED_PROP_INDEX(ped, componentid, drawableid, textureid, true);
+	}
+
+	void SetPedFaceFeature(Ped ped, int index, float scale)
+	{
+		if (ENTITY::DOES_ENTITY_EXIST(ped))
+			PED::_SET_PED_FACE_FEATURE(ped, index, scale);
+	}
 }

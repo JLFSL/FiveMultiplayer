@@ -4,7 +4,7 @@ void CPlayerEntity::Create(std::string Name, RakNetGUID GUID, int entity) {
 	CServerEntity newServerEntity;
 	newServerEntity.SetId(entity);
 	newServerEntity.SetType(newServerEntity.Player);
-	g_Entities.push_back(newServerEntity);
+	newServerEntity.SetEntity(this);
 
 	Game.Ped = 0;
 	Game.Blip = 0;
@@ -16,6 +16,7 @@ void CPlayerEntity::Create(std::string Name, RakNetGUID GUID, int entity) {
 	Data.Vehicle.VehicleID = -1;
 	Data.Vehicle.Seat = -1;
 
+	g_Entities.push_back(newServerEntity);
 	std::cout << "[CPlayerEntity] Added Player: " << Information.Name << std::endl;
 }
 
@@ -140,12 +141,12 @@ void CPlayerEntity::Update(Packet *packet)
 
 		Network.LastSyncReceived = timeGetTime();
 	}
-	/*else
+	else if (g_Core->GetNetworkManager()->GetInterface()->GetMyGUID() == Network.GUID)
 	{
 		// Simple way to make the local player aware of its own server entity id.
 		if (Information.Id != g_Core->GetLocalPlayer()->GetId())
 			g_Core->GetLocalPlayer()->SetId(Information.Id);
-	}*/
+	}
 }
 
 void CPlayerEntity::Interpolate()

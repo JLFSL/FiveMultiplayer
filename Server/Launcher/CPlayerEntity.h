@@ -120,7 +120,7 @@ public:
 		Data.ModelComponents[index].paletteid = paletteid;
 	}
 	PlayerData::PlayerHeadBlends GetModelHeadBlend() { return Data.ModelHeadBlend; }
-	void			SetModelHeadBlend(const int shapeFirst, const int shapeMix, const int shapeSecond, const int shapeThird, const int skinFirst, const int skinMix, const int skinSecond, const int skinThird, const int thirdMix )
+	void			SetModelHeadBlend(const int shapeFirst, const float shapeMix, const int shapeSecond, const int shapeThird, const int skinFirst, const float skinMix, const int skinSecond, const int skinThird, const float thirdMix )
 	{
 		Data.ModelHeadBlend.shapeFirst = shapeFirst;
 		Data.ModelHeadBlend.shapeMix = shapeMix;

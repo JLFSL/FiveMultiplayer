@@ -103,6 +103,7 @@
 		#include "CRPCVisual.h"
 		#include "CRPCEntity.h"
 		#include "CRPCWorld.h"
+		#include "CRPCPlayer.h"
 
 	// Client
 	#include "CCore.h"

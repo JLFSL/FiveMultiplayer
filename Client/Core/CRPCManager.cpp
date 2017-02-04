@@ -12,7 +12,14 @@ CRPCManager::RPCMessage rpcmessages[] = {
 	{ "SetPosition", CRPCEntity::SetPosition },
 	{ "TakeEntityAssignment", CRPCEntity::TakeEntityAssignment },
 	{ "DropEntityAssignment", CRPCEntity::DropEntityAssignment },
-	{ "DestroyEntity", CRPCEntity::Destroy }
+	{ "DestroyEntity", CRPCEntity::Destroy },
+#pragma endregion
+#pragma region Player
+	{ "PlayerComponent", CRPCPlayer::PlayerComponent },
+	{ "PlayerHeadBlend", CRPCPlayer::PlayerHeadBlend },
+	{ "PlayerHeadOverlay", CRPCPlayer::PlayerHeadOverlay },
+	{ "PlayerProp", CRPCPlayer::PlayerProp },
+	{ "PlayerFeature", CRPCPlayer::PlayerFeature }
 #pragma endregion
 };
 

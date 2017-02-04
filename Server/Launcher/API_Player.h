@@ -49,8 +49,8 @@ extern "C" {
 			DLL_PUBLIC const std::string GetModel(const int entity);
 			DLL_PUBLIC void SetModel(const int entity, const std::string model);
 
-			DLL_PUBLIC PlayerComponents GetPlayerComponent(const int entity, const int index);
-			DLL_PUBLIC void SetPlayerComponent(const int entity, const int index, PlayerComponents component);
+			DLL_PUBLIC PlayerComponents GetPlayerComponent(const int entity, const int componentid);
+			DLL_PUBLIC void SetPlayerComponent(const int entity, const int componentid, PlayerComponents component);
 			DLL_PUBLIC PlayerHeadBlends GetPlayerHeadBlend(const int entity);
 			DLL_PUBLIC void SetPlayerHeadBlend(const int entity, PlayerHeadBlends headblend);
 			DLL_PUBLIC PlayerHeadOverlays GetPlayerHeadOverlay(const int entity, const int index);

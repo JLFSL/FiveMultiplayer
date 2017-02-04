@@ -19,6 +19,7 @@ void CVehicleEntity::Create(int entity)
 	CServerEntity newServerEntity;
 	newServerEntity.SetId(entity);
 	newServerEntity.SetType(newServerEntity.Vehicle);
+	newServerEntity.SetEntity(this);
 	g_Entities.push_back(newServerEntity);
 
 	std::cout << "[CVehicleEntity] Added Vehicle: " << Information.Id << std::endl;

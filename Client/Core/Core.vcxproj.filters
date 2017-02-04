@@ -168,6 +168,9 @@
     <ClCompile Include="World.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="CRPCPlayer.cpp">
+      <Filter>Network\RPC</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -307,6 +310,9 @@
     </ClInclude>
     <ClInclude Include="World.h">
       <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="CRPCPlayer.h">
+      <Filter>Network\RPC</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
