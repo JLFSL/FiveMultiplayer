@@ -187,12 +187,14 @@
   <ItemGroup>
     <ClInclude Include="API_Callback_Network.h" />
     <ClInclude Include="API_Entity.h" />
+    <ClInclude Include="API_Object.h" />
     <ClInclude Include="API_Player.h" />
     <ClInclude Include="API_Server.h" />
     <ClInclude Include="API_Vehicle.h" />
     <ClInclude Include="API_Visual.h" />
     <ClInclude Include="API_World.h" />
     <ClInclude Include="CAPI.h" />
+    <ClInclude Include="CObjectEntity.h" />
     <ClInclude Include="NetworkSync.h" />
     <ClInclude Include="CServerEntity.h" />
     <ClInclude Include="CNetworkManager.h" />
@@ -211,12 +213,14 @@
     <ClCompile Include="apitest.cpp" />
     <ClCompile Include="API_Callback_Network.cpp" />
     <ClCompile Include="API_Entity.cpp" />
+    <ClCompile Include="API_Object.cpp" />
     <ClCompile Include="API_Player.cpp" />
     <ClCompile Include="API_Server.cpp" />
     <ClCompile Include="API_Vehicle.cpp" />
     <ClCompile Include="API_Visual.cpp" />
     <ClCompile Include="API_World.cpp" />
     <ClCompile Include="CAPI.cpp" />
+    <ClCompile Include="CObjectEntity.cpp" />
     <ClCompile Include="NetworkSync.cpp" />
     <ClCompile Include="CServerEntity.cpp" />
     <ClCompile Include="CNetworkManager.cpp" />

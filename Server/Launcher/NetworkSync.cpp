@@ -8,19 +8,49 @@ namespace NetworkSync
 		server->Send(&sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, packet->systemAddress, false);*/
 	}
 
-	void SyncServerWorld(RakNetGUID GUID)
+	void SyncServerWorld(RakNetGUID user)
 	{
 		RakNet::BitStream sData;
+
+		// Sync Time
+		sData.Reset();
 		sData.Write(g_Server->GetWorld()->GetTime().Hour);
 		sData.Write(g_Server->GetWorld()->GetTime().Minute);
 		sData.Write(g_Server->GetWorld()->GetTime().Second);
+		g_Server->GetNetworkManager()->GetRPC().Signal("SetTime", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, user, false, false);
 
-		g_Server->GetNetworkManager()->GetRPC().Signal("SetTime", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, GUID, false, false);
-
-		sData.Reset(); //Resets the BitStream for reuse, Handy
+		// Sync Weather
+		sData.Reset();
 		sData.Write(RakString(g_Server->GetWorld()->GetWeather().Weather.c_str()));
+		g_Server->GetNetworkManager()->GetRPC().Signal("SetWeather", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, user, false, false);
 
-		g_Server->GetNetworkManager()->GetRPC().Signal("SetWeather", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, GUID, false, false);
+
+		// Sync Objects
+		for (int o = 0; o < g_Objects.size(); o++)
+		{
+			sData.Reset();
+			sData.Write(g_Objects[o].GetEntity());
+			if (g_Objects[o].GetHash() == 0)
+			{
+				sData.Write(false);
+				sData.Write(RakString(g_Objects[o].GetModel().c_str()));
+			}
+			else
+			{
+				sData.Write(true);
+				sData.Write(g_Objects[o].GetHash());
+			}
+			sData.Write(g_Objects[o].GetPosition().fX);
+			sData.Write(g_Objects[o].GetPosition().fY);
+			sData.Write(g_Objects[o].GetPosition().fZ);
+			sData.Write(g_Objects[o].GetQuaternion().fX);
+			sData.Write(g_Objects[o].GetQuaternion().fY);
+			sData.Write(g_Objects[o].GetQuaternion().fZ);
+			sData.Write(g_Objects[o].GetQuaternion().fW);
+			sData.Write(g_Objects[o].IsDynamic());
+
+			g_Server->GetNetworkManager()->GetRPC().Signal("CreateObject", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, user, false, false);
+		}
 	}
 
 }

@@ -431,6 +431,7 @@ enum DefaultMessageIDTypes
 
 	ID_PACKET_PLAYER,
 	ID_PACKET_VEHICLE,
+	ID_PACKET_OBJECT,
 	ID_PLAYER_LEFT
 	//-------------------------------------------------------------------------------------------------------------
  

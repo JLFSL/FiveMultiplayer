@@ -58,6 +58,7 @@
 	#include "CNetworkManager.h"
 	#include "CPlayerEntity.h"
 	#include "CVehicleEntity.h"
+	#include "CObjectEntity.h"
 	#include "CServerEntity.h"
 	#include "NetworkSync.h"
 
@@ -77,6 +78,7 @@
 	#include "API_Vehicle.h"
 	#include "API_Visual.h"
 	#include "API_Player.h"
+	#include "API_Object.h"
 
 // End of Server.Launcher
 

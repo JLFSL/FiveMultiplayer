@@ -180,9 +180,11 @@
     <ClCompile Include="CCore.cpp" />
     <ClCompile Include="CefRenderer.cpp" />
     <ClCompile Include="CNetworkManager.cpp" />
+    <ClCompile Include="CObjectEntity.cpp" />
     <ClCompile Include="CPlayerEntity.cpp" />
     <ClCompile Include="CrossMapping.cpp" />
     <ClCompile Include="CRPCEntity.cpp" />
+    <ClCompile Include="CRPCObject.cpp" />
     <ClCompile Include="CRPCPlayer.cpp" />
     <ClCompile Include="CRPCWorld.cpp" />
     <ClCompile Include="CServerEntity.cpp" />
@@ -241,9 +243,11 @@
     <ClInclude Include="CCore.h" />
     <ClInclude Include="CefRenderer.h" />
     <ClInclude Include="CNetworkManager.h" />
+    <ClInclude Include="CObjectEntity.h" />
     <ClInclude Include="CPlayerEntity.h" />
     <ClInclude Include="CrossMapping.h" />
     <ClInclude Include="CRPCEntity.h" />
+    <ClInclude Include="CRPCObject.h" />
     <ClInclude Include="CRPCPlayer.h" />
     <ClInclude Include="CRPCWorld.h" />
     <ClInclude Include="CServerEntity.h" />

@@ -2,10 +2,14 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="api.cpp" />
+    <ClCompile Include="jsoncpp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="SDK">
       <UniqueIdentifier>{352e5012-375d-47b5-9d3c-dbad34390915}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="JsonCpp">
+      <UniqueIdentifier>{8538ca28-d15b-4b58-82b8-18d652e0f9cf}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -34,5 +38,17 @@
       <Filter>SDK</Filter>
     </ClInclude>
     <ClInclude Include="api.h" />
+    <ClInclude Include="APIObject.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="APIPlayer.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="json\json.h">
+      <Filter>JsonCpp</Filter>
+    </ClInclude>
+    <ClInclude Include="json\json-forwards.h">
+      <Filter>JsonCpp</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

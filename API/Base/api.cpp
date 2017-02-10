@@ -14,6 +14,7 @@
 #include "sdk/APIVehicle.h"
 #include "sdk/APIVisual.h"
 #include "sdk/APIPlayer.h"
+#include "sdk/APIObject.h"
 
 extern "C" DLL_PUBLIC bool API_Initialize(void) {
 	// When Plugin gets loaded

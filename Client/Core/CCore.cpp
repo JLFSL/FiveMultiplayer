@@ -3,6 +3,7 @@
 std::vector<CServerEntity>	g_Entities;
 std::vector<CPlayerEntity>	g_Players;
 std::vector<CVehicleEntity>	g_Vehicles;
+std::vector<CObjectEntity>	g_Objects;
 
 CCore::CCore()
 {
@@ -237,6 +238,14 @@ void CCore::OnGameTick()
 			g_Vehicles[i].Pulse();
 		}
 	}
+
+	/*if (!g_Objects.empty())
+	{
+		for (int i = 0; i < g_Objects.size(); i++)
+		{
+			g_Objects[i].Pulse();
+		}
+	}*/
 }
 
 void CCore::CleanUp()
@@ -268,7 +277,7 @@ void CCore::CleanUp()
 	GAMEPLAY::SET_MISSION_FLAG(true);
 	GAMEPLAY::SET_FADE_OUT_AFTER_DEATH(false);
 
-	MOBILE::DESTROY_MOBILE_PHONE();
+	//MOBILE::DESTROY_MOBILE_PHONE();
 
 	//std::cout << "[CCore] Clean up" << std::endl;
 

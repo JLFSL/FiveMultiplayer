@@ -156,10 +156,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="api.cpp" />
+    <ClCompile Include="jsoncpp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="api.h" />
     <ClInclude Include="APIEntity.h" />
+    <ClInclude Include="APIObject.h" />
+    <ClInclude Include="APIPlayer.h" />
     <ClInclude Include="APIServer.h" />
     <ClInclude Include="APIVehicle.h" />
     <ClInclude Include="APIVisual.h" />
@@ -167,6 +170,8 @@
     <ClInclude Include="CMaths.h" />
     <ClInclude Include="CVector3.h" />
     <ClInclude Include="CVector4.h" />
+    <ClInclude Include="json\json-forwards.h" />
+    <ClInclude Include="json\json.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

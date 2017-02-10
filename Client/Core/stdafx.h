@@ -93,6 +93,7 @@
 	// Entity
 	#include "CLocalPlayer.h"
 	#include "CVehicleEntity.h"
+	#include "CObjectEntity.h"
 	#include "CPlayerEntity.h"
 	#include "CServerEntity.h"
 
@@ -104,6 +105,7 @@
 		#include "CRPCEntity.h"
 		#include "CRPCWorld.h"
 		#include "CRPCPlayer.h"
+		#include "CRPCObject.h"
 
 	// Client
 	#include "CCore.h"

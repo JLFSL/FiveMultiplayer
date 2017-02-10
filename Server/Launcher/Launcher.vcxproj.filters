@@ -108,6 +108,12 @@
     <ClCompile Include="API_Player.cpp">
       <Filter>Scripting\Functions</Filter>
     </ClCompile>
+    <ClCompile Include="CObjectEntity.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="API_Object.cpp">
+      <Filter>Scripting\Functions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -171,6 +177,12 @@
       <Filter>Network\RPC</Filter>
     </ClInclude>
     <ClInclude Include="API_Player.h">
+      <Filter>Scripting\Functions</Filter>
+    </ClInclude>
+    <ClInclude Include="CObjectEntity.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="API_Object.h">
       <Filter>Scripting\Functions</Filter>
     </ClInclude>
   </ItemGroup>

@@ -93,6 +93,7 @@ void CNetworkManager::Pulse()
 					if (!API::Network::OnPlayerConnecting(Instance, g_Packet->guid.ToString()))
 					{
 						g_RakPeer->CloseConnection(g_Packet->systemAddress, true);
+						return;
 					}
 				}
 

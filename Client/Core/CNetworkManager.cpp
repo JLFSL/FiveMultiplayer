@@ -134,7 +134,17 @@ void CNetworkManager::Disconnect()
 	}
 	// Shrink vector so size is correct.
 	g_Vehicles.shrink_to_fit();
-	std::cout << "[CPlayerEntity] Vehicles: " << g_Vehicles.size() << std::endl;
+	std::cout << "[CVehicleEntity] Vehicles: " << g_Vehicles.size() << std::endl;
+
+	// Remove all existing objects
+	for (int i = (g_Objects.size() - 1); i > -1; i--)
+	{
+		g_Objects[i].Destroy();
+		g_Objects.erase(g_Objects.begin() + i);
+	}
+	// Shrink vector so size is correct.
+	g_Objects.shrink_to_fit();
+	std::cout << "[CObjectEntity] Objects: " << g_Objects.size() << std::endl;
 
 	Logger::Msg("CNetworkManager::Disconnected");
 }

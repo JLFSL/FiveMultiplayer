@@ -1,7 +1,13 @@
 #include <iostream>
 #include <sstream>
+#include <fstream>
+#include <locale>
 
 #include "api.h"
+
+//JsonCpp
+#include "json\json.h"
+#include "json\json-forwards.h"
 
 // Math
 #include "CVector3.h"
@@ -13,6 +19,20 @@
 #include "APIEntity.h"
 #include "APIVehicle.h"
 #include "APIVisual.h"
+#include "APIPlayer.h"
+#include "APIObject.h"
+
+bool to_bool(std::string str)
+{
+	std::locale loc;
+	for (std::string::size_type i = 0; i<str.length(); ++i)
+		std::cout << std::tolower(str[i], loc);
+
+	std::istringstream is(str);
+	bool b;
+	is >> std::boolalpha >> b;
+	return b;
+};
 
 // When Plugin gets loaded
 extern "C" DLL_PUBLIC bool API_Initialize(void) 
@@ -30,6 +50,42 @@ extern "C" DLL_PUBLIC bool API_Initialize(void)
 	API::World::GetTime(&hour, &minute, &second);
 	std::cout << "Time: " << hour << ":" << minute << ":" << second << std::endl;
 
+	// Load Objects
+	Json::Value root;
+	Json::Reader reader;
+
+	std::ifstream stream("./maps/objects.json", std::ifstream::binary);
+	stream >> root;
+	
+	if (!reader.parse(stream, root, false))
+	{
+		// report to the user the failure and their locations in the document.
+		std::cout << reader.getFormatedErrorMessages() << std::endl;;
+	}
+	
+	const int objectcount = root["Map"]["Objects"]["MapObject"].size();
+
+	for (int i = 0; i < objectcount; i++)
+	{
+		std::cout << "Count: " << i << "/" << objectcount << std::endl;
+
+		CVector3 position{
+			(float)std::atof(root["Map"]["Objects"]["MapObject"][i]["Position"]["X"].asCString()),
+			(float)std::atof(root["Map"]["Objects"]["MapObject"][i]["Position"]["Y"].asCString()),
+			(float)std::atof(root["Map"]["Objects"]["MapObject"][i]["Position"]["Z"].asCString())
+		};
+		
+		CVector4 quaternion = {
+			(float)std::atof(root["Map"]["Objects"]["MapObject"][i]["Quaternion"]["X"].asCString()),
+			(float)std::atof(root["Map"]["Objects"]["MapObject"][i]["Quaternion"]["Y"].asCString()),
+			(float)std::atof(root["Map"]["Objects"]["MapObject"][i]["Quaternion"]["Z"].asCString()),
+			(float)std::atof(root["Map"]["Objects"]["MapObject"][i]["Quaternion"]["W"].asCString())
+		};
+		
+		API::Object::CreateObjectWithHash(atoi(root["Map"]["Objects"]["MapObject"][i]["Hash"].asCString()), position, quaternion, to_bool(root["Map"]["Objects"]["MapObject"][i]["Dynamic"].asCString()));
+	}
+	// END Load Objects
+	
 	API::Server::PrintMessage("Gamemode Initialized!");
 	return true;
 }

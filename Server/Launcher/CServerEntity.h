@@ -17,12 +17,12 @@ private:
 
 		CPlayerEntity *player;
 		CVehicleEntity *vehicle;
-		//std::unique_ptr<CObjectEntity> object;
+		CObjectEntity *object;
 	} Data;
 
 public:
-	CServerEntity() { };
-	~CServerEntity() { };
+	CServerEntity() { }
+	~CServerEntity() { }
 
 	int			Create();
 	void		Destroy();
@@ -34,10 +34,10 @@ public:
 	void		SetEntity(CPlayerEntity *player) { Data.player = player; }
 	CVehicleEntity* GetVEntity() { return Data.vehicle; }
 	void		SetEntity(CVehicleEntity *vehicle) { Data.vehicle = vehicle; }
-	//CObjectEntity* GetOEntity() { return Data.object; }
-	//void		SetEntity(CObjectEntity *object) { Data.object = std::unique_ptr<CObjectEntity>(object); };
+	CObjectEntity* GetOEntity() { return Data.object; }
+	void		SetEntity(CObjectEntity *object) { Data.object = object; }
 
-	int			GetId() { return Data.Id; };
+	int			GetId() { return Data.Id; }
 
 	CVector3	GetPosition();
 	void		SetPosition(CVector3 position);

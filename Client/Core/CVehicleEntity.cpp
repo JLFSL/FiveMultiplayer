@@ -80,9 +80,13 @@ void CVehicleEntity::Destroy()
 {
 	std::cout << "[CVehicleEntity] Removing Vehicle: " << Information.Id << std::endl;
 
-	VEHICLE::DELETE_VEHICLE(&Game.Vehicle);
+	if (Game.Vehicle)
+		VEHICLE::DELETE_VEHICLE(&Game.Vehicle);
+
 	Game.Created = false;
-	UI::REMOVE_BLIP(&Game.Blip);
+
+	if (Game.Blip)
+		UI::REMOVE_BLIP(&Game.Blip);
 
 	Game = {};
 	Information = {};

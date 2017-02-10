@@ -150,7 +150,8 @@ void CLocalPlayer::VehicleChecks()
 					}
 					else if (g_Vehicles[i].GetOccupant(0) != -1)
 					{
-						AI::CLEAR_PED_TASKS_IMMEDIATELY(Game.Ped);
+						AI::TASK_STAND_STILL(Game.Ped, 1);
+						//AI::CLEAR_PED_TASKS_IMMEDIATELY(Game.Ped);
 					}
 					break;
 				}

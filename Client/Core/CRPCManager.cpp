@@ -20,7 +20,10 @@ CRPCManager::RPCMessage rpcmessages[] = {
 	{ "PlayerHeadOverlay", CRPCPlayer::PlayerHeadOverlay },
 	{ "PlayerProp", CRPCPlayer::PlayerProp },
 	{ "PlayerFaceFeature", CRPCPlayer::PlayerFaceFeature },
-	{ "PlayerModel", CRPCPlayer::PlayerModel }
+	{ "PlayerModel", CRPCPlayer::PlayerModel },
+#pragma endregion
+#pragma region Object
+	{ "CreateObject", CRPCObject::Create }
 #pragma endregion
 };
 

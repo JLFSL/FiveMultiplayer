@@ -54,6 +54,7 @@ void CPlayerEntity::CreatePed()
 		UI::SET_BLIP_AS_FRIENDLY(Game.Blip, true);
 
 		Game.Created = true;
+		RequestData();
 		std::cout << "[CPlayerEntity] Created Ped" << std::endl;
 		return;
 	}
@@ -75,7 +76,9 @@ void CPlayerEntity::Destroy()
 	
 	if(Game.Ped)
 		ENTITY::DELETE_ENTITY(&Game.Ped);
+
 	Game.Created = false;
+
 	if(Game.Blip)
 		UI::REMOVE_BLIP(&Game.Blip);
 

@@ -171,6 +171,12 @@
     <ClCompile Include="CRPCPlayer.cpp">
       <Filter>Network\RPC</Filter>
     </ClCompile>
+    <ClCompile Include="CObjectEntity.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="CRPCObject.cpp">
+      <Filter>Network\RPC</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -312,6 +318,12 @@
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="CRPCPlayer.h">
+      <Filter>Network\RPC</Filter>
+    </ClInclude>
+    <ClInclude Include="CObjectEntity.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="CRPCObject.h">
       <Filter>Network\RPC</Filter>
     </ClInclude>
   </ItemGroup>
