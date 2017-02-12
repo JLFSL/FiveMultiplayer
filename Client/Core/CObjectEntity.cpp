@@ -76,7 +76,7 @@ void CObjectEntity::CreateObject()
 				WAIT(0);
 
 			Game.Object = OBJECT::CREATE_OBJECT_NO_OFFSET(model, Data.Position.fX, Data.Position.fY, Data.Position.fZ, false, true, Data.Dynamic);
-			//STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(model);
+			STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(model);
 
 			ENTITY::SET_ENTITY_QUATERNION(Game.Object, Data.Quaternion.fX, Data.Quaternion.fY, Data.Quaternion.fZ, Data.Quaternion.fW);
 			//ENTITY::SET_ENTITY_ROTATION(Game.Object, Data.Rotation.fX, Data.Rotation.fY, Data.Rotation.fZ, 2, 1);

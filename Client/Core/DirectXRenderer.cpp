@@ -82,49 +82,26 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 			float diffrence = (1920.0f - screenWidth) / (1920.0 / 10.0f) * 0.1f;
 			windowScale = 1.0f - diffrence;
 		}
-
-		/*ImGui::Begin("FiveMP - Statistics", &show_app_about, ImGuiWindowFlags_AlwaysAutoResize);
-
-		ImGui::Text("Entity Pool Size: %d", (int)g_Entities.size());
-		ImGui::Text("Player Pool Size: %d", (int)g_Players.size());
-		ImGui::Text("Vehicle Pool Size: %d", (int)g_Vehicles.size());
-		ImGui::Text("Object Pool Size: %d", (int)g_Objects.size());
-
-		ImGui::End();*/
 		
 		if (g_Core)
 		{
 			if (g_Core->GetNetworkManager()->GetInterface()->IsActive())
 			{
-				ImGui::SetNextWindowPos(ImVec2(screenWidth - (600 * windowScale), screenHeight - (160 * windowScale) - 70));
-				ImGui::SetNextWindowSize(ImVec2((600 * windowScale), (160 * windowScale)));
-				ImGui::Begin("FiveMP_Debug", NULL, ImVec2(0, 0), 0.0f, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings);
+				ImGui::SetNextWindowPos(ImVec2(screenWidth - (600 * windowScale), screenHeight - (80 * windowScale) - 10));
+				ImGui::SetNextWindowSize(ImVec2((600 * windowScale), (80 * windowScale)));
+				ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+				ImGui::Begin("FiveMultiplayer_Debug", NULL, ImVec2(0, 0), 0.5f, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings);
 				{
+					CVector3 pos = g_Core->GetLocalPlayer()->GetPos();
 					float SizeH;
-					//NetworkManager->client->GetAveragePing(0)
-					// Task & Seat Debug
-					/*std::string playerTask = "Task: [" + std::to_string(LocalPlayer->Task) + "], Seat: [" + std::to_string(LocalPlayer->Seat) + "], Heading: [" + std::to_string(LocalPlayer->Heading) + "]";
-					SizeH = ImGui::CalcTextSize(playerTask.c_str()).x;
-
-					ImGui::SameLine(ImGui::GetWindowContentRegionMax().x - SizeH);
-					ImGui::Text(playerTask.c_str());
-					ImGui::NewLine();*/
 
 					//Position Debug
-					std::string position = "Position: [X: " + std::to_string(g_Core->GetLocalPlayer()->GetPos().fX) + ", Y: " + std::to_string(g_Core->GetLocalPlayer()->GetPos().fY) + ", Z: " + std::to_string(g_Core->GetLocalPlayer()->GetPos().fZ) + "]";
+					std::string position = "Position: [X: " + std::to_string(pos.fX) + ", Y: " + std::to_string(pos.fY) + ", Z: " + std::to_string(pos.fZ) + "]";
 					SizeH = ImGui::CalcTextSize(position.c_str()).x;
 
 					ImGui::SameLine(ImGui::GetWindowContentRegionMax().x - SizeH);
 					ImGui::Text(position.c_str());
 					ImGui::NewLine();
-
-					//Velocity Debug
-					/*std::string velocity = "Velocity: [X: " + std::to_string(LocalPlayer->Velocity.x) + ", Y: " + std::to_string(LocalPlayer->Velocity.y) + ", Z: " + std::to_string(LocalPlayer->Velocity.z) + "]";
-					SizeH = ImGui::CalcTextSize(velocity.c_str()).x;
-
-					ImGui::SameLine(ImGui::GetWindowContentRegionMax().x - SizeH);
-					ImGui::Text(velocity.c_str());
-					ImGui::NewLine();*/
 
 					// Pools Debug
 					std::string pools = "Pools: [Player: " + std::to_string(g_Players.size()) + ", Vehicle: " + std::to_string(g_Vehicles.size()) + ", Object: " + std::to_string(g_Objects.size()) + "]";
@@ -133,9 +110,9 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 					ImGui::SameLine(ImGui::GetWindowContentRegionMax().x - SizeH);
 					ImGui::Text(pools.c_str());
 					//ImGui::NewLine();
-
 				}
 				ImGui::End();
+				ImGui::PopStyleVar(1);
 			}
 		}
 	}

@@ -37,6 +37,7 @@ void CVehicleEntity::CreateVehicle()
 		WAIT(0);
 
 	Game.Vehicle = VEHICLE::CREATE_VEHICLE(model, Data.Position.fX, Data.Position.fY, Data.Position.fZ, Data.Heading, FALSE, TRUE);
+	STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(model);
 
 	ENTITY::FREEZE_ENTITY_POSITION(Game.Vehicle, TRUE);
 	ENTITY::SET_ENTITY_COORDS_NO_OFFSET(Game.Vehicle, Data.Position.fX, Data.Position.fY, Data.Position.fZ, FALSE, FALSE, FALSE);
