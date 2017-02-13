@@ -88,7 +88,7 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 			if (g_Core->GetNetworkManager()->GetInterface()->IsActive())
 			{
 				ImGui::SetNextWindowPos(ImVec2(screenWidth - (600 * windowScale), screenHeight - (80 * windowScale) - 10));
-				ImGui::SetNextWindowSize(ImVec2((600 * windowScale), (80 * windowScale)));
+				ImGui::SetNextWindowSize(ImVec2((600 * windowScale), (70 * windowScale)));
 				ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
 				ImGui::Begin("FiveMultiplayer_Debug", NULL, ImVec2(0, 0), 0.5f, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings);
 				{
@@ -104,7 +104,7 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 					ImGui::NewLine();
 
 					// Pools Debug
-					std::string pools = "Pools: [Player: " + std::to_string(g_Players.size()) + ", Vehicle: " + std::to_string(g_Vehicles.size()) + ", Object: " + std::to_string(g_Objects.size()) + "]";
+					std::string pools = "Pools: [Player: " + std::to_string(g_Players.size()) + "] [Vehicle: " + std::to_string(g_Vehicles.size()) + "] [Object: " + std::to_string(g_Objects.size()) + "] [Entities: " + std::to_string(g_Entities.size()) +  "]";
 					SizeH = ImGui::CalcTextSize(pools.c_str()).x;
 
 					ImGui::SameLine(ImGui::GetWindowContentRegionMax().x - SizeH);
