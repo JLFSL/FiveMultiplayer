@@ -99,4 +99,25 @@ public:
 		fZ /= fRight;
 		fW /= fRight;
 	}
+
+	static CVector4 calculateQuaternion(float x, float y, float z)
+	{
+		CVector4 quaternion;
+
+		float h = y * (6.283185307179586232f * 0.5) / 360;
+		float a = z * (6.283185307179586232f * 0.5) / 360;
+		float b = x * (6.283185307179586232f * 0.5) / 360;
+		float c1 = cos(h);
+		float c2 = cos(a);
+		float c3 = cos(b);
+		float s1 = sin(h);
+		float s2 = sin(a);
+		float s3 = sin(b);
+		quaternion.fW = (c1*c2*c3 - s1*s2*s3) * 100000 / 100000;
+		quaternion.fX = (s1*s2*c3 + c1*c2*s3) * 100000 / 100000;
+		quaternion.fY = (s1*c2*c3 + c1*s2*s3) * 100000 / 100000;
+		quaternion.fZ = (c1*s2*c3 - s1*c2*s3) * 100000 / 100000;
+
+		return quaternion;
+	}
 };

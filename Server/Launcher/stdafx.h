@@ -32,6 +32,7 @@
 #include <Common.h>
 #include <CVector3.h>
 #include <CVector4.h>
+#include <CMaths.h>
 #include <SharedUtility.h>
 
 // Vendor

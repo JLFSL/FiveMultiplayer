@@ -28,7 +28,7 @@ extern "C" {
 			/// <param name="sender">The sender is the very top header. This can be any string.</param>
 			/// <param name="subject">The subject is the header under the sender.</param>
 			/// <returns></returns>
-			DLL_PUBLIC_I void ShowMessageAboveMap(const int entity, const std::string message, const std::string pic, int icontype, const std::string sender, const std::string subject);
+		//	DLL_PUBLIC_I void ShowMessageAboveMap(const int entity, const std::string message, const std::string pic, int icontype, const std::string sender, const std::string subject);
 		}
 	}
 #ifdef __cplusplus

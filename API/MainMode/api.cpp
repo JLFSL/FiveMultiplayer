@@ -67,8 +67,6 @@ extern "C" DLL_PUBLIC bool API_Initialize(void)
 
 	for (int i = 0; i < objectcount; i++)
 	{
-		std::cout << "Count: " << i << "/" << objectcount << std::endl;
-
 		CVector3 position{
 			(float)std::atof(root["Map"]["Objects"]["MapObject"][i]["Position"]["X"].asCString()),
 			(float)std::atof(root["Map"]["Objects"]["MapObject"][i]["Position"]["Y"].asCString()),
