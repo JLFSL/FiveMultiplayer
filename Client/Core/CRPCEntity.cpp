@@ -41,6 +41,31 @@ void CRPCEntity::SetPosition(RakNet::BitStream *bitStream, RakNet::Packet *packe
 	}
 }
 
+void CRPCEntity::SetQuaternion(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+{
+	int entity;
+	CVector4 quaternion;
+
+	bitStream->Read(entity);
+	bitStream->Read(quaternion.fX);
+	bitStream->Read(quaternion.fY);
+	bitStream->Read(quaternion.fZ);
+	bitStream->Read(quaternion.fW);
+
+	if (entity != -1)
+	{
+		for (int i = 0; i < g_Entities.size(); i++)
+		{
+			if (entity == g_Entities[i].GetId())
+				return g_Entities[i].SetQuaternion(quaternion);
+		}
+	}
+	else
+	{
+		ENTITY::SET_ENTITY_QUATERNION(g_Core->GetLocalPlayer()->GetPed(), quaternion.fX, quaternion.fY, quaternion.fZ, quaternion.fW);
+	}
+}
+
 void CRPCEntity::TakeEntityAssignment(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 {
 	int entity;

@@ -107,7 +107,9 @@ public:
 
 	CVector3		GetPosition() { return Data.Position; };
 	void			SetPosition(CVector3 position) { Data.Position = position; };
+
 	CVector4		GetQuaternion() { return Data.Quaternion; }
+	void			SetQuaternion(CVector4 quaternion) { Data.Quaternion = quaternion; }
 
 	const std::string GetModel() { return Data.Model.Model; }
 	void			SetModel(const std::string model) { Data.Model.Model = model; }

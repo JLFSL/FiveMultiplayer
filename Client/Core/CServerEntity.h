@@ -43,10 +43,12 @@ public:
 	CObjectEntity* GetOEntity() { return Data.object; }
 	void		SetEntity(CObjectEntity *object) { Data.object = object; };
 
-	CVector3 GetPosition();
-	void SetPosition(CVector3 position);
+	CVector3	GetPosition();
+	void		SetPosition(CVector3 position);
 
-	void SetAssignement(RakNetGUID guid);
+	void		SetQuaternion(CVector4 quaternion);
+
+	void		SetAssignement(RakNetGUID guid);
 };
 extern std::vector<CServerEntity> g_Entities;
 

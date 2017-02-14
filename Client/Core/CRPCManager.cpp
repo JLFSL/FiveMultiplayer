@@ -9,10 +9,11 @@ CRPCManager::RPCMessage rpcmessages[] = {
 	{ "SetWeather", CRPCWorld::SetWeather },
 #pragma endregion
 #pragma region Entity
+	{ "DestroyEntity", CRPCEntity::Destroy },
 	{ "SetPosition", CRPCEntity::SetPosition },
+	{ "SetQuaternion", CRPCEntity::SetQuaternion },
 	{ "TakeEntityAssignment", CRPCEntity::TakeEntityAssignment },
 	{ "DropEntityAssignment", CRPCEntity::DropEntityAssignment },
-	{ "DestroyEntity", CRPCEntity::Destroy },
 #pragma endregion
 #pragma region Player
 	{ "PlayerComponent", CRPCPlayer::PlayerComponent },

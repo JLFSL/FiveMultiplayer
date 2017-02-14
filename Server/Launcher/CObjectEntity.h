@@ -48,7 +48,9 @@ public:
 
 	CVector3		GetPosition() { return Data.Position; };
 	void			SetPosition(CVector3 position) { Data.Position = position; };
+
 	CVector4		GetQuaternion() { return Data.Quaternion; }
+	void			SetQuaternion(CVector4 quaternion) { Data.Quaternion = quaternion; }
 
 	bool			GetSynchronized() { return Network.Synchronized; }
 

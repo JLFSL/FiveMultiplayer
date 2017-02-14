@@ -4,7 +4,7 @@
 */
 class CServerEntity {
 public:
-	enum Type
+	static enum Type
 	{
 		Player = 0,
 		Vehicle = 1,
@@ -41,6 +41,9 @@ public:
 
 	CVector3	GetPosition();
 	void		SetPosition(CVector3 position);
+
+	CVector4	GetQuaternion();
+	void		SetQuaternion(CVector4 quaternion);
 };
 extern std::vector<CServerEntity> g_Entities;
 

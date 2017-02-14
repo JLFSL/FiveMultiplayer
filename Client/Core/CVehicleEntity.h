@@ -101,7 +101,9 @@ public:
 	int				GetOccupant(int seat) { return Occupants[seat]; }
 
 	CVector3		GetPosition() { return Data.Position; }
+	void			SetPosition(CVector3 pos) { Data.Position = pos; }
 	CVector4		GetQuaternion() { return Data.Quaternion; }
+	void			SetQuaternion(CVector4 q) { Data.Quaternion = q; }
 
 	RakNetGUID		GetAssignee() { return Network.Assigned; }
 	void			SetAssignee(RakNetGUID assignee) { Network.Assigned = assignee; }

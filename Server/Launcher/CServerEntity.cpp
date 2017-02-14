@@ -21,40 +21,33 @@ void CServerEntity::Destroy()
 	switch (Data.type)
 	{
 	case Player:
-		if (Data.player)
-		{
-			Data.player->Destroy();
-
-			/*sData.Write(Data.Id);
-			g_Server->GetNetworkManager()->GetRPC().Signal("DestroyEntity", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);*/
-
-			Data.player = nullptr;
-		}
-		else
-			std::cout << "[CServerEntity::Destroy] Invalid player ID: " << Data.Id << std::endl;
+			std::cout << "[CServerEntity::Destroy] Can not destroy a player!" << std::endl;
 		break;
 	case Vehicle:
 		if (Data.vehicle)
 		{
 			Data.vehicle->Destroy();
 
-			/*sData.Write(Data.Id);
-			g_Server->GetNetworkManager()->GetRPC().Signal("DestroyEntity", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);*/
+			sData.Write(Data.Id);
+			g_Server->GetNetworkManager()->GetRPC().Signal("DestroyEntity", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
 
 			Data.vehicle = nullptr;
 		}
 		else
-			std::cout << "[CServerEntity::Destroy] Invalid vehicle ID: " << Data.Id << std::endl;
+			std::cout << "[CServerEntity::Destroy] Invalid entity " << Data.Id << " of type Vehicle." << std::endl;
 		break;
 	case Object:
+		if (Data.object)
+		{
+			Data.object->Destroy();
 
-		sData.Write(Data.Id);
-		sData.Write(2);
-		g_Server->GetNetworkManager()->GetRPC().Signal("DestroyEntity", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
+			sData.Write(Data.Id);
+			g_Server->GetNetworkManager()->GetRPC().Signal("DestroyEntity", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
 
-		
-
-		std::cout << "[CServerEntity::Destroy] Invalid object ID: " << Data.Id << std::endl;
+			Data.object = nullptr;
+		}
+		else
+			std::cout << "[CServerEntity::Destroy] Invalid entity " << Data.Id << " of type Object." <<std::endl;
 		break;
 	default:
 		std::cout << "[CServerEntity::Destroy] Invalid entity Type: " << Data.type << std::endl;
@@ -70,16 +63,19 @@ CVector3 CServerEntity::GetPosition()
 		if (Data.player)
 			return Data.player->GetPosition();
 
-		std::cout << "[CServerEntity::GetPosition] Invalid player ID: " << Data.Id << std::endl;
+		std::cout << "[CServerEntity::GetPosition] Invalid entity " << Data.Id << " of type Player." << std::endl;
 		break;
 	case Vehicle:
 		if (Data.vehicle)
 			return Data.vehicle->GetPosition();
 
-		std::cout << "[CServerEntity::GetPosition] Invalid vehicle ID: " << Data.Id << std::endl;
+		std::cout << "[CServerEntity::GetPosition] Invalid entity " << Data.Id << " of type Vehicle." << std::endl;
 		break;
 	case Object:
-		std::cout << "[CServerEntity::GetPosition] Invalid object ID: " << Data.Id << std::endl;
+		if (Data.object)
+			return Data.object->GetPosition();
+
+		std::cout << "[CServerEntity::GetPosition] Invalid entity " << Data.Id << " of type Object." << std::endl;
 		break;
 	default:
 		std::cout << "[CServerEntity::GetPosition] Invalid entity Type: " << Data.type << std::endl;
@@ -105,7 +101,7 @@ void CServerEntity::SetPosition(CVector3 position)
 			Data.player->SetPosition(position);
 		}
 		else
-			std::cout << "[CServerEntity::SetPosition] Invalid player ID: " << Data.Id << std::endl;
+			std::cout << "[CServerEntity::SetPosition] Invalid entity " << Data.Id << " of type Player." << std::endl;
 		break;
 	case Vehicle:
 		if (Data.vehicle)
@@ -120,13 +116,110 @@ void CServerEntity::SetPosition(CVector3 position)
 			Data.vehicle->SetPosition(position);
 		}
 		else
-			std::cout << "[CServerEntity::SetPosition] Invalid vehicle ID: " << Data.Id << std::endl;
+			std::cout << "[CServerEntity::SetPosition] Invalid entity " << Data.Id << " of type Vehicle." << std::endl;
 		break;
 	case Object:
-		std::cout << "[CServerEntity::SetPosition] Invalid object ID: " << Data.Id << std::endl;
+		if (Data.object)
+		{
+			sData.Write(Data.Id);
+			sData.Write(position.fX);
+			sData.Write(position.fY);
+			sData.Write(position.fZ);
+
+			g_Server->GetNetworkManager()->GetRPC().Signal("SetPosition", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
+
+			Data.object->SetPosition(position);
+		}
+		else
+			std::cout << "[CServerEntity::SetPosition] Invalid entity " << Data.Id << " of type Object." << std::endl;
 		break;
 	default:
 		std::cout << "[CServerEntity::SetPosition] Invalid entity Type: " << Data.type << std::endl;
+		break;
+	}
+}
+
+CVector4 CServerEntity::GetQuaternion()
+{
+	switch (Data.type)
+	{
+	case Player:
+		if (Data.player)
+			return Data.player->GetQuaternion();
+
+		std::cout << "[CServerEntity::GetQuaternion] Invalid entity " << Data.Id << " of type Player." << std::endl;
+		break;
+	case Vehicle:
+		if (Data.vehicle)
+			return Data.vehicle->GetQuaternion();
+
+		std::cout << "[CServerEntity::GetQuaternion] Invalid entity " << Data.Id << " of type Vehicle." << std::endl;
+		break;
+	case Object:
+		if (Data.object)
+			return Data.object->GetQuaternion();
+
+		std::cout << "[CServerEntity::GetQuaternion] Invalid entity " << Data.Id << " of type Object." << std::endl;
+		break;
+	default:
+		std::cout << "[CServerEntity::GetQuaternion] Invalid entity Type: " << Data.type << std::endl;
+		break;
+	}
+}
+
+void CServerEntity::SetQuaternion(CVector4 quaternion)
+{
+	RakNet::BitStream sData;
+	switch (Data.type)
+	{
+	case Player:
+		if (Data.player)
+		{
+			sData.Write(-1);
+			sData.Write(quaternion.fX);
+			sData.Write(quaternion.fY);
+			sData.Write(quaternion.fZ);
+			sData.Write(quaternion.fW);
+
+			g_Server->GetNetworkManager()->GetRPC().Signal("SetQuaternion", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, Data.player->GetGUID(), false, false);
+		}
+		else
+			std::cout << "[CServerEntity::SetQuaternion] Invalid entity " << Data.Id << " of type Player." << std::endl;
+		break;
+	case Vehicle:
+		if (Data.vehicle)
+		{
+			sData.Write(Data.Id);
+			sData.Write(quaternion.fX);
+			sData.Write(quaternion.fY);
+			sData.Write(quaternion.fZ);
+			sData.Write(quaternion.fW);
+
+			g_Server->GetNetworkManager()->GetRPC().Signal("SetQuaternion", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
+
+			Data.vehicle->SetQuaternion(quaternion);
+		}
+		else
+			std::cout << "[CServerEntity::SetQuaternion] Invalid entity " << Data.Id << " of type Vehicle." << std::endl;
+		break;
+	case Object:
+		if (Data.object)
+		{
+			sData.Write(Data.Id);
+			sData.Write(quaternion.fX);
+			sData.Write(quaternion.fY);
+			sData.Write(quaternion.fZ);
+			sData.Write(quaternion.fW);
+
+			g_Server->GetNetworkManager()->GetRPC().Signal("SetQuaternion", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
+
+			Data.object->SetQuaternion(quaternion);
+		}
+		else
+			std::cout << "[CServerEntity::SetQuaternion] Invalid entity " << Data.Id << " of type Object." << std::endl;
+		break;
+	default:
+		std::cout << "[CServerEntity::SetQuaternion] Invalid entity Type: " << Data.type << std::endl;
 		break;
 	}
 }

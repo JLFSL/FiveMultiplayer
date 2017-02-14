@@ -89,13 +89,59 @@ void CServerEntity::SetPosition(CVector3 position)
 	case Player:
 		break;
 	case Vehicle:
-		std::cout << std::endl << "[CServerEntity::SetPosition] Invalid vehicle ID: " << Data.Id << std::endl;
+		if (Data.vehicle)
+		{
+			Data.vehicle->SetPosition(position);
+
+			ENTITY::SET_ENTITY_COORDS_NO_OFFSET(Data.vehicle->GetEntity(), position.fX, position.fY, position.fZ, false, false, false);
+		}
+		else
+			std::cout << std::endl << "[CServerEntity::SetPosition] Invalid vehicle ID: " << Data.Id << std::endl;
 		break;
 	case Object:
-		std::cout << std::endl << "[CServerEntity::SetPosition] Invalid object ID: " << Data.Id << std::endl;
+		if (Data.object)
+		{
+			Data.object->SetPosition(position);
+
+			ENTITY::SET_ENTITY_COORDS_NO_OFFSET(Data.object->GetEntity(), position.fX, position.fY, position.fZ, false, false, false);
+		}
+		else
+			std::cout << std::endl << "[CServerEntity::SetPosition] Invalid object ID: " << Data.Id << std::endl;
 		break;
 	default:
 		std::cout << std::endl << "[CServerEntity::SetPosition] Invalid entity" << std::endl;
+		break;
+	}
+}
+
+void CServerEntity::SetQuaternion(CVector4 quaternion)
+{
+	switch (Data.type)
+	{
+	case Player:
+		break;
+	case Vehicle:
+		if (Data.vehicle)
+		{
+			Data.vehicle->SetQuaternion(quaternion);
+
+			ENTITY::SET_ENTITY_QUATERNION(Data.vehicle->GetEntity(), quaternion.fX, quaternion.fY, quaternion.fZ, quaternion.fW);
+		}
+		else
+			std::cout << std::endl << "[CServerEntity::SetQuaternion] Invalid vehicle ID: " << Data.Id << std::endl;
+		break;
+	case Object:
+		if (Data.object)
+		{
+			Data.object->SetQuaternion(quaternion);
+
+			ENTITY::SET_ENTITY_QUATERNION(Data.object->GetEntity(), quaternion.fX, quaternion.fY, quaternion.fZ, quaternion.fW);
+		}
+		else
+			std::cout << std::endl << "[CServerEntity::SetQuaternion] Invalid object ID: " << Data.Id << std::endl;
+		break;
+	default:
+		std::cout << std::endl << "[CServerEntity::SetQuaternion] Invalid entity" << std::endl;
 		break;
 	}
 }
