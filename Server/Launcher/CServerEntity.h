@@ -4,7 +4,7 @@
 */
 class CServerEntity {
 public:
-	static enum Type
+	enum Type
 	{
 		Player = 0,
 		Vehicle = 1,
