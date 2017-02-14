@@ -21,6 +21,7 @@ void CVehicleEntity::Create(std::string model, CVector3 position, float heading)
 	Data.Model = model;
 	Data.Position = position;
 	Data.Heading = heading;
+	Data.Quaternion = CVector4::calculateQuaternion(0, 0, heading);
 	Information.Id = newServerEntity.Create();
 
 	g_Entities.push_back(newServerEntity);

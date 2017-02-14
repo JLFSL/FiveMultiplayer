@@ -38,10 +38,10 @@ extern "C" DLL_PUBLIC bool API_Initialize(void)
 {
 	API::Server::PrintMessage("Gamemode Initializing...");
 
-	API::Vehicle::CreateVehicle("elegy", CVector3{ 1533.53f, 3282.39f, 52.5f }, 360.0f);
-	API::Vehicle::CreateVehicle("comet3", CVector3{ 1527.65f, 3296.66f, 52.5f }, 360.0f);
-	API::Vehicle::CreateVehicle("blazer5", CVector3{ 1519.32f, 3280.2f, 52.5f }, 360.0f);
-	API::Vehicle::CreateVehicle("voltic2", CVector3{ 1516.84f, 3293.88f, 52.5f }, 360.0f);
+	API::Vehicle::CreateVehicle("elegy", CVector3{ 1533.53f, 3282.39f, 52.5f }, 195.0f);
+	API::Vehicle::CreateVehicle("comet3", CVector3{ 1527.65f, 3296.66f, 52.5f }, 195.0f);
+	API::Vehicle::CreateVehicle("blazer5", CVector3{ 1519.32f, 3280.2f, 52.5f }, 195.0f);
+	API::Vehicle::CreateVehicle("voltic2", CVector3{ 1516.84f, 3293.88f, 52.5f }, 195.0f);
 
 	API::World::SetTime(13, 0, 0);
 
