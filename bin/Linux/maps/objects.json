@@ -8981,12 +8981,6 @@
           "Door": "false"
         }
       ]
-    },
-    "Metadata": {
-      "Creator": "cannibalrecon",
-      "Name": "grand senora desert airfield ra",
-      "LoadingPoint": { "-xsi:nil": "true" },
-      "TeleportPoint": { "-xsi:nil": "true" }
     }
   }
 }

@@ -6,8 +6,7 @@
 #include "api.h"
 
 //JsonCpp
-#include "json\json.h"
-#include "json\json-forwards.h"
+#include "json/json.h"
 
 // Math
 #include "CVector3.h"
