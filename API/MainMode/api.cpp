@@ -9,17 +9,17 @@
 #include "json/json.h"
 
 // Math
-#include "CVector3.h"
-#include "CVector4.h"
+#include "sdk/CVector3.h"
+#include "sdk/CVector4.h"
 
 // API Function Imports
-#include "APIServer.h"
-#include "APIWorld.h"
-#include "APIEntity.h"
-#include "APIVehicle.h"
-#include "APIVisual.h"
-#include "APIPlayer.h"
-#include "APIObject.h"
+#include "sdk/APIServer.h"
+#include "sdk/APIWorld.h"
+#include "sdk/APIEntity.h"
+#include "sdk/APIVehicle.h"
+#include "sdk/APIVisual.h"
+#include "sdk/APIPlayer.h"
+#include "sdk/APIObject.h"
 
 bool to_bool(std::string str)
 {
