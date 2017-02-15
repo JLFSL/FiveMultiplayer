@@ -111,8 +111,8 @@ extern "C" DLL_PUBLIC bool API_OnPlayerConnecting(const std::string guid )
 	oss.str(std::string());
 	oss.clear();
 
-	oss << "~p~You are Connecting [guid: " << guid << "]";
-	API::Visual::ShowMessageAboveMap(oss.str(), "CHAR_DEFAULT", 1, "Server", "Connecting...");
+	oss << "~p~A Player is connecting [" << guid << "]";
+	API::Visual::ShowMessageAboveMap(oss.str(), "CHAR_DEFAULT", 1, "Server", "Player Joining");
 	return true;
 }
 
@@ -121,7 +121,7 @@ extern "C" DLL_PUBLIC bool API_OnPlayerConnected(int entity, int playerid)
 {
 	std::ostringstream oss;
 	oss << "~g~You Connected! ~o~[~w~ID: " << playerid << "~o~]";
-	API::Visual::ShowMessageAboveMap(oss.str().c_str(), "CHAR_CREATOR_PORTRAITS", 1, "Server", "");
+	API::Visual::ShowMessageAboveMapToPlayer(entity, oss.str().c_str(), "CHAR_CREATOR_PORTRAITS", 1, "Server", "");
 
 	API::Entity::SetPosition(entity, CVector3{ 1527.62f, 3274.39f, 53.0f });
 
@@ -132,6 +132,6 @@ extern "C" DLL_PUBLIC bool API_OnPlayerConnected(int entity, int playerid)
 	oss.clear();
 
 	oss << "~p~Position: " << position.fX << " " << position.fY << " " << position.fZ;
-	API::Visual::ShowMessageAboveMap(oss.str().c_str(), "CHAR_CREATOR_PORTRAITS", 5, "Server", "Position");
+	API::Visual::ShowMessageAboveMapToPlayer(entity, oss.str().c_str(), "CHAR_CREATOR_PORTRAITS", 5, "Server", "Position");
 	return true;
 }
