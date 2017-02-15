@@ -23,7 +23,7 @@ namespace API
 			g_Server->GetNetworkManager()->GetRPC().Signal("ShowMessageAboveMap", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
 		}
 
-		/*void ShowMessageAboveMap(const int entity, const std::string message, const std::string pic, int icontype, const std::string sender, const std::string subject)
+		void ShowMessageAboveMapToPlayer(const int entity, const std::string message, const std::string pic, int icontype, const std::string sender, const std::string subject)
 		{
 			RakNet::RakString rakMessage = RakNet::RakString(message.c_str());
 			RakNet::RakString rakPic = RakNet::RakString(pic.c_str());
@@ -45,6 +45,6 @@ namespace API
 					break;
 				}
 			}
-		}*/
+		}
 	}
 }
