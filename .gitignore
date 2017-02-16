@@ -79,6 +79,7 @@ ipch/
 *.lastbuildstate
 *.idb
 *.iobj
+*.suo
 *.ipdb
 /PublicAPI/
 /.vs/Supercharger/v8test/workbench.dat
