@@ -114,9 +114,6 @@
     <ClCompile Include="Animations.cpp">
       <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="RenderHandler.cpp">
-      <Filter>Graphics\UI\CEF</Filter>
-    </ClCompile>
     <ClCompile Include="CefRenderer.cpp">
       <Filter>Graphics\UI\CEF</Filter>
     </ClCompile>
@@ -179,6 +176,9 @@
     </ClCompile>
     <ClCompile Include="CStreamer.cpp">
       <Filter>Client</Filter>
+    </ClCompile>
+    <ClCompile Include="OffscreenClient.cpp">
+      <Filter>Graphics\UI\CEF</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -254,9 +254,6 @@
     <ClInclude Include="Animations.h">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="RenderHandler.h">
-      <Filter>Graphics\UI\CEF</Filter>
-    </ClInclude>
     <ClInclude Include="CefRenderer.h">
       <Filter>Graphics\UI\CEF</Filter>
     </ClInclude>
@@ -331,6 +328,9 @@
     </ClInclude>
     <ClInclude Include="CStreamer.h">
       <Filter>Client</Filter>
+    </ClInclude>
+    <ClInclude Include="OffscreenClient.h">
+      <Filter>Graphics\UI\CEF</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

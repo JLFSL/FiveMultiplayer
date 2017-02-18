@@ -226,7 +226,6 @@
     <ClCompile Include="MemoryAccess.cpp" />
     <ClCompile Include="NativeInvoker.cpp" />
     <ClCompile Include="Ped.cpp" />
-    <ClCompile Include="RenderHandler.cpp" />
     <ClCompile Include="Script.cpp" />
     <ClCompile Include="Scripts.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -235,6 +234,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="OffscreenClient.cpp" />
     <ClCompile Include="Vehicles.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
@@ -281,11 +281,11 @@
     <ClInclude Include="NativeInvoker.h" />
     <ClInclude Include="Natives.h" />
     <ClInclude Include="Ped.h" />
-    <ClInclude Include="RenderHandler.h" />
     <ClInclude Include="Script.h" />
     <ClInclude Include="Scripts.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Structs.h" />
+    <ClInclude Include="OffscreenClient.h" />
     <ClInclude Include="Types.h" />
     <ClInclude Include="Vehicles.h" />
     <ClInclude Include="World.h" />

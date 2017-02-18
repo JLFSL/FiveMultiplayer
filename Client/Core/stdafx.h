@@ -28,6 +28,7 @@
 #include <vector>
 #include <unordered_map>
 #include <set>
+#include <mutex>
 
 // Shared
 #include "CVector3.h"
@@ -116,7 +117,7 @@
 	// Graphics
 		// UI
 			// CEF
-			#include "RenderHandler.h"
+			#include "OffscreenClient.h"
 			#include "CefRenderer.h"
 			
 			// ImGui

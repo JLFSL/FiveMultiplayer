@@ -1,7 +1,34 @@
 #pragma once
+
+struct DrawData
+{
+	unsigned *pixels;
+	unsigned width;
+	unsigned height;
+	CefRenderHandler::RectList dirtyRects;
+
+	DrawData(unsigned theWidth, unsigned theHeight, const unsigned *thePixels, const CefRenderHandler::RectList& theDirtyRects)
+	{
+		pixels = new unsigned[theWidth * theHeight];
+		width = theWidth;
+		height = theHeight;
+		memcpy(pixels, thePixels, 4 * width*height);
+		dirtyRects = theDirtyRects;
+	}
+
+	~DrawData()
+	{
+		delete[]pixels;
+		pixels = nullptr;
+	}
+};
+
 class DirectXRenderer
 {
 public:
+	std::mutex paintMutex;
+	std::list<std::unique_ptr<DrawData> > drawData;
+
 	HWND hWnd; 
 	bool FirstRender;
 
