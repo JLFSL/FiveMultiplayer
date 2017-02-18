@@ -14,7 +14,7 @@ void CObjectEntity::Create(int entity, std::string model, CVector3 position, CVe
 	CServerEntity newServerEntity;
 	newServerEntity.SetId(entity);
 	newServerEntity.SetType(newServerEntity.Object);
-	newServerEntity.SetEntity(this);
+	//newServerEntity.SetEntity(this);
 
 	Data.Model = model;
 	Data.Dynamic = dynamic;
@@ -28,6 +28,7 @@ void CObjectEntity::Create(int entity, std::string model, CVector3 position, CVe
 
 	CreateObject();
 
+	std::cout << "[CObjectEntity] Added " << entity << " to the pool." << std::endl;
 	std::cout << "[CObjectEntity] " << Amount << " objects in the world." << std::endl;
 
 	Network.LastSyncSent = timeGetTime();
@@ -39,7 +40,7 @@ void CObjectEntity::Create(int entity, int hash, CVector3 position, CVector4 qua
 	CServerEntity newServerEntity;
 	newServerEntity.SetId(entity);
 	newServerEntity.SetType(newServerEntity.Object);
-	newServerEntity.SetEntity(this);
+	//newServerEntity.SetEntity(this);
 
 	Data.ModelHash = hash;
 	Data.Dynamic = dynamic;
@@ -53,13 +54,14 @@ void CObjectEntity::Create(int entity, int hash, CVector3 position, CVector4 qua
 
 	CreateObject();
 
+	std::cout << "[CObjectEntity] Added " << entity << " to the pool." << std::endl;
 	std::cout << "[CObjectEntity] " << Amount << " objects in the world." << std::endl;
 
 	Network.LastSyncSent = timeGetTime();
 	Network.Synchronized = true;
 }
 
-void CObjectEntity::CreateObject()
+bool CObjectEntity::CreateObject()
 {
 	if (!Game.Created)
 	{
@@ -86,14 +88,15 @@ void CObjectEntity::CreateObject()
 
 			Game.Created = true;
 			std::cout << "[CObjectEntity] Created Object" << std::endl;
-			return;
+			return true;
 		}
 
 		std::cout << "[CObjectEntity] Tried to create " << Information.Entity << ", but model does not exist!" << std::endl;
-		return;
+		return false;
 	}
 
-	std::cout << "[CObjectEntity] Object all ready created" << std::endl;
+	std::cout << "[CObjectEntity] Object already created" << std::endl;
+	return false;
 }
 
 void CObjectEntity::Destroy()
@@ -115,6 +118,17 @@ void CObjectEntity::Destroy()
 	Amount--;
 
 	std::cout << "[CObjectEntity] " << Amount << " objects in the world." << std::endl;
+}
+
+void CObjectEntity::Delete()
+{
+	if (Game.Object)
+		ENTITY::DELETE_ENTITY(&Game.Object);
+
+	if (Game.Blip)
+		UI::REMOVE_BLIP(&Game.Blip);
+
+	Game.Created = false;
 }
 
 void CObjectEntity::Pulse()

@@ -43,13 +43,15 @@ public:
 
 	void Create(int entity, std::string model, CVector3 position, CVector4 quaternion, bool dynamic);
 	void Create(int entity, int hash, CVector3 position, CVector4 quaternion, bool dynamic);
-	void CreateObject();
+	bool CreateObject();
 	void Destroy();
+	void Delete();
 
 	void Pulse();
 	void Update(Packet *packet);
 
 	int				GetEntity() { return Information.Entity; }
+	bool			IsCreated() { return Game.Created; }
 
 	CVector3		GetPosition() { return Data.Position; }
 	void			SetPosition(CVector3 position) { Data.Position = position; }

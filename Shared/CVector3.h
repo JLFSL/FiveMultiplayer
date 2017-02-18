@@ -122,6 +122,24 @@ public:
 		fZ /= fRight;
 	}
 
+	static float Distance(CVector3 p1, CVector3 p2)
+	{
+		/*float dx = p1.fX - p2.fX;
+		float dy = p1.fY - p2.fY;
+		float dz = p1.fZ - p2.fZ;
+
+		return sqrt(dx * dx + dy * dy + dz * dz);*/
+
+		float xSqr = (p1.fX - p2.fX) * (p1.fX - p2.fX);
+		float ySqr = (p1.fY - p2.fY) * (p1.fY - p2.fY);
+		float zSqr = (p1.fZ - p2.fZ) * (p1.fZ - p2.fZ);
+
+		float mySqr = xSqr + ySqr + zSqr;
+
+		float myDistance = sqrt(mySqr);
+		return myDistance;
+	}
+
 	static CVector3 calculateEuler(float qx, float qy, float qz, float qw)
 	{
 		CVector3 EulerianAngle;

@@ -11,6 +11,7 @@ CCore::CCore()
 	g_NetworkManager = std::unique_ptr<CNetworkManager>(new CNetworkManager);
 	g_RPCManager = std::unique_ptr<CRPCManager>(new CRPCManager);
 	g_LocalPlayer = std::unique_ptr<CLocalPlayer>(new CLocalPlayer);
+	g_Streamer = std::unique_ptr<CStreamer>(new CStreamer);
 }
 
 CCore::~CCore()
@@ -226,6 +227,7 @@ void CCore::OnGameTick()
 
 	g_LocalPlayer->Pulse();
 	g_NetworkManager->Pulse();
+	//g_Streamer->Pulse();
 	
 	if (!g_Players.empty()) {
 		for (int i = 0; i < g_Players.size(); i++) {

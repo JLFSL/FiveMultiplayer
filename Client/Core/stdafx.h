@@ -109,6 +109,7 @@
 		#include "CRPCObject.h"
 
 	// Client
+	#include "CStreamer.h"
 	#include "CCore.h"
 	#include "CConfig.h"
 	#include "CVisual.h"

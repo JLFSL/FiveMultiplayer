@@ -27,6 +27,8 @@ void CVehicleEntity::Create(int entity)
 
 void CVehicleEntity::CreateVehicle()
 {
+	STREAMING::SET_VEHICLE_POPULATION_BUDGET(3000);
+
 	Hash model = GAMEPLAY::GET_HASH_KEY((char*)Data.Model.c_str());
 	if (!STREAMING::IS_MODEL_IN_CDIMAGE(model) || !STREAMING::IS_MODEL_VALID(model))
 		model = GAMEPLAY::GET_HASH_KEY("dilettante");
@@ -96,6 +98,17 @@ void CVehicleEntity::Destroy()
 	InterpolationData = {};
 
 	Information.Id = -1;
+}
+
+void CVehicleEntity::Delete()
+{
+	if (Game.Vehicle)
+		VEHICLE::DELETE_VEHICLE(&Game.Vehicle);
+
+	if (Game.Blip)
+		UI::REMOVE_BLIP(&Game.Blip);
+
+	Game.Created = false;
 }
 
 void CVehicleEntity::Pulse()

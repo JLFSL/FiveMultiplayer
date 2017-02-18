@@ -177,6 +177,9 @@
     <ClCompile Include="CRPCObject.cpp">
       <Filter>Network\RPC</Filter>
     </ClCompile>
+    <ClCompile Include="CStreamer.cpp">
+      <Filter>Client</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -325,6 +328,9 @@
     </ClInclude>
     <ClInclude Include="CRPCObject.h">
       <Filter>Network\RPC</Filter>
+    </ClInclude>
+    <ClInclude Include="CStreamer.h">
+      <Filter>Client</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
