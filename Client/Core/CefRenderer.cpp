@@ -27,7 +27,7 @@ bool CefRenderer::Initialize()
 	settings.single_process = true;
 	settings.multi_threaded_message_loop = false;
 
-	return CefInitialize(args, settings, CefRefPtr<CefApp>(), nullptr);
+	return CefInitialize(args, settings, nullptr, nullptr);
 }
 
 void CefRenderer::Start()
@@ -53,7 +53,38 @@ void CefRenderer::Start()
 	//browser = CefBrowserHost::CreateBrowserSync(window_info, textureClient.get(), "https://www.youtube.com/watch?v=yYzGHhhg_og&index=171&list=PL04B59999BC5DA80D", browserSettings, nullptr);
 }
 
+HHOOK m_pWndProcedure;
+DirectXRenderer *curInstance2;
+
+LRESULT CALLBACK MsgHookRet(int nCode, WPARAM wParam, LPARAM lParam)
+{
+	CWPRETSTRUCT* msg = (CWPRETSTRUCT*)lParam;
+
+	switch (msg->message)
+	{
+	case WM_SIZE:
+		curInstance2 = DirectXRenderer::GetInstance();
+		if (curInstance2->pDevice != NULL && wParam != SIZE_MINIMIZED)
+		{
+			CleanupRenderTarget();
+			curInstance2->pSwapChain->ResizeBuffers(0, (UINT)LOWORD(lParam), (UINT)HIWORD(lParam), DXGI_FORMAT_UNKNOWN, 0);
+			CreateRenderTarget();
+		}
+		break;
+	case WM_SYSCOMMAND:
+		if ((wParam & 0xfff0) == SC_KEYMENU) // Disable ALT application menu
+			break;
+		break;
+	case WM_DESTROY:
+		PostQuitMessage(0);
+		break;
+	}
+	return CallNextHookEx(0, nCode, wParam, lParam);
+}
+
 void CefRenderer::OnTick()
 {
+	HHOOK msgHook = SetWindowsHookExA(WH_CALLWNDPROCRET, MsgHookRet, GetModuleHandle(NULL), 0);
+
 	CefRunMessageLoop();
 }

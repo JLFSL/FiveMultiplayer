@@ -2,7 +2,6 @@
 class CefRenderer
 {
 private:
-	
 public:
 	static bool Initialize();
 	static void Start();

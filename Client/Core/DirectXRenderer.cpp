@@ -368,6 +368,28 @@ bool SetupD3D()
 	return true;
 }
 
+void CreateRenderTarget()
+{
+	DXGI_SWAP_CHAIN_DESC sd;
+	curInstance->pSwapChain->GetDesc(&sd);
+
+	// Create the render target
+	ID3D11Texture2D* pBackBuffer;
+	D3D11_RENDER_TARGET_VIEW_DESC render_target_view_desc;
+	ZeroMemory(&render_target_view_desc, sizeof(render_target_view_desc));
+	render_target_view_desc.Format = sd.BufferDesc.Format;
+	render_target_view_desc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+	curInstance->pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer);
+	curInstance->pDevice->CreateRenderTargetView(pBackBuffer, &render_target_view_desc, &curInstance->g_mainRenderTargetView);
+	curInstance->pContext->OMSetRenderTargets(1, &curInstance->g_mainRenderTargetView, NULL);
+	pBackBuffer->Release();
+}
+
+void CleanupRenderTarget()
+{
+	if (curInstance->g_mainRenderTargetView) { curInstance->g_mainRenderTargetView->Release(); curInstance->g_mainRenderTargetView = NULL; }
+}
+
 HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags)
 {
 	curInstance = DirectXRenderer::GetInstance();
@@ -400,7 +422,8 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 		ImGui_ImplDX11_Init(curInstance->hWnd, curInstance->pDevice, curInstance->pContext);
 		ImGui_ImplDX11_CreateDeviceObjects();
 		
-		SetupD3D();
+		if (!SetupD3D())
+			std::cout << "setup cef d3d texture failed" << std::endl;
 
 		DirectXRenderer::GetInstance()->FirstRender = false;
 	}
@@ -433,7 +456,7 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 
 		if (screenWidth < 1920.0f)
 		{
-			float diffrence = (1920.0f - screenWidth) / (1920.0 / 10.0f) * 0.1f;
+			float diffrence = (1920.0f - screenWidth) / (1920.0f / 10.0f) * 0.1f;
 			windowScale = 1.0f - diffrence;
 		}
 		

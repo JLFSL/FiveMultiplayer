@@ -23,17 +23,22 @@ struct DrawData
 	}
 };
 
+void CleanupRenderTarget();
+void CreateRenderTarget();
+
 class DirectXRenderer
 {
 public:
 	std::mutex paintMutex;
 	std::list<std::unique_ptr<DrawData>> drawData;
+	ID3D11RenderTargetView*  g_mainRenderTargetView = NULL;
 
 	HWND hWnd; 
 	bool FirstRender;
 
 	ID3D11Device *pDevice;
 	ID3D11DeviceContext *pContext;
+	IDXGISwapChain* pSwapChain;
 
 	IFW1Factory *pFW1Factory;
 	IFW1FontWrapper *pFontWrapper;
@@ -60,9 +65,10 @@ public:
 	D3D11ClearRenderTargetViewHook phookD3D11ClearRenderTargetView;
 	ID3D11RenderTargetView* phookD3D11RenderTargetView;
 
-private:
 	DWORD_PTR* pSwapChainVtable;
 	DWORD_PTR* pDeviceContextVTable;
+
+private:
 	
 	static DirectXRenderer* Instance;
 };
