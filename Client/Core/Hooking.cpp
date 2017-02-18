@@ -35,7 +35,7 @@ void Hooking::Start(HMODULE hmoduleDLL)
 
 	CefRenderer *CEF = new CefRenderer;
 
-	bool cefresult = CEF->Initialize(nullptr);
+	bool cefresult = CEF->Initialize();
 	std::cout << cefresult << std::endl;
 
 	if (cefresult)

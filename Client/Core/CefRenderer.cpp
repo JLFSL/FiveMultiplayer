@@ -78,7 +78,7 @@ void CefRenderer::OnTick()
 	CefRunMessageLoop();
 }
 
-bool CefRenderer::Initialize(HINSTANCE hInstance)
+bool CefRenderer::Initialize()
 {
 	CefMainArgs args;
 	{

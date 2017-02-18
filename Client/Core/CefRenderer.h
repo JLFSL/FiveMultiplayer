@@ -4,7 +4,7 @@ class CefRenderer
 private:
 	
 public:
-	static bool Initialize(HINSTANCE hInstance);
+	static bool Initialize();
 	static void Start();
 
 	static void OnTick();
