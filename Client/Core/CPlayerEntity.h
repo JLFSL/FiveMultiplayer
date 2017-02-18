@@ -82,6 +82,7 @@ public:
 	void CreatePed();
 	void RequestData();
 	void Destroy();
+	void Delete();
 
 	void Pulse();
 	void Update(Packet *packet);

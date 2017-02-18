@@ -188,6 +188,7 @@
     <ClCompile Include="CRPCPlayer.cpp" />
     <ClCompile Include="CRPCWorld.cpp" />
     <ClCompile Include="CServerEntity.cpp" />
+    <ClCompile Include="CStreamer.cpp" />
     <ClCompile Include="CVehicleEntity.cpp" />
     <ClCompile Include="DirectXDraw.cpp" />
     <ClCompile Include="DirectXRenderer.cpp" />
@@ -251,6 +252,7 @@
     <ClInclude Include="CRPCPlayer.h" />
     <ClInclude Include="CRPCWorld.h" />
     <ClInclude Include="CServerEntity.h" />
+    <ClInclude Include="CStreamer.h" />
     <ClInclude Include="CVehicleEntity.h" />
     <ClInclude Include="DirectXDraw.h" />
     <ClInclude Include="DirectXRenderer.h" />

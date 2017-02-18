@@ -79,6 +79,7 @@ public:
 	void CreateVehicle();
 	void RequestData();
 	void Destroy();
+	void Delete();
 
 	void Pulse();
 	void Update(Packet *packet);
@@ -97,6 +98,7 @@ public:
 
 	int				GetId() { return Information.Id; }
 	Vehicle			GetEntity() { return Game.Vehicle; }
+	bool			IsCreated() { return Game.Created; }
 
 	int				GetOccupant(int seat) { return Occupants[seat]; }
 

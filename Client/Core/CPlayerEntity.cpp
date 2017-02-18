@@ -95,6 +95,17 @@ void CPlayerEntity::Destroy()
 	Data.Vehicle.Seat = -1;
 }
 
+void CPlayerEntity::Delete()
+{
+	if (Game.Ped)
+		ENTITY::DELETE_ENTITY(&Game.Ped);
+
+	if (Game.Blip)
+		UI::REMOVE_BLIP(&Game.Blip);
+
+	Game.Created = false;
+}
+
 void CPlayerEntity::Pulse()
 {
 	if(Game.Created)
@@ -461,45 +472,48 @@ bool CPlayerEntity::IsTargetAnimal()
 
 void CPlayerEntity::UpdatePlayerModel()
 {
-	Data.Model.hModel = GAMEPLAY::GET_HASH_KEY((char*)Data.Model.Model.c_str());
-
-	if (STREAMING::IS_MODEL_IN_CDIMAGE(Data.Model.hModel) && STREAMING::IS_MODEL_VALID(Data.Model.hModel))
+	if (Game.Created)
 	{
-		ENTITY::DELETE_ENTITY(&Game.Ped);
+		Data.Model.hModel = GAMEPLAY::GET_HASH_KEY((char*)Data.Model.Model.c_str());
 
-		STREAMING::REQUEST_MODEL(Data.Model.hModel);
-		while (!STREAMING::HAS_MODEL_LOADED(Data.Model.hModel))
-			WAIT(0);
+		if (STREAMING::IS_MODEL_IN_CDIMAGE(Data.Model.hModel) && STREAMING::IS_MODEL_VALID(Data.Model.hModel))
+		{
+			ENTITY::DELETE_ENTITY(&Game.Ped);
 
-		Game.Ped = PED::CREATE_PED(26, Data.Model.hModel, Data.Position.fX, Data.Position.fY, Data.Position.fZ, 0.0f, false, true);
+			STREAMING::REQUEST_MODEL(Data.Model.hModel);
+			while (!STREAMING::HAS_MODEL_LOADED(Data.Model.hModel))
+				WAIT(0);
 
-		ENTITY::SET_ENTITY_NO_COLLISION_ENTITY(g_Core->GetLocalPlayer()->GetPed(), Game.Ped, false);
-		ENTITY::SET_ENTITY_NO_COLLISION_ENTITY(Game.Ped, g_Core->GetLocalPlayer()->GetPed(), false);
+			Game.Ped = PED::CREATE_PED(26, Data.Model.hModel, Data.Position.fX, Data.Position.fY, Data.Position.fZ, 0.0f, false, true);
 
-		ENTITY::SET_ENTITY_COORDS_NO_OFFSET(Game.Ped, Data.Position.fX, Data.Position.fY, Data.Position.fZ, false, false, false);
+			ENTITY::SET_ENTITY_NO_COLLISION_ENTITY(g_Core->GetLocalPlayer()->GetPed(), Game.Ped, false);
+			ENTITY::SET_ENTITY_NO_COLLISION_ENTITY(Game.Ped, g_Core->GetLocalPlayer()->GetPed(), false);
 
-		PED::SET_BLOCKING_OF_NON_TEMPORARY_EVENTS(Game.Ped, true);
-		PED::SET_PED_FLEE_ATTRIBUTES(Game.Ped, 0, 0);
-		PED::SET_PED_COMBAT_ATTRIBUTES(Game.Ped, 17, true);
-		PED::SET_PED_CAN_RAGDOLL(Game.Ped, false);
-		PED::UNREGISTER_PEDHEADSHOT(Game.Ped);
+			ENTITY::SET_ENTITY_COORDS_NO_OFFSET(Game.Ped, Data.Position.fX, Data.Position.fY, Data.Position.fZ, false, false, false);
 
-		WEAPON::SET_PED_DROPS_WEAPONS_WHEN_DEAD(Game.Ped, false);
+			PED::SET_BLOCKING_OF_NON_TEMPORARY_EVENTS(Game.Ped, true);
+			PED::SET_PED_FLEE_ATTRIBUTES(Game.Ped, 0, 0);
+			PED::SET_PED_COMBAT_ATTRIBUTES(Game.Ped, 17, true);
+			PED::SET_PED_CAN_RAGDOLL(Game.Ped, false);
+			PED::UNREGISTER_PEDHEADSHOT(Game.Ped);
 
-		AI::TASK_SET_BLOCKING_OF_NON_TEMPORARY_EVENTS(Game.Ped, true);
+			WEAPON::SET_PED_DROPS_WEAPONS_WHEN_DEAD(Game.Ped, false);
 
-		Hash relationshipGroup;
-		PED::ADD_RELATIONSHIP_GROUP("FIVEMPPLAYER", &relationshipGroup);
-		PED::SET_PED_RELATIONSHIP_GROUP_HASH(Game.Ped, relationshipGroup);
+			AI::TASK_SET_BLOCKING_OF_NON_TEMPORARY_EVENTS(Game.Ped, true);
 
-		if (UI::DOES_BLIP_EXIST(Game.Blip))
-			UI::REMOVE_BLIP(&Game.Blip);
-		
-		Game.Blip = UI::ADD_BLIP_FOR_ENTITY(Game.Ped);
-		UI::SET_BLIP_AS_FRIENDLY(Game.Blip, true);
+			Hash relationshipGroup;
+			PED::ADD_RELATIONSHIP_GROUP("FIVEMPPLAYER", &relationshipGroup);
+			PED::SET_PED_RELATIONSHIP_GROUP_HASH(Game.Ped, relationshipGroup);
 
-		std::cout << "[CPlayerEntity] Updated player " << Information.Id << " model" << std::endl;
-		return;
+			if (UI::DOES_BLIP_EXIST(Game.Blip))
+				UI::REMOVE_BLIP(&Game.Blip);
+
+			Game.Blip = UI::ADD_BLIP_FOR_ENTITY(Game.Ped);
+			UI::SET_BLIP_AS_FRIENDLY(Game.Blip, true);
+
+			std::cout << "[CPlayerEntity] Updated player " << Information.Id << " model" << std::endl;
+			return;
+		}
+		std::cout << "[CPlayerEntity] Tried to update player " << Information.Id << " model to " << Data.Model.Model << ", but model does not exist!" << std::endl;
 	}
-	std::cout << "[CPlayerEntity] Tried to update player " << Information.Id << " model to " << Data.Model.Model << ", but model does not exist!" << std::endl;
 }

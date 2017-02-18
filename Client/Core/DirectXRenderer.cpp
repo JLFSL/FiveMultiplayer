@@ -104,7 +104,9 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 					ImGui::NewLine();
 
 					// Pools Debug
-					std::string pools = "Pools: [Player: " + std::to_string(g_Players.size()) + "] [Vehicle: " + std::to_string(g_Vehicles.size()) + "] [Object: " + std::to_string(g_Objects.size()) + "] [Entities: " + std::to_string(g_Entities.size()) +  "]";
+					std::string pools = "Pools: Players(" + std::to_string(g_Core->GetStreamer()->GetPlayerCount()) + "/" + std::to_string(g_Players.size()) +
+										"), Vehicles(" + std::to_string(g_Core->GetStreamer()->GetVehicleCount()) + "/" + std::to_string(g_Vehicles.size()) + 
+										"), Objects(" + std::to_string(g_Core->GetStreamer()->GetObjectCount()) + "/" + std::to_string(g_Objects.size()) + "), Entities(" + std::to_string(g_Entities.size()) +  ")";
 					SizeH = ImGui::CalcTextSize(pools.c_str()).x;
 
 					ImGui::SameLine(ImGui::GetWindowContentRegionMax().x - SizeH);
