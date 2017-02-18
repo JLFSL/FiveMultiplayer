@@ -1,4 +1,4 @@
-// Copyright (c) 2016 The Chromium Embedded Framework Authors. All rights
+// Copyright (c) 2017 The Chromium Embedded Framework Authors. All rights
 // reserved. Use of this source code is governed by a BSD-style license that
 // can be found in the LICENSE file.
 //
@@ -39,6 +39,7 @@ class CefContextMenuParamsCToCpp
   CefString GetUnfilteredLinkUrl() OVERRIDE;
   CefString GetSourceUrl() OVERRIDE;
   bool HasImageContents() OVERRIDE;
+  CefString GetTitleText() OVERRIDE;
   CefString GetPageUrl() OVERRIDE;
   CefString GetFrameUrl() OVERRIDE;
   CefString GetFrameCharset() OVERRIDE;

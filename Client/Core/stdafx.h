@@ -28,6 +28,7 @@
 #include <vector>
 #include <unordered_map>
 #include <set>
+#include <memory>
 
 // Shared
 #include "CVector3.h"

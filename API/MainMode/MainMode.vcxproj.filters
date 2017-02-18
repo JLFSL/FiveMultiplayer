@@ -2,7 +2,9 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="api.cpp" />
-    <ClCompile Include="jsoncpp.cpp" />
+    <ClCompile Include="json\jsoncpp.cpp">
+      <Filter>JsonCpp</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="SDK">
@@ -13,42 +15,42 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="APIVisual.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="APIServer.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="APIEntity.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="APIVehicle.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="APIWorld.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="CMaths.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="CVector3.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="CVector4.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
     <ClInclude Include="api.h" />
-    <ClInclude Include="APIObject.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="APIPlayer.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
     <ClInclude Include="json\json.h">
       <Filter>JsonCpp</Filter>
     </ClInclude>
     <ClInclude Include="json\json-forwards.h">
       <Filter>JsonCpp</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\APIServer.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\APIVehicle.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\APIVisual.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\APIWorld.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\CMaths.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\CVector3.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\CVector4.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\APIEntity.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\APIObject.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\APIPlayer.h">
+      <Filter>SDK</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

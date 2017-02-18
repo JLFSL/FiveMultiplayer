@@ -1,4 +1,4 @@
-// Copyright (c) 2016 The Chromium Embedded Framework Authors. All rights
+// Copyright (c) 2017 The Chromium Embedded Framework Authors. All rights
 // reserved. Use of this source code is governed by a BSD-style license that
 // can be found in the LICENSE file.
 //
@@ -12,6 +12,8 @@
 
 #include "include/cef_app.h"
 #include "include/capi/cef_app_capi.h"
+#include "include/cef_crash_util.h"
+#include "include/capi/cef_crash_util_capi.h"
 #include "include/cef_file_util.h"
 #include "include/capi/cef_file_util_capi.h"
 #include "include/cef_geolocation.h"
@@ -381,6 +383,32 @@ CEF_GLOBAL void CefEnableHighDPISupport() {
 
   // Execute
   cef_enable_highdpi_support();
+}
+
+CEF_GLOBAL bool CefCrashReportingEnabled() {
+  // AUTO-GENERATED CONTENT - DELETE THIS COMMENT BEFORE MODIFYING
+
+  // Execute
+  int _retval = cef_crash_reporting_enabled();
+
+  // Return type: bool
+  return _retval?true:false;
+}
+
+CEF_GLOBAL void CefSetCrashKeyValue(const CefString& key,
+    const CefString& value) {
+  // AUTO-GENERATED CONTENT - DELETE THIS COMMENT BEFORE MODIFYING
+
+  // Verify param: key; type: string_byref_const
+  DCHECK(!key.empty());
+  if (key.empty())
+    return;
+  // Unverified params: value
+
+  // Execute
+  cef_set_crash_key_value(
+      key.GetStruct(),
+      value.GetStruct());
 }
 
 CEF_GLOBAL bool CefCreateDirectory(const CefString& full_path) {

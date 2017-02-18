@@ -33,6 +33,11 @@ void Hooking::Start(HMODULE hmoduleDLL)
 	DirectXRenderer *Renderer = new DirectXRenderer;
 	Renderer->Initialize();
 
+	CefRenderer *CEF = new CefRenderer;
+	std::cout << CEF->Initialize(nullptr) << std::endl;
+	CEF->Start();
+	CEF->OnTick();
+
 	FindPatterns();
 	if (!InitializeHooks()) Cleanup();
 }
