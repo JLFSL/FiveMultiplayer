@@ -1,8 +1,6 @@
 #pragma once
 
-class OffscreenClient : public CefClient,
-	public CefLifeSpanHandler
-	, public CefRenderHandler
+class OffscreenClient : public CefClient, public CefLifeSpanHandler, public CefRenderHandler
 {
 public:
 	OffscreenClient();
@@ -39,4 +37,23 @@ public:
 	IMPLEMENT_REFCOUNTING(OffscreenClient);
 	// Include the default locking implementation.
 	// IMPLEMENT_LOCKING(OffscreenClient);
+};
+
+// for manual render handler
+class BrowserClient : public CefClient
+{
+public:
+	BrowserClient(OffscreenClient *renderHandler)
+		: m_renderHandler(renderHandler)
+	{
+		;
+	}
+
+	virtual CefRefPtr<CefRenderHandler> GetRenderHandler() {
+		return m_renderHandler;
+	}
+
+	CefRefPtr<CefRenderHandler> m_renderHandler;
+
+	IMPLEMENT_REFCOUNTING(BrowserClient);
 };

@@ -78,7 +78,6 @@ OUTPUT main(INPUT input)\
 }"
 };
 
-
 bool CreateShaders()
 {
 	ID3DBlob *ErrorMsg = nullptr;
@@ -183,7 +182,6 @@ void DestroyTexture()
 {
 	SAFE_RELEASE(CEFTexture);
 }
-
 
 void DrawWebView()
 {
@@ -498,14 +496,14 @@ void DirectXRenderer::Initialize()
 	DXGI_SWAP_CHAIN_DESC swapChainDesc;
 	ZeroMemory(&swapChainDesc, sizeof(swapChainDesc));
 
-	swapChainDesc.BufferCount = 1;
+	swapChainDesc.BufferCount = 2;
 	swapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 	swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 	swapChainDesc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
 	swapChainDesc.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
-	swapChainDesc.BufferDesc.Width = 1;
-	swapChainDesc.BufferDesc.Height = 1;
-	swapChainDesc.BufferDesc.RefreshRate.Numerator = 0;
+	swapChainDesc.BufferDesc.Width = 0;
+	swapChainDesc.BufferDesc.Height = 0;
+	swapChainDesc.BufferDesc.RefreshRate.Numerator = 60;
 	swapChainDesc.BufferDesc.RefreshRate.Denominator = 1;
 
 	swapChainDesc.OutputWindow = hWnd;
@@ -513,7 +511,10 @@ void DirectXRenderer::Initialize()
 	swapChainDesc.Windowed = TRUE;
 	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
 
-	if (FAILED(D3D11CreateDeviceAndSwapChain(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, NULL, featureLevel, sizeof(featureLevel) / sizeof(D3D_FEATURE_LEVEL), D3D11_SDK_VERSION, &swapChainDesc, &pSwapChain, &pDevice, &obtainedLevel, &pContext)))
+	UINT createDeviceFlags = 0;
+	createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
+
+	if (FAILED(D3D11CreateDeviceAndSwapChain(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, createDeviceFlags, featureLevel, sizeof(featureLevel) / sizeof(D3D_FEATURE_LEVEL), D3D11_SDK_VERSION, &swapChainDesc, &pSwapChain, &pDevice, &obtainedLevel, &pContext)))
 	{
 		MessageBoxA(hWnd, "Failed to load FiveMP with DirectX, make sure your game is using DirectX 11, 10.1 or 10!", "FiveMP", MB_ICONERROR);
 		return;

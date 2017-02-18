@@ -27,7 +27,7 @@ class DirectXRenderer
 {
 public:
 	std::mutex paintMutex;
-	std::list<std::unique_ptr<DrawData> > drawData;
+	std::list<std::unique_ptr<DrawData>> drawData;
 
 	HWND hWnd; 
 	bool FirstRender;
