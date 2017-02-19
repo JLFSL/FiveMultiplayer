@@ -217,26 +217,6 @@ struct Vector2
 };
 
 // TODO: Class'ify in its own file
-class Vector4
-{
-public:
-        float fX; // 00-04
-        float fY; // 04-08
-        float fZ; // 08-0C
-        float fW; // 0C-10
-
-        Vector4()
-        {
-                fX = fY = fZ = 0.0f;
-        }
-
-        Vector4(float _fX, float _fY, float _fZ, float _fW)
-        {
-                fX = _fX; fY = _fY; fZ = _fZ; fW = _fW;
-        }
-};
-
-// TODO: Class'ify in its own file
 class Matrix
 {
 public:

@@ -68,6 +68,8 @@ public:
 	CVector3 GetPos()		{ return Data.Position; }
 	Vector3_t GetPosEx()	{ Vector3_t Pos = { Data.Position.fX, Data.Position.fY, Data.Position.fZ }; return Pos; }
 
+	CVector4 GetQuat()		{ return Data.Quaternion; }
+
 	int GetVehicleId()		{ return Data.Vehicle.VehicleID; }
 	int GetSeat()			{ return Data.Vehicle.Seat; }
 

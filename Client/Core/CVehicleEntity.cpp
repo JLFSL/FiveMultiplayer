@@ -270,7 +270,7 @@ void CVehicleEntity::Update(Packet * packet)
 	if (g_Core->GetLocalPlayer()->GetVehicleId() != Information.Id) {
 		UpdateTargetPosition();
 		SetTargetData();
-		//UpdateTargetRotation();
+		UpdateTargetRotation();
 
 		Network.LastSyncReceived = timeGetTime();
 	}
@@ -279,7 +279,7 @@ void CVehicleEntity::Update(Packet * packet)
 void CVehicleEntity::Interpolate()
 {
 	SetTargetPosition();
-	//SetTargetRotation();
+	SetTargetRotation();
 	SetTargetData();
 }
 
@@ -299,6 +299,9 @@ void CVehicleEntity::UpdateTargetPosition()
 
 		// Calculate the relative error
 		InterpolationData.Position.Error = TargetPosition - CurrentPosition;
+
+		// Apply the error over 400ms (i.e. 1/4 per 100ms)
+		InterpolationData.Position.Error *= Math::Lerp<const float>(0.25f, Math::UnlerpClamped(100, InterpolationTime, 400), 1.0f);
 
 		// Get the interpolation interval
 		InterpolationData.Position.StartTime = CurrentTime;
@@ -321,7 +324,7 @@ void CVehicleEntity::SetTargetPosition()
 		float fAlpha = Math::Unlerp(InterpolationData.Position.StartTime, CurrentTime, InterpolationData.Position.FinishTime);
 
 		// Don't let it overcompensate the error
-		fAlpha = Math::Clamp(0.0f, fAlpha, 1.0f);
+		fAlpha = Math::Clamp(0.0f, fAlpha, 1.5f);
 
 		// Get the current error portion to compensate
 		float fCurrentAlpha = (fAlpha - InterpolationData.Position.LastAlpha);
@@ -355,24 +358,28 @@ void CVehicleEntity::SetTargetPosition()
 void CVehicleEntity::UpdateTargetRotation()
 {
 	unsigned int interpolationtime = timeGetTime() - Network.LastSyncReceived;
-	unsigned long ulTime = timeGetTime();
+	unsigned long CurrentTime = timeGetTime();
 
-	// Get our position
-	CVector3 vecLocalRotation;
-	float unusedw;
-	ENTITY::GET_ENTITY_QUATERNION(Game.Vehicle, &vecLocalRotation.fX, &vecLocalRotation.fY, &vecLocalRotation.fZ, &unusedw);
+	// Get our quaternion
+	CVector4 CurrentQuaternion;
+	ENTITY::GET_ENTITY_QUATERNION(Game.Vehicle, &CurrentQuaternion.fX, &CurrentQuaternion.fY, &CurrentQuaternion.fZ, &CurrentQuaternion.fW);
 
-	// Set the target rotation
-	CVector3 vecRotation = { Data.Quaternion.fX, Data.Quaternion.fY, Data.Quaternion.fZ };
-	InterpolationData.Rotation.Target = vecRotation;
+	// Get our rotation
+	CVector3 CurrentRotation = CVector3::calculateEuler(CurrentQuaternion.fX, CurrentQuaternion.fY, CurrentQuaternion.fZ, CurrentQuaternion.fW);
+
+	// Set the target rotation from target quaternion
+	CVector3 TargetQuaternion = CVector3::calculateEuler(Data.Quaternion.fX, Data.Quaternion.fY, Data.Quaternion.fZ, Data.Quaternion.fW);
+	CVector3 TargetRotation = { TargetQuaternion.fX, TargetQuaternion.fY, TargetQuaternion.fZ };
+	InterpolationData.Rotation.Target = TargetRotation;
 
 	// Get the error
-	InterpolationData.Rotation.Error = Math::GetOffsetDegrees(vecLocalRotation, vecRotation);
+	//InterpolationData.Rotation.Error = Math::GetOffsetDegrees(vecLocalRotation, vecRotation);
+	InterpolationData.Rotation.Error = TargetRotation - CurrentRotation;
 	InterpolationData.Rotation.Error *= Math::Lerp < const float >(0.40f, Math::UnlerpClamped(100, interpolationtime, 400), 1.0f);
 
 	// Get the interpolation interval
-	InterpolationData.Rotation.StartTime = ulTime;
-	InterpolationData.Rotation.FinishTime = (ulTime + interpolationtime);
+	InterpolationData.Rotation.StartTime = CurrentTime;
+	InterpolationData.Rotation.FinishTime = (CurrentTime + interpolationtime);
 
 	// Initialize the interpolation
 	InterpolationData.Rotation.LastAlpha = 0.0f;
@@ -381,15 +388,15 @@ void CVehicleEntity::UpdateTargetRotation()
 void CVehicleEntity::SetTargetRotation()
 {
 	if (InterpolationData.Rotation.FinishTime != 0) {
-		CVector3 vecCurrentRotation;
 
 		// Get our rotation
-		float unusedw;
-		ENTITY::GET_ENTITY_QUATERNION(Game.Vehicle, &vecCurrentRotation.fX, &vecCurrentRotation.fY, &vecCurrentRotation.fZ, &unusedw);
+		CVector4 vecCurrentQuaternion;
+		ENTITY::GET_ENTITY_QUATERNION(Game.Vehicle, &vecCurrentQuaternion.fX, &vecCurrentQuaternion.fY, &vecCurrentQuaternion.fZ, &vecCurrentQuaternion.fW);
+		CVector3 vecCurrentRotation = CVector3::calculateEuler(vecCurrentQuaternion.fX, vecCurrentQuaternion.fY, vecCurrentQuaternion.fZ, vecCurrentQuaternion.fW);
 
 		// Get the factor of time spent from the interpolation start to the current time.
-		unsigned long ulCurrentTime = timeGetTime();
-		float fAlpha = Math::Unlerp(InterpolationData.Rotation.StartTime, ulCurrentTime, InterpolationData.Rotation.FinishTime);
+		unsigned long CurrentTime = timeGetTime();
+		float fAlpha = Math::Unlerp(InterpolationData.Rotation.StartTime, CurrentTime, InterpolationData.Rotation.FinishTime);
 
 		// Don't let it overcompensate the error
 		fAlpha = Math::Clamp(0.0f, fAlpha, 1.0f);
@@ -407,9 +414,10 @@ void CVehicleEntity::SetTargetRotation()
 
 		// Calculate the new position
 		CVector3 vecNewRotation = vecCurrentRotation + vecCompensation;
+		CVector4 vecNewQuaternion = CVector4::calculateQuaternion(vecNewRotation.fX, vecNewRotation.fY, vecNewRotation.fZ);
 
 		// Set our new position
-		ENTITY::SET_ENTITY_QUATERNION(Game.Vehicle, vecNewRotation.fX, vecNewRotation.fY, vecNewRotation.fZ, unusedw);
+		ENTITY::SET_ENTITY_QUATERNION(Game.Vehicle, vecNewQuaternion.fX, vecNewQuaternion.fY, vecNewQuaternion.fZ, vecNewQuaternion.fW);
 	}
 }
 

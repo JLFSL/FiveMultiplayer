@@ -450,13 +450,13 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 		ImGui_ImplDX11_Init(DirectXRenderer::hWnd, DirectXRenderer::pDevice, DirectXRenderer::pContext);
 		ImGui_ImplDX11_CreateDeviceObjects();
 		
-		if (!SetupD3D())
+		//if (!SetupD3D())
 			std::cout << "setup cef d3d texture failed" << std::endl;
 
 		DirectXRenderer::FirstRender = false;
 	}
 
-	float fontsize = 24.0f;
+	/*float fontsize = 24.0f;
 
 	DirectXRenderer::pFontWrapper->DrawString(DirectXRenderer::pContext, L"Loaded", fontsize, 34.0f, 32.0f, 0xff000000, FW1_RESTORESTATE);
 	DirectXRenderer::pFontWrapper->DrawString(DirectXRenderer::pContext, L"Loaded", fontsize, 30.0f, 32.0f, 0xff000000, FW1_RESTORESTATE);
@@ -470,7 +470,7 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 	DirectXRenderer::pFontWrapper->DrawString(DirectXRenderer::pContext, L"Loaded", fontsize, 34.0f, 30.0f, 0xff000000, FW1_RESTORESTATE);
 	DirectXRenderer::pFontWrapper->DrawString(DirectXRenderer::pContext, L"Loaded", fontsize, 30.0f, 34.0f, 0xff000000, FW1_RESTORESTATE);
 
-	DirectXRenderer::pFontWrapper->DrawString(DirectXRenderer::pContext, L"Loaded", fontsize, 32.0f, 32.0f, 0xffffffff, FW1_RESTORESTATE);
+	DirectXRenderer::pFontWrapper->DrawString(DirectXRenderer::pContext, L"Loaded", fontsize, 32.0f, 32.0f, 0xffffffff, FW1_RESTORESTATE);*/
 
 	ImGui_ImplDX11_NewFrame();
 
@@ -498,6 +498,7 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 				ImGui::Begin("FiveMultiplayer_Debug", NULL, ImVec2(0, 0), 0.5f, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings);
 				{
 					CVector3 pos = g_Core->GetLocalPlayer()->GetPos();
+					CVector4 quat = g_Core->GetLocalPlayer()->GetQuat();
 					float SizeH;
 
 					//Position Debug
@@ -506,6 +507,14 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 
 					ImGui::SameLine(ImGui::GetWindowContentRegionMax().x - SizeH);
 					ImGui::Text(position.c_str());
+					ImGui::NewLine();
+
+					//Quaternion Debug
+					std::string quaternion = "Quaternion: [X: " + std::to_string(quat.fX) + ", Y: " + std::to_string(quat.fY) + ", Z: " + std::to_string(quat.fZ) + ", W: " + std::to_string(quat.fW) + "]";
+					SizeH = ImGui::CalcTextSize(quaternion.c_str()).x;
+
+					ImGui::SameLine(ImGui::GetWindowContentRegionMax().x - SizeH);
+					ImGui::Text(quaternion.c_str());
 					ImGui::NewLine();
 
 					// Pools Debug

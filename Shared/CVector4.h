@@ -104,19 +104,17 @@ public:
 	{
 		CVector4 quaternion;
 
-		float h = y * (6.283185307179586232f * 0.5) / 360;
-		float a = z * (6.283185307179586232f * 0.5) / 360;
-		float b = x * (6.283185307179586232f * 0.5) / 360;
-		float c1 = cos(h);
-		float c2 = cos(a);
-		float c3 = cos(b);
-		float s1 = sin(h);
-		float s2 = sin(a);
-		float s3 = sin(b);
-		quaternion.fW = (c1*c2*c3 - s1*s2*s3) * 100000 / 100000;
-		quaternion.fX = (s1*s2*c3 + c1*c2*s3) * 100000 / 100000;
-		quaternion.fY = (s1*c2*c3 + c1*s2*s3) * 100000 / 100000;
-		quaternion.fZ = (c1*s2*c3 - s1*c2*s3) * 100000 / 100000;
+		double t0 = std::cos(z * 0.5);
+		double t1 = std::sin(z * 0.5);
+		double t2 = std::cos(x * 0.5);
+		double t3 = std::sin(x * 0.5);
+		double t4 = std::cos(y * 0.5);
+		double t5 = std::sin(y * 0.5);
+
+		quaternion.fW = t0 * t2 * t4 + t1 * t3 * t5;
+		quaternion.fX = t0 * t3 * t4 - t1 * t2 * t5;
+		quaternion.fY = t0 * t2 * t5 + t1 * t3 * t4;
+		quaternion.fZ = t1 * t2 * t4 - t0 * t3 * t5;
 
 		return quaternion;
 	}

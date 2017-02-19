@@ -255,12 +255,16 @@ void CPlayerEntity::UpdateTargetRotation()
 		unsigned long CurrentTime = timeGetTime();
 		unsigned int interpolationtime = CurrentTime - Network.LastSyncReceived;
 
-		// Get our position
-		CVector4 CurrentRotation;
-		ENTITY::GET_ENTITY_QUATERNION(Game.Ped, &CurrentRotation.fX, &CurrentRotation.fY, &CurrentRotation.fZ, &CurrentRotation.fW);
+		// Get our quaternion
+		CVector4 CurrentQuaternion;
+		ENTITY::GET_ENTITY_QUATERNION(Game.Ped, &CurrentQuaternion.fX, &CurrentQuaternion.fY, &CurrentQuaternion.fZ, &CurrentQuaternion.fW);
+		
+		// Get our rotation
+		CVector3 CurrentRotation = CVector3::calculateEuler(CurrentQuaternion.fX, CurrentQuaternion.fY, CurrentQuaternion.fZ, CurrentQuaternion.fW);
 
-		// Set the target rotation
-		CVector4 TargetRotation = { Data.Quaternion.fX, Data.Quaternion.fY, Data.Quaternion.fZ, Data.Quaternion.fW };
+		// Set the target rotation from target quaternion
+		CVector3 TargetQuaternion = CVector3::calculateEuler(Data.Quaternion.fX, Data.Quaternion.fY, Data.Quaternion.fZ, Data.Quaternion.fW);
+		CVector3 TargetRotation = { TargetQuaternion.fX, TargetQuaternion.fY, TargetQuaternion.fZ };
 		InterpolationData.Rotation.Target = TargetRotation;
 
 		// Get the error
@@ -280,9 +284,11 @@ void CPlayerEntity::UpdateTargetRotation()
 void CPlayerEntity::SetTargetRotation()
 {
 	if (InterpolationData.Rotation.FinishTime != 0 && Game.Created && Data.Vehicle.VehicleID == -1) {
+
 		// Get our rotation
-		CVector4 vecCurrentRotation;
-		ENTITY::GET_ENTITY_QUATERNION(Game.Ped, &vecCurrentRotation.fX, &vecCurrentRotation.fY, &vecCurrentRotation.fZ, &vecCurrentRotation.fW);
+		CVector4 vecCurrentQuaternion;
+		ENTITY::GET_ENTITY_QUATERNION(Game.Ped, &vecCurrentQuaternion.fX, &vecCurrentQuaternion.fY, &vecCurrentQuaternion.fZ, &vecCurrentQuaternion.fW);
+		CVector3 vecCurrentRotation = CVector3::calculateEuler(vecCurrentQuaternion.fX, vecCurrentQuaternion.fY, vecCurrentQuaternion.fZ, vecCurrentQuaternion.fW);
 
 		// Get the factor of time spent from the interpolation start to the current time.
 		unsigned long CurrentTime = timeGetTime();
@@ -296,17 +302,18 @@ void CPlayerEntity::SetTargetRotation()
 		InterpolationData.Rotation.LastAlpha = fAlpha;
 
 		// Apply the error compensation
-		CVector4 vecCompensation = Math::Lerp(CVector4(), fCurrentAlpha, InterpolationData.Rotation.Error);
+		CVector3 vecCompensation = Math::Lerp(CVector3(), fCurrentAlpha, InterpolationData.Rotation.Error);
 
 		// If we finished compensating the error, finish it for the next pulse
 		if (fAlpha == 1.0f)
 			InterpolationData.Rotation.FinishTime = 0;
 
 		// Calculate the new position
-		CVector4 vecNewRotation = vecCurrentRotation + vecCompensation;
+		CVector3 vecNewRotation = vecCurrentRotation + vecCompensation;
+		CVector4 vecNewQuaternion = CVector4::calculateQuaternion(vecNewRotation.fX, vecNewRotation.fY, vecNewRotation.fZ);
 
 		// Set our new position
-		ENTITY::SET_ENTITY_QUATERNION(Game.Ped, vecNewRotation.fX, vecNewRotation.fY, vecNewRotation.fZ, vecNewRotation.fW);
+		ENTITY::SET_ENTITY_QUATERNION(Game.Ped, vecNewQuaternion.fX, vecNewQuaternion.fY, vecNewQuaternion.fZ, vecNewQuaternion.fW);
 	}
 }
 

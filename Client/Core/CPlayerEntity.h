@@ -44,6 +44,7 @@ private:
 		CVector3			Position;
 		CVector3			Velocity;
 		CVector4			Quaternion;
+		CVector3			Rotation;
 	} Data;
 
 	struct PlayerNetwork {
@@ -65,9 +66,9 @@ private:
 
 		struct
 		{
-			CVector4      Start;
-			CVector4      Target;
-			CVector4      Error;
+			CVector3      Start;
+			CVector3      Target;
+			CVector3      Error;
 			float         LastAlpha;
 			unsigned long StartTime;
 			unsigned long FinishTime;

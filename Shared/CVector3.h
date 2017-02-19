@@ -144,32 +144,24 @@ public:
 	{
 		CVector3 EulerianAngle;
 
-		float qw2 = qw*qw;
-		float qx2 = qx*qx;
-		float qy2 = qy*qy;
-		float qz2 = qz*qz;
-		float test = qx*qy + qz*qw;
-		if (test > 0.499)
-		{
-			EulerianAngle.fY = 360 / (6.283185307179586232f * 0.5) * atan2(qx, qw);
-			EulerianAngle.fZ = 90;
-			EulerianAngle.fX = 0;
-			return EulerianAngle;
-		}
-		if (test < -0.499)
-		{
-			EulerianAngle.fY = -360 / (6.283185307179586232f * 0.5) * atan2(qx, qw);
-			EulerianAngle.fZ = -90;
-			EulerianAngle.fX = 0;
-			return EulerianAngle;
-		}
+		double ysqr = qy * qy;
 
-		float h = atan2(2 * qy*qw - 2 * qx*qz, 1 - 2 * qy2 - 2 * qz2);
-		float a = asin(2 * qx*qy + 2 * qz*qw);
-		float b = atan2(2 * qx*qw - 2 * qy*qz, 1 - 2 * qx2 - 2 * qz2);
-		EulerianAngle.fY = h * 180 / (6.283185307179586232f * 0.5);
-		EulerianAngle.fZ = a * 180 / (6.283185307179586232f * 0.5);
-		EulerianAngle.fX = b * 180 / (6.283185307179586232f * 0.5);
+		// roll (x-axis rotation)
+		double t0 = +2.0 * (qw * qx + qy * qz);
+		double t1 = +1.0 - 2.0 * (qx * qx + ysqr);
+		EulerianAngle.fX = std::atan2(t0, t1);
+
+		// pitch (y-axis rotation)
+		double t2 = +2.0 * (qw * qy - qz * qx);
+		t2 = t2 > 1.0 ? 1.0 : t2;
+		t2 = t2 < -1.0 ? -1.0 : t2;
+		EulerianAngle.fY = std::asin(t2);
+
+		// yaw (z-axis rotation)
+		double t3 = +2.0 * (qw * qz + qx * qy);
+		double t4 = +1.0 - 2.0 * (ysqr + qz * qz);
+		EulerianAngle.fZ = std::atan2(t3, t4);
+
 		return EulerianAngle;
 	}
 };
