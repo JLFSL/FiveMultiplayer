@@ -30,8 +30,7 @@ void Hooking::Start(HMODULE hmoduleDLL)
 	if (!g_Config->Read())
 		std::cout << "[CConfig] Could not read config file" << std::endl;
 
-	DirectXRenderer *Renderer = new DirectXRenderer;
-	Renderer->Initialize();
+	DirectXRenderer::Initialize();
 
 	FindPatterns();
 	if (!InitializeHooks()) Cleanup();

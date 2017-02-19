@@ -29,24 +29,24 @@ void CreateRenderTarget();
 class DirectXRenderer
 {
 public:
-	std::mutex paintMutex;
-	std::list<std::unique_ptr<DrawData>> drawData;
-	ID3D11RenderTargetView*  g_mainRenderTargetView = NULL;
+	static std::mutex paintMutex;
+	static std::list<std::unique_ptr<DrawData>> drawData;
+	static ID3D11RenderTargetView* g_mainRenderTargetView;
 
-	HWND hWnd; 
-	bool FirstRender;
+	static HWND hWnd;
+	static bool FirstRender;
 
-	ID3D11Device *pDevice;
-	ID3D11DeviceContext *pContext;
-	IDXGISwapChain* pSwapChain;
+	static ID3D11Device *pDevice;
+	static ID3D11DeviceContext *pContext;
+	static IDXGISwapChain* pSwapChain;
 
-	IFW1Factory *pFW1Factory;
-	IFW1FontWrapper *pFontWrapper;
+	static IFW1Factory *pFW1Factory;
+	static IFW1FontWrapper *pFontWrapper;
 
 	DirectXRenderer();
 	~DirectXRenderer();
 
-	void Initialize();
+	static void Initialize();
 	
 	typedef HRESULT(WINAPI *D3D11PresentHook) (IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags);
 	typedef void(WINAPI *D3D11DrawIndexedHook) (ID3D11DeviceContext* pContext, UINT IndexCount, UINT StartIndexLocation, INT BaseVertexLocation);
@@ -58,18 +58,12 @@ public:
 	const void* DetourFunc64(BYTE* const src, const BYTE* dest, const unsigned int jumplength);
 	const unsigned int DisasmLengthCheck(const SIZE_T address, const unsigned int jumplength);
 
-	static DirectXRenderer* GetInstance() { return Instance; }
+	static D3D11PresentHook phookD3D11Present;
+	static D3D11DrawIndexedHook phookD3D11DrawIndexed;
+	static D3D11ClearRenderTargetViewHook phookD3D11ClearRenderTargetView;
+	static ID3D11RenderTargetView* phookD3D11RenderTargetView;
 
-	D3D11PresentHook phookD3D11Present;
-	D3D11DrawIndexedHook phookD3D11DrawIndexed;
-	D3D11ClearRenderTargetViewHook phookD3D11ClearRenderTargetView;
-	ID3D11RenderTargetView* phookD3D11RenderTargetView;
-
-	DWORD_PTR* pSwapChainVtable;
-	DWORD_PTR* pDeviceContextVTable;
-
-private:
-	
-	static DirectXRenderer* Instance;
+	static DWORD_PTR* pSwapChainVtable;
+	static DWORD_PTR* pDeviceContextVTable;
 };
 

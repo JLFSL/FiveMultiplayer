@@ -1,18 +1,37 @@
 #include "stdafx.h"
 
-DirectXRenderer* DirectXRenderer::Instance = nullptr;
-DirectXRenderer *curInstance = nullptr;
+// class inits to prevent LNK2001
+std::mutex DirectXRenderer::paintMutex;
+std::list<std::unique_ptr<DrawData>> DirectXRenderer::drawData;
+ID3D11RenderTargetView* DirectXRenderer::g_mainRenderTargetView = nullptr;
+
+HWND DirectXRenderer::hWnd = nullptr;
+bool DirectXRenderer::FirstRender = true;
+
+ID3D11Device *DirectXRenderer::pDevice = nullptr;
+ID3D11DeviceContext *DirectXRenderer::pContext = nullptr;
+IDXGISwapChain* DirectXRenderer::pSwapChain = nullptr;
+
+IFW1Factory *DirectXRenderer::pFW1Factory = nullptr;
+IFW1FontWrapper *DirectXRenderer::pFontWrapper = nullptr;
+
+DirectXRenderer::D3D11PresentHook DirectXRenderer::phookD3D11Present = nullptr;
+DirectXRenderer::D3D11DrawIndexedHook DirectXRenderer::phookD3D11DrawIndexed = nullptr;
+DirectXRenderer::D3D11ClearRenderTargetViewHook DirectXRenderer::phookD3D11ClearRenderTargetView = nullptr;
+ID3D11RenderTargetView* DirectXRenderer::phookD3D11RenderTargetView = nullptr;
+
+DWORD_PTR* DirectXRenderer::pSwapChainVtable = nullptr;
+DWORD_PTR* DirectXRenderer::pDeviceContextVTable = nullptr;
 
 DirectXRenderer::DirectXRenderer()
 {
-	Instance = this;
-
 	FirstRender = true;
+	g_mainRenderTargetView = NULL;
 }
 
 DirectXRenderer::~DirectXRenderer()
 {
-	Instance = nullptr;
+
 }
 
 bool show_app_about = true;
@@ -90,7 +109,7 @@ bool CreateShaders()
 		return false;
 	}
 
-	if (FAILED(curInstance->pDevice->CreatePixelShader(PixelBlob->GetBufferPointer(), PixelBlob->GetBufferSize(), NULL, &PixelShader))) {
+	if (FAILED(DirectXRenderer::pDevice->CreatePixelShader(PixelBlob->GetBufferPointer(), PixelBlob->GetBufferSize(), NULL, &PixelShader))) {
 		MessageBox(NULL, "Failed to create pixel shader.", NULL, NULL);
 		return false;
 	}
@@ -104,7 +123,7 @@ bool CreateShaders()
 		return false;
 	}
 
-	if (FAILED(curInstance->pDevice->CreateVertexShader(VertexBlob->GetBufferPointer(), VertexBlob->GetBufferSize(), NULL, &VertexShader))) {
+	if (FAILED(DirectXRenderer::pDevice->CreateVertexShader(VertexBlob->GetBufferPointer(), VertexBlob->GetBufferSize(), NULL, &VertexShader))) {
 		MessageBox(NULL, "Failed to create vertex shader.", NULL, NULL);
 		return false;
 	}
@@ -119,7 +138,7 @@ bool CreateShaders()
 	desc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
 	desc.MinLOD = 0.f;
 	desc.MaxLOD = 0.f;
-	curInstance->pDevice->CreateSamplerState(&desc, &Sampler);
+	DirectXRenderer::pDevice->CreateSamplerState(&desc, &Sampler);
 	return true;
 }
 
@@ -137,7 +156,7 @@ bool CreateSampler()
 	desc.MaxLOD = 0.f;
 
 
-	if (FAILED(curInstance->pDevice->CreateSamplerState(&desc, &Sampler))) {
+	if (FAILED(DirectXRenderer::pDevice->CreateSamplerState(&desc, &Sampler))) {
 		MessageBox(NULL, "Failed to create sampler state.", NULL, NULL);
 		return false;
 	}
@@ -160,7 +179,7 @@ bool CreateTexture(unsigned Width, unsigned Height)
 	desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
 	desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 
-	HRESULT hr = curInstance->pDevice->CreateTexture2D(&desc, NULL, &CEFTexture);
+	HRESULT hr = DirectXRenderer::pDevice->CreateTexture2D(&desc, NULL, &CEFTexture);
 	if (FAILED(hr)) {
 		char error[256] = { 0 };
 		sprintf(error, "Failed to create texture (%X)", hr);
@@ -168,7 +187,7 @@ bool CreateTexture(unsigned Width, unsigned Height)
 		return false;
 	}
 
-	if (FAILED(curInstance->pDevice->CreateShaderResourceView(CEFTexture, NULL, &TextureShaderResourceView))) {
+	if (FAILED(DirectXRenderer::pDevice->CreateShaderResourceView(CEFTexture, NULL, &TextureShaderResourceView))) {
 		MessageBox(NULL, "Failed to create shader resource view for texture.", NULL, NULL);
 		return false;
 	}
@@ -192,30 +211,30 @@ void DrawWebView()
 	UINT Stride = sizeof(Vertex2d);
 	UINT Offset = 0;
 
-	curInstance->pContext->IASetInputLayout(InputLayout);
-	curInstance->pContext->IASetVertexBuffers(0, 1, &WebViewGeometryBuffer, &Stride, &Offset);
-	curInstance->pContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	DirectXRenderer::pContext->IASetInputLayout(InputLayout);
+	DirectXRenderer::pContext->IASetVertexBuffers(0, 1, &WebViewGeometryBuffer, &Stride, &Offset);
+	DirectXRenderer::pContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	curInstance->pContext->VSSetShader(VertexShader, NULL, 0);
+	DirectXRenderer::pContext->VSSetShader(VertexShader, NULL, 0);
 
-	curInstance->pContext->PSSetShaderResources(0, 1, &TextureShaderResourceView);
-	curInstance->pContext->PSSetSamplers(0, 1, &Sampler);
-	curInstance->pContext->PSSetShader(PixelShader, NULL, 0);
+	DirectXRenderer::pContext->PSSetShaderResources(0, 1, &TextureShaderResourceView);
+	DirectXRenderer::pContext->PSSetSamplers(0, 1, &Sampler);
+	DirectXRenderer::pContext->PSSetShader(PixelShader, NULL, 0);
 
-	curInstance->pContext->Draw(6, 0);
+	DirectXRenderer::pContext->Draw(6, 0);
 }
 
 void UpdateRenderTexture()
 {
 	std::unique_ptr<DrawData> data;
 	{
-		std::lock_guard<std::mutex> lock(curInstance->paintMutex);
-		if (curInstance->drawData.empty()) {
+		std::lock_guard<std::mutex> lock(DirectXRenderer::paintMutex);
+		if (DirectXRenderer::drawData.empty()) {
 			return;
 		}
 
-		data = std::move(curInstance->drawData.front());
-		curInstance->drawData.pop_front();
+		data = std::move(DirectXRenderer::drawData.front());
+		DirectXRenderer::drawData.pop_front();
 	}
 
 	// In case texture size changed recreate it (also handles creation)
@@ -231,7 +250,7 @@ void UpdateRenderTexture()
 
 
 	D3D11_MAPPED_SUBRESOURCE subRes;
-	if (FAILED(curInstance->pContext->Map(CEFTexture, 0, D3D11_MAP_WRITE_DISCARD, 0, &subRes))) {
+	if (FAILED(DirectXRenderer::pContext->Map(CEFTexture, 0, D3D11_MAP_WRITE_DISCARD, 0, &subRes))) {
 		return;
 	}
 
@@ -250,12 +269,13 @@ void UpdateRenderTexture()
 	}
 	}*/
 
-	curInstance->pContext->Unmap(CEFTexture, 0);
+	DirectXRenderer::pContext->Unmap(CEFTexture, 0);
 }
 
 bool CreateWebViewGeometryBuffer()
 {
-	Vertex2d rect[6] = {
+	// 1/4 of the screen, top right to bottom left
+	/*Vertex2d rect[6] = {
 		{ 0.0f, 0.0f, 0.0f, 1.0f },
 		{ 1.0f, 0.0f, 1.0f, 1.0f },
 		{ 0.0f, 1.0f, 0.0f, 0.0f },
@@ -263,6 +283,16 @@ bool CreateWebViewGeometryBuffer()
 		{ 0.0f, 1.0f, 0.0f, 0.0f },
 		{ 1.0f, 0.0f, 1.0f, 1.0f },
 		{ 1.0f, 1.0f, 1.0f, 0.0f }
+	};*/
+	// fullscreen
+	Vertex2d rect[6] = {
+		{ -1.0f, 1.0f, 0.0f, 0.0f },
+		{ 1.0f, 1.0f, 1.0f, 0.0f },
+		{ -1.0f, -1.0f, 0.0f, 1.0f },
+
+		{ -1.0f, -1.0f, 0.0f, 1.0f },
+		{ 1.0f, 1.0f, 1.0f, 0.0f },
+		{ 1.0f, -1.0f, 1.0f, 1.0f }
 	};
 
 	D3D11_BUFFER_DESC bufferDesc;
@@ -276,7 +306,7 @@ bool CreateWebViewGeometryBuffer()
 	memset(&data, 0, sizeof(data));
 	data.pSysMem = rect;
 
-	if (FAILED(curInstance->pDevice->CreateBuffer(&bufferDesc, &data, &WebViewGeometryBuffer))) {
+	if (FAILED(DirectXRenderer::pDevice->CreateBuffer(&bufferDesc, &data, &WebViewGeometryBuffer))) {
 		MessageBox(NULL, "Failed to create buffer", NULL, NULL);
 		return false;
 	}
@@ -288,7 +318,7 @@ bool CreateWebViewGeometryBuffer()
 		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, offsetof(Vertex2d, u), D3D11_INPUT_PER_VERTEX_DATA, 0 }
 	};
 
-	HRESULT hr = curInstance->pDevice->CreateInputLayout(layout, 2, VertexBlob->GetBufferPointer(), VertexBlob->GetBufferSize(), &InputLayout);
+	HRESULT hr = DirectXRenderer::pDevice->CreateInputLayout(layout, 2, VertexBlob->GetBufferPointer(), VertexBlob->GetBufferSize(), &InputLayout);
 	if (FAILED(hr)) {
 		MessageBox(NULL, "Failed to create input layout", NULL, NULL);
 		return false;
@@ -315,8 +345,8 @@ bool SetupD3D()
 		return false;
 	}
 
-	const D3D11_VIEWPORT viewport = { 0.0f, 0.0f, 1280.0f, 720.0f, 0.0f, 1.0f };
-	curInstance->pContext->RSSetViewports(1, &viewport);
+	const D3D11_VIEWPORT viewport = { 0.0f, 0.0f, 1600.0f, 900.0f, 0.0f, 1.0f };
+	DirectXRenderer::pContext->RSSetViewports(1, &viewport);
 
 	{
 		D3D11_BLEND_DESC desc;
@@ -330,13 +360,13 @@ bool SetupD3D()
 		desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
 		desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
 		desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
-		if (FAILED(curInstance->pDevice->CreateBlendState(&desc, &BlendState))) {
+		if (FAILED(DirectXRenderer::pDevice->CreateBlendState(&desc, &BlendState))) {
 			return false;
 		}
 	}
 
 	const float blend_factor[4] = { 0.f, 0.f, 0.f, 0.f };
-	curInstance->pContext->OMSetBlendState(BlendState, blend_factor, 0xffffffff);
+	DirectXRenderer::pContext->OMSetBlendState(BlendState, blend_factor, 0xffffffff);
 	{
 		D3D11_RASTERIZER_DESC desc;
 		memset(&desc, 0, sizeof(desc));
@@ -344,11 +374,11 @@ bool SetupD3D()
 		desc.CullMode = D3D11_CULL_NONE;
 		desc.ScissorEnable = false;
 		desc.DepthClipEnable = false;
-		if (FAILED(curInstance->pDevice->CreateRasterizerState(&desc, &RasterizerState))) {
+		if (FAILED(DirectXRenderer::pDevice->CreateRasterizerState(&desc, &RasterizerState))) {
 			return false;
 		}
 	}
-	curInstance->pContext->RSSetState(RasterizerState);
+	DirectXRenderer::pContext->RSSetState(RasterizerState);
 
 	{
 		D3D11_DEPTH_STENCIL_DESC desc;
@@ -360,18 +390,18 @@ bool SetupD3D()
 		desc.FrontFace.StencilFailOp = desc.FrontFace.StencilDepthFailOp = desc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
 		desc.FrontFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
 		desc.BackFace = desc.FrontFace;
-		if (FAILED(curInstance->pDevice->CreateDepthStencilState(&desc, &DepthStencilState))) {
+		if (FAILED(DirectXRenderer::pDevice->CreateDepthStencilState(&desc, &DepthStencilState))) {
 			return false;
 		}
 	}
-	curInstance->pContext->OMSetDepthStencilState(DepthStencilState, 0);
+	DirectXRenderer::pContext->OMSetDepthStencilState(DepthStencilState, 0);
 	return true;
 }
 
 void CreateRenderTarget()
 {
 	DXGI_SWAP_CHAIN_DESC sd;
-	curInstance->pSwapChain->GetDesc(&sd);
+	DirectXRenderer::pSwapChain->GetDesc(&sd);
 
 	// Create the render target
 	ID3D11Texture2D* pBackBuffer;
@@ -379,25 +409,23 @@ void CreateRenderTarget()
 	ZeroMemory(&render_target_view_desc, sizeof(render_target_view_desc));
 	render_target_view_desc.Format = sd.BufferDesc.Format;
 	render_target_view_desc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
-	curInstance->pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer);
-	curInstance->pDevice->CreateRenderTargetView(pBackBuffer, &render_target_view_desc, &curInstance->g_mainRenderTargetView);
-	curInstance->pContext->OMSetRenderTargets(1, &curInstance->g_mainRenderTargetView, NULL);
+	DirectXRenderer::pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer);
+	DirectXRenderer::pDevice->CreateRenderTargetView(pBackBuffer, &render_target_view_desc, &DirectXRenderer::g_mainRenderTargetView);
+	DirectXRenderer::pContext->OMSetRenderTargets(1, &DirectXRenderer::g_mainRenderTargetView, NULL);
 	pBackBuffer->Release();
 }
 
 void CleanupRenderTarget()
 {
-	if (curInstance->g_mainRenderTargetView) { curInstance->g_mainRenderTargetView->Release(); curInstance->g_mainRenderTargetView = NULL; }
+	if (DirectXRenderer::g_mainRenderTargetView) { DirectXRenderer::g_mainRenderTargetView->Release(); DirectXRenderer::g_mainRenderTargetView = NULL; }
 }
 
 HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags)
 {
-	curInstance = DirectXRenderer::GetInstance();
-
-	if (curInstance->FirstRender)
+	if (DirectXRenderer::FirstRender)
 	{
-		pSwapChain->GetDevice(__uuidof(curInstance->pDevice), (void**)&curInstance->pDevice);
-		curInstance->pDevice->GetImmediateContext(&curInstance->pContext);
+		pSwapChain->GetDevice(__uuidof(DirectXRenderer::pDevice), (void**)&DirectXRenderer::pDevice);
+		DirectXRenderer::pDevice->GetImmediateContext(&DirectXRenderer::pContext);
 
 		DXGI_SWAP_CHAIN_DESC sd;
 		pSwapChain->GetDesc(&sd);
@@ -409,40 +437,40 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 		render_target_view_desc.Format = sd.BufferDesc.Format;
 		render_target_view_desc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
 		pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer);
-		curInstance->pDevice->CreateRenderTargetView(pBackBuffer, &render_target_view_desc, &curInstance->phookD3D11RenderTargetView);
-		curInstance->pContext->OMSetRenderTargets(1, &curInstance->phookD3D11RenderTargetView, NULL);
+		DirectXRenderer::pDevice->CreateRenderTargetView(pBackBuffer, &render_target_view_desc, &DirectXRenderer::phookD3D11RenderTargetView);
+		DirectXRenderer::pContext->OMSetRenderTargets(1, &DirectXRenderer::phookD3D11RenderTargetView, NULL);
 		pBackBuffer->Release();
 
-		FW1CreateFactory(FW1_VERSION, &curInstance->pFW1Factory);
-		curInstance->pFW1Factory->CreateFontWrapper(curInstance->pDevice, L"Segoe UI", &curInstance->pFontWrapper);
-		curInstance->pFW1Factory->Release();
+		FW1CreateFactory(FW1_VERSION, &DirectXRenderer::pFW1Factory);
+		DirectXRenderer::pFW1Factory->CreateFontWrapper(DirectXRenderer::pDevice, L"Segoe UI", &DirectXRenderer::pFontWrapper);
+		DirectXRenderer::pFW1Factory->Release();
 
-		DirectXDraw::GetInstance()->Initialize();
+		//DirectXDraw::GetInstance()->Initialize();
 
-		ImGui_ImplDX11_Init(curInstance->hWnd, curInstance->pDevice, curInstance->pContext);
+		ImGui_ImplDX11_Init(DirectXRenderer::hWnd, DirectXRenderer::pDevice, DirectXRenderer::pContext);
 		ImGui_ImplDX11_CreateDeviceObjects();
 		
 		if (!SetupD3D())
 			std::cout << "setup cef d3d texture failed" << std::endl;
 
-		DirectXRenderer::GetInstance()->FirstRender = false;
+		DirectXRenderer::FirstRender = false;
 	}
 
 	float fontsize = 24.0f;
 
-	curInstance->pFontWrapper->DrawString(curInstance->pContext, L"Loaded", fontsize, 34.0f, 32.0f, 0xff000000, FW1_RESTORESTATE);
-	curInstance->pFontWrapper->DrawString(curInstance->pContext, L"Loaded", fontsize, 30.0f, 32.0f, 0xff000000, FW1_RESTORESTATE);
+	DirectXRenderer::pFontWrapper->DrawString(DirectXRenderer::pContext, L"Loaded", fontsize, 34.0f, 32.0f, 0xff000000, FW1_RESTORESTATE);
+	DirectXRenderer::pFontWrapper->DrawString(DirectXRenderer::pContext, L"Loaded", fontsize, 30.0f, 32.0f, 0xff000000, FW1_RESTORESTATE);
 
-	curInstance->pFontWrapper->DrawString(curInstance->pContext, L"Loaded", fontsize, 32.0f, 34.0f, 0xff000000, FW1_RESTORESTATE);
-	curInstance->pFontWrapper->DrawString(curInstance->pContext, L"Loaded", fontsize, 32.0f, 30.0f, 0xff000000, FW1_RESTORESTATE);
+	DirectXRenderer::pFontWrapper->DrawString(DirectXRenderer::pContext, L"Loaded", fontsize, 32.0f, 34.0f, 0xff000000, FW1_RESTORESTATE);
+	DirectXRenderer::pFontWrapper->DrawString(DirectXRenderer::pContext, L"Loaded", fontsize, 32.0f, 30.0f, 0xff000000, FW1_RESTORESTATE);
 
-	curInstance->pFontWrapper->DrawString(curInstance->pContext, L"Loaded", fontsize, 34.0f, 34.0f, 0xff000000, FW1_RESTORESTATE);
-	curInstance->pFontWrapper->DrawString(curInstance->pContext, L"Loaded", fontsize, 30.0f, 30.0f, 0xff000000, FW1_RESTORESTATE);
+	DirectXRenderer::pFontWrapper->DrawString(DirectXRenderer::pContext, L"Loaded", fontsize, 34.0f, 34.0f, 0xff000000, FW1_RESTORESTATE);
+	DirectXRenderer::pFontWrapper->DrawString(DirectXRenderer::pContext, L"Loaded", fontsize, 30.0f, 30.0f, 0xff000000, FW1_RESTORESTATE);
 
-	curInstance->pFontWrapper->DrawString(curInstance->pContext, L"Loaded", fontsize, 34.0f, 30.0f, 0xff000000, FW1_RESTORESTATE);
-	curInstance->pFontWrapper->DrawString(curInstance->pContext, L"Loaded", fontsize, 30.0f, 34.0f, 0xff000000, FW1_RESTORESTATE);
+	DirectXRenderer::pFontWrapper->DrawString(DirectXRenderer::pContext, L"Loaded", fontsize, 34.0f, 30.0f, 0xff000000, FW1_RESTORESTATE);
+	DirectXRenderer::pFontWrapper->DrawString(DirectXRenderer::pContext, L"Loaded", fontsize, 30.0f, 34.0f, 0xff000000, FW1_RESTORESTATE);
 
-	curInstance->pFontWrapper->DrawString(curInstance->pContext, L"Loaded", fontsize, 32.0f, 32.0f, 0xffffffff, FW1_RESTORESTATE);
+	DirectXRenderer::pFontWrapper->DrawString(DirectXRenderer::pContext, L"Loaded", fontsize, 32.0f, 32.0f, 0xffffffff, FW1_RESTORESTATE);
 
 	ImGui_ImplDX11_NewFrame();
 
@@ -497,7 +525,7 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 	}
 
 	//DirectXDraw::GetInstance()->BeginScene();
-	///DirectXDraw::GetInstance()->DrawScene();
+	//DirectXDraw::GetInstance()->DrawScene();
 	//DirectXDraw::GetInstance()->EndScene();
 
 	UpdateRenderTexture();
@@ -505,11 +533,12 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 
 	ImGui::Render();
 
-	return DirectXRenderer::GetInstance()->phookD3D11Present(pSwapChain, SyncInterval, Flags);
+	return DirectXRenderer::phookD3D11Present(pSwapChain, SyncInterval, Flags);
 }
 
 void DirectXRenderer::Initialize()
 {
+	std::cout << "reach init" << std::endl;
 	hWnd = FindWindowA(NULL, "Grand Theft Auto V");
 	IDXGISwapChain* pSwapChain;
 

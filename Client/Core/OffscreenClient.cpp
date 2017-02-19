@@ -29,15 +29,13 @@ void OffscreenClient::OnBeforeClose(CefRefPtr<CefBrowser> browser)
 
 void OffscreenClient::OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const RectList& dirtyRects, const void* buffer, int width, int height)
 {
-	std::cout << "hiya!" << std::endl;
+	std::cout << width << height << std::endl;
 
 	// We dont care about popup yet..
 	if (type != PaintElementType::PET_VIEW) {
 		return;
 	}
 
-	std::cout << "hiya2!" << std::endl;
-
-	std::lock_guard<std::mutex> lock(DirectXRenderer::GetInstance()->paintMutex);
-	DirectXRenderer::GetInstance()->drawData.push_back(std::make_unique<DrawData>(width, height, (const unsigned *)buffer, dirtyRects));
+	std::lock_guard<std::mutex> lock(DirectXRenderer::paintMutex);
+	DirectXRenderer::drawData.push_back(std::make_unique<DrawData>(width, height, (const unsigned *)buffer, dirtyRects));
 }

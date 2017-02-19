@@ -27,7 +27,7 @@ public:
 
 	CefRefPtr<CefBrowser> GetBrowser() { return m_browser; }
 
-	virtual bool GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& rect) OVERRIDE { rect.Set(0, 0, 1280, 720);  return true; };
+	virtual bool GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& rect) OVERRIDE { rect.Set(0, 0, 1600, 900);  return true; };
 
 	// private:
 	// The child browser window
@@ -37,23 +37,4 @@ public:
 	IMPLEMENT_REFCOUNTING(OffscreenClient);
 	// Include the default locking implementation.
 	// IMPLEMENT_LOCKING(OffscreenClient);
-};
-
-// for manual render handler
-class BrowserClient : public CefClient
-{
-public:
-	BrowserClient(OffscreenClient *renderHandler)
-		: m_renderHandler(renderHandler)
-	{
-		;
-	}
-
-	virtual CefRefPtr<CefRenderHandler> GetRenderHandler() {
-		return m_renderHandler;
-	}
-
-	CefRefPtr<CefRenderHandler> m_renderHandler;
-
-	IMPLEMENT_REFCOUNTING(BrowserClient);
 };
