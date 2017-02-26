@@ -27,7 +27,7 @@ public:
 
 	CefRefPtr<CefBrowser> GetBrowser() { return m_browser; }
 
-	virtual bool GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& rect) OVERRIDE { rect.Set(0, 0, 1600, 900);  return true; };
+	virtual bool GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& rect) OVERRIDE { rect.Set(0, 0, 1280, 720);  return true; };
 
 	// private:
 	// The child browser window

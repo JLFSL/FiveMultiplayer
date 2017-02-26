@@ -28,7 +28,7 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 		pSwapChain->GetDevice(__uuidof(DirectXRenderer::pDevice), (void**)&DirectXRenderer::pDevice);
 		DirectXRenderer::pDevice->GetImmediateContext(&DirectXRenderer::pContext);
 
-		DXGI_SWAP_CHAIN_DESC sd;
+		/*DXGI_SWAP_CHAIN_DESC sd;
 		pSwapChain->GetDesc(&sd);
 
 		// Create the render target
@@ -40,7 +40,7 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 		pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer);
 		DirectXRenderer::pDevice->CreateRenderTargetView(pBackBuffer, &render_target_view_desc, &DirectXRenderer::phookD3D11RenderTargetView);
 		DirectXRenderer::pContext->OMSetRenderTargets(1, &DirectXRenderer::phookD3D11RenderTargetView, NULL);
-		pBackBuffer->Release();
+		pBackBuffer->Release();*/
 
 		FW1CreateFactory(FW1_VERSION, &DirectXRenderer::pFW1Factory);
 		DirectXRenderer::pFW1Factory->CreateFontWrapper(DirectXRenderer::pDevice, L"Segoe UI", &DirectXRenderer::pFontWrapper);
@@ -158,23 +158,28 @@ void DirectXRenderer::Initialize()
 	DXGI_SWAP_CHAIN_DESC swapChainDesc;
 	ZeroMemory(&swapChainDesc, sizeof(swapChainDesc));
 
-	swapChainDesc.BufferCount = 2;
+	swapChainDesc.BufferCount = 1;
 	swapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-	swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 	swapChainDesc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
 	swapChainDesc.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
-	swapChainDesc.BufferDesc.Width = 0;
-	swapChainDesc.BufferDesc.Height = 0;
-	swapChainDesc.BufferDesc.RefreshRate.Numerator = 60;
-	swapChainDesc.BufferDesc.RefreshRate.Denominator = 1;
+	swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+	
+	//swapChainDesc.BufferDesc.Width = 0;
+	//swapChainDesc.BufferDesc.Height = 0;
+	//swapChainDesc.BufferDesc.RefreshRate.Numerator = 60;
+	//swapChainDesc.BufferDesc.RefreshRate.Denominator = 1;
 
+	swapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 	swapChainDesc.OutputWindow = hWnd;
 	swapChainDesc.SampleDesc.Count = 1;
-	swapChainDesc.Windowed = TRUE;
 	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
+	swapChainDesc.Windowed = TRUE;
 
 	UINT createDeviceFlags = 0;
-	createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
+#ifdef _DEBUG
+	// This flag gives you some quite wonderful debug text. Not wonderful for performance, though!
+	createFlags |= D3D11_CREATE_DEVICE_DEBUG;
+#endif
 
 	if (FAILED(D3D11CreateDeviceAndSwapChain(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, createDeviceFlags, featureLevel, sizeof(featureLevel) / sizeof(D3D_FEATURE_LEVEL), D3D11_SDK_VERSION, &swapChainDesc, &pSwapChain, &pDevice, &obtainedLevel, &pContext)))
 	{

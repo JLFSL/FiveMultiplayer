@@ -61,8 +61,8 @@ bool CefRenderer::Initialize()
 
 		offscreenClient = new OffscreenClient;
 
-		window_info.width = 1600;
-		window_info.height = 900;
+		window_info.width = 1280;
+		window_info.height = 720;
 		window_info.SetAsWindowless(FindWindowA(NULL, "Grand Theft Auto V"), true);
 
 		browserSettings.windowless_frame_rate = 60; // 30 is default
@@ -82,8 +82,5 @@ void CefRenderer::Start()
 
 void CefRenderer::OnTick()
 {
-	while (true)
-	{
-		CefDoMessageLoopWork();
-	}
+	CefRunMessageLoop();
 }

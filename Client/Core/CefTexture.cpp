@@ -118,7 +118,6 @@ bool CefTexture::CreateSampler()
 	desc.MinLOD = 0.f;
 	desc.MaxLOD = 0.f;
 
-
 	if (FAILED(DirectXRenderer::pDevice->CreateSamplerState(&desc, &Sampler))) {
 		MessageBox(NULL, "Failed to create sampler state.", NULL, NULL);
 		return false;
@@ -138,6 +137,7 @@ bool CefTexture::CreateWebViewGeometryBuffer()
 	{ 1.0f, 0.0f, 1.0f, 1.0f },
 	{ 1.0f, 1.0f, 1.0f, 0.0f }
 	};*/
+
 	// fullscreen
 	Vertex2d rect[6] = {
 		{ -1.0f, 1.0f, 0.0f, 0.0f },
@@ -323,18 +323,27 @@ void CefTexture::DrawWebView()
 
 bool CefTexture::SetupD3D()
 {
-	if (!CreateShaders()) 
+	if (!CreateShaders())
+	{
+		std::cout << "failed: CreateShaders" << std::endl;
 		return false;
+	}
 
 	if (!CreateSampler()) 
+	{
+		std::cout << "failed: CreateSampler" << std::endl;
 		return false;
+	}
 
 	if (!CreateWebViewGeometryBuffer()) 
+	{
+		std::cout << "failed: CreateWebViewGeometryBuffer" << std::endl;
 		return false;
+	}
 
 	const D3D11_VIEWPORT viewport = { 
 		0.0f, 0.0f, 
-		1600.0f, 900.0f, 
+		1280.0f, 720.0f, 
 		0.0f, 1.0f 
 	};
 
@@ -342,17 +351,19 @@ bool CefTexture::SetupD3D()
 	{
 		D3D11_BLEND_DESC desc;
 		memset(&desc, 0, sizeof(desc));
-		desc.AlphaToCoverageEnable = false;
 		desc.RenderTarget[0].BlendEnable = true;
-		desc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+		desc.RenderTarget[0].SrcBlend = D3D11_BLEND_ONE;
 		desc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
-		desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
-		desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_INV_SRC_ALPHA;
+		desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD; 
+		desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
 		desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
 		desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
 		desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 		if (FAILED(DirectXRenderer::pDevice->CreateBlendState(&desc, &BlendState)))
+		{
+			std::cout << "failed: CreateBlendState" << std::endl;
 			return false;
+		}
 	}
 
 	const float blend_factor[4] = { 0.f, 0.f, 0.f, 0.f };
@@ -365,7 +376,10 @@ bool CefTexture::SetupD3D()
 		desc.ScissorEnable = false;
 		desc.DepthClipEnable = false;
 		if (FAILED(DirectXRenderer::pDevice->CreateRasterizerState(&desc, &RasterizerState)))
+		{
+			std::cout << "failed: CreateRasterizerState" << std::endl;
 			return false;
+		}
 
 	}
 
@@ -381,7 +395,10 @@ bool CefTexture::SetupD3D()
 		desc.FrontFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
 		desc.BackFace = desc.FrontFace;
 		if (FAILED(DirectXRenderer::pDevice->CreateDepthStencilState(&desc, &DepthStencilState)))
+		{
+			std::cout << "failed: CreateDepthStencilState" << std::endl;
 			return false;
+		}
 	}
 
 	DirectXRenderer::pContext->OMSetDepthStencilState(DepthStencilState, 0);
