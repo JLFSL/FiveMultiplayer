@@ -119,6 +119,7 @@
 			// CEF
 			#include "OffscreenClient.h"
 			#include "CefRenderer.h"
+			#include "CefTexture.h"
 			
 			// ImGui
 			#include "imgui/imgui.h"

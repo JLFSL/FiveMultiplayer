@@ -18,9 +18,9 @@ LRESULT CALLBACK MsgHookRet(int nCode, WPARAM wParam, LPARAM lParam)
 	case WM_SIZE:
 		if (DirectXRenderer::pDevice != NULL && wParam != SIZE_MINIMIZED)
 		{
-			CleanupRenderTarget();
+			CefTexture::CleanupRenderTarget();
 			DirectXRenderer::pSwapChain->ResizeBuffers(0, (UINT)LOWORD(lParam), (UINT)HIWORD(lParam), DXGI_FORMAT_UNKNOWN, 0);
-			CreateRenderTarget();
+			CefTexture::CreateRenderTarget();
 		}
 		break;
 	case WM_SYSCOMMAND:

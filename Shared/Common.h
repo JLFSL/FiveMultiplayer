@@ -47,6 +47,7 @@
 #endif
 
 #define SAFE_DELETE(memory) if(memory) { delete memory; memory = NULL; }
+#define SAFE_RELEASE(comObject) if (comObject) { comObject->Release(); comObject = NULL; }
 
 #ifdef NDEBUG
 #define INFO_BUILD "Release"

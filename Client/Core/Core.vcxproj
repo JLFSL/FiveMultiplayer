@@ -179,6 +179,7 @@
     <ClCompile Include="CConfig.cpp" />
     <ClCompile Include="CCore.cpp" />
     <ClCompile Include="CefRenderer.cpp" />
+    <ClCompile Include="CefTexture.cpp" />
     <ClCompile Include="CNetworkManager.cpp" />
     <ClCompile Include="CObjectEntity.cpp" />
     <ClCompile Include="CPlayerEntity.cpp" />
@@ -243,6 +244,7 @@
     <ClInclude Include="CConfig.h" />
     <ClInclude Include="CCore.h" />
     <ClInclude Include="CefRenderer.h" />
+    <ClInclude Include="CefTexture.h" />
     <ClInclude Include="CNetworkManager.h" />
     <ClInclude Include="CObjectEntity.h" />
     <ClInclude Include="CPlayerEntity.h" />
