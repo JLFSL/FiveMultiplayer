@@ -52,6 +52,9 @@
     <Filter Include="Hooks\SudoMod\Custom">
       <UniqueIdentifier>{8e82fbbc-41f0-47ab-b6ee-1d3c2ca3c7ee}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graphics\UI\CEF\Input">
+      <UniqueIdentifier>{8c3404d8-7d17-4940-912a-4cf9cb68bae8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -182,6 +185,9 @@
     </ClCompile>
     <ClCompile Include="CefTexture.cpp">
       <Filter>Graphics\UI\CEF</Filter>
+    </ClCompile>
+    <ClCompile Include="CefMouseHook.cpp">
+      <Filter>Graphics\UI\CEF\Input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -337,6 +343,9 @@
     </ClInclude>
     <ClInclude Include="CefTexture.h">
       <Filter>Graphics\UI\CEF</Filter>
+    </ClInclude>
+    <ClInclude Include="CefMouseHook.h">
+      <Filter>Graphics\UI\CEF\Input</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

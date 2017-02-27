@@ -120,6 +120,8 @@
 			#include "OffscreenClient.h"
 			#include "CefRenderer.h"
 			#include "CefTexture.h"
+				// Input
+				#include "CefMouseHook.h"
 			
 			// ImGui
 			#include "imgui/imgui.h"
