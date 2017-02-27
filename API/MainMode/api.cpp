@@ -59,7 +59,7 @@ extern "C" DLL_PUBLIC bool API_Initialize(void)
 	if (!reader.parse(stream, root, false))
 	{
 		// report to the user the failure and their locations in the document.
-		std::cout << reader.getFormatedErrorMessages() << std::endl;;
+		std::cout << reader.getFormattedErrorMessages() << std::endl;;
 	}
 	
 	const int objectcount = root["Map"]["Objects"]["MapObject"].size();
