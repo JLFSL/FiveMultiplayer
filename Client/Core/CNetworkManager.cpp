@@ -117,15 +117,26 @@ void CNetworkManager::Disconnect()
 	// Clean the server GUID
 	g_SystemAddr = UNASSIGNED_SYSTEM_ADDRESS;
 
+	// Force streamout all entities
+	g_Core->GetStreamer()->ForceStreamOut();
+
+	// Remove all existing entities
+	for (int i = (g_Entities.size() - 1); i > -1; i--)
+	{
+		g_Entities.erase(g_Entities.begin() + i);
+	}
+	// Shrink vector so size is correct.
+	g_Entities.shrink_to_fit();
+
 	// Remove all existing players
 	for (int i = (g_Players.size() - 1); i > -1; i--) {
-		g_Players[i].Destroy();
+		if(g_Players[i].IsCreated())
+			g_Players[i].Destroy();
 		g_Players.erase(g_Players.begin() + i);
 	}
 	// Shrink vector so size is correct.
 	g_Players.shrink_to_fit();
-	std::cout << "[CPlayerEntity] Players Online: " << g_Players.size() << std::endl;
-
+	
 	// Remove all existing vehicles
 	for (int i = (g_Vehicles.size() - 1); i > -1; i--)
 	{
@@ -134,7 +145,6 @@ void CNetworkManager::Disconnect()
 	}
 	// Shrink vector so size is correct.
 	g_Vehicles.shrink_to_fit();
-	std::cout << "[CVehicleEntity] Vehicles: " << g_Vehicles.size() << std::endl;
 
 	// Remove all existing objects
 	for (int i = (g_Objects.size() - 1); i > -1; i--)
@@ -144,8 +154,7 @@ void CNetworkManager::Disconnect()
 	}
 	// Shrink vector so size is correct.
 	g_Objects.shrink_to_fit();
-	std::cout << "[CObjectEntity] Objects: " << g_Objects.size() << std::endl;
-
+	
 	Logger::Msg("CNetworkManager::Disconnected");
 }
 
@@ -274,24 +283,25 @@ void CNetworkManager::Pulse()
 				RakNetGUID tempGUID;
 				g_BitStream.Read(tempGUID);
 
-				bool exist = false;
-
+				bool exists = false;
 				if (!g_Players.empty()) {
 					for (int i = 0; i < g_Players.size(); i++) {
 						if (std::strcmp(g_Players[i].GetGUID().ToString(), tempGUID.ToString()) == 0) {
 							g_Players[i].Update(g_Packet);
-							exist = true;
-							i = (int)g_Players.size();
+							exists = true;
 						}
 					}
 				}
-				if (!exist) {
+				if (!exists) {
 					int entityId;
 					g_BitStream.Read(entityId);
+
+					const int index = g_Players.size();
 
 					CPlayerEntity newPlayer;
 					newPlayer.Create("User", tempGUID, entityId);
 					g_Players.push_back(newPlayer);
+					g_Players[index].Update(g_Packet);
 
 					std::cout << "[CPlayerEntity] Players Online: " << g_Players.size() << std::endl;
 				}
@@ -302,8 +312,7 @@ void CNetworkManager::Pulse()
 				int t_Id;
 				g_BitStream.Read(t_Id);
 
-				bool t_Existing = false;
-
+				bool exists = false;
 				if (!g_Vehicles.empty())
 				{
 					for (int i = 0; i < g_Vehicles.size(); i++)
@@ -311,16 +320,19 @@ void CNetworkManager::Pulse()
 						if (g_Vehicles[i].GetId() == t_Id)
 						{
 							g_Vehicles[i].Update(g_Packet);
-							t_Existing = true;
-							i = (int)g_Vehicles.size();
+							exists = true;
+							break;
 						}
 					}
 				}
-				if (!t_Existing)
+				if (!exists)
 				{
+					const int index = g_Vehicles.size();
+
 					CVehicleEntity newVehicle;
 					newVehicle.Create(t_Id);
 					g_Vehicles.push_back(newVehicle);
+					g_Vehicles[index].Update(g_Packet);
 
 					std::cout << "[CPlayerEntity] Vehicle Count: " << g_Vehicles.size() << std::endl;
 				}

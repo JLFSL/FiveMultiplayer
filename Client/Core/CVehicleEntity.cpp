@@ -3,8 +3,11 @@
 CVehicleEntity::CVehicleEntity()
 {
 	Game.Created = false; 
-	Game.Vehicle = NULL; 
-	Network.Assigned = RakNetGUID(12345);
+	Game.Vehicle = NULL;
+
+	Information.Id = -1;
+
+	Network.Assigned = UNASSIGNED_RAKNET_GUID;
 	
 	for (int i = 0; i < SizeOfArray(Occupants); i++) 
 	{ 
@@ -17,58 +20,66 @@ void CVehicleEntity::Create(int entity)
 	Information.Id	= entity;
 
 	CServerEntity newServerEntity;
-	newServerEntity.SetId(entity);
-	newServerEntity.SetType(newServerEntity.Vehicle);
-	newServerEntity.SetEntity(this);
+	newServerEntity.Create(entity, CServerEntity::Vehicle);
 	g_Entities.push_back(newServerEntity);
 
 	std::cout << "[CVehicleEntity] Added Vehicle: " << Information.Id << std::endl;
 }
 
-void CVehicleEntity::CreateVehicle()
+bool CVehicleEntity::CreateVehicle()
 {
-	STREAMING::SET_VEHICLE_POPULATION_BUDGET(3000);
-
-	Hash model = GAMEPLAY::GET_HASH_KEY((char*)Data.Model.c_str());
-	if (!STREAMING::IS_MODEL_IN_CDIMAGE(model) || !STREAMING::IS_MODEL_VALID(model))
-		model = GAMEPLAY::GET_HASH_KEY("dilettante");
-
-	STREAMING::REQUEST_COLLISION_AT_COORD(Data.Position.fX, Data.Position.fY, Data.Position.fZ);
-	STREAMING::REQUEST_MODEL(model);
-	while (!STREAMING::HAS_MODEL_LOADED(model))
-		WAIT(0);
-
-	Game.Vehicle = VEHICLE::CREATE_VEHICLE(model, Data.Position.fX, Data.Position.fY, Data.Position.fZ, Data.Heading, FALSE, TRUE);
-	STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(model);
-
-	ENTITY::FREEZE_ENTITY_POSITION(Game.Vehicle, TRUE);
-	ENTITY::SET_ENTITY_COORDS_NO_OFFSET(Game.Vehicle, Data.Position.fX, Data.Position.fY, Data.Position.fZ, FALSE, FALSE, FALSE);
-	
-	ENTITY::SET_ENTITY_LOAD_COLLISION_FLAG(Game.Vehicle, TRUE);
-	ENTITY::SET_ENTITY_COLLISION(Game.Vehicle, TRUE, FALSE);
-	ENTITY::SET_ENTITY_QUATERNION(Game.Vehicle, Data.Quaternion.fX, Data.Quaternion.fY, Data.Quaternion.fZ, Data.Quaternion.fW);
-
-	VEHICLE::SET_VEHICLE_MOD_KIT(Game.Vehicle, 0);
-	//VEHICLE::SET_VEHICLE_COLOURS(Game.Vehicle, color1, color2);
-	VEHICLE::SET_TAXI_LIGHTS(Game.Vehicle, TRUE);
-	VEHICLE::SET_VEHICLE_NUMBER_PLATE_TEXT(Game.Vehicle, "FiveMP");
-
-	const int Class = VEHICLE::GET_VEHICLE_CLASS(Game.Vehicle);
-	if (Class == 18 || Class == 17 || Class == 15 || Class == 16 || Class == 20 || Class == 14)
+	if (!Game.Created)
 	{
-		VEHICLE::SET_VEHICLE_MOD(Game.Vehicle, 48, 0, 0);
-		VEHICLE::SET_VEHICLE_LIVERY(Game.Vehicle, 0);
+		STREAMING::SET_VEHICLE_POPULATION_BUDGET(3000);
+
+		Hash model = GAMEPLAY::GET_HASH_KEY((char*)Data.Model.c_str());
+		if (!STREAMING::IS_MODEL_IN_CDIMAGE(model) || !STREAMING::IS_MODEL_VALID(model))
+		{
+			std::cout << "[CVehicleEntity::CreateVehicle] invalid vehicle for " << Information.Id << " reverting to dilettante." << std::endl;
+			model = GAMEPLAY::GET_HASH_KEY("dilettante");
+		}
+
+		STREAMING::REQUEST_MODEL(model);
+		while (!STREAMING::HAS_MODEL_LOADED(model))
+			WAIT(0);
+
+		Game.Vehicle = VEHICLE::CREATE_VEHICLE(model, Data.Position.fX, Data.Position.fY, Data.Position.fZ, Data.Heading, FALSE, TRUE);
+		STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(model);
+
+		ENTITY::FREEZE_ENTITY_POSITION(Game.Vehicle, TRUE);
+		STREAMING::REQUEST_COLLISION_AT_COORD(Data.Position.fX, Data.Position.fY, Data.Position.fZ);
+		ENTITY::SET_ENTITY_COORDS_NO_OFFSET(Game.Vehicle, Data.Position.fX, Data.Position.fY, Data.Position.fZ, FALSE, FALSE, FALSE);
+
+		ENTITY::SET_ENTITY_LOAD_COLLISION_FLAG(Game.Vehicle, TRUE);
+		ENTITY::SET_ENTITY_COLLISION(Game.Vehicle, TRUE, FALSE);
+		ENTITY::SET_ENTITY_QUATERNION(Game.Vehicle, Data.Quaternion.fX, Data.Quaternion.fY, Data.Quaternion.fZ, Data.Quaternion.fW);
+
+		VEHICLE::SET_VEHICLE_MOD_KIT(Game.Vehicle, 0);
+		//VEHICLE::SET_VEHICLE_COLOURS(Game.Vehicle, color1, color2);
+		VEHICLE::SET_TAXI_LIGHTS(Game.Vehicle, TRUE);
+		VEHICLE::SET_VEHICLE_NUMBER_PLATE_TEXT(Game.Vehicle, "FiveMP");
+
+		const int Class = VEHICLE::GET_VEHICLE_CLASS(Game.Vehicle);
+		if (Class == 18 || Class == 17 || Class == 15 || Class == 16 || Class == 20 || Class == 14)
+		{
+			VEHICLE::SET_VEHICLE_MOD(Game.Vehicle, 48, 0, 0);
+			VEHICLE::SET_VEHICLE_LIVERY(Game.Vehicle, 0);
+		}
+
+		DECORATOR::DECOR_REGISTER("FiveMP_Vehicle", 2);
+		DECORATOR::DECOR_SET_BOOL(Game.Vehicle, "FiveMP_Vehicle", TRUE);
+
+		ENTITY::FREEZE_ENTITY_POSITION(Game.Vehicle, FALSE);
+		ENTITY::SET_ENTITY_DYNAMIC(Game.Vehicle, TRUE);
+		std::cout << "[CVehicleEntity] Created Vehicle" << std::endl;
+		Game.Created = true;
+
+		RequestData();
+		return true;
 	}
 
-	DECORATOR::DECOR_REGISTER("FiveMP_Vehicle", 2);
-	DECORATOR::DECOR_SET_BOOL(Game.Vehicle, "FiveMP_Vehicle", TRUE);
-
-	ENTITY::FREEZE_ENTITY_POSITION(Game.Vehicle, FALSE);
-	ENTITY::SET_ENTITY_DYNAMIC(Game.Vehicle, TRUE);
-	std::cout << "[CVehicleEntity] Created Vehicle" << std::endl;
-	Game.Created = true;
-
-	RequestData();
+	std::cout << "[CVehicleEntity] Vehicle already created" << std::endl;
+	return false;
 }
 
 // Gets the data thats only needed once thats not synced constantly
@@ -81,8 +92,6 @@ void CVehicleEntity::RequestData()
 
 void CVehicleEntity::Destroy()
 {
-	std::cout << "[CVehicleEntity] Removing Vehicle: " << Information.Id << std::endl;
-
 	if (Game.Vehicle)
 		VEHICLE::DELETE_VEHICLE(&Game.Vehicle);
 
@@ -262,11 +271,7 @@ void CVehicleEntity::Update(Packet * packet)
 	{
 		bitstream.Read(Occupants[i]);
 	}
-
 	
-	if (!Game.Created)
-		CreateVehicle();
-	//std::cout << GamePed::GetVehicleID(g_Core->GetLocalPlayer()->GetPed()) << std::endl;
 	if (g_Core->GetLocalPlayer()->GetVehicleId() != Information.Id) {
 		UpdateTargetPosition();
 		SetTargetData();
@@ -357,89 +362,99 @@ void CVehicleEntity::SetTargetPosition()
 
 void CVehicleEntity::UpdateTargetRotation()
 {
-	unsigned int interpolationtime = timeGetTime() - Network.LastSyncReceived;
-	unsigned long CurrentTime = timeGetTime();
+	if (Game.Created)
+	{
+		unsigned int interpolationtime = timeGetTime() - Network.LastSyncReceived;
+		unsigned long CurrentTime = timeGetTime();
 
-	// Get our quaternion
-	CVector4 CurrentQuaternion;
-	ENTITY::GET_ENTITY_QUATERNION(Game.Vehicle, &CurrentQuaternion.fX, &CurrentQuaternion.fY, &CurrentQuaternion.fZ, &CurrentQuaternion.fW);
+		// Get our quaternion
+		CVector4 CurrentQuaternion;
+		ENTITY::GET_ENTITY_QUATERNION(Game.Vehicle, &CurrentQuaternion.fX, &CurrentQuaternion.fY, &CurrentQuaternion.fZ, &CurrentQuaternion.fW);
 
-	// Get our rotation
-	CVector3 CurrentRotation = CVector3::calculateEuler(CurrentQuaternion.fX, CurrentQuaternion.fY, CurrentQuaternion.fZ, CurrentQuaternion.fW);
+		// Get our rotation
+		CVector3 CurrentRotation = CVector3::calculateEuler(CurrentQuaternion.fX, CurrentQuaternion.fY, CurrentQuaternion.fZ, CurrentQuaternion.fW);
 
-	// Set the target rotation from target quaternion
-	CVector3 TargetQuaternion = CVector3::calculateEuler(Data.Quaternion.fX, Data.Quaternion.fY, Data.Quaternion.fZ, Data.Quaternion.fW);
-	CVector3 TargetRotation = { TargetQuaternion.fX, TargetQuaternion.fY, TargetQuaternion.fZ };
-	InterpolationData.Rotation.Target = TargetRotation;
+		// Set the target rotation from target quaternion
+		CVector3 TargetQuaternion = CVector3::calculateEuler(Data.Quaternion.fX, Data.Quaternion.fY, Data.Quaternion.fZ, Data.Quaternion.fW);
+		CVector3 TargetRotation = { TargetQuaternion.fX, TargetQuaternion.fY, TargetQuaternion.fZ };
+		InterpolationData.Rotation.Target = TargetRotation;
 
-	// Get the error
-	//InterpolationData.Rotation.Error = Math::GetOffsetDegrees(vecLocalRotation, vecRotation);
-	InterpolationData.Rotation.Error = TargetRotation - CurrentRotation;
-	InterpolationData.Rotation.Error *= Math::Lerp < const float >(0.40f, Math::UnlerpClamped(100, interpolationtime, 400), 1.0f);
+		// Get the error
+		//InterpolationData.Rotation.Error = Math::GetOffsetDegrees(vecLocalRotation, vecRotation);
+		InterpolationData.Rotation.Error = TargetRotation - CurrentRotation;
+		InterpolationData.Rotation.Error *= Math::Lerp < const float >(0.40f, Math::UnlerpClamped(100, interpolationtime, 400), 1.0f);
 
-	// Get the interpolation interval
-	InterpolationData.Rotation.StartTime = CurrentTime;
-	InterpolationData.Rotation.FinishTime = (CurrentTime + interpolationtime);
+		// Get the interpolation interval
+		InterpolationData.Rotation.StartTime = CurrentTime;
+		InterpolationData.Rotation.FinishTime = (CurrentTime + interpolationtime);
 
-	// Initialize the interpolation
-	InterpolationData.Rotation.LastAlpha = 0.0f;
+		// Initialize the interpolation
+		InterpolationData.Rotation.LastAlpha = 0.0f;
+	}
 }
 
 void CVehicleEntity::SetTargetRotation()
 {
-	if (InterpolationData.Rotation.FinishTime != 0) {
+	if (Game.Created)
+	{
+		if (InterpolationData.Rotation.FinishTime != 0)
+		{
 
-		// Get our rotation
-		CVector4 vecCurrentQuaternion;
-		ENTITY::GET_ENTITY_QUATERNION(Game.Vehicle, &vecCurrentQuaternion.fX, &vecCurrentQuaternion.fY, &vecCurrentQuaternion.fZ, &vecCurrentQuaternion.fW);
-		CVector3 vecCurrentRotation = CVector3::calculateEuler(vecCurrentQuaternion.fX, vecCurrentQuaternion.fY, vecCurrentQuaternion.fZ, vecCurrentQuaternion.fW);
+			// Get our rotation
+			CVector4 vecCurrentQuaternion;
+			ENTITY::GET_ENTITY_QUATERNION(Game.Vehicle, &vecCurrentQuaternion.fX, &vecCurrentQuaternion.fY, &vecCurrentQuaternion.fZ, &vecCurrentQuaternion.fW);
+			CVector3 vecCurrentRotation = CVector3::calculateEuler(vecCurrentQuaternion.fX, vecCurrentQuaternion.fY, vecCurrentQuaternion.fZ, vecCurrentQuaternion.fW);
 
-		// Get the factor of time spent from the interpolation start to the current time.
-		unsigned long CurrentTime = timeGetTime();
-		float fAlpha = Math::Unlerp(InterpolationData.Rotation.StartTime, CurrentTime, InterpolationData.Rotation.FinishTime);
+			// Get the factor of time spent from the interpolation start to the current time.
+			unsigned long CurrentTime = timeGetTime();
+			float fAlpha = Math::Unlerp(InterpolationData.Rotation.StartTime, CurrentTime, InterpolationData.Rotation.FinishTime);
 
-		// Don't let it overcompensate the error
-		fAlpha = Math::Clamp(0.0f, fAlpha, 1.0f);
+			// Don't let it overcompensate the error
+			fAlpha = Math::Clamp(0.0f, fAlpha, 1.0f);
 
-		// Get the current error portion to compensate
-		float fCurrentAlpha = (fAlpha - InterpolationData.Rotation.LastAlpha);
-		InterpolationData.Rotation.LastAlpha = fAlpha;
+			// Get the current error portion to compensate
+			float fCurrentAlpha = (fAlpha - InterpolationData.Rotation.LastAlpha);
+			InterpolationData.Rotation.LastAlpha = fAlpha;
 
-		// Apply the error compensation
-		CVector3 vecCompensation = Math::Lerp(CVector3(), fCurrentAlpha, InterpolationData.Rotation.Error);
+			// Apply the error compensation
+			CVector3 vecCompensation = Math::Lerp(CVector3(), fCurrentAlpha, InterpolationData.Rotation.Error);
 
-		// If we finished compensating the error, finish it for the next pulse
-		if (fAlpha == 1.0f)
-			InterpolationData.Rotation.FinishTime = 0;
+			// If we finished compensating the error, finish it for the next pulse
+			if (fAlpha == 1.0f)
+				InterpolationData.Rotation.FinishTime = 0;
 
-		// Calculate the new position
-		CVector3 vecNewRotation = vecCurrentRotation + vecCompensation;
-		CVector4 vecNewQuaternion = CVector4::calculateQuaternion(vecNewRotation.fX, vecNewRotation.fY, vecNewRotation.fZ);
+			// Calculate the new position
+			CVector3 vecNewRotation = vecCurrentRotation + vecCompensation;
+			CVector4 vecNewQuaternion = CVector4::calculateQuaternion(vecNewRotation.fX, vecNewRotation.fY, vecNewRotation.fZ);
 
-		// Set our new position
-		ENTITY::SET_ENTITY_QUATERNION(Game.Vehicle, vecNewQuaternion.fX, vecNewQuaternion.fY, vecNewQuaternion.fZ, vecNewQuaternion.fW);
+			// Set our new position
+			ENTITY::SET_ENTITY_QUATERNION(Game.Vehicle, vecNewQuaternion.fX, vecNewQuaternion.fY, vecNewQuaternion.fZ, vecNewQuaternion.fW);
+		}
 	}
 }
 
 void CVehicleEntity::SetTargetData()
 {
-	if (VEHICLE::GET_IS_VEHICLE_ENGINE_RUNNING(Game.Vehicle) != Data.EngineState)
+	if (Game.Created)
 	{
-		VEHICLE::SET_VEHICLE_ENGINE_ON(Game.Vehicle, Data.EngineState, false, true);
-		//VEHICLE::SET_VEHICLE_UNDRIVEABLE(Game.Vehicle, !Data.EngineState);
+		if (VEHICLE::GET_IS_VEHICLE_ENGINE_RUNNING(Game.Vehicle) != Data.EngineState)
+		{
+			VEHICLE::SET_VEHICLE_ENGINE_ON(Game.Vehicle, Data.EngineState, false, true);
+			//VEHICLE::SET_VEHICLE_UNDRIVEABLE(Game.Vehicle, !Data.EngineState);
+		}
+
+		vdata.SetCurrentGear(Game.Vehicle, Data.Gear);
+		vdata.SetCurrentRPM(Game.Vehicle, Data.RPM);
+
+		vdata.SetClutch(Game.Vehicle, Data.Clutch);
+		vdata.SetTurbo(Game.Vehicle, Data.Turbo);
+		vdata.SetAcceleration(Game.Vehicle, Data.Acceleration);
+		vdata.SetBrake(Game.Vehicle, Data.Brake);
+
+		vdata.SetWheelSpeed(Game.Vehicle, Data.WheelSpeed);
+		vdata.SetSteeringAngle(Game.Vehicle, Data.SteeringAngle);
+		vdata.SetForwardWheelAngle(Game.Vehicle, Data.ForwardWheelAngle);
 	}
-
-	vdata.SetCurrentGear(Game.Vehicle, Data.Gear);
-	vdata.SetCurrentRPM(Game.Vehicle, Data.RPM);
-
-	vdata.SetClutch(Game.Vehicle, Data.Clutch);
-	vdata.SetTurbo(Game.Vehicle, Data.Turbo);
-	vdata.SetAcceleration(Game.Vehicle, Data.Acceleration);
-	vdata.SetBrake(Game.Vehicle, Data.Brake);
-
-	vdata.SetWheelSpeed(Game.Vehicle, Data.WheelSpeed);
-	vdata.SetSteeringAngle(Game.Vehicle, Data.SteeringAngle);
-	vdata.SetForwardWheelAngle(Game.Vehicle, Data.ForwardWheelAngle);
 }
 
 

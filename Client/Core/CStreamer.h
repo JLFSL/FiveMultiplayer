@@ -21,10 +21,13 @@ private:
 
 public:
 	CStreamer();
-	~CStreamer();
+	~CStreamer() {}
 
 	static void Start();
 	void Pulse();
+	void StreamIn(CVector3 position);
+	void StreamOut(CVector3 position);
+	void ForceStreamOut();
 
 	int GetPlayerCount() { return PlayerCount; }
 	int GetVehicleCount() { return VehicleCount; }

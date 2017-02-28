@@ -30,13 +30,19 @@ void CRPCEntity::SetPosition(RakNet::BitStream *bitStream, RakNet::Packet *packe
 	{
 		for (int i = 0; i < g_Entities.size(); i++)
 		{
-			if(entity == g_Entities[i].GetId())
+			if (entity == g_Entities[i].GetId())
 				return g_Entities[i].SetPosition(position);
 		}
 	}
 	else
 	{
+		// Load location
 		STREAMING::LOAD_SCENE(position.fX, position.fY, position.fZ);
+		// Force everything to stream out
+		g_Core->GetStreamer()->ForceStreamOut();
+		// Stream in everything at the position
+		g_Core->GetStreamer()->StreamIn(position);
+		// Send player to the position
 		ENTITY::SET_ENTITY_COORDS(g_Core->GetLocalPlayer()->GetPed(), position.fX, position.fY, position.fZ, false, false, false, false);
 	}
 }

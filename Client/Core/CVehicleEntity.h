@@ -76,7 +76,7 @@ public:
 	~CVehicleEntity() { };
 
 	void Create(int entity);
-	void CreateVehicle();
+	bool CreateVehicle();
 	void RequestData();
 	void Destroy();
 	void Delete();

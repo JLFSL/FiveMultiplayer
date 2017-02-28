@@ -492,8 +492,8 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 		{
 			if (g_Core->GetNetworkManager()->GetInterface()->IsActive())
 			{
-				ImGui::SetNextWindowPos(ImVec2(screenWidth - (600 * windowScale), screenHeight - (80 * windowScale) - 10));
-				ImGui::SetNextWindowSize(ImVec2((600 * windowScale), (80 * windowScale)));
+				ImGui::SetNextWindowPos(ImVec2(screenWidth - (700 * windowScale), screenHeight - (80 * windowScale) - 10));
+				ImGui::SetNextWindowSize(ImVec2((700 * windowScale), (80 * windowScale)));
 				ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
 				ImGui::Begin("FiveMultiplayer_Debug", NULL, ImVec2(0, 0), 0.5f, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings);
 				{

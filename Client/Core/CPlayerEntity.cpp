@@ -1,11 +1,14 @@
 #include "stdafx.h"
 
-void CPlayerEntity::Create(std::string Name, RakNetGUID GUID, int entity) {
-	CServerEntity newServerEntity;
-	newServerEntity.SetId(entity);
-	newServerEntity.SetType(newServerEntity.Player);
-	newServerEntity.SetEntity(this);
+CPlayerEntity::CPlayerEntity() {
+	Game.Created = false; 
+	Game.Ped = NULL; 
+	Game.Blip = NULL;
 
+	Information.Id = -1;
+}
+
+void CPlayerEntity::Create(std::string Name, RakNetGUID GUID, int entity) {
 	Game.Ped = 0;
 	Game.Blip = 0;
 
@@ -16,49 +19,58 @@ void CPlayerEntity::Create(std::string Name, RakNetGUID GUID, int entity) {
 	Data.Vehicle.VehicleID = -1;
 	Data.Vehicle.Seat = -1;
 
+	CServerEntity newServerEntity;
+	newServerEntity.Create(entity, CServerEntity::Player);
 	g_Entities.push_back(newServerEntity);
+
 	std::cout << "[CPlayerEntity] Added Player: " << Information.Name << std::endl;
 }
 
-void CPlayerEntity::CreatePed()
+bool CPlayerEntity::CreatePed()
 {
-	Data.Model.hModel = GAMEPLAY::GET_HASH_KEY((char*)Data.Model.Model.c_str());
-	if (STREAMING::IS_MODEL_IN_CDIMAGE(Data.Model.hModel) && STREAMING::IS_MODEL_VALID(Data.Model.hModel))
+	if (!Game.Created)
 	{
-		STREAMING::REQUEST_MODEL(Data.Model.hModel);
-		while (!STREAMING::HAS_MODEL_LOADED(Data.Model.hModel)) WAIT(0);
-		Game.Ped = PED::CREATE_PED(Data.Model.Type, Data.Model.hModel, Data.Position.fX, Data.Position.fY, Data.Position.fZ, 0.0f, false, true);
+		Data.Model.hModel = GAMEPLAY::GET_HASH_KEY((char*)Data.Model.Model.c_str());
+		if (STREAMING::IS_MODEL_IN_CDIMAGE(Data.Model.hModel) && STREAMING::IS_MODEL_VALID(Data.Model.hModel))
+		{
+			STREAMING::REQUEST_MODEL(Data.Model.hModel);
+			while (!STREAMING::HAS_MODEL_LOADED(Data.Model.hModel)) WAIT(0);
+			Game.Ped = PED::CREATE_PED(Data.Model.Type, Data.Model.hModel, Data.Position.fX, Data.Position.fY, Data.Position.fZ, 0.0f, false, true);
 
-		STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(Data.Model.hModel);
+			STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(Data.Model.hModel);
 
-		ENTITY::SET_ENTITY_NO_COLLISION_ENTITY(g_Core->GetLocalPlayer()->GetPed(), Game.Ped, false);
-		ENTITY::SET_ENTITY_NO_COLLISION_ENTITY(Game.Ped, g_Core->GetLocalPlayer()->GetPed(), false);
+			ENTITY::SET_ENTITY_NO_COLLISION_ENTITY(g_Core->GetLocalPlayer()->GetPed(), Game.Ped, false);
+			ENTITY::SET_ENTITY_NO_COLLISION_ENTITY(Game.Ped, g_Core->GetLocalPlayer()->GetPed(), false);
 
-		ENTITY::SET_ENTITY_COORDS_NO_OFFSET(Game.Ped, Data.Position.fX, Data.Position.fY, Data.Position.fZ, false, false, false);
+			ENTITY::SET_ENTITY_COORDS_NO_OFFSET(Game.Ped, Data.Position.fX, Data.Position.fY, Data.Position.fZ, false, false, false);
 
-		PED::SET_BLOCKING_OF_NON_TEMPORARY_EVENTS(Game.Ped, true);
-		PED::SET_PED_FLEE_ATTRIBUTES(Game.Ped, 0, 0);
-		PED::SET_PED_COMBAT_ATTRIBUTES(Game.Ped, 17, true);
-		PED::SET_PED_CAN_RAGDOLL(Game.Ped, false);
-		PED::UNREGISTER_PEDHEADSHOT(Game.Ped);
+			PED::SET_BLOCKING_OF_NON_TEMPORARY_EVENTS(Game.Ped, true);
+			PED::SET_PED_FLEE_ATTRIBUTES(Game.Ped, 0, 0);
+			PED::SET_PED_COMBAT_ATTRIBUTES(Game.Ped, 17, true);
+			PED::SET_PED_CAN_RAGDOLL(Game.Ped, false);
+			PED::UNREGISTER_PEDHEADSHOT(Game.Ped);
 
-		WEAPON::SET_PED_DROPS_WEAPONS_WHEN_DEAD(Game.Ped, false);
+			WEAPON::SET_PED_DROPS_WEAPONS_WHEN_DEAD(Game.Ped, false);
 
-		AI::TASK_SET_BLOCKING_OF_NON_TEMPORARY_EVENTS(Game.Ped, true);
+			AI::TASK_SET_BLOCKING_OF_NON_TEMPORARY_EVENTS(Game.Ped, true);
 
-		Hash relationshipGroup;
-		PED::ADD_RELATIONSHIP_GROUP("FIVEMPPLAYER", &relationshipGroup);
-		PED::SET_PED_RELATIONSHIP_GROUP_HASH(Game.Ped, relationshipGroup);
+			Hash relationshipGroup;
+			PED::ADD_RELATIONSHIP_GROUP("FIVEMPPLAYER", &relationshipGroup);
+			PED::SET_PED_RELATIONSHIP_GROUP_HASH(Game.Ped, relationshipGroup);
 
-		Game.Blip = UI::ADD_BLIP_FOR_ENTITY(Game.Ped);
-		UI::SET_BLIP_AS_FRIENDLY(Game.Blip, true);
+			Game.Blip = UI::ADD_BLIP_FOR_ENTITY(Game.Ped);
+			UI::SET_BLIP_AS_FRIENDLY(Game.Blip, true);
 
-		Game.Created = true;
-		RequestData();
-		std::cout << "[CPlayerEntity] Created Ped" << std::endl;
-		return;
+			Game.Created = true;
+			RequestData();
+			std::cout << "[CPlayerEntity] Created Ped" << std::endl;
+			return true;
+		}
+		std::cout << "[CPlayerEntity] Tried to create " << Information.Id << ", but model does not exist!" << std::endl;
+		return false;
 	}
-	std::cout << "[CPlayerEntity] Tried to create " << Information.Id << ", but model does not exist!" << std::endl;
+	std::cout << "[CPlayerEntity] Ped" << Information.Id << " already created." << std::endl;
+	return false;
 }
 
 
@@ -154,9 +166,6 @@ void CPlayerEntity::Update(Packet *packet)
 	bitstream.Read(Data.Vehicle.Seat);
 
 	if (g_Core->GetNetworkManager()->GetInterface()->GetMyGUID() != Network.GUID) {
-		if (!Game.Created)
-			CreatePed();
-
 		if (Data.Model.hModel != GAMEPLAY::GET_HASH_KEY((char*)Data.Model.Model.c_str()))
 			UpdatePlayerModel();
 
@@ -398,43 +407,46 @@ void CPlayerEntity::UpdateTargetAnimations()
 
 void CPlayerEntity::UpdateTargetData()
 {
-	if (WEAPON::GET_SELECTED_PED_WEAPON(Game.Ped) != Data.Weapon.Weapon)
+	if (Game.Created)
 	{
-		WEAPON::REMOVE_ALL_PED_WEAPONS(Game.Ped, true);
-		WEAPON::GIVE_WEAPON_TO_PED(Game.Ped, Data.Weapon.Weapon, 999, true, true);
-	}
-
-	unsigned long CurrentTime;
-	if (Data.Weapon.Reload && CurrentTime >= Data.Weapon.LastReload + 2000)
-	{
-		WEAPON::MAKE_PED_RELOAD(Game.Ped);
-
-		Data.Weapon.LastReload = CurrentTime;
-		Data.Weapon.Reload = false;
-	}
-
-	if (PED::IS_PED_DEAD_OR_DYING(Game.Ped, TRUE) && ENTITY::GET_ENTITY_HEALTH(Game.Ped) > 0)
-	{
-		PED::RESURRECT_PED(Game.Ped);
-		PED::CLEAR_PED_BLOOD_DAMAGE(Game.Ped);
-		AI::CLEAR_PED_TASKS_IMMEDIATELY(Game.Ped);
-	}
-
-	if (Data.Vehicle.VehicleID > -1 && !GamePed::GetVehicle(Game.Ped))
-	{
-		AI::CLEAR_PED_TASKS_IMMEDIATELY(Game.Ped);
-		for (int v = 0; v < g_Vehicles.size(); v++)
+		if (WEAPON::GET_SELECTED_PED_WEAPON(Game.Ped) != Data.Weapon.Weapon)
 		{
-			if (g_Vehicles[v].GetId() == Data.Vehicle.VehicleID)
+			WEAPON::REMOVE_ALL_PED_WEAPONS(Game.Ped, true);
+			WEAPON::GIVE_WEAPON_TO_PED(Game.Ped, Data.Weapon.Weapon, 999, true, true);
+		}
+
+		unsigned long CurrentTime;
+		if (Data.Weapon.Reload && CurrentTime >= Data.Weapon.LastReload + 2000)
+		{
+			WEAPON::MAKE_PED_RELOAD(Game.Ped);
+
+			Data.Weapon.LastReload = CurrentTime;
+			Data.Weapon.Reload = false;
+		}
+
+		if (PED::IS_PED_DEAD_OR_DYING(Game.Ped, TRUE) && ENTITY::GET_ENTITY_HEALTH(Game.Ped) > 0)
+		{
+			PED::RESURRECT_PED(Game.Ped);
+			PED::CLEAR_PED_BLOOD_DAMAGE(Game.Ped);
+			AI::CLEAR_PED_TASKS_IMMEDIATELY(Game.Ped);
+		}
+
+		if (Data.Vehicle.VehicleID > -1 && !GamePed::GetVehicle(Game.Ped))
+		{
+			AI::CLEAR_PED_TASKS_IMMEDIATELY(Game.Ped);
+			for (int v = 0; v < g_Vehicles.size(); v++)
 			{
-				PED::SET_PED_INTO_VEHICLE(Game.Ped, g_Vehicles[v].GetEntity(), Data.Vehicle.Seat - 1);
-				break;
+				if (g_Vehicles[v].GetId() == Data.Vehicle.VehicleID)
+				{
+					PED::SET_PED_INTO_VEHICLE(Game.Ped, g_Vehicles[v].GetEntity(), Data.Vehicle.Seat - 1);
+					break;
+				}
 			}
 		}
-	}
-	else if (GamePed::GetVehicle(Game.Ped) && Data.Vehicle.VehicleID == -1)
-	{
-		AI::TASK_LEAVE_VEHICLE(Game.Ped, GamePed::GetVehicle(Game.Ped), 16);
+		else if (GamePed::GetVehicle(Game.Ped) && Data.Vehicle.VehicleID == -1)
+		{
+			AI::TASK_LEAVE_VEHICLE(Game.Ped, GamePed::GetVehicle(Game.Ped), 16);
+		}
 	}
 }
 

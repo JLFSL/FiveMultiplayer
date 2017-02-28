@@ -13,13 +13,12 @@ private:
 
 	struct ObjectInfo
 	{
-		int				Entity;
+		int				Id;
 	} Information;
 
 	struct ObjectData
 	{
-		std::string		Model;
-		int				ModelHash;
+		int				Model;
 		bool			Dynamic;
 
 		CVector3		Position;
@@ -41,8 +40,7 @@ public:
 	CObjectEntity();
 	~CObjectEntity() {}
 
-	void Create(int entity, std::string model, CVector3 position, CVector4 quaternion, bool dynamic);
-	void Create(int entity, int hash, CVector3 position, CVector4 quaternion, bool dynamic);
+	bool Create(int entity, int hash, CVector3 position, CVector4 quaternion, bool dynamic);
 	bool CreateObject();
 	void Destroy();
 	void Delete();
@@ -50,7 +48,8 @@ public:
 	void Pulse();
 	void Update(Packet *packet);
 
-	int				GetEntity() { return Information.Entity; }
+	int				GetId() { return Information.Id; }
+	Object			GetEntity() { return Game.Object; }
 	bool			IsCreated() { return Game.Created; }
 
 	CVector3		GetPosition() { return Data.Position; }

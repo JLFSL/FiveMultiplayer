@@ -23,14 +23,18 @@ void CRPCPlayer::PlayerComponent(RakNet::BitStream *bitStream, RakNet::Packet *p
 	
 	if (entity != -1)
 	{
-		for (int i = 0; i < g_Entities.size(); i++)
+		for (int i = 0; i < g_Players.size(); i++)
 		{
-			if (g_Entities[i].GetId() == entity)
+			if (g_Players[i].GetId() == entity)
 			{
-				GamePed::SetPedComponentVariation(g_Entities[i].GetPEntity()->GetPed(), componentid, drawableid, textureid, paletteid);
-				 return;
+				GamePed::SetPedComponentVariation(g_Players[i].GetPed(), componentid, drawableid, textureid, paletteid);
+				return;
 			}
 		}
+	}
+	else
+	{
+		GamePed::SetPedComponentVariation(g_Core->GetLocalPlayer()->GetPed(), componentid, drawableid, textureid, paletteid);
 	}
 }
 
@@ -52,14 +56,18 @@ void CRPCPlayer::PlayerHeadBlend(RakNet::BitStream *bitStream, RakNet::Packet *p
 
 	if (entity != -1)
 	{
-		for (int i = 0; i < g_Entities.size(); i++)
+		for (int i = 0; i < g_Players.size(); i++)
 		{
-			if (g_Entities[i].GetId() == entity)
+			if (g_Players[i].GetId() == entity)
 			{
-				GamePed::SetPedHeadBlend(g_Entities[i].GetPEntity()->GetPed(), shapeFirst, shapeSecond, shapeThird, skinFirst, skinSecond, skinThird, shapeMix, skinMix, thirdMix);
+				GamePed::SetPedHeadBlend(g_Players[i].GetPed(), shapeFirst, shapeSecond, shapeThird, skinFirst, skinSecond, skinThird, shapeMix, skinMix, thirdMix);
 				return;
 			}
 		}
+	}
+	else
+	{
+		GamePed::SetPedHeadBlend(g_Core->GetLocalPlayer()->GetPed(), shapeFirst, shapeSecond, shapeThird, skinFirst, skinSecond, skinThird, shapeMix, skinMix, thirdMix);
 	}
 }
 
@@ -78,14 +86,18 @@ void CRPCPlayer::PlayerHeadOverlay(RakNet::BitStream *bitStream, RakNet::Packet 
 
 	if (entity != -1)
 	{
-		for (int i = 0; i < g_Entities.size(); i++)
+		for (int i = 0; i < g_Players.size(); i++)
 		{
-			if (g_Entities[i].GetId() == entity)
+			if (g_Players[i].GetId() == entity)
 			{
-				GamePed::SetPedHeadOverlayColor(g_Entities[i].GetPEntity()->GetPed(), overlayid, index, colorType, colorID, secondColorID, opacity);
+				GamePed::SetPedHeadOverlayColor(g_Players[i].GetPed(), overlayid, index, colorType, colorID, secondColorID, opacity);
 				return;
 			}
 		}
+	}
+	else
+	{
+		GamePed::SetPedHeadOverlayColor(g_Core->GetLocalPlayer()->GetPed(), overlayid, index, colorType, colorID, secondColorID, opacity);
 	}
 }
 
@@ -101,14 +113,18 @@ void CRPCPlayer::PlayerProp(RakNet::BitStream *bitStream, RakNet::Packet *packet
 
 	if (entity != -1)
 	{
-		for (int i = 0; i < g_Entities.size(); i++)
+		for (int i = 0; i < g_Players.size(); i++)
 		{
-			if (g_Entities[i].GetId() == entity)
+			if (g_Players[i].GetId() == entity)
 			{
-				GamePed::SetPedProp(g_Entities[i].GetPEntity()->GetPed(), componentid, drawableid, textureid);
+				GamePed::SetPedProp(g_Players[i].GetPed(), componentid, drawableid, textureid);
 				return;
 			}
 		}
+	}
+	else
+	{
+		GamePed::SetPedProp(g_Core->GetLocalPlayer()->GetPed(), componentid, drawableid, textureid);
 	}
 }
 
@@ -123,13 +139,17 @@ void CRPCPlayer::PlayerFaceFeature(RakNet::BitStream *bitStream, RakNet::Packet 
 
 	if (entity != -1)
 	{
-		for (int i = 0; i < g_Entities.size(); i++)
+		for (int i = 0; i < g_Players.size(); i++)
 		{
-			if (g_Entities[i].GetId() == entity)
+			if (g_Players[i].GetId() == entity)
 			{
-				GamePed::SetPedFaceFeature(g_Entities[i].GetPEntity()->GetPed(), index, scale);
+				GamePed::SetPedFaceFeature(g_Players[i].GetPed(), index, scale);
 				return;
 			}
 		}
+	}
+	else
+	{
+		GamePed::SetPedFaceFeature(g_Core->GetLocalPlayer()->GetPed(), index, scale);
 	}
 }

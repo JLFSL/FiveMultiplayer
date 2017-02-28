@@ -76,11 +76,11 @@ private:
 	};
 
 public:
-	CPlayerEntity() { Game.Created = false; Game.Ped = NULL; };
-	~CPlayerEntity() { };
+	CPlayerEntity();
+	~CPlayerEntity() { }
 
 	void Create(std::string Name, RakNetGUID GUID, int entity);
-	void CreatePed();
+	bool CreatePed();
 	void RequestData();
 	void Destroy();
 	void Delete();
@@ -102,18 +102,18 @@ public:
 
 	bool IsTargetAnimal();
 
-	int GetId()					{ return Information.Id; };
-	std::string GetUsername()	{ return Information.Name; };
+	int GetId()					{ return Information.Id; }
+	std::string GetUsername()	{ return Information.Name; }
 
-	Ped	GetPed()				{ return Game.Ped; };
+	Ped	GetPed()				{ return Game.Ped; }
 	bool IsCreated()			{ return Game.Created; }
 
-	int GetScore()				{ return Statistics.Score; };
+	int GetScore()				{ return Statistics.Score; }
 
-	CVector3 GetPosition()		{ return Data.Position; };
-	CVector4 GetQuaternion()	{ return Data.Quaternion; };
+	CVector3 GetPosition()		{ return Data.Position; }
+	CVector4 GetQuaternion()	{ return Data.Quaternion; }
 
-	RakNetGUID GetGUID()		{ return Network.GUID; };
+	RakNetGUID GetGUID()		{ return Network.GUID; }
 
 	void SetInfo(PlayerInfo newinfo)		{ Information = newinfo; }
 	void SetStats(PlayerStats newstats)		{ Statistics = newstats; }

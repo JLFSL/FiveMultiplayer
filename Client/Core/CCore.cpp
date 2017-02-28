@@ -227,7 +227,7 @@ void CCore::OnGameTick()
 
 	g_LocalPlayer->Pulse();
 	g_NetworkManager->Pulse();
-	//g_Streamer->Pulse();
+	g_Streamer->Pulse();
 	
 	if (!g_Players.empty()) {
 		for (int i = 0; i < g_Players.size(); i++) {

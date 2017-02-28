@@ -7,6 +7,7 @@ class CServerEntity
 public:
 	enum Type
 	{
+		Unknown = -1,
 		Player = 0,
 		Vehicle = 1,
 		Object = 2
@@ -16,32 +17,20 @@ private:
 	{
 		int Id;
 		Type type;
-
-		CPlayerEntity	*player;
-		CVehicleEntity	*vehicle;
-		CObjectEntity	*object;
 	} Data;
 
 public:
-	CServerEntity() {}
+	CServerEntity();
 	~CServerEntity() {}
 
-	void Create(int entity);
+	void Create(int entity, Type type);
 	void Destroy();
 
-	void SetId(int id) { Data.Id = id; }
+	int	GetId()			{ return Data.Id; }
+	void SetId(int id)	{ Data.Id = id; }
 
 	Type GetType() { return Data.type; }
 	void SetType(Type type);
-
-	int GetId() { return Data.Id; }
-
-	CPlayerEntity* GetPEntity() { return Data.player; }
-	void		SetEntity(CPlayerEntity *player) { Data.player = player; }
-	CVehicleEntity* GetVEntity() { return Data.vehicle; }
-	void		SetEntity(CVehicleEntity *vehicle) { Data.vehicle = vehicle; }
-	CObjectEntity* GetOEntity() { return Data.object; }
-	void		SetEntity(CObjectEntity *object) { Data.object = object; };
 
 	CVector3	GetPosition();
 	void		SetPosition(CVector3 position);
