@@ -18,9 +18,9 @@ LRESULT CALLBACK MsgHookRet(int nCode, WPARAM wParam, LPARAM lParam)
 	case WM_SIZE:
 		if (DirectXRenderer::pDevice != NULL && wParam != SIZE_MINIMIZED)
 		{
-			CleanupRenderTarget();
+			CefTexture::CleanupRenderTarget();
 			DirectXRenderer::pSwapChain->ResizeBuffers(0, (UINT)LOWORD(lParam), (UINT)HIWORD(lParam), DXGI_FORMAT_UNKNOWN, 0);
-			CreateRenderTarget();
+			CefTexture::CreateRenderTarget();
 		}
 		break;
 	case WM_SYSCOMMAND:
@@ -61,8 +61,8 @@ bool CefRenderer::Initialize()
 
 		offscreenClient = new OffscreenClient;
 
-		window_info.width = 1600;
-		window_info.height = 900;
+		window_info.width = 1280;
+		window_info.height = 720;
 		window_info.SetAsWindowless(FindWindowA(NULL, "Grand Theft Auto V"), true);
 
 		browserSettings.windowless_frame_rate = 60; // 30 is default
@@ -73,17 +73,16 @@ bool CefRenderer::Initialize()
 
 void CefRenderer::Start()
 {
+	CefMouseHook::InstallHook();
+
 	//CefBrowserHost::CreateBrowser(window_info, textureClient.get(), "http://www.google.com", browserSettings, nullptr);
 	//CefBrowserHost::CreateBrowser(window_info, textureClient.get(), "http://www.radiotunes.com/chillout", browserSettings, nullptr);
-	CefRefPtr<CefBrowser> browser = CefBrowserHost::CreateBrowserSync(window_info, offscreenClient.get(), "https://www.five-multiplayer.net/chat.php", browserSettings, nullptr);
+	//CefRefPtr<CefBrowser> browser = CefBrowserHost::CreateBrowserSync(window_info, offscreenClient.get(), "http://itseasy.dk/fivemp/index.html", browserSettings, nullptr);
 	//browser = CefBrowserHost::CreateBrowserSync(window_info, textureClient.get(), "http://www.google.com", browserSettings, nullptr);
 	//browser = CefBrowserHost::CreateBrowserSync(window_info, textureClient.get(), "https://www.youtube.com/watch?v=yYzGHhhg_og&index=171&list=PL04B59999BC5DA80D", browserSettings, nullptr);
 }
 
 void CefRenderer::OnTick()
 {
-	while (true)
-	{
-		CefDoMessageLoopWork();
-	}
+	CefRunMessageLoop();
 }

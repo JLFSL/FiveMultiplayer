@@ -36,6 +36,6 @@ void OffscreenClient::OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType ty
 		return;
 	}
 
-	std::lock_guard<std::mutex> lock(DirectXRenderer::paintMutex);
-	DirectXRenderer::drawData.push_back(std::make_unique<DrawData>(width, height, (const unsigned *)buffer, dirtyRects));
+	std::lock_guard<std::mutex> lock(CefTexture::paintMutex);
+	CefTexture::drawData.push_back(std::make_unique<DrawData>(width, height, (const unsigned *)buffer, dirtyRects));
 }
