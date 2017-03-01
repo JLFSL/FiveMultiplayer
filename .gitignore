@@ -80,7 +80,6 @@ ipch/
 *.idb
 *.iobj
 *.suo
-.suo
 *.ipdb
 /PublicAPI/
 /.vs/Supercharger/v8test/workbench.dat
@@ -139,3 +138,5 @@ ipch/
 /.vs/Supercharger/Base/global_history.dat
 /.vs/Supercharger/Base/codemap.dat
 /.vs/Supercharger/Base
+/.vs/Five-Multiplayer/v14/.suo
+/.vs/Five-Multiplayer/v14/

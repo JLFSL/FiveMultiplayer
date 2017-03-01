@@ -21,6 +21,7 @@ public:
 	void CleanUpTick();
 
 	void PreventCheat();
+	void KeyCheck();
 
 	CNetworkManager *GetNetworkManager()	{ return g_NetworkManager.get(); }
 	CRPCManager *GetRPCManager()			{ return g_RPCManager.get(); }
