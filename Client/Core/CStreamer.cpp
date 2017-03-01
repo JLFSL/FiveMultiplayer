@@ -34,7 +34,7 @@ void CStreamer::Pulse()
 
 void CStreamer::StreamIn(CVector3 position)
 {
-	if (g_Core && g_Core->GetNetworkManager()->g_ConnectionState == 2)
+	if (g_Core && g_Core->GetNetworkManager()->g_ConnectionState == CONSTATE_COND)
 	{
 		if (!g_Entities.empty())
 		{
