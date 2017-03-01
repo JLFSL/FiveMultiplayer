@@ -20,122 +20,134 @@ void CServerEntity::Destroy()
 	RakNet::BitStream sData;
 	switch (Data.type)
 	{
-	case Player:
-			std::cout << "[CServerEntity::Destroy] Can not destroy a player!" << std::endl;
+	case CServerEntity::Player:
+		std::cout << "[CServerEntity::Destroy] Can not destroy a player!" << std::endl;
 		break;
-	case Vehicle:
-		if (Data.vehicle)
+	case CServerEntity::Vehicle:
+		for (int i = 0; i < g_Vehicles.size(); i++)
 		{
-			Data.vehicle->Destroy();
+			if (g_Vehicles[i].GetId() == Data.Id)
+			{
+				g_Vehicles[i].Destroy();
 
-			sData.Write(Data.Id);
-			g_Server->GetNetworkManager()->GetRPC().Signal("DestroyEntity", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
-
-			Data.vehicle = nullptr;
+				sData.Write(Data.Id);
+				g_Server->GetNetworkManager()->GetRPC().Signal("DestroyEntity", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
+				break;
+			}
 		}
-		else
-			std::cout << "[CServerEntity::Destroy] Invalid entity " << Data.Id << " of type Vehicle." << std::endl;
 		break;
-	case Object:
-		if (Data.object)
+	case CServerEntity::Object:
+		for (int i = 0; i < g_Objects.size(); i++)
 		{
-			Data.object->Destroy();
+			if (g_Objects[i].GetId() == Data.Id)
+			{
+				g_Objects[i].Destroy();
 
-			sData.Write(Data.Id);
-			g_Server->GetNetworkManager()->GetRPC().Signal("DestroyEntity", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
-
-			Data.object = nullptr;
+				sData.Write(Data.Id);
+				g_Server->GetNetworkManager()->GetRPC().Signal("DestroyEntity", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
+				break;
+			}
 		}
-		else
-			std::cout << "[CServerEntity::Destroy] Invalid entity " << Data.Id << " of type Object." <<std::endl;
 		break;
 	default:
 		std::cout << "[CServerEntity::Destroy] Invalid entity Type: " << Data.type << std::endl;
-		break;
 	}
 }
 
 CVector3 CServerEntity::GetPosition()
 {
-	switch(Data.type)
+	switch (Data.type)
 	{
-	case Player:
-		if (Data.player)
-			return Data.player->GetPosition();
-
-		std::cout << "[CServerEntity::GetPosition] Invalid entity " << Data.Id << " of type Player." << std::endl;
+	case CServerEntity::Player:
+		for (int i = 0; i < g_Players.size(); i++)
+		{
+			if (g_Players[i].GetId() == Data.Id)
+			{
+				return g_Players[i].GetPosition();
+			}
+		}
 		break;
-	case Vehicle:
-		if (Data.vehicle)
-			return Data.vehicle->GetPosition();
-
-		std::cout << "[CServerEntity::GetPosition] Invalid entity " << Data.Id << " of type Vehicle." << std::endl;
+	case CServerEntity::Vehicle:
+		for (int i = 0; i < g_Vehicles.size(); i++)
+		{
+			if (g_Vehicles[i].GetId() == Data.Id)
+			{
+				return g_Vehicles[i].GetPosition();
+			}
+		}
 		break;
-	case Object:
-		if (Data.object)
-			return Data.object->GetPosition();
-
-		std::cout << "[CServerEntity::GetPosition] Invalid entity " << Data.Id << " of type Object." << std::endl;
+	case CServerEntity::Object:
+		for (int i = 0; i < g_Objects.size(); i++)
+		{
+			if (g_Objects[i].GetId() == Data.Id)
+			{
+				return g_Objects[i].GetPosition();
+			}
+		}
 		break;
 	default:
 		std::cout << "[CServerEntity::GetPosition] Invalid entity Type: " << Data.type << std::endl;
-		break;
 	}
 }
 
 void CServerEntity::SetPosition(CVector3 position)
 {
 	RakNet::BitStream sData;
-	switch(Data.type)
+	switch (Data.type)
 	{
-	case Player:
-		if (Data.player)
+	case CServerEntity::Player:
+		for (int i = 0; i < g_Players.size(); i++)
 		{
-			sData.Write(-1);
-			sData.Write(position.fX);
-			sData.Write(position.fY);
-			sData.Write(position.fZ);
+			if (g_Players[i].GetId() == Data.Id)
+			{
+				sData.Write(-1);
+				sData.Write(position.fX);
+				sData.Write(position.fY);
+				sData.Write(position.fZ);
 
-			g_Server->GetNetworkManager()->GetRPC().Signal("SetPosition", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, Data.player->GetGUID(), false, false);
-
-			Data.player->SetPosition(position);
+				g_Server->GetNetworkManager()->GetRPC().Signal("SetPosition", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, g_Players[i].GetGUID(), false, false);
+				
+				g_Players[i].SetPosition(position);
+				break;
+			}
 		}
-		else
-			std::cout << "[CServerEntity::SetPosition] Invalid entity " << Data.Id << " of type Player." << std::endl;
 		break;
-	case Vehicle:
-		if (Data.vehicle)
+	case CServerEntity::Vehicle:
+		for (int i = 0; i < g_Vehicles.size(); i++)
 		{
-			sData.Write(Data.Id);
-			sData.Write(position.fX);
-			sData.Write(position.fY);
-			sData.Write(position.fZ);
+			if (g_Vehicles[i].GetId() == Data.Id)
+			{
+				sData.Write(Data.Id);
+				sData.Write(position.fX);
+				sData.Write(position.fY);
+				sData.Write(position.fZ);
 
-			g_Server->GetNetworkManager()->GetRPC().Signal("SetPosition", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
+				g_Server->GetNetworkManager()->GetRPC().Signal("SetPosition", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
 
-			Data.vehicle->SetPosition(position);
+				g_Vehicles[i].SetPosition(position);
+				break;
+			}
 		}
-		else
-			std::cout << "[CServerEntity::SetPosition] Invalid entity " << Data.Id << " of type Vehicle." << std::endl;
 		break;
-	case Object:
-		if (Data.object)
+	case CServerEntity::Object:
+		for (int i = 0; i < g_Objects.size(); i++)
 		{
-			sData.Write(Data.Id);
-			sData.Write(position.fX);
-			sData.Write(position.fY);
-			sData.Write(position.fZ);
+			if (g_Objects[i].GetId() == Data.Id)
+			{
+				sData.Write(Data.Id);
+				sData.Write(position.fX);
+				sData.Write(position.fY);
+				sData.Write(position.fZ);
 
-			g_Server->GetNetworkManager()->GetRPC().Signal("SetPosition", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
+				g_Server->GetNetworkManager()->GetRPC().Signal("SetPosition", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
 
-			Data.object->SetPosition(position);
+				g_Objects[i].SetPosition(position);
+				break;
+			}
 		}
-		else
-			std::cout << "[CServerEntity::SetPosition] Invalid entity " << Data.Id << " of type Object." << std::endl;
 		break;
 	default:
 		std::cout << "[CServerEntity::SetPosition] Invalid entity Type: " << Data.type << std::endl;
-		break;
 	}
 }
 
@@ -143,27 +155,35 @@ CVector4 CServerEntity::GetQuaternion()
 {
 	switch (Data.type)
 	{
-	case Player:
-		if (Data.player)
-			return Data.player->GetQuaternion();
-
-		std::cout << "[CServerEntity::GetQuaternion] Invalid entity " << Data.Id << " of type Player." << std::endl;
+	case CServerEntity::Player:
+		for (int i = 0; i < g_Players.size(); i++)
+		{
+			if (g_Players[i].GetId() == Data.Id)
+			{
+				return g_Players[i].GetQuaternion();
+			}
+		}
 		break;
-	case Vehicle:
-		if (Data.vehicle)
-			return Data.vehicle->GetQuaternion();
-
-		std::cout << "[CServerEntity::GetQuaternion] Invalid entity " << Data.Id << " of type Vehicle." << std::endl;
+	case CServerEntity::Vehicle:
+		for (int i = 0; i < g_Vehicles.size(); i++)
+		{
+			if (g_Vehicles[i].GetId() == Data.Id)
+			{
+				return g_Vehicles[i].GetQuaternion();
+			}
+		}
 		break;
-	case Object:
-		if (Data.object)
-			return Data.object->GetQuaternion();
-
-		std::cout << "[CServerEntity::GetQuaternion] Invalid entity " << Data.Id << " of type Object." << std::endl;
+	case CServerEntity::Object:
+		for (int i = 0; i < g_Objects.size(); i++)
+		{
+			if (g_Objects[i].GetId() == Data.Id)
+			{
+				return g_Objects[i].GetQuaternion();
+			}
+		}
 		break;
 	default:
 		std::cout << "[CServerEntity::GetQuaternion] Invalid entity Type: " << Data.type << std::endl;
-		break;
 	}
 }
 
@@ -172,55 +192,60 @@ void CServerEntity::SetQuaternion(CVector4 quaternion)
 	RakNet::BitStream sData;
 	switch (Data.type)
 	{
-	case Player:
-		if (Data.player)
+	case CServerEntity::Player:
+		for (int i = 0; i < g_Players.size(); i++)
 		{
-			sData.Write(-1);
-			sData.Write(quaternion.fX);
-			sData.Write(quaternion.fY);
-			sData.Write(quaternion.fZ);
-			sData.Write(quaternion.fW);
+			if (g_Players[i].GetId() == Data.Id)
+			{
+				sData.Write(-1);
+				sData.Write(quaternion.fX);
+				sData.Write(quaternion.fY);
+				sData.Write(quaternion.fZ);
+				sData.Write(quaternion.fW);
 
-			g_Server->GetNetworkManager()->GetRPC().Signal("SetQuaternion", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, Data.player->GetGUID(), false, false);
+				g_Server->GetNetworkManager()->GetRPC().Signal("SetQuaternion", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, g_Players[i].GetGUID(), false, false);
+				break;
+			}
 		}
-		else
-			std::cout << "[CServerEntity::SetQuaternion] Invalid entity " << Data.Id << " of type Player." << std::endl;
 		break;
-	case Vehicle:
-		if (Data.vehicle)
+	case CServerEntity::Vehicle:
+		for (int i = 0; i < g_Vehicles.size(); i++)
 		{
-			sData.Write(Data.Id);
-			sData.Write(quaternion.fX);
-			sData.Write(quaternion.fY);
-			sData.Write(quaternion.fZ);
-			sData.Write(quaternion.fW);
+			if (g_Vehicles[i].GetId() == Data.Id)
+			{
+				sData.Write(Data.Id);
+				sData.Write(quaternion.fX);
+				sData.Write(quaternion.fY);
+				sData.Write(quaternion.fZ);
+				sData.Write(quaternion.fW);
 
-			g_Server->GetNetworkManager()->GetRPC().Signal("SetQuaternion", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
+				g_Server->GetNetworkManager()->GetRPC().Signal("SetQuaternion", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
 
-			Data.vehicle->SetQuaternion(quaternion);
+				g_Vehicles[i].SetQuaternion(quaternion);
+				break;
+			}
 		}
-		else
-			std::cout << "[CServerEntity::SetQuaternion] Invalid entity " << Data.Id << " of type Vehicle." << std::endl;
 		break;
-	case Object:
-		if (Data.object)
+	case CServerEntity::Object:
+		for (int i = 0; i < g_Objects.size(); i++)
 		{
-			sData.Write(Data.Id);
-			sData.Write(quaternion.fX);
-			sData.Write(quaternion.fY);
-			sData.Write(quaternion.fZ);
-			sData.Write(quaternion.fW);
+			if (g_Objects[i].GetId() == Data.Id)
+			{
+				sData.Write(Data.Id);
+				sData.Write(quaternion.fX);
+				sData.Write(quaternion.fY);
+				sData.Write(quaternion.fZ);
+				sData.Write(quaternion.fW);
 
-			g_Server->GetNetworkManager()->GetRPC().Signal("SetQuaternion", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
+				g_Server->GetNetworkManager()->GetRPC().Signal("SetQuaternion", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
 
-			Data.object->SetQuaternion(quaternion);
+				g_Objects[i].SetQuaternion(quaternion);
+				break;
+			}
 		}
-		else
-			std::cout << "[CServerEntity::SetQuaternion] Invalid entity " << Data.Id << " of type Object." << std::endl;
 		break;
 	default:
 		std::cout << "[CServerEntity::SetQuaternion] Invalid entity Type: " << Data.type << std::endl;
-		break;
 	}
 }
 
@@ -248,20 +273,35 @@ namespace ServerEntity
 		{
 			switch (g_Entities[index].GetType())
 			{
-			case 0: // Player
-				if (entity == g_Entities[index].GetPEntity()->GetEntity())
-					return true;
+			case CServerEntity::Player:
+				for (int i = 0; i < g_Players.size(); i++)
+				{
+					if (g_Players[i].GetId() == entity)
+					{
+						return true;
+					}
+				}
 				break;
-			case 1: // Vehicle
-				if (entity == g_Entities[index].GetVEntity()->GetId())
-					return true;
+			case CServerEntity::Vehicle:
+				for (int i = 0; i < g_Vehicles.size(); i++)
+				{
+					if (g_Vehicles[i].GetId() == entity)
+					{
+						return true;
+					}
+				}
 				break;
-			case 2: // Object
-				/*if (entity == g_Entities[index].GetOEntity()->GetId())
-					return true;}*/
+			case CServerEntity::Object:
+				for (int i = 0; i < g_Objects.size(); i++)
+				{
+					if (g_Objects[i].GetId() == entity)
+					{
+						return true;
+					}
+				}
 				break;
 			default:
-				std::cout << "[ServerEntity::GetAssignee] Invalid entity" << std::endl;
+				std::cout << "[ServerEntity::IsValid] Invalid entity" << std::endl;
 				break;
 			}
 		}
@@ -276,15 +316,35 @@ namespace ServerEntity
 		{
 			switch (g_Entities[index].GetType())
 			{
-			case 0: // Player
-				return UNASSIGNED_RAKNET_GUID;
-			case 1: // Vehicle
-				return g_Entities[index].GetVEntity()->GetAssignee();
-			case 2: // Object
-				//return g_Entities[index].GetOEntity()->GetAssignee();
+			case CServerEntity::Player:
+				for (int i = 0; i < g_Players.size(); i++)
+				{
+					if (g_Players[i].GetId() == entity)
+					{
+						return UNASSIGNED_RAKNET_GUID;
+					}
+				}
+				break;
+			case CServerEntity::Vehicle:
+				for (int i = 0; i < g_Vehicles.size(); i++)
+				{
+					if (g_Vehicles[i].GetId() == entity)
+					{
+						return g_Vehicles[i].GetAssignee();
+					}
+				}
+				break;
+			case CServerEntity::Object:
+				for (int i = 0; i < g_Objects.size(); i++)
+				{
+					if (g_Objects[i].GetId() == entity)
+					{
+						return g_Objects[i].GetAssignee();
+					}
+				}
 				break;
 			default:
-				std::cout << std::endl << "[ServerEntity::GetAssignee] Invalid entity" << std::endl;
+				std::cout << "[ServerEntity::GetAssignee] Invalid entity" << std::endl;
 				break;
 			}
 		}
@@ -299,16 +359,30 @@ namespace ServerEntity
 		{
 			switch (g_Entities[index].GetType())
 			{
-			case 0: // Player
+			case CServerEntity::Player:
 				break;
-			case 1: // Vehicle
-				g_Entities[index].GetVEntity()->SetAssignee(assignee);
+			case CServerEntity::Vehicle:
+				for (int i = 0; i < g_Vehicles.size(); i++)
+				{
+					if (g_Vehicles[i].GetId() == entity)
+					{
+						g_Vehicles[i].SetAssignee(assignee);
+						break;
+					}
+				}
 				break;
-			case 2: // Object
-				//g_Entities[index].GetOEntity()->SetAssignee(assignee);
+			case CServerEntity::Object:
+				for (int i = 0; i < g_Objects.size(); i++)
+				{
+					if (g_Objects[i].GetId() == entity)
+					{
+						g_Objects[i].SetAssignee(assignee);
+						break;
+					}
+				}
 				break;
 			default:
-				std::cout << std::endl << "[ServerEntity::SetAssignee] Invalid entity" << std::endl;
+				std::cout << "[ServerEntity::SetAssignee] Invalid entity" << std::endl;
 				break;
 			}
 
@@ -335,14 +409,35 @@ namespace ServerEntity
 		{
 			switch (g_Entities[index].GetType())
 			{
-			case 0: // Player
-				g_Entities[index].GetPEntity()->RequestData(requester);
+			case CServerEntity::Player:
+				for (int i = 0; i < g_Players.size(); i++)
+				{
+					if (g_Players[i].GetId() == entity)
+					{
+						g_Players[i].RequestData(requester);
+						break;
+					}
+				}
 				break;
-			case 1: // Vehicle
-				g_Entities[index].GetVEntity()->RequestData(requester);
+			case CServerEntity::Vehicle:
+				for (int i = 0; i < g_Vehicles.size(); i++)
+				{
+					if (g_Vehicles[i].GetId() == entity)
+					{
+						g_Vehicles[i].RequestData(requester);
+						break;
+					}
+				}
 				break;
-			case 2: // Object
-				//g_Entities[index].GetOEntity()->RequestData(requester);
+			case CServerEntity::Object:
+				for (int i = 0; i < g_Objects.size(); i++)
+				{
+					if (g_Objects[i].GetId() == entity)
+					{
+						g_Objects[i].RequestData(requester);
+						break;
+					}
+				}
 				break;
 			default:
 				std::cout << std::endl << "[ServerEntity::RequestData] Invalid entity" << std::endl;

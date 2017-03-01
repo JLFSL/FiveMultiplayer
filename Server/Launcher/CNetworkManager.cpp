@@ -86,58 +86,7 @@ void CNetworkManager::Pulse()
 		{
 			case ID_NEW_INCOMING_CONNECTION:
 			{
-				// API::Network::OnPlayerConnecting Execute
-				for (int i = 0; i < g_ApiModules.size(); i++)
-				{
-					void *Instance = g_ApiModules[i].GetInstance();
-					if (!API::Network::OnPlayerConnecting(Instance, g_Packet->guid.ToString()))
-					{
-						g_RakPeer->CloseConnection(g_Packet->systemAddress, true);
-						return;
-					}
-				}
-
-				int playerID = -1;
-				if (!g_Players.empty())
-				{
-					for (int i = 0; i < g_Players.size(); i++)
-					{
-						if (g_Players[i].GetPlayerID() == -1)
-						{
-							playerID = g_Players.size();
-							CPlayerEntity newPlayer;
-							newPlayer.Create("User", g_Packet->guid, g_Packet->systemAddress);
-							newPlayer.SetPlayerID(playerID);
-							g_Players[i] = newPlayer;
-							g_Players[i].SetPlayerID(i);
-							playerID = i;
-
-							g_Entities[g_Players[i].GetEntity()].SetEntity(&g_Players[i]);
-							break;
-						}
-					}
-				}
-
-				if (playerID == -1)
-				{
-					playerID = g_Players.size();
-					CPlayerEntity newPlayer;
-					newPlayer.Create("User", g_Packet->guid, g_Packet->systemAddress);
-					newPlayer.SetPlayerID(playerID);
-					g_Players.push_back(newPlayer);
-
-					g_Entities[g_Players[playerID].GetEntity()].SetEntity(&g_Players[playerID]);
-				}
-
-				NetworkSync::SyncServerWorld(g_Packet->guid);
-				
-				// API::Network::OnPlayerConnected Execute
-				for (int i = 0; i < g_ApiModules.size(); i++)
-				{
-					void *Instance = g_ApiModules[i].GetInstance();
-					API::Network::OnPlayerConnected(Instance, g_Players[playerID].GetEntity(), g_Players[playerID].GetPlayerID());
-				}
-				
+				NewIncomingConnection(g_Packet);
 				PulseMaster();
 				break;
 			}
@@ -236,7 +185,7 @@ void CNetworkManager::PulseMaster()
 
 		if (!g_Players.empty()) {
 			for (int p = 0; p < g_Players.size(); p++) {
-				if (g_Players[p].GetEntity() != -1) {
+				if (g_Players[p].GetId() != -1 && g_Players[p].GetPlayerID() != -1) {
 					std::ostringstream oss;
 					oss << "{\"id\":" << g_Players[p].GetPlayerID() << ",\"name\":\"" << g_Players[p].GetUsername() << "\"}";
 					std::string player = oss.str();
@@ -266,5 +215,56 @@ void CNetworkManager::PulseMaster()
 		curl_easy_setopt(hnd, CURLOPT_NOBODY, 1);
 
 		CURLcode ret = curl_easy_perform(hnd);
+	}
+}
+
+void CNetworkManager::NewIncomingConnection(RakNet::Packet  *g_Packet)
+{
+	// API::Network::OnPlayerConnecting Execute
+	for (int i = 0; i < g_ApiModules.size(); i++)
+	{
+		void *Instance = g_ApiModules[i].GetInstance();
+		if (!API::Network::OnPlayerConnecting(Instance, g_Packet->guid.ToString()))
+		{
+			g_RakPeer->CloseConnection(g_Packet->systemAddress, true);
+			return;
+		}
+	}
+
+	int playerID = -1;
+	if (!g_Players.empty())
+	{
+		for (int i = 0; i < g_Players.size(); i++)
+		{
+			if (g_Players[i].GetPlayerID() == -1)
+			{
+				playerID = g_Players.size();
+				CPlayerEntity newPlayer;
+				newPlayer.Create("User", g_Packet->guid, g_Packet->systemAddress);
+				newPlayer.SetPlayerID(playerID);
+				g_Players[i] = newPlayer;
+				g_Players[i].SetPlayerID(i);
+				playerID = i;
+				break;
+			}
+		}
+	}
+
+	if (playerID == -1)
+	{
+		playerID = g_Players.size();
+		CPlayerEntity newPlayer;
+		newPlayer.Create("User", g_Packet->guid, g_Packet->systemAddress);
+		newPlayer.SetPlayerID(playerID);
+		g_Players.push_back(newPlayer);
+	}
+
+	NetworkSync::SyncServerWorld(g_Packet->guid);
+
+	// API::Network::OnPlayerConnected Execute
+	for (int i = 0; i < g_ApiModules.size(); i++)
+	{
+		void *Instance = g_ApiModules[i].GetInstance();
+		API::Network::OnPlayerConnected(Instance, g_Players[playerID].GetId(), g_Players[playerID].GetPlayerID());
 	}
 }

@@ -17,6 +17,8 @@ public:
 	void Pulse();
 	void PulseMaster();
 
+	void NewIncomingConnection(RakNet::Packet *g_Packet);
+
 	RakPeerInterface *GetInterface() { return g_RakPeer; };
 	RPC4& GetRPC() { return *g_RPC; };
 };

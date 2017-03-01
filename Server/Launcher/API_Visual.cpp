@@ -39,7 +39,7 @@ namespace API
 
 			for (int i = 0; i < g_Players.size(); i++)
 			{
-				if (g_Players[i].GetEntity() == entity)
+				if (g_Players[i].GetId() == entity)
 				{
 					g_Server->GetNetworkManager()->GetRPC().Signal("ShowMessageAboveMap", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, g_Players[i].GetGUID(), false, false);
 					break;

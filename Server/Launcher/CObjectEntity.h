@@ -5,7 +5,7 @@ class CObjectEntity
 private:
 	struct ObjectInfo
 	{
-		int				Entity;
+		int				Id;
 	} Information;
 
 	struct ObjectData
@@ -40,7 +40,7 @@ public:
 	void Pulse();
 	void Update(Packet *packet);
 
-	int				GetEntity() { return Information.Entity; };
+	int				GetId() { return Information.Id; };
 
 	std::string		GetModel() { return Data.Model; }
 	int				GetHash() { return Data.ModelHash; }

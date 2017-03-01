@@ -97,7 +97,7 @@ public:
 
 	int				GetPlayerID() { return Information.PlayerID; };
 	void			SetPlayerID(int playerid) { Information.PlayerID = playerid; };
-	int				GetEntity() { return Information.Entity; };
+	int				GetId() { return Information.Entity; };
 	std::string		GetUsername() { return Information.Name.C_String(); };
 
 	int				GetScore() { return Statistics.Score; };

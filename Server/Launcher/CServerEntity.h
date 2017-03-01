@@ -14,10 +14,6 @@ private:
 	struct Entity {
 		int Id;
 		Type type;
-
-		CPlayerEntity *player;
-		CVehicleEntity *vehicle;
-		CObjectEntity *object;
 	} Data;
 
 public:
@@ -29,15 +25,9 @@ public:
 
 	Type		GetType() { return Data.type; }
 	void		SetType(Type type);
-	
-	CPlayerEntity* GetPEntity() { return Data.player; }
-	void		SetEntity(CPlayerEntity *player) { Data.player = player; }
-	CVehicleEntity* GetVEntity() { return Data.vehicle; }
-	void		SetEntity(CVehicleEntity *vehicle) { Data.vehicle = vehicle; }
-	CObjectEntity* GetOEntity() { return Data.object; }
-	void		SetEntity(CObjectEntity *object) { Data.object = object; }
 
 	int			GetId() { return Data.Id; }
+	void		SetId(int entity) { Data.Id = entity;  }
 
 	CVector3	GetPosition();
 	void		SetPosition(CVector3 position);

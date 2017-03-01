@@ -10,7 +10,7 @@ namespace API
 		{
 			for (int i = 0; i < g_Players.size(); i++)
 			{
-				if (g_Players[i].GetEntity() == entity)
+				if (g_Players[i].GetId() == entity)
 				{
 					return g_Players[i].GetModel();
 				}
@@ -23,7 +23,7 @@ namespace API
 		{
 			for (int i = 0; i < g_Players.size(); i++)
 			{
-				if (g_Players[i].GetEntity() == entity)
+				if (g_Players[i].GetId() == entity)
 				{
 					RakNet::BitStream sData;
 					sData.Write(RakString(model.c_str()));
@@ -40,7 +40,7 @@ namespace API
 		{
 			for (int i = 0; i < g_Players.size(); i++)
 			{
-				if (g_Players[i].GetEntity() == entity)
+				if (g_Players[i].GetId() == entity)
 				{
 					PlayerComponent comp;
 					comp.drawableid = g_Players[i].GetModelComponent(componentid).drawableid;
@@ -57,10 +57,10 @@ namespace API
 		{
 			for (int i = 0; i < g_Players.size(); i++)
 			{
-				if (g_Players[i].GetEntity() == entity)
+				if (g_Players[i].GetId() == entity)
 				{
 					RakNet::BitStream sData;
-					sData.Write(g_Players[i].GetEntity());
+					sData.Write(g_Players[i].GetId());
 					sData.Write(componentid);
 					sData.Write(component.drawableid);
 					sData.Write(component.paletteid);
@@ -78,7 +78,7 @@ namespace API
 		{
 			for (int i = 0; i < g_Players.size(); i++)
 			{
-				if (g_Players[i].GetEntity() == entity)
+				if (g_Players[i].GetId() == entity)
 				{
 					PlayerHeadBlend blend;
 					blend.shapeFirst = g_Players[i].GetModelHeadBlend().shapeFirst;
@@ -101,10 +101,10 @@ namespace API
 		{
 			for (int i = 0; i < g_Players.size(); i++)
 			{
-				if (g_Players[i].GetEntity() == entity)
+				if (g_Players[i].GetId() == entity)
 				{
 					RakNet::BitStream sData;
-					sData.Write(g_Players[i].GetEntity());
+					sData.Write(g_Players[i].GetId());
 					sData.Write(headblend.shapeFirst);
 					sData.Write(headblend.shapeMix);
 					sData.Write(headblend.shapeSecond);
@@ -127,7 +127,7 @@ namespace API
 		{
 			for (int i = 0; i < g_Players.size(); i++)
 			{
-				if (g_Players[i].GetEntity() == entity)
+				if (g_Players[i].GetId() == entity)
 				{
 					PlayerHeadOverlay overlay;
 					overlay.index = g_Players[i].GetModelHeadOverlay(index).index;
@@ -146,10 +146,10 @@ namespace API
 		{
 			for (int i = 0; i < g_Players.size(); i++)
 			{
-				if (g_Players[i].GetEntity() == entity)
+				if (g_Players[i].GetId() == entity)
 				{
 					RakNet::BitStream sData;
-					sData.Write(g_Players[i].GetEntity());
+					sData.Write(g_Players[i].GetId());
 					sData.Write(index);
 					sData.Write(overlay.index);
 					sData.Write(overlay.colorType);
@@ -169,7 +169,7 @@ namespace API
 		{
 			for (int i = 0; i < g_Players.size(); i++)
 			{
-				if (g_Players[i].GetEntity() == entity)
+				if (g_Players[i].GetId() == entity)
 				{
 					PlayerProp prop;
 					prop.drawableid = g_Players[i].GetModelProp(index).drawableid;
@@ -185,10 +185,10 @@ namespace API
 		{
 			for (int i = 0; i < g_Players.size(); i++)
 			{
-				if (g_Players[i].GetEntity() == entity)
+				if (g_Players[i].GetId() == entity)
 				{
 					RakNet::BitStream sData;
-					sData.Write(g_Players[i].GetEntity());
+					sData.Write(g_Players[i].GetId());
 					sData.Write(index);
 					sData.Write(prop.drawableid);
 					sData.Write(prop.textureid);
@@ -205,7 +205,7 @@ namespace API
 		{
 			for (int i = 0; i < g_Players.size(); i++)
 			{
-				if (g_Players[i].GetEntity() == entity)
+				if (g_Players[i].GetId() == entity)
 				{
 					return g_Players[i].GetModelFaceFeature(index);
 				}
@@ -218,10 +218,10 @@ namespace API
 		{
 			for (int i = 0; i < g_Players.size(); i++)
 			{
-				if (g_Players[i].GetEntity() == entity)
+				if (g_Players[i].GetId() == entity)
 				{
 					RakNet::BitStream sData;
-					sData.Write(g_Players[i].GetEntity());
+					sData.Write(g_Players[i].GetId());
 					sData.Write(index);
 					sData.Write(scale);
 					g_Server->GetNetworkManager()->GetRPC().Signal("PlayerFaceFeature", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);

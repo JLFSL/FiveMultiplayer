@@ -13,7 +13,7 @@ namespace API
 			g_Objects.push_back(newObject);
 
 			RakNet::BitStream sData;
-			sData.Write(newObject.GetEntity());
+			sData.Write(newObject.GetId());
 			sData.Write(false);
 			sData.Write(RakString(model.c_str()));
 			sData.Write(position.fX);
@@ -27,7 +27,7 @@ namespace API
 
 			g_Server->GetNetworkManager()->GetRPC().Signal("CreateObject", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
 
-			return newObject.GetEntity();
+			return newObject.GetId();
 		}
 
 		int CreateObjectWithHash(int hash, CVector3 position, CVector4 quaternion, bool dynamic)
@@ -37,7 +37,7 @@ namespace API
 			g_Objects.push_back(newObject);
 
 			RakNet::BitStream sData;
-			sData.Write(newObject.GetEntity());
+			sData.Write(newObject.GetId());
 			sData.Write(true);
 			sData.Write(hash);
 			sData.Write(position.fX);
@@ -51,7 +51,7 @@ namespace API
 
 			g_Server->GetNetworkManager()->GetRPC().Signal("CreateObject", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
 
-			return newObject.GetEntity();
+			return newObject.GetId();
 		}
 
 		int CreateObjectWithRotation(std::string model, CVector3 position, CVector3 rotation, bool dynamic)
@@ -63,7 +63,7 @@ namespace API
 			g_Objects.push_back(newObject);
 
 			RakNet::BitStream sData;
-			sData.Write(newObject.GetEntity());
+			sData.Write(newObject.GetId());
 			sData.Write(false);
 			sData.Write(RakString(model.c_str()));
 			sData.Write(position.fX);
@@ -77,7 +77,7 @@ namespace API
 
 			g_Server->GetNetworkManager()->GetRPC().Signal("CreateObject", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
 
-			return newObject.GetEntity();
+			return newObject.GetId();
 		}
 
 		int CreateObjectWithHRotation(int hash, CVector3 position, CVector3 rotation, bool dynamic)
@@ -89,7 +89,7 @@ namespace API
 			g_Objects.push_back(newObject);
 
 			RakNet::BitStream sData;
-			sData.Write(newObject.GetEntity());
+			sData.Write(newObject.GetId());
 			sData.Write(true);
 			sData.Write(hash);
 			sData.Write(position.fX);
@@ -103,7 +103,7 @@ namespace API
 
 			g_Server->GetNetworkManager()->GetRPC().Signal("CreateObject", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
 
-			return newObject.GetEntity();
+			return newObject.GetId();
 		}
 	}
 }

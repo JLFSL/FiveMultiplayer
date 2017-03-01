@@ -29,7 +29,7 @@ namespace NetworkSync
 		for (int o = 0; o < g_Objects.size(); o++)
 		{
 			sData.Reset();
-			sData.Write(g_Objects[o].GetEntity());
+			sData.Write(g_Objects[o].GetId());
 			if (g_Objects[o].GetHash() == 0)
 			{
 				sData.Write(false);
