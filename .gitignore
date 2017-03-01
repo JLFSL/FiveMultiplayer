@@ -80,6 +80,7 @@ ipch/
 *.idb
 *.iobj
 *.suo
+.suo
 *.ipdb
 /PublicAPI/
 /.vs/Supercharger/v8test/workbench.dat

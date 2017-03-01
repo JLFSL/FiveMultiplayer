@@ -10,14 +10,19 @@ private:
 	};
 	std::vector<streamedObject> streamed;
 
-	int MaxPlayers;
-	int PlayerCount;
+	float MaxRange;
+
+	int MaxPlayers;		// The max visable players to be shown
+	int PlayerCount;	// The current count of visable players
+	float PlayerRange;	// Should the 'MaxPlayers' be reached it'll store the range it reached at that point here for the streamingout to check.
 
 	int MaxVehicles;
 	int VehicleCount;
+	float VehicleRange;
 
 	int MaxObjects;
 	int ObjectCount;
+	float ObjectRange;
 
 public:
 	CStreamer();
