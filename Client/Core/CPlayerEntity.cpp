@@ -245,7 +245,7 @@ void CPlayerEntity::SetTargetPosition()
 		CVector3 vecNewPosition = vecCurrentPosition + vecCompensation;
 
 		// Check if the distance to interpolate is too far
-		if ((vecCurrentPosition - InterpolationData.Position.Target).Length() > 750.0f)
+		if ((vecCurrentPosition - InterpolationData.Position.Target).Length() > 150.0f)
 		{
 			// Abort all interpolation
 			InterpolationData.Position.FinishTime = 0;
