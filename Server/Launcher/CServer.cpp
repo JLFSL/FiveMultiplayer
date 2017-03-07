@@ -160,6 +160,11 @@ void CServer::Process()
 		g_Vehicles[i].Pulse();
 	}
 
+	for (int i = 0; i < g_Objects.size(); i++)
+	{
+		g_Objects[i].Pulse();
+	}
+
 	for (int i = 0; i < g_ApiModules.size(); i++)
 	{
 		g_ApiModules[i].OnTick();

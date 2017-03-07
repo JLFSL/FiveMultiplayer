@@ -338,6 +338,26 @@ void CNetworkManager::Pulse()
 				}
 				break;
 			}
+			case ID_PACKET_OBJECT:
+			{
+				int t_Id;
+				g_BitStream.Read(t_Id);
+
+				bool exists = false;
+				if (!g_Objects.empty())
+				{
+					for (int i = 0; i < g_Objects.size(); i++)
+					{
+						if (g_Objects[i].GetId() == t_Id)
+						{
+							g_Objects[i].Update(g_Packet);
+							exists = true;
+							break;
+						}
+					}
+				}
+				break;
+			}
 			case ID_PLAYER_LEFT:
 			{
 				int t_Id;

@@ -145,13 +145,13 @@ void CCore::OnGameTick()
 		}
 	}
 
-	/*if (!g_Objects.empty())
+	if (!g_Objects.empty())
 	{
 		for (int i = 0; i < g_Objects.size(); i++)
 		{
 			g_Objects[i].Pulse();
 		}
-	}*/
+	}
 }
 
 void CCore::CleanUp()
