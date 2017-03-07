@@ -63,6 +63,33 @@ bool CPlayerEntity::CreatePed()
 			Game.Blip = UI::ADD_BLIP_FOR_ENTITY(Game.Ped);
 			UI::SET_BLIP_AS_FRIENDLY(Game.Blip, true);
 
+			// Set Component Variations
+			for (int i = 0; i < SizeOfArray(Data.ModelComponents); i++)
+			{
+				GamePed::SetPedComponentVariation(Game.Ped, i, Data.ModelComponents[i].drawableid, Data.ModelComponents[i].textureid, Data.ModelComponents[i].paletteid);
+			}
+
+			// Set Headblend
+			GamePed::SetPedHeadBlend(Game.Ped, Data.ModelHeadBlend.shapeFirst, Data.ModelHeadBlend.shapeSecond, Data.ModelHeadBlend.shapeThird, Data.ModelHeadBlend.skinFirst, Data.ModelHeadBlend.skinSecond, Data.ModelHeadBlend.skinThird, Data.ModelHeadBlend.shapeMix, Data.ModelHeadBlend.skinMix, Data.ModelHeadBlend.thirdMix);
+
+			// Set Head 
+			for (int i = 0; i < SizeOfArray(Data.ModelHeadOverlay); i++)
+			{
+				GamePed::SetPedHeadOverlayColor(Game.Ped, i, Data.ModelHeadOverlay[i].index, Data.ModelHeadOverlay[i].colorType, Data.ModelHeadOverlay[i].colorID, Data.ModelHeadOverlay[i].secondColorID, Data.ModelHeadOverlay[i].opacity);
+			}
+
+			// Set Ped Props
+			for (int i = 0; i < SizeOfArray(Data.ModelProp); i++)
+			{
+				GamePed::SetPedProp(Game.Ped, i, Data.ModelProp[i].drawableid, Data.ModelProp[i].textureid);
+			}
+
+			// Set Face Features
+			for (int i = 0; i < SizeOfArray(Data.ModelFaceFeature); i++)
+			{
+				GamePed::SetPedFaceFeature(Game.Ped, i, Data.ModelFaceFeature[i].scale);
+			}
+
 			Game.Created = true;
 
 			std::cout << "[CPlayerEntity] Created Ped" << std::endl;
