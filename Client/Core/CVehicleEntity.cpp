@@ -158,7 +158,7 @@ void CVehicleEntity::Pulse()
 		{
 			Interpolate();
 		}
-		else 
+		else
 		{
 			if ((t_CurrentVehicle == Information.Id || g_Core->GetNetworkManager()->GetInterface()->GetMyGUID() == Network.Assigned))
 			{
@@ -171,7 +171,7 @@ void CVehicleEntity::Pulse()
 				Data.Velocity = { Velocity.x, Velocity.y, Velocity.z };
 
 				Data.EngineState = VEHICLE::GET_IS_VEHICLE_ENGINE_RUNNING(Game.Vehicle);
-				
+
 				Data.Gear = vdata.GetCurrentGear(Game.Vehicle);
 				Data.RPM = vdata.GetCurrentRPM(Game.Vehicle);
 
@@ -329,7 +329,7 @@ void CVehicleEntity::SetTargetPosition()
 		float fAlpha = Math::Unlerp(InterpolationData.Position.StartTime, CurrentTime, InterpolationData.Position.FinishTime);
 
 		// Don't let it overcompensate the error
-		fAlpha = Math::Clamp(0.0f, fAlpha, 1.5f);
+		fAlpha = Math::Clamp(0.0f, fAlpha, 1.0f);
 
 		// Get the current error portion to compensate
 		float fCurrentAlpha = (fAlpha - InterpolationData.Position.LastAlpha);
@@ -346,7 +346,7 @@ void CVehicleEntity::SetTargetPosition()
 		CVector3 vecNewPosition = vecCurrentPosition + vecCompensation;
 
 		// Check if the distance to interpolate is too far
-		if ((vecCurrentPosition - InterpolationData.Position.Target).Length() > 750.0f)
+		if ((vecCurrentPosition - InterpolationData.Position.Target).Length() > 150.0f)
 		{
 			// Abort all interpolation
 			InterpolationData.Position.FinishTime = 0;
@@ -356,7 +356,7 @@ void CVehicleEntity::SetTargetPosition()
 		// Set our new position
 		ENTITY::SET_ENTITY_COORDS_NO_OFFSET(Game.Vehicle, vecNewPosition.fX, vecNewPosition.fY, vecNewPosition.fZ, false, false, false);
 		ENTITY::SET_ENTITY_VELOCITY(Game.Vehicle, Data.Velocity.fX, Data.Velocity.fY, Data.Velocity.fZ);
-		ENTITY::SET_ENTITY_QUATERNION(Game.Vehicle, Data.Quaternion.fX, Data.Quaternion.fY, Data.Quaternion.fZ, Data.Quaternion.fW);
+		//ENTITY::SET_ENTITY_QUATERNION(Game.Vehicle, Data.Quaternion.fX, Data.Quaternion.fY, Data.Quaternion.fZ, Data.Quaternion.fW);
 	}
 }
 

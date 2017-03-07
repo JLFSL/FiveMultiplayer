@@ -21,6 +21,8 @@
 #include "sdk/APIPlayer.h"
 #include "sdk/APIObject.h"
 
+#define TESTING
+
 bool to_bool(std::string str)
 {
 	std::locale loc;
@@ -38,10 +40,17 @@ extern "C" DLL_PUBLIC bool API_Initialize(void)
 {
 	API::Server::PrintMessage("Gamemode Initializing...");
 
+#ifdef TESTING
+	API::Vehicle::CreateVehicle("elegy", CVector3{ -3.0f, 6.0f, 73.0f }, 10.0f);
+	API::Vehicle::CreateVehicle("comet3", CVector3{ -6.0f, 8.0f, 73.0f }, 10.0f);
+	API::Vehicle::CreateVehicle("blazer5", CVector3{ -9.0f, 10.0f, 73.0f }, 10.0f);
+	API::Vehicle::CreateVehicle("voltic2", CVector3{ -12.0f, 12.0f, 73.0f }, 10.0f);
+#else
 	API::Vehicle::CreateVehicle("elegy", CVector3{ 1533.53f, 3282.39f, 52.5f }, 195.0f);
 	API::Vehicle::CreateVehicle("comet3", CVector3{ 1527.65f, 3296.66f, 52.5f }, 195.0f);
 	API::Vehicle::CreateVehicle("blazer5", CVector3{ 1519.32f, 3280.2f, 52.5f }, 195.0f);
 	API::Vehicle::CreateVehicle("voltic2", CVector3{ 1516.84f, 3293.88f, 52.5f }, 195.0f);
+#endif
 
 	API::World::SetTime(13, 0, 0);
 
@@ -49,6 +58,7 @@ extern "C" DLL_PUBLIC bool API_Initialize(void)
 	API::World::GetTime(&hour, &minute, &second);
 	std::cout << "Time: " << hour << ":" << minute << ":" << second << std::endl;
 
+#ifndef TESTING
 	// Load Objects
 	Json::Value root;
 	Json::Reader reader;
@@ -82,6 +92,7 @@ extern "C" DLL_PUBLIC bool API_Initialize(void)
 		API::Object::CreateObjectWithHash(atoi(root["Map"]["Objects"]["MapObject"][i]["Hash"].asCString()), position, quaternion, to_bool(root["Map"]["Objects"]["MapObject"][i]["Dynamic"].asCString()));
 	}
 	// END Load Objects
+#endif
 	
 	API::Server::PrintMessage("Gamemode Initialized!");
 	return true;
@@ -123,7 +134,7 @@ extern "C" DLL_PUBLIC bool API_OnPlayerConnected(int entity, int playerid)
 	oss << "~g~You Connected! ~o~[~w~ID: " << playerid << "~o~]";
 	API::Visual::ShowMessageAboveMapToPlayer(entity, oss.str().c_str(), "CHAR_CREATOR_PORTRAITS", 1, "Server", "");
 
-	API::Entity::SetPosition(entity, CVector3{ 1527.62f, 3274.39f, 53.0f });
+	API::Entity::SetPosition(entity, CVector3{ 0.0f, 0.0f, 73.5f });
 
 	
 	CVector3 position = API::Entity::GetPosition(entity);
