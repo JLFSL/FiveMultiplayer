@@ -27,7 +27,7 @@ void CRPCPlayer::PlayerComponent(RakNet::BitStream *bitStream, RakNet::Packet *p
 		{
 			if (g_Players[i].GetId() == entity)
 			{
-				GamePed::SetPedComponentVariation(g_Players[i].GetPed(), componentid, drawableid, textureid, paletteid);
+				g_Players[i].SetPedComponentVariation(componentid, drawableid, textureid, paletteid);
 				return;
 			}
 		}
@@ -60,7 +60,7 @@ void CRPCPlayer::PlayerHeadBlend(RakNet::BitStream *bitStream, RakNet::Packet *p
 		{
 			if (g_Players[i].GetId() == entity)
 			{
-				GamePed::SetPedHeadBlend(g_Players[i].GetPed(), shapeFirst, shapeSecond, shapeThird, skinFirst, skinSecond, skinThird, shapeMix, skinMix, thirdMix);
+				g_Players[i].SetPedHeadBlend(shapeFirst, shapeSecond, shapeThird, skinFirst, skinSecond, skinThird, shapeMix, skinMix, thirdMix);
 				return;
 			}
 		}
@@ -90,7 +90,7 @@ void CRPCPlayer::PlayerHeadOverlay(RakNet::BitStream *bitStream, RakNet::Packet 
 		{
 			if (g_Players[i].GetId() == entity)
 			{
-				GamePed::SetPedHeadOverlayColor(g_Players[i].GetPed(), overlayid, index, colorType, colorID, secondColorID, opacity);
+				g_Players[i].SetPedHeadOverlayColor(overlayid, index, colorType, colorID, secondColorID, opacity);
 				return;
 			}
 		}
@@ -117,7 +117,7 @@ void CRPCPlayer::PlayerProp(RakNet::BitStream *bitStream, RakNet::Packet *packet
 		{
 			if (g_Players[i].GetId() == entity)
 			{
-				GamePed::SetPedProp(g_Players[i].GetPed(), componentid, drawableid, textureid);
+				g_Players[i].SetPedProp(componentid, drawableid, textureid);
 				return;
 			}
 		}
@@ -143,7 +143,7 @@ void CRPCPlayer::PlayerFaceFeature(RakNet::BitStream *bitStream, RakNet::Packet 
 		{
 			if (g_Players[i].GetId() == entity)
 			{
-				GamePed::SetPedFaceFeature(g_Players[i].GetPed(), index, scale);
+				g_Players[i].SetPedFaceFeature(index, scale);
 				return;
 			}
 		}

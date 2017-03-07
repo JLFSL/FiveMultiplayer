@@ -39,6 +39,46 @@ private:
 			int			Seat;
 		} Vehicle;
 
+		struct PlayerComponent
+		{
+			int drawableid = -1;
+			int textureid = -1;
+			int paletteid = -1;
+		} ModelComponents[12];
+
+		struct PlayerHeadBlend
+		{
+			int shapeFirst = 0;
+			int shapeSecond = 0;
+			int shapeThird = 0;
+			int skinFirst = 0;
+			int skinSecond = 0;
+			int skinThird = 0;
+			float shapeMix = 0;
+			float skinMix = 0;
+			float thirdMix = 0;
+		} ModelHeadBlend;
+
+		struct PlayerHeadOverlay
+		{
+			int index = 0;
+			float opacity = 0.0f;
+			int colorType = 0;
+			int colorID = 0;
+			int secondColorID = 0;
+		} ModelHeadOverlay[13];
+
+		struct PlayerProp
+		{
+			int drawableid = 0;
+			int textureid = 0;
+		} ModelProp[3];
+
+		struct PlayerFeature
+		{
+			float scale = 0.0f;
+		} ModelFaceFeature[20];
+
 		float				ForwardSpeed;
 
 		CVector3			Position;
@@ -118,6 +158,12 @@ public:
 	void SetInfo(PlayerInfo newinfo)		{ Information = newinfo; }
 	void SetStats(PlayerStats newstats)		{ Statistics = newstats; }
 	void SetData(PlayerData newdata)		{ Data = newdata; }
+
+	void SetPedComponentVariation(const int componentid, const int drawableid, const int textureid, const int paletteid);
+	void SetPedHeadBlend(const int shapeFirst, const int shapeSecond, const int shapeThird, const int skinFirst, const int skinSecond, const int skinThird, const float shapeMix, const float skinMix, const float thirdMix);
+	void SetPedHeadOverlayColor(const int overlayid, const int index, const int colorType, const int colorid, const int secondColorid, const float opacity);
+	void SetPedProp(const int componentid, const int drawableid, const int textureid);
+	void SetPedFaceFeature(const int index, const float scale);
 
 	PlayerInterpolationData	InterpolationData;
 };
