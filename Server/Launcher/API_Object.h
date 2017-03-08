@@ -4,10 +4,10 @@ extern "C" {
 	{
 		namespace Object
 		{
-			DLL_PUBLIC int CreateObject(std::string model, CVector3 position, CVector4 Quaternion, bool dynamic);
-			DLL_PUBLIC int CreateObjectWithHash(int hash, CVector3 position, CVector4 Quaternion, bool dynamic);
-			DLL_PUBLIC int CreateObjectWithRotation(std::string model, CVector3 position, CVector3 Rotation, bool dynamic);
-			DLL_PUBLIC int CreateObjectWithHRotation(int hash, CVector3 position, CVector3 Rotation, bool dynamic);
+			DLL_PUBLIC int Create(std::string model, CVector3 position, CVector4 Quaternion, bool dynamic);
+			DLL_PUBLIC int CreateWithHash(int hash, CVector3 position, CVector4 Quaternion, bool dynamic);
+			DLL_PUBLIC int CreateWithRotation(std::string model, CVector3 position, CVector3 Rotation, bool dynamic);
+			DLL_PUBLIC int CreateWithHRotation(int hash, CVector3 position, CVector3 Rotation, bool dynamic);
 		}
 	}
 }

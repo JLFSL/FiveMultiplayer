@@ -6,7 +6,7 @@ namespace API
 	{
 		const char *ThisNamespace = "API::Object";
 
-		int CreateObject(std::string model, CVector3 position, CVector4 quaternion, bool dynamic)
+		int Create(std::string model, CVector3 position, CVector4 quaternion, bool dynamic)
 		{
 			CObjectEntity newObject;
 			newObject.Create(model, position, quaternion, dynamic);
@@ -30,7 +30,7 @@ namespace API
 			return newObject.GetId();
 		}
 
-		int CreateObjectWithHash(int hash, CVector3 position, CVector4 quaternion, bool dynamic)
+		int CreateWithHash(int hash, CVector3 position, CVector4 quaternion, bool dynamic)
 		{
 			CObjectEntity newObject;
 			newObject.Create(hash, position, quaternion, dynamic);
@@ -54,7 +54,7 @@ namespace API
 			return newObject.GetId();
 		}
 
-		int CreateObjectWithRotation(std::string model, CVector3 position, CVector3 rotation, bool dynamic)
+		int CreateWithRotation(std::string model, CVector3 position, CVector3 rotation, bool dynamic)
 		{
 			CVector4 quaternion = CVector4::calculateQuaternion(rotation.fX, rotation.fY, rotation.fZ);
 
@@ -80,7 +80,7 @@ namespace API
 			return newObject.GetId();
 		}
 
-		int CreateObjectWithHRotation(int hash, CVector3 position, CVector3 rotation, bool dynamic)
+		int CreateWithHRotation(int hash, CVector3 position, CVector3 rotation, bool dynamic)
 		{
 			CVector4 quaternion = CVector4::calculateQuaternion(rotation.fX, rotation.fY, rotation.fZ);
 

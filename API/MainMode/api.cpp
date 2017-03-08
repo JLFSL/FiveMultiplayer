@@ -21,7 +21,7 @@
 #include "sdk/APIPlayer.h"
 #include "sdk/APIObject.h"
 
-#define TESTING
+//#define TESTING
 
 bool to_bool(std::string str)
 {
@@ -89,7 +89,7 @@ extern "C" DLL_PUBLIC bool API_Initialize(void)
 			(float)std::atof(root["Map"]["Objects"]["MapObject"][i]["Quaternion"]["W"].asCString())
 		};
 		
-		API::Object::CreateObjectWithHash(atoi(root["Map"]["Objects"]["MapObject"][i]["Hash"].asCString()), position, quaternion, to_bool(root["Map"]["Objects"]["MapObject"][i]["Dynamic"].asCString()));
+		API::Object::CreateWithHash(atoi(root["Map"]["Objects"]["MapObject"][i]["Hash"].asCString()), position, quaternion, to_bool(root["Map"]["Objects"]["MapObject"][i]["Dynamic"].asCString()));
 	}
 	// END Load Objects
 #endif
