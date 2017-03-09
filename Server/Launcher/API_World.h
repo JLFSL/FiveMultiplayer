@@ -2,13 +2,16 @@
 extern "C" {
 	namespace API
 	{
-		namespace World
+		class World
 		{
-			DLL_PUBLIC void GetTime(int *hour, int *minute, int *second);
-			DLL_PUBLIC void SetTime(int hour, int minute, int second);
+			static const char *ThisNamespace;
 
-			DLL_PUBLIC std::string GetWeather();
-			DLL_PUBLIC void SetWeather(const std::string weather);
-		}
+		public:
+			DLL_PUBLIC static void GetTime(int *hour, int *minute, int *second);
+			DLL_PUBLIC static void SetTime(const int hour, const int minute, const int second);
+
+			DLL_PUBLIC static const std::string GetWeather();
+			DLL_PUBLIC static void SetWeather(const std::string weather);
+		};
 	}
 }
