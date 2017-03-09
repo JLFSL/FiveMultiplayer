@@ -1,7 +1,14 @@
 #pragma once
 
-namespace API {
-	namespace Server {
-		extern "C" DLL_PUBLIC int PrintMessage(const std::string message);
+extern "C" {
+	namespace API
+	{
+		class Server
+		{
+			static const char *ThisNamespace;
+
+		public:
+			DLL_PUBLIC static void PrintMessage(const std::string message);
+		};
 	}
 }

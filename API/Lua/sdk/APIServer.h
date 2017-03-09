@@ -5,10 +5,10 @@ extern "C" {
 #endif
 	namespace API
 	{
-		namespace Server
+		class Server
 		{
-			DLL_PUBLIC_I void PrintMessage(const std::string  message);
-		}
+			DLL_PUBLIC_I static void PrintMessage(const std::string  message);
+		};
 	}
 #ifdef __cplusplus
 }

@@ -1,13 +1,10 @@
 #include "stdafx.h"
 
 namespace API {
-	namespace Server {
-		const char *ThisNamespace = "API::Server";
+	const char *Server::ThisNamespace = "API::Server";
 
-		int PrintMessage(const std::string message)
-		{
-			std::cout << "[" << ThisNamespace << "] " << message << std::endl;
-			return 1;
-		}
+	void Server::PrintMessage(const std::string message)
+	{
+		std::cout << "[" << ThisNamespace << "] " << message << std::endl;
 	}
 }
