@@ -10,6 +10,7 @@ std::vector<CServerEntity>	g_Entities;
 std::vector<CPlayerEntity>	g_Players;
 std::vector<CVehicleEntity>	g_Vehicles;
 std::vector<CObjectEntity>	g_Objects;
+std::vector<CNPCEntity>		g_Npcs;
 std::vector<CAPI>			g_ApiModules;
 
 CServer::CServer()

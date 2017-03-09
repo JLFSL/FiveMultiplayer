@@ -20,6 +20,7 @@
 #include "sdk/APIVisual.h"
 #include "sdk/APIPlayer.h"
 #include "sdk/APIObject.h"
+#include "sdk/APINpc.h"
 
 //#define TESTING
 
@@ -57,6 +58,8 @@ extern "C" DLL_PUBLIC bool API_Initialize(void)
 	int hour, minute, second;
 	API::World::GetTime(&hour, &minute, &second);
 	std::cout << "Time: " << hour << ":" << minute << ":" << second << std::endl;
+
+	API::NPC::Create("u_m_y_pogo_01", CVector3(0.0f, 0.0f, 70.0f), 90.0f);
 
 #ifndef TESTING
 	// Load Objects
@@ -135,7 +138,6 @@ extern "C" DLL_PUBLIC bool API_OnPlayerConnected(int entity, int playerid)
 	API::Visual::ShowMessageAboveMapToPlayer(entity, oss.str().c_str(), "CHAR_CREATOR_PORTRAITS", 1, "Server", "");
 
 	API::Entity::SetPosition(entity, CVector3{ 0.0f, 0.0f, 73.5f });
-
 	
 	CVector3 position = API::Entity::GetPosition(entity);
 	

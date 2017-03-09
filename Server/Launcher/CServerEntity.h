@@ -8,7 +8,8 @@ public:
 	{
 		Player = 0,
 		Vehicle = 1,
-		Object = 2
+		Object = 2,
+		NPC = 3
 	};
 private:
 	struct Entity {

@@ -16,6 +16,8 @@ CCore::CCore()
 
 CCore::~CCore()
 {
+	std::cout << "[CCore] Deconstructed" << std::endl;
+
 	/*SAFE_DELETE(g_NetworkManager);
 	SAFE_DELETE(g_RPCManager);
 	SAFE_DELETE(g_LocalPlayer);
