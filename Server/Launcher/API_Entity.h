@@ -4,6 +4,8 @@ extern "C" {
 	{
 		class Entity
 		{
+			static const char *ThisNamespace;
+
 		public:
 			DLL_PUBLIC static void Destroy(int entity);
 			DLL_PUBLIC static const CVector3 GetPosition(int entity);

@@ -102,7 +102,7 @@ public:
 	CVector4		GetQuaternion() { return Data.Quaternion; }
 	void			SetQuaternion(const CVector4 quaternion) { Data.Quaternion = quaternion; }
 
-	const std::string GetModel() { return Data.Model.Model; }
+	const std::string GetModel() { return Data.Model.Model.C_String(); }
 	void			SetModel(const std::string model) { Data.Model.Model = RakString(model.c_str()); }
 
 	NPCData::Component GetModelComponent(const int index) { return Data.ModelComponents[index]; }

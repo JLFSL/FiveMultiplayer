@@ -2,7 +2,7 @@
 
 namespace API
 {
-	const char *ThisNamespace = "API::Entity";
+	const char *Entity::ThisNamespace = "API::Entity";
 
 	void Entity::Destroy(int entity)
 	{
