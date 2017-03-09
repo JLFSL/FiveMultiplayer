@@ -61,7 +61,6 @@ extern "C" DLL_PUBLIC bool API_Initialize(void)
 
 	API::NPC::Create("u_m_y_pogo_01", CVector3(0.0f, 0.0f, 70.0f), 90.0f);
 
-#ifndef TESTING
 	// Load Objects
 	Json::Value root;
 	Json::Reader reader;
@@ -95,7 +94,6 @@ extern "C" DLL_PUBLIC bool API_Initialize(void)
 		API::Object::CreateWithHash(atoi(root["Map"]["Objects"]["MapObject"][i]["Hash"].asCString()), position, quaternion, to_bool(root["Map"]["Objects"]["MapObject"][i]["Dynamic"].asCString()));
 	}
 	// END Load Objects
-#endif
 	
 	API::Server::PrintMessage("Gamemode Initialized!");
 	return true;
@@ -137,8 +135,12 @@ extern "C" DLL_PUBLIC bool API_OnPlayerConnected(int entity, int playerid)
 	oss << "~g~You Connected! ~o~[~w~ID: " << playerid << "~o~]";
 	API::Visual::ShowMessageAboveMapToPlayer(entity, oss.str().c_str(), "CHAR_CREATOR_PORTRAITS", 1, "Server", "");
 
+#ifndef TESTING
 	API::Entity::SetPosition(entity, CVector3{ 0.0f, 0.0f, 73.5f });
-	
+#else
+	API::Entity::SetPosition(entity, CVector3{ 1527.62f, 3274.39f, 53.0f });
+#endif
+
 	CVector3 position = API::Entity::GetPosition(entity);
 	
 	oss.str(std::string());
