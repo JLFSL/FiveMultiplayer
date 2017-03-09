@@ -2,9 +2,12 @@
 extern "C" {
 	namespace API
 	{
-		namespace Vehicle
+		class Vehicle
 		{
-			DLL_PUBLIC int CreateVehicle(std::string model, CVector3 position, float heading);
-		}
+			static const char *ThisNamespace;
+
+		public:
+			DLL_PUBLIC static const int Create(const std::string model, const CVector3 position, const float heading);
+		};
 	}
 }

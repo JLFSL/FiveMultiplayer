@@ -7,6 +7,7 @@ extern "C" {
 	{
 		class Entity
 		{
+		public:
 			/// <summary>
 			/// Destroys/Removes a entity from the server
 			/// </summary>

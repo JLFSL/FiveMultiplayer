@@ -7,6 +7,7 @@ extern "C" {
 	{
 		class Server
 		{
+		public:
 			DLL_PUBLIC_I static void PrintMessage(const std::string  message);
 		};
 	}

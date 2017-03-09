@@ -42,15 +42,15 @@ extern "C" DLL_PUBLIC bool API_Initialize(void)
 	API::Server::PrintMessage("Gamemode Initializing...");
 
 #ifdef TESTING
-	API::Vehicle::CreateVehicle("elegy", CVector3{ -3.0f, 6.0f, 73.0f }, 10.0f);
-	API::Vehicle::CreateVehicle("comet3", CVector3{ -6.0f, 8.0f, 73.0f }, 10.0f);
-	API::Vehicle::CreateVehicle("blazer5", CVector3{ -9.0f, 10.0f, 73.0f }, 10.0f);
-	API::Vehicle::CreateVehicle("voltic2", CVector3{ -12.0f, 12.0f, 73.0f }, 10.0f);
+	API::Vehicle::Create("elegy", CVector3{ -3.0f, 6.0f, 73.0f }, 10.0f);
+	API::Vehicle::Create("comet3", CVector3{ -6.0f, 8.0f, 73.0f }, 10.0f);
+	API::Vehicle::Create("blazer5", CVector3{ -9.0f, 10.0f, 73.0f }, 10.0f);
+	API::Vehicle::Create("voltic2", CVector3{ -12.0f, 12.0f, 73.0f }, 10.0f);
 #else
-	API::Vehicle::CreateVehicle("elegy", CVector3{ 1533.53f, 3282.39f, 52.5f }, 195.0f);
-	API::Vehicle::CreateVehicle("comet3", CVector3{ 1527.65f, 3296.66f, 52.5f }, 195.0f);
-	API::Vehicle::CreateVehicle("blazer5", CVector3{ 1519.32f, 3280.2f, 52.5f }, 195.0f);
-	API::Vehicle::CreateVehicle("voltic2", CVector3{ 1516.84f, 3293.88f, 52.5f }, 195.0f);
+	API::Vehicle::Create("elegy", CVector3{ 1533.53f, 3282.39f, 52.5f }, 195.0f);
+	API::Vehicle::Create("comet3", CVector3{ 1527.65f, 3296.66f, 52.5f }, 195.0f);
+	API::Vehicle::Create("blazer5", CVector3{ 1519.32f, 3280.2f, 52.5f }, 195.0f);
+	API::Vehicle::Create("voltic2", CVector3{ 1516.84f, 3293.88f, 52.5f }, 195.0f);
 #endif
 
 	API::World::SetTime(13, 0, 0);
