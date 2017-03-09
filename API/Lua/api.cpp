@@ -120,7 +120,7 @@ struct Vehicle
 				heading = lua_tonumber(L, 6);
 			}
 
-			veh->entity = API::Vehicle::CreateVehicle(model, poss, heading);
+			veh->entity = API::Vehicle::Create(model, poss, heading);
 
 			veh = nullptr;
 		}
