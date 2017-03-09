@@ -3,8 +3,11 @@
 extern "C" {
 	namespace API
 	{
-		namespace Player
+		class Player
 		{
+			static const char *ThisNamespace;
+
+		public:
 			DLL_PUBLIC struct PlayerComponent
 			{
 				int drawableid = -1;
@@ -46,19 +49,19 @@ extern "C" {
 			};
 
 
-			DLL_PUBLIC const std::string GetModel(const int entity);
-			DLL_PUBLIC void SetModel(const int entity, const std::string model);
+			DLL_PUBLIC static const std::string GetModel(const int entity);
+			DLL_PUBLIC static void SetModel(const int entity, const std::string model);
 
-			DLL_PUBLIC PlayerComponent GetPlayerComponent(const int entity, const int componentid);
-			DLL_PUBLIC void SetPlayerComponent(const int entity, const int componentid, PlayerComponent component);
-			DLL_PUBLIC PlayerHeadBlend GetPlayerHeadBlend(const int entity);
-			DLL_PUBLIC void SetPlayerHeadBlend(const int entity, PlayerHeadBlend headblend);
-			DLL_PUBLIC PlayerHeadOverlay GetPlayerHeadOverlay(const int entity, const int index);
-			DLL_PUBLIC void SetPlayerHeadOverlay(const int entity, const int index, PlayerHeadOverlay overlay);
-			DLL_PUBLIC PlayerProp GetPlayerProp(const int entity, const int index);
-			DLL_PUBLIC void SetPlayerProp(const int entity, const int index, PlayerProp prop);
-			DLL_PUBLIC float GetPlayerFeature(const int entity, const int index);
-			DLL_PUBLIC void SetPlayerFeature(const int entity, const int index, float scale);
-		}
+			DLL_PUBLIC static const PlayerComponent GetPlayerComponent(const int entity, const int componentid);
+			DLL_PUBLIC static void SetPlayerComponent(const int entity, const int componentid, PlayerComponent component);
+			DLL_PUBLIC static const PlayerHeadBlend GetPlayerHeadBlend(const int entity);
+			DLL_PUBLIC static void SetPlayerHeadBlend(const int entity, PlayerHeadBlend headblend);
+			DLL_PUBLIC static const PlayerHeadOverlay GetPlayerHeadOverlay(const int entity, const int index);
+			DLL_PUBLIC static void SetPlayerHeadOverlay(const int entity, const int index, PlayerHeadOverlay overlay);
+			DLL_PUBLIC static const PlayerProp GetPlayerProp(const int entity, const int index);
+			DLL_PUBLIC static void SetPlayerProp(const int entity, const int index, PlayerProp prop);
+			DLL_PUBLIC static const float GetPlayerFaceFeature(const int entity, const int index);
+			DLL_PUBLIC static void SetPlayerFaceFeature(const int entity, const int index, float scale);
+		};
 	}
 }
