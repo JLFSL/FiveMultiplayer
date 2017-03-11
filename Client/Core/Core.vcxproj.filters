@@ -189,6 +189,12 @@
     <ClCompile Include="CefMouseHook.cpp">
       <Filter>Graphics\UI\CEF\Input</Filter>
     </ClCompile>
+    <ClCompile Include="CRPCNpc.cpp">
+      <Filter>Network\RPC</Filter>
+    </ClCompile>
+    <ClCompile Include="CNPCEntity.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -346,6 +352,12 @@
     </ClInclude>
     <ClInclude Include="CefMouseHook.h">
       <Filter>Graphics\UI\CEF\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="CRPCNpc.h">
+      <Filter>Network\RPC</Filter>
+    </ClInclude>
+    <ClInclude Include="CNPCEntity.h">
+      <Filter>Entity</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

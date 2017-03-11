@@ -18,6 +18,10 @@ CStreamer::CStreamer()
 	MaxObjects = 500;		// The plan is to have about 1000 objects
 	ObjectCount = 0;
 	ObjectRange = 1000.0f;
+
+	MaxNpcs = 20;
+	NpcCount = 0;
+	NpcRange = 1000.0f;
 }
 
 void CStreamer::Start()
@@ -137,6 +141,36 @@ void CStreamer::StreamIn(CVector3 position)
 							}
 						}
 						break;
+					case CServerEntity::Type::NPC:
+						if (NpcCount < MaxNpcs)
+						{
+							for (int index = 0; index < g_Npcs.size(); index++)
+							{
+								if (g_Npcs[index].GetId() == g_Entities[i].GetId())
+								{
+									if (!g_Npcs[index].IsCreated() && CVector3::Distance(position, g_Npcs[index].GetPosition()) < curDis)
+									{
+										if (g_Npcs[index].CreateNpc())
+										{
+											if (NpcCount == (MaxNpcs - 1))
+												NpcRange = CVector3::Distance(position, g_Npcs[index].GetPosition());
+											else
+												NpcRange = 1000.0f;
+
+											NpcCount++;
+
+											streamedObject newObj;
+											newObj.entity = g_Entities[i].GetId();
+											newObj.distance = CVector3::Distance(position, g_Npcs[index].GetPosition());
+
+											streamed.push_back(newObj);
+										}
+									}
+									break;
+								}
+							}
+						}
+						break;
 					default:
 						std::cout << "[CStreamer::StreamIn] Found Invalid entity" << std::endl;
 						break;
@@ -202,6 +236,22 @@ void CStreamer::StreamOut(CVector3 position)
 
 								streamed.erase(streamed.begin() + i);
 								ObjectCount--;
+							}
+							break;
+						}
+					}
+					break;
+				case CServerEntity::Type::NPC:
+					for (int index = 0; index < g_Npcs.size(); index++)
+					{
+						if (g_Npcs[index].GetId() == streamed[i].entity)
+						{
+							if (g_Npcs[index].IsCreated() && CVector3::Distance(position, g_Npcs[index].GetPosition()) >(ObjectRange + 10.0f))
+							{
+								g_Npcs[index].Delete();
+
+								streamed.erase(streamed.begin() + i);
+								NpcCount--;
 							}
 							break;
 						}
@@ -276,6 +326,20 @@ void CStreamer::ForceStreamOut()
 					}
 				}
 				break;
+			case CServerEntity::Type::NPC:
+				for (int index = 0; index < g_Npcs.size(); index++)
+				{
+					if (g_Npcs[index].GetId() == streamed[i].entity)
+					{
+						if (g_Npcs[index].IsCreated())
+							g_Npcs[index].Delete();
+
+						streamed.erase(streamed.begin() + i);
+						NpcCount--;
+						break;
+					}
+				}
+				break;
 			default:
 				std::cout << "[CStreamer::ForceStreamOut] Found Invalid entity" << std::endl;
 				break;
@@ -287,5 +351,6 @@ void CStreamer::ForceStreamOut()
 		PlayerCount = 0;
 		VehicleCount = 0;
 		ObjectCount = 0;
+		NpcCount = 0;
 	}
 }

@@ -86,7 +86,10 @@ void CNetworkManager::Pulse()
 		{
 			case ID_NEW_INCOMING_CONNECTION:
 			{
+				// New connection
 				NewIncomingConnection(g_Packet);
+
+				// Ping Master
 				PulseMaster();
 				break;
 			}

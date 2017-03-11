@@ -22,7 +22,7 @@
 #include "sdk/APIObject.h"
 #include "sdk/APINpc.h"
 
-//#define TESTING
+#define TESTING;
 
 bool to_bool(std::string str)
 {
@@ -41,7 +41,7 @@ extern "C" DLL_PUBLIC bool API_Initialize(void)
 {
 	API::Server::PrintMessage("Gamemode Initializing...");
 
-#ifdef TESTING
+#ifndef TESTING
 	API::Vehicle::Create("elegy", CVector3{ -3.0f, 6.0f, 73.0f }, 10.0f);
 	API::Vehicle::Create("comet3", CVector3{ -6.0f, 8.0f, 73.0f }, 10.0f);
 	API::Vehicle::Create("blazer5", CVector3{ -9.0f, 10.0f, 73.0f }, 10.0f);
@@ -59,7 +59,11 @@ extern "C" DLL_PUBLIC bool API_Initialize(void)
 	API::World::GetTime(&hour, &minute, &second);
 	std::cout << "Time: " << hour << ":" << minute << ":" << second << std::endl;
 
+#ifndef TESTING
 	API::NPC::Create("u_m_y_pogo_01", CVector3(0.0f, 0.0f, 70.0f), 90.0f);
+#else
+	API::NPC::Create("u_m_y_pogo_01", CVector3(1527.62f, 3274.39f, 53.0f), 90.0f);
+#endif
 
 	// Load Objects
 	Json::Value root;

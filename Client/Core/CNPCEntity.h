@@ -3,6 +3,15 @@
 class CNPCEntity
 {
 private:
+	struct GameInfo
+	{
+		Ped			Npc;
+		bool		Created;
+
+		Blip		Blip;
+	} Game;
+
+
 	struct NPCData
 	{
 		int					Id;
@@ -81,17 +90,21 @@ private:
 public:
 	static int Amount;
 
-	CNPCEntity() {}
+	CNPCEntity();
 	~CNPCEntity() {}
 
-	void Create(const std::string model, const CVector3 position, const float heading);
+	bool Create(const int entity, const RakString model, const CVector3 position, const CVector4 quaternion);
+	bool CreateNpc();
 	void Destroy();
+	void Delete();
 
 	void Pulse();
 	void Update(Packet *packet);
 
 	int				GetId() { return Data.Id; }
 	void			SetId(const int playerid) { Data.Id = playerid; }
+
+	bool			IsCreated() { return Game.Created; }
 
 	int				GetVehicle() { return Data.Vehicle.VehicleID; }
 	int				GetVehicleSeat() { return Data.Vehicle.Seat; }

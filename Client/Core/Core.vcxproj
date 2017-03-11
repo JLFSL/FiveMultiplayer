@@ -182,10 +182,12 @@
     <ClCompile Include="CefRenderer.cpp" />
     <ClCompile Include="CefTexture.cpp" />
     <ClCompile Include="CNetworkManager.cpp" />
+    <ClCompile Include="CNPCEntity.cpp" />
     <ClCompile Include="CObjectEntity.cpp" />
     <ClCompile Include="CPlayerEntity.cpp" />
     <ClCompile Include="CrossMapping.cpp" />
     <ClCompile Include="CRPCEntity.cpp" />
+    <ClCompile Include="CRPCNpc.cpp" />
     <ClCompile Include="CRPCObject.cpp" />
     <ClCompile Include="CRPCPlayer.cpp" />
     <ClCompile Include="CRPCWorld.cpp" />
@@ -248,10 +250,12 @@
     <ClInclude Include="CefRenderer.h" />
     <ClInclude Include="CefTexture.h" />
     <ClInclude Include="CNetworkManager.h" />
+    <ClInclude Include="CNPCEntity.h" />
     <ClInclude Include="CObjectEntity.h" />
     <ClInclude Include="CPlayerEntity.h" />
     <ClInclude Include="CrossMapping.h" />
     <ClInclude Include="CRPCEntity.h" />
+    <ClInclude Include="CRPCNpc.h" />
     <ClInclude Include="CRPCObject.h" />
     <ClInclude Include="CRPCPlayer.h" />
     <ClInclude Include="CRPCWorld.h" />

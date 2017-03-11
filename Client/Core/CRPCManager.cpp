@@ -24,7 +24,10 @@ CRPCManager::RPCMessage rpcmessages[] = {
 	{ "PlayerModel", CRPCPlayer::PlayerModel },
 #pragma endregion
 #pragma region Object
-	{ "CreateObject", CRPCObject::Create }
+	{ "CreateObject", CRPCObject::Create },
+#pragma endregion
+#pragma region Npc
+	{ "CreateNPC", CRPCNpc::Create }
 #pragma endregion
 };
 

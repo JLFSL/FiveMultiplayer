@@ -154,6 +154,15 @@ void CNetworkManager::Disconnect()
 	}
 	// Shrink vector so size is correct.
 	g_Objects.shrink_to_fit();
+
+	// Remove all existing npcs
+	for (int i = (g_Npcs.size() - 1); i > -1; i--)
+	{
+		g_Npcs[i].Destroy();
+		g_Npcs.erase(g_Npcs.begin() + i);
+	}
+	// Shrink vector so size is correct.
+	g_Npcs.shrink_to_fit();
 	
 	Logger::Msg("CNetworkManager::Disconnected");
 }
