@@ -60,9 +60,9 @@ extern "C" DLL_PUBLIC bool API_Initialize(void)
 	std::cout << "Time: " << hour << ":" << minute << ":" << second << std::endl;
 
 #ifndef TESTING
-	API::NPC::Create("u_m_y_pogo_01", CVector3(0.0f, 0.0f, 70.0f), 90.0f);
+	API::NPC::Create("s_m_m_movspace_01", CVector3(0.0f, 0.0f, 70.0f), 90.0f);
 #else
-	API::NPC::Create("u_m_y_pogo_01", CVector3(1527.62f, 3274.39f, 53.0f), 90.0f);
+	API::NPC::Create("s_m_m_movspace_01", CVector3(1527.62f, 3274.39f, 53.0f), 90.0f);
 #endif
 
 	// Load Objects
@@ -138,6 +138,8 @@ extern "C" DLL_PUBLIC bool API_OnPlayerConnected(int entity, int playerid)
 	std::ostringstream oss;
 	oss << "~g~You Connected! ~o~[~w~ID: " << playerid << "~o~]";
 	API::Visual::ShowMessageAboveMapToPlayer(entity, oss.str().c_str(), "CHAR_CREATOR_PORTRAITS", 1, "Server", "");
+
+	API::Player::SetModel(entity, "u_m_y_pogo_01");
 
 #ifndef TESTING
 	API::Entity::SetPosition(entity, CVector3{ 0.0f, 0.0f, 73.5f });

@@ -7,6 +7,7 @@ extern "C" {
 	{
 		class Player
 		{
+		public:
 			DLL_PUBLIC_I struct PlayerComponent
 			{
 				int drawableid = -1;
