@@ -22,7 +22,7 @@
 #include "sdk/APIObject.h"
 #include "sdk/APINpc.h"
 
-#define TESTING;
+#define TESTING
 
 bool to_bool(std::string str)
 {
