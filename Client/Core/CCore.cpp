@@ -38,12 +38,19 @@ bool CCore::Initialize()
 
 	TIME::PAUSE_CLOCK(true);
 	GAMEPLAY::CLEAR_OVERRIDE_WEATHER();
+	
+	// Disables dispatch services
+	for (int s = 1; s < 13; s++)
+	{
+		GAMEPLAY::ENABLE_DISPATCH_SERVICE(s, false);
+	}
 
 	//Disable Hospitals
 	for (int i = 0; i <= 5; i++)
 	{
 		GAMEPLAY::DISABLE_HOSPITAL_RESTART(i, true);
 	}
+
 	//Disable Stunt Jumps
 	for (int i = 0; i < 50; i++)
 	{
