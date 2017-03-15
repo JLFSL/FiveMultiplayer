@@ -159,11 +159,11 @@ public:
 	void SetStats(PlayerStats newstats)		{ Statistics = newstats; }
 	void SetData(PlayerData newdata)		{ Data = newdata; }
 
-	void SetPedComponentVariation(const int componentid, const int drawableid, const int textureid, const int paletteid);
-	void SetPedHeadBlend(const int shapeFirst, const int shapeSecond, const int shapeThird, const int skinFirst, const int skinSecond, const int skinThird, const float shapeMix, const float skinMix, const float thirdMix);
-	void SetPedHeadOverlayColor(const int overlayid, const int index, const int colorType, const int colorid, const int secondColorid, const float opacity);
-	void SetPedProp(const int componentid, const int drawableid, const int textureid);
-	void SetPedFaceFeature(const int index, const float scale);
+	void SetModelComponent(const int componentid, const int drawableid, const int textureid, const int paletteid);
+	void SetModelHeadBlend(const int shapeFirst, const int shapeSecond, const int shapeThird, const int skinFirst, const int skinSecond, const int skinThird, const float shapeMix, const float skinMix, const float thirdMix);
+	void SetModelHeadOverlay(const int overlayid, const int index, const int colorType, const int colorid, const int secondColorid, const float opacity);
+	void SetModelProp(const int componentid, const int drawableid, const int textureid);
+	void SetModelFaceFeature(const int index, const float scale);
 
 	PlayerInterpolationData	InterpolationData;
 };

@@ -95,6 +95,7 @@ public:
 
 	bool Create(const int entity, const RakString model, const CVector3 position, const CVector4 quaternion);
 	bool CreateNpc();
+	void RequestData();
 	void Destroy();
 	void Delete();
 
@@ -103,6 +104,8 @@ public:
 
 	int				GetId() { return Data.Id; }
 	void			SetId(const int playerid) { Data.Id = playerid; }
+
+	const Entity	GetEntity() { return Game.Npc; }
 
 	bool			IsCreated() { return Game.Created; }
 
@@ -119,42 +122,19 @@ public:
 	void			SetModel(const std::string model) { Data.Model.Model = RakString(model.c_str()); }
 
 	NPCData::Component GetModelComponent(const int index) { return Data.ModelComponents[index]; }
-	void			SetModelComponent(const int index, const int drawableid, const int textureid, const int paletteid)
-	{
-		Data.ModelComponents[index].drawableid = drawableid;
-		Data.ModelComponents[index].textureid = textureid;
-		Data.ModelComponents[index].paletteid = paletteid;
-	}
+	void			SetModelComponent(const int index, const int drawableid, const int textureid, const int paletteid);
+
 	NPCData::HeadBlend GetModelHeadBlend() { return Data.ModelHeadBlend; }
-	void			SetModelHeadBlend(const int shapeFirst, const float shapeMix, const int shapeSecond, const int shapeThird, const int skinFirst, const float skinMix, const int skinSecond, const int skinThird, const float thirdMix)
-	{
-		Data.ModelHeadBlend.shapeFirst = shapeFirst;
-		Data.ModelHeadBlend.shapeMix = shapeMix;
-		Data.ModelHeadBlend.shapeSecond = shapeSecond;
-		Data.ModelHeadBlend.shapeThird = shapeThird;
-		Data.ModelHeadBlend.skinFirst = skinFirst;
-		Data.ModelHeadBlend.skinMix = skinMix;
-		Data.ModelHeadBlend.skinSecond = skinSecond;
-		Data.ModelHeadBlend.skinThird = skinThird;
-		Data.ModelHeadBlend.thirdMix = thirdMix;
-	}
+	void			SetModelHeadBlend(const int shapeFirst, const float shapeMix, const int shapeSecond, const int shapeThird, const int skinFirst, const float skinMix, const int skinSecond, const int skinThird, const float thirdMix);
+
 	NPCData::HeadOverlay GetModelHeadOverlay(const int index) { return Data.ModelHeadOverlay[index]; }
-	void			SetModelHeadOverlay(const int index, const int type, const int colorType, const int colorID, const int secondColorID, const float opacity)
-	{
-		Data.ModelHeadOverlay[index].index = type;
-		Data.ModelHeadOverlay[index].colorType = colorType;
-		Data.ModelHeadOverlay[index].colorID = colorID;
-		Data.ModelHeadOverlay[index].secondColorID = secondColorID;
-		Data.ModelHeadOverlay[index].opacity = opacity;
-	}
-	NPCData::Prop		GetModelProp(const int index) { return Data.ModelProp[index]; }
-	void			SetModelProp(const int index, const int drawableid, const int textureid)
-	{
-		Data.ModelProp[index].drawableid = drawableid;
-		Data.ModelProp[index].textureid = textureid;
-	}
+	void			SetModelHeadOverlay(const int index, const int type, const int colorType, const int colorID, const int secondColorID, const float opacity);
+
+	NPCData::Prop	GetModelProp(const int index) { return Data.ModelProp[index]; }
+	void			SetModelProp(const int index, const int drawableid, const int textureid);
+
 	float			GetModelFaceFeature(const int index) { return Data.ModelFaceFeature[index].scale; }
-	void			SetModelFaceFeature(const int index, const float scale) { Data.ModelFaceFeature[index].scale = scale; }
+	void			SetModelFaceFeature(const int index, const float scale);
 
 	bool			GetSynchronized() { return Network.Synchronized; }
 

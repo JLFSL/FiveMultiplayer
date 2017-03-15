@@ -145,7 +145,7 @@ public:
 
 	bool			GetSynchronized() { return Network.Synchronized; }
 
-	void			RequestData(RakNetGUID requester);
+	void		RequestData(RakNetGUID requester);
 
 	NPCData		SetData(NPCData newdata) { Data = newdata; }
 

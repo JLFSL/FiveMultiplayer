@@ -28,6 +28,8 @@ bool CNPCEntity::Create(const int entity, const RakString model, const CVector3 
 
 		g_Entities.push_back(newServerEntity);
 
+		RequestData();
+
 		Amount++;
 
 		std::cout << "[CNPCEntity] Created NPC [" << Data.Id << "] with model " << Data.Model.Model.C_String() << " at " << Data.Position.fX << ", " << Data.Position.fY << ", " << Data.Position.fZ << std::endl;
@@ -120,6 +122,13 @@ bool CNPCEntity::CreateNpc()
 	return false;
 }
 
+void CNPCEntity::RequestData()
+{
+	RakNet::BitStream sData;
+	sData.Write(Data.Id);
+	g_Core->GetNetworkManager()->GetRPC().Signal("RequestEntityData", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, g_Core->GetNetworkManager()->GetSystemAddress(), false, false);
+}
+
 void CNPCEntity::Destroy()
 {
 	std::cout << "[CNPCEntity] Removing NPC [" << Data.Id << "] " << Data.Model.Model << std::endl;
@@ -147,4 +156,59 @@ void CNPCEntity::Delete()
 		UI::REMOVE_BLIP(&Game.Blip);
 
 	Game.Created = false;
+}
+
+void CNPCEntity::SetModelComponent(const int index, const int drawableid, const int textureid, const int paletteid)
+{
+	Data.ModelComponents[index].drawableid = drawableid;
+	Data.ModelComponents[index].textureid = textureid;
+	Data.ModelComponents[index].paletteid = paletteid;
+
+	if (Game.Created)
+		GamePed::SetPedComponentVariation(Game.Npc, index, drawableid, textureid, paletteid);
+}
+
+void CNPCEntity::SetModelHeadBlend(const int shapeFirst, const float shapeMix, const int shapeSecond, const int shapeThird, const int skinFirst, const float skinMix, const int skinSecond, const int skinThird, const float thirdMix)
+{
+	Data.ModelHeadBlend.shapeFirst = shapeFirst;
+	Data.ModelHeadBlend.shapeMix = shapeMix;
+	Data.ModelHeadBlend.shapeSecond = shapeSecond;
+	Data.ModelHeadBlend.shapeThird = shapeThird;
+	Data.ModelHeadBlend.skinFirst = skinFirst;
+	Data.ModelHeadBlend.skinMix = skinMix;
+	Data.ModelHeadBlend.skinSecond = skinSecond;
+	Data.ModelHeadBlend.skinThird = skinThird;
+	Data.ModelHeadBlend.thirdMix = thirdMix;
+
+	if (Game.Created)
+		GamePed::SetPedHeadBlend(Game.Npc, shapeFirst, shapeSecond, shapeThird, skinFirst, skinSecond, skinThird, shapeMix, skinMix, thirdMix);
+}
+
+void CNPCEntity::SetModelHeadOverlay(const int index, const int type, const int colorType, const int colorID, const int secondColorID, const float opacity)
+{
+	Data.ModelHeadOverlay[index].index = type;
+	Data.ModelHeadOverlay[index].colorType = colorType;
+	Data.ModelHeadOverlay[index].colorID = colorID;
+	Data.ModelHeadOverlay[index].secondColorID = secondColorID;
+	Data.ModelHeadOverlay[index].opacity = opacity;
+
+	if (Game.Created)
+		GamePed::SetPedHeadOverlayColor(Game.Npc, index, index, colorType, colorID, secondColorID, opacity);
+}
+
+void CNPCEntity::SetModelProp(const int index, const int drawableid, const int textureid)
+{
+	Data.ModelProp[index].drawableid = drawableid;
+	Data.ModelProp[index].textureid = textureid;
+
+	if (Game.Created)
+		GamePed::SetPedProp(Game.Npc, index, drawableid, textureid);
+}
+
+void CNPCEntity::SetModelFaceFeature(const int index, const float scale)
+{ 
+	Data.ModelFaceFeature[index].scale = scale;
+
+	if (Game.Created)
+		GamePed::SetPedFaceFeature(Game.Created, index, scale);
 }

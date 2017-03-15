@@ -565,7 +565,7 @@ void CPlayerEntity::UpdatePlayerModel()
 	}
 }
 
-void CPlayerEntity::SetPedComponentVariation(const int componentid, const int drawableid, const int textureid, const int paletteid)
+void CPlayerEntity::SetModelComponent(const int componentid, const int drawableid, const int textureid, const int paletteid)
 {
 	Data.ModelComponents[componentid].drawableid = drawableid;
 	Data.ModelComponents[componentid].textureid = textureid;
@@ -575,7 +575,7 @@ void CPlayerEntity::SetPedComponentVariation(const int componentid, const int dr
 		GamePed::SetPedComponentVariation(Game.Ped, componentid, drawableid, textureid, paletteid);
 }
 
-void CPlayerEntity::SetPedHeadBlend(const int shapeFirst, const int shapeSecond, const int shapeThird, const int skinFirst, const int skinSecond, const int skinThird, const float shapeMix, const float skinMix, const float thirdMix)
+void CPlayerEntity::SetModelHeadBlend(const int shapeFirst, const int shapeSecond, const int shapeThird, const int skinFirst, const int skinSecond, const int skinThird, const float shapeMix, const float skinMix, const float thirdMix)
 {
 	Data.ModelHeadBlend.shapeFirst = shapeFirst;
 	Data.ModelHeadBlend.shapeSecond = shapeSecond;
@@ -591,7 +591,7 @@ void CPlayerEntity::SetPedHeadBlend(const int shapeFirst, const int shapeSecond,
 		GamePed::SetPedHeadBlend(Game.Ped, shapeFirst, shapeSecond, shapeThird, skinFirst, skinSecond, skinThird, shapeMix, skinMix, thirdMix);
 }
 
-void CPlayerEntity::SetPedHeadOverlayColor(const int overlayid, const int index, const int colorType, const int colorid, const int secondColorid, const float opacity)
+void CPlayerEntity::SetModelHeadOverlay(const int overlayid, const int index, const int colorType, const int colorid, const int secondColorid, const float opacity)
 {
 	Data.ModelHeadOverlay[overlayid].index = index;
 	Data.ModelHeadOverlay[overlayid].colorType = colorType;
@@ -603,7 +603,7 @@ void CPlayerEntity::SetPedHeadOverlayColor(const int overlayid, const int index,
 		GamePed::SetPedHeadOverlayColor(Game.Ped, overlayid, index, colorType, colorid, secondColorid, opacity);
 }
 
-void CPlayerEntity::SetPedProp(const int componentid, const int drawableid, const int textureid)
+void CPlayerEntity::SetModelProp(const int componentid, const int drawableid, const int textureid)
 {
 	Data.ModelProp[componentid].drawableid = drawableid;
 	Data.ModelProp[componentid].textureid = textureid;
@@ -612,7 +612,7 @@ void CPlayerEntity::SetPedProp(const int componentid, const int drawableid, cons
 		GamePed::SetPedProp(Game.Ped, componentid, drawableid, textureid);
 }
 
-void CPlayerEntity::SetPedFaceFeature(const int index, const float scale)
+void CPlayerEntity::SetModelFaceFeature(const int index, const float scale)
 {
 	Data.ModelFaceFeature[index].scale = scale;
 

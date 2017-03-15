@@ -6,7 +6,7 @@ CServerEntity::CServerEntity()
 	Data.type = CServerEntity::Unknown;
 }
 
-void CServerEntity::Create(int entity, Type type)
+void CServerEntity::Create(const int entity, const Type type)
 {
 	Data.Id = entity;
 	Data.type = type;
@@ -46,15 +46,29 @@ void CServerEntity::Destroy()
 			}
 		}
 		break;
+	case CServerEntity::NPC:
+		for (int i = 0; i < g_Npcs.size(); i++)
+		{
+			if (g_Npcs[i].GetId() == Data.Id)
+			{
+				g_Npcs[i].Destroy();
+				break;
+			}
+		}
+		break;
+	default:
+		std::cout << std::endl << "[CServerEntity::Destroy] Invalid entity" << std::endl;
+		return;
+		break;
 	}
 }
 
-void CServerEntity::SetType(Type type)
+void CServerEntity::SetType(const Type type)
 {
 	Data.type = type;
 }
 
-CVector3 CServerEntity::GetPosition()
+const CVector3 CServerEntity::GetPosition()
 {
 	switch (Data.type)
 	{
@@ -85,16 +99,30 @@ CVector3 CServerEntity::GetPosition()
 			}
 		}
 		break;
+	case CServerEntity::NPC:
+		for (int i = 0; i < g_Npcs.size(); i++)
+		{
+			if (g_Npcs[i].GetId() == Data.Id)
+			{
+				return g_Npcs[i].GetPosition();
+			}
+		}
+		break;
+	default:
+		std::cout << std::endl << "[CServerEntity::GetPosition] Invalid entity" << std::endl;
+
+		return CVector3(0.0f, 0.0f, 0.0f);
+		break;
 	}
 
 	return CVector3(0.0f, 0.0f, 0.0f);
 }
 
-void CServerEntity::SetPosition(CVector3 position)
+void CServerEntity::SetPosition(const CVector3 position)
 {
 	switch (Data.type)
 	{
-	case CServerEntity::Player:
+	case Type::Player:
 		/*for (int i = 0; i < g_Players.size(); i++)
 		{
 			if (g_Players[i].GetId() == Data.Id)
@@ -104,7 +132,7 @@ void CServerEntity::SetPosition(CVector3 position)
 			}
 		}*/
 		break;
-	case CServerEntity::Vehicle:
+	case Type::Vehicle:
 		for (int i = 0; i < g_Vehicles.size(); i++)
 		{
 			if (g_Vehicles[i].GetId() == Data.Id)
@@ -117,7 +145,7 @@ void CServerEntity::SetPosition(CVector3 position)
 			}
 		}
 		break;
-	case CServerEntity::Object:
+	case Type::Object:
 		for (int i = 0; i < g_Objects.size(); i++)
 		{
 			if (g_Objects[i].GetId() == Data.Id)
@@ -130,16 +158,31 @@ void CServerEntity::SetPosition(CVector3 position)
 			}
 		}
 		break;
+	case Type::NPC:
+		for (int i = 0; i < g_Npcs.size(); i++)
+		{
+			if (g_Npcs[i].GetId() == Data.Id)
+			{
+				g_Npcs[i].SetPosition(position);
+
+				if (g_Npcs[i].IsCreated())
+					ENTITY::SET_ENTITY_COORDS_NO_OFFSET(g_Npcs[i].GetEntity(), position.fX, position.fY, position.fZ, false, false, false);
+				break;
+			}
+		}
+		break;
+	default:
+		std::cout << std::endl << "[CServerEntity::SetPosition] Invalid entity" << std::endl;
+		return;
+		break;
 	}
 }
 
-void CServerEntity::SetQuaternion(CVector4 quaternion)
+void CServerEntity::SetQuaternion(const CVector4 quaternion)
 {
 	switch (Data.type)
 	{
-	case CServerEntity::Player:
-		break;
-	case CServerEntity::Vehicle:
+	case Type::Vehicle:
 		for (int i = 0; i < g_Vehicles.size(); i++)
 		{
 			if (g_Vehicles[i].GetId() == Data.Id)
@@ -148,11 +191,11 @@ void CServerEntity::SetQuaternion(CVector4 quaternion)
 
 				if (g_Vehicles[i].IsCreated())
 					ENTITY::SET_ENTITY_QUATERNION(g_Vehicles[i].GetEntity(), quaternion.fX, quaternion.fY, quaternion.fZ, quaternion.fW);
-				break;
+				return;
 			}
 		}
 		break;
-	case CServerEntity::Object:
+	case Type::Object:
 		for (int i = 0; i < g_Objects.size(); i++)
 		{
 			if (g_Objects[i].GetId() == Data.Id)
@@ -161,149 +204,362 @@ void CServerEntity::SetQuaternion(CVector4 quaternion)
 
 				if (g_Objects[i].IsCreated())
 					ENTITY::SET_ENTITY_QUATERNION(g_Objects[i].GetEntity(), quaternion.fX, quaternion.fY, quaternion.fZ, quaternion.fW);
-				break;
+				return;
 			}
 		}
+		break;
+	case Type::NPC:
+		for (int i = 0; i < g_Npcs.size(); i++)
+		{
+			if (g_Npcs[i].GetId() == Data.Id)
+			{
+				g_Npcs[i].SetQuaternion(quaternion);
+
+				if (g_Npcs[i].IsCreated())
+					ENTITY::SET_ENTITY_QUATERNION(g_Npcs[i].GetEntity(), quaternion.fX, quaternion.fY, quaternion.fZ, quaternion.fW);
+				return;
+			}
+		}
+		break;
+	default:
+		std::cout << std::endl << "[CServerEntity::SetQuaternion] Invalid entity" << std::endl;
+		return;
 		break;
 	}
 }
 
-void CServerEntity::SetAssignement(RakNetGUID guid)
+void CServerEntity::SetAssignement(const RakNetGUID guid)
 {
 	switch (Data.type)
 	{
-	case CServerEntity::Player:
-		break;
-	case CServerEntity::Vehicle:
+	case Type::Vehicle:
 		for (int i = 0; i < g_Vehicles.size(); i++)
 		{
 			if (g_Vehicles[i].GetId() == Data.Id)
 			{
-				g_Vehicles[i].SetAssignee(guid);
-				break;
+				return g_Vehicles[i].SetAssignee(guid);
 			}
 		}
 		break;
-	case CServerEntity::Object:
+	case Type::Object:
 		for (int i = 0; i < g_Objects.size(); i++)
 		{
 			if (g_Objects[i].GetId() == Data.Id)
 			{
-				g_Objects[i].SetAssignee(guid);
-				break;
+				return g_Objects[i].SetAssignee(guid);
 			}
 		}
+		break;
+	case Type::NPC:
+		for (int i = 0; i < g_Npcs.size(); i++)
+		{
+			if (g_Npcs[i].GetId() == Data.Id)
+			{
+				return /*g_Npcs[i].SetAssignee(guid)*/;
+			}
+		}
+		break;
+	default:
+		std::cout << std::endl << "[CServerEntity::SetAssignement] Invalid entity" << std::endl;
+		return;
 		break;
 	}
 }
 
-namespace ServerEntity
+const bool CServerEntity::IsValid(const int entity)
 {
-	bool IsValid(int entity)
+	for (int i = 0; i < g_Entities.size(); i++)
 	{
-		for (int i = 0; i < g_Entities.size(); i++)
+		if (entity == g_Entities[i].GetId())
 		{
-			if (entity == g_Entities[i].GetId())
+			switch (g_Entities[i].GetType())
 			{
-				switch (g_Entities[i].GetType())
+			case Type::Player:
+				for (int v = 0; v < g_Players.size(); v++)
 				{
-				case CServerEntity::Player:
-					for (int v = 0; v < g_Players.size(); v++)
-					{
-						if (entity == g_Players[v].GetId())
-							return true;
-					}
-					break;
-				case CServerEntity::Vehicle:
-					for (int v = 0; v < g_Vehicles.size(); v++)
-					{
-						if (entity == g_Vehicles[v].GetId())
-							return true;
-					}
-					break;
-				case CServerEntity::Object: 
-					for (int i = 0; i < g_Objects.size(); i++)
-					{
-						if (entity == g_Objects[i].GetId())
-							return true;
-					}
-					break;
-				default:
-					std::cout << std::endl << "[ServerEntity::GetAssignee] Invalid entity" << std::endl;
-					break;
+					if (entity == g_Players[v].GetId())
+						return true;
 				}
+				break;
+			case Type::Vehicle:
+				for (int v = 0; v < g_Vehicles.size(); v++)
+				{
+					if (entity == g_Vehicles[v].GetId())
+						return true;
+				}
+				break;
+			case Type::Object:
+				for (int v = 0; v < g_Objects.size(); v++)
+				{
+					if (entity == g_Objects[v].GetId())
+						return true;
+				}
+				break;
+			case Type::NPC:
+				for (int v = 0; v < g_Npcs.size(); v++)
+				{
+					if (entity == g_Npcs[v].GetId())
+						return true;
+				}
+				break;
+			default:
+				std::cout << std::endl << "[CServerEntity::IsValid] Invalid entity" << std::endl;
+				return false;
+				break;
 			}
 		}
-
-		return false;
 	}
 
-	RakNetGUID GetAssignee(int entity)
+	return false;
+}
+
+const RakNetGUID CServerEntity::GetAssignee(const int entity)
+{
+	for (int i = 0; i < g_Entities.size(); i++)
 	{
-		for (int i = 0; i < g_Entities.size(); i++)
+		if (entity == g_Entities[i].GetId())
 		{
-			if (entity == g_Entities[i].GetId())
+			switch (g_Entities[i].GetType())
 			{
-				switch (g_Entities[i].GetType())
+			case Type::Vehicle: // Vehicle
+				for (int p = 0; p < g_Vehicles.size(); p++)
 				{
-				case 0: // Player
-					return UNASSIGNED_RAKNET_GUID;
-					break;
-				case 1: // Vehicle
-					for (int v = 0; v < g_Vehicles.size(); v++)
-					{
-						if (entity == g_Vehicles[v].GetId())
-							return g_Vehicles[v].GetAssignee();
-					}
-					break;
-				case 2: // Object
-						/*for (int i = 0; i < g_Objects.size(); i++)
-						{
-						if (entity == g_Objects[i].GetId())
-						return g_Objects[i].GetAssignee();
-						}*/
-					break;
-				default:
-					std::cout << std::endl << "[ServerEntity::GetAssignee] Invalid entity" << std::endl;
-					break;
+					if (entity == g_Vehicles[p].GetId())
+						return g_Vehicles[p].GetAssignee();
 				}
+				break;
+			case Type::Object:
+				for (int p = 0; p < g_Objects.size(); p++)
+				{
+					if (entity == g_Objects[p].GetId())
+						return g_Objects[p].GetAssignee();
+				}
+				break;
+			default:
+				std::cout << std::endl << "[CServerEntity::GetAssignee] Invalid entity" << std::endl;
+				return UNASSIGNED_RAKNET_GUID;
+				break;
 			}
 		}
-
-		return UNASSIGNED_RAKNET_GUID;
 	}
 
-	void SetAssignee(int entity, RakNetGUID assignee)
+	return UNASSIGNED_RAKNET_GUID;
+}
+
+void CServerEntity::SetAssignee(const int entity, const RakNetGUID assignee)
+{
+	for (int i = 0; i < g_Entities.size(); i++)
 	{
-		for (int i = 0; i < g_Entities.size(); i++)
+		if (entity == g_Entities[i].GetId())
 		{
-			if (entity == g_Entities[i].GetId())
+			switch (g_Entities[i].GetType())
 			{
-				switch (g_Entities[i].GetType())
+			case Type::Vehicle:
+				for (int p = 0; p < g_Vehicles.size(); p++)
 				{
-				case 0: // Player
-					break;
-				case 1: // Vehicle
-					for (int v = 0; v < g_Vehicles.size(); v++)
+					if (entity == g_Vehicles[p].GetId())
 					{
-						if (entity == g_Vehicles[v].GetId())
-						{
-							return g_Vehicles[v].SetAssignee(assignee);
-							break;
-						}
+						return g_Vehicles[p].SetAssignee(assignee);
+						break;
 					}
-					break;
-				case 2: // Object
-						/*for (int i = 0; i < g_Objects.size(); i++)
-						{
-						if (entity == g_Objects[i].GetId())
-						return g_Objects[i].SetAssignee(assignee);
-						}*/
-					break;
-				default:
-					std::cout << std::endl << "[ServerEntity::SetAssignee] Invalid entity" << std::endl;
-					break;
 				}
+				break;
+			case Type::Object:
+				for (int p = 0; p < g_Objects.size(); p++)
+				{
+					if (entity == g_Objects[p].GetId())
+						return g_Objects[p].SetAssignee(assignee);
+				}
+				break;
+			default:
+				std::cout << std::endl << "[CServerEntity::SetAssignee] Invalid entity" << std::endl;
+				return;
+				break;
+			}
+		}
+	}
+}
+
+void CServerEntity::SetPedComponentVariation(const int entity, const int componentid, const int drawableid, const int textureid, const int paletteid)
+{
+	for (int i = 0; i < g_Entities.size(); i++)
+	{
+		if (entity == g_Entities[i].GetId())
+		{
+			switch (g_Entities[i].GetType())
+			{
+			case Type::Player:
+				for (int p = 0; p < g_Players.size(); p++)
+				{
+					if (entity == g_Players[p].GetId())
+					{
+						return g_Players[p].SetModelComponent(componentid, drawableid, textureid, paletteid);
+						break;
+					}
+				}
+				break;
+			case Type::NPC:
+				for (int p = 0; p < g_Npcs.size(); p++)
+				{
+					if (entity == g_Npcs[p].GetId())
+					{
+						return g_Npcs[p].SetModelComponent(componentid, drawableid, textureid, paletteid);
+						break;
+					}
+				}
+				break;
+			default:
+				std::cout << std::endl << "[CServerEntity::SetPedComponentVariation] Invalid entity, must by of type Player or NPC." << std::endl;
+				return;
+				break;
+			}
+		}
+	}
+}
+
+void CServerEntity::SetPedHeadBlend(const int entity, const int shapeFirst, const int shapeSecond, const int shapeThird, const int skinFirst, const int skinSecond, const int skinThird, const float shapeMix, const float skinMix, const float thirdMix)
+{
+	for (int i = 0; i < g_Entities.size(); i++)
+	{
+		if (entity == g_Entities[i].GetId())
+		{
+			switch (g_Entities[i].GetType())
+			{
+			case Type::Player:
+				for (int p = 0; p < g_Players.size(); p++)
+				{
+					if (entity == g_Players[p].GetId())
+					{
+						return g_Players[p].SetModelHeadBlend(shapeFirst, shapeSecond, shapeThird, skinFirst, skinSecond, skinThird, shapeMix, skinMix, thirdMix);
+						break;
+					}
+				}
+				break;
+			case Type::NPC:
+				for (int p = 0; p < g_Npcs.size(); p++)
+				{
+					if (entity == g_Npcs[p].GetId())
+					{
+						return g_Npcs[p].SetModelHeadBlend(shapeFirst, shapeSecond, shapeThird, skinFirst, skinSecond, skinThird, shapeMix, skinMix, thirdMix);
+						break;
+					}
+				}
+				break;
+			default:
+				std::cout << std::endl << "[CServerEntity::SetPedHeadBlend] Invalid entity, must by of type Player or NPC." << std::endl;
+				return;
+				break;
+			}
+		}
+	}
+}
+
+void CServerEntity::SetPedHeadOverlayColor(const int entity, const int overlayid, const int index, const int colorType, const int colorid, const int secondColorid, const float opacity)
+{
+	for (int i = 0; i < g_Entities.size(); i++)
+	{
+		if (entity == g_Entities[i].GetId())
+		{
+			switch (g_Entities[i].GetType())
+			{
+			case Type::Player:
+				for (int p = 0; p < g_Players.size(); p++)
+				{
+					if (entity == g_Players[p].GetId())
+					{
+						return g_Players[p].SetModelHeadOverlay(overlayid, index, colorType, colorid, secondColorid, opacity);
+						break;
+					}
+				}
+				break;
+			case Type::NPC:
+				for (int p = 0; p < g_Npcs.size(); p++)
+				{
+					if (entity == g_Npcs[p].GetId())
+					{
+						return g_Npcs[p].SetModelHeadOverlay(overlayid, index, colorType, colorid, secondColorid, opacity);
+						break;
+					}
+				}
+				break;
+			default:
+				std::cout << std::endl << "[CServerEntity::SetPedHeadOverlayColor] Invalid entity, must by of type Player or NPC." << std::endl;
+				return;
+				break;
+			}
+		}
+	}
+}
+
+void CServerEntity::SetPedProp(const int entity, const int componentid, const int drawableid, const int textureid)
+{
+	for (int i = 0; i < g_Entities.size(); i++)
+	{
+		if (entity == g_Entities[i].GetId())
+		{
+			switch (g_Entities[i].GetType())
+			{
+			case Type::Player:
+				for (int p = 0; p < g_Players.size(); p++)
+				{
+					if (entity == g_Players[p].GetId())
+					{
+						return g_Players[p].SetModelProp(componentid, drawableid, textureid);
+						break;
+					}
+				}
+				break;
+			case Type::NPC:
+				for (int p = 0; p < g_Npcs.size(); p++)
+				{
+					if (entity == g_Npcs[p].GetId())
+					{
+						return g_Npcs[p].SetModelProp(componentid, drawableid, textureid);
+						break;
+					}
+				}
+				break;
+			default:
+				std::cout << std::endl << "[CServerEntity::SetPedProp] Invalid entity, must by of type Player or NPC." << std::endl;
+				return;
+				break;
+			}
+		}
+	}
+}
+
+void CServerEntity::SetPedFaceFeature(const int entity, const int index, const float scale)
+{
+	for (int i = 0; i < g_Entities.size(); i++)
+	{
+		if (entity == g_Entities[i].GetId())
+		{
+			switch (g_Entities[i].GetType())
+			{
+			case Type::Player:
+				for (int p = 0; p < g_Players.size(); p++)
+				{
+					if (entity == g_Players[p].GetId())
+					{
+						return g_Players[p].SetModelFaceFeature(index, scale);
+						break;
+					}
+				}
+				break;
+			case Type::NPC:
+				for (int p = 0; p < g_Npcs.size(); p++)
+				{
+					if (entity == g_Npcs[p].GetId())
+					{
+						return g_Npcs[p].SetModelFaceFeature(index, scale);
+						break;
+					}
+				}
+				break;
+			default:
+				std::cout << std::endl << "[CServerEntity::SetPedFaceFeature] Invalid entity, must by of type Player or NPC." << std::endl;
+				return;
+				break;
 			}
 		}
 	}
