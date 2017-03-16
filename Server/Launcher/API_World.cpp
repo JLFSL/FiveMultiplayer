@@ -2,30 +2,27 @@
 
 namespace API
 {
-	namespace World
+	const char *World::ThisNamespace = "API::World";
+
+	void World::GetTime(int *hour, int *minute, int *second)
 	{
-		const char *ThisNamespace = "API::World";
+		*hour = g_Server->GetWorld()->GetTime().Hour;
+		*minute = g_Server->GetWorld()->GetTime().Minute;
+		*second = g_Server->GetWorld()->GetTime().Second;
+	}
 
-		void GetTime(int *hour, int *minute, int *second)
-		{
-			*hour = g_Server->GetWorld()->GetTime().Hour;
-			*minute = g_Server->GetWorld()->GetTime().Minute;
-			*second = g_Server->GetWorld()->GetTime().Second;
-		}
+	void World::SetTime(const int hour, const int minute, const int second)
+	{
+		g_Server->GetWorld()->SetTime(hour, minute, second);
+	}
 
-		void SetTime(int hour, int minute, int second)
-		{
-			g_Server->GetWorld()->SetTime(hour, minute, second);
-		}
+	const std::string World::GetWeather()
+	{
+		return g_Server->GetWorld()->GetWeather().Weather;
+	}
 
-		std::string GetWeather()
-		{
-			return g_Server->GetWorld()->GetWeather().Weather;
-		}
-
-		void SetWeather(const std::string weather)
-		{
-			g_Server->GetWorld()->SetWeather(weather);
-		}
+	void World::SetWeather(const std::string weather)
+	{
+		g_Server->GetWorld()->SetWeather(weather);
 	}
 }

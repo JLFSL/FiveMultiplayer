@@ -24,6 +24,10 @@ private:
 	int ObjectCount;
 	float ObjectRange;
 
+	int MaxNpcs;
+	int NpcCount;
+	float NpcRange;
+
 public:
 	CStreamer();
 	~CStreamer() {}

@@ -10,6 +10,7 @@ std::vector<CServerEntity>	g_Entities;
 std::vector<CPlayerEntity>	g_Players;
 std::vector<CVehicleEntity>	g_Vehicles;
 std::vector<CObjectEntity>	g_Objects;
+std::vector<CNPCEntity>		g_Npcs;
 std::vector<CAPI>			g_ApiModules;
 
 CServer::CServer()
@@ -158,6 +159,11 @@ void CServer::Process()
 	for (int i = 0; i < g_Vehicles.size(); i++)
 	{
 		g_Vehicles[i].Pulse();
+	}
+
+	for (int i = 0; i < g_Objects.size(); i++)
+	{
+		g_Objects[i].Pulse();
 	}
 
 	for (int i = 0; i < g_ApiModules.size(); i++)

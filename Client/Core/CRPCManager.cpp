@@ -14,17 +14,20 @@ CRPCManager::RPCMessage rpcmessages[] = {
 	{ "SetQuaternion", CRPCEntity::SetQuaternion },
 	{ "TakeEntityAssignment", CRPCEntity::TakeEntityAssignment },
 	{ "DropEntityAssignment", CRPCEntity::DropEntityAssignment },
+	{ "PedComponent", CRPCEntity::PedComponent },
+	{ "PedHeadBlend", CRPCEntity::PedHeadBlend },
+	{ "PedHeadOverlay", CRPCEntity::PedHeadOverlay },
+	{ "PedProp", CRPCEntity::PedProp },
+	{ "PedFaceFeature", CRPCEntity::PedFaceFeature },
 #pragma endregion
 #pragma region Player
-	{ "PlayerComponent", CRPCPlayer::PlayerComponent },
-	{ "PlayerHeadBlend", CRPCPlayer::PlayerHeadBlend },
-	{ "PlayerHeadOverlay", CRPCPlayer::PlayerHeadOverlay },
-	{ "PlayerProp", CRPCPlayer::PlayerProp },
-	{ "PlayerFaceFeature", CRPCPlayer::PlayerFaceFeature },
 	{ "PlayerModel", CRPCPlayer::PlayerModel },
 #pragma endregion
 #pragma region Object
-	{ "CreateObject", CRPCObject::Create }
+	{ "CreateObject", CRPCObject::Create },
+#pragma endregion
+#pragma region Npc
+	{ "CreateNPC", CRPCNpc::Create }
 #pragma endregion
 };
 

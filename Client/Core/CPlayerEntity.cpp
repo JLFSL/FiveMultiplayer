@@ -23,6 +23,8 @@ void CPlayerEntity::Create(std::string Name, RakNetGUID GUID, int entity) {
 	newServerEntity.Create(entity, CServerEntity::Player);
 	g_Entities.push_back(newServerEntity);
 
+	RequestData();
+
 	std::cout << "[CPlayerEntity] Added Player: " << Information.Name << std::endl;
 }
 
@@ -61,8 +63,35 @@ bool CPlayerEntity::CreatePed()
 			Game.Blip = UI::ADD_BLIP_FOR_ENTITY(Game.Ped);
 			UI::SET_BLIP_AS_FRIENDLY(Game.Blip, true);
 
+			// Set Component Variations
+			for (int i = 0; i < SizeOfArray(Data.ModelComponents); i++)
+			{
+				GamePed::SetPedComponentVariation(Game.Ped, i, Data.ModelComponents[i].drawableid, Data.ModelComponents[i].textureid, Data.ModelComponents[i].paletteid);
+			}
+
+			// Set Headblend
+			GamePed::SetPedHeadBlend(Game.Ped, Data.ModelHeadBlend.shapeFirst, Data.ModelHeadBlend.shapeSecond, Data.ModelHeadBlend.shapeThird, Data.ModelHeadBlend.skinFirst, Data.ModelHeadBlend.skinSecond, Data.ModelHeadBlend.skinThird, Data.ModelHeadBlend.shapeMix, Data.ModelHeadBlend.skinMix, Data.ModelHeadBlend.thirdMix);
+
+			// Set Head 
+			for (int i = 0; i < SizeOfArray(Data.ModelHeadOverlay); i++)
+			{
+				GamePed::SetPedHeadOverlayColor(Game.Ped, i, Data.ModelHeadOverlay[i].index, Data.ModelHeadOverlay[i].colorType, Data.ModelHeadOverlay[i].colorID, Data.ModelHeadOverlay[i].secondColorID, Data.ModelHeadOverlay[i].opacity);
+			}
+
+			// Set Ped Props
+			for (int i = 0; i < SizeOfArray(Data.ModelProp); i++)
+			{
+				GamePed::SetPedProp(Game.Ped, i, Data.ModelProp[i].drawableid, Data.ModelProp[i].textureid);
+			}
+
+			// Set Face Features
+			for (int i = 0; i < SizeOfArray(Data.ModelFaceFeature); i++)
+			{
+				GamePed::SetPedFaceFeature(Game.Ped, i, Data.ModelFaceFeature[i].scale);
+			}
+
 			Game.Created = true;
-			RequestData();
+
 			std::cout << "[CPlayerEntity] Created Ped" << std::endl;
 			return true;
 		}
@@ -72,7 +101,6 @@ bool CPlayerEntity::CreatePed()
 	std::cout << "[CPlayerEntity] Ped" << Information.Id << " already created." << std::endl;
 	return false;
 }
-
 
 // Gets the data thats only needed once thats not synced constantly
 void CPlayerEntity::RequestData()
@@ -166,7 +194,7 @@ void CPlayerEntity::Update(Packet *packet)
 	bitstream.Read(Data.Vehicle.Seat);
 
 	if (g_Core->GetNetworkManager()->GetInterface()->GetMyGUID() != Network.GUID) {
-		if (Data.Model.hModel != GAMEPLAY::GET_HASH_KEY((char*)Data.Model.Model.c_str()))
+		if (Data.Model.hModel != GAMEPLAY::GET_HASH_KEY((char*)Data.Model.Model.c_str()) && Game.Created)
 			UpdatePlayerModel();
 
 		UpdateTargetPosition();
@@ -535,4 +563,59 @@ void CPlayerEntity::UpdatePlayerModel()
 		}
 		std::cout << "[CPlayerEntity] Tried to update player " << Information.Id << " model to " << Data.Model.Model << ", but model does not exist!" << std::endl;
 	}
+}
+
+void CPlayerEntity::SetModelComponent(const int componentid, const int drawableid, const int textureid, const int paletteid)
+{
+	Data.ModelComponents[componentid].drawableid = drawableid;
+	Data.ModelComponents[componentid].textureid = textureid;
+	Data.ModelComponents[componentid].paletteid = paletteid;
+
+	if(Game.Created)
+		GamePed::SetPedComponentVariation(Game.Ped, componentid, drawableid, textureid, paletteid);
+}
+
+void CPlayerEntity::SetModelHeadBlend(const int shapeFirst, const int shapeSecond, const int shapeThird, const int skinFirst, const int skinSecond, const int skinThird, const float shapeMix, const float skinMix, const float thirdMix)
+{
+	Data.ModelHeadBlend.shapeFirst = shapeFirst;
+	Data.ModelHeadBlend.shapeSecond = shapeSecond;
+	Data.ModelHeadBlend.shapeThird = shapeThird;
+	Data.ModelHeadBlend.skinFirst = skinFirst;
+	Data.ModelHeadBlend.skinSecond = skinSecond;
+	Data.ModelHeadBlend.skinThird = skinThird;
+	Data.ModelHeadBlend.shapeMix = shapeMix;
+	Data.ModelHeadBlend.skinMix = skinMix;
+	Data.ModelHeadBlend.thirdMix = thirdMix;
+
+	if(Game.Created)
+		GamePed::SetPedHeadBlend(Game.Ped, shapeFirst, shapeSecond, shapeThird, skinFirst, skinSecond, skinThird, shapeMix, skinMix, thirdMix);
+}
+
+void CPlayerEntity::SetModelHeadOverlay(const int overlayid, const int index, const int colorType, const int colorid, const int secondColorid, const float opacity)
+{
+	Data.ModelHeadOverlay[overlayid].index = index;
+	Data.ModelHeadOverlay[overlayid].colorType = colorType;
+	Data.ModelHeadOverlay[overlayid].colorID = colorid;
+	Data.ModelHeadOverlay[overlayid].secondColorID = secondColorid;
+	Data.ModelHeadOverlay[overlayid].opacity = opacity;
+
+	if(Game.Created)
+		GamePed::SetPedHeadOverlayColor(Game.Ped, overlayid, index, colorType, colorid, secondColorid, opacity);
+}
+
+void CPlayerEntity::SetModelProp(const int componentid, const int drawableid, const int textureid)
+{
+	Data.ModelProp[componentid].drawableid = drawableid;
+	Data.ModelProp[componentid].textureid = textureid;
+
+	if(Game.Created)
+		GamePed::SetPedProp(Game.Ped, componentid, drawableid, textureid);
+}
+
+void CPlayerEntity::SetModelFaceFeature(const int index, const float scale)
+{
+	Data.ModelFaceFeature[index].scale = scale;
+
+	if(Game.Created)
+		GamePed::SetPedFaceFeature(Game.Created, index, scale);
 }

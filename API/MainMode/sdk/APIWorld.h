@@ -5,8 +5,9 @@ extern "C" {
 #endif
 	namespace API
 	{
-		namespace World
+		class World
 		{
+		public:
 			/// <summary>
 			/// Gets the World Time
 			/// </summary>
@@ -14,7 +15,7 @@ extern "C" {
 			/// <param name="minute">The Minute (this is a pointer)</param>
 			/// <param name="second">The Second (this is a pointer)</param>
 			/// <returns></returns>
-			DLL_PUBLIC_I void GetTime(int *hour, int *minute, int *second);
+			DLL_PUBLIC_I static void GetTime(int *hour, int *minute, int *second);
 			/// <summary>
 			/// Sets the World Time
 			/// </summary>
@@ -22,19 +23,19 @@ extern "C" {
 			/// <param name="minute">The Minute you wish to set</param>
 			/// <param name="second">The Second you wish to set</param>
 			/// <returns></returns>
-			DLL_PUBLIC_I void SetTime(const int hour, const int minute, const int second);
+			DLL_PUBLIC_I static void SetTime(const int hour, const int minute, const int second);
 			/// <summary>
 			/// Gets the Weather
 			/// </summary>
 			/// <returns></returns>
-			DLL_PUBLIC_I std::string GetWeather();
+			DLL_PUBLIC_I static const std::string GetWeather();
 			/// <summary>
 			/// Sets the Weather
 			/// </summary>
 			/// <param name="weather">The weather you wish to set</param>
 			/// <returns></returns>
-			DLL_PUBLIC_I void SetWeather(const std::string weather);
-		}
+			DLL_PUBLIC_I static void SetWeather(const std::string weather);
+		};
 	}
 #ifdef __cplusplus
 }

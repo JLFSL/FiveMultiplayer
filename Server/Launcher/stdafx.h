@@ -37,7 +37,7 @@
 
 // Vendor
 	// Vendor.RakNet
-	#include <RakNet/RakPeerInterface.h>
+	#include <RakNet/RakPeerInterface.h>"
 	#include <RakNet/BitStream.h>
 	#include <RakNet/MessageIdentifiers.h>
 	#include <RakNet/RPC4Plugin.h>
@@ -60,6 +60,7 @@
 	#include "CPlayerEntity.h"
 	#include "CVehicleEntity.h"
 	#include "CObjectEntity.h"
+	#include "CNPCEntity.h"
 	#include "CServerEntity.h"
 	#include "NetworkSync.h"
 
@@ -80,6 +81,7 @@
 	#include "API_Visual.h"
 	#include "API_Player.h"
 	#include "API_Object.h"
+	#include "API_NPC.h"
 
 // End of Server.Launcher
 

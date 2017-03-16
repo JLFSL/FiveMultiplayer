@@ -5,8 +5,9 @@ extern "C" {
 #endif
 	namespace API
 	{
-		namespace Vehicle
+		class Vehicle
 		{
+		public:
 			/// <summary>
 			/// Creates a vehicle of a desired model at the position defined
 			/// </summary>
@@ -14,8 +15,8 @@ extern "C" {
 			/// <param name="position">The position you wish to create the vehicle at</param>
 			/// <param name="heading">The direction you wish the vehicle to be facing</param>
 			/// <returns name="entity">The vehicles server entity id</returns>
-			DLL_PUBLIC_I int CreateVehicle(std::string model, CVector3 position, float heading);
-		}
+			DLL_PUBLIC_I static const int Create(const std::string model, const CVector3 position, const float heading);
+		};
 	}
 #ifdef __cplusplus
 }

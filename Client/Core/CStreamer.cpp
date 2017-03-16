@@ -18,6 +18,10 @@ CStreamer::CStreamer()
 	MaxObjects = 500;		// The plan is to have about 1000 objects
 	ObjectCount = 0;
 	ObjectRange = 1000.0f;
+
+	MaxNpcs = 20;
+	NpcCount = 0;
+	NpcRange = 1000.0f;
 }
 
 void CStreamer::Start()
@@ -52,14 +56,14 @@ void CStreamer::StreamIn(CVector3 position)
 							{
 								if (g_Players[index].GetId() == g_Entities[i].GetId())
 								{
-									if (!g_Players[index].IsCreated() && g_Players[index].GetId() != g_Core->GetLocalPlayer()->GetId() && CVector3::Distance(g_Core->GetLocalPlayer()->GetPos(), g_Players[index].GetPosition()) < curDis)
+									if (!g_Players[index].IsCreated() && g_Players[index].GetId() != g_Core->GetLocalPlayer()->GetId() && CVector3::Distance(position, g_Players[index].GetPosition()) < curDis)
 									{
 										/*
 											If we reach the 'max' for this type we will want to bring the range down for this type so object between X & 1000 have the chance to get streamed in.
 											This isn't full proof and there might still be the possibility of entities not getting streamed in.
 										*/
 										if (PlayerCount == (MaxPlayers - 1))
-											PlayerRange = CVector3::Distance(g_Core->GetLocalPlayer()->GetPos(), g_Players[index].GetPosition());
+											PlayerRange = CVector3::Distance(position, g_Players[index].GetPosition());
 										else
 											PlayerRange = 1000.0f;
 
@@ -68,7 +72,7 @@ void CStreamer::StreamIn(CVector3 position)
 
 										streamedObject newObj;
 										newObj.entity = g_Entities[i].GetId();
-										newObj.distance = CVector3::Distance(g_Core->GetLocalPlayer()->GetPos(), g_Players[index].GetPosition());
+										newObj.distance = CVector3::Distance(position, g_Players[index].GetPosition());
 
 										streamed.push_back(newObj);
 									}
@@ -84,12 +88,12 @@ void CStreamer::StreamIn(CVector3 position)
 							{
 								if (g_Vehicles[index].GetId() == g_Entities[i].GetId())
 								{
-									if (!g_Vehicles[index].IsCreated() && CVector3::Distance(g_Core->GetLocalPlayer()->GetPos(), g_Vehicles[index].GetPosition()) < curDis)
+									if (!g_Vehicles[index].IsCreated() && CVector3::Distance(position, g_Vehicles[index].GetPosition()) < curDis)
 									{
 										if (g_Vehicles[index].CreateVehicle())
 										{
 											if (VehicleCount == (MaxVehicles - 1))
-												VehicleRange = CVector3::Distance(g_Core->GetLocalPlayer()->GetPos(), g_Vehicles[index].GetPosition());
+												VehicleRange = CVector3::Distance(position, g_Vehicles[index].GetPosition());
 											else
 												VehicleRange = 1000.0f;
 
@@ -97,7 +101,7 @@ void CStreamer::StreamIn(CVector3 position)
 
 											streamedObject newObj;
 											newObj.entity = g_Entities[i].GetId();
-											newObj.distance = CVector3::Distance(g_Core->GetLocalPlayer()->GetPos(), g_Vehicles[index].GetPosition());
+											newObj.distance = CVector3::Distance(position, g_Vehicles[index].GetPosition());
 
 											streamed.push_back(newObj);
 										}
@@ -114,12 +118,12 @@ void CStreamer::StreamIn(CVector3 position)
 							{
 								if (g_Objects[index].GetId() == g_Entities[i].GetId())
 								{
-									if (!g_Objects[index].IsCreated() && CVector3::Distance(g_Core->GetLocalPlayer()->GetPos(), g_Objects[index].GetPosition()) < curDis)
+									if (!g_Objects[index].IsCreated() && CVector3::Distance(position, g_Objects[index].GetPosition()) < curDis)
 									{
 										if (g_Objects[index].CreateObject())
 										{
 											if (ObjectCount == (MaxObjects - 1))
-												ObjectRange = CVector3::Distance(g_Core->GetLocalPlayer()->GetPos(), g_Objects[index].GetPosition());
+												ObjectRange = CVector3::Distance(position, g_Objects[index].GetPosition());
 											else
 												ObjectRange = 1000.0f;
 
@@ -127,7 +131,37 @@ void CStreamer::StreamIn(CVector3 position)
 
 											streamedObject newObj;
 											newObj.entity = g_Entities[i].GetId();
-											newObj.distance = CVector3::Distance(g_Core->GetLocalPlayer()->GetPos(), g_Objects[index].GetPosition());
+											newObj.distance = CVector3::Distance(position, g_Objects[index].GetPosition());
+
+											streamed.push_back(newObj);
+										}
+									}
+									break;
+								}
+							}
+						}
+						break;
+					case CServerEntity::Type::NPC:
+						if (NpcCount < MaxNpcs)
+						{
+							for (int index = 0; index < g_Npcs.size(); index++)
+							{
+								if (g_Npcs[index].GetId() == g_Entities[i].GetId())
+								{
+									if (!g_Npcs[index].IsCreated() && CVector3::Distance(position, g_Npcs[index].GetPosition()) < curDis)
+									{
+										if (g_Npcs[index].CreateNpc())
+										{
+											if (NpcCount == (MaxNpcs - 1))
+												NpcRange = CVector3::Distance(position, g_Npcs[index].GetPosition());
+											else
+												NpcRange = 1000.0f;
+
+											NpcCount++;
+
+											streamedObject newObj;
+											newObj.entity = g_Entities[i].GetId();
+											newObj.distance = CVector3::Distance(position, g_Npcs[index].GetPosition());
 
 											streamed.push_back(newObj);
 										}
@@ -164,7 +198,7 @@ void CStreamer::StreamOut(CVector3 position)
 					{
 						if (g_Players[index].GetId() == streamed[i].entity)
 						{
-							if (g_Players[index].IsCreated() && CVector3::Distance(g_Core->GetLocalPlayer()->GetPos(), g_Players[index].GetPosition()) > (PlayerRange + 10.0f))
+							if (g_Players[index].IsCreated() && CVector3::Distance(position, g_Players[index].GetPosition()) > (PlayerRange + 10.0f))
 							{
 								g_Players[index].Delete();
 
@@ -180,7 +214,7 @@ void CStreamer::StreamOut(CVector3 position)
 					{
 						if (g_Vehicles[index].GetId() == streamed[i].entity)
 						{
-							if (g_Vehicles[index].IsCreated() && CVector3::Distance(g_Core->GetLocalPlayer()->GetPos(), g_Vehicles[index].GetPosition()) > (VehicleRange + 10.0f))
+							if (g_Vehicles[index].IsCreated() && CVector3::Distance(position, g_Vehicles[index].GetPosition()) > (VehicleRange + 10.0f))
 							{
 								g_Vehicles[index].Delete();
 
@@ -196,12 +230,28 @@ void CStreamer::StreamOut(CVector3 position)
 					{
 						if (g_Objects[index].GetId() == streamed[i].entity)
 						{
-							if (g_Objects[index].IsCreated() && CVector3::Distance(g_Core->GetLocalPlayer()->GetPos(), g_Objects[index].GetPosition()) > (ObjectRange + 10.0f))
+							if (g_Objects[index].IsCreated() && CVector3::Distance(position, g_Objects[index].GetPosition()) > (ObjectRange + 10.0f))
 							{
 								g_Objects[index].Delete();
 
 								streamed.erase(streamed.begin() + i);
 								ObjectCount--;
+							}
+							break;
+						}
+					}
+					break;
+				case CServerEntity::Type::NPC:
+					for (int index = 0; index < g_Npcs.size(); index++)
+					{
+						if (g_Npcs[index].GetId() == streamed[i].entity)
+						{
+							if (g_Npcs[index].IsCreated() && CVector3::Distance(position, g_Npcs[index].GetPosition()) >(ObjectRange + 10.0f))
+							{
+								g_Npcs[index].Delete();
+
+								streamed.erase(streamed.begin() + i);
+								NpcCount--;
 							}
 							break;
 						}
@@ -276,6 +326,20 @@ void CStreamer::ForceStreamOut()
 					}
 				}
 				break;
+			case CServerEntity::Type::NPC:
+				for (int index = 0; index < g_Npcs.size(); index++)
+				{
+					if (g_Npcs[index].GetId() == streamed[i].entity)
+					{
+						if (g_Npcs[index].IsCreated())
+							g_Npcs[index].Delete();
+
+						streamed.erase(streamed.begin() + i);
+						NpcCount--;
+						break;
+					}
+				}
+				break;
 			default:
 				std::cout << "[CStreamer::ForceStreamOut] Found Invalid entity" << std::endl;
 				break;
@@ -287,5 +351,6 @@ void CStreamer::ForceStreamOut()
 		PlayerCount = 0;
 		VehicleCount = 0;
 		ObjectCount = 0;
+		NpcCount = 0;
 	}
 }

@@ -31,8 +31,32 @@ private:
 	{
 		RakNetGUID		Assigned;
 		unsigned long	LastSyncSent;
+		unsigned long	LastSyncReceived;
 		bool			Synchronized;
 	} Network;
+
+	struct ObjectInterpolationData
+	{
+		struct
+		{
+			CVector3      Start;
+			CVector3      Target;
+			CVector3      Error;
+			float         LastAlpha;
+			unsigned long StartTime;
+			unsigned long FinishTime;
+		} Position;
+
+		struct
+		{
+			CVector3      Start;
+			CVector3      Target;
+			CVector3      Error;
+			float         LastAlpha;
+			unsigned long StartTime;
+			unsigned long FinishTime;
+		} Rotation;
+	} InterpolationData;
 
 public:
 	static int Amount;
@@ -47,6 +71,13 @@ public:
 
 	void Pulse();
 	void Update(Packet *packet);
+	void Interpolate();
+
+	void UpdateTargetPosition();
+	void SetTargetPosition();
+	void UpdateTargetRotation();
+	void SetTargetRotation();
+	void SetTargetData();
 
 	int				GetId() { return Information.Id; }
 	Object			GetEntity() { return Game.Object; }

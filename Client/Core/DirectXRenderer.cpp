@@ -114,6 +114,20 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 				ImGui::End();
 				ImGui::PopStyleVar(1);
 			}
+
+			if (g_Core->GetNetworkManager()->g_ConnectionState == CONSTATE_CONN)
+			{
+				ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));
+				ImGui::SetNextWindowSize(ImVec2((500 * windowScale), (60 * windowScale)));
+				ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+				ImGui::Begin("FiveMultiplayer_Connecting", NULL, ImVec2(0, 0), 0.0f, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings);
+				{
+					ImGui::SetWindowFontScale(2.0f);
+					ImGui::Text("Connecting....");
+				}
+				ImGui::End();
+				ImGui::PopStyleVar(1);
+			}
 		}
 	}
 

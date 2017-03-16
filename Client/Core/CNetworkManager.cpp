@@ -154,6 +154,15 @@ void CNetworkManager::Disconnect()
 	}
 	// Shrink vector so size is correct.
 	g_Objects.shrink_to_fit();
+
+	// Remove all existing npcs
+	for (int i = (g_Npcs.size() - 1); i > -1; i--)
+	{
+		g_Npcs[i].Destroy();
+		g_Npcs.erase(g_Npcs.begin() + i);
+	}
+	// Shrink vector so size is correct.
+	g_Npcs.shrink_to_fit();
 	
 	Logger::Msg("CNetworkManager::Disconnected");
 }
@@ -335,6 +344,26 @@ void CNetworkManager::Pulse()
 					g_Vehicles[index].Update(g_Packet);
 
 					std::cout << "[CPlayerEntity] Vehicle Count: " << g_Vehicles.size() << std::endl;
+				}
+				break;
+			}
+			case ID_PACKET_OBJECT:
+			{
+				int t_Id;
+				g_BitStream.Read(t_Id);
+
+				bool exists = false;
+				if (!g_Objects.empty())
+				{
+					for (int i = 0; i < g_Objects.size(); i++)
+					{
+						if (g_Objects[i].GetId() == t_Id)
+						{
+							g_Objects[i].Update(g_Packet);
+							exists = true;
+							break;
+						}
+					}
 				}
 				break;
 			}

@@ -168,6 +168,7 @@
   <ItemGroup>
     <ClInclude Include="api.h" />
     <ClInclude Include="sdk\APIEntity.h" />
+    <ClInclude Include="sdk\APINpc.h" />
     <ClInclude Include="sdk\APIObject.h" />
     <ClInclude Include="sdk\APIPlayer.h" />
     <ClInclude Include="sdk\APIServer.h" />

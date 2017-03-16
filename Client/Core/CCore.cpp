@@ -4,6 +4,7 @@ std::vector<CServerEntity>	g_Entities;
 std::vector<CPlayerEntity>	g_Players;
 std::vector<CVehicleEntity>	g_Vehicles;
 std::vector<CObjectEntity>	g_Objects;
+std::vector<CNPCEntity>		g_Npcs;
 
 CCore::CCore()
 {
@@ -16,6 +17,8 @@ CCore::CCore()
 
 CCore::~CCore()
 {
+	std::cout << "[CCore] Deconstructed" << std::endl;
+
 	/*SAFE_DELETE(g_NetworkManager);
 	SAFE_DELETE(g_RPCManager);
 	SAFE_DELETE(g_LocalPlayer);
@@ -35,12 +38,19 @@ bool CCore::Initialize()
 
 	TIME::PAUSE_CLOCK(true);
 	GAMEPLAY::CLEAR_OVERRIDE_WEATHER();
+	
+	// Disables dispatch services
+	for (int s = 1; s < 13; s++)
+	{
+		GAMEPLAY::ENABLE_DISPATCH_SERVICE(s, false);
+	}
 
 	//Disable Hospitals
 	for (int i = 0; i <= 5; i++)
 	{
 		GAMEPLAY::DISABLE_HOSPITAL_RESTART(i, true);
 	}
+
 	//Disable Stunt Jumps
 	for (int i = 0; i < 50; i++)
 	{
@@ -145,13 +155,13 @@ void CCore::OnGameTick()
 		}
 	}
 
-	/*if (!g_Objects.empty())
+	if (!g_Objects.empty())
 	{
 		for (int i = 0; i < g_Objects.size(); i++)
 		{
 			g_Objects[i].Pulse();
 		}
-	}*/
+	}
 }
 
 void CCore::CleanUp()

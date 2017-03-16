@@ -51,6 +51,23 @@ namespace NetworkSync
 
 			g_Server->GetNetworkManager()->GetRPC().Signal("CreateObject", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, user, false, false);
 		}
+
+		// Sync NPCs
+		for (int o = 0; o < g_Npcs.size(); o++)
+		{
+			sData.Reset();
+			sData.Write(g_Npcs[o].GetId());
+			sData.Write(RakString(g_Npcs[o].GetModel().c_str()));
+			sData.Write(g_Npcs[o].GetPosition().fX);
+			sData.Write(g_Npcs[o].GetPosition().fY);
+			sData.Write(g_Npcs[o].GetPosition().fZ);
+			sData.Write(g_Npcs[o].GetQuaternion().fX);
+			sData.Write(g_Npcs[o].GetQuaternion().fY);
+			sData.Write(g_Npcs[o].GetQuaternion().fZ);
+			sData.Write(g_Npcs[o].GetQuaternion().fW);
+
+			g_Server->GetNetworkManager()->GetRPC().Signal("CreateNPC", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, user, false, false);
+		}
 	}
 
 }

@@ -86,7 +86,10 @@ void CNetworkManager::Pulse()
 		{
 			case ID_NEW_INCOMING_CONNECTION:
 			{
+				// New connection
 				NewIncomingConnection(g_Packet);
+
+				// Ping Master
 				PulseMaster();
 				break;
 			}
@@ -151,6 +154,7 @@ void CNetworkManager::Pulse()
 				for (int i = 0; i < g_Players.size(); i++) {
 					if (g_Players[i].GetGUID() == g_Packet->guid) {
 						g_Players[i].Update(g_Packet);
+						break;
 					}
 				}
 				break;
@@ -163,6 +167,22 @@ void CNetworkManager::Pulse()
 				for (int i = 0; i < g_Vehicles.size(); i++) {
 					if (g_Vehicles[i].GetId() == t_Id) {
 						g_Vehicles[i].Update(g_Packet);
+						break;
+					}
+				}
+				break;
+			}
+			case ID_PACKET_OBJECT:
+			{
+				int t_Id;
+				g_BitStream.Read(t_Id);
+
+				for (int i = 0; i < g_Objects.size(); i++)
+				{
+					if (g_Objects[i].GetId() == t_Id)
+					{
+						g_Objects[i].Update(g_Packet);
+						break;
 					}
 				}
 				break;

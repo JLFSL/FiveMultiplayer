@@ -96,6 +96,7 @@
 	#include "CVehicleEntity.h"
 	#include "CObjectEntity.h"
 	#include "CPlayerEntity.h"
+	#include "CNPCEntity.h"
 	#include "CServerEntity.h"
 
 	// Network
@@ -107,6 +108,7 @@
 		#include "CRPCWorld.h"
 		#include "CRPCPlayer.h"
 		#include "CRPCObject.h"
+		#include "CRPCNpc.h"
 
 	// Client
 	#include "CStreamer.h"
