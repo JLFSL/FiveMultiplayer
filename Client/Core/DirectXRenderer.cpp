@@ -12,9 +12,6 @@ IFW1Factory *DirectXRenderer::pFW1Factory = nullptr;
 IFW1FontWrapper *DirectXRenderer::pFontWrapper = nullptr;
 
 DirectXRenderer::D3D11PresentHook DirectXRenderer::phookD3D11Present = nullptr;
-DirectXRenderer::D3D11DrawIndexedHook DirectXRenderer::phookD3D11DrawIndexed = nullptr;
-DirectXRenderer::D3D11ClearRenderTargetViewHook DirectXRenderer::phookD3D11ClearRenderTargetView = nullptr;
-ID3D11RenderTargetView* DirectXRenderer::phookD3D11RenderTargetView = nullptr;
 
 DWORD_PTR* DirectXRenderer::pSwapChainVtable = nullptr;
 DWORD_PTR* DirectXRenderer::pDeviceContextVTable = nullptr;
@@ -27,20 +24,6 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 	{
 		pSwapChain->GetDevice(__uuidof(DirectXRenderer::pDevice), (void**)&DirectXRenderer::pDevice);
 		DirectXRenderer::pDevice->GetImmediateContext(&DirectXRenderer::pContext);
-
-		/*DXGI_SWAP_CHAIN_DESC sd;
-		pSwapChain->GetDesc(&sd);
-
-		// Create the render target
-		ID3D11Texture2D* pBackBuffer;
-		D3D11_RENDER_TARGET_VIEW_DESC render_target_view_desc;
-		ZeroMemory(&render_target_view_desc, sizeof(render_target_view_desc));
-		render_target_view_desc.Format = sd.BufferDesc.Format;
-		render_target_view_desc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
-		pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer);
-		DirectXRenderer::pDevice->CreateRenderTargetView(pBackBuffer, &render_target_view_desc, &DirectXRenderer::phookD3D11RenderTargetView);
-		DirectXRenderer::pContext->OMSetRenderTargets(1, &DirectXRenderer::phookD3D11RenderTargetView, NULL);
-		pBackBuffer->Release();*/
 
 		FW1CreateFactory(FW1_VERSION, &DirectXRenderer::pFW1Factory);
 		DirectXRenderer::pFW1Factory->CreateFontWrapper(DirectXRenderer::pDevice, L"Segoe UI", &DirectXRenderer::pFontWrapper);
@@ -140,8 +123,6 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 
 	CefTexture::UpdateRenderTexture();
 	CefTexture::DrawWebView();
-
-	ImGui::Render();
 
 	return DirectXRenderer::phookD3D11Present(pSwapChain, SyncInterval, Flags);
 }
