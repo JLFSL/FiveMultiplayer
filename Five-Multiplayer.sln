@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.9
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{E388C086-D621-4687-B8CF-B041FFB759EC}"
 EndProject
@@ -81,6 +81,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API Shared", "API Shared", "{1936AFD4-7DC3-4648-93E5-6DA9275E9914}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Client.CEF", "Client\CoreCEF\CoreCEF.vcxproj", "{571DB5C2-3D33-46EB-A4D0-46B3F887C222}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{A92FDE02-420C-474A-A1D0-0A4BCB352E06}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HashTableUpdater", "HashTableUpdater\HashTableUpdater.vcxproj", "{9C57C40A-277C-4435-8DA8-117A8156C78E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -210,6 +214,14 @@ Global
 		{571DB5C2-3D33-46EB-A4D0-46B3F887C222}.Release|x64.Build.0 = Release|x64
 		{571DB5C2-3D33-46EB-A4D0-46B3F887C222}.Release|x86.ActiveCfg = Release|x64
 		{571DB5C2-3D33-46EB-A4D0-46B3F887C222}.Release|x86.Build.0 = Release|x64
+		{9C57C40A-277C-4435-8DA8-117A8156C78E}.Debug|x64.ActiveCfg = Debug|x64
+		{9C57C40A-277C-4435-8DA8-117A8156C78E}.Debug|x64.Build.0 = Debug|x64
+		{9C57C40A-277C-4435-8DA8-117A8156C78E}.Debug|x86.ActiveCfg = Debug|Win32
+		{9C57C40A-277C-4435-8DA8-117A8156C78E}.Debug|x86.Build.0 = Debug|Win32
+		{9C57C40A-277C-4435-8DA8-117A8156C78E}.Release|x64.ActiveCfg = Release|x64
+		{9C57C40A-277C-4435-8DA8-117A8156C78E}.Release|x64.Build.0 = Release|x64
+		{9C57C40A-277C-4435-8DA8-117A8156C78E}.Release|x86.ActiveCfg = Release|Win32
+		{9C57C40A-277C-4435-8DA8-117A8156C78E}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -232,5 +244,6 @@ Global
 		{F33CBB17-A023-481C-82D9-CB919F9D13C1} = {88800344-6139-43B7-A387-E057594FF685}
 		{1936AFD4-7DC3-4648-93E5-6DA9275E9914} = {88800344-6139-43B7-A387-E057594FF685}
 		{571DB5C2-3D33-46EB-A4D0-46B3F887C222} = {E388C086-D621-4687-B8CF-B041FFB759EC}
+		{9C57C40A-277C-4435-8DA8-117A8156C78E} = {A92FDE02-420C-474A-A1D0-0A4BCB352E06}
 	EndGlobalSection
 EndGlobal
