@@ -4,8 +4,9 @@
 #define INFO_GAME_STEAMAPPID	"271590"
 
 	// Game Path
-	#define INFO_GAME_LOC_REG		"SOFTWARE\\WOW6432Node\\Rockstar Games\\Grand Theft Auto VA"
+	#define INFO_GAME_LOC_REG		"SOFTWARE\\WOW6432Node\\Rockstar Games\\GTAV" // Is 'Grand Theft Auto V' also one?
 	#define INFO_GAME_LOC_REG2		"InstallFolder"
+	#define INFO_GAME_LOC_REG3		"InstallFolderSteam"
 
 // Modification Information
 #define INFO_NAME			"Five Multiplayer"
