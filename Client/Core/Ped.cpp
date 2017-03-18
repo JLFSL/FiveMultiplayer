@@ -86,7 +86,7 @@ namespace GamePed
 		return ENTITY::GET_ENTITY_HEALTH(ped);
 	}
 
-	int SetPedHealth(Ped ped, int health)
+	void SetPedHealth(Ped ped, int health)
 	{
 		ENTITY::SET_ENTITY_HEALTH(ped, health);
 	}
@@ -96,7 +96,7 @@ namespace GamePed
 		return PED::GET_PED_ARMOUR(ped);
 	}
 
-	int SetPedArmour(Ped ped, int armour)
+	void SetPedArmour(Ped ped, int armour)
 	{
 		PED::SET_PED_ARMOUR(ped, armour);
 	}
