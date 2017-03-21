@@ -32,11 +32,70 @@ void CStreamer::Start()
 
 void CStreamer::Pulse()
 {
-	StreamIn(g_Core->GetLocalPlayer()->GetPos());
+	StreamObjectsIn(g_Core->GetLocalPlayer()->GetPos());
+	StreamVehiclesIn(g_Core->GetLocalPlayer()->GetPos());
+	StreamPlayersIn(g_Core->GetLocalPlayer()->GetPos());
+	StreamOtherIn(g_Core->GetLocalPlayer()->GetPos());
+
 	StreamOut(g_Core->GetLocalPlayer()->GetPos());
 }
 
-void CStreamer::StreamIn(CVector3 position)
+void CStreamer::StreamObjectsIn(CVector3 position)
+{
+	if (g_Core && g_Core->GetNetworkManager()->g_ConnectionState == CONSTATE_COND)
+	{
+		if (!g_Entities.empty())
+		{
+			float curDis = 50.0f;
+			// Objects have First priority
+			while (curDis < MaxRange)
+			{
+				for (int i = 0; i < g_Entities.size(); i++)
+				{
+					if (ObjectCount < MaxObjects)
+					{
+						switch (g_Entities[i].GetType())
+						{
+						case CServerEntity::Type::Object:
+							for (int index = 0; index < g_Objects.size(); index++)
+							{
+								if (g_Objects[index].GetId() == g_Entities[i].GetId())
+								{
+									if (!g_Objects[index].IsCreated() && CVector3::Distance(position, g_Objects[index].GetPosition()) < curDis)
+									{
+										if (g_Objects[index].CreateObject())
+										{
+											if (ObjectCount == (MaxObjects - 1))
+												ObjectRange = CVector3::Distance(position, g_Objects[index].GetPosition());
+											else
+												ObjectRange = 1000.0f;
+
+											ObjectCount++;
+
+											streamedObject newObj;
+											newObj.entity = g_Entities[i].GetId();
+											newObj.distance = CVector3::Distance(position, g_Objects[index].GetPosition());
+
+											streamed.push_back(newObj);
+										}
+									}
+									break;
+								}
+							}
+							break;
+						}
+					}
+					else
+						break;
+				}
+
+				curDis += 50.0f;
+			}
+		}
+	}
+}
+
+void CStreamer::StreamVehiclesIn(CVector3 position)
 {
 	if (g_Core && g_Core->GetNetworkManager()->g_ConnectionState == CONSTATE_COND)
 	{
@@ -47,43 +106,11 @@ void CStreamer::StreamIn(CVector3 position)
 			{
 				for (int i = 0; i < g_Entities.size(); i++)
 				{
-					switch (g_Entities[i].GetType())
+					if (VehicleCount < MaxVehicles)
 					{
-					case CServerEntity::Type::Player:
-						if (PlayerCount < MaxPlayers)
+						switch (g_Entities[i].GetType())
 						{
-							for(int index = 0; index < g_Players.size(); index++)
-							{
-								if (g_Players[index].GetId() == g_Entities[i].GetId())
-								{
-									if (!g_Players[index].IsCreated() && g_Players[index].GetId() != g_Core->GetLocalPlayer()->GetId() && CVector3::Distance(position, g_Players[index].GetPosition()) < curDis)
-									{
-										/*
-											If we reach the 'max' for this type we will want to bring the range down for this type so object between X & 1000 have the chance to get streamed in.
-											This isn't full proof and there might still be the possibility of entities not getting streamed in.
-										*/
-										if (PlayerCount == (MaxPlayers - 1))
-											PlayerRange = CVector3::Distance(position, g_Players[index].GetPosition());
-										else
-											PlayerRange = 1000.0f;
-
-										g_Players[index].CreatePed();
-										PlayerCount++;
-
-										streamedObject newObj;
-										newObj.entity = g_Entities[i].GetId();
-										newObj.distance = CVector3::Distance(position, g_Players[index].GetPosition());
-
-										streamed.push_back(newObj);
-									}
-									break;
-								}
-							}
-						}
-						break;
-					case CServerEntity::Type::Vehicle:
-						if (VehicleCount < MaxVehicles)
-						{
+						case CServerEntity::Type::Vehicle:
 							for (int index = 0; index < g_Vehicles.size(); index++)
 							{
 								if (g_Vehicles[index].GetId() == g_Entities[i].GetId())
@@ -109,32 +136,116 @@ void CStreamer::StreamIn(CVector3 position)
 									break;
 								}
 							}
+							break;
+						}
+					}
+					else
+						break;
+				}
+
+				curDis += 50.0f;
+			}
+		}
+	}
+}
+
+
+void CStreamer::StreamPlayersIn(CVector3 position)
+{
+	if (g_Core && g_Core->GetNetworkManager()->g_ConnectionState == CONSTATE_COND)
+	{
+		if (!g_Entities.empty())
+		{
+			float curDis = 50.0f;
+			while (curDis < MaxRange)
+			{
+				for (int i = 0; i < g_Entities.size(); i++)
+				{
+					if (PlayerCount < MaxPlayers)
+					{
+						switch (g_Entities[i].GetType())
+						{
+						case CServerEntity::Type::Player:
+							for (int index = 0; index < g_Players.size(); index++)
+							{
+								if (g_Players[index].GetId() == g_Entities[i].GetId())
+								{
+									if (!g_Players[index].IsCreated() && g_Players[index].GetId() != g_Core->GetLocalPlayer()->GetId() && CVector3::Distance(position, g_Players[index].GetPosition()) < curDis)
+									{
+										/*
+										If we reach the 'max' for this type we will want to bring the range down for this type so object between X & 1000 have the chance to get streamed in.
+										This isn't full proof and there might still be the possibility of entities not getting streamed in.
+										*/
+										if (PlayerCount == (MaxPlayers - 1))
+											PlayerRange = CVector3::Distance(position, g_Players[index].GetPosition());
+										else
+											PlayerRange = 1000.0f;
+
+										g_Players[index].CreatePed();
+										PlayerCount++;
+
+										streamedObject newObj;
+										newObj.entity = g_Entities[i].GetId();
+										newObj.distance = CVector3::Distance(position, g_Players[index].GetPosition());
+
+										streamed.push_back(newObj);
+									}
+									break;
+								}
+							}
 						}
 						break;
-					case CServerEntity::Type::Object:
-						if (ObjectCount < MaxObjects)
+					}
+					else
+						break;
+				}
+
+				curDis += 50.0f;
+			}
+		}
+	}
+}
+
+
+void CStreamer::StreamOtherIn(CVector3 position)
+{
+	if (g_Core && g_Core->GetNetworkManager()->g_ConnectionState == CONSTATE_COND)
+	{
+		if (!g_Entities.empty())
+		{
+			float curDis = 50.0f;
+			while (curDis < MaxRange)
+			{
+				for (int i = 0; i < g_Entities.size(); i++)
+				{
+					switch (g_Entities[i].GetType())
+					{
+					case CServerEntity::Type::Player:
+						if (PlayerCount < MaxPlayers)
 						{
-							for (int index = 0; index < g_Objects.size(); index++)
+							for (int index = 0; index < g_Players.size(); index++)
 							{
-								if (g_Objects[index].GetId() == g_Entities[i].GetId())
+								if (g_Players[index].GetId() == g_Entities[i].GetId())
 								{
-									if (!g_Objects[index].IsCreated() && CVector3::Distance(position, g_Objects[index].GetPosition()) < curDis)
+									if (!g_Players[index].IsCreated() && g_Players[index].GetId() != g_Core->GetLocalPlayer()->GetId() && CVector3::Distance(position, g_Players[index].GetPosition()) < curDis)
 									{
-										if (g_Objects[index].CreateObject())
-										{
-											if (ObjectCount == (MaxObjects - 1))
-												ObjectRange = CVector3::Distance(position, g_Objects[index].GetPosition());
-											else
-												ObjectRange = 1000.0f;
+										/*
+										If we reach the 'max' for this type we will want to bring the range down for this type so object between X & 1000 have the chance to get streamed in.
+										This isn't full proof and there might still be the possibility of entities not getting streamed in.
+										*/
+										if (PlayerCount == (MaxPlayers - 1))
+											PlayerRange = CVector3::Distance(position, g_Players[index].GetPosition());
+										else
+											PlayerRange = 1000.0f;
 
-											ObjectCount++;
+										g_Players[index].CreatePed();
+										PlayerCount++;
 
-											streamedObject newObj;
-											newObj.entity = g_Entities[i].GetId();
-											newObj.distance = CVector3::Distance(position, g_Objects[index].GetPosition());
+										streamedObject newObj;
+										newObj.entity = g_Entities[i].GetId();
+										newObj.distance = CVector3::Distance(position, g_Players[index].GetPosition());
 
-											streamed.push_back(newObj);
-										}
+										streamed.push_back(newObj);
 									}
 									break;
 								}
@@ -171,9 +282,6 @@ void CStreamer::StreamIn(CVector3 position)
 							}
 						}
 						break;
-					default:
-						std::cout << "[CStreamer::StreamIn] Found Invalid entity" << std::endl;
-						break;
 					}
 				}
 
@@ -182,6 +290,7 @@ void CStreamer::StreamIn(CVector3 position)
 		}
 	}
 }
+
 
 void CStreamer::StreamOut(CVector3 position)
 {
