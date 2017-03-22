@@ -38,6 +38,8 @@ x86/
 [Oo]bj/
 [Ll]og/
 
+*.db-wal
+*.db-shm
 *_i.c
 *_p.c
 *_i.h
