@@ -27,8 +27,7 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReser
 	case DLL_PROCESS_ATTACH:
 		AllocConsole();
 		freopen("CONOUT$", "w", stdout);
-		
-		//Hooking::Start(hModule);
+
 		CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)CEFThread, (LPVOID)hModule, NULL, NULL);
 		CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)MainThread, (LPVOID)hModule, NULL, NULL);
 		break;

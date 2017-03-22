@@ -21,4 +21,3 @@ public:
 	static CefRefPtr<CefBrowser> getBrowser() { return browser; }
 	static HWND getProcess() { return curProc; }
 };
-

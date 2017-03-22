@@ -41,7 +41,10 @@ void CRPCEntity::SetPosition(RakNet::BitStream *bitStream, RakNet::Packet *packe
 		// Force everything to stream out
 		g_Core->GetStreamer()->ForceStreamOut();
 		// Stream in everything at the position
-		g_Core->GetStreamer()->StreamIn(position);
+		g_Core->GetStreamer()->StreamObjectsIn(position);
+		g_Core->GetStreamer()->StreamVehiclesIn(position);
+		g_Core->GetStreamer()->StreamPlayersIn(position);
+		g_Core->GetStreamer()->StreamOtherIn(position);
 		// Send player to the position
 		ENTITY::SET_ENTITY_COORDS(g_Core->GetLocalPlayer()->GetPed(), position.fX, position.fY, position.fZ, false, false, false, false);
 	}

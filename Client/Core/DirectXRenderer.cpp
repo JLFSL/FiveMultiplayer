@@ -173,7 +173,7 @@ void DirectXRenderer::Initialize()
 	UINT createDeviceFlags = 0;
 #ifdef _DEBUG
 	// This flag gives you some quite wonderful debug text. Not wonderful for performance, though!
-	createFlags |= D3D11_CREATE_DEVICE_DEBUG;
+	//createFlags |= D3D11_CREATE_DEVICE_DEBUG; ///WERE IS THIS?
 #endif
 
 	if (FAILED(D3D11CreateDeviceAndSwapChain(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, createDeviceFlags, featureLevel, sizeof(featureLevel) / sizeof(D3D_FEATURE_LEVEL), D3D11_SDK_VERSION, &swapChainDesc, &pSwapChain, &pDevice, &obtainedLevel, &pContext)))

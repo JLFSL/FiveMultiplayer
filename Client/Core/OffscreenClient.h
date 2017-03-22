@@ -1,6 +1,6 @@
 #pragma once
 
-class OffscreenClient : public CefClient, public CefLifeSpanHandler, public CefRenderHandler
+class OffscreenClient : public CefClient, public CefLifeSpanHandler, public CefRenderHandler, public CefContextMenuHandler
 {
 public:
 	OffscreenClient();
@@ -24,10 +24,14 @@ public:
 	virtual void OnAfterCreated(CefRefPtr<CefBrowser> browser) OVERRIDE;
 	virtual void OnBeforeClose(CefRefPtr<CefBrowser> browser) OVERRIDE;
 	// virtual bool DoClose(CefRefPtr<CefBrowser> browser) OVERRIDE;
+	
+	virtual void OnBeforeContextMenu(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefContextMenuParams> params, CefRefPtr<CefMenuModel> model) OVERRIDE {
+		model->Clear(); // This SHOULD disable the right click context menu but ofc its not working...
+	}
 
 	CefRefPtr<CefBrowser> GetBrowser() { return m_browser; }
 
-	virtual bool GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& rect) OVERRIDE { rect.Set(0, 0, 1280, 720);  return true; };
+	virtual bool GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& rect) OVERRIDE { rect.Set(0, 0, 1280, 720);  return true; }
 
 	// private:
 	// The child browser window
