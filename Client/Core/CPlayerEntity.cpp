@@ -510,15 +510,21 @@ void CPlayerEntity::UpdateTargetData()
 				AI::TASK_RELOAD_WEAPON(Game.Ped, true);
 			}
 			else if (Data.Task == 300) { //GetInCover
-				//AI::TASK_SEEK_COVER_TO_COORDS(playerData[i].pedPed, playerData[i].x, playerData[i].y, playerData[i].z, playerData[i].x, playerData[i].y, playerData[i].z, 0, 0);
-				AI::TASK_PUT_PED_DIRECTLY_INTO_COVER(Game.Ped, Data.Position.fX, Data.Position.fY, Data.Position.fZ, 2500, 0, 0, 0, 0, 0, 0);
+				if (!PED::IS_PED_IN_COVER(Game.Ped, 0)) {
+					//AI::TASK_SEEK_COVER_TO_COORDS(playerData[i].pedPed, playerData[i].x, playerData[i].y, playerData[i].z, playerData[i].x, playerData[i].y, playerData[i].z, 0, 0);
+					AI::TASK_PUT_PED_DIRECTLY_INTO_COVER(Game.Ped, Data.Position.fX, Data.Position.fY, Data.Position.fZ, 2500, 0, 0, 0, 0, 0, 0);
+				}
 			}
 			else if (Data.Task == 301) { //ExitCover
 				AI::TASK_EXIT_COVER(Game.Ped, 1000, 0, 0, 0);
 			}
 			else if (Data.Task == 309) { //InCover
-				//AI::TASK_PUT_PED_DIRECTLY_INTO_COVER(playerData[i].pedPed, playerData[i].x, playerData[i].y, playerData[i].z, 1000, 0, 0, 0, 0, 0, 0);
-				AI::TASK_STAY_IN_COVER(Game.Ped);
+				if (!PED::IS_PED_IN_COVER(Game.Ped, 0)) {
+					AI::TASK_PUT_PED_DIRECTLY_INTO_COVER(Game.Ped, Data.Position.fX, Data.Position.fY, Data.Position.fZ, 1000, 0, 0, 0, 0, 0, 0);
+				}
+				else {
+					AI::TASK_STAY_IN_COVER(Game.Ped);
+				}
 			}
 			else if (Data.Task == 407) { //Ragdoll
 				//PED::SET_PED_TO_RAGDOLL(playerData[i].pedPed, 10000, 10000 * 1000, 0, 0, 0, 0);
