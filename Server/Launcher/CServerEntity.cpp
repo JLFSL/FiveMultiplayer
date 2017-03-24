@@ -448,6 +448,16 @@ namespace ServerEntity
 					}
 				}
 				break;
+			case CServerEntity::NPC:
+				for (int i = 0; i < g_Npcs.size(); i++)
+				{
+					if (g_Npcs[i].GetId() == entity)
+					{
+						g_Npcs[i].RequestData(requester);
+						break;
+					}
+				}
+				break;
 			default:
 				std::cout << std::endl << "[ServerEntity::RequestData] Invalid entity" << std::endl;
 				break;
