@@ -69,6 +69,7 @@ public:
 
 	bool Create(int entity, int hash, CVector3 position, CVector4 quaternion, bool dynamic);
 	bool CreateObject();
+	void RequestData();
 	void Destroy();
 	void Delete();
 

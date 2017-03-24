@@ -25,6 +25,7 @@ CRPCManager::RPCMessage rpcmessages[] = {
 #pragma endregion
 #pragma region Object
 	{ "CreateObject", CRPCObject::Create },
+	{ "SetTextureVariation", CRPCObject::SetTextureVariation },
 #pragma endregion
 #pragma region Npc
 	{ "CreateNPC", CRPCNpc::Create }

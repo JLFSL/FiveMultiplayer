@@ -6,11 +6,12 @@ CObjectEntity::CObjectEntity()
 {
 	Data.Model.Model = 0;
 	Data.Model.Dynamic = false;
+	Data.Model.textureIndex = 0;
+
 	Information.Id = -1;
 
 	Game.Object = NULL;
 	Game.Created = false;
-	Data.Model.Model = 0;
 	Network.Assigned = UNASSIGNED_RAKNET_GUID;
 }
 
@@ -32,6 +33,8 @@ bool CObjectEntity::Create(int entity, int hash, CVector3 position, CVector4 qua
 		CServerEntity newServerEntity;
 		newServerEntity.Create(entity, CServerEntity::Object);
 		g_Entities.push_back(newServerEntity);
+
+		RequestData();
 
 		return true;
 	}
@@ -76,6 +79,13 @@ bool CObjectEntity::CreateObject()
 
 	std::cout << "[CObjectEntity] Object already created" << std::endl;
 	return false;
+}
+
+void CObjectEntity::RequestData()
+{
+	RakNet::BitStream sData;
+	sData.Write(Information.Id);
+	g_Core->GetNetworkManager()->GetRPC().Signal("RequestEntityData", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, g_Core->GetNetworkManager()->GetSystemAddress(), false, false);
 }
 
 void CObjectEntity::Destroy()
