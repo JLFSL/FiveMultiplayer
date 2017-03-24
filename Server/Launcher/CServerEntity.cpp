@@ -300,6 +300,15 @@ namespace ServerEntity
 					}
 				}
 				break;
+			case CServerEntity::NPC:
+				for (int i = 0; i < g_Npcs.size(); i++)
+				{
+					if (g_Npcs[i].GetId() == entity)
+					{
+						return true;
+					}
+				}
+				break;
 			default:
 				std::cout << "[ServerEntity::IsValid] Invalid entity" << std::endl;
 				break;
