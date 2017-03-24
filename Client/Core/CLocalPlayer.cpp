@@ -22,6 +22,14 @@ CLocalPlayer::~CLocalPlayer()
 	Data.Vehicle.Seat		= -1;
 }
 
+Ped	CLocalPlayer::GetPed()
+{
+	if (!ENTITY::DOES_ENTITY_EXIST(Game.Ped))
+		Game.Ped = PLAYER::GET_PLAYER_PED(Game.Player);
+
+	return Game.Ped;
+}
+
 void CLocalPlayer::Pulse()
 {
 	unsigned long ulCurrentTime = timeGetTime();
@@ -29,6 +37,9 @@ void CLocalPlayer::Pulse()
 	{
 		if (g_Core->GetNetworkManager()->g_ConnectionState != CONSTATE_COND)
 			return;
+
+		if(!ENTITY::DOES_ENTITY_EXIST(Game.Ped))
+			Game.Ped = PLAYER::GET_PLAYER_PED(Game.Player);
 
 		// Update the local players Data
 		Vector3 Coordinates = ENTITY::GET_ENTITY_COORDS(Game.Ped, ENTITY::IS_ENTITY_DEAD(Game.Ped));

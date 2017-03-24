@@ -58,7 +58,7 @@ public:
 	void VehicleChecks();
 
 	Player GetPlayer()		{ return Game.Player; }
-	Ped	GetPed()			{ return Game.Ped; }
+	Ped	GetPed();
 	void SetPed(Ped ped)	{ Game.Ped = ped; }
 	int	GetId()				{ return Information.Id; }
 	void SetId(int id)		{ Information.Id = id; }

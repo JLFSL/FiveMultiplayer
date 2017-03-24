@@ -124,12 +124,11 @@ namespace GamePed
 			while (!STREAMING::HAS_MODEL_LOADED(modelh))
 				WAIT(0);
 
-			PLAYER::SET_PLAYER_MODEL(0, modelh);
+			PLAYER::SET_PLAYER_MODEL(g_Core->GetLocalPlayer()->GetPlayer(), modelh);
 
-			if (g_Core->GetLocalPlayer()->GetPed() == ped)
+			if (g_Core->GetLocalPlayer()->GetPed() == ped && !ENTITY::DOES_ENTITY_EXIST(ped))
 			{
-				g_Core->GetLocalPlayer()->SetPed(PLAYER::GET_PLAYER_PED(0));
-				ped = PLAYER::GET_PLAYER_PED(0);
+				ped = g_Core->GetLocalPlayer()->GetPed();
 			}
 
 			PED::SET_PED_DEFAULT_COMPONENT_VARIATION(ped);
