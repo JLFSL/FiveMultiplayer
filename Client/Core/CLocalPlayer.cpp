@@ -79,6 +79,8 @@ void CLocalPlayer::Pulse()
 		bitstream.Write(Data.Vehicle.VehicleID);
 		bitstream.Write(Data.Vehicle.Seat);
 
+		bitstream.Write(GamePed::GetPedTask(Game.Ped));
+
 		g_Core->GetNetworkManager()->GetInterface()->Send(&bitstream, MEDIUM_PRIORITY, UNRELIABLE_SEQUENCED, 0, g_Core->GetNetworkManager()->GetSystemAddress(), false);
 
 		Network.LastSyncSent = timeGetTime();

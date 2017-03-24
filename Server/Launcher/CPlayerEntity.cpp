@@ -91,6 +91,8 @@ void CPlayerEntity::Pulse()
 		bitstream.Write(Data.Vehicle.VehicleID);
 		bitstream.Write(Data.Vehicle.Seat);
 
+		bitstream.Write(Data.Task);
+
 		g_Server->GetNetworkManager()->GetInterface()->Send(&bitstream, MEDIUM_PRIORITY, UNRELIABLE_SEQUENCED, 0, UNASSIGNED_RAKNET_GUID, true);
 
 		Network.LastSyncSent = std::chrono::system_clock::now();
@@ -133,6 +135,8 @@ void CPlayerEntity::Update(Packet *packet)
 
 	bitstream.Read(Data.Vehicle.VehicleID);
 	bitstream.Read(Data.Vehicle.Seat);
+
+	bitstream.Read(Data.Task);
 
 	Network.GUID = packet->guid;
 	Network.Ip = packet->systemAddress;

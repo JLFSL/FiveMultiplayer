@@ -193,6 +193,8 @@ void CPlayerEntity::Update(Packet *packet)
 	bitstream.Read(Data.Vehicle.VehicleID);
 	bitstream.Read(Data.Vehicle.Seat);
 
+	bitstream.Read(Data.Task);
+
 	if (g_Core->GetNetworkManager()->GetInterface()->GetMyGUID() != Network.GUID) {
 		if (Data.Model.hModel != GAMEPLAY::GET_HASH_KEY((char*)Data.Model.Model.c_str()) && Game.Created)
 			UpdatePlayerModel();
@@ -474,6 +476,68 @@ void CPlayerEntity::UpdateTargetData()
 		else if (GamePed::GetVehicle(Game.Ped) && Data.Vehicle.VehicleID == -1)
 		{
 			AI::TASK_LEAVE_VEHICLE(Game.Ped, GamePed::GetVehicle(Game.Ped), 16);
+		}
+
+
+		if (Data.Task == 290) { //GunAim
+			AI::CLEAR_PED_TASKS(Game.Ped);
+			AI::TASK_AIM_GUN_AT_COORD(Game.Ped, 0, 0, 0, 5000, 1, 0);
+		}
+
+		if (!AI::GET_IS_TASK_ACTIVE(Game.Ped, Data.Task)) {
+			if (Data.Task == 47) {
+				AI::TASK_CLIMB_LADDER(Game.Ped, true);
+			}
+			else if (Data.Task == 51) {
+				AI::SET_PED_PATH_CAN_DROP_FROM_HEIGHT(Game.Ped, true);
+			}
+			else if (Data.Task == 128) {
+				//melee aim
+			}
+			else if (Data.Task == 130) {
+				//melee swing
+			}
+			else if (Data.Task == 161) { //Start Getting In Vehicle
+				int index = GamePed::GetVehicleID(Game.Ped);
+				if (index != -1) {
+					if (ENTITY::DOES_ENTITY_EXIST(GamePed::GetVehicle(Game.Ped))) {
+						AI::TASK_OPEN_VEHICLE_DOOR(Game.Ped, GamePed::GetVehicle(Game.Ped), 1000, Data.Vehicle.Seat - 1, 2.0f);
+					}
+				}
+			}
+			else if (Data.Task == 298) { //ReloadWeapon
+				WEAPON::MAKE_PED_RELOAD(Game.Ped);
+				AI::TASK_RELOAD_WEAPON(Game.Ped, true);
+			}
+			else if (Data.Task == 300) { //GetInCover
+				//AI::TASK_SEEK_COVER_TO_COORDS(playerData[i].pedPed, playerData[i].x, playerData[i].y, playerData[i].z, playerData[i].x, playerData[i].y, playerData[i].z, 0, 0);
+				AI::TASK_PUT_PED_DIRECTLY_INTO_COVER(Game.Ped, Data.Position.fX, Data.Position.fY, Data.Position.fZ, 2500, 0, 0, 0, 0, 0, 0);
+			}
+			else if (Data.Task == 301) { //ExitCover
+				AI::TASK_EXIT_COVER(Game.Ped, 1000, 0, 0, 0);
+			}
+			else if (Data.Task == 309) { //InCover
+				//AI::TASK_PUT_PED_DIRECTLY_INTO_COVER(playerData[i].pedPed, playerData[i].x, playerData[i].y, playerData[i].z, 1000, 0, 0, 0, 0, 0, 0);
+				AI::TASK_STAY_IN_COVER(Game.Ped);
+			}
+			else if (Data.Task == 407) { //Ragdoll
+				//PED::SET_PED_TO_RAGDOLL(playerData[i].pedPed, 10000, 10000 * 1000, 0, 0, 0, 0);
+			}
+			else if (Data.Task == 420) { //Climb/Vault
+				AI::TASK_CLIMB(Game.Ped, true);
+			}
+			else if (Data.Task == 421 && !Data.isJumping) { //jump
+				if (!PED::IS_PED_JUMPING(Game.Ped)) {
+					AI::TASK_JUMP(Game.Ped, false);
+					Data.isJumping = true;
+				}
+			}
+			else if (Data.Task == 422) { //Fall
+
+			}
+			else {
+				Data.isJumping = false;
+			}
 		}
 	}
 }

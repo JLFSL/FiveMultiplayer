@@ -70,6 +70,7 @@ private:
 		} ModelFaceFeature[20];
 
 		float				ForwardSpeed;
+		int					Task;
 
 		CVector3			Position;
 		CVector3			Velocity;

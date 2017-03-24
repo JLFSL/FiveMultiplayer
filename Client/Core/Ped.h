@@ -16,4 +16,6 @@ namespace GamePed
 	void SetPedHeadOverlayColor(Ped ped, const int overlayid, const int index, const int colorType, const int colorid, const int secondColorid, const float opacity);
 	void SetPedProp(Ped ped, const int componentid, const int drawableid, const int textureid);
 	void SetPedFaceFeature(Ped ped, const int index, const float scale);
+
+	int GetPedTask(Ped ped);
 }
