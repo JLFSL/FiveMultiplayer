@@ -1590,7 +1590,7 @@ namespace OBJECT
 	static void _0xB2D0BDE54F0E8E5A(Object object, BOOL toggle) { invoke<Void>(0xB2D0BDE54F0E8E5A, object, toggle); } // 0xB2D0BDE54F0E8E5A 0x132B6D92
 	static Hash _GET_WEAPON_HASH_FROM_PICKUP(Pickup pickupHash) { return invoke<Hash>(0x08F96CA6C551AD51, pickupHash); } // 0x08F96CA6C551AD51 0xEDD01937
 	static BOOL _0x11D1E53A726891FE(Any p0) { return invoke<BOOL>(0x11D1E53A726891FE, p0); } // 0x11D1E53A726891FE
-	static void _PAINT_BOAT_EXTERIOR(Object object, int paintIndex) { invoke<Void>(0x971DA0055324D033, object, paintIndex); } // 0x971DA0055324D033
+	static void _SET_OBJECT_TEXTURE_VARIANT(Object object, int paintIndex) { invoke<Void>(0x971DA0055324D033, object, paintIndex); } // 0x971DA0055324D033
 	static Hash _0x5EAAD83F8CFB4575(Pickup pickupHash) { return invoke<Hash>(0x5EAAD83F8CFB4575, pickupHash); } // 0x5EAAD83F8CFB4575 0x6AE36192
 	static void SET_FORCE_OBJECT_THIS_FRAME(Any p0, Any p1, Any p2, Any p3) { invoke<Void>(0xF538081986E49E9D, p0, p1, p2, p3); } // 0xF538081986E49E9D 0x3DA41C1A
 	static void _MARK_OBJECT_FOR_DELETION(Object object) { invoke<Void>(0xADBE4809F19F927A, object); } // 0xADBE4809F19F927A 0x2048A7DD
