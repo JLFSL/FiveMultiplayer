@@ -32,3 +32,18 @@ void CRPCObject::Create(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 	if (newObject.Create(entity, hash, position, quaternion, dynamic))
 		g_Objects.push_back(newObject);
 }
+
+void CRPCObject::SetTextureVariation(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+{
+	int entity, textureindex;
+
+	bitStream->Read(entity);
+	bitStream->Read(textureindex);
+
+	for (int i = 0; i < g_Objects.size(); i++) {
+		if (g_Objects[i].GetId() == entity) {
+			g_Objects[i].SetTextureVariation(textureindex);
+			break;
+		}
+	}
+}

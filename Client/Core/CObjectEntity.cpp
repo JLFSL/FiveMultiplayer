@@ -4,13 +4,13 @@ int CObjectEntity::Amount = 0;
 
 CObjectEntity::CObjectEntity()
 {
-	Data.Model = 0;
-	Data.Dynamic = false;
+	Data.Model.Model = 0;
+	Data.Model.Dynamic = false;
 	Information.Id = -1;
 
 	Game.Object = NULL;
 	Game.Created = false;
-	Data.Model = 0;
+	Data.Model.Model = 0;
 	Network.Assigned = UNASSIGNED_RAKNET_GUID;
 }
 
@@ -18,8 +18,8 @@ bool CObjectEntity::Create(int entity, int hash, CVector3 position, CVector4 qua
 {
 	if (STREAMING::IS_MODEL_IN_CDIMAGE(hash) && STREAMING::IS_MODEL_VALID(hash))
 	{
-		Data.Model = hash;
-		Data.Dynamic = dynamic;
+		Data.Model.Model = hash;
+		Data.Model.Dynamic = dynamic;
 		Data.Position = position;
 		Data.Quaternion = quaternion;
 		Information.Id = entity;
@@ -46,25 +46,31 @@ bool CObjectEntity::CreateObject()
 {
 	if (!Game.Created)
 	{
-		if (STREAMING::IS_MODEL_IN_CDIMAGE(Data.Model) && STREAMING::IS_MODEL_VALID(Data.Model))
+		if (STREAMING::IS_MODEL_IN_CDIMAGE(Data.Model.Model) && STREAMING::IS_MODEL_VALID(Data.Model.Model))
 		{
-			STREAMING::REQUEST_MODEL(Data.Model);
-			while (!STREAMING::HAS_MODEL_LOADED(Data.Model))
-				WAIT(0);
+			std::cout << "[CObjectEntity] " << Information.Id << " being created." << std::endl;
 
-			Game.Object = OBJECT::CREATE_OBJECT_NO_OFFSET(Data.Model, Data.Position.fX, Data.Position.fY, Data.Position.fZ, false, true, Data.Dynamic);
-			STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(Data.Model);
+			STREAMING::REQUEST_MODEL(Data.Model.Model);
+			/*while (!STREAMING::HAS_MODEL_LOADED(Data.Model.Model)) //Removed this for now as abit of a test as this can get stuck.
+				WAIT(0);*/
+
+			Game.Object = OBJECT::CREATE_OBJECT_NO_OFFSET(Data.Model.Model, Data.Position.fX, Data.Position.fY, Data.Position.fZ, false, true, Data.Model.Dynamic);
+			STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(Data.Model.Model);
 
 			ENTITY::SET_ENTITY_QUATERNION(Game.Object, Data.Quaternion.fX, Data.Quaternion.fY, Data.Quaternion.fZ, Data.Quaternion.fW);
 
-			if (!Data.Dynamic)
+			if (!Data.Model.Dynamic)
 				ENTITY::FREEZE_ENTITY_POSITION(Game.Object, true);
 
 			Game.Created = true;
+
+			SetTargetData();
+
+			std::cout << "[CObjectEntity] " << Information.Id << " created." << std::endl;
 			return true;
 		}
 
-		std::cout << "[CObjectEntity] Tried to create " << Information.Id << ", but model " << Data.Model << " does not exist!" << std::endl;
+		std::cout << "[CObjectEntity] Tried to create " << Information.Id << ", but model " << Data.Model.Model << " does not exist!" << std::endl;
 		return false;
 	}
 
@@ -74,7 +80,7 @@ bool CObjectEntity::CreateObject()
 
 void CObjectEntity::Destroy()
 {
-	std::cout << "[CObjectEntity] Removing Object [" << Information.Id << "] " << Data.Model << std::endl;
+	std::cout << "[CObjectEntity] Removing Object [" << Information.Id << "] " << Data.Model.Model << std::endl;
 
 	if (ENTITY::DOES_ENTITY_EXIST(Game.Object))
 		ENTITY::DELETE_ENTITY(&Game.Object);
@@ -106,7 +112,7 @@ void CObjectEntity::Delete()
 
 void CObjectEntity::Pulse()
 {
-	if (Game.Created && Information.Id != -1 && Data.Dynamic)
+	if (Game.Created && Information.Id != -1 && Data.Model.Dynamic)
 	{
 		if (g_Core->GetNetworkManager()->GetInterface()->GetMyGUID() != Network.Assigned)
 		{
@@ -318,6 +324,15 @@ void CObjectEntity::SetTargetData()
 {
 	if (Game.Created)
 	{
-		
+		OBJECT::_SET_OBJECT_TEXTURE_VARIANT(Game.Object, Data.Model.textureIndex);
+	}
+}
+
+void CObjectEntity::SetTextureVariation(const int textureIndex)
+{
+	Data.Model.textureIndex = textureIndex;
+
+	if (Game.Created) {
+		OBJECT::_SET_OBJECT_TEXTURE_VARIANT(Game.Object, textureIndex);
 	}
 }

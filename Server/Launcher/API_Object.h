@@ -7,10 +7,11 @@ extern "C" {
 			static const char *ThisNamespace;
 
 		public:
-			DLL_PUBLIC static const int Create(std::string model, CVector3 position, CVector4 Quaternion, bool dynamic);
-			DLL_PUBLIC static const int CreateWithHash(int hash, CVector3 position, CVector4 Quaternion, bool dynamic);
-			DLL_PUBLIC static const int CreateWithRotation(std::string model, CVector3 position, CVector3 Rotation, bool dynamic);
-			DLL_PUBLIC static const int CreateWithHRotation(int hash, CVector3 position, CVector3 Rotation, bool dynamic);
+			DLL_PUBLIC static const int Create(const std::string model, const CVector3 position, const CVector4 Quaternion, const bool dynamic);
+			DLL_PUBLIC static const int CreateWithHash(const int hash, const CVector3 position, const CVector4 Quaternion, const bool dynamic);
+			DLL_PUBLIC static const int CreateWithRotation(const std::string model, const CVector3 position, const CVector3 Rotation, const bool dynamic);
+			DLL_PUBLIC static const int CreateWithHRotation(const int hash, const CVector3 position, const CVector3 Rotation, const bool dynamic);
+			DLL_PUBLIC static const void SetTextureVariation(const int entity, const int textureindex);
 		};
 	}
 }

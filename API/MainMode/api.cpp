@@ -95,7 +95,8 @@ extern "C" DLL_PUBLIC bool API_Initialize(void)
 			(float)std::atof(root["Map"]["Objects"]["MapObject"][i]["Quaternion"]["W"].asCString())
 		};
 		
-		API::Object::CreateWithHash(atoi(root["Map"]["Objects"]["MapObject"][i]["Hash"].asCString()), position, quaternion, to_bool(root["Map"]["Objects"]["MapObject"][i]["Dynamic"].asCString()));
+		const int ent = API::Object::CreateWithHash(atoi(root["Map"]["Objects"]["MapObject"][i]["Hash"].asCString()), position, quaternion, to_bool(root["Map"]["Objects"]["MapObject"][i]["Dynamic"].asCString()));
+		API::Object::SetTextureVariation(ent, 2);
 	}
 	// END Load Objects
 	

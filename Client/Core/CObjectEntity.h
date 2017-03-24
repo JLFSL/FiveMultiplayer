@@ -18,8 +18,11 @@ private:
 
 	struct ObjectData
 	{
-		int				Model;
-		bool			Dynamic;
+		struct ModelData {
+			int				Model;
+			bool			Dynamic;
+			int				textureIndex;
+		} Model;
 
 		CVector3		Position;
 		CVector3		Rotation;
@@ -82,6 +85,8 @@ public:
 	int				GetId() { return Information.Id; }
 	Object			GetEntity() { return Game.Object; }
 	bool			IsCreated() { return Game.Created; }
+
+	void			SetTextureVariation(const int textureIndex);
 
 	CVector3		GetPosition() { return Data.Position; }
 	void			SetPosition(CVector3 position) { Data.Position = position; }

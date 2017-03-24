@@ -10,9 +10,12 @@ private:
 
 	struct ObjectData
 	{
-		std::string		Model;
-		int				ModelHash;
-		bool			Dynamic;
+		struct ModelData {
+			std::string		Model;
+			int				ModelHash;
+			bool			Dynamic;
+			int				textureIndex;
+		} Model;
 
 		CVector3		Position;
 		CVector3		Rotation;
@@ -42,9 +45,12 @@ public:
 
 	int				GetId() { return Information.Id; };
 
-	std::string		GetModel() { return Data.Model; }
-	int				GetHash() { return Data.ModelHash; }
-	bool			IsDynamic() { return Data.Dynamic; }
+	std::string		GetModel() { return Data.Model.Model; }
+	int				GetHash() { return Data.Model.ModelHash; }
+	bool			IsDynamic() { return Data.Model.Dynamic; }
+
+	const int		GetTextureVariantion() { return Data.Model.textureIndex; }
+	void			SetTextureVariation(const int textureindex) { Data.Model.textureIndex = textureindex; }
 
 	CVector3		GetPosition() { return Data.Position; };
 	void			SetPosition(CVector3 position) { Data.Position = position; };

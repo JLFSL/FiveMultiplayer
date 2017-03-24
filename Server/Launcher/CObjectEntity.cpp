@@ -4,6 +4,8 @@ int CObjectEntity::Amount = 0;
 
 CObjectEntity::CObjectEntity()
 {
+	Data.Model.textureIndex = 0;
+
 	Network.Assigned = UNASSIGNED_RAKNET_GUID;
 }
 
@@ -12,8 +14,8 @@ void CObjectEntity::Create(std::string model, CVector3 position, CVector4 quater
 	CServerEntity newServerEntity;
 	newServerEntity.SetType(newServerEntity.Object);
 
-	Data.Model = model;
-	Data.ModelHash = 0;
+	Data.Model.Model = model;
+	Data.Model.ModelHash = 0;
 	Data.Position = position;
 	Data.Quaternion = quaternion;
 	Information.Id = newServerEntity.Create();
@@ -22,7 +24,7 @@ void CObjectEntity::Create(std::string model, CVector3 position, CVector4 quater
 
 	Amount++;
 
-	std::cout << "[CObjectEntity] Created Object [" << Information.Id << "] with model " << Data.Model.c_str() << " [Dynamic: " << dynamic << "] at " << Data.Position.fX << ", " << Data.Position.fY << ", " << Data.Position.fZ << std::endl;
+	std::cout << "[CObjectEntity] Created Object [" << Information.Id << "] with model " << Data.Model.Model.c_str() << " [Dynamic: " << dynamic << "] at " << Data.Position.fX << ", " << Data.Position.fY << ", " << Data.Position.fZ << std::endl;
 	std::cout << "[CObjectEntity] " << Amount << " objects in the world." << std::endl;
 
 	Network.LastSyncSent = std::chrono::system_clock::now();
@@ -34,7 +36,7 @@ void CObjectEntity::Create(int hash, CVector3 position, CVector4 quaternion, boo
 	CServerEntity newServerEntity;
 	newServerEntity.SetType(newServerEntity.Object);
 
-	Data.ModelHash = hash;
+	Data.Model.ModelHash = hash;
 	Data.Position = position;
 	Data.Quaternion = quaternion;
 	Information.Id = newServerEntity.Create();
@@ -43,7 +45,7 @@ void CObjectEntity::Create(int hash, CVector3 position, CVector4 quaternion, boo
 
 	Amount++;
 
-	std::cout << "[CObjectEntity] Created Object [" << Information.Id << "] with Hash " << Data.ModelHash << " [Dynamic: " << dynamic << "] at " << Data.Position.fX << ", " << Data.Position.fY << ", " << Data.Position.fZ << std::endl;
+	std::cout << "[CObjectEntity] Created Object [" << Information.Id << "] with Hash " << Data.Model.ModelHash << " [Dynamic: " << dynamic << "] at " << Data.Position.fX << ", " << Data.Position.fY << ", " << Data.Position.fZ << std::endl;
 	std::cout << "[CObjectEntity] " << Amount << " objects in the world." << std::endl;
 
 	Network.LastSyncSent = std::chrono::system_clock::now();
@@ -52,7 +54,7 @@ void CObjectEntity::Create(int hash, CVector3 position, CVector4 quaternion, boo
 
 void CObjectEntity::Destroy()
 {
-	std::cout << "[CObjectEntity] Removing Object [" << Information.Id << "] " << Data.Model.c_str() << std::endl;
+	std::cout << "[CObjectEntity] Removing Object [" << Information.Id << "] " << Data.Model.Model.c_str() << std::endl;
 
 	Information = {};
 	Data = {};
@@ -67,7 +69,7 @@ void CObjectEntity::Destroy()
 
 void CObjectEntity::Pulse()
 {
-	if (Data.Dynamic)
+	if (Data.Model.Dynamic)
 	{
 		if (std::chrono::duration_cast<std::chrono::milliseconds>(Network.LastSyncSent.time_since_epoch()).count() + (1000 / CServer::GetInstance()->GetSyncRate())
 			<= std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count())
@@ -127,4 +129,9 @@ void CObjectEntity::RequestData(RakNetGUID requester)
 	g_Server->GetNetworkManager()->GetRPC().Signal("TakeEntityAssignment", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, requester, false, false);
 
 	sData.Reset();
+
+	sData.Write(Information.Id);
+	sData.Write(Data.Model.textureIndex);
+
+	g_Server->GetNetworkManager()->GetRPC().Signal("SetTextureVariation", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
 }
