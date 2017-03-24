@@ -178,7 +178,7 @@ namespace GamePed
 			PED::_SET_PED_FACE_FEATURE(ped, index, scale);
 	}
 
-	int GetPedTesk(Ped ped) {
+	int GetPedTask(Ped ped) {
 		if (ENTITY::DOES_ENTITY_EXIST(ped)) {
 			for (int i = 500; i > -1; i--) {
 				if (AI::GET_IS_TASK_ACTIVE(ped, i) && i != 38 && i != 35) {
