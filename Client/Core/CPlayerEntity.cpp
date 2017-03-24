@@ -36,7 +36,16 @@ bool CPlayerEntity::CreatePed()
 		if (STREAMING::IS_MODEL_IN_CDIMAGE(Data.Model.hModel) && STREAMING::IS_MODEL_VALID(Data.Model.hModel))
 		{
 			STREAMING::REQUEST_MODEL(Data.Model.hModel);
-			while (!STREAMING::HAS_MODEL_LOADED(Data.Model.hModel)) WAIT(0);
+			while (!STREAMING::HAS_MODEL_LOADED(Data.Model.hModel)) {
+				WAIT(100);
+
+				if (!STREAMING::HAS_MODEL_LOADED(Data.Model.hModel)) 
+				{
+					std::cout << "[CPlayerEntity] " << Information.Id << " timedout trying to load model." << std::endl;
+					return false;
+				}
+			}
+
 			Game.Ped = PED::CREATE_PED(Data.Model.Type, Data.Model.hModel, Data.Position.fX, Data.Position.fY, Data.Position.fZ, 0.0f, false, true);
 
 			STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(Data.Model.hModel);

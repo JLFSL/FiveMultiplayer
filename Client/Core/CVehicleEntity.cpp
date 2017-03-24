@@ -41,7 +41,14 @@ bool CVehicleEntity::CreateVehicle()
 
 		STREAMING::REQUEST_MODEL(model);
 		while (!STREAMING::HAS_MODEL_LOADED(model))
-			WAIT(0);
+		{
+			WAIT(100);
+
+			if (!STREAMING::HAS_MODEL_LOADED(model)) {
+				std::cout << "[CVehicleEntity] " << Information.Id << " timedout trying to load model." << std::endl;
+				return false;
+			}
+		}
 
 		Game.Vehicle = VEHICLE::CREATE_VEHICLE(model, Data.Position.fX, Data.Position.fY, Data.Position.fZ, Data.Heading, FALSE, TRUE);
 		STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(model);

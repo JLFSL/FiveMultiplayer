@@ -55,8 +55,15 @@ bool CNPCEntity::CreateNpc()
 		{
 			STREAMING::REQUEST_MODEL(hash);
 
-			while (!STREAMING::HAS_MODEL_LOADED(hash)) 
-				WAIT(0);
+			while (!STREAMING::HAS_MODEL_LOADED(hash)) {
+				WAIT(100);
+
+				if (!STREAMING::HAS_MODEL_LOADED(hash))
+				{
+					std::cout << "[CNPCEntity] " << Data.Id << " timedout trying to load model." << std::endl;
+					return false;
+				}
+			}
 
 			Game.Npc = PED::CREATE_PED(Data.Model.Type, hash, Data.Position.fX, Data.Position.fY, Data.Position.fZ, 0.0f, false, true);
 
