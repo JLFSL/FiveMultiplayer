@@ -178,7 +178,7 @@
     <ClCompile Include="Animations.cpp" />
     <ClCompile Include="CConfig.cpp" />
     <ClCompile Include="CCore.cpp" />
-    <ClCompile Include="CefMouseHook.cpp" />
+    <ClCompile Include="CefInput.cpp" />
     <ClCompile Include="CefRenderer.cpp" />
     <ClCompile Include="CefTexture.cpp" />
     <ClCompile Include="CNetworkManager.cpp" />
@@ -247,7 +247,7 @@
     <ClInclude Include="Animations.h" />
     <ClInclude Include="CConfig.h" />
     <ClInclude Include="CCore.h" />
-    <ClInclude Include="CefMouseHook.h" />
+    <ClInclude Include="CefInput.h" />
     <ClInclude Include="CefRenderer.h" />
     <ClInclude Include="CefTexture.h" />
     <ClInclude Include="CNetworkManager.h" />

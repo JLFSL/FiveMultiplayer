@@ -186,9 +186,6 @@
     <ClCompile Include="CefTexture.cpp">
       <Filter>Graphics\UI\CEF</Filter>
     </ClCompile>
-    <ClCompile Include="CefMouseHook.cpp">
-      <Filter>Graphics\UI\CEF\Input</Filter>
-    </ClCompile>
     <ClCompile Include="CRPCNpc.cpp">
       <Filter>Network\RPC</Filter>
     </ClCompile>
@@ -197,6 +194,9 @@
     </ClCompile>
     <ClCompile Include="util.cpp">
       <Filter>Include</Filter>
+    </ClCompile>
+    <ClCompile Include="CefInput.cpp">
+      <Filter>Graphics\UI\CEF\Input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -353,9 +353,6 @@
     <ClInclude Include="CefTexture.h">
       <Filter>Graphics\UI\CEF</Filter>
     </ClInclude>
-    <ClInclude Include="CefMouseHook.h">
-      <Filter>Graphics\UI\CEF\Input</Filter>
-    </ClInclude>
     <ClInclude Include="CRPCNpc.h">
       <Filter>Network\RPC</Filter>
     </ClInclude>
@@ -364,6 +361,9 @@
     </ClInclude>
     <ClInclude Include="util.h">
       <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="CefInput.h">
+      <Filter>Graphics\UI\CEF\Input</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
