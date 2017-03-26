@@ -2,7 +2,7 @@
 
 int CNPCEntity::Amount = 0;
 
-void CNPCEntity::Create(const std::string model, const CVector3 position, const float heading)
+void CNPCEntity::Create(const std::string model, const CVector3 position, const CVector3 rotation)
 {
 	CServerEntity newServerEntity;
 	newServerEntity.SetType(newServerEntity.NPC);
@@ -10,7 +10,7 @@ void CNPCEntity::Create(const std::string model, const CVector3 position, const 
 	Data.Model.Model = RakString(model.c_str());
 	Data.Position = position;
 
-	Data.Quaternion = CVector4::calculateQuaternion(0.0f, heading, 0.0f);
+	Data.Rotation = rotation;
 	Data.Id = newServerEntity.Create();
 
 	g_Entities.push_back(newServerEntity);

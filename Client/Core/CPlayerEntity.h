@@ -85,7 +85,6 @@ private:
 
 		CVector3			Position;
 		CVector3			Velocity;
-		CVector4			Quaternion;
 		CVector3			Rotation;
 	} Data;
 
@@ -153,7 +152,7 @@ public:
 	int GetScore()				{ return Statistics.Score; }
 
 	CVector3 GetPosition()		{ return Data.Position; }
-	CVector4 GetQuaternion()	{ return Data.Quaternion; }
+	CVector3 GetRotation()		{ return Data.Rotation; }
 
 	RakNetGUID GetGUID()		{ return Network.GUID; }
 

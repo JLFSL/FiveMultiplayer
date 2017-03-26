@@ -4,35 +4,35 @@ class CNetworkManager
 {
 private:
 	// RakNet Interfaces
-	RakPeerInterface		*g_RakPeer;
-	RPC4					*g_RPC;
-	DirectoryDeltaTransfer	*g_DirTransfer;
-	FileListTransfer		*g_FileTransfer;
+	static RakPeerInterface		*g_RakPeer;
+	static RPC4					*g_RPC;
+	static DirectoryDeltaTransfer	*g_DirTransfer;
+	static FileListTransfer		*g_FileTransfer;
 
 	/* Previous/Current connection */
-	std::string		g_lastIP;
-	std::string		g_lastPass;
-	int				g_lastPort;
-	SystemAddress	g_SystemAddr;
+	static std::string		g_lastIP;
+	static std::string		g_lastPass;
+	static int				g_lastPort;
+	static SystemAddress	g_SystemAddr;
 
 public:
-	CNetworkManager();
-	~CNetworkManager();
+	static void Initialize();
+	static void Destroy();
 
-	bool Start();
-	void Stop();
+	static bool Start();
+	static void Stop();
 
-	void Connect(const char *ip, const char *pass, int port);
-	void Disconnect();
+	static void Connect(const char *ip, const char *pass, int port);
+	static void Disconnect();
 
-	void Pulse();
+	static void Pulse();
 
-	void SetLastConnection(const char *ip, const char *pass, int port) { g_lastIP = ip; g_lastPass = pass; g_lastPort = port; }
+	static void SetLastConnection(const char *ip, const char *pass, int port) { g_lastIP = ip; g_lastPass = pass; g_lastPort = port; }
 
-	RakPeerInterface *GetInterface() { return g_RakPeer; }
-	SystemAddress GetSystemAddress() { return g_SystemAddr; }
-	RPC4& GetRPC() { return *g_RPC; };
+	static RakPeerInterface *GetInterface() { return g_RakPeer; }
+	static SystemAddress GetSystemAddress() { return g_SystemAddr; }
+	static RPC4& GetRPC() { return *g_RPC; };
 
-	int g_ConnectionState; /* 0 = Disconnected - 1 = Connecting - 2 = Connected - 3 = Connection Failed */
+	static int g_ConnectionState; /* 0 = Disconnected - 1 = Connecting - 2 = Connected - 3 = Connection Failed */
 };
 

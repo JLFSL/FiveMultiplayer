@@ -1,5 +1,9 @@
 #include "stdafx.h"
 
+struct CConfig::CConnection CConfig::Connection;
+struct CConfig::CInformation CConfig::Information;
+struct CConfig::CGame CConfig::Game;
+
 bool CConfig::Read()
 {
 	char buffer[MAX_PATH];//always use MAX_PATH for filepaths

@@ -769,7 +769,7 @@ Scripts::ScriptInfo scriptnames[] = {
 
 void Scripts::StopAll()
 {
-	if (!g_Config->GetEditor())
+	if (!CConfig::GetEditor())
 	{
 		SCRIPT::SET_SCRIPT_AS_NO_LONGER_NEEDED("selector");
 		PLAYER::FORCE_CLEANUP_FOR_ALL_THREADS_WITH_THIS_NAME("selector", 8);

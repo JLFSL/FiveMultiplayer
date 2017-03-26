@@ -1,33 +1,37 @@
 #include "stdafx.h"
 
-CLocalPlayer::CLocalPlayer()
+struct CLocalPlayer::GameInfo CLocalPlayer::Game;
+
+struct CLocalPlayer::PlayerInfo CLocalPlayer::Information;
+
+struct CLocalPlayer::PlayerStats CLocalPlayer::Statistics;
+
+struct CLocalPlayer::PlayerData CLocalPlayer::Data;
+
+struct CLocalPlayer::PlayerControl CLocalPlayer::Control;
+
+struct CLocalPlayer::PlayerNetwork CLocalPlayer::Network;
+
+void CLocalPlayer::Initialize()
 {
-	Game.Player				= PLAYER::PLAYER_ID();
-	Game.Ped				= PLAYER::GET_PLAYER_PED(Game.Player);
-	Game.VehicleEntering	= 0;
+	Game.Player = PLAYER::PLAYER_ID();
+	Game.Ped = PLAYER::GET_PLAYER_PED(Game.Player);
+	Game.VehicleEntering = 0;
 
-	Information.Id			= 0;
+	Information.Id = 0;
 
-	Data.Vehicle.VehicleID	= -1;
-	Data.Vehicle.Seat		= -1;
+	Data.Vehicle.VehicleID = -1;
+	Data.Vehicle.Seat = -1;
 }
 
-CLocalPlayer::~CLocalPlayer()
+void CLocalPlayer::Destroy()
 {
-	Game.Player				= NULL;
-	Game.Ped				= 0;
-	Game.VehicleEntering	= 0;
+	Game.Player = NULL;
+	Game.Ped = 0;
+	Game.VehicleEntering = 0;
 
-	Data.Vehicle.VehicleID	= -1;
-	Data.Vehicle.Seat		= -1;
-}
-
-Ped	CLocalPlayer::GetPed()
-{
-	if (!ENTITY::DOES_ENTITY_EXIST(Game.Ped))
-		Game.Ped = PLAYER::GET_PLAYER_PED(Game.Player);
-
-	return Game.Ped;
+	Data.Vehicle.VehicleID = -1;
+	Data.Vehicle.Seat = -1;
 }
 
 void CLocalPlayer::Pulse()
@@ -35,7 +39,7 @@ void CLocalPlayer::Pulse()
 	unsigned long ulCurrentTime = timeGetTime();
 	if (ulCurrentTime >= Network.LastSyncSent + (1000.0f / 50))
 	{
-		if (g_Core->GetNetworkManager()->g_ConnectionState != CONSTATE_COND)
+		if (CNetworkManager::g_ConnectionState != CONSTATE_COND)
 			return;
 
 		if(!ENTITY::DOES_ENTITY_EXIST(Game.Ped))
@@ -43,7 +47,8 @@ void CLocalPlayer::Pulse()
 
 		// Update the local players Data
 		Vector3 Coordinates = ENTITY::GET_ENTITY_COORDS(Game.Ped, ENTITY::IS_ENTITY_DEAD(Game.Ped));
-		ENTITY::GET_ENTITY_QUATERNION(Game.Ped, &Data.Quaternion.fX, &Data.Quaternion.fY, &Data.Quaternion.fZ, &Data.Quaternion.fW);
+		Vector3 Rotation = ENTITY::GET_ENTITY_ROTATION(Game.Ped, 2);
+		Data.Rotation = { Rotation.x, Rotation.y, Rotation.z };
 		Vector3 Velocity = ENTITY::GET_ENTITY_VELOCITY(Game.Ped);
 
 		Data.Model.Model = ENTITY::GET_ENTITY_MODEL(Game.Ped);
@@ -82,17 +87,16 @@ void CLocalPlayer::Pulse()
 		bitstream.Write(Data.Velocity.fY);
 		bitstream.Write(Data.Velocity.fZ);
 
-		bitstream.Write(Data.Quaternion.fX);
-		bitstream.Write(Data.Quaternion.fY);
-		bitstream.Write(Data.Quaternion.fZ);
-		bitstream.Write(Data.Quaternion.fW);
+		bitstream.Write(Data.Rotation.fX);
+		bitstream.Write(Data.Rotation.fY);
+		bitstream.Write(Data.Rotation.fZ);
 
 		bitstream.Write(Data.Vehicle.VehicleID);
 		bitstream.Write(Data.Vehicle.Seat);
 
 		bitstream.Write(GamePed::GetPedTask(Game.Ped));
 
-		g_Core->GetNetworkManager()->GetInterface()->Send(&bitstream, MEDIUM_PRIORITY, UNRELIABLE_SEQUENCED, 0, g_Core->GetNetworkManager()->GetSystemAddress(), false);
+		CNetworkManager::GetInterface()->Send(&bitstream, MEDIUM_PRIORITY, UNRELIABLE_SEQUENCED, 0, CNetworkManager::GetSystemAddress(), false);
 
 		Network.LastSyncSent = timeGetTime();
 	}
@@ -110,7 +114,7 @@ void CLocalPlayer::VehicleChecks()
 
 		/*sData.Reset();
 		sData.Write(Data.Vehicle.VehicleID);
-		g_Core->GetNetworkManager()->GetRPC().Signal("OnPlayerExitingVehicle", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, g_Core->GetNetworkManager()->GetSystemAddress(), false, false);*/
+		CNetworkManager::GetRPC().Signal("OnPlayerExitingVehicle", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, CNetworkManager::GetSystemAddress(), false, false);*/
 	}
 	else if (Control.ControlVehicleExit)
 	{
@@ -137,7 +141,7 @@ void CLocalPlayer::VehicleChecks()
 
 						//sData.Reset();
 						//sData.Write(g_Vehicles[i].GetId());
-						//g_Core->GetNetworkManager()->GetRPC().Signal("OnPlayerEnteringVehicle", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, g_Core->GetNetworkManager()->GetSystemAddress(), false, false);
+						//CNetworkManager::GetRPC().Signal("OnPlayerEnteringVehicle", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, CNetworkManager::GetSystemAddress(), false, false);
 					}
 					break;
 				}
@@ -155,11 +159,11 @@ void CLocalPlayer::VehicleChecks()
 			{
 				if (GamePed::GetVehicleID(Game.Ped) == g_Vehicles[i].GetId())
 				{
-					if (g_Vehicles[i].GetAssignee() == g_Core->GetNetworkManager()->GetInterface()->GetMyGUID() && g_Vehicles[i].GetOccupant(0) == -1)
+					if (g_Vehicles[i].GetAssignee() == CNetworkManager::GetInterface()->GetMyGUID() && g_Vehicles[i].GetOccupant(0) == -1)
 					{
 						sData.Reset();
 						sData.Write(GamePed::GetVehicleID(Game.Ped));
-						g_Core->GetNetworkManager()->GetRPC().Signal("TakeEntityAssignment", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, g_Core->GetNetworkManager()->GetSystemAddress(), false, false);
+						CNetworkManager::GetRPC().Signal("TakeEntityAssignment", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, CNetworkManager::GetSystemAddress(), false, false);
 					}
 					else if (g_Vehicles[i].GetOccupant(0) != -1)
 					{
@@ -171,4 +175,12 @@ void CLocalPlayer::VehicleChecks()
 			}
 		}
 	}
+}
+
+Ped	CLocalPlayer::GetPed()
+{
+	if (!ENTITY::DOES_ENTITY_EXIST(Game.Ped))
+		Game.Ped = PLAYER::GET_PLAYER_PED(Game.Player);
+
+	return Game.Ped;
 }

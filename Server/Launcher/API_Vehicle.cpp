@@ -12,4 +12,12 @@ namespace API
 
 		return newVehicle.GetId();
 	}
+	const int Vehicle::Create(const std::string model, const CVector3 position, const CVector3 rotation)
+	{
+		CVehicleEntity newVehicle;
+		newVehicle.Create(model, position, rotation);
+		g_Vehicles.push_back(newVehicle);
+
+		return newVehicle.GetId();
+	}
 }

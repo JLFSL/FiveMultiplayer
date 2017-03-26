@@ -11,7 +11,7 @@ CNPCEntity::CNPCEntity()
 	//Network.Assigned = UNASSIGNED_RAKNET_GUID;
 }
 
-bool CNPCEntity::Create(const int entity, const RakString model, const CVector3 position, const CVector4 quaternion)
+bool CNPCEntity::Create(const int entity, const RakString model, const CVector3 position, const CVector3 rotation)
 {
 	Hash hash = GAMEPLAY::GET_HASH_KEY((char*)model.C_String());
 	if (STREAMING::IS_MODEL_IN_CDIMAGE(hash) && STREAMING::IS_MODEL_VALID(hash))
@@ -23,7 +23,7 @@ bool CNPCEntity::Create(const int entity, const RakString model, const CVector3 
 		Data.Model.Model = model;
 		Data.Position = position;
 
-		Data.Quaternion = quaternion;
+		Data.Rotation = rotation;
 		Data.Id = entity;
 
 		g_Entities.push_back(newServerEntity);
@@ -69,8 +69,8 @@ bool CNPCEntity::CreateNpc()
 
 			STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(hash);
 
-			ENTITY::SET_ENTITY_NO_COLLISION_ENTITY(g_Core->GetLocalPlayer()->GetPed(), Game.Npc, false);
-			ENTITY::SET_ENTITY_NO_COLLISION_ENTITY(Game.Npc, g_Core->GetLocalPlayer()->GetPed(), false);
+			ENTITY::SET_ENTITY_NO_COLLISION_ENTITY(CLocalPlayer::GetPed(), Game.Npc, false);
+			ENTITY::SET_ENTITY_NO_COLLISION_ENTITY(Game.Npc, CLocalPlayer::GetPed(), false);
 
 			ENTITY::SET_ENTITY_COORDS_NO_OFFSET(Game.Npc, Data.Position.fX, Data.Position.fY, Data.Position.fZ, false, false, false);
 
@@ -133,7 +133,7 @@ void CNPCEntity::RequestData()
 {
 	RakNet::BitStream sData;
 	sData.Write(Data.Id);
-	g_Core->GetNetworkManager()->GetRPC().Signal("RequestEntityData", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, g_Core->GetNetworkManager()->GetSystemAddress(), false, false);
+	CNetworkManager::GetRPC().Signal("RequestEntityData", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, CNetworkManager::GetSystemAddress(), false, false);
 }
 
 void CNPCEntity::Destroy()

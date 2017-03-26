@@ -155,7 +155,7 @@ void CServerEntity::SetPosition(CVector3 position)
 	}
 }
 
-CVector4 CServerEntity::GetQuaternion()
+CVector3 CServerEntity::GetRotation()
 {
 	switch (Data.type)
 	{
@@ -164,7 +164,7 @@ CVector4 CServerEntity::GetQuaternion()
 		{
 			if (g_Players[i].GetId() == Data.Id)
 			{
-				return g_Players[i].GetQuaternion();
+				return g_Players[i].GetRotation();
 			}
 		}
 		break;
@@ -173,7 +173,8 @@ CVector4 CServerEntity::GetQuaternion()
 		{
 			if (g_Vehicles[i].GetId() == Data.Id)
 			{
-				return g_Vehicles[i].GetQuaternion();
+				CVector3 rotation = g_Vehicles[i].GetRotation();
+				return rotation;
 			}
 		}
 		break;
@@ -182,7 +183,7 @@ CVector4 CServerEntity::GetQuaternion()
 		{
 			if (g_Objects[i].GetId() == Data.Id)
 			{
-				return g_Objects[i].GetQuaternion();
+				return g_Objects[i].GetRotation();
 			}
 		}
 		break;
@@ -191,7 +192,7 @@ CVector4 CServerEntity::GetQuaternion()
 	}
 }
 
-void CServerEntity::SetQuaternion(CVector4 quaternion)
+void CServerEntity::SetRotation(CVector3 rotation)
 {
 	RakNet::BitStream sData;
 	switch (Data.type)
@@ -202,12 +203,11 @@ void CServerEntity::SetQuaternion(CVector4 quaternion)
 			if (g_Players[i].GetId() == Data.Id)
 			{
 				sData.Write(-1);
-				sData.Write(quaternion.fX);
-				sData.Write(quaternion.fY);
-				sData.Write(quaternion.fZ);
-				sData.Write(quaternion.fW);
+				sData.Write(rotation.fX);
+				sData.Write(rotation.fY);
+				sData.Write(rotation.fZ);
 
-				g_Server->GetNetworkManager()->GetRPC().Signal("SetQuaternion", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, g_Players[i].GetGUID(), false, false);
+				g_Server->GetNetworkManager()->GetRPC().Signal("SetRotation", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, g_Players[i].GetGUID(), false, false);
 				break;
 			}
 		}
@@ -218,14 +218,13 @@ void CServerEntity::SetQuaternion(CVector4 quaternion)
 			if (g_Vehicles[i].GetId() == Data.Id)
 			{
 				sData.Write(Data.Id);
-				sData.Write(quaternion.fX);
-				sData.Write(quaternion.fY);
-				sData.Write(quaternion.fZ);
-				sData.Write(quaternion.fW);
+				sData.Write(rotation.fX);
+				sData.Write(rotation.fY);
+				sData.Write(rotation.fZ);
 
-				g_Server->GetNetworkManager()->GetRPC().Signal("SetQuaternion", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
+				g_Server->GetNetworkManager()->GetRPC().Signal("SetRotation", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
 
-				g_Vehicles[i].SetQuaternion(quaternion);
+				g_Vehicles[i].SetRotation(rotation);
 				break;
 			}
 		}
@@ -236,14 +235,13 @@ void CServerEntity::SetQuaternion(CVector4 quaternion)
 			if (g_Objects[i].GetId() == Data.Id)
 			{
 				sData.Write(Data.Id);
-				sData.Write(quaternion.fX);
-				sData.Write(quaternion.fY);
-				sData.Write(quaternion.fZ);
-				sData.Write(quaternion.fW);
+				sData.Write(rotation.fX);
+				sData.Write(rotation.fY);
+				sData.Write(rotation.fZ);
 
-				g_Server->GetNetworkManager()->GetRPC().Signal("SetQuaternion", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
+				g_Server->GetNetworkManager()->GetRPC().Signal("SetRotation", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
 
-				g_Objects[i].SetQuaternion(quaternion);
+				g_Objects[i].SetRotation(rotation);
 				break;
 			}
 		}

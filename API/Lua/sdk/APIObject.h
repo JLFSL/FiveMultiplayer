@@ -13,31 +13,11 @@ extern "C" {
 			/// </summary>
 			/// <param name="model">The model of the object you wish to create</param>
 			/// <param name="position">The position you wish to create the object at</param>
-			/// <param name="quaternion">The quaternion you wish to create the object with</param>
-			/// <param name="dynamic">If the object should be dynamic or not. (has physics or not)</param>
-			/// <returns name="entity">The objects server entity id</returns>
-			DLL_PUBLIC_I static const int Create(const std::string model, const CVector3 position, const CVector4 quaternion, const bool dynamic);
-
-
-			/// <summary>
-			/// Creates a object of a desired hash of a model name at the position defined
-			/// </summary>
-			/// <param name="hash">The hash of the model name of the object you wish to create</param>
-			/// <param name="position">The position you wish to create the object at</param>
-			/// <param name="quaternion">The quaternion you wish to create the object with</param>
-			/// <param name="dynamic">If the object should be dynamic or not. (has physics or not)</param>
-			/// <returns name="entity">The objects server entity id</returns>
-			DLL_PUBLIC_I static const int CreateWithHash(const int hash, const CVector3 position, const CVector4 quaternion, const bool dynamic);
-
-			/// <summary>
-			/// Creates a object of a desired model at the position defined
-			/// </summary>
-			/// <param name="model">The model of the object you wish to create</param>
-			/// <param name="position">The position you wish to create the object at</param>
 			/// <param name="rotation">The rotation you wish to create the object with</param>
 			/// <param name="dynamic">If the object should be dynamic or not. (has physics or not)</param>
 			/// <returns name="entity">The objects server entity id</returns>
-			DLL_PUBLIC_I static const int CreateWithRotation(const std::string model, const CVector3 position, const CVector3 rotation, const bool dynamic);
+			DLL_PUBLIC_I static const int Create(const std::string model, const CVector3 position, const CVector3 rotation, const bool dynamic);
+
 
 			/// <summary>
 			/// Creates a object of a desired hash of a model name at the position defined
@@ -47,7 +27,7 @@ extern "C" {
 			/// <param name="rotation">The rotation you wish to create the object with</param>
 			/// <param name="dynamic">If the object should be dynamic or not. (has physics or not)</param>
 			/// <returns name="entity">The objects server entity id</returns>
-			DLL_PUBLIC_I static const int CreateWithHRotation(const int hash, const CVector3 position, const CVector3 rotation, const bool dynamic);
+			DLL_PUBLIC_I static const int Create(const int hash, const CVector3 position, const CVector3 rotation, const bool dynamic);
 
 			/// <summary>
 			/// Sets the texture variation of the object entity.

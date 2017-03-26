@@ -1,36 +1,36 @@
 #pragma once
 class CConfig
 {
-	struct CConnection
+	static struct CConnection
 	{
 		std::string Ip;
 		int			Port;
 		std::string Pass;
 	} Connection;
 
-	struct CInformation
+	static struct CInformation
 	{
 		std::string Name;
 		bool		LatestVersion;
 		bool		Steam;
 	} Information;
 
-	struct CGame
+	static struct CGame
 	{
 		bool		Editor;
 	} Game;
 
 public:
-	bool Read();
+	static bool Read();
 
-	std::string		GetIp() { return Connection.Ip; };
-	int				GetPort() { return Connection.Port; };
-	std::string		GetPassword() { return Connection.Pass; };
+	static std::string		GetIp() { return Connection.Ip; };
+	static int				GetPort() { return Connection.Port; };
+	static std::string		GetPassword() { return Connection.Pass; };
 
-	std::string		GetServerName() { return Information.Name; }
-	bool			GetLatestVersion() { return Information.LatestVersion; };
-	bool			GetSteam() { return Information.Steam; };
+	static std::string		GetServerName() { return Information.Name; }
+	static bool			GetLatestVersion() { return Information.LatestVersion; };
+	static bool			GetSteam() { return Information.Steam; };
 
-	bool			GetEditor() { return Game.Editor; };
+	static bool			GetEditor() { return Game.Editor; };
 };
 

@@ -20,7 +20,28 @@ void CVehicleEntity::Create(std::string model, CVector3 position, float heading)
 	Data.Model = model;
 	Data.Position = position;
 	Data.Heading = heading;
-	Data.Quaternion = CVector4::calculateQuaternion(0, 0, heading);
+	Data.Rotation = CVector3(0, 0, heading);
+	Information.Id = newServerEntity.Create();
+
+	g_Entities.push_back(newServerEntity);
+
+	Amount++;
+
+	std::cout << "[CVehicleEntity] Create Vehicle [" << Information.Id << "] " << Data.Model.c_str() << " at " << Data.Position.fX << ", " << Data.Position.fY << ", " << Data.Position.fZ << std::endl;
+	std::cout << "[CVehicleEntity] " << Amount << " vehicles in the world." << std::endl;
+
+	Network.LastSyncSent = std::chrono::system_clock::now();
+	Network.Synchronized = true;
+}
+
+void CVehicleEntity::Create(std::string model, CVector3 position, CVector3 rotation)
+{
+	CServerEntity newServerEntity;
+	newServerEntity.SetType(newServerEntity.Vehicle);
+
+	Data.Model = model;
+	Data.Position = position;
+	Data.Rotation = rotation;
 	Information.Id = newServerEntity.Create();
 
 	g_Entities.push_back(newServerEntity);
@@ -87,10 +108,9 @@ void CVehicleEntity::Pulse()
 		bitstream.Write(Data.Velocity.fY);
 		bitstream.Write(Data.Velocity.fZ);
 
-		bitstream.Write(Data.Quaternion.fX);
-		bitstream.Write(Data.Quaternion.fY);
-		bitstream.Write(Data.Quaternion.fZ);
-		bitstream.Write(Data.Quaternion.fW);
+		bitstream.Write(Data.Rotation.fX);
+		bitstream.Write(Data.Rotation.fY);
+		bitstream.Write(Data.Rotation.fZ);
 
 		for (int i = 0; i < SizeOfArray(Occupants); i++)
 		{
@@ -135,11 +155,9 @@ void CVehicleEntity::Update(Packet *packet)
 	bitstream.Read(Data.Velocity.fY);
 	bitstream.Read(Data.Velocity.fZ);
 
-	bitstream.Read(Data.Quaternion.fX);
-	bitstream.Read(Data.Quaternion.fY);
-	bitstream.Read(Data.Quaternion.fZ);
-	bitstream.Read(Data.Quaternion.fW);
-
+	bitstream.Read(Data.Rotation.fX);
+	bitstream.Read(Data.Rotation.fY);
+	bitstream.Read(Data.Rotation.fZ);
 }
 
 void CVehicleEntity::RequestData(RakNetGUID requester)

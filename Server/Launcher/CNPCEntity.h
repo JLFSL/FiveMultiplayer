@@ -69,7 +69,7 @@ private:
 
 		CVector3			Position;
 		CVector3			Velocity;
-		CVector4			Quaternion;
+		CVector3			Rotation;
 	} Data;
 
 	struct Network
@@ -84,7 +84,7 @@ public:
 	CNPCEntity() {}
 	~CNPCEntity() {}
 
-	void Create(const std::string model, const CVector3 position, const float heading);
+	void Create(const std::string model, const CVector3 position, const CVector3 rotation);
 	void Destroy();
 
 	void Pulse();
@@ -99,8 +99,8 @@ public:
 	CVector3		GetPosition() { return Data.Position; }
 	void			SetPosition(const CVector3 position) { Data.Position = position; }
 
-	CVector4		GetQuaternion() { return Data.Quaternion; }
-	void			SetQuaternion(const CVector4 quaternion) { Data.Quaternion = quaternion; }
+	CVector3		GetRotation() { return Data.Rotation; }
+	void			SetRotation(const CVector3 rotation) { Data.Rotation = rotation; }
 
 	const std::string GetModel() { return Data.Model.Model.C_String(); }
 	void			SetModel(const std::string model) { Data.Model.Model = RakString(model.c_str()); }

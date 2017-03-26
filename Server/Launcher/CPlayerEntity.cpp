@@ -83,10 +83,9 @@ void CPlayerEntity::Pulse()
 		bitstream.Write(Data.Velocity.fY);
 		bitstream.Write(Data.Velocity.fZ);
 
-		bitstream.Write(Data.Quaternion.fX);
-		bitstream.Write(Data.Quaternion.fY);
-		bitstream.Write(Data.Quaternion.fZ);
-		bitstream.Write(Data.Quaternion.fW);
+		bitstream.Write(Data.Rotation.fX);
+		bitstream.Write(Data.Rotation.fY);
+		bitstream.Write(Data.Rotation.fZ);
 
 		bitstream.Write(Data.Vehicle.VehicleID);
 		bitstream.Write(Data.Vehicle.Seat);
@@ -128,10 +127,9 @@ void CPlayerEntity::Update(Packet *packet)
 	bitstream.Read(Data.Velocity.fY);
 	bitstream.Read(Data.Velocity.fZ);
 
-	bitstream.Read(Data.Quaternion.fX);
-	bitstream.Read(Data.Quaternion.fY);
-	bitstream.Read(Data.Quaternion.fZ);
-	bitstream.Read(Data.Quaternion.fW);
+	bitstream.Read(Data.Rotation.fX);
+	bitstream.Read(Data.Rotation.fY);
+	bitstream.Read(Data.Rotation.fZ);
 
 	bitstream.Read(Data.Vehicle.VehicleID);
 	bitstream.Read(Data.Vehicle.Seat);

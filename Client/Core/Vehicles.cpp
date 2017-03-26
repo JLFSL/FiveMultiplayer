@@ -15,7 +15,7 @@ BYTE *Vehicles::GetAddress(Vehicle handle) {
 uint16_t Vehicles::GetCurrentGear(Vehicle handle) {
 	auto address = GetAddress(handle);
 
-	auto offset = (g_Config->GetLatestVersion() ? 0x7E0 : 0x7C2);
+	auto offset = (CConfig::GetLatestVersion() ? 0x7E0 : 0x7C2);
 	
 	return address == nullptr ? 0 : *reinterpret_cast<const uint16_t *>(address + offset);
 }
@@ -23,7 +23,7 @@ uint16_t Vehicles::GetCurrentGear(Vehicle handle) {
 void Vehicles::SetCurrentGear(Vehicle handle, uint16_t value) {
 	auto address = GetAddress(handle);
 
-	if (g_Config->GetLatestVersion())
+	if (CConfig::GetLatestVersion())
 	{
 		*reinterpret_cast<uint32_t *>(address + 0x7E0) = value;
 	}

@@ -10496,7 +10496,7 @@ void CrossMapping::initNativeMap() {
 		return;
 	}
 
-	if (!g_Config->GetLatestVersion())
+	if (!CConfig::GetLatestVersion())
 		p2q = reinterpret_cast<twoQwords *>(__HASHMAPDATA877);
 	else
 		p2q = reinterpret_cast<twoQwords *>(__HASHMAPDATA);

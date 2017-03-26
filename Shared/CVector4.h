@@ -1,6 +1,6 @@
 #include <math.h>
 
-class CVector4
+/*class CVector4
 {
 public:
 	float fX;
@@ -118,4 +118,4 @@ public:
 
 		return quaternion;
 	}
-};
+};*/

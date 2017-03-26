@@ -1,6 +1,18 @@
 #include "stdafx.h"
 
-CNetworkManager::CNetworkManager()
+RakPeerInterface		*CNetworkManager::g_RakPeer;
+RPC4					*CNetworkManager::g_RPC;
+DirectoryDeltaTransfer	*CNetworkManager::g_DirTransfer;
+FileListTransfer		*CNetworkManager::g_FileTransfer;
+
+std::string		CNetworkManager::g_lastIP;
+std::string		CNetworkManager::g_lastPass;
+int				CNetworkManager::g_lastPort;
+SystemAddress	CNetworkManager::g_SystemAddr;
+
+int CNetworkManager::g_ConnectionState = 0;
+
+void CNetworkManager::Initialize()
 {
 	// Get RakPeerInterface
 	g_RakPeer = RakPeerInterface::GetInstance();
@@ -29,7 +41,7 @@ CNetworkManager::CNetworkManager()
 	g_ConnectionState = CONSTATE_DISC;
 }
 
-CNetworkManager::~CNetworkManager()
+void CNetworkManager::Destroy()
 {
 	// Stop RakNet, stops synchronization
 	g_RakPeer->Shutdown(2000);
@@ -105,20 +117,20 @@ void CNetworkManager::Disconnect()
 	g_ConnectionState = CONSTATE_DISC;
 
 	// Unregister RPCs
-	g_Core->GetRPCManager()->UnregisterRPCMessages();
+	CRPCManager::UnregisterRPCMessages();
 
 	// Reinitialize our RakPeerInterface
 	Stop();
 	Start();
 
 	// Register RPCs
-	g_Core->GetRPCManager()->RegisterRPCMessages();
+	CRPCManager::RegisterRPCMessages();
 
 	// Clean the server GUID
 	g_SystemAddr = UNASSIGNED_SYSTEM_ADDRESS;
 
 	// Force streamout all entities
-	g_Core->GetStreamer()->ForceStreamOut();
+	CStreamer::ForceStreamOut();
 
 	// Remove all existing entities
 	for (int i = (g_Entities.size() - 1); i > -1; i--)
@@ -273,7 +285,7 @@ void CNetworkManager::Pulse()
 				g_ConnectionState = CONSTATE_COND;
 
 				// Set our last packet update so it sends our own packets too
-				g_Core->GetLocalPlayer()->SetLastSync(timeGetTime());
+				CLocalPlayer::SetLastSync(timeGetTime());
 
 				//if (g_DirTransfer->DownloadFromSubdirectory("", "", true, g_SystemAddr, &transferCallback, HIGH_PRIORITY, 0, 0) == -1)
 				//	Logger::Msg("CNetworkManager::NoDownload");

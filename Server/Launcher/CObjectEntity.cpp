@@ -9,7 +9,7 @@ CObjectEntity::CObjectEntity()
 	Network.Assigned = UNASSIGNED_RAKNET_GUID;
 }
 
-void CObjectEntity::Create(std::string model, CVector3 position, CVector4 quaternion, bool dynamic)
+void CObjectEntity::Create(std::string model, CVector3 position, CVector3 rotation, bool dynamic)
 {
 	CServerEntity newServerEntity;
 	newServerEntity.SetType(newServerEntity.Object);
@@ -17,7 +17,7 @@ void CObjectEntity::Create(std::string model, CVector3 position, CVector4 quater
 	Data.Model.Model = model;
 	Data.Model.ModelHash = 0;
 	Data.Position = position;
-	Data.Quaternion = quaternion;
+	Data.Rotation = rotation;
 	Information.Id = newServerEntity.Create();
 
 	g_Entities.push_back(newServerEntity);
@@ -31,14 +31,14 @@ void CObjectEntity::Create(std::string model, CVector3 position, CVector4 quater
 	Network.Synchronized = true;
 }
 
-void CObjectEntity::Create(int hash, CVector3 position, CVector4 quaternion, bool dynamic)
+void CObjectEntity::Create(int hash, CVector3 position, CVector3 rotation, bool dynamic)
 {
 	CServerEntity newServerEntity;
 	newServerEntity.SetType(newServerEntity.Object);
 
 	Data.Model.ModelHash = hash;
 	Data.Position = position;
-	Data.Quaternion = quaternion;
+	Data.Rotation = rotation;
 	Information.Id = newServerEntity.Create();
 
 	g_Entities.push_back(newServerEntity);
@@ -87,10 +87,9 @@ void CObjectEntity::Pulse()
 			bitstream.Write(Data.Velocity.fY);
 			bitstream.Write(Data.Velocity.fZ);
 
-			bitstream.Write(Data.Quaternion.fX);
-			bitstream.Write(Data.Quaternion.fY);
-			bitstream.Write(Data.Quaternion.fZ);
-			bitstream.Write(Data.Quaternion.fW);
+			bitstream.Write(Data.Rotation.fX);
+			bitstream.Write(Data.Rotation.fY);
+			bitstream.Write(Data.Rotation.fZ);
 
 			g_Server->GetNetworkManager()->GetInterface()->Send(&bitstream, MEDIUM_PRIORITY, UNRELIABLE_SEQUENCED, 0, UNASSIGNED_RAKNET_GUID, true);
 
@@ -113,10 +112,9 @@ void CObjectEntity::Update(Packet *packet)
 	bitstream.Read(Data.Velocity.fY);
 	bitstream.Read(Data.Velocity.fZ);
 
-	bitstream.Read(Data.Quaternion.fX);
-	bitstream.Read(Data.Quaternion.fY);
-	bitstream.Read(Data.Quaternion.fZ);
-	bitstream.Read(Data.Quaternion.fW);
+	bitstream.Read(Data.Rotation.fX);
+	bitstream.Read(Data.Rotation.fY);
+	bitstream.Read(Data.Rotation.fZ);
 }
 
 void CObjectEntity::RequestData(RakNetGUID requester)

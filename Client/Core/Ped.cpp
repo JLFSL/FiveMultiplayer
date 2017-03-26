@@ -36,7 +36,7 @@ namespace GamePed
 		return -1;
 
 		// Non-Native (need to convert this)
-		/*if (!g_Config->GetLatestVersion()) // 1.36 / 877
+		/*if (!CConfig::GetLatestVersion()) // 1.36 / 877
 		{
 			if (IsInVehicle(ped))
 			{
@@ -124,11 +124,11 @@ namespace GamePed
 			while (!STREAMING::HAS_MODEL_LOADED(modelh))
 				WAIT(0);
 
-			PLAYER::SET_PLAYER_MODEL(g_Core->GetLocalPlayer()->GetPlayer(), modelh);
+			PLAYER::SET_PLAYER_MODEL(CLocalPlayer::GetPlayer(), modelh);
 
-			if (g_Core->GetLocalPlayer()->GetPed() == ped && !ENTITY::DOES_ENTITY_EXIST(ped))
+			if (CLocalPlayer::GetPed() == ped && !ENTITY::DOES_ENTITY_EXIST(ped))
 			{
-				ped = g_Core->GetLocalPlayer()->GetPed();
+				ped = CLocalPlayer::GetPed();
 			}
 
 			PED::SET_PED_DEFAULT_COMPONENT_VARIATION(ped);

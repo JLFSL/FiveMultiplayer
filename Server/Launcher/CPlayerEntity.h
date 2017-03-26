@@ -74,7 +74,7 @@ private:
 
 		CVector3			Position;
 		CVector3			Velocity;
-		CVector4			Quaternion;
+		CVector3			Rotation;
 	} Data;
 
 	struct PlayerNetwork {
@@ -109,8 +109,8 @@ public:
 	CVector3		GetPosition() { return Data.Position; };
 	void			SetPosition(CVector3 position) { Data.Position = position; };
 
-	CVector4		GetQuaternion() { return Data.Quaternion; }
-	void			SetQuaternion(CVector4 quaternion) { Data.Quaternion = quaternion; }
+	CVector3		GetRotation() { return Data.Rotation; }
+	void			SetRotation(CVector3 rotation) { Data.Rotation = rotation; }
 
 	const std::string GetModel() { return Data.Model.Model; }
 	void			SetModel(const std::string model) { Data.Model.Model = model; }

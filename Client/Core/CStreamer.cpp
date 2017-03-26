@@ -1,28 +1,24 @@
 #include "stdafx.h"
 
-CStreamer::CStreamer()
-{
-	/*
-		Set-up Defaults
-	*/
-	MaxRange = 1000.0f;
+std::vector<CStreamer::streamedObject> CStreamer::streamed;
 
-	MaxPlayers = 40;
-	PlayerCount = 0;
-	PlayerRange = 1000;
+float CStreamer::MaxRange = 1000.0f;
 
-	MaxVehicles = 50;
-	VehicleCount = 0;
-	VehicleRange = 1000.0f;
+int CStreamer::MaxPlayers = 40;		// The max visable players to be shown
+int CStreamer::PlayerCount = 0;	// The current count of visable players
+float CStreamer::PlayerRange = 1000.0f;	// Should the 'MaxPlayers' be reached it'll store the range it reached at that point here for the streamingout to check.
 
-	MaxObjects = 500;		// The plan is to have about 1000 objects
-	ObjectCount = 0;
-	ObjectRange = 1000.0f;
+int CStreamer::MaxVehicles = 50;
+int CStreamer::VehicleCount = 0;
+float CStreamer::VehicleRange = 1000.0f;
 
-	MaxNpcs = 20;
-	NpcCount = 0;
-	NpcRange = 1000.0f;
-}
+int CStreamer::MaxObjects = 500;
+int CStreamer::ObjectCount = 0;
+float CStreamer::ObjectRange = 1000.0f;
+
+int CStreamer::MaxNpcs = 20;
+int CStreamer::NpcCount = 0;
+float CStreamer::NpcRange = 1000.0f;
 
 void CStreamer::Start()
 {
@@ -32,17 +28,17 @@ void CStreamer::Start()
 
 void CStreamer::Pulse()
 {
-	StreamObjectsIn(g_Core->GetLocalPlayer()->GetPos());
-	StreamVehiclesIn(g_Core->GetLocalPlayer()->GetPos());
-	StreamPlayersIn(g_Core->GetLocalPlayer()->GetPos());
-	StreamOtherIn(g_Core->GetLocalPlayer()->GetPos());
+	StreamObjectsIn(CLocalPlayer::GetPosition());
+	StreamVehiclesIn(CLocalPlayer::GetPosition());
+	StreamPlayersIn(CLocalPlayer::GetPosition());
+	StreamOtherIn(CLocalPlayer::GetPosition());
 
-	StreamOut(g_Core->GetLocalPlayer()->GetPos());
+	StreamOut(CLocalPlayer::GetPosition());
 }
 
 void CStreamer::StreamObjectsIn(CVector3 position)
 {
-	if (g_Core && g_Core->GetNetworkManager()->g_ConnectionState == CONSTATE_COND)
+	if (CNetworkManager::g_ConnectionState == CONSTATE_COND)
 	{
 		if (!g_Entities.empty())
 		{
@@ -97,7 +93,7 @@ void CStreamer::StreamObjectsIn(CVector3 position)
 
 void CStreamer::StreamVehiclesIn(CVector3 position)
 {
-	if (g_Core && g_Core->GetNetworkManager()->g_ConnectionState == CONSTATE_COND)
+	if (CNetworkManager::g_ConnectionState == CONSTATE_COND)
 	{
 		if (!g_Entities.empty())
 		{
@@ -152,7 +148,7 @@ void CStreamer::StreamVehiclesIn(CVector3 position)
 
 void CStreamer::StreamPlayersIn(CVector3 position)
 {
-	if (g_Core && g_Core->GetNetworkManager()->g_ConnectionState == CONSTATE_COND)
+	if (CNetworkManager::g_ConnectionState == CONSTATE_COND)
 	{
 		if (!g_Entities.empty())
 		{
@@ -170,7 +166,7 @@ void CStreamer::StreamPlayersIn(CVector3 position)
 							{
 								if (g_Players[index].GetId() == g_Entities[i].GetId())
 								{
-									if (!g_Players[index].IsCreated() && g_Players[index].GetId() != g_Core->GetLocalPlayer()->GetId() && CVector3::Distance(position, g_Players[index].GetPosition()) < curDis)
+									if (!g_Players[index].IsCreated() && g_Players[index].GetId() != CLocalPlayer::GetId() && CVector3::Distance(position, g_Players[index].GetPosition()) < curDis)
 									{
 										/*
 										If we reach the 'max' for this type we will want to bring the range down for this type so object between X & 1000 have the chance to get streamed in.
@@ -209,7 +205,7 @@ void CStreamer::StreamPlayersIn(CVector3 position)
 
 void CStreamer::StreamOtherIn(CVector3 position)
 {
-	if (g_Core && g_Core->GetNetworkManager()->g_ConnectionState == CONSTATE_COND)
+	if (CNetworkManager::g_ConnectionState == CONSTATE_COND)
 	{
 		if (!g_Entities.empty())
 		{
@@ -227,7 +223,7 @@ void CStreamer::StreamOtherIn(CVector3 position)
 							{
 								if (g_Players[index].GetId() == g_Entities[i].GetId())
 								{
-									if (!g_Players[index].IsCreated() && g_Players[index].GetId() != g_Core->GetLocalPlayer()->GetId() && CVector3::Distance(position, g_Players[index].GetPosition()) < curDis)
+									if (!g_Players[index].IsCreated() && g_Players[index].GetId() != CLocalPlayer::GetId() && CVector3::Distance(position, g_Players[index].GetPosition()) < curDis)
 									{
 										/*
 										If we reach the 'max' for this type we will want to bring the range down for this type so object between X & 1000 have the chance to get streamed in.
@@ -294,7 +290,7 @@ void CStreamer::StreamOtherIn(CVector3 position)
 
 void CStreamer::StreamOut(CVector3 position)
 {
-	if (g_Core && g_Core->GetNetworkManager()->g_ConnectionState == CONSTATE_COND)
+	if (CNetworkManager::g_ConnectionState == CONSTATE_COND)
 	{
 		if (!streamed.empty())
 		{

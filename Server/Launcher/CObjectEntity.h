@@ -20,7 +20,6 @@ private:
 		CVector3		Position;
 		CVector3		Rotation;
 		CVector3		Velocity;
-		CVector4		Quaternion;
 	} Data;
 
 	struct ObjectNetwork
@@ -36,8 +35,8 @@ public:
 	CObjectEntity();
 	~CObjectEntity() {};
 
-	void Create(std::string model, CVector3 position, CVector4 quaternion, bool dynamic);
-	void Create(int hash, CVector3 position, CVector4 quaternion, bool dynamic);
+	void Create(std::string model, CVector3 position, CVector3 rotation, bool dynamic);
+	void Create(int hash, CVector3 position, CVector3 rotation, bool dynamic);
 	void Destroy();
 
 	void Pulse();
@@ -55,8 +54,8 @@ public:
 	CVector3		GetPosition() { return Data.Position; };
 	void			SetPosition(CVector3 position) { Data.Position = position; };
 
-	CVector4		GetQuaternion() { return Data.Quaternion; }
-	void			SetQuaternion(CVector4 quaternion) { Data.Quaternion = quaternion; }
+	CVector3		GetRotation() { return Data.Rotation; }
+	void			SetRotation(CVector3 rotation) { Data.Rotation = rotation; }
 
 	bool			GetSynchronized() { return Network.Synchronized; }
 
