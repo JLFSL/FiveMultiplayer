@@ -19,6 +19,8 @@ public:
 
 	static D3D11PresentHook phookD3D11Present;
 
+	static ID3D11RenderTargetView* phookD3D11RenderTargetView;
+
 	static DWORD_PTR* pSwapChainVtable;
 	static DWORD_PTR* pDeviceContextVTable;
 };

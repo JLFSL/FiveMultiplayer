@@ -13,10 +13,12 @@ IFW1FontWrapper *DirectXRenderer::pFontWrapper = nullptr;
 
 DirectXRenderer::D3D11PresentHook DirectXRenderer::phookD3D11Present = nullptr;
 
+ID3D11RenderTargetView* DirectXRenderer::phookD3D11RenderTargetView;
+
 DWORD_PTR* DirectXRenderer::pSwapChainVtable = nullptr;
 DWORD_PTR* DirectXRenderer::pDeviceContextVTable = nullptr;
 
-bool show_app_about = false;
+bool show_app_about = true;
 
 HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags)
 {
@@ -30,6 +32,9 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 		DirectXRenderer::pFW1Factory->Release();
 
 		//DirectXDraw::GetInstance()->Initialize();
+
+		DXGI_SWAP_CHAIN_DESC sd;
+		pSwapChain->GetDesc(&sd);
 
 		ImGui_ImplDX11_Init(DirectXRenderer::hWnd, DirectXRenderer::pDevice, DirectXRenderer::pContext);
 		ImGui_ImplDX11_CreateDeviceObjects();
@@ -72,7 +77,7 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 			windowScale = 1.0f - diffrence;
 		}
 		
-		if (CNetworkManager::GetInterface()->IsActive())
+		if (CNetworkManager::g_ConnectionState != CONSTATE_DISC)
 		{
 			ImGui::SetNextWindowPos(ImVec2(screenWidth - (700 * windowScale), screenHeight - (80 * windowScale) - 10));
 			ImGui::SetNextWindowSize(ImVec2((700 * windowScale), (80 * windowScale)));
@@ -127,6 +132,8 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 			ImGui::PopStyleVar(1);
 		}
 	}
+
+	ImGui::Render();
 
 	//DirectXDraw::GetInstance()->BeginScene();
 	//DirectXDraw::GetInstance()->DrawScene();
