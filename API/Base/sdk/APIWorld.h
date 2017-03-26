@@ -28,13 +28,13 @@ extern "C" {
 			/// Gets the Weather
 			/// </summary>
 			/// <returns></returns>
-			DLL_PUBLIC_I static const std::string GetWeather();
+			DLL_PUBLIC_I static const std::wstring GetWeather();
 			/// <summary>
 			/// Sets the Weather
 			/// </summary>
 			/// <param name="weather">The weather you wish to set</param>
 			/// <returns></returns>
-			DLL_PUBLIC_I static void SetWeather(const std::string weather);
+			DLL_PUBLIC_I static void SetWeather(const std::wstring weather);
 		};
 	}
 #ifdef __cplusplus

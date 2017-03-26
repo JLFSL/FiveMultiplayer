@@ -9,7 +9,7 @@ CObjectEntity::CObjectEntity()
 	Network.Assigned = UNASSIGNED_RAKNET_GUID;
 }
 
-void CObjectEntity::Create(std::string model, CVector3 position, CVector3 rotation, bool dynamic)
+void CObjectEntity::Create(std::wstring model, CVector3 position, CVector3 rotation, bool dynamic)
 {
 	CServerEntity newServerEntity;
 	newServerEntity.SetType(newServerEntity.Object);

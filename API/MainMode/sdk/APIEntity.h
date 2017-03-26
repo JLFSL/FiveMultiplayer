@@ -52,14 +52,14 @@ extern "C" {
 			/// Destroys/Removes a entity from the server
 			/// </summary>
 			/// <param name="entity">The entity you wish to destroy.</param>
-			DLL_PUBLIC_I static void Destroy(int entity);
+			DLL_PUBLIC_I static void Destroy(const int entity);
 
 			/// <summary>
 			/// Gets the position of the entity.
 			/// </summary>
 			/// <param name="entity">The entity you wish to get the position off.</param>
 			/// <returns name="position">The CVector3 position of the entity</returns>
-			DLL_PUBLIC_I static const CVector3 GetPosition(int entity);
+			DLL_PUBLIC_I static const CVector3 GetPosition(const int entity);
 
 			/// <summary>
 			/// Sets the position of the entity.
@@ -67,14 +67,14 @@ extern "C" {
 			/// <param name="entity">The entity you wish to set the position off.</param>
 			/// <param name="position">The position you wish to set the entity at.</param>
 			/// <returns></returns>
-			DLL_PUBLIC_I static void SetPosition(int entity, CVector3 position);
+			DLL_PUBLIC_I static void SetPosition(const int entity, const CVector3 position);
 
 			/// <summary>
 			/// Gets the rotation of the entity.
 			/// </summary>
 			/// <param name="entity">The entity you wish to get the rotation off.</param>
 			/// <returns name="rotation">The CVector3 rotation of the entity</returns>
-			DLL_PUBLIC_I CVector3 GetRotation(int entity);
+			DLL_PUBLIC_I CVector3 GetRotation(const int entity);
 
 			/// <summary>
 			/// Sets the rotation of the entity.
@@ -82,7 +82,7 @@ extern "C" {
 			/// <param name="entity">The entity you wish to set the rotation off.</param>
 			/// <param name="rotation">The rotation you wish to set they entity at.</param>
 			/// <returns></returns>
-			DLL_PUBLIC_I void SetRotation(int entity, CVector3 rotation);
+			DLL_PUBLIC_I void SetRotation(const int entity, const CVector3 rotation);
 
 			/// <summary>
 			/// Gets the Ped Component data of the player or npc entity.
@@ -98,7 +98,7 @@ extern "C" {
 			/// <param name="entity">The entity of the player or npc you wish to set their model Components.</param>
 			/// <param name="componentid">The componentid of the component you wish to set.</param>
 			/// <param name="component">The component structure of the component you wish to set.</param>
-			DLL_PUBLIC_I static void SetPedComponent(const int entity, const int componentid, PedComponent component);
+			DLL_PUBLIC_I static void SetPedComponent(const int entity, const int componentid, const PedComponent component);
 
 			/// <summary>
 			/// Gets the head blend data of the player or npc entity.
@@ -112,7 +112,7 @@ extern "C" {
 			/// </summary>
 			/// <param name="entity">The entity of the player or npc you wish to set their model headblend.</param>
 			/// <param name="headblend">The headblend data.</param>
-			DLL_PUBLIC_I static void SetPedHeadBlend(const int entity, PedHeadBlend headblend);
+			DLL_PUBLIC_I static void SetPedHeadBlend(const int entity, const PedHeadBlend headblend);
 
 			/// <summary>
 			/// Gets the headoverlay data of the player or npc entity.
@@ -128,7 +128,7 @@ extern "C" {
 			/// <param name="entity">The entity of the player or npc you wish to set their model headoverlay data.</param>
 			/// <param name="overlayid">The overlay id you wish to set the data off.</param>
 			/// <param name="overlay">The overlay data.</param>
-			DLL_PUBLIC_I static void SetPedHeadOverlay(const int entity, const int overlayid, PedHeadOverlay overlay);
+			DLL_PUBLIC_I static void SetPedHeadOverlay(const int entity, const int overlayid, const PedHeadOverlay overlay);
 
 			/// <summary>
 			/// Gets the prop data of the player or npc entity.
@@ -144,7 +144,7 @@ extern "C" {
 			/// <param name="entity">The entity of the player or npc you wish to set their model prop data.</param>
 			/// <param name="compotentid">The compotent id you wish to set the data off.</param>
 			/// <param name="compotentid">The prop data.</param>
-			DLL_PUBLIC_I static void SetPedProp(const int entity, const int compotentid, PedProp prop);
+			DLL_PUBLIC_I static void SetPedProp(const int entity, const int compotentid, const PedProp prop);
 
 			/// <summary>
 			/// Gets the face feature data of the player or npc entity.

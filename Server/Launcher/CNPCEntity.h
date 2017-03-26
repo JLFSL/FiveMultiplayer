@@ -9,7 +9,7 @@ private:
 
 		struct ModelData
 		{
-			RakString		Model;
+			RakWString		Model;
 			int				Type;
 		} Model;
 
@@ -84,7 +84,7 @@ public:
 	CNPCEntity() {}
 	~CNPCEntity() {}
 
-	void Create(const std::string model, const CVector3 position, const CVector3 rotation);
+	void Create(const std::wstring model, const CVector3 position, const CVector3 rotation);
 	void Destroy();
 
 	void Pulse();
@@ -102,8 +102,8 @@ public:
 	CVector3		GetRotation() { return Data.Rotation; }
 	void			SetRotation(const CVector3 rotation) { Data.Rotation = rotation; }
 
-	const std::string GetModel() { return Data.Model.Model.C_String(); }
-	void			SetModel(const std::string model) { Data.Model.Model = RakString(model.c_str()); }
+	const std::wstring GetModel() { return Data.Model.Model.C_String(); }
+	void			SetModel(const std::wstring model) { Data.Model.Model = RakWString(model.c_str()); }
 
 	NPCData::Component GetModelComponent(const int index) { return Data.ModelComponents[index]; }
 	void			SetModelComponent(const int index, const int drawableid, const int textureid, const int paletteid)

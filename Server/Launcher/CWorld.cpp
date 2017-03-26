@@ -5,7 +5,7 @@ CWorld::CWorld()
 	Time.Hour = 12;
 	Time.Minute = 00;
 	Time.Second = 00;
-	Weather.Weather = "CLEAR";
+	Weather.Weather = L"CLEAR";
 	Weather.GroundSnow = false;
 }
 
@@ -23,12 +23,12 @@ void CWorld::SetTime(int hour, int minute, int second)
 	g_Server->GetNetworkManager()->GetRPC().Signal("SetTime", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
 }
 
-void CWorld::SetWeather(std::string weather)
+void CWorld::SetWeather(std::wstring weather)
 { 
 	Weather.Weather = weather;
 
 	RakNet::BitStream sData;
-	sData.Write(RakString(weather.c_str()));
+	sData.Write(RakWString(weather.c_str()));
 
 	g_Server->GetNetworkManager()->GetRPC().Signal("SetWeather", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
 }

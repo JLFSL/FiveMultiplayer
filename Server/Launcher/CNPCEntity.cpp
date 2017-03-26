@@ -2,12 +2,12 @@
 
 int CNPCEntity::Amount = 0;
 
-void CNPCEntity::Create(const std::string model, const CVector3 position, const CVector3 rotation)
+void CNPCEntity::Create(const std::wstring model, const CVector3 position, const CVector3 rotation)
 {
 	CServerEntity newServerEntity;
 	newServerEntity.SetType(newServerEntity.NPC);
 
-	Data.Model.Model = RakString(model.c_str());
+	Data.Model.Model = RakWString(model.c_str());
 	Data.Position = position;
 
 	Data.Rotation = rotation;

@@ -8,8 +8,8 @@ extern "C" {
 			static const char *ThisNamespace;
 
 		public:
-			DLL_PUBLIC static const std::string GetModel(const int entity);
-			DLL_PUBLIC static void SetModel(const int entity, const std::string model);
+			DLL_PUBLIC static const std::wstring GetModel(const int entity);
+			DLL_PUBLIC static void SetModel(const int entity, const std::wstring model);
 		};
 	}
 }

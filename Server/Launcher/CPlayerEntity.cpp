@@ -12,7 +12,7 @@ void CPlayerEntity::Create(std::string Name, RakNetGUID GUID, SystemAddress Ip)
 	Network.GUID = GUID;
 	Network.Ip = Ip;
 
-	Data.Model.Model = "u_m_y_pogo_01";
+	Data.Model.Model = L"u_m_y_pogo_01";
 
 	Data.Vehicle.VehicleID = -1;
 	Data.Vehicle.Seat = -1;
@@ -67,7 +67,7 @@ void CPlayerEntity::Pulse()
 
 		bitstream.Write(Statistics.Score);
 
-		bitstream.Write(RakString( Data.Model.Model.c_str()));
+		bitstream.Write(RakWString(Data.Model.Model.c_str()));
 		bitstream.Write(Data.Model.Type);
 
 		bitstream.Write(Data.Weapon.Weapon);

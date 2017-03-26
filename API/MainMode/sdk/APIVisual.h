@@ -17,7 +17,7 @@ extern "C" {
 			/// <param name="sender">The sender is the very top header. This can be any string.</param>
 			/// <param name="subject">The subject is the header under the sender.</param>
 			/// <returns></returns>
-			DLL_PUBLIC_I static void ShowMessageAboveMap(const std::string message, const std::string pic, const int icontype, const std::string sender, const std::string subject);
+			DLL_PUBLIC_I static void ShowMessageAboveMap(const std::wstring message, const std::wstring pic, const int icontype, const std::wstring sender, const std::wstring subject);
 
 			/// <summary>
 			/// Sends a notification message that displays above the game minimap to a specific client.
@@ -29,7 +29,7 @@ extern "C" {
 			/// <param name="sender">The sender is the very top header. This can be any string.</param>
 			/// <param name="subject">The subject is the header under the sender.</param>
 			/// <returns></returns>
-			DLL_PUBLIC_I static void ShowMessageAboveMapToPlayer(const int entity, const std::string message, const std::string pic, const int icontype, const std::string sender, const std::string subject);
+			DLL_PUBLIC_I static void ShowMessageAboveMapToPlayer(const int entity, const std::wstring message, const std::wstring pic, const int icontype, const std::wstring sender, const std::wstring subject);
 		};
 	}
 #ifdef __cplusplus

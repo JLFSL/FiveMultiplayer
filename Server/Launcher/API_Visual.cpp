@@ -4,36 +4,26 @@ namespace API
 {
 	const char *Visual::ThisNamespace = "API::Visual";
 
-	void Visual::ShowMessageAboveMap(const std::string message, const std::string pic, const int icontype, const std::string sender, const std::string subject)
+	void Visual::ShowMessageAboveMap(const std::wstring message, const std::wstring pic, const int icontype, const std::wstring sender, const std::wstring subject)
 	{
-		RakNet::RakString rakMessage = RakNet::RakString(message.c_str());
-		RakNet::RakString rakPic = RakNet::RakString(pic.c_str());
-		RakNet::RakString rakSender = RakNet::RakString(sender.c_str());
-		RakNet::RakString rakSubject = RakNet::RakString(subject.c_str());
-
 		RakNet::BitStream sData;
-		sData.Write(rakMessage);
-		sData.Write(rakPic);
+		sData.Write(RakNet::RakWString(message.c_str()));
+		sData.Write(RakNet::RakWString(pic.c_str()));
 		sData.Write(icontype);
-		sData.Write(rakSender);
-		sData.Write(rakSubject);
+		sData.Write(RakNet::RakWString(sender.c_str()));
+		sData.Write(RakNet::RakWString(subject.c_str()));
 
 		g_Server->GetNetworkManager()->GetRPC().Signal("ShowMessageAboveMap", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
 	}
 
-	void Visual::ShowMessageAboveMapToPlayer(const int entity, const std::string message, const std::string pic, const int icontype, const std::string sender, const std::string subject)
+	void Visual::ShowMessageAboveMapToPlayer(const int entity, const std::wstring message, const std::wstring pic, const int icontype, const std::wstring sender, const std::wstring subject)
 	{
-		RakNet::RakString rakMessage = RakNet::RakString(message.c_str());
-		RakNet::RakString rakPic = RakNet::RakString(pic.c_str());
-		RakNet::RakString rakSender = RakNet::RakString(sender.c_str());
-		RakNet::RakString rakSubject = RakNet::RakString(subject.c_str());
-
 		RakNet::BitStream sData;
-		sData.Write(rakMessage);
-		sData.Write(rakPic);
+		sData.Write(RakNet::RakWString(message.c_str()));
+		sData.Write(RakNet::RakWString(pic.c_str()));
 		sData.Write(icontype);
-		sData.Write(rakSender);
-		sData.Write(rakSubject);
+		sData.Write(RakNet::RakWString(sender.c_str()));
+		sData.Write(RakNet::RakWString(subject.c_str()));
 
 		for (int i = 0; i < g_Players.size(); i++)
 		{

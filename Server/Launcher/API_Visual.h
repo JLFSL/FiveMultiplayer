@@ -8,8 +8,8 @@ extern "C" {
 			static const char *ThisNamespace;
 
 		public:
-			DLL_PUBLIC static void ShowMessageAboveMap(const std::string message, const std::string pic, const int icontype, const std::string sender, const std::string subject);
-			DLL_PUBLIC static void ShowMessageAboveMapToPlayer(const int entity, const std::string message, const std::string pic, const int icontype, const std::string sender, const std::string subject);
+			DLL_PUBLIC static void ShowMessageAboveMap(const std::wstring message, const std::wstring pic, const int icontype, const std::wstring sender, const std::wstring subject);
+			DLL_PUBLIC static void ShowMessageAboveMapToPlayer(const int entity, const std::wstring message, const std::wstring pic, const int icontype, const std::wstring sender, const std::wstring subject);
 		};
 	}
 }

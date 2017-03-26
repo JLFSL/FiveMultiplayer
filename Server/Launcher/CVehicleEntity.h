@@ -10,7 +10,7 @@ private:
 
 	struct VehicleData
 	{
-		std::string		Model;
+		std::wstring	Model;
 
 		float			ForwardSpeed;
 
@@ -49,8 +49,8 @@ public:
 	CVehicleEntity();
 	~CVehicleEntity() {};
 
-	void Create(std::string model, CVector3 position, float heading);
-	void Create(std::string model, CVector3 position, CVector3 rotation);
+	void Create(std::wstring model, CVector3 position, float heading);
+	void Create(std::wstring model, CVector3 position, CVector3 rotation);
 	void Destroy();
 
 	void Pulse();

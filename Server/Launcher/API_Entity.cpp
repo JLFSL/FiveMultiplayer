@@ -4,7 +4,7 @@ namespace API
 {
 	const char *Entity::ThisNamespace = "API::Entity";
 
-	void Entity::Destroy(int entity)
+	void Entity::Destroy(const int entity)
 	{
 		if (!g_Entities.empty())
 		{
@@ -20,7 +20,7 @@ namespace API
 		std::cout << "[" << ThisNamespace << "] Entity " << entity << " invalid." << std::endl;
 	}
 
-	const CVector3 Entity::GetPosition(int entity)
+	const CVector3 Entity::GetPosition(const int entity)
 	{
 		if (!g_Entities.empty())
 		{
@@ -36,7 +36,7 @@ namespace API
 		std::cout << "[" << ThisNamespace << "] Entity " << entity << " invalid." << std::endl;
 	}
 
-	void Entity::SetPosition(int entity, CVector3 position)
+	void Entity::SetPosition(const int entity, const CVector3 position)
 	{
 		if (!g_Entities.empty())
 		{
@@ -52,7 +52,7 @@ namespace API
 		std::cout << "[" << ThisNamespace << "] Entity " << entity << " invalid." << std::endl;
 	}
 
-	const CVector3 Entity::GetRotation(int entity)
+	const CVector3 Entity::GetRotation(const int entity)
 	{
 		if (!g_Entities.empty())
 		{
@@ -68,7 +68,7 @@ namespace API
 		std::cout << "[" << ThisNamespace << "] Entity " << entity << " invalid." << std::endl;
 	}
 
-	void Entity::SetRotation(int entity, CVector3 rotation)
+	void Entity::SetRotation(const int entity, const CVector3 rotation)
 	{
 		if (!g_Entities.empty())
 		{
@@ -128,7 +128,7 @@ namespace API
 		std::cout << "[" << ThisNamespace << "::GetPedComponent] Entity " << entity << " invalid." << std::endl;
 	}
 
-	void Entity::SetPedComponent(const int entity, const int componentid, PedComponent component)
+	void Entity::SetPedComponent(const int entity, const int componentid, const PedComponent component)
 	{
 		for (int i = 1; i < g_Entities.size(); i++)
 		{
@@ -234,7 +234,7 @@ namespace API
 		std::cout << "[" << ThisNamespace << "::GetPedHeadBlend] Entity " << entity << " invalid." << std::endl;
 	}
 
-	void Entity::SetPedHeadBlend(const int entity, PedHeadBlend headblend)
+	void Entity::SetPedHeadBlend(const int entity, const PedHeadBlend headblend)
 	{
 		for (int i = 1; i < g_Entities.size(); i++)
 		{
@@ -342,7 +342,7 @@ namespace API
 		std::cout << "[" << ThisNamespace << "::GetPedHeadOverlay] Entity " << entity << " invalid." << std::endl;
 	}
 
-	void Entity::SetPedHeadOverlay(const int entity, const int index, PedHeadOverlay overlay)
+	void Entity::SetPedHeadOverlay(const int entity, const int index, const PedHeadOverlay overlay)
 	{
 		for (int i = 1; i < g_Entities.size(); i++)
 		{
@@ -438,7 +438,7 @@ namespace API
 		std::cout << "[" << ThisNamespace << "::GetPedProp] Entity " << entity << " invalid." << std::endl;
 	}
 
-	void Entity::SetPedProp(const int entity, const int index, PedProp prop)
+	void Entity::SetPedProp(const int entity, const int index, const PedProp prop)
 	{
 		for (int i = 1; i < g_Entities.size(); i++)
 		{

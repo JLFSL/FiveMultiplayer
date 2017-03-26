@@ -14,7 +14,7 @@ private:
 
 	struct PlayerData {
 		struct PlayerModelData {
-			std::string		Model;
+			std::wstring	Model;
 			int				Type;
 		} Model;
 
@@ -112,8 +112,8 @@ public:
 	CVector3		GetRotation() { return Data.Rotation; }
 	void			SetRotation(CVector3 rotation) { Data.Rotation = rotation; }
 
-	const std::string GetModel() { return Data.Model.Model; }
-	void			SetModel(const std::string model) { Data.Model.Model = model; }
+	const std::wstring GetModel() { return Data.Model.Model; }
+	void			SetModel(const std::wstring model) { Data.Model.Model = model; }
 
 	PlayerData::PlayerComponent GetModelComponent(const int index) { return Data.ModelComponents[index]; }
 	void			SetModelComponent(const int index, const int drawableid, const int textureid, const int paletteid)
