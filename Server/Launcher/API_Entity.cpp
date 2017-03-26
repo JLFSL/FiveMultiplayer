@@ -161,7 +161,7 @@ namespace API
 				}
 			}
 		}
-		std::cout << "[" << ThisNamespace << "::GetPedComponent] Player Entity " << entity << " invalid." << std::endl;
+		std::cout << "[" << ThisNamespace << "::GetPedComponent] Entity " << entity << " invalid." << std::endl;
 	}
 
 	void Entity::SetPedComponent(const int entity, const int componentid, PedComponent component)
@@ -212,7 +212,7 @@ namespace API
 				}
 			}
 		}
-		std::cout << "[" << ThisNamespace << "::SetPedComponent] Player Entity " << entity << " invalid." << std::endl;
+		std::cout << "[" << ThisNamespace << "::SetPedComponent] Entity " << entity << " invalid." << std::endl;
 	}
 
 	const Entity::PedHeadBlend Entity::GetPedHeadBlend(const int entity)
@@ -267,7 +267,7 @@ namespace API
 				}
 			}
 		}
-		std::cout << "[" << ThisNamespace << "::GetPedHeadBlend] Player Entity " << entity << " invalid." << std::endl;
+		std::cout << "[" << ThisNamespace << "::GetPedHeadBlend] Entity " << entity << " invalid." << std::endl;
 	}
 
 	void Entity::SetPedHeadBlend(const int entity, PedHeadBlend headblend)
@@ -328,7 +328,7 @@ namespace API
 				}
 			}
 		}
-		std::cout << "[" << ThisNamespace << "::SetPedHeadBlend] Player Entity " << entity << " invalid." << std::endl;
+		std::cout << "[" << ThisNamespace << "::SetPedHeadBlend] Entity " << entity << " invalid." << std::endl;
 	}
 
 	const Entity::PedHeadOverlay Entity::GetPedHeadOverlay(const int entity, const int index)
@@ -375,7 +375,7 @@ namespace API
 				}
 			}
 		}
-		std::cout << "[" << ThisNamespace << "::GetPedHeadOverlay] Player Entity " << entity << " invalid." << std::endl;
+		std::cout << "[" << ThisNamespace << "::GetPedHeadOverlay] Entity " << entity << " invalid." << std::endl;
 	}
 
 	void Entity::SetPedHeadOverlay(const int entity, const int index, PedHeadOverlay overlay)
@@ -430,7 +430,7 @@ namespace API
 				}
 			}
 		}
-		std::cout << "[" << ThisNamespace << "::SetPedHeadOverlay] Player Entity " << entity << " invalid." << std::endl;
+		std::cout << "[" << ThisNamespace << "::SetPedHeadOverlay] Entity " << entity << " invalid." << std::endl;
 	}
 
 	const Entity::PedProp Entity::GetPedProp(const int entity, const int index)
@@ -471,7 +471,7 @@ namespace API
 				}
 			}
 		}
-		std::cout << "[" << ThisNamespace << "::GetPedProp] Player Entity " << entity << " invalid." << std::endl;
+		std::cout << "[" << ThisNamespace << "::GetPedProp] Entity " << entity << " invalid." << std::endl;
 	}
 
 	void Entity::SetPedProp(const int entity, const int index, PedProp prop)
@@ -520,7 +520,7 @@ namespace API
 				}
 			}
 		}
-		std::cout << "[" << ThisNamespace << "::SetPedProp] Player Entity " << entity << " invalid." << std::endl;
+		std::cout << "[" << ThisNamespace << "::SetPedProp] Entity " << entity << " invalid." << std::endl;
 	}
 
 	const float Entity::GetPedFaceFeature(const int entity, const int index)
@@ -555,7 +555,7 @@ namespace API
 				}
 			}
 		}
-		std::cout << "[" << ThisNamespace << "::GetPedFaceFeature] Player Entity " << entity << " invalid." << std::endl;
+		std::cout << "[" << ThisNamespace << "::GetPedFaceFeature] Entity " << entity << " invalid." << std::endl;
 	}
 
 	void Entity::SetPedFaceFeature(const int entity, const int index, const float scale)
@@ -602,6 +602,30 @@ namespace API
 				}
 			}
 		}
-		std::cout << "[" << ThisNamespace << "::SetPedFaceFeature] Player Entity " << entity << " invalid." << std::endl;
+		std::cout << "[" << ThisNamespace << "::SetPedFaceFeature] Entity " << entity << " invalid." << std::endl;
+	}
+
+	const float Entity::GetViewDistance(const int entity) {
+		const int index = ServerEntity::GetIndex(entity);
+		if (index != -1)
+		{
+			return g_Entities[index].GetViewDistance();
+		}
+		std::cout << "[" << ThisNamespace << "::GetViewDistance] Entity " << entity << " invalid." << std::endl;
+	}
+
+	void Entity::SetViewDistance(const int entity, const float distance) {
+		const int index = ServerEntity::GetIndex(entity);
+		if (index != -1)
+		{
+			RakNet::BitStream sData;
+			sData.Write(entity);
+			sData.Write(distance);
+			g_Server->GetNetworkManager()->GetRPC().Signal("SetViewDistance", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
+
+			g_Entities[index].SetViewDistance(distance);
+			return;
+		}
+		std::cout << "[" << ThisNamespace << "::SetViewDistance] Entity " << entity << " invalid." << std::endl;
 	}
 }

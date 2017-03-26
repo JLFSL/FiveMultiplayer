@@ -1,5 +1,9 @@
 #include "stdafx.h"
 
+CServerEntity::CServerEntity() {
+	Data.viewDistance = 1000.0f;
+}
+
 int CServerEntity::Create()
 {
 	if (g_Entities.empty())
@@ -416,6 +420,14 @@ namespace ServerEntity
 		const int index = GetIndex(entity);
 		if (index != -1)
 		{
+			if (g_Entities[index].GetViewDistance() != 1000.0f)
+			{
+				RakNet::BitStream sData;
+				sData.Write(entity);
+				sData.Write(g_Entities[index].GetViewDistance());
+				g_Server->GetNetworkManager()->GetRPC().Signal("SetViewDistance", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
+			}
+
 			switch (g_Entities[index].GetType())
 			{
 			case CServerEntity::Player:
@@ -459,7 +471,7 @@ namespace ServerEntity
 				}
 				break;
 			default:
-				std::cout << std::endl << "[ServerEntity::RequestData] Invalid entity" << std::endl;
+				std::cout << std::endl << "[CServerEntity::RequestData] Invalid entity" << std::endl;
 				break;
 			}
 		}

@@ -18,6 +18,8 @@ private:
 	{
 		int Id;
 		Type type;
+
+		float viewDistance;
 	} Data;
 
 public:
@@ -39,6 +41,9 @@ public:
 	void	SetQuaternion(const CVector4 quaternion);
 
 	void	SetAssignement(const RakNetGUID guid);
+
+	float		GetViewDistance() { return Data.viewDistance; };
+	void		SetViewDistance(const float distance) { Data.viewDistance = distance; };
 
 	static const bool	IsValid(const int entity);
 	static const		RakNetGUID	GetAssignee(const int entity);

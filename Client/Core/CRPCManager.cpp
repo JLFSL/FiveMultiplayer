@@ -19,6 +19,7 @@ CRPCManager::RPCMessage rpcmessages[] = {
 	{ "PedHeadOverlay", CRPCEntity::PedHeadOverlay },
 	{ "PedProp", CRPCEntity::PedProp },
 	{ "PedFaceFeature", CRPCEntity::PedFaceFeature },
+	{ "SetViewDistance", CRPCEntity::SetViewDistance },
 #pragma endregion
 #pragma region Player
 	{ "PlayerModel", CRPCPlayer::PlayerModel },

@@ -4,6 +4,7 @@ CServerEntity::CServerEntity()
 {
 	Data.Id = -1;
 	Data.type = CServerEntity::Unknown;
+	Data.viewDistance = 1000.0f;
 }
 
 void CServerEntity::Create(const int entity, const Type type)

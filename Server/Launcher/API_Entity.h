@@ -66,7 +66,10 @@ extern "C" {
 			DLL_PUBLIC static const PedProp GetPedProp(const int entity, const int index);
 			DLL_PUBLIC static void SetPedProp(const int entity, const int index, PedProp prop);
 			DLL_PUBLIC static const float GetPedFaceFeature(const int entity, const int index);
-			DLL_PUBLIC static void SetPedFaceFeature(const int entity, const int index, float scale);
+			DLL_PUBLIC static void SetPedFaceFeature(const int entity, const int index, const float scale);
+
+			DLL_PUBLIC static const float GetViewDistance(const int entity);
+			DLL_PUBLIC static void SetViewDistance(const int entity, const float distance);
 		};
 	}
 }

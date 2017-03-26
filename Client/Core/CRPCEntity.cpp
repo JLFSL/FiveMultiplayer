@@ -210,3 +210,19 @@ void CRPCEntity::PedFaceFeature(RakNet::BitStream *bitStream, RakNet::Packet *pa
 		GamePed::SetPedFaceFeature(g_Core->GetLocalPlayer()->GetPed(), index, scale);
 	}
 }
+
+void CRPCEntity::SetViewDistance(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+{
+	int entity;
+	float distance;
+
+	bitStream->Read(entity);
+	bitStream->Read(distance);
+
+	for (int i = 0; i < g_Entities.size(); i++) {
+		if (entity == g_Entities[i].GetId()) {
+			g_Entities[i].SetViewDistance(distance);
+			break;
+		}
+	}
+}

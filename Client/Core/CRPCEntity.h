@@ -14,4 +14,6 @@ public:
 	static void PedHeadOverlay(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 	static void PedProp(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 	static void PedFaceFeature(RakNet::BitStream *bitStream, RakNet::Packet *packet);
+
+	static void SetViewDistance(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 };

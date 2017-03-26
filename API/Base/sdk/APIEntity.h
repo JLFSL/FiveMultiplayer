@@ -175,7 +175,21 @@ extern "C" {
 			/// <param name="entity">The entity of the player or npc you wish to set their model face feature data.</param>
 			/// <param name="index">The index you wish to set the data off (Index can be 0 - 19).</param>
 			/// <param name="scale">The face feature scale. (Scale ranges from -1.0 to 1.0)</param>
-			DLL_PUBLIC_I static void SetPedFaceFeature(const int entity, const int index, float scale);
+			DLL_PUBLIC_I static void SetPedFaceFeature(const int entity, const int index, const float scale);
+
+			/// <summary>
+			/// Gets the view distance of the entity.
+			/// </summary>
+			/// <param name="entity">The entity you want to get the view distance off.</param>
+			/// <returns name="distacne">The view distance.</returns>
+			DLL_PUBLIC static const float GetViewDistance(const int entity);
+
+			/// <summary>
+			/// Sets the view distance of the entity.
+			/// </summary>
+			/// <param name="entity">The entity you want to set the view distance off.</param>
+			/// <param name="distance">The distance.</param>
+			DLL_PUBLIC static void SetViewDistance(const int entity, const float distance);
 		};
 	}
 #ifdef __cplusplus

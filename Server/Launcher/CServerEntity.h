@@ -15,10 +15,12 @@ private:
 	struct Entity {
 		int Id;
 		Type type;
+
+		float viewDistance;
 	} Data;
 
 public:
-	CServerEntity() { }
+	CServerEntity();
 	~CServerEntity() { }
 
 	int			Create();
@@ -35,6 +37,9 @@ public:
 
 	CVector4	GetQuaternion();
 	void		SetQuaternion(CVector4 quaternion);
+
+	float		GetViewDistance() { return Data.viewDistance; };
+	void		SetViewDistance(const float distance) { Data.viewDistance = distance; };
 };
 extern std::vector<CServerEntity> g_Entities;
 
