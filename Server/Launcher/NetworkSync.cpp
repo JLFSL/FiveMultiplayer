@@ -21,7 +21,7 @@ namespace NetworkSync
 
 		// Sync Weather
 		sData.Reset();
-		sData.Write(RakString(g_Server->GetWorld()->GetWeather().Weather.c_str()));
+		sData.Write(RakWString(g_Server->GetWorld()->GetWeather().Weather.c_str()));
 		g_Server->GetNetworkManager()->GetRPC().Signal("SetWeather", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, user, false, false);
 
 
@@ -33,7 +33,7 @@ namespace NetworkSync
 			if (g_Objects[o].GetHash() == 0)
 			{
 				sData.Write(false);
-				sData.Write(RakString(g_Objects[o].GetModel().c_str()));
+				sData.Write(RakWString(g_Objects[o].GetModel().c_str()));
 			}
 			else
 			{
@@ -60,7 +60,7 @@ namespace NetworkSync
 		{
 			sData.Reset();
 			sData.Write(g_Npcs[o].GetId());
-			sData.Write(RakString(g_Npcs[o].GetModel().c_str()));
+			sData.Write(RakWString(g_Npcs[o].GetModel().c_str()));
 
 			CVector3 Position = g_Npcs[o].GetPosition();
 			CVector3 Rotation = g_Npcs[o].GetRotation();

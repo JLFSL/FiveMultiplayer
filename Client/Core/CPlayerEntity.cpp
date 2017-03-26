@@ -175,9 +175,9 @@ void CPlayerEntity::Update(Packet *packet)
 
 	bitstream.Read(Statistics.Score);
 
-	RakString model;
+	RakWString model;
 	bitstream.Read(model);
-	Data.Model.Model = model.C_String();
+	Data.Model.Model = utf16ToUtf8(model.C_String());
 
 	bitstream.Read(Data.Model.Type);
 

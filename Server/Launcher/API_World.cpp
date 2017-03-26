@@ -16,12 +16,12 @@ namespace API
 		g_Server->GetWorld()->SetTime(hour, minute, second);
 	}
 
-	const std::string World::GetWeather()
+	const std::wstring World::GetWeather()
 	{
 		return g_Server->GetWorld()->GetWeather().Weather;
 	}
 
-	void World::SetWeather(const std::string weather)
+	void World::SetWeather(const std::wstring weather)
 	{
 		g_Server->GetWorld()->SetWeather(weather);
 	}

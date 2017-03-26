@@ -3,7 +3,7 @@
 void CRPCNpc::Create(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 {
 	int entity;
-	RakString model;
+	RakWString model;
 	CVector3 position;
 	CVector3 rotation;
 
@@ -17,7 +17,7 @@ void CRPCNpc::Create(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 	bitStream->Read(rotation.fZ);
 
 	CNPCEntity newNpc;
-
-	if (newNpc.Create(entity, model, position, rotation))
+	
+	if (newNpc.Create(entity, utf16ToUtf8(model.C_String()).c_str(), position, rotation))
 		g_Npcs.push_back(newNpc);
 }

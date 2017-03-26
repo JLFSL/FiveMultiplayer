@@ -2,6 +2,7 @@
 #include <sstream>
 #include <fstream>
 #include <locale>
+#include <wchar.h>
 
 #include "api.h"
 
@@ -22,7 +23,7 @@
 #include "sdk/APIObject.h"
 #include "sdk/APINpc.h"
 
-#define TESTING
+//#define TESTING
 
 bool to_bool(std::string str)
 {
@@ -39,18 +40,18 @@ bool to_bool(std::string str)
 // When Plugin gets loaded
 extern "C" DLL_PUBLIC bool API_Initialize(void) 
 {
-	API::Server::PrintMessage("Gamemode Initializing...");
+	API::Server::PrintMessage(L"Gamemode Initializing...");
 
 #ifdef TESTING
-	API::Vehicle::Create("elegy", CVector3{ -3.0f, 6.0f, 73.0f }, 10.0f);
-	API::Vehicle::Create("comet3", CVector3{ -6.0f, 8.0f, 73.0f }, 10.0f);
-	API::Vehicle::Create("blazer5", CVector3{ -9.0f, 10.0f, 73.0f }, 10.0f);
-	API::Vehicle::Create("voltic2", CVector3{ -12.0f, 12.0f, 73.0f }, 10.0f);
+	API::Vehicle::Create(L"elegy", CVector3{ -3.0f, 6.0f, 73.0f }, 10.0f);
+	API::Vehicle::Create(L"comet3", CVector3{ -6.0f, 8.0f, 73.0f }, 10.0f);
+	API::Vehicle::Create(L"blazer5", CVector3{ -9.0f, 10.0f, 73.0f }, 10.0f);
+	API::Vehicle::Create(L"voltic2", CVector3{ -12.0f, 12.0f, 73.0f }, 10.0f);
 #else
-	API::Vehicle::Create("elegy", CVector3{ 1533.53f, 3282.39f, 52.5f }, 195.0f);
-	API::Vehicle::Create("comet3", CVector3{ 1527.65f, 3296.66f, 52.5f }, 195.0f);
-	API::Vehicle::Create("blazer5", CVector3{ 1519.32f, 3280.2f, 52.5f }, 195.0f);
-	API::Vehicle::Create("voltic2", CVector3{ 1516.84f, 3293.88f, 52.5f }, 195.0f);
+	API::Vehicle::Create(L"elegy", CVector3{ 1533.53f, 3282.39f, 52.5f }, 195.0f);
+	API::Vehicle::Create(L"comet3", CVector3{ 1527.65f, 3296.66f, 52.5f }, 195.0f);
+	API::Vehicle::Create(L"blazer5", CVector3{ 1519.32f, 3280.2f, 52.5f }, 195.0f);
+	API::Vehicle::Create(L"voltic2", CVector3{ 1516.84f, 3293.88f, 52.5f }, 195.0f);
 #endif
 
 	API::World::SetTime(13, 0, 0);
@@ -60,9 +61,9 @@ extern "C" DLL_PUBLIC bool API_Initialize(void)
 	std::cout << "Time: " << hour << ":" << minute << ":" << second << std::endl;
 
 #ifdef TESTING
-	API::NPC::Create("s_m_m_movspace_01", CVector3(0.0f, 0.0f, 74.0f), CVector3(0.0f, 0.0f, 90.0f));
+	API::NPC::Create(L"s_m_m_movspace_01", CVector3(0.0f, 0.0f, 74.0f), CVector3(0.0f, 0.0f, 90.0f));
 #else
-	API::NPC::Create("s_m_m_movspace_01", CVector3(1527.62f, 3274.39f, 53.0f), 90.0f);
+	API::NPC::Create(L"s_m_m_movspace_01", CVector3(1527.62f, 3274.39f, 53.0f), CVector3(0.0f, 0.0f, 90.0f));
 
 	// Load Objects
 	Json::Value root;
@@ -87,21 +88,20 @@ extern "C" DLL_PUBLIC bool API_Initialize(void)
 			(float)std::atof(root["Map"]["Objects"]["MapObject"][i]["Position"]["Z"].asCString())
 		};
 		
-		CVector4 quaternion = {
-			(float)std::atof(root["Map"]["Objects"]["MapObject"][i]["Quaternion"]["X"].asCString()),
-			(float)std::atof(root["Map"]["Objects"]["MapObject"][i]["Quaternion"]["Y"].asCString()),
-			(float)std::atof(root["Map"]["Objects"]["MapObject"][i]["Quaternion"]["Z"].asCString()),
-			(float)std::atof(root["Map"]["Objects"]["MapObject"][i]["Quaternion"]["W"].asCString())
+		CVector3 rotation = {
+			(float)std::atof(root["Map"]["Objects"]["MapObject"][i]["Rotation"]["X"].asCString()),
+			(float)std::atof(root["Map"]["Objects"]["MapObject"][i]["Rotation"]["Y"].asCString()),
+			(float)std::atof(root["Map"]["Objects"]["MapObject"][i]["Rotation"]["Z"].asCString()),
 		};
 		
-		const int ent = API::Object::CreateWithHash(atoi(root["Map"]["Objects"]["MapObject"][i]["Hash"].asCString()), position, quaternion, to_bool(root["Map"]["Objects"]["MapObject"][i]["Dynamic"].asCString()));
+		const int ent = API::Object::Create(atoi(root["Map"]["Objects"]["MapObject"][i]["Hash"].asCString()), position, rotation, to_bool(root["Map"]["Objects"]["MapObject"][i]["Dynamic"].asCString()));
 		API::Object::SetTextureVariation(ent, 2);
 	}
 	// END Load Objects
 	
 #endif
 
-	API::Server::PrintMessage("Gamemode Initialized!");
+	API::Server::PrintMessage(L"Gamemode Initialized!");
 	return true;
 }
 
@@ -122,24 +122,24 @@ extern "C" DLL_PUBLIC bool API_OnTick(void)
 // Player Connecting
 extern "C" DLL_PUBLIC bool API_OnPlayerConnecting(const std::string guid )
 {
-	std::ostringstream oss;
-	oss << "Player connecting with [guid: " << guid << "]";
+	std::wstringstream oss;
+	oss << L"Player connecting with [guid: " << guid.c_str() << L"]";
 	API::Server::PrintMessage(oss.str());
 
-	oss.str(std::string());
+	oss.str(std::wstring());
 	oss.clear();
 
-	oss << "~p~A Player is connecting [" << guid << "]";
-	API::Visual::ShowMessageAboveMap(oss.str(), "CHAR_DEFAULT", 1, "Server", "Player Joining");
+	oss << L"~p~A Player is connecting [" << guid.c_str() << L"]";
+	API::Visual::ShowMessageAboveMap(oss.str(), L"CHAR_DEFAULT", 1, L"Server", L"Player Joining");
 	return true;
 }
 
 // Player Connected
 extern "C" DLL_PUBLIC bool API_OnPlayerConnected(int entity, int playerid)
 {
-	std::ostringstream oss;
-	oss << "~g~You Connected! ~o~[~w~ID: " << playerid << "~o~]";
-	API::Visual::ShowMessageAboveMapToPlayer(entity, oss.str().c_str(), "CHAR_CREATOR_PORTRAITS", 1, "Server", "");
+	std::wstringstream oss;
+	oss << L"~g~You Connected! ~o~[~w~ID: " << playerid << L"~o~]";
+	API::Visual::ShowMessageAboveMapToPlayer(entity, oss.str().c_str(), L"CHAR_CREATOR_PORTRAITS", 1, L"Server", L"");
 
 	//API::Player::SetModel(entity, "u_m_y_pogo_01");
 
@@ -151,10 +151,10 @@ extern "C" DLL_PUBLIC bool API_OnPlayerConnected(int entity, int playerid)
 
 	CVector3 position = API::Entity::GetPosition(entity);
 	
-	oss.str(std::string());
+	oss.str(std::wstring());
 	oss.clear();
 
-	oss << "~p~Position: " << position.fX << " " << position.fY << " " << position.fZ;
-	API::Visual::ShowMessageAboveMapToPlayer(entity, oss.str().c_str(), "CHAR_CREATOR_PORTRAITS", 5, "Server", "Position");
+	oss << L"~p~Position: " << position.fX << L" " << position.fY << L" " << position.fZ;
+	API::Visual::ShowMessageAboveMapToPlayer(entity, oss.str().c_str(), L"CHAR_CREATOR_PORTRAITS", 5, L"Server", L"Position");
 	return true;
 }

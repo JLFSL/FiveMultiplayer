@@ -12,7 +12,7 @@ CVehicleEntity::CVehicleEntity()
 	}
 }
 
-void CVehicleEntity::Create(std::string model, CVector3 position, float heading)
+void CVehicleEntity::Create(std::wstring model, CVector3 position, float heading)
 {
 	CServerEntity newServerEntity;
 	newServerEntity.SetType(newServerEntity.Vehicle);
@@ -34,7 +34,7 @@ void CVehicleEntity::Create(std::string model, CVector3 position, float heading)
 	Network.Synchronized = true;
 }
 
-void CVehicleEntity::Create(std::string model, CVector3 position, CVector3 rotation)
+void CVehicleEntity::Create(std::wstring model, CVector3 position, CVector3 rotation)
 {
 	CServerEntity newServerEntity;
 	newServerEntity.SetType(newServerEntity.Vehicle);
@@ -80,7 +80,7 @@ void CVehicleEntity::Pulse()
 
 		bitstream.Write(Information.Id);
 
-		bitstream.Write(RakString(Data.Model.c_str()));
+		bitstream.Write(RakWString(Data.Model.c_str()));
 
 		bitstream.Write(Data.Heading);
 

@@ -2,9 +2,9 @@
 
 void CRPCPlayer::PlayerModel(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 {
-	RakString model;
+	RakWString model;
 
 	bitStream->Read(model);
 
-	GamePed::SetPedModel(CLocalPlayer::GetPed(), model.C_String());
+	GamePed::SetPedModel(CLocalPlayer::GetPed(), utf16ToUtf8(model.C_String()));
 }

@@ -16,7 +16,7 @@ extern "C" {
 			/// <param name="rotation">The rotation you wish to create the object with</param>
 			/// <param name="dynamic">If the object should be dynamic or not. (has physics or not)</param>
 			/// <returns name="entity">The objects server entity id</returns>
-			DLL_PUBLIC_I static const int Create(const std::string model, const CVector3 position, const CVector3 rotation, const bool dynamic);
+			DLL_PUBLIC_I static const int Create(const std::wstring model, const CVector3 position, const CVector3 rotation, const bool dynamic);
 
 
 			/// <summary>

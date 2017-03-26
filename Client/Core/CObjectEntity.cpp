@@ -68,7 +68,7 @@ bool CObjectEntity::CreateObject()
 			Game.Object = OBJECT::CREATE_OBJECT_NO_OFFSET(Data.Model.Model, Data.Position.fX, Data.Position.fY, Data.Position.fZ, false, true, Data.Model.Dynamic);
 			STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(Data.Model.Model);
 
-			ENTITY::SET_ENTITY_ROTATION(Game.Object, Data.Rotation.fX, Data.Rotation.fY, Data.Rotation.fZ, 2, true);
+			ENTITY::SET_ENTITY_ROTATION(Game.Object, Data.Rotation.fX, Data.Rotation.fY, Data.Rotation.fZ, 0, true);
 
 			if (!Data.Model.Dynamic)
 				ENTITY::FREEZE_ENTITY_POSITION(Game.Object, true);

@@ -195,6 +195,9 @@
     <ClCompile Include="CNPCEntity.cpp">
       <Filter>Entity</Filter>
     </ClCompile>
+    <ClCompile Include="util.cpp">
+      <Filter>Include</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -358,6 +361,9 @@
     </ClInclude>
     <ClInclude Include="CNPCEntity.h">
       <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="util.h">
+      <Filter>Include</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

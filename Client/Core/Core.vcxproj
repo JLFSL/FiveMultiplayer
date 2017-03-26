@@ -239,6 +239,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="OffscreenClient.cpp" />
+    <ClCompile Include="util.cpp" />
     <ClCompile Include="Vehicles.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
@@ -295,6 +296,7 @@
     <ClInclude Include="Structs.h" />
     <ClInclude Include="OffscreenClient.h" />
     <ClInclude Include="Types.h" />
+    <ClInclude Include="util.h" />
     <ClInclude Include="Vehicles.h" />
     <ClInclude Include="World.h" />
   </ItemGroup>

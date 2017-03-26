@@ -4,7 +4,7 @@ namespace API
 {
 	const char *NPC::ThisNamespace = "API::NPC";
 
-	const int NPC::Create(const std::string model, const CVector3 position, const CVector3 rotation)
+	const int NPC::Create(const std::wstring model, const CVector3 position, const CVector3 rotation)
 	{
 		CNPCEntity newNPC;
 		newNPC.Create(model, position, rotation);
@@ -12,7 +12,7 @@ namespace API
 
 		RakNet::BitStream sData;
 		sData.Write(newNPC.GetId());
-		sData.Write(RakString(model.c_str()));
+		sData.Write(RakWString(model.c_str()));
 		sData.Write(position.fX);
 		sData.Write(position.fY);
 		sData.Write(position.fZ);

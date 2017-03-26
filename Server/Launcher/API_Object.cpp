@@ -4,7 +4,7 @@ namespace API
 {
 	const char *Object::ThisNamespace = "API::Object";
 
-	const int Object::Create(std::string model, CVector3 position, CVector3 rotation, bool dynamic)
+	const int Object::Create(std::wstring model, CVector3 position, CVector3 rotation, bool dynamic)
 	{
 		CObjectEntity newObject;
 		newObject.Create(model, position, rotation, dynamic);
@@ -13,7 +13,7 @@ namespace API
 		RakNet::BitStream sData;
 		sData.Write(newObject.GetId());
 		sData.Write(false);
-		sData.Write(RakString(model.c_str()));
+		sData.Write(RakWString(model.c_str()));
 		sData.Write(position.fX);
 		sData.Write(position.fY);
 		sData.Write(position.fZ);

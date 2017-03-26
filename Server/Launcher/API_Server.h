@@ -8,7 +8,7 @@ extern "C" {
 			static const char *ThisNamespace;
 
 		public:
-			DLL_PUBLIC static void PrintMessage(const std::string message);
+			DLL_PUBLIC static void PrintMessage(const std::wstring message);
 		};
 	}
 }

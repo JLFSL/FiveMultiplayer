@@ -11,7 +11,7 @@ private:
 	struct ObjectData
 	{
 		struct ModelData {
-			std::string		Model;
+			std::wstring	Model;
 			int				ModelHash;
 			bool			Dynamic;
 			int				textureIndex;
@@ -35,7 +35,7 @@ public:
 	CObjectEntity();
 	~CObjectEntity() {};
 
-	void Create(std::string model, CVector3 position, CVector3 rotation, bool dynamic);
+	void Create(std::wstring model, CVector3 position, CVector3 rotation, bool dynamic);
 	void Create(int hash, CVector3 position, CVector3 rotation, bool dynamic);
 	void Destroy();
 
@@ -44,7 +44,7 @@ public:
 
 	int				GetId() { return Information.Id; };
 
-	std::string		GetModel() { return Data.Model.Model; }
+	std::wstring	GetModel() { return Data.Model.Model; }
 	int				GetHash() { return Data.Model.ModelHash; }
 	bool			IsDynamic() { return Data.Model.Dynamic; }
 
