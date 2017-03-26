@@ -5,7 +5,7 @@ static int ex_PrintMessage(lua_State* state)
 	const int args = lua_gettop(state);
 	if (args == 1)
 	{
-		API::Server::PrintMessage(lua_tostring(state, 1));
+		API::Server::PrintMessage(utf8ToUtf16(lua_tostring(state, 1)));
 	}
 	else
 	{

@@ -54,6 +54,7 @@
     <ClCompile Include="inc_lua\lutf8lib.c" />
     <ClCompile Include="inc_lua\lvm.c" />
     <ClCompile Include="inc_lua\lzio.c" />
+    <ClCompile Include="sdk\util.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="api.h" />
@@ -114,6 +115,7 @@
     <ClInclude Include="sdk\CMaths.h" />
     <ClInclude Include="sdk\CVector3.h" />
     <ClInclude Include="sdk\CVector4.h" />
+    <ClInclude Include="sdk\util.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{235D1887-3CD7-4754-963A-1BD2EAD55991}</ProjectGuid>

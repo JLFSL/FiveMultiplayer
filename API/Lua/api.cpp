@@ -16,6 +16,7 @@ extern "C" {
 // Math
 #include "sdk/CVector3.h"
 #include "sdk/CVector4.h"
+#include "sdk/util.h"
 
 // API Function Imports
 #include "sdk/APIServer.h"
@@ -80,7 +81,7 @@ struct Vehicle
 		if (args == 4 || args == 6)
 		{
 			Vehicle* veh = reinterpret_cast<Vehicle*>(lua_touserdata(L, 1));
-			std::string model = lua_tostring(L, 2);
+			std::wstring model = utf8ToUtf16(lua_tostring(L, 2));
 			float heading;
 			CVector3 poss;
 			
