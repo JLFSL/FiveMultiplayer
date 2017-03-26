@@ -7,7 +7,6 @@ extern "C" {
 			static const char *ThisNamespace;
 
 		public:
-		public:
 			DLL_PUBLIC struct PedComponent
 			{
 				int drawableid = -1;
