@@ -35,7 +35,7 @@ private:
 		float			Heading;
 		CVector3		Position;
 		CVector3		Velocity;
-		CVector4		Quaternion;
+		CVector3		Rotation;
 	} Data;
 
 	struct VehicleNetwork {
@@ -103,9 +103,9 @@ public:
 	int				GetOccupant(int seat) { return Occupants[seat]; }
 
 	CVector3		GetPosition() { return Data.Position; }
-	void			SetPosition(CVector3 pos) { Data.Position = pos; }
-	CVector4		GetQuaternion() { return Data.Quaternion; }
-	void			SetQuaternion(CVector4 q) { Data.Quaternion = q; }
+	void			SetPosition(CVector3 position) { Data.Position = position; }
+	CVector3		GetRotation() { return Data.Rotation; }
+	void			SetRotation(CVector3 rotation) { Data.Rotation = rotation; }
 
 	RakNetGUID		GetAssignee() { return Network.Assigned; }
 	void			SetAssignee(RakNetGUID assignee) { Network.Assigned = assignee; }

@@ -6,7 +6,7 @@ void CRPCObject::Create(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 	int hash = 0;
 	RakString model;
 	CVector3 position;
-	CVector4 quaternion;
+	CVector3 rotation;
 	bool dynamic, isHash;
 
 	bitStream->Read(entity);
@@ -18,10 +18,9 @@ void CRPCObject::Create(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 	bitStream->Read(position.fX);
 	bitStream->Read(position.fY);
 	bitStream->Read(position.fZ);
-	bitStream->Read(quaternion.fX);
-	bitStream->Read(quaternion.fY);
-	bitStream->Read(quaternion.fZ);
-	bitStream->Read(quaternion.fW);
+	bitStream->Read(rotation.fX);
+	bitStream->Read(rotation.fY);
+	bitStream->Read(rotation.fZ);
 	bitStream->Read(dynamic);
 
 	CObjectEntity newObject;
@@ -29,7 +28,7 @@ void CRPCObject::Create(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 	if (!isHash)
 		GAMEPLAY::GET_HASH_KEY((char*)model.C_String());
 
-	if (newObject.Create(entity, hash, position, quaternion, dynamic))
+	if (newObject.Create(entity, hash, position, rotation, dynamic))
 		g_Objects.push_back(newObject);
 }
 

@@ -41,7 +41,7 @@ extern "C" DLL_PUBLIC bool API_Initialize(void)
 {
 	API::Server::PrintMessage("Gamemode Initializing...");
 
-#ifndef TESTING
+#ifdef TESTING
 	API::Vehicle::Create("elegy", CVector3{ -3.0f, 6.0f, 73.0f }, 10.0f);
 	API::Vehicle::Create("comet3", CVector3{ -6.0f, 8.0f, 73.0f }, 10.0f);
 	API::Vehicle::Create("blazer5", CVector3{ -9.0f, 10.0f, 73.0f }, 10.0f);
@@ -59,11 +59,10 @@ extern "C" DLL_PUBLIC bool API_Initialize(void)
 	API::World::GetTime(&hour, &minute, &second);
 	std::cout << "Time: " << hour << ":" << minute << ":" << second << std::endl;
 
-#ifndef TESTING
-	API::NPC::Create("s_m_m_movspace_01", CVector3(0.0f, 0.0f, 70.0f), 90.0f);
+#ifdef TESTING
+	API::NPC::Create("s_m_m_movspace_01", CVector3(0.0f, 0.0f, 74.0f), CVector3(0.0f, 0.0f, 90.0f));
 #else
 	API::NPC::Create("s_m_m_movspace_01", CVector3(1527.62f, 3274.39f, 53.0f), 90.0f);
-#endif
 
 	// Load Objects
 	Json::Value root;
@@ -100,6 +99,8 @@ extern "C" DLL_PUBLIC bool API_Initialize(void)
 	}
 	// END Load Objects
 	
+#endif
+
 	API::Server::PrintMessage("Gamemode Initialized!");
 	return true;
 }
@@ -140,9 +141,9 @@ extern "C" DLL_PUBLIC bool API_OnPlayerConnected(int entity, int playerid)
 	oss << "~g~You Connected! ~o~[~w~ID: " << playerid << "~o~]";
 	API::Visual::ShowMessageAboveMapToPlayer(entity, oss.str().c_str(), "CHAR_CREATOR_PORTRAITS", 1, "Server", "");
 
-	API::Player::SetModel(entity, "u_m_y_pogo_01");
+	//API::Player::SetModel(entity, "u_m_y_pogo_01");
 
-#ifndef TESTING
+#ifdef TESTING
 	API::Entity::SetPosition(entity, CVector3{ 0.0f, 0.0f, 73.5f });
 #else
 	API::Entity::SetPosition(entity, CVector3{ 1527.62f, 3274.39f, 53.0f });

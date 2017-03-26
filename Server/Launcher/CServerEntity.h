@@ -33,8 +33,8 @@ public:
 	CVector3	GetPosition();
 	void		SetPosition(CVector3 position);
 
-	CVector4	GetQuaternion();
-	void		SetQuaternion(CVector4 quaternion);
+	CVector3	GetRotation();
+	void		SetRotation(CVector3 rotation);
 };
 extern std::vector<CServerEntity> g_Entities;
 

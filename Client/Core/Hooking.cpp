@@ -5,9 +5,6 @@ HMODULE _hmoduleDLL;
 HANDLE mainFiber;
 DWORD wakeAt;
 
-CCore			*g_Core;
-CConfig			*g_Config;
-
 static eGameState* 												m_gameState;
 static uint64_t													m_worldPtr;
 static uint64_t													m_replayPtr;
@@ -22,12 +19,7 @@ void Hooking::Start(HMODULE hmoduleDLL)
 	_hmoduleDLL = hmoduleDLL;
 	Logger::Init(hmoduleDLL);
 
-	g_Config = new CConfig();
-
-	if (!g_Config)
-		std::cout << "[CConfig] Invalid" << std::endl;
-
-	if (!g_Config->Read())
+	if (!CConfig::Read())
 		std::cout << "[CConfig] Could not read config file" << std::endl;
 
 	DirectXRenderer::Initialize();
@@ -93,15 +85,13 @@ bool Hooking::HookNatives()
 
 void __stdcall ScriptFunction(LPVOID lpParameter)
 {
-	g_Core = new CCore;
-
-	if (g_Core->Initialize())
+	if (CCore::Initialize())
 	{
 		try
 		{
 			while (1)
 			{
-				g_Core->OnGameTick();
+				CCore::OnGameTick();
 				SwitchToFiber(mainFiber);
 			}
 		}

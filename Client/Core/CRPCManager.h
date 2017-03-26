@@ -2,15 +2,9 @@
 
 class CRPCManager
 {
-private:
-	
 public:
-	CRPCManager() {};
-	~CRPCManager() {};
-	
-	void RegisterRPCMessages();
-	void UnregisterRPCMessages();
-
+	static void RegisterRPCMessages();
+	static void UnregisterRPCMessages();
 
 	typedef struct
 	{

@@ -59,7 +59,7 @@ bool CVehicleEntity::CreateVehicle()
 
 		ENTITY::SET_ENTITY_LOAD_COLLISION_FLAG(Game.Vehicle, TRUE);
 		ENTITY::SET_ENTITY_COLLISION(Game.Vehicle, TRUE, FALSE);
-		ENTITY::SET_ENTITY_QUATERNION(Game.Vehicle, Data.Quaternion.fX, Data.Quaternion.fY, Data.Quaternion.fZ, Data.Quaternion.fW);
+		ENTITY::SET_ENTITY_ROTATION(Game.Vehicle, Data.Rotation.fX, Data.Rotation.fY, Data.Rotation.fZ, 2, true);
 
 		VEHICLE::SET_VEHICLE_MOD_KIT(Game.Vehicle, 0);
 		//VEHICLE::SET_VEHICLE_COLOURS(Game.Vehicle, color1, color2);
@@ -94,7 +94,7 @@ void CVehicleEntity::RequestData()
 {
 	RakNet::BitStream sData;
 	sData.Write(Information.Id);
-	g_Core->GetNetworkManager()->GetRPC().Signal("RequestEntityData", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, g_Core->GetNetworkManager()->GetSystemAddress(), false, false);
+	CNetworkManager::GetRPC().Signal("RequestEntityData", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, CNetworkManager::GetSystemAddress(), false, false);
 }
 
 void CVehicleEntity::Destroy()
@@ -131,50 +131,51 @@ void CVehicleEntity::Pulse()
 {
 	if (Game.Created && Information.Id != -1)
 	{
-		int t_CurrentVehicle = g_Core->GetLocalPlayer()->GetVehicleId();
+		int t_CurrentVehicle = CLocalPlayer::GetVehicleId();
 		
 		// Assignment System
 		if (Network.Assigned != RakNetGUID(12345) && Network.Assigned == UNASSIGNED_RAKNET_GUID && Occupants[0] == -1)
 		{
-			if ((g_Core->GetLocalPlayer()->GetPos() - Data.Position).Length() < 50.0f)
+			if ((CLocalPlayer::GetPosition() - Data.Position).Length() < 50.0f)
 			{
-				Network.Assigned = g_Core->GetNetworkManager()->GetInterface()->GetMyGUID();
+				Network.Assigned = CNetworkManager::GetInterface()->GetMyGUID();
 
 				RakNet::BitStream sData;
 				sData.Write(Information.Id);
-				g_Core->GetNetworkManager()->GetRPC().Signal("TakeEntityAssignment", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, g_Core->GetNetworkManager()->GetSystemAddress(), false, false);
+				CNetworkManager::GetRPC().Signal("TakeEntityAssignment", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, CNetworkManager::GetSystemAddress(), false, false);
 			}
 		}
 		else
 		{
-			if (g_Core->GetNetworkManager()->GetInterface()->GetMyGUID() == Network.Assigned)
+			if (CNetworkManager::GetInterface()->GetMyGUID() == Network.Assigned)
 			{
-				if ((g_Core->GetLocalPlayer()->GetPos() - Data.Position).Length() > 50.0f)
+				if ((CLocalPlayer::GetPosition() - Data.Position).Length() > 50.0f)
 				{
 					Network.Assigned = UNASSIGNED_RAKNET_GUID;
 
 					RakNet::BitStream sData;
 					sData.Write(Information.Id);
-					g_Core->GetNetworkManager()->GetRPC().Signal("DropEntityAssignment", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, g_Core->GetNetworkManager()->GetSystemAddress(), false, false);
+					CNetworkManager::GetRPC().Signal("DropEntityAssignment", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, CNetworkManager::GetSystemAddress(), false, false);
 				}
 			}
 		}
 
 		// Sync
-		if ((t_CurrentVehicle != Information.Id || (t_CurrentVehicle == Information.Id && g_Core->GetLocalPlayer()->GetSeat() != 0)) && g_Core->GetNetworkManager()->GetInterface()->GetMyGUID() != Network.Assigned)
+		if ((t_CurrentVehicle != Information.Id || (t_CurrentVehicle == Information.Id && CLocalPlayer::GetSeat() != 0)) && CNetworkManager::GetInterface()->GetMyGUID() != Network.Assigned)
 		{
 			Interpolate();
 		}
 		else
 		{
-			if ((t_CurrentVehicle == Information.Id || g_Core->GetNetworkManager()->GetInterface()->GetMyGUID() == Network.Assigned))
+			if ((t_CurrentVehicle == Information.Id || CNetworkManager::GetInterface()->GetMyGUID() == Network.Assigned))
 			{
 				Vector3 Coordinates = ENTITY::GET_ENTITY_COORDS(Game.Vehicle, ENTITY::IS_ENTITY_DEAD(Game.Vehicle));
-				ENTITY::GET_ENTITY_QUATERNION(Game.Vehicle, &Data.Quaternion.fX, &Data.Quaternion.fY, &Data.Quaternion.fZ, &Data.Quaternion.fW);
+				Vector3 Rotation = ENTITY::GET_ENTITY_ROTATION(Game.Vehicle, 2);
 				Vector3 Velocity = ENTITY::GET_ENTITY_VELOCITY(Game.Vehicle);
 
 				Data.ForwardSpeed = ENTITY::GET_ENTITY_SPEED(Game.Vehicle);
 				Data.Position = { Coordinates.x, Coordinates.y, Coordinates.z };
+				Data.Rotation = { Rotation.x, Rotation.y, Rotation.z };
 				Data.Velocity = { Velocity.x, Velocity.y, Velocity.z };
 
 				Data.EngineState = VEHICLE::GET_IS_VEHICLE_ENGINE_RUNNING(Game.Vehicle);
@@ -220,12 +221,11 @@ void CVehicleEntity::Pulse()
 				bitstream.Write(Data.Velocity.fY);
 				bitstream.Write(Data.Velocity.fZ);
 
-				bitstream.Write(Data.Quaternion.fX);
-				bitstream.Write(Data.Quaternion.fY);
-				bitstream.Write(Data.Quaternion.fZ);
-				bitstream.Write(Data.Quaternion.fW);
+				bitstream.Write(Data.Rotation.fX);
+				bitstream.Write(Data.Rotation.fY);
+				bitstream.Write(Data.Rotation.fZ);
 
-				g_Core->GetNetworkManager()->GetInterface()->Send(&bitstream, MEDIUM_PRIORITY, UNRELIABLE_SEQUENCED, 0, g_Core->GetNetworkManager()->GetSystemAddress(), false);
+				CNetworkManager::GetInterface()->Send(&bitstream, MEDIUM_PRIORITY, UNRELIABLE_SEQUENCED, 0, CNetworkManager::GetSystemAddress(), false);
 
 				Network.LastSyncSent = timeGetTime();
 			}
@@ -269,17 +269,16 @@ void CVehicleEntity::Update(Packet * packet)
 	bitstream.Read(Data.Velocity.fY);
 	bitstream.Read(Data.Velocity.fZ);
 
-	bitstream.Read(Data.Quaternion.fX);
-	bitstream.Read(Data.Quaternion.fY);
-	bitstream.Read(Data.Quaternion.fZ);
-	bitstream.Read(Data.Quaternion.fW);
+	bitstream.Read(Data.Rotation.fX);
+	bitstream.Read(Data.Rotation.fY);
+	bitstream.Read(Data.Rotation.fZ);
 
 	for (int i = 0; i < SizeOfArray(Occupants); i++)
 	{
 		bitstream.Read(Occupants[i]);
 	}
 	
-	if (g_Core->GetLocalPlayer()->GetVehicleId() != Information.Id) {
+	if (CLocalPlayer::GetVehicleId() != Information.Id) {
 		UpdateTargetPosition();
 		SetTargetData();
 		UpdateTargetRotation();
@@ -363,7 +362,6 @@ void CVehicleEntity::SetTargetPosition()
 		// Set our new position
 		ENTITY::SET_ENTITY_COORDS_NO_OFFSET(Game.Vehicle, vecNewPosition.fX, vecNewPosition.fY, vecNewPosition.fZ, false, false, false);
 		ENTITY::SET_ENTITY_VELOCITY(Game.Vehicle, Data.Velocity.fX, Data.Velocity.fY, Data.Velocity.fZ);
-		//ENTITY::SET_ENTITY_QUATERNION(Game.Vehicle, Data.Quaternion.fX, Data.Quaternion.fY, Data.Quaternion.fZ, Data.Quaternion.fW);
 	}
 }
 
@@ -374,16 +372,12 @@ void CVehicleEntity::UpdateTargetRotation()
 		unsigned int interpolationtime = timeGetTime() - Network.LastSyncReceived;
 		unsigned long CurrentTime = timeGetTime();
 
-		// Get our quaternion
-		CVector4 CurrentQuaternion;
-		ENTITY::GET_ENTITY_QUATERNION(Game.Vehicle, &CurrentQuaternion.fX, &CurrentQuaternion.fY, &CurrentQuaternion.fZ, &CurrentQuaternion.fW);
-
 		// Get our rotation
-		CVector3 CurrentRotation = CVector3::calculateEuler(CurrentQuaternion.fX, CurrentQuaternion.fY, CurrentQuaternion.fZ, CurrentQuaternion.fW);
+		Vector3 CurrentRotationVec = ENTITY::GET_ENTITY_ROTATION(Game.Vehicle, 2);
+		CVector3 CurrentRotation(CurrentRotationVec.x, CurrentRotationVec.y, CurrentRotationVec.z);
 
-		// Set the target rotation from target quaternion
-		CVector3 TargetQuaternion = CVector3::calculateEuler(Data.Quaternion.fX, Data.Quaternion.fY, Data.Quaternion.fZ, Data.Quaternion.fW);
-		CVector3 TargetRotation = { TargetQuaternion.fX, TargetQuaternion.fY, TargetQuaternion.fZ };
+		// Set the target rotation
+		CVector3 TargetRotation = { Data.Rotation.fX, Data.Rotation.fY, Data.Rotation.fZ };
 		InterpolationData.Rotation.Target = TargetRotation;
 
 		// Get the error
@@ -404,38 +398,42 @@ void CVehicleEntity::SetTargetRotation()
 {
 	if (Game.Created)
 	{
-		if (InterpolationData.Rotation.FinishTime != 0)
+		if (InterpolationData.Rotation.FinishTime != 0 && Game.Created)
 		{
-
 			// Get our rotation
-			CVector4 vecCurrentQuaternion;
-			ENTITY::GET_ENTITY_QUATERNION(Game.Vehicle, &vecCurrentQuaternion.fX, &vecCurrentQuaternion.fY, &vecCurrentQuaternion.fZ, &vecCurrentQuaternion.fW);
-			CVector3 vecCurrentRotation = CVector3::calculateEuler(vecCurrentQuaternion.fX, vecCurrentQuaternion.fY, vecCurrentQuaternion.fZ, vecCurrentQuaternion.fW);
+			Vector3 CurrentRotationVec = ENTITY::GET_ENTITY_ROTATION(Game.Vehicle, 2);
+			CVector3 CurrentRotation(CurrentRotationVec.x, CurrentRotationVec.y, CurrentRotationVec.z);
 
-			// Get the factor of time spent from the interpolation start to the current time.
-			unsigned long CurrentTime = timeGetTime();
-			float fAlpha = Math::Unlerp(InterpolationData.Rotation.StartTime, CurrentTime, InterpolationData.Rotation.FinishTime);
+			if (CurrentRotation.fZ > 178.0f && CurrentRotation.fZ < -178.0f)
+			{
+				ENTITY::SET_ENTITY_ROTATION(Game.Vehicle, Data.Rotation.fX, Data.Rotation.fY, Data.Rotation.fZ, 2, true);
+			}
+			else
+			{
+				// Get the factor of time spent from the interpolation start to the current time.
+				unsigned long CurrentTime = timeGetTime();
+				float fAlpha = Math::Unlerp(InterpolationData.Rotation.StartTime, CurrentTime, InterpolationData.Rotation.FinishTime);
 
-			// Don't let it overcompensate the error
-			fAlpha = Math::Clamp(0.0f, fAlpha, 1.0f);
+				// Don't let it overcompensate the error
+				fAlpha = Math::Clamp(0.0f, fAlpha, 1.0f);
 
-			// Get the current error portion to compensate
-			float fCurrentAlpha = (fAlpha - InterpolationData.Rotation.LastAlpha);
-			InterpolationData.Rotation.LastAlpha = fAlpha;
+				// Get the current error portion to compensate
+				float fCurrentAlpha = (fAlpha - InterpolationData.Rotation.LastAlpha);
+				InterpolationData.Rotation.LastAlpha = fAlpha;
 
-			// Apply the error compensation
-			CVector3 vecCompensation = Math::Lerp(CVector3(), fCurrentAlpha, InterpolationData.Rotation.Error);
+				// Apply the error compensation
+				CVector3 vecCompensation = Math::Lerp(CVector3(), fCurrentAlpha, InterpolationData.Rotation.Error);
 
-			// If we finished compensating the error, finish it for the next pulse
-			if (fAlpha == 1.0f)
-				InterpolationData.Rotation.FinishTime = 0;
+				// If we finished compensating the error, finish it for the next pulse
+				if (fAlpha == 1.0f)
+					InterpolationData.Rotation.FinishTime = 0;
 
-			// Calculate the new position
-			CVector3 vecNewRotation = vecCurrentRotation + vecCompensation;
-			CVector4 vecNewQuaternion = CVector4::calculateQuaternion(vecNewRotation.fX, vecNewRotation.fY, vecNewRotation.fZ);
+				// Calculate the new position
+				CVector3 vecNewRotation = CurrentRotation + vecCompensation;
 
-			// Set our new position
-			ENTITY::SET_ENTITY_QUATERNION(Game.Vehicle, vecNewQuaternion.fX, vecNewQuaternion.fY, vecNewQuaternion.fZ, vecNewQuaternion.fW);
+				// Set our new position
+				ENTITY::SET_ENTITY_ROTATION(Game.Vehicle, vecNewRotation.fX, vecNewRotation.fY, vecNewRotation.fZ, 2, true);
+			}
 		}
 	}
 }
@@ -458,9 +456,9 @@ void CVehicleEntity::SetTargetData()
 		vdata.SetAcceleration(Game.Vehicle, Data.Acceleration);
 		vdata.SetBrake(Game.Vehicle, Data.Brake);
 
-		vdata.SetWheelSpeed(Game.Vehicle, Data.WheelSpeed);
 		vdata.SetSteeringAngle(Game.Vehicle, Data.SteeringAngle);
 		vdata.SetForwardWheelAngle(Game.Vehicle, Data.ForwardWheelAngle);
+		vdata.SetWheelSpeed(Game.Vehicle, Data.WheelSpeed);
 	}
 }
 

@@ -36,7 +36,7 @@ public:
 	const CVector3	GetPosition();
 	void	SetPosition(const CVector3 position);
 
-	void	SetQuaternion(const CVector4 quaternion);
+	void	SetRotation(const CVector3 rotation);
 
 	void	SetAssignement(const RakNetGUID guid);
 

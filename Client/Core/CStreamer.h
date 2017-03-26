@@ -3,46 +3,43 @@
 class CStreamer
 {
 private:
-	struct streamedObject
+	static struct streamedObject
 	{
 		int entity;
 		float distance;
 	};
-	std::vector<streamedObject> streamed;
+	static std::vector<streamedObject> streamed;
 
-	float MaxRange;
+	static float MaxRange;
 
-	int MaxPlayers;		// The max visable players to be shown
-	int PlayerCount;	// The current count of visable players
-	float PlayerRange;	// Should the 'MaxPlayers' be reached it'll store the range it reached at that point here for the streamingout to check.
+	static int MaxPlayers;		// The max visable players to be shown
+	static int PlayerCount;	// The current count of visable players
+	static float PlayerRange;	// Should the 'MaxPlayers' be reached it'll store the range it reached at that point here for the streamingout to check.
 
-	int MaxVehicles;
-	int VehicleCount;
-	float VehicleRange;
+	static int MaxVehicles;
+	static int VehicleCount;
+	static float VehicleRange;
 
-	int MaxObjects;
-	int ObjectCount;
-	float ObjectRange;
+	static int MaxObjects;
+	static int ObjectCount;
+	static float ObjectRange;
 
-	int MaxNpcs;
-	int NpcCount;
-	float NpcRange;
+	static int MaxNpcs;
+	static int NpcCount;
+	static float NpcRange;
 
 public:
-	CStreamer();
-	~CStreamer() {}
-
 	static void Start();
-	void Pulse();
-	void StreamObjectsIn(CVector3 position);
-	void StreamVehiclesIn(CVector3 position);
-	void StreamPlayersIn(CVector3 position);
-	void StreamOtherIn(CVector3 position);
-	void StreamOut(CVector3 position);
-	void ForceStreamOut();
+	static void Pulse();
+	static void StreamObjectsIn(CVector3 position);
+	static void StreamVehiclesIn(CVector3 position);
+	static void StreamPlayersIn(CVector3 position);
+	static void StreamOtherIn(CVector3 position);
+	static void StreamOut(CVector3 position);
+	static void ForceStreamOut();
 
-	int GetPlayerCount() { return PlayerCount; }
-	int GetVehicleCount() { return VehicleCount; }
-	int GetObjectCount() { return ObjectCount; }
-	int GetNpcCount() { return NpcCount; }
+	static int GetPlayerCount() { return PlayerCount; }
+	static int GetVehicleCount() { return VehicleCount; }
+	static int GetObjectCount() { return ObjectCount; }
+	static int GetNpcCount() { return NpcCount; }
 };

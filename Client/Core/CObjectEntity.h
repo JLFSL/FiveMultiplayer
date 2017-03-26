@@ -27,7 +27,6 @@ private:
 		CVector3		Position;
 		CVector3		Rotation;
 		CVector3		Velocity;
-		CVector4		Quaternion;
 	} Data;
 
 	struct ObjectNetwork
@@ -67,7 +66,7 @@ public:
 	CObjectEntity();
 	~CObjectEntity() {}
 
-	bool Create(int entity, int hash, CVector3 position, CVector4 quaternion, bool dynamic);
+	bool Create(int entity, int hash, CVector3 position, CVector3 rotation, bool dynamic);
 	bool CreateObject();
 	void RequestData();
 	void Destroy();
@@ -91,8 +90,8 @@ public:
 
 	CVector3		GetPosition() { return Data.Position; }
 	void			SetPosition(CVector3 position) { Data.Position = position; }
-	CVector4		GetQuaternion() { return Data.Quaternion; }
-	void			SetQuaternion(CVector4 q) { Data.Quaternion = q; }
+	CVector3		GetRotation() { return Data.Rotation; }
+	void			SetRotation(CVector3 rotation) { Data.Rotation = rotation; }
 
 	bool			GetSynchronized() { return Network.Synchronized; }
 

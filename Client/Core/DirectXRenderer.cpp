@@ -16,7 +16,7 @@ DirectXRenderer::D3D11PresentHook DirectXRenderer::phookD3D11Present = nullptr;
 DWORD_PTR* DirectXRenderer::pSwapChainVtable = nullptr;
 DWORD_PTR* DirectXRenderer::pDeviceContextVTable = nullptr;
 
-bool show_app_about = true;
+bool show_app_about = false;
 
 HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags)
 {
@@ -72,62 +72,59 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 			windowScale = 1.0f - diffrence;
 		}
 		
-		if (g_Core)
+		if (CNetworkManager::GetInterface()->IsActive())
 		{
-			if (g_Core->GetNetworkManager()->GetInterface()->IsActive())
+			ImGui::SetNextWindowPos(ImVec2(screenWidth - (700 * windowScale), screenHeight - (80 * windowScale) - 10));
+			ImGui::SetNextWindowSize(ImVec2((700 * windowScale), (80 * windowScale)));
+			ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+			ImGui::Begin("FiveMultiplayer_Debug", NULL, ImVec2(0, 0), 0.5f, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings);
 			{
-				ImGui::SetNextWindowPos(ImVec2(screenWidth - (700 * windowScale), screenHeight - (80 * windowScale) - 10));
-				ImGui::SetNextWindowSize(ImVec2((700 * windowScale), (80 * windowScale)));
-				ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
-				ImGui::Begin("FiveMultiplayer_Debug", NULL, ImVec2(0, 0), 0.5f, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings);
-				{
-					CVector3 pos = g_Core->GetLocalPlayer()->GetPos();
-					CVector4 quat = g_Core->GetLocalPlayer()->GetQuat();
-					float SizeH;
+				CVector3 pposition = CLocalPlayer::GetPosition();
+				CVector3 protation = CLocalPlayer::GetRotation();
+				float SizeH;
 
-					//Position Debug
-					std::string position = "Position: [X: " + std::to_string(pos.fX) + ", Y: " + std::to_string(pos.fY) + ", Z: " + std::to_string(pos.fZ) + "]";
-					SizeH = ImGui::CalcTextSize(position.c_str()).x;
+				//Position Debug
+				std::string position = "Position: [X: " + std::to_string(pposition.fX) + ", Y: " + std::to_string(pposition.fY) + ", Z: " + std::to_string(pposition.fZ) + "]";
+				SizeH = ImGui::CalcTextSize(position.c_str()).x;
 
-					ImGui::SameLine(ImGui::GetWindowContentRegionMax().x - SizeH);
-					ImGui::Text(position.c_str());
-					ImGui::NewLine();
+				ImGui::SameLine(ImGui::GetWindowContentRegionMax().x - SizeH);
+				ImGui::Text(position.c_str());
+				ImGui::NewLine();
 
-					//Quaternion Debug
-					std::string quaternion = "Quaternion: [X: " + std::to_string(quat.fX) + ", Y: " + std::to_string(quat.fY) + ", Z: " + std::to_string(quat.fZ) + ", W: " + std::to_string(quat.fW) + "]";
-					SizeH = ImGui::CalcTextSize(quaternion.c_str()).x;
+				//Rotation Debug
+				std::string rotation = "Rotation: [X: " + std::to_string(protation.fX) + ", Y: " + std::to_string(protation.fY) + ", Z: " + std::to_string(protation.fZ) + "]";
+				SizeH = ImGui::CalcTextSize(rotation.c_str()).x;
 
-					ImGui::SameLine(ImGui::GetWindowContentRegionMax().x - SizeH);
-					ImGui::Text(quaternion.c_str());
-					ImGui::NewLine();
+				ImGui::SameLine(ImGui::GetWindowContentRegionMax().x - SizeH);
+				ImGui::Text(rotation.c_str());
+				ImGui::NewLine();
 
-					// Pools Debug
-					std::string pools = "Pools: Players(" + std::to_string(g_Core->GetStreamer()->GetPlayerCount()) + "/" + std::to_string(g_Players.size()) +
-										"), Vehicles(" + std::to_string(g_Core->GetStreamer()->GetVehicleCount()) + "/" + std::to_string(g_Vehicles.size()) + 
-										"), Objects(" + std::to_string(g_Core->GetStreamer()->GetObjectCount()) + "/" + std::to_string(g_Objects.size()) + "), Entities(" + std::to_string(g_Entities.size()) +  ")";
-					SizeH = ImGui::CalcTextSize(pools.c_str()).x;
+				// Pools Debug
+				std::string pools = "Pools: Players(" + std::to_string(CStreamer::GetPlayerCount()) + "/" + std::to_string(g_Players.size()) +
+									"), Vehicles(" + std::to_string(CStreamer::GetVehicleCount()) + "/" + std::to_string(g_Vehicles.size()) + 
+									"), Objects(" + std::to_string(CStreamer::GetObjectCount()) + "/" + std::to_string(g_Objects.size()) + "), Entities(" + std::to_string(g_Entities.size()) +  ")";
+				SizeH = ImGui::CalcTextSize(pools.c_str()).x;
 
-					ImGui::SameLine(ImGui::GetWindowContentRegionMax().x - SizeH);
-					ImGui::Text(pools.c_str());
-					//ImGui::NewLine();
-				}
-				ImGui::End();
-				ImGui::PopStyleVar(1);
+				ImGui::SameLine(ImGui::GetWindowContentRegionMax().x - SizeH);
+				ImGui::Text(pools.c_str());
+				//ImGui::NewLine();
 			}
+			ImGui::End();
+			ImGui::PopStyleVar(1);
+		}
 
-			if (g_Core->GetNetworkManager()->g_ConnectionState == CONSTATE_CONN)
+		if (CNetworkManager::g_ConnectionState == CONSTATE_CONN)
+		{
+			ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));
+			ImGui::SetNextWindowSize(ImVec2((500 * windowScale), (60 * windowScale)));
+			ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+			ImGui::Begin("FiveMultiplayer_Connecting", NULL, ImVec2(0, 0), 0.0f, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings);
 			{
-				ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));
-				ImGui::SetNextWindowSize(ImVec2((500 * windowScale), (60 * windowScale)));
-				ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
-				ImGui::Begin("FiveMultiplayer_Connecting", NULL, ImVec2(0, 0), 0.0f, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings);
-				{
-					ImGui::SetWindowFontScale(2.0f);
-					ImGui::Text("Connecting....");
-				}
-				ImGui::End();
-				ImGui::PopStyleVar(1);
+				ImGui::SetWindowFontScale(2.0f);
+				ImGui::Text("Connecting....");
 			}
+			ImGui::End();
+			ImGui::PopStyleVar(1);
 		}
 	}
 

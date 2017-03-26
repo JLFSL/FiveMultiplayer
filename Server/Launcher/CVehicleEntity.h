@@ -31,7 +31,7 @@ private:
 		float			Heading;
 		CVector3		Position;
 		CVector3		Velocity;
-		CVector4		Quaternion;
+		CVector3		Rotation;
 	} Data;
 
 	struct VehicleNetwork
@@ -50,6 +50,7 @@ public:
 	~CVehicleEntity() {};
 
 	void Create(std::string model, CVector3 position, float heading);
+	void Create(std::string model, CVector3 position, CVector3 rotation);
 	void Destroy();
 
 	void Pulse();
@@ -63,8 +64,8 @@ public:
 	CVector3		GetPosition() { return Data.Position; };
 	void			SetPosition(CVector3 position) { Data.Position = position; };
 
-	CVector4		GetQuaternion() { return Data.Quaternion; }
-	void			SetQuaternion(CVector4 quaternion) { Data.Quaternion = quaternion; }
+	CVector3		GetRotation() { return Data.Rotation; }
+	void			SetRotation(CVector3 rotation) { Data.Rotation = rotation; }
 
 	bool			GetSynchronized() { return Network.Synchronized; }
 

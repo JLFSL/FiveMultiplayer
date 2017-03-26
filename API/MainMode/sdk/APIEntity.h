@@ -70,21 +70,6 @@ extern "C" {
 			DLL_PUBLIC_I static void SetPosition(int entity, CVector3 position);
 
 			/// <summary>
-			/// Gets the quaternion of the entity.
-			/// </summary>
-			/// <param name="entity">The entity you wish to get the quaternion off.</param>
-			/// <returns name="quaternion">The CVector4 'quaternion' of the entity</returns>
-			DLL_PUBLIC_I static const CVector4 GetQuaternion(int entity);
-
-			/// <summary>
-			/// Sets the quaternion of the entity.
-			/// </summary>
-			/// <param name="entity">The entity you wish to set the quaternion off.</param>
-			/// <param name="quaternion">The quaternion you wish to set the entity at.</param>
-			/// <returns></returns>
-			DLL_PUBLIC_I static void SetQuaternion(int entity, CVector4 quaternion);
-
-			/// <summary>
 			/// Gets the rotation of the entity.
 			/// </summary>
 			/// <param name="entity">The entity you wish to get the rotation off.</param>

@@ -6,29 +6,14 @@ std::vector<CVehicleEntity>	g_Vehicles;
 std::vector<CObjectEntity>	g_Objects;
 std::vector<CNPCEntity>		g_Npcs;
 
-CCore::CCore()
-{
-	// Construct CNetworkManager
-	g_NetworkManager = std::unique_ptr<CNetworkManager>(new CNetworkManager);
-	g_RPCManager = std::unique_ptr<CRPCManager>(new CRPCManager);
-	g_LocalPlayer = std::unique_ptr<CLocalPlayer>(new CLocalPlayer);
-	g_Streamer = std::unique_ptr<CStreamer>(new CStreamer);
-}
-
-CCore::~CCore()
-{
-	std::cout << "[CCore] Deconstructed" << std::endl;
-
-	/*SAFE_DELETE(g_NetworkManager);
-	SAFE_DELETE(g_RPCManager);
-	SAFE_DELETE(g_LocalPlayer);
-	SAFE_DELETE(g_Scipts);
-	SAFE_DELETE(g_Doors);
-	SAFE_DELETE(g_Animations);*/
-}
+unsigned long CCore::LastCleanUp;
+unsigned long CCore::LastUnlock;
 
 bool CCore::Initialize()
 {
+	CLocalPlayer::Initialize();
+	CNetworkManager::Initialize();
+
 	//Loads multiplayer World (wish to have this executed sooner befor the loading screne is terminated)
 	GAMEPLAY::_ENABLE_MP_DLC_MAPS(true);
 	DLC2::_LOAD_MP_DLC_MAPS();
@@ -58,21 +43,14 @@ bool CCore::Initialize()
 		GAMEPLAY::DELETE_STUNT_JUMP(i);
 	}
 
-	// Check if CServer is created
-	if (!g_NetworkManager)
-	{
-		Logger::Msg("CNetworkManager is invalid");
-		return false;
-	}
-
 	// Call OnLoad
-	if (!g_NetworkManager->Start())
+	if (!CNetworkManager::Start())
 	{
 		Logger::Msg("CNetworkManager could not be started");
 		return false;
 	}
 
-	g_RPCManager->RegisterRPCMessages();
+	CRPCManager::RegisterRPCMessages();
 
 	Scripts::StopAll();
 	CleanUp();
@@ -102,46 +80,46 @@ void CCore::OnGameTick()
 
 	if (KeyJustUp(VK_F8))
 	{
-		g_Config->Read();
-		g_NetworkManager->Connect(g_Config->GetIp().c_str(), g_Config->GetPassword().c_str(), g_Config->GetPort());
+		CConfig::Read();
+		CNetworkManager::Connect(CConfig::GetIp().c_str(), CConfig::GetPassword().c_str(), CConfig::GetPort());
 		Logger::Msg("Connecting");
 	}
 
 	if (KeyJustUp(VK_F7))
 	{
-		g_NetworkManager->Connect("176.31.142.113", "default", CON_PORT);
+		CNetworkManager::Connect("176.31.142.113", "default", CON_PORT);
 		Logger::Msg("Connecting");
 	}
 
 	if (KeyJustUp(VK_F6))
 	{
-		g_NetworkManager->Connect("51.254.219.119", "default", 2323);
+		CNetworkManager::Connect("51.254.219.119", "default", 2323);
 		Logger::Msg("Connecting");
 	}
 
 	if (KeyJustUp(VK_F5))
 	{
-		g_NetworkManager->Connect("188.166.76.252", "default", CON_PORT);
+		CNetworkManager::Connect("188.166.76.252", "default", CON_PORT);
 		Logger::Msg("Connecting");
 	}
 
 	if (KeyJustUp(VK_F10))
 	{
-		g_NetworkManager->Connect("83.128.145.20", "default", CON_PORT);
+		CNetworkManager::Connect("83.128.145.20", "default", CON_PORT);
 		Logger::Msg("Connecting");
 	}
 
 	if (KeyJustUp(VK_F9))
 	{
-		g_NetworkManager->Disconnect();
+		CNetworkManager::Disconnect();
 		Logger::Msg("Disconnecting");
 	}
 
 	KeyCheck();
 
-	g_LocalPlayer->Pulse();
-	g_NetworkManager->Pulse();
-	g_Streamer->Pulse();
+	CLocalPlayer::Pulse();
+	CNetworkManager::Pulse();
+	CStreamer::Pulse();
 	
 	if (!g_Players.empty()) {
 		for (int i = 0; i < g_Players.size(); i++) {
@@ -166,7 +144,7 @@ void CCore::OnGameTick()
 
 void CCore::CleanUp()
 {
-	Vector3_t Position = g_LocalPlayer->GetPosEx();
+	Vector3_t Position = CLocalPlayer::GetPositionEx();
 
 	PLAYER::DISABLE_PLAYER_VEHICLE_REWARDS(PLAYER::PLAYER_ID());
 	PLAYER::SET_MAX_WANTED_LEVEL(0);
@@ -212,7 +190,7 @@ void CCore::CleanUpTick()
 
 void CCore::PreventCheat()
 {
-	Ped tempped = g_LocalPlayer->GetPed();
+	Ped tempped = CLocalPlayer::GetPed();
 
 	PED::SET_PED_MAX_HEALTH(tempped, 200);
 	PED::SET_PED_CAN_BE_KNOCKED_OFF_VEHICLE(tempped, true);
@@ -220,9 +198,9 @@ void CCore::PreventCheat()
 
 void CCore::KeyCheck()
 {
-	if (CONTROLS::IS_CONTROL_PRESSED(0, ControlEnter) && !PED::IS_PED_IN_ANY_VEHICLE(g_Core->GetLocalPlayer()->GetPed(), true) /*&& chatnotopen*/)
+	if (CONTROLS::IS_CONTROL_PRESSED(0, ControlEnter) && !PED::IS_PED_IN_ANY_VEHICLE(CLocalPlayer::GetPed(), true) /*&& chatnotopen*/)
 	{
-		Vehicle vehicle = CVehicleEntity::getClosestVehicleFromPedPos(g_Core->GetLocalPlayer()->GetPed(), 10.0f);
+		Vehicle vehicle = CVehicleEntity::getClosestVehicleFromPedPos(CLocalPlayer::GetPed(), 10.0f);
 		if (vehicle)
 		{
 			int vehicleIndex = -1;
@@ -240,7 +218,7 @@ void CCore::KeyCheck()
 			{
 				int seat = 0;
 
-				CVector3 playerPos = g_Core->GetLocalPlayer()->GetPos();
+				CVector3 playerPos = CLocalPlayer::GetPosition();
 				CVector3 seatpos;
 				seatpos.fX = ENTITY::GET_WORLD_POSITION_OF_ENTITY_BONE(vehicle, ENTITY::GET_ENTITY_BONE_INDEX_BY_NAME(vehicle, "door_pside_r")).x;
 				seatpos.fY = ENTITY::GET_WORLD_POSITION_OF_ENTITY_BONE(vehicle, ENTITY::GET_ENTITY_BONE_INDEX_BY_NAME(vehicle, "door_pside_r")).y;
@@ -302,16 +280,16 @@ void CCore::KeyCheck()
 					}
 				}
 
-				AI::TASK_ENTER_VEHICLE(g_Core->GetLocalPlayer()->GetPed(), vehicle, 5000, seat, 2.0, 1, 0);
+				AI::TASK_ENTER_VEHICLE(CLocalPlayer::GetPed(), vehicle, 5000, seat, 2.0, 1, 0);
 			}
 			else
 			{
-				AI::CLEAR_PED_TASKS(g_Core->GetLocalPlayer()->GetPed());
+				AI::CLEAR_PED_TASKS(CLocalPlayer::GetPed());
 			}
 		}
 		else
 		{
-			AI::CLEAR_PED_TASKS(g_Core->GetLocalPlayer()->GetPed());
+			AI::CLEAR_PED_TASKS(CLocalPlayer::GetPed());
 		}
 	}
 }

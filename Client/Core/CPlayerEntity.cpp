@@ -50,8 +50,8 @@ bool CPlayerEntity::CreatePed()
 
 			STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(Data.Model.hModel);
 
-			ENTITY::SET_ENTITY_NO_COLLISION_ENTITY(g_Core->GetLocalPlayer()->GetPed(), Game.Ped, false);
-			ENTITY::SET_ENTITY_NO_COLLISION_ENTITY(Game.Ped, g_Core->GetLocalPlayer()->GetPed(), false);
+			ENTITY::SET_ENTITY_NO_COLLISION_ENTITY(CLocalPlayer::GetPed(), Game.Ped, false);
+			ENTITY::SET_ENTITY_NO_COLLISION_ENTITY(Game.Ped, CLocalPlayer::GetPed(), false);
 
 			ENTITY::SET_ENTITY_COORDS_NO_OFFSET(Game.Ped, Data.Position.fX, Data.Position.fY, Data.Position.fZ, false, false, false);
 
@@ -116,7 +116,7 @@ void CPlayerEntity::RequestData()
 {
 	RakNet::BitStream sData;
 	sData.Write(Information.Id);
-	g_Core->GetNetworkManager()->GetRPC().Signal("RequestEntityData", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, g_Core->GetNetworkManager()->GetSystemAddress(), false, false);
+	CNetworkManager::GetRPC().Signal("RequestEntityData", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, CNetworkManager::GetSystemAddress(), false, false);
 }
 
 void CPlayerEntity::Destroy()
@@ -194,17 +194,16 @@ void CPlayerEntity::Update(Packet *packet)
 	bitstream.Read(Data.Velocity.fY);
 	bitstream.Read(Data.Velocity.fZ);
 
-	bitstream.Read(Data.Quaternion.fX);
-	bitstream.Read(Data.Quaternion.fY);
-	bitstream.Read(Data.Quaternion.fZ);
-	bitstream.Read(Data.Quaternion.fW);
+	bitstream.Read(Data.Rotation.fX);
+	bitstream.Read(Data.Rotation.fY);
+	bitstream.Read(Data.Rotation.fZ);
 
 	bitstream.Read(Data.Vehicle.VehicleID);
 	bitstream.Read(Data.Vehicle.Seat);
 
 	bitstream.Read(Data.Task);
 
-	if (g_Core->GetNetworkManager()->GetInterface()->GetMyGUID() != Network.GUID) {
+	if (CNetworkManager::GetInterface()->GetMyGUID() != Network.GUID) {
 		if (Data.Model.hModel != GAMEPLAY::GET_HASH_KEY((char*)Data.Model.Model.c_str()) && Game.Created)
 			UpdatePlayerModel();
 
@@ -215,11 +214,11 @@ void CPlayerEntity::Update(Packet *packet)
 
 		Network.LastSyncReceived = timeGetTime();
 	}
-	else if (g_Core->GetNetworkManager()->GetInterface()->GetMyGUID() == Network.GUID)
+	else if (CNetworkManager::GetInterface()->GetMyGUID() == Network.GUID)
 	{
 		// Simple way to make the local player aware of its own server entity id.
-		if (Information.Id != g_Core->GetLocalPlayer()->GetId())
-			g_Core->GetLocalPlayer()->SetId(Information.Id);
+		if (Information.Id != CLocalPlayer::GetId())
+			CLocalPlayer::SetId(Information.Id);
 	}
 }
 
@@ -303,16 +302,12 @@ void CPlayerEntity::UpdateTargetRotation()
 		unsigned long CurrentTime = timeGetTime();
 		unsigned int interpolationtime = CurrentTime - Network.LastSyncReceived;
 
-		// Get our quaternion
-		CVector4 CurrentQuaternion;
-		ENTITY::GET_ENTITY_QUATERNION(Game.Ped, &CurrentQuaternion.fX, &CurrentQuaternion.fY, &CurrentQuaternion.fZ, &CurrentQuaternion.fW);
-		
 		// Get our rotation
-		CVector3 CurrentRotation = CVector3::calculateEuler(CurrentQuaternion.fX, CurrentQuaternion.fY, CurrentQuaternion.fZ, CurrentQuaternion.fW);
+		Vector3 CurrentRotationVec = ENTITY::GET_ENTITY_ROTATION(Game.Ped, 2);
+		CVector3 CurrentRotation(CurrentRotationVec.x, CurrentRotationVec.y, CurrentRotationVec.z);
 
-		// Set the target rotation from target quaternion
-		CVector3 TargetQuaternion = CVector3::calculateEuler(Data.Quaternion.fX, Data.Quaternion.fY, Data.Quaternion.fZ, Data.Quaternion.fW);
-		CVector3 TargetRotation = { TargetQuaternion.fX, TargetQuaternion.fY, TargetQuaternion.fZ };
+		// Set the target rotation
+		CVector3 TargetRotation = { Data.Rotation.fX, Data.Rotation.fY, Data.Rotation.fZ };
 		InterpolationData.Rotation.Target = TargetRotation;
 
 		// Get the error
@@ -334,34 +329,40 @@ void CPlayerEntity::SetTargetRotation()
 	if (InterpolationData.Rotation.FinishTime != 0 && Game.Created && Data.Vehicle.VehicleID == -1) {
 
 		// Get our rotation
-		CVector4 vecCurrentQuaternion;
-		ENTITY::GET_ENTITY_QUATERNION(Game.Ped, &vecCurrentQuaternion.fX, &vecCurrentQuaternion.fY, &vecCurrentQuaternion.fZ, &vecCurrentQuaternion.fW);
-		CVector3 vecCurrentRotation = CVector3::calculateEuler(vecCurrentQuaternion.fX, vecCurrentQuaternion.fY, vecCurrentQuaternion.fZ, vecCurrentQuaternion.fW);
+		Vector3 CurrentRotationVec = ENTITY::GET_ENTITY_ROTATION(Game.Ped, 2);
+		CVector3 CurrentRotation(CurrentRotationVec.x, CurrentRotationVec.y, CurrentRotationVec.z);
 
-		// Get the factor of time spent from the interpolation start to the current time.
-		unsigned long CurrentTime = timeGetTime();
-		float fAlpha = Math::Unlerp(InterpolationData.Rotation.StartTime, CurrentTime, InterpolationData.Rotation.FinishTime);
-
-		// Don't let it overcompensate the error
-		fAlpha = Math::Clamp(0.0f, fAlpha, 1.0f);
-
-		// Get the current error portion to compensate
-		float fCurrentAlpha = (fAlpha - InterpolationData.Rotation.LastAlpha);
-		InterpolationData.Rotation.LastAlpha = fAlpha;
-
-		// Apply the error compensation
-		CVector3 vecCompensation = Math::Lerp(CVector3(), fCurrentAlpha, InterpolationData.Rotation.Error);
-
-		// If we finished compensating the error, finish it for the next pulse
-		if (fAlpha == 1.0f)
+		if (CurrentRotation.fZ > 178.0f && CurrentRotation.fZ < -178.0f)
+		{
+			ENTITY::SET_ENTITY_ROTATION(Game.Ped, Data.Rotation.fX, Data.Rotation.fY, Data.Rotation.fZ, 2, true);
 			InterpolationData.Rotation.FinishTime = 0;
+		}
+		else
+		{
+			// Get the factor of time spent from the interpolation start to the current time.
+			unsigned long CurrentTime = timeGetTime();
+			float fAlpha = Math::Unlerp(InterpolationData.Rotation.StartTime, CurrentTime, InterpolationData.Rotation.FinishTime);
 
-		// Calculate the new position
-		CVector3 vecNewRotation = vecCurrentRotation + vecCompensation;
-		CVector4 vecNewQuaternion = CVector4::calculateQuaternion(vecNewRotation.fX, vecNewRotation.fY, vecNewRotation.fZ);
+			// Don't let it overcompensate the error
+			fAlpha = Math::Clamp(0.0f, fAlpha, 1.0f);
 
-		// Set our new position
-		ENTITY::SET_ENTITY_QUATERNION(Game.Ped, vecNewQuaternion.fX, vecNewQuaternion.fY, vecNewQuaternion.fZ, vecNewQuaternion.fW);
+			// Get the current error portion to compensate
+			float fCurrentAlpha = (fAlpha - InterpolationData.Rotation.LastAlpha);
+			InterpolationData.Rotation.LastAlpha = fAlpha;
+
+			// Apply the error compensation
+			CVector3 vecCompensation = Math::Lerp(CVector3(), fCurrentAlpha, InterpolationData.Rotation.Error);
+
+			// If we finished compensating the error, finish it for the next pulse
+			if (fAlpha == 1.0f)
+				InterpolationData.Rotation.FinishTime = 0;
+
+			// Calculate the new position
+			CVector3 vecNewRotation = CurrentRotation + vecCompensation;
+
+			// Set our new position
+			ENTITY::SET_ENTITY_ROTATION(Game.Ped, vecNewRotation.fX, vecNewRotation.fY, vecNewRotation.fZ, 2, true);
+		}
 	}
 }
 
@@ -454,7 +455,7 @@ void CPlayerEntity::UpdateTargetData()
 			WEAPON::GIVE_WEAPON_TO_PED(Game.Ped, Data.Weapon.Weapon, 999, true, true);
 		}
 
-		unsigned long CurrentTime;
+		unsigned long CurrentTime = timeGetTime();
 		if (Data.Weapon.Reload && CurrentTime >= Data.Weapon.LastReload + 2000)
 		{
 			WEAPON::MAKE_PED_RELOAD(Game.Ped);
@@ -612,8 +613,8 @@ void CPlayerEntity::UpdatePlayerModel()
 
 			Game.Ped = PED::CREATE_PED(26, Data.Model.hModel, Data.Position.fX, Data.Position.fY, Data.Position.fZ, 0.0f, false, true);
 
-			ENTITY::SET_ENTITY_NO_COLLISION_ENTITY(g_Core->GetLocalPlayer()->GetPed(), Game.Ped, false);
-			ENTITY::SET_ENTITY_NO_COLLISION_ENTITY(Game.Ped, g_Core->GetLocalPlayer()->GetPed(), false);
+			ENTITY::SET_ENTITY_NO_COLLISION_ENTITY(CLocalPlayer::GetPed(), Game.Ped, false);
+			ENTITY::SET_ENTITY_NO_COLLISION_ENTITY(Game.Ped, CLocalPlayer::GetPed(), false);
 
 			ENTITY::SET_ENTITY_COORDS_NO_OFFSET(Game.Ped, Data.Position.fX, Data.Position.fY, Data.Position.fZ, false, false, false);
 

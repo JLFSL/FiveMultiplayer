@@ -15,14 +15,14 @@ CObjectEntity::CObjectEntity()
 	Network.Assigned = UNASSIGNED_RAKNET_GUID;
 }
 
-bool CObjectEntity::Create(int entity, int hash, CVector3 position, CVector4 quaternion, bool dynamic)
+bool CObjectEntity::Create(int entity, int hash, CVector3 position, CVector3 rotation, bool dynamic)
 {
 	if (STREAMING::IS_MODEL_IN_CDIMAGE(hash) && STREAMING::IS_MODEL_VALID(hash))
 	{
 		Data.Model.Model = hash;
 		Data.Model.Dynamic = dynamic;
 		Data.Position = position;
-		Data.Quaternion = quaternion;
+		Data.Rotation = rotation;
 		Information.Id = entity;
 
 		Amount++;
@@ -68,7 +68,7 @@ bool CObjectEntity::CreateObject()
 			Game.Object = OBJECT::CREATE_OBJECT_NO_OFFSET(Data.Model.Model, Data.Position.fX, Data.Position.fY, Data.Position.fZ, false, true, Data.Model.Dynamic);
 			STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(Data.Model.Model);
 
-			ENTITY::SET_ENTITY_QUATERNION(Game.Object, Data.Quaternion.fX, Data.Quaternion.fY, Data.Quaternion.fZ, Data.Quaternion.fW);
+			ENTITY::SET_ENTITY_ROTATION(Game.Object, Data.Rotation.fX, Data.Rotation.fY, Data.Rotation.fZ, 2, true);
 
 			if (!Data.Model.Dynamic)
 				ENTITY::FREEZE_ENTITY_POSITION(Game.Object, true);
@@ -93,7 +93,7 @@ void CObjectEntity::RequestData()
 {
 	RakNet::BitStream sData;
 	sData.Write(Information.Id);
-	g_Core->GetNetworkManager()->GetRPC().Signal("RequestEntityData", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, g_Core->GetNetworkManager()->GetSystemAddress(), false, false);
+	CNetworkManager::GetRPC().Signal("RequestEntityData", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, CNetworkManager::GetSystemAddress(), false, false);
 }
 
 void CObjectEntity::Destroy()
@@ -132,11 +132,11 @@ void CObjectEntity::Pulse()
 {
 	if (Game.Created && Information.Id != -1 && Data.Model.Dynamic)
 	{
-		if (g_Core->GetNetworkManager()->GetInterface()->GetMyGUID() != Network.Assigned)
+		if (CNetworkManager::GetInterface()->GetMyGUID() != Network.Assigned)
 		{
 			Interpolate();
 		}
-		else if (g_Core->GetNetworkManager()->GetInterface()->GetMyGUID() == Network.Assigned)
+		else if (CNetworkManager::GetInterface()->GetMyGUID() == Network.Assigned)
 		{
 			BitStream bitstream;
 			bitstream.Write((unsigned char)ID_PACKET_OBJECT);
@@ -151,12 +151,11 @@ void CObjectEntity::Pulse()
 			bitstream.Write(Data.Velocity.fY);
 			bitstream.Write(Data.Velocity.fZ);
 
-			bitstream.Write(Data.Quaternion.fX);
-			bitstream.Write(Data.Quaternion.fY);
-			bitstream.Write(Data.Quaternion.fZ);
-			bitstream.Write(Data.Quaternion.fW);
+			bitstream.Write(Data.Rotation.fX);
+			bitstream.Write(Data.Rotation.fY);
+			bitstream.Write(Data.Rotation.fZ);
 
-			g_Core->GetNetworkManager()->GetInterface()->Send(&bitstream, MEDIUM_PRIORITY, UNRELIABLE_SEQUENCED, 0, g_Core->GetNetworkManager()->GetSystemAddress(), false);
+			CNetworkManager::GetInterface()->Send(&bitstream, MEDIUM_PRIORITY, UNRELIABLE_SEQUENCED, 0, CNetworkManager::GetSystemAddress(), false);
 
 			Network.LastSyncSent = timeGetTime();
 		}
@@ -177,10 +176,9 @@ void CObjectEntity::Update(Packet *packet)
 	bitstream.Read(Data.Velocity.fY);
 	bitstream.Read(Data.Velocity.fZ);
 
-	bitstream.Read(Data.Quaternion.fX);
-	bitstream.Read(Data.Quaternion.fY);
-	bitstream.Read(Data.Quaternion.fZ);
-	bitstream.Read(Data.Quaternion.fW);
+	bitstream.Read(Data.Rotation.fX);
+	bitstream.Read(Data.Rotation.fY);
+	bitstream.Read(Data.Rotation.fZ);
 
 	Network.LastSyncReceived = timeGetTime();
 }
@@ -262,7 +260,7 @@ void CObjectEntity::SetTargetPosition()
 		// Set our new position
 		ENTITY::SET_ENTITY_COORDS_NO_OFFSET(Game.Object, vecNewPosition.fX, vecNewPosition.fY, vecNewPosition.fZ, false, false, false);
 		ENTITY::SET_ENTITY_VELOCITY(Game.Object, Data.Velocity.fX, Data.Velocity.fY, Data.Velocity.fZ);
-		ENTITY::SET_ENTITY_QUATERNION(Game.Object, Data.Quaternion.fX, Data.Quaternion.fY, Data.Quaternion.fZ, Data.Quaternion.fW);
+		ENTITY::SET_ENTITY_ROTATION(Game.Object, Data.Rotation.fX, Data.Rotation.fY, Data.Rotation.fZ, 2, true);
 	}
 }
 
@@ -273,16 +271,12 @@ void CObjectEntity::UpdateTargetRotation()
 		unsigned int interpolationtime = timeGetTime() - Network.LastSyncReceived;
 		unsigned long CurrentTime = timeGetTime();
 
-		// Get our quaternion
-		CVector4 CurrentQuaternion;
-		ENTITY::GET_ENTITY_QUATERNION(Game.Object, &CurrentQuaternion.fX, &CurrentQuaternion.fY, &CurrentQuaternion.fZ, &CurrentQuaternion.fW);
-
 		// Get our rotation
-		CVector3 CurrentRotation = CVector3::calculateEuler(CurrentQuaternion.fX, CurrentQuaternion.fY, CurrentQuaternion.fZ, CurrentQuaternion.fW);
+		Vector3 CurrentRotationVec = ENTITY::GET_ENTITY_ROTATION(Game.Object, 2);
+		CVector3 CurrentRotation(CurrentRotationVec.x, CurrentRotationVec.y, CurrentRotationVec.z);
 
-		// Set the target rotation from target quaternion
-		CVector3 TargetQuaternion = CVector3::calculateEuler(Data.Quaternion.fX, Data.Quaternion.fY, Data.Quaternion.fZ, Data.Quaternion.fW);
-		CVector3 TargetRotation = { TargetQuaternion.fX, TargetQuaternion.fY, TargetQuaternion.fZ };
+		// Set the target rotation
+		CVector3 TargetRotation = { Data.Rotation.fX, Data.Rotation.fY, Data.Rotation.fZ };
 		InterpolationData.Rotation.Target = TargetRotation;
 
 		// Get the error
@@ -306,9 +300,8 @@ void CObjectEntity::SetTargetRotation()
 		if (InterpolationData.Rotation.FinishTime != 0)
 		{
 			// Get our rotation
-			CVector4 vecCurrentQuaternion;
-			ENTITY::GET_ENTITY_QUATERNION(Game.Object, &vecCurrentQuaternion.fX, &vecCurrentQuaternion.fY, &vecCurrentQuaternion.fZ, &vecCurrentQuaternion.fW);
-			CVector3 vecCurrentRotation = CVector3::calculateEuler(vecCurrentQuaternion.fX, vecCurrentQuaternion.fY, vecCurrentQuaternion.fZ, vecCurrentQuaternion.fW);
+			Vector3 CurrentRotationVec = ENTITY::GET_ENTITY_ROTATION(Game.Object, 2);
+			CVector3 CurrentRotation(CurrentRotationVec.x, CurrentRotationVec.y, CurrentRotationVec.z);
 
 			// Get the factor of time spent from the interpolation start to the current time.
 			unsigned long CurrentTime = timeGetTime();
@@ -329,11 +322,10 @@ void CObjectEntity::SetTargetRotation()
 				InterpolationData.Rotation.FinishTime = 0;
 
 			// Calculate the new position
-			CVector3 vecNewRotation = vecCurrentRotation + vecCompensation;
-			CVector4 vecNewQuaternion = CVector4::calculateQuaternion(vecNewRotation.fX, vecNewRotation.fY, vecNewRotation.fZ);
+			CVector3 vecNewRotation = CurrentRotation + vecCompensation;
 
 			// Set our new position
-			ENTITY::SET_ENTITY_QUATERNION(Game.Object, vecNewQuaternion.fX, vecNewQuaternion.fY, vecNewQuaternion.fZ, vecNewQuaternion.fW);
+			ENTITY::SET_ENTITY_ROTATION(Game.Object, vecNewRotation.fX, vecNewRotation.fY, vecNewRotation.fZ, 2, true);
 		}
 	}
 }

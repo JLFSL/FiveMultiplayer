@@ -135,6 +135,3 @@
 		// Direct X 11
 		#include "DirectXRenderer.h"
 		#include "DirectXDraw.h"
-
-extern CCore *g_Core;
-extern CConfig *g_Config;

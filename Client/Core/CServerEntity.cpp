@@ -178,7 +178,7 @@ void CServerEntity::SetPosition(const CVector3 position)
 	}
 }
 
-void CServerEntity::SetQuaternion(const CVector4 quaternion)
+void CServerEntity::SetRotation(const CVector3 rotation)
 {
 	switch (Data.type)
 	{
@@ -187,10 +187,10 @@ void CServerEntity::SetQuaternion(const CVector4 quaternion)
 		{
 			if (g_Vehicles[i].GetId() == Data.Id)
 			{
-				g_Vehicles[i].SetQuaternion(quaternion);
+				g_Vehicles[i].SetRotation(rotation);
 
 				if (g_Vehicles[i].IsCreated())
-					ENTITY::SET_ENTITY_QUATERNION(g_Vehicles[i].GetEntity(), quaternion.fX, quaternion.fY, quaternion.fZ, quaternion.fW);
+					ENTITY::SET_ENTITY_ROTATION(g_Vehicles[i].GetEntity(), rotation.fX, rotation.fY, rotation.fZ, 2, false);
 				return;
 			}
 		}
@@ -200,10 +200,10 @@ void CServerEntity::SetQuaternion(const CVector4 quaternion)
 		{
 			if (g_Objects[i].GetId() == Data.Id)
 			{
-				g_Objects[i].SetQuaternion(quaternion);
+				g_Objects[i].SetRotation(rotation);
 
 				if (g_Objects[i].IsCreated())
-					ENTITY::SET_ENTITY_QUATERNION(g_Objects[i].GetEntity(), quaternion.fX, quaternion.fY, quaternion.fZ, quaternion.fW);
+					ENTITY::SET_ENTITY_ROTATION(g_Objects[i].GetEntity(), rotation.fX, rotation.fY, rotation.fZ, 2, true);
 				return;
 			}
 		}
@@ -213,16 +213,16 @@ void CServerEntity::SetQuaternion(const CVector4 quaternion)
 		{
 			if (g_Npcs[i].GetId() == Data.Id)
 			{
-				g_Npcs[i].SetQuaternion(quaternion);
+				g_Npcs[i].SetRotation(rotation);
 
 				if (g_Npcs[i].IsCreated())
-					ENTITY::SET_ENTITY_QUATERNION(g_Npcs[i].GetEntity(), quaternion.fX, quaternion.fY, quaternion.fZ, quaternion.fW);
+					ENTITY::SET_ENTITY_ROTATION(g_Objects[i].GetEntity(), rotation.fX, rotation.fY, rotation.fZ, 2, true);
 				return;
 			}
 		}
 		break;
 	default:
-		std::cout << std::endl << "[CServerEntity::SetQuaternion] Invalid entity" << std::endl;
+		std::cout << std::endl << "[CServerEntity::SetRotation] Invalid entity" << std::endl;
 		return;
 		break;
 	}

@@ -40,13 +40,16 @@ namespace NetworkSync
 				sData.Write(true);
 				sData.Write(g_Objects[o].GetHash());
 			}
-			sData.Write(g_Objects[o].GetPosition().fX);
-			sData.Write(g_Objects[o].GetPosition().fY);
-			sData.Write(g_Objects[o].GetPosition().fZ);
-			sData.Write(g_Objects[o].GetQuaternion().fX);
-			sData.Write(g_Objects[o].GetQuaternion().fY);
-			sData.Write(g_Objects[o].GetQuaternion().fZ);
-			sData.Write(g_Objects[o].GetQuaternion().fW);
+
+			CVector3 Position = g_Objects[o].GetPosition();
+			CVector3 Rotation = g_Objects[o].GetRotation();
+
+			sData.Write(Position.fX);
+			sData.Write(Position.fY);
+			sData.Write(Position.fZ);
+			sData.Write(Rotation.fX);
+			sData.Write(Rotation.fY);
+			sData.Write(Rotation.fZ);
 			sData.Write(g_Objects[o].IsDynamic());
 
 			g_Server->GetNetworkManager()->GetRPC().Signal("CreateObject", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, user, false, false);
@@ -58,13 +61,16 @@ namespace NetworkSync
 			sData.Reset();
 			sData.Write(g_Npcs[o].GetId());
 			sData.Write(RakString(g_Npcs[o].GetModel().c_str()));
-			sData.Write(g_Npcs[o].GetPosition().fX);
-			sData.Write(g_Npcs[o].GetPosition().fY);
-			sData.Write(g_Npcs[o].GetPosition().fZ);
-			sData.Write(g_Npcs[o].GetQuaternion().fX);
-			sData.Write(g_Npcs[o].GetQuaternion().fY);
-			sData.Write(g_Npcs[o].GetQuaternion().fZ);
-			sData.Write(g_Npcs[o].GetQuaternion().fW);
+
+			CVector3 Position = g_Npcs[o].GetPosition();
+			CVector3 Rotation = g_Npcs[o].GetRotation();
+
+			sData.Write(Position.fX);
+			sData.Write(Position.fY);
+			sData.Write(Position.fZ);
+			sData.Write(Rotation.fX);
+			sData.Write(Rotation.fY);
+			sData.Write(Rotation.fZ);
 
 			g_Server->GetNetworkManager()->GetRPC().Signal("CreateNPC", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, user, false, false);
 		}
