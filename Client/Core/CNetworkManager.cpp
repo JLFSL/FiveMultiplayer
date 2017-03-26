@@ -1,9 +1,9 @@
 #include "stdafx.h"
 
-RakPeerInterface		*CNetworkManager::g_RakPeer;
-RPC4					*CNetworkManager::g_RPC;
-DirectoryDeltaTransfer	*CNetworkManager::g_DirTransfer;
-FileListTransfer		*CNetworkManager::g_FileTransfer;
+RakPeerInterface		*CNetworkManager::g_RakPeer = nullptr;
+RPC4					*CNetworkManager::g_RPC = nullptr;
+DirectoryDeltaTransfer	*CNetworkManager::g_DirTransfer = nullptr;
+FileListTransfer		*CNetworkManager::g_FileTransfer = nullptr;
 
 std::string		CNetworkManager::g_lastIP;
 std::string		CNetworkManager::g_lastPass;
