@@ -61,12 +61,23 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 
 	DirectXRenderer::pFontWrapper->DrawString(DirectXRenderer::pContext, L"Loaded", fontsize, 32.0f, 32.0f, 0xffffffff, FW1_RESTORESTATE);*/
 
+	CefTexture::UpdateRenderTexture();
+	CefTexture::DrawWebView();
+
+	ImGuiIO& io = ImGui::GetIO();
+
+	POINT cursor;
+	GetCursorPos(&cursor);
+	ScreenToClient(DirectXRenderer::hWnd, &cursor);
+	io.MousePos.x = cursor.x;
+	io.MousePos.y = cursor.y;
+
 	ImGui_ImplDX11_NewFrame();
+
+	io.MouseDrawCursor = true;
 
 	if (show_app_about)
 	{
-		ImGuiIO& io = ImGui::GetIO();
-
 		float screenWidth = io.DisplaySize.x * io.DisplayFramebufferScale.x;
 		float screenHeight = io.DisplaySize.y * io.DisplayFramebufferScale.y;
 		float windowScale = 1.0f;
@@ -138,9 +149,6 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 	//DirectXDraw::GetInstance()->BeginScene();
 	//DirectXDraw::GetInstance()->DrawScene();
 	//DirectXDraw::GetInstance()->EndScene();
-
-	CefTexture::UpdateRenderTexture();
-	CefTexture::DrawWebView();
 
 	return DirectXRenderer::phookD3D11Present(pSwapChain, SyncInterval, Flags);
 }

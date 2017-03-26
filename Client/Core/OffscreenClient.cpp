@@ -29,7 +29,7 @@ void OffscreenClient::OnBeforeClose(CefRefPtr<CefBrowser> browser)
 
 void OffscreenClient::OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const RectList& dirtyRects, const void* buffer, int width, int height)
 {
-	std::cout << width << ", " << height << std::endl;
+	//std::cout << width << ", " << height << std::endl;
 
 	// We dont care about popup yet..
 	if (type != PaintElementType::PET_VIEW) {
