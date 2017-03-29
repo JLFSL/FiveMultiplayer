@@ -50,7 +50,7 @@ namespace API
 				RakNet::BitStream sData;
 				sData.Write(checkpointentity);
 
-				g_Server->GetNetworkManager()->GetRPC().Signal("DisplayCheckpoint", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
+				g_Server->GetNetworkManager()->GetRPC().Signal("ShowCheckpoint", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
 				return;
 			}
 		}
