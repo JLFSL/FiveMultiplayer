@@ -74,6 +74,33 @@ namespace NetworkSync
 
 			g_Server->GetNetworkManager()->GetRPC().Signal("CreateNPC", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, user, false, false);
 		}
+
+		// Sync Checkpoints
+		for (int i = 0; i < g_Checkpoints.size(); i++) 
+		{
+			RakNet::BitStream sData;
+			sData.Write(g_Checkpoints[i].GetId());
+
+			const CVector3 Position = g_Checkpoints[i].GetPosition();
+			const CVector3 PointTo = g_Checkpoints[i].GetPointTo();
+			const Color Col = g_Checkpoints[i].GetColor();
+
+			sData.Write(Position.fX);
+			sData.Write(Position.fY);
+			sData.Write(Position.fZ);
+			sData.Write(PointTo.fX);
+			sData.Write(PointTo.fY);
+			sData.Write(PointTo.fZ);
+			sData.Write(g_Checkpoints[i].GetType());
+			sData.Write(g_Checkpoints[i].GetRadius());
+			sData.Write(Col.Red);
+			sData.Write(Col.Green);
+			sData.Write(Col.Blue);
+			sData.Write(Col.Alpha);
+			sData.Write(g_Checkpoints[i].GetRadius());
+
+			g_Server->GetNetworkManager()->GetRPC().Signal("CreateCheckpoint", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, user, false, false);
+		}
 	}
 
 }

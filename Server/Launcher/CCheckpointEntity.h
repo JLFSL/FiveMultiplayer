@@ -34,10 +34,16 @@ public:
 	void Create(const CVector3 position, const CVector3 pointto, const int type, const float radius, const Color color, const int reserved);
 	void Destroy();
 
-	int			GetId() { return Information.Id; }
+	const int	GetId() { return Information.Id; }
 
-	CVector3	GetPosition() { return Data.Position; }
+	const CVector3 GetPosition() { return Data.Position; }
 	void		SetPosition(CVector3 position) { Data.Position = position; }
+
+	const CVector3 GetPointTo() { return Data.PointTo; }
+	const int	GetType() { return Data.Type; }
+	const Color	GetColor() { return Data.sColor; }
+	const float GetRadius() { return Data.Radius; }
+	const int	GetReserved() { return Data.Reserved; }
 
 	Info		GetInfo() { return Information; }
 	EntData		GetData() { return Data; }
