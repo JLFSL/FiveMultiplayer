@@ -1,8 +1,8 @@
 #pragma once
-class CefMouseHook
+class CefInput
 {
 private:
-	static HHOOK Hook;
+	static WNDPROC Hook;
 	static bool Visible;
 	static MSG msg;
 
@@ -14,7 +14,7 @@ public:
 	static void ForegroundCheck();
 
 	static bool IsVisible() { return Visible; }
-	static HHOOK GetHook() { return Hook; }
+	static WNDPROC GetHook() { return Hook; }
 };
 
-LRESULT WINAPI MouseHookCallback(int nCode, WPARAM wParam, LPARAM lParam);
+LRESULT WINAPI HookedWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
