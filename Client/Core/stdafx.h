@@ -38,6 +38,7 @@
 #include "CMaths.h"
 #include "Common.h"
 #include <SharedUtility.h>
+#include "APIStructs.h"
 
 // Vendor
 	// Vendor.MinHook
@@ -99,6 +100,7 @@
 	#include "CObjectEntity.h"
 	#include "CPlayerEntity.h"
 	#include "CNPCEntity.h"
+	#include "CCheckpointEntity.h"
 	#include "CServerEntity.h"
 
 	// Network
@@ -111,6 +113,7 @@
 		#include "CRPCPlayer.h"
 		#include "CRPCObject.h"
 		#include "CRPCNpc.h"
+		#include "CRPCCheckpoint.h"
 
 	// Client
 	#include "CStreamer.h"

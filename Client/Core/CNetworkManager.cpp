@@ -175,6 +175,15 @@ void CNetworkManager::Disconnect()
 	}
 	// Shrink vector so size is correct.
 	g_Npcs.shrink_to_fit();
+
+	// Remove all existing checkpoints
+	for (int i = (g_Checkpoints.size() - 1); i > -1; i--)
+	{
+		g_Checkpoints[i].Destroy();
+		g_Checkpoints.erase(g_Checkpoints.begin() + i);
+	}
+	// Shrink vector so size is correct.
+	g_Checkpoints.shrink_to_fit();
 	
 	Logger::Msg("CNetworkManager::Disconnected");
 }

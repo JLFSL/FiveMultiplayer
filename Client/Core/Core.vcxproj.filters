@@ -198,6 +198,12 @@
     <ClCompile Include="util.cpp">
       <Filter>Include</Filter>
     </ClCompile>
+    <ClCompile Include="CRPCCheckpoint.cpp">
+      <Filter>Network\RPC</Filter>
+    </ClCompile>
+    <ClCompile Include="CCheckpointEntity.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -364,6 +370,12 @@
     </ClInclude>
     <ClInclude Include="util.h">
       <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="CRPCCheckpoint.h">
+      <Filter>Network\RPC</Filter>
+    </ClInclude>
+    <ClInclude Include="CCheckpointEntity.h">
+      <Filter>Entity</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

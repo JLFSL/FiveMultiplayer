@@ -5,6 +5,7 @@ std::vector<CPlayerEntity>	g_Players;
 std::vector<CVehicleEntity>	g_Vehicles;
 std::vector<CObjectEntity>	g_Objects;
 std::vector<CNPCEntity>		g_Npcs;
+std::vector<CCheckpointEntity>		g_Checkpoints;
 
 unsigned long CCore::LastCleanUp;
 unsigned long CCore::LastUnlock;
@@ -15,7 +16,7 @@ bool CCore::Initialize()
 	CNetworkManager::Initialize();
 
 	//Loads multiplayer World (wish to have this executed sooner befor the loading screne is terminated)
-	GAMEPLAY::_ENABLE_MP_DLC_MAPS(true);
+	GAMEPLAY::_USE_FREEMODE_MAP_BEHAVIOR(true);
 	DLC2::_LOAD_MP_DLC_MAPS();
 	SCRIPT::SHUTDOWN_LOADING_SCREEN();
 

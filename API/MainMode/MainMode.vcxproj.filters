@@ -55,5 +55,11 @@
     <ClInclude Include="sdk\APINpc.h">
       <Filter>SDK</Filter>
     </ClInclude>
+    <ClInclude Include="sdk\APICheckpoint.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\Structs.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

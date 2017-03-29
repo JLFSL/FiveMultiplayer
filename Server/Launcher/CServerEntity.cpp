@@ -53,6 +53,32 @@ void CServerEntity::Destroy()
 			}
 		}
 		break;
+	case CServerEntity::NPC:
+		for (int i = 0; i < g_Npcs.size(); i++)
+		{
+			if (g_Npcs[i].GetId() == Data.Id)
+			{
+				g_Npcs[i].Destroy();
+
+				sData.Write(Data.Id);
+				g_Server->GetNetworkManager()->GetRPC().Signal("DestroyEntity", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
+				break;
+			}
+		}
+		break;
+	case CServerEntity::Checkpoint:
+		for (int i = 0; i < g_Checkpoints.size(); i++)
+		{
+			if (g_Checkpoints[i].GetId() == Data.Id)
+			{
+				g_Checkpoints[i].Destroy();
+
+				sData.Write(Data.Id);
+				g_Server->GetNetworkManager()->GetRPC().Signal("DestroyEntity", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
+				break;
+			}
+		}
+		break;
 	default:
 		std::cout << "[CServerEntity::Destroy] Invalid entity Type: " << Data.type << std::endl;
 	}
@@ -86,6 +112,24 @@ CVector3 CServerEntity::GetPosition()
 			if (g_Objects[i].GetId() == Data.Id)
 			{
 				return g_Objects[i].GetPosition();
+			}
+		}
+		break;
+	case CServerEntity::NPC:
+		for (int i = 0; i < g_Npcs.size(); i++)
+		{
+			if (g_Npcs[i].GetId() == Data.Id)
+			{
+				return g_Npcs[i].GetPosition();
+			}
+		}
+		break;
+	case CServerEntity::Checkpoint:
+		for (int i = 0; i < g_Checkpoints.size(); i++)
+		{
+			if (g_Checkpoints[i].GetId() == Data.Id)
+			{
+				return g_Checkpoints[i].GetPosition();
 			}
 		}
 		break;
@@ -150,6 +194,40 @@ void CServerEntity::SetPosition(CVector3 position)
 			}
 		}
 		break;
+	case CServerEntity::NPC:
+		for (int i = 0; i < g_Npcs.size(); i++)
+		{
+			if (g_Npcs[i].GetId() == Data.Id)
+			{
+				sData.Write(Data.Id);
+				sData.Write(position.fX);
+				sData.Write(position.fY);
+				sData.Write(position.fZ);
+
+				g_Server->GetNetworkManager()->GetRPC().Signal("SetPosition", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
+
+				g_Npcs[i].SetPosition(position);
+				break;
+			}
+		}
+		break;
+	case CServerEntity::Checkpoint:
+		for (int i = 0; i < g_Checkpoints.size(); i++)
+		{
+			if (g_Checkpoints[i].GetId() == Data.Id)
+			{
+				sData.Write(Data.Id);
+				sData.Write(position.fX);
+				sData.Write(position.fY);
+				sData.Write(position.fZ);
+
+				g_Server->GetNetworkManager()->GetRPC().Signal("SetPosition", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
+
+				g_Checkpoints[i].SetPosition(position);
+				break;
+			}
+		}
+		break;
 	default:
 		std::cout << "[CServerEntity::SetPosition] Invalid entity Type: " << Data.type << std::endl;
 	}
@@ -187,8 +265,17 @@ CVector3 CServerEntity::GetRotation()
 			}
 		}
 		break;
+	case CServerEntity::NPC:
+		for (int i = 0; i < g_Npcs.size(); i++)
+		{
+			if (g_Npcs[i].GetId() == Data.Id)
+			{
+				return g_Npcs[i].GetRotation();
+			}
+		}
+		break;
 	default:
-		std::cout << "[CServerEntity::GetQuaternion] Invalid entity Type: " << Data.type << std::endl;
+		std::cout << "[CServerEntity::GetRotation] Invalid entity Type: " << Data.type << std::endl;
 	}
 }
 
@@ -246,8 +333,25 @@ void CServerEntity::SetRotation(CVector3 rotation)
 			}
 		}
 		break;
+	case CServerEntity::NPC:
+		for (int i = 0; i < g_Npcs.size(); i++)
+		{
+			if (g_Npcs[i].GetId() == Data.Id)
+			{
+				sData.Write(Data.Id);
+				sData.Write(rotation.fX);
+				sData.Write(rotation.fY);
+				sData.Write(rotation.fZ);
+
+				g_Server->GetNetworkManager()->GetRPC().Signal("SetRotation", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
+
+				g_Npcs[i].SetRotation(rotation);
+				break;
+			}
+		}
+		break;
 	default:
-		std::cout << "[CServerEntity::SetQuaternion] Invalid entity Type: " << Data.type << std::endl;
+		std::cout << "[CServerEntity::SetRotation] Invalid entity Type: " << Data.type << std::endl;
 	}
 }
 
@@ -306,6 +410,15 @@ namespace ServerEntity
 				for (int i = 0; i < g_Npcs.size(); i++)
 				{
 					if (g_Npcs[i].GetId() == entity)
+					{
+						return true;
+					}
+				}
+				break;
+			case CServerEntity::Checkpoint:
+				for (int i = 0; i < g_Checkpoints.size(); i++)
+				{
+					if (g_Checkpoints[i].GetId() == entity)
 					{
 						return true;
 					}

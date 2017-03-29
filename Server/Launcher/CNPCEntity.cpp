@@ -24,6 +24,19 @@ void CNPCEntity::Create(const std::wstring model, const CVector3 position, const
 	Network.Synchronized = true;
 }
 
+void CNPCEntity::Destroy()
+{
+	std::cout << "[CNPCEntity] Removing npc " << Data.Id << std::endl;
+
+	Data = {};
+
+	Data.Id = -1;
+
+	Amount--;
+
+	std::cout << "[CNPCEntity] " << Amount << " npcs in the world." << std::endl;
+}
+
 void CNPCEntity::RequestData(RakNetGUID requester)
 {
 	RakNet::BitStream sData;

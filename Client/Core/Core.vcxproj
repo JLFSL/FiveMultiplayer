@@ -176,6 +176,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Animations.cpp" />
+    <ClCompile Include="CCheckpointEntity.cpp" />
     <ClCompile Include="CConfig.cpp" />
     <ClCompile Include="CCore.cpp" />
     <ClCompile Include="CefMouseHook.cpp" />
@@ -186,6 +187,7 @@
     <ClCompile Include="CObjectEntity.cpp" />
     <ClCompile Include="CPlayerEntity.cpp" />
     <ClCompile Include="CrossMapping.cpp" />
+    <ClCompile Include="CRPCCheckpoint.cpp" />
     <ClCompile Include="CRPCEntity.cpp" />
     <ClCompile Include="CRPCNpc.cpp" />
     <ClCompile Include="CRPCObject.cpp" />
@@ -245,6 +247,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h" />
+    <ClInclude Include="CCheckpointEntity.h" />
     <ClInclude Include="CConfig.h" />
     <ClInclude Include="CCore.h" />
     <ClInclude Include="CefMouseHook.h" />
@@ -255,6 +258,7 @@
     <ClInclude Include="CObjectEntity.h" />
     <ClInclude Include="CPlayerEntity.h" />
     <ClInclude Include="CrossMapping.h" />
+    <ClInclude Include="CRPCCheckpoint.h" />
     <ClInclude Include="CRPCEntity.h" />
     <ClInclude Include="CRPCNpc.h" />
     <ClInclude Include="CRPCObject.h" />

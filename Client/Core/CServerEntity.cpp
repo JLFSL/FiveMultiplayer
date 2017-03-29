@@ -57,6 +57,16 @@ void CServerEntity::Destroy()
 			}
 		}
 		break;
+	case CServerEntity::Checkpoint:
+		for (int i = 0; i < g_Checkpoints.size(); i++)
+		{
+			if (g_Checkpoints[i].GetId() == Data.Id)
+			{
+				g_Checkpoints[i].Destroy();
+				break;
+			}
+		}
+		break;
 	default:
 		std::cout << std::endl << "[CServerEntity::Destroy] Invalid entity" << std::endl;
 		return;
@@ -106,6 +116,15 @@ const CVector3 CServerEntity::GetPosition()
 			if (g_Npcs[i].GetId() == Data.Id)
 			{
 				return g_Npcs[i].GetPosition();
+			}
+		}
+		break;
+	case CServerEntity::Checkpoint:
+		for (int i = 0; i < g_Checkpoints.size(); i++)
+		{
+			if (g_Checkpoints[i].GetId() == Data.Id)
+			{
+				return g_Checkpoints[i].GetPosition();
 			}
 		}
 		break;
@@ -168,6 +187,16 @@ void CServerEntity::SetPosition(const CVector3 position)
 
 				if (g_Npcs[i].IsCreated())
 					ENTITY::SET_ENTITY_COORDS_NO_OFFSET(g_Npcs[i].GetEntity(), position.fX, position.fY, position.fZ, false, false, false);
+				break;
+			}
+		}
+		break;
+	case Type::Checkpoint:
+		for (int i = 0; i < g_Checkpoints.size(); i++)
+		{
+			if (g_Checkpoints[i].GetId() == Data.Id)
+			{
+				g_Checkpoints[i].SetPosition(position);
 				break;
 			}
 		}
@@ -300,6 +329,13 @@ const bool CServerEntity::IsValid(const int entity)
 				for (int v = 0; v < g_Npcs.size(); v++)
 				{
 					if (entity == g_Npcs[v].GetId())
+						return true;
+				}
+				break;
+			case Type::Checkpoint:
+				for (int v = 0; v < g_Checkpoints.size(); v++)
+				{
+					if (entity == g_Checkpoints[v].GetId())
 						return true;
 				}
 				break;

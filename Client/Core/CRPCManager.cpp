@@ -29,7 +29,12 @@ CRPCManager::RPCMessage rpcmessages[] = {
 	{ "SetTextureVariation", CRPCObject::SetTextureVariation },
 #pragma endregion
 #pragma region Npc
-	{ "CreateNPC", CRPCNpc::Create }
+	{ "CreateNPC", CRPCNpc::Create },
+#pragma endregion
+#pragma region Checkpoint
+	{ "CreateCheckpoint", CRPCCheckpoint::Create  },
+	{ "DisplayCheckpoint", CRPCCheckpoint::Display },
+	{ "HideCheckpoint", CRPCCheckpoint::Hide }
 #pragma endregion
 };
 

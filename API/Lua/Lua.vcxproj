@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="api.h" />
+    <ClInclude Include="APICheckpoint.h" />
     <ClInclude Include="inc_lua\lapi.h" />
     <ClInclude Include="inc_lua\lauxlib.h" />
     <ClInclude Include="inc_lua\lcode.h" />

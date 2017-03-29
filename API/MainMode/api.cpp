@@ -12,6 +12,7 @@
 // Math
 #include "sdk/CVector3.h"
 #include "sdk/CVector4.h"
+#include "sdk/Structs.h"
 
 // API Function Imports
 #include "sdk/APIServer.h"
@@ -22,6 +23,7 @@
 #include "sdk/APIPlayer.h"
 #include "sdk/APIObject.h"
 #include "sdk/APINpc.h"
+#include "sdk/APICheckpoint.h"
 
 //#define TESTING
 
@@ -156,5 +158,7 @@ extern "C" DLL_PUBLIC bool API_OnPlayerConnected(int entity, int playerid)
 
 	oss << L"~p~Position: " << position.fX << L" " << position.fY << L" " << position.fZ;
 	API::Visual::ShowMessageAboveMapToPlayer(entity, oss.str().c_str(), L"CHAR_CREATOR_PORTRAITS", 5, L"Server", L"Position");
+
+	API::Checkpoint::Create(CVector3{ 1527.62f, 3274.39f, 53.0f }, CVector3{ 1527.62f, 3274.39f, 53.0f }, 1, 10.0f, Color{ 255,0,0,255 }, 0);
 	return true;
 }

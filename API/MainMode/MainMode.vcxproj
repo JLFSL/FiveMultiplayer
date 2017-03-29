@@ -162,6 +162,7 @@
     <ClInclude Include="api.h" />
     <ClInclude Include="json\json-forwards.h" />
     <ClInclude Include="json\json.h" />
+    <ClInclude Include="sdk\APICheckpoint.h" />
     <ClInclude Include="sdk\APIEntity.h" />
     <ClInclude Include="sdk\APINpc.h" />
     <ClInclude Include="sdk\APIObject.h" />
@@ -170,6 +171,7 @@
     <ClInclude Include="sdk\APIVehicle.h" />
     <ClInclude Include="sdk\APIVisual.h" />
     <ClInclude Include="sdk\APIWorld.h" />
+    <ClInclude Include="sdk\Structs.h" />
     <ClInclude Include="sdk\CMaths.h" />
     <ClInclude Include="sdk\CVector3.h" />
     <ClInclude Include="sdk\CVector4.h" />

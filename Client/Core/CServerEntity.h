@@ -11,7 +11,8 @@ public:
 		Player = 0,
 		Vehicle = 1,
 		Object = 2,
-		NPC = 3
+		NPC = 3,
+		Checkpoint = 4
 	};
 private:
 	struct Entity

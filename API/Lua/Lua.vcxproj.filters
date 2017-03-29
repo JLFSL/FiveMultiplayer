@@ -292,5 +292,8 @@
     <ClInclude Include="sdk\util.h">
       <Filter>SDK</Filter>
     </ClInclude>
+    <ClInclude Include="APICheckpoint.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

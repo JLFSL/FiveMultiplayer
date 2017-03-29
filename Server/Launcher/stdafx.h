@@ -34,6 +34,7 @@
 #include <CVector4.h>
 #include <CMaths.h>
 #include <SharedUtility.h>
+#include <APIStructs.h>
 
 // Vendor
 	// Vendor.RakNet
@@ -61,6 +62,7 @@
 	#include "CVehicleEntity.h"
 	#include "CObjectEntity.h"
 	#include "CNPCEntity.h"
+	#include "CCheckpointEntity.h"
 	#include "CServerEntity.h"
 	#include "NetworkSync.h"
 
@@ -82,6 +84,7 @@
 	#include "API_Player.h"
 	#include "API_Object.h"
 	#include "API_NPC.h"
+	#include "API_Checkpoint.h"
 
 // End of Server.Launcher
 

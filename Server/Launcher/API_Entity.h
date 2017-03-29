@@ -7,7 +7,7 @@ extern "C" {
 			static const char *ThisNamespace;
 
 		public:
-			DLL_PUBLIC struct PedComponent
+			/*DLL_PUBLIC struct PedComponent
 			{
 				int drawableid = -1;
 				int textureid = -1;
@@ -45,7 +45,7 @@ extern "C" {
 			DLL_PUBLIC struct PedFeature
 			{
 				float scale = 0.0f;
-			};
+			};*/
 
 			DLL_PUBLIC static void Destroy(const int entity);
 			DLL_PUBLIC static const CVector3 GetPosition(const int entity);

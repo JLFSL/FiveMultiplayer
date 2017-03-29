@@ -184,8 +184,8 @@ void Hooking::FindPatterns()
 		if (*m_gameState == GameStatePlaying)
 			break;
 
-		if (*m_gameState == GameStateLoadingSP_MP)
-			break;
+		//if (*m_gameState == GameStateLoadingSP_MP) // this is triggered when just generaly loading even on initilizing social club....
+			//break;
 
 		Sleep(2000);
 	}

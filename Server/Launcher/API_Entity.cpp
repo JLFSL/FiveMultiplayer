@@ -85,7 +85,7 @@ namespace API
 	}
 
 	// NPC & Player
-	const Entity::PedComponent Entity::GetPedComponent(const int entity, const int componentid)
+	const PedComponent Entity::GetPedComponent(const int entity, const int componentid)
 	{
 		for (int i = 1; i < g_Entities.size(); i++)
 		{
@@ -179,7 +179,7 @@ namespace API
 		std::cout << "[" << ThisNamespace << "::SetPedComponent] Entity " << entity << " invalid." << std::endl;
 	}
 
-	const Entity::PedHeadBlend Entity::GetPedHeadBlend(const int entity)
+	const PedHeadBlend Entity::GetPedHeadBlend(const int entity)
 	{
 		for (int i = 1; i < g_Entities.size(); i++)
 		{
@@ -295,7 +295,7 @@ namespace API
 		std::cout << "[" << ThisNamespace << "::SetPedHeadBlend] Entity " << entity << " invalid." << std::endl;
 	}
 
-	const Entity::PedHeadOverlay Entity::GetPedHeadOverlay(const int entity, const int index)
+	const PedHeadOverlay Entity::GetPedHeadOverlay(const int entity, const int index)
 	{
 		for (int i = 1; i < g_Entities.size(); i++)
 		{
@@ -397,7 +397,7 @@ namespace API
 		std::cout << "[" << ThisNamespace << "::SetPedHeadOverlay] Entity " << entity << " invalid." << std::endl;
 	}
 
-	const Entity::PedProp Entity::GetPedProp(const int entity, const int index)
+	const PedProp Entity::GetPedProp(const int entity, const int index)
 	{
 		for (int i = 1; i < g_Entities.size(); i++)
 		{

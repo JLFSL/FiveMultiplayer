@@ -120,6 +120,12 @@
     <ClCompile Include="API_NPC.cpp">
       <Filter>Scripting\Functions</Filter>
     </ClCompile>
+    <ClCompile Include="CCheckpointEntity.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="API_Checkpoint.cpp">
+      <Filter>Scripting\Functions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -195,6 +201,12 @@
       <Filter>Entity</Filter>
     </ClInclude>
     <ClInclude Include="API_NPC.h">
+      <Filter>Scripting\Functions</Filter>
+    </ClInclude>
+    <ClInclude Include="CCheckpointEntity.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="API_Checkpoint.h">
       <Filter>Scripting\Functions</Filter>
     </ClInclude>
   </ItemGroup>
