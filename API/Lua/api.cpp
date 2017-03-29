@@ -24,6 +24,7 @@ extern "C" {
 #include "sdk/APIEntity.h"
 #include "sdk/APIVehicle.h"
 #include "sdk/APIVisual.h"
+#include "sdk/APICheckpoint.h"
 
 // API Lua Functions
 #include "LuaServer.h"

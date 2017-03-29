@@ -36,7 +36,7 @@ public:
 
 	void Create(const int entity, const CVector3 position, const CVector3 pointto, const int type, const float radius, const Color color, const int reserved);
 	void Destroy();
-	void Display();
+	void Show();
 	void Hide();
 
 	int			GetId() { return Information.Id; }

@@ -30,7 +30,7 @@ void CRPCCheckpoint::Create(RakNet::BitStream *bitStream, RakNet::Packet *packet
 	g_Checkpoints.push_back(newCp);
 }
 
-void CRPCCheckpoint::Display(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+void CRPCCheckpoint::Show(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 {
 	int entity;
 
@@ -38,7 +38,7 @@ void CRPCCheckpoint::Display(RakNet::BitStream *bitStream, RakNet::Packet *packe
 
 	for (int i = 0; i < g_Checkpoints.size(); i++) {
 		if (g_Checkpoints[i].GetId() == entity) {
-			return g_Checkpoints[i].Display();
+			return g_Checkpoints[i].Show();
 		}
 	}
 }

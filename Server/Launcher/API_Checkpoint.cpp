@@ -31,7 +31,7 @@ namespace API
 		return newCp.GetId();
 	}
 
-	const void Checkpoint::Display(const int checkpointentity, const int playerentity)
+	const void Checkpoint::Show(const int checkpointentity, const int playerentity)
 	{
 		if (ServerEntity::IsValid(checkpointentity)) {
 			if (playerentity != -1 && ServerEntity::IsValid(playerentity)) {
@@ -40,7 +40,7 @@ namespace API
 						RakNet::BitStream sData;
 						sData.Write(checkpointentity);
 
-						g_Server->GetNetworkManager()->GetRPC().Signal("DisplayCheckpoint", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, g_Players[i].GetGUID(), false, false);
+						g_Server->GetNetworkManager()->GetRPC().Signal("ShowCheckpoint", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, g_Players[i].GetGUID(), false, false);
 						return;
 					}
 				}

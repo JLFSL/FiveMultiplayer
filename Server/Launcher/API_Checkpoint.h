@@ -8,7 +8,7 @@ namespace API
 
 	public:
 		DLL_PUBLIC static const int Create(const CVector3 position, const CVector3 pointto, const int type, const float radius, const Color color, const int reserved);
-		DLL_PUBLIC static const void Display(const int checkpointenity, const int playerentity);
+		DLL_PUBLIC static const void Show(const int checkpointenity, const int playerentity);
 		DLL_PUBLIC static const void Hide(const int checkpointenity, const int playerentity);
 	};
 }

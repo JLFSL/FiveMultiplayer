@@ -51,7 +51,7 @@ void CCheckpointEntity::Destroy()
 	std::cout << "[CCheckpointEntity] " << Amount << " checkpoints in the world." << std::endl;
 }
 
-void CCheckpointEntity::Display() 
+void CCheckpointEntity::Show()
 {
 	Hide();
 
@@ -79,5 +79,5 @@ void CCheckpointEntity::SetPosition(CVector3 position)
 	Data.Position = position;
 
 	if (a)
-		Display();
+		Show();
 }

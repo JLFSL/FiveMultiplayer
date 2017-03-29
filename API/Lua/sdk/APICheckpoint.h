@@ -50,9 +50,9 @@ public:
 		Entity = API::Checkpoint::Create(position, pointto, type, radius, color, reserved);
 	}
 
-	void Show(const int playerentity)
+	void Display(const int playerentity)
 	{
-		API::Checkpoint::Show(Entity, playerentity);
+		API::Checkpoint::Display(Entity, playerentity);
 	}
 
 	void Hide(const int playerentity) 

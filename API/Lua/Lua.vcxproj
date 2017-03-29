@@ -105,6 +105,7 @@
     <ClInclude Include="LuaEntity.h" />
     <ClInclude Include="LuaServer.h" />
     <ClInclude Include="LuaVehicle.h" />
+    <ClInclude Include="sdk\APICheckpoint.h" />
     <ClInclude Include="sdk\APIEntity.h" />
     <ClInclude Include="sdk\APINpc.h" />
     <ClInclude Include="sdk\APIObject.h" />

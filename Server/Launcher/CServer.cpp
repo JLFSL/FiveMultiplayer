@@ -153,7 +153,7 @@ void CServer::Stop()
 void CServer::Process()
 {
 	timeNow = std::chrono::system_clock::now();
-	std::chrono::duration<double, std::milli> work_time = timeNow - timeLast;
+	std::chrono::duration<float, std::milli> work_time = timeNow - timeLast;
 
 	if (work_time.count() + timeTook.count() >= 1000.0f / g_Config->GetFPS())
 	{
@@ -186,6 +186,8 @@ void CServer::Process()
 		// Show FPS in console window (windows only)
 		if (p_ShowFPS) ShowFPS();
 
+		// Lag Compensator, Adding this to the work_time will compensate for how long it takes to get threw the itteration
+		// and ensures the fps set in the config unless somthing is seriously bottlenecking the server.
 		timeTook = timeLast - std::chrono::system_clock::now();
 	}
 }
