@@ -38,3 +38,25 @@ extern "C" {
 #ifdef __cplusplus
 }
 #endif
+
+class Checkpoint {
+private:
+	int Entity;
+public:
+	const int GetEntity() { return Entity; }
+
+	void Create(const CVector3 position, const CVector3 pointto, const int type, const float radius, const Color color, const int reserved)
+	{
+		Entity = API::Checkpoint::Create(position, pointto, type, radius, color, reserved);
+	}
+
+	void Display(const int playerentity)
+	{
+		API::Checkpoint::Display(Entity, playerentity);
+	}
+
+	void Hide(const int playerentity) 
+	{
+		API::Checkpoint::Hide(Entity, playerentity);
+	}
+};

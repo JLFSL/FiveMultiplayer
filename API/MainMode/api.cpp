@@ -64,8 +64,15 @@ extern "C" DLL_PUBLIC bool API_Initialize(void)
 
 #ifdef TESTING
 	API::NPC::Create(L"s_m_m_movspace_01", CVector3(0.0f, 0.0f, 74.0f), CVector3(0.0f, 0.0f, 90.0f));
+
+	API::Checkpoint::Create(CVector3{ 0.0f, 0.0f, 74.0f }, CVector3{ 0.0f, 0.0f, 124.0f }, 1, 5.0f, Color{ 255,0,0,255 }, 0);
 #else
 	API::NPC::Create(L"s_m_m_movspace_01", CVector3(1527.62f, 3274.39f, 53.0f), CVector3(0.0f, 0.0f, 90.0f));
+
+	//API::Checkpoint::Create(CVector3{ 1527.62f, 3274.39f, 53.0f }, CVector3{ 1527.62f, 3274.39f, 153.0f }, 1, 5.0f, Color{ 255,0,0,255 }, 0);
+
+	Checkpoint newCP;
+	newCP.Create(CVector3{ 1527.62f, 3274.39f, 53.0f }, CVector3{ 1527.62f, 3274.39f, 153.0f }, 1, 5.0f, Color{ 255,0,0,255 }, 0);
 
 	// Load Objects
 	Json::Value root;
@@ -158,7 +165,5 @@ extern "C" DLL_PUBLIC bool API_OnPlayerConnected(int entity, int playerid)
 
 	oss << L"~p~Position: " << position.fX << L" " << position.fY << L" " << position.fZ;
 	API::Visual::ShowMessageAboveMapToPlayer(entity, oss.str().c_str(), L"CHAR_CREATOR_PORTRAITS", 5, L"Server", L"Position");
-
-	API::Checkpoint::Create(CVector3{ 1527.62f, 3274.39f, 53.0f }, CVector3{ 1527.62f, 3274.39f, 53.0f }, 1, 10.0f, Color{ 255,0,0,255 }, 0);
 	return true;
 }
