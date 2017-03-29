@@ -1,10 +1,10 @@
 #pragma once
 
 struct Color {
-	int Red;
-	int Green;
-	int Blue;
-	int Alpha;
+	unsigned int Red;
+	unsigned int Green;
+	unsigned int Blue;
+	unsigned int Alpha;
 };
 
 struct PedComponent

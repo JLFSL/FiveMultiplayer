@@ -5,6 +5,8 @@ int CCheckpointEntity::Amount = 0;
 CCheckpointEntity::CCheckpointEntity() {
 	Data.NearHeight = 10.0f;
 	Data.FarHeight = 20.0f;
+
+	Data.Color = { 255, 255, 255, 255 };
 }
 
 void CCheckpointEntity::Create(const CVector3 position, const CVector3 pointto, const int type, const float radius, const Color color, const int reserved)
