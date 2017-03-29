@@ -55,3 +55,19 @@ void CRPCCheckpoint::Hide(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 		}
 	}
 }
+
+void CRPCCheckpoint::SetHeight(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+{
+	int entity;
+	float nearHeight, farHeight;
+
+	bitStream->Read(entity);
+	bitStream->Read(nearHeight);
+	bitStream->Read(farHeight);
+
+	for (int i = 0; i < g_Checkpoints.size(); i++) {
+		if (g_Checkpoints[i].GetId() == entity) {
+			return g_Checkpoints[i].SetHeight(nearHeight, farHeight);
+		}
+	}
+}

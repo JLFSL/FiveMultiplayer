@@ -58,11 +58,24 @@ void CCheckpointEntity::Show()
 	GRAPHICS::SET_CHECKPOINT_CYLINDER_HEIGHT(Game.Checkpoint, Data.NearHeight, Data.FarHeight, Data.Radius);
 }
 
-void CCheckpointEntity::Hide() {
+void CCheckpointEntity::Hide() 
+{
 	if (Game.Checkpoint != -1) {
 		GRAPHICS::DELETE_CHECKPOINT(Game.Checkpoint);
 		Game.Checkpoint = -1;
 	}
+}
+
+void CCheckpointEntity::SetHeight(const float nearHeight, const float farHeight)
+{
+	Data.NearHeight = nearHeight;
+	Data.FarHeight = farHeight;
+
+	GRAPHICS::SET_CHECKPOINT_CYLINDER_HEIGHT(Game.Checkpoint, Data.NearHeight, Data.FarHeight, Data.Radius);
+
+	// If the above fails this will work below, really need chat for testing at this point
+	/*if(Game.Checkpoint != -1)
+		Show();*/
 }
 
 void CCheckpointEntity::SetPosition(CVector3 position)

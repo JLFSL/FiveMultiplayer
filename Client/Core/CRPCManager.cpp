@@ -34,7 +34,8 @@ CRPCManager::RPCMessage rpcmessages[] = {
 #pragma region Checkpoint
 	{ "CreateCheckpoint", CRPCCheckpoint::Create  },
 	{ "ShowCheckpoint", CRPCCheckpoint::Show },
-	{ "HideCheckpoint", CRPCCheckpoint::Hide }
+	{ "HideCheckpoint", CRPCCheckpoint::Hide },
+	{ "SetCheckpointHeight", CRPCCheckpoint::SetHeight }
 #pragma endregion
 };
 

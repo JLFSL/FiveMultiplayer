@@ -39,6 +39,8 @@ public:
 	void Show();
 	void Hide();
 
+	void SetHeight(const float nearHeight, const float farHeight);
+
 	int			GetId() { return Information.Id; }
 
 	CVector3	GetPosition() { return Data.Position; }

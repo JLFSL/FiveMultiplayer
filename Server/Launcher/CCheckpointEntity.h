@@ -45,6 +45,12 @@ public:
 	const float GetRadius() { return Data.Radius; }
 	const int	GetReserved() { return Data.Reserved; }
 
+	const float GetNearHeight() { return Data.NearHeight; }
+	void SetNearHeight(const float height) { Data.NearHeight = height; }
+
+	const float GetFarHeight() { return Data.FarHeight; }
+	void SetFarHeight(const float height) { Data.FarHeight = height; }
+
 	Info		GetInfo() { return Information; }
 	EntData		GetData() { return Data; }
 };

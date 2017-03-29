@@ -25,14 +25,42 @@ extern "C" {
 			/// </summary>
 			/// <param name="checkpointentity">The entity of the checkpoint you wish to display.</param>
 			/// <param name="playerentity">The entity of the player you wish to display the checkpoint too.  [Tip: -1 will display it too all connected players]</param>
-			DLL_PUBLIC_I static const void Show(const int checkpointentity, const int playerentity);
+			DLL_PUBLIC_I static void Show(const int checkpointentity, const int playerentity);
 
 			/// <summary>
 			/// Hides the checkpoint for a player
 			/// </summary>
 			/// <param name="checkpointentity">The entity of the checkpoint you wish to hide.</param>
 			/// <param name="playerentity">The entity of the player you wish to hide the checkpoint from.  [Tip: -1 will hide it from all connected players]</param>
-			DLL_PUBLIC_I static const void Hide(const int checkpointentity, const int playerentity);
+			DLL_PUBLIC_I static void Hide(const int checkpointentity, const int playerentity);
+
+			/// <summary>
+			/// Gets the checkpoints near height
+			/// </summary>
+			/// <param name="checkpointentity">The entity of the checkpoint.</param>
+			/// <returns name="height">The checkpoint near height</returns>
+			DLL_PUBLIC_I static const float GetNearHeight(const int checkpointentity);
+
+			/// <summary>
+			/// Sets the checkpoints near distance height
+			/// </summary>
+			/// <param name="checkpointentity">The entity of the checkpoint.</param>
+			/// <param name="height">The height</param>
+			DLL_PUBLIC_I static void SetNearHeight(const int checkpointentity, const float height);
+
+			/// <summary>
+			/// Gets the checkpoints far height
+			/// </summary>
+			/// <param name="checkpointentity">The entity of the checkpoint.</param>
+			/// <returns name="height">The checkpoint far height</returns>
+			DLL_PUBLIC_I static const float GetFarHeight(const int checkpointentity);
+
+			/// <summary>
+			/// Sets the checkpoints far distance height
+			/// </summary>
+			/// <param name="checkpointentity">The entity of the checkpoint.</param>
+			/// <param name="height">The height</param>
+			DLL_PUBLIC_I static void SetFarHeight(const int checkpointentity, const float height);
 		};
 	}
 #ifdef __cplusplus
@@ -50,6 +78,16 @@ public:
 		Entity = API::Checkpoint::Create(position, pointto, type, radius, color, reserved);
 	}
 
+	const CVector3 GetPosition() 
+	{
+		return API::Entity::GetPosition(Entity);
+	}
+
+	void SetPosition(const CVector3 position) 
+	{
+		API::Entity::SetPosition(Entity, position);
+	}
+
 	void Show(const int playerentity)
 	{
 		API::Checkpoint::Show(Entity, playerentity);
@@ -58,5 +96,25 @@ public:
 	void Hide(const int playerentity) 
 	{
 		API::Checkpoint::Hide(Entity, playerentity);
+	}
+
+	const float GetNearHeight()
+	{
+		return API::Checkpoint::GetNearHeight(Entity);
+	}
+
+	void SetFarHeight(const float height)
+	{
+		API::Checkpoint::SetFarHeight(Entity, height);
+	}
+
+	const float GetFarHeight()
+	{
+		return API::Checkpoint::GetFarHeight(Entity);
+	}
+
+	void SetNearHeight(const float height)
+	{
+		API::Checkpoint::SetNearHeight(Entity, height);
 	}
 };

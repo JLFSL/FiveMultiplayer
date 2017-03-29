@@ -31,7 +31,7 @@ namespace API
 		return newCp.GetId();
 	}
 
-	const void Checkpoint::Show(const int checkpointentity, const int playerentity)
+	void Checkpoint::Show(const int checkpointentity, const int playerentity)
 	{
 		if (ServerEntity::IsValid(checkpointentity)) {
 			if (playerentity != -1 && ServerEntity::IsValid(playerentity)) {
@@ -56,7 +56,7 @@ namespace API
 		}
 	}
 
-	const void Checkpoint::Hide(const int checkpointentity, const int playerentity)
+	void Checkpoint::Hide(const int checkpointentity, const int playerentity)
 	{
 		if (ServerEntity::IsValid(checkpointentity)) {
 			if (playerentity != -1 && ServerEntity::IsValid(playerentity)) {
@@ -77,6 +77,66 @@ namespace API
 
 				g_Server->GetNetworkManager()->GetRPC().Signal("HideCheckpoint", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
 				return;
+			}
+		}
+	}
+
+	const float Checkpoint::GetNearHeight(const int checkpointentity)
+	{
+		if (ServerEntity::IsValid(checkpointentity)) {
+			for (int i = 0; i < g_Checkpoints.size(); i++) {
+				if (g_Checkpoints[i].GetId() == checkpointentity) {
+					return g_Checkpoints[i].GetNearHeight();
+				}
+			}
+		}
+	}
+
+	void Checkpoint::SetNearHeight(const int checkpointentity, const float height)
+	{
+		if (ServerEntity::IsValid(checkpointentity)) {
+			for (int i = 0; i < g_Checkpoints.size(); i++) {
+				if (g_Checkpoints[i].GetId() == checkpointentity) {
+					g_Checkpoints[i].SetNearHeight(height);
+
+					RakNet::BitStream sData;
+					sData.Write(checkpointentity);
+					sData.Write(height);
+					sData.Write(g_Checkpoints[i].GetFarHeight());
+
+					g_Server->GetNetworkManager()->GetRPC().Signal("SetCheckpointHeight", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, g_Players[i].GetGUID(), false, false);
+					return;
+				}
+			}
+		}
+	}
+
+	const float Checkpoint::GetFarHeight(const int checkpointentity)
+	{
+		if (ServerEntity::IsValid(checkpointentity)) {
+			for (int i = 0; i < g_Checkpoints.size(); i++) {
+				if (g_Checkpoints[i].GetId() == checkpointentity) {
+					return g_Checkpoints[i].GetFarHeight();
+				}
+			}
+		}
+	}
+
+	void Checkpoint::SetFarHeight(const int checkpointentity, const float height)
+	{
+		if (ServerEntity::IsValid(checkpointentity)) {
+			for (int i = 0; i < g_Checkpoints.size(); i++) {
+				if (g_Checkpoints[i].GetId() == checkpointentity) {
+					g_Checkpoints[i].SetFarHeight(height);
+
+					RakNet::BitStream sData;
+					sData.Write(checkpointentity);
+					sData.Write(g_Checkpoints[i].GetNearHeight());
+					sData.Write(height);
+
+					g_Server->GetNetworkManager()->GetRPC().Signal("SetCheckpointHeight", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, g_Players[i].GetGUID(), false, false);
+					return;
+				}
 			}
 		}
 	}
