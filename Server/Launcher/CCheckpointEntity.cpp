@@ -6,7 +6,7 @@ CCheckpointEntity::CCheckpointEntity() {
 	Data.NearHeight = 10.0f;
 	Data.FarHeight = 20.0f;
 
-	Data.Color = { 255, 255, 255, 255 };
+	Data.sColor = { 255, 255, 255, 255 };
 }
 
 void CCheckpointEntity::Create(const CVector3 position, const CVector3 pointto, const int type, const float radius, const Color color, const int reserved)
@@ -18,7 +18,7 @@ void CCheckpointEntity::Create(const CVector3 position, const CVector3 pointto, 
 	Data.PointTo = pointto;
 	Data.Type = type;
 	Data.Radius = radius;
-	Data.Color = color;
+	Data.sColor = color;
 	Data.Reserved = reserved;
 
 	Information.Id = newServerEntity.Create();

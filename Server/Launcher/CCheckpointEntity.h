@@ -14,7 +14,7 @@ private:
 	{
 		int				Type;
 		float			Radius;
-		Color			Color;
+		Color			sColor;
 		int				Reserved;
 
 		float			NearHeight;

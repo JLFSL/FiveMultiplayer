@@ -7,7 +7,7 @@ CCheckpointEntity::CCheckpointEntity() {
 	Data.NearHeight = 10.0f;
 	Data.FarHeight = 20.0f;
 
-	Data.Color = { 255, 255, 255, 255 };
+	Data.sColor = { 255, 255, 255, 255 };
 }
 
 void CCheckpointEntity::Create(const int entity, const CVector3 position, const CVector3 pointto, const int type, const float radius, const Color color, const int reserved)
@@ -20,7 +20,7 @@ void CCheckpointEntity::Create(const int entity, const CVector3 position, const 
 	Data.PointTo = pointto;
 	Data.Type = type;
 	Data.Radius = radius;
-	Data.Color = color;
+	Data.sColor = color;
 	Data.Reserved = reserved;
 
 	Information.Id = entity;
@@ -55,7 +55,7 @@ void CCheckpointEntity::Display()
 {
 	Hide();
 
-	Game.Checkpoint = GRAPHICS::CREATE_CHECKPOINT(Data.Type, Data.Position.fX, Data.Position.fY, Data.Position.fZ, Data.PointTo.fX, Data.PointTo.fY, Data.PointTo.fZ, Data.Radius, Data.Color.Red, Data.Color.Green, Data.Color.Blue, Data.Color.Alpha, Data.Reserved);
+	Game.Checkpoint = GRAPHICS::CREATE_CHECKPOINT(Data.Type, Data.Position.fX, Data.Position.fY, Data.Position.fZ, Data.PointTo.fX, Data.PointTo.fY, Data.PointTo.fZ, Data.Radius, Data.sColor.Red, Data.sColor.Green, Data.sColor.Blue, Data.sColor.Alpha, Data.Reserved);
 	GRAPHICS::SET_CHECKPOINT_CYLINDER_HEIGHT(Game.Checkpoint, Data.NearHeight, Data.FarHeight, Data.Radius);
 }
 
