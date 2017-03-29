@@ -117,6 +117,7 @@
     <ClInclude Include="sdk\CMaths.h" />
     <ClInclude Include="sdk\CVector3.h" />
     <ClInclude Include="sdk\CVector4.h" />
+    <ClInclude Include="sdk\Structs.h" />
     <ClInclude Include="sdk\util.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

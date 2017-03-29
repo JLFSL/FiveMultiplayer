@@ -6,6 +6,7 @@
 // Math
 #include "sdk/CVector3.h"
 #include "sdk/CVector4.h"
+#include "sdk/Structs.h"
 
 // API Function Imports
 #include "sdk/APIServer.h"

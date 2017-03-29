@@ -37,9 +37,8 @@ void CCheckpointEntity::Destroy()
 {
 	std::cout << "[CCheckpointEntity] Removing checkpoint " << Information.Id << std::endl;
 
-	if (Game.Checkpoint != -1) {
+	if (Game.Checkpoint != -1)
 		Hide();
-	}
 
 	Information = {};
 	Data = {};
