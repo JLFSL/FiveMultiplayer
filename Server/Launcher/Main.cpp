@@ -35,7 +35,6 @@ int main(int argc, char *argv[]) {
 	while (g_Server->IsActive())
 	{
 		g_Server->Process();
-		RakSleep(5);
 	}
 
 	// Call OnUnload

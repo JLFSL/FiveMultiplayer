@@ -18,6 +18,7 @@ bool CConfig::Read()
 		Connection.Announce = Config.GetBoolean("Connection", "announce", false);
 
 		Limits.MaxPlayers	= Config.GetInteger("Limits", "players", 50);
+		Limits.MaxFPS		= Config.GetInteger("Limits", "fps", 100);
 
 		Information.Name = Config.Get("Information", "Name", "FiveMP Server (" INFO_VERSION ")");
 

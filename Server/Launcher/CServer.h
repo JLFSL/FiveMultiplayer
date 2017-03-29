@@ -17,6 +17,10 @@ private:
 
 	unsigned int	p_SyncRate;
 
+	std::chrono::system_clock::time_point timeNow;
+	std::chrono::system_clock::time_point timeLast;
+	std::chrono::duration<double, std::milli> timeTook;
+
 public:
 	CServer();
 	~CServer();

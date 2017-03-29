@@ -35,6 +35,10 @@ CServer::CServer()
 	// Construct CWorld
 	s_World = std::unique_ptr<CWorld>(new CWorld);
 
+	timeNow = std::chrono::system_clock::now();
+	timeLast = std::chrono::system_clock::now();
+	timeTook = timeNow - timeLast;
+
 	std::cout << "[CServer] Constructed" << std::endl;
 }
 
@@ -148,32 +152,42 @@ void CServer::Stop()
 
 void CServer::Process()
 {
-	// Keep CNetworkManager active
-	GetNetworkManager()->Pulse();
+	timeNow = std::chrono::system_clock::now();
+	std::chrono::duration<double, std::milli> work_time = timeNow - timeLast;
 
-	// Pulse all players
-	for (int i = 0; i < g_Players.size(); i++) {
-		g_Players[i].Pulse();
-	}
-
-	// Pulse all vehicles
-	for (int i = 0; i < g_Vehicles.size(); i++)
+	if (work_time.count() + timeTook.count() >= 1000.0f / g_Config->GetFPS())
 	{
-		g_Vehicles[i].Pulse();
-	}
+		timeLast = std::chrono::system_clock::now();
 
-	for (int i = 0; i < g_Objects.size(); i++)
-	{
-		g_Objects[i].Pulse();
-	}
+		// Keep CNetworkManager active
+		GetNetworkManager()->Pulse();
 
-	for (int i = 0; i < g_ApiModules.size(); i++)
-	{
-		g_ApiModules[i].OnTick();
-	}
+		// Pulse all players
+		for (int i = 0; i < g_Players.size(); i++) {
+			g_Players[i].Pulse();
+		}
 
-	// Show FPS in console window (windows only)
-	if (p_ShowFPS) ShowFPS();
+		// Pulse all vehicles
+		for (int i = 0; i < g_Vehicles.size(); i++)
+		{
+			g_Vehicles[i].Pulse();
+		}
+
+		for (int i = 0; i < g_Objects.size(); i++)
+		{
+			g_Objects[i].Pulse();
+		}
+
+		for (int i = 0; i < g_ApiModules.size(); i++)
+		{
+			g_ApiModules[i].OnTick();
+		}
+
+		// Show FPS in console window (windows only)
+		if (p_ShowFPS) ShowFPS();
+
+		timeTook = timeLast - std::chrono::system_clock::now();
+	}
 }
 
 void CServer::ShowFPS()

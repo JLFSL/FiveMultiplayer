@@ -10,6 +10,7 @@ class CConfig
 
 	struct CLimits {
 		int MaxPlayers;
+		int MaxFPS;
 	} Limits;
 
 	struct CInformation {
@@ -24,13 +25,14 @@ class CConfig
 public:
 	bool Read();
 
-	std::string GetIp()					{ return Connection.Ip; };
-	int GetPort()						{ return Connection.Port; };
-	std::string GetPassword()			{ return Connection.Pass; };
+	std::string GetIp()					{ return Connection.Ip; }
+	const int GetPort()					{ return Connection.Port; }
+	std::string GetPassword()			{ return Connection.Pass; }
 	bool GetAnnounce()					{ return Connection.Announce; }
-	unsigned short GetMaxPlayers()		{ return Limits.MaxPlayers; };
-	std::string GetServerName()			{ return Information.Name; };
-	std::string GetLanguage()			{ return Plugins.Language; };
-	std::string GetAdditionalPlugins()	{ return Plugins.Additional; };
+	unsigned short GetMaxPlayers()		{ return Limits.MaxPlayers; }
+	std::string GetServerName()			{ return Information.Name; }
+	std::string GetLanguage()			{ return Plugins.Language; }
+	std::string GetAdditionalPlugins()	{ return Plugins.Additional; }
+	const int GetFPS()					{ return Limits.MaxFPS; }
 };
 
