@@ -34,6 +34,8 @@ bool CObjectEntity::Create(int entity, int hash, CVector3 position, CVector3 rot
 		newServerEntity.Create(entity, CServerEntity::Object);
 		g_Entities.push_back(newServerEntity);
 
+		STREAMING::REQUEST_MODEL(Data.Model.Model);
+
 		RequestData();
 
 		return true;
