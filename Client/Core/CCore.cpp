@@ -307,4 +307,12 @@ void CCore::KeyCheck()
 			AI::CLEAR_PED_TASKS(CLocalPlayer::GetPed());
 		}
 	}
+
+	if (CONTROLS::IS_CONTROL_PRESSED(0, ControlMoveUp) || CONTROLS::IS_CONTROL_PRESSED(0, ControlMoveDown) || CONTROLS::IS_CONTROL_PRESSED(0, ControlMoveLeft) || CONTROLS::IS_CONTROL_PRESSED(0, ControlMoveRight))
+	{
+		if (AI::GET_IS_TASK_ACTIVE(CLocalPlayer::GetPed(), 160))
+		{
+			AI::CLEAR_PED_TASKS(CLocalPlayer::GetPed());
+		}
+	}
 }
