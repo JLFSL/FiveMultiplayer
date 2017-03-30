@@ -268,6 +268,11 @@ void CServer::Input(std::atomic<bool>& run) {
 			std::wcout << "+ " << CNPCEntity::Amount << " NPCs." << std::endl;
 			std::wcout << "+ " << CCheckpointEntity::Amount << " Checkpoints." << std::endl;
 
+			std::wcout << "\n==== Modules ====" << std::endl;
+			for (int i = 0; i < g_ApiModules.size(); i++) {
+				std::wcout << "+ " << g_ApiModules[i].ModuleName().c_str() << " Loaded." << std::endl;
+			}
+
 			continue;
 		}
 
