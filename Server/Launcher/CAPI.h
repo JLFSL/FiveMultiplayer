@@ -9,7 +9,7 @@ public:
 	CAPI();
 	~CAPI();
 
-	bool Load(const char *Filename);
+	bool Load();
 	bool Unload();
 
 	bool Initialize();

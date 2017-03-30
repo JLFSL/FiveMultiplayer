@@ -11,24 +11,23 @@ CAPI::~CAPI()
 	Instance = nullptr;
 }
 
-bool CAPI::Load(const char *Filename)
+bool CAPI::Load()
 {
 #ifdef _WIN32
-	Instance = ::LoadLibraryA(Filename);
+	Instance = ::LoadLibraryA(std::string("./plugin/" + Module).c_str());
 #else
-	Instance = dlopen(Filename, RTLD_LAZY | RTLD_GLOBAL);
+	Instance = dlopen(s.c_str(), RTLD_LAZY | RTLD_GLOBAL);
 #endif
 	if (!Instance)
 	{
 #ifdef _WIN32
-		std::cout << "[CAPI] " << Filename << " could not be loaded" << std::endl;
+		std::cout << "[CAPI] " << ModuleName() << " could not be loaded" << std::endl;
 #else
-		std::cout << "[CAPI] Cannot open library " << Filename << ", " << dlerror() << std::endl;
+		std::cout << "[CAPI] Cannot open library " << ModuleName() << ", " << dlerror() << std::endl;
 #endif
 		return false;
 	}
 
-	Module = Filename;
 	std::cout << "[CAPI] " << ModuleName() << " loaded." << std::endl;
 	return true;
 }

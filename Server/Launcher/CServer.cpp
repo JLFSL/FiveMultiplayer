@@ -86,7 +86,7 @@ bool CServer::Load(int argc, char ** argv)
 	
 	// Split the plugin string for each defined plugin and insert into the pool.
 	CAPI NewModule;
-	std::string module = "./plugin/";
+	std::string module;
 	
 	for (int c = 0; c < g_Config->GetLanguage().size(); c++)
 	{
@@ -99,7 +99,7 @@ bool CServer::Load(int argc, char ** argv)
 			module += LIBRARY_EXTENSION;
 			NewModule.SetModuleName(module);
 			g_ApiModules.push_back(NewModule);
-			module = "./plugin/";
+			module = "";
 		}
 
 		if (c == g_Config->GetLanguage().size() - 1)
@@ -109,12 +109,12 @@ bool CServer::Load(int argc, char ** argv)
 			g_ApiModules.push_back(NewModule);
 		}
 	}
-
+	
 #ifdef USEAPI
 	// Load plugin modules
 	for (int i = 0; i < g_ApiModules.size(); i++)
 	{
-		if (!g_ApiModules[i].Load(g_ApiModules[i].ModuleName().c_str()))
+		if (!g_ApiModules[i].Load())
 		{
 			g_ApiModules.erase(g_ApiModules.begin() + i);
 		}
