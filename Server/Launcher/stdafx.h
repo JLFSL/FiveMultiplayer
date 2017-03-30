@@ -75,6 +75,7 @@
 	#include "CAPI.h"
 	// Callbacks
 	#include "API_Callback_Network.h"
+	#include "API_Callback_Checkpoint.h"
 	// Functions
 	#include "API_Server.h"
 	#include "API_World.h"

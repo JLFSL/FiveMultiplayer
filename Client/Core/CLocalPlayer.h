@@ -59,7 +59,7 @@ public:
 
 	static Player GetPlayer()		{ return Game.Player; }
 	static Ped	GetPed();
-	static void SetPed(Ped ped)	{ Game.Ped = ped; }
+	static void SetPed(Ped ped)		{ Game.Ped = ped; }
 	static int	GetId()				{ return Information.Id; }
 	static void SetId(int id)		{ Information.Id = id; }
 

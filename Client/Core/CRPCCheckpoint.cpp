@@ -51,6 +51,7 @@ void CRPCCheckpoint::Hide(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 
 	for (int i = 0; i < g_Checkpoints.size(); i++) {
 		if (g_Checkpoints[i].GetId() == entity) {
+			g_Checkpoints[i].SetTriggered(false);
 			return g_Checkpoints[i].Hide();
 		}
 	}

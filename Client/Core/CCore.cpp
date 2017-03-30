@@ -141,6 +141,14 @@ void CCore::OnGameTick()
 			g_Objects[i].Pulse();
 		}
 	}
+
+	if (!g_Checkpoints.empty())
+	{
+		for (int i = 0; i < g_Checkpoints.size(); i++)
+		{
+			g_Checkpoints[i].Pulse();
+		}
+	}
 }
 
 void CCore::CleanUp()

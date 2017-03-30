@@ -39,6 +39,8 @@ bool to_bool(std::string str)
 	return b;
 };
 
+Checkpoint newCP;
+
 // When Plugin gets loaded
 extern "C" DLL_PUBLIC bool API_Initialize(void) 
 {
@@ -71,8 +73,7 @@ extern "C" DLL_PUBLIC bool API_Initialize(void)
 
 	//API::Checkpoint::Create(CVector3{ 1527.62f, 3274.39f, 53.0f }, CVector3{ 1527.62f, 3274.39f, 153.0f }, 1, 5.0f, Color{ 255,0,0,255 }, 0);
 
-	Checkpoint newCP;
-	newCP.Create(CVector3{ 1527.62f, 3274.39f, 53.0f }, CVector3{ 1527.62f, 3274.39f, 153.0f }, 1, 5.0f, Color{ 255,0,0,255 }, 0);
+	newCP.Create(CVector3{ 1527.62f, 3274.39f, 52.0f }, CVector3{ 1527.62f, 3274.39f, 153.0f }, 1, 5.0f, Color{ 255,0,0,255 }, 0);
 
 	// Load Objects
 	Json::Value root;
@@ -165,5 +166,20 @@ extern "C" DLL_PUBLIC bool API_OnPlayerConnected(int entity, int playerid)
 
 	oss << L"~p~Position: " << position.fX << L" " << position.fY << L" " << position.fZ;
 	API::Visual::ShowMessageAboveMapToPlayer(entity, oss.str().c_str(), L"CHAR_CREATOR_PORTRAITS", 5, L"Server", L"Position");
+
+	newCP.Show(entity);
+
 	return true;
+}
+
+// When a entity enters a checkpoint (only players right now)
+extern "C" DLL_PUBLIC void API_OnEntityEnterCheckpoint(int checkpoint, int entity)
+{
+	API::Server::PrintMessage(L"OnEntityEnterCheckpoint");
+}
+
+// When a entity exits a checkpoint (only players right now)
+extern "C" DLL_PUBLIC void API_OnEntityExitCheckpoint(int checkpoint, int entity)
+{
+	API::Server::PrintMessage(L"OnEntityExitCheckpoint");
 }

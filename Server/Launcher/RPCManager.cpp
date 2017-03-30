@@ -12,7 +12,11 @@ namespace RPC
 			{ "TakeEntityAssignment", RPC::Entity::TakeEntityAssignment },
 			{ "DropEntityAssignment", RPC::Entity::DropEntityAssignment },
 		#pragma endregion
-			{ "RequestEntityData", RPC::Entity::RequestData }
+			{ "RequestEntityData", RPC::Entity::RequestData },
+		#pragma region Assignment
+			{ "OnPlayerEnterCheckpoint", RPC::Entity::OnEntityEnterCheckpoint },
+			{ "OnPlayerExitCheckpoint", RPC::Entity::OnEntityExitCheckpoint }
+		#pragma endregion
 		};
 
 		void RegisterRPCMessages()

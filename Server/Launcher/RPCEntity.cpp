@@ -50,5 +50,33 @@ namespace RPC
 				ServerEntity::RequestData(entity, packet->guid);
 			}
 		}
+
+		void OnEntityEnterCheckpoint(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+		{
+			int checkpoint, entity;
+
+			bitStream->Read(checkpoint);
+			bitStream->Read(entity);
+
+			for (int i = 0; i < g_ApiModules.size(); i++)
+			{
+				void *Instance = g_ApiModules[i].GetInstance();
+				API::Checkpoints::OnEntityEnterCheckpoint(Instance, checkpoint, entity);
+			}
+		}
+
+		void OnEntityExitCheckpoint(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+		{
+			int checkpoint, entity;
+
+			bitStream->Read(checkpoint);
+			bitStream->Read(entity);
+
+			for (int i = 0; i < g_ApiModules.size(); i++)
+			{
+				void *Instance = g_ApiModules[i].GetInstance();
+				API::Checkpoints::OnEntityExitCheckpoint(Instance, checkpoint, entity);
+			}
+		}
 	}
 }

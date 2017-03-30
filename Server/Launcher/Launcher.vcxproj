@@ -185,6 +185,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="API_Callback_Checkpoint.h" />
     <ClInclude Include="API_Callback_Network.h" />
     <ClInclude Include="API_Checkpoint.h" />
     <ClInclude Include="API_Entity.h" />
@@ -215,6 +216,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="apitest.cpp" />
+    <ClCompile Include="API_Callback_Checkpoint.cpp" />
     <ClCompile Include="API_Callback_Network.cpp" />
     <ClCompile Include="API_Checkpoint.cpp" />
     <ClCompile Include="API_Entity.cpp" />

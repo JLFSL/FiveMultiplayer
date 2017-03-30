@@ -338,4 +338,16 @@ extern "C" DLL_PUBLIC bool API_OnPlayerConnected(void)
 	}
 	return result;
 }
+
+// When a entity enters a checkpoint (only players right now)
+extern "C" DLL_PUBLIC void API_OnEntityEnterCheckpoint(int checkpoint, int entity)
+{
+	API::Server::PrintMessage(L"OnEntityEnterCheckpoint");
+}
+
+// When a entity exits a checkpoint (only players right now)
+extern "C" DLL_PUBLIC void API_OnEntityExitCheckpoint(int checkpoint, int entity)
+{
+	API::Server::PrintMessage(L"OnEntityExitCheckpoint");
+}
 #pragma endregion

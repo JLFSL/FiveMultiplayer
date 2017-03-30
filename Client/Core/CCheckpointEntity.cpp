@@ -8,6 +8,8 @@ CCheckpointEntity::CCheckpointEntity() {
 	Data.FarHeight = 20.0f;
 
 	Data.sColor = { 255, 255, 255, 255 };
+
+	Data.Triggered = false;
 }
 
 void CCheckpointEntity::Create(const int entity, const CVector3 position, const CVector3 pointto, const int type, const float radius, const Color color, const int reserved)
@@ -63,6 +65,33 @@ void CCheckpointEntity::Hide()
 	if (Game.Checkpoint != -1) {
 		GRAPHICS::DELETE_CHECKPOINT(Game.Checkpoint);
 		Game.Checkpoint = -1;
+	}
+}
+
+void CCheckpointEntity::Pulse()
+{
+	if (Game.Checkpoint != -1) {
+		CVector3 position = CLocalPlayer::GetPosition();
+		
+		float distance = Math::GetDistanceBetweenPoints2D(position.fX, position.fY, Data.Position.fX, Data.Position.fY);
+
+		if ((distance <= (Data.Radius / 2) && position.fZ > Data.Position.fZ - 2.0f && position.fZ < Data.Position.fZ + Data.NearHeight) && !Data.Triggered) {
+			Data.Triggered = true;
+
+			RakNet::BitStream sData;
+			sData.Write(Information.Id);
+			sData.Write(CLocalPlayer::GetId());
+			CNetworkManager::GetRPC().Signal("OnPlayerEnterCheckpoint", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, CNetworkManager::GetSystemAddress(), false, false);
+		}
+
+		if ((distance > (Data.Radius / 2) || position.fZ < Data.Position.fZ - 2.0f || position.fZ > Data.Position.fZ + Data.NearHeight) && Data.Triggered) {
+			Data.Triggered = false;
+
+			RakNet::BitStream sData;
+			sData.Write(Information.Id);
+			sData.Write(CLocalPlayer::GetId());
+			CNetworkManager::GetRPC().Signal("OnPlayerExitCheckpoint", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, CNetworkManager::GetSystemAddress(), false, false);
+		}
 	}
 }
 

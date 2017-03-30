@@ -25,7 +25,8 @@ private:
 
 		CVector3		Position;
 		CVector3		PointTo;
-		CVector3		Velocity;
+
+		bool			Triggered;
 	} Data;
 
 public:
@@ -36,12 +37,18 @@ public:
 
 	void Create(const int entity, const CVector3 position, const CVector3 pointto, const int type, const float radius, const Color color, const int reserved);
 	void Destroy();
+
 	void Show();
 	void Hide();
+
+	void Pulse();
 
 	void SetHeight(const float nearHeight, const float farHeight);
 
 	int			GetId() { return Information.Id; }
+
+	bool		IsTriggered() { return Data.Triggered; }
+	void		SetTriggered(bool toggle) { Data.Triggered = toggle; }
 
 	CVector3	GetPosition() { return Data.Position; }
 	void		SetPosition(CVector3 position);
