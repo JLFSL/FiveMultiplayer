@@ -27,6 +27,8 @@
 #include <functional>
 #include <memory>
 #include <chrono>
+#include <atomic>
+#include <thread>
 
 // Shared
 #include <Common.h>
@@ -45,6 +47,7 @@
 	#include <RakNet/DirectoryDeltaTransfer.h>
 	#include <RakNet/FileListTransfer.h>
 	#include <RakNet/IncrementalReadInterface.h>
+	#include <RakNet/RakNetStatistics.h>
 	using namespace RakNet;
 
 	// Vendor.LibCurl

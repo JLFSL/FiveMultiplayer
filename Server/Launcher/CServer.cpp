@@ -131,7 +131,7 @@ bool CServer::Load(int argc, char ** argv)
 		}
 	}
 #endif
-	
+
 	p_Active = true;
 	return true;
 }
@@ -221,3 +221,91 @@ unsigned int timeGetTime()
 	return now.tv_usec / 1000;
 }
 #endif
+
+void CServer::Input(std::atomic<bool>& run) {
+	std::wstring buffer;
+
+	wchar_t message[256];
+
+	while (run.load())
+	{
+		std::wcin >> buffer;
+
+		if (buffer == L"quit")
+		{
+			puts("Quitting. (Temp Disabled)");
+			//QUIT
+			continue;
+		}
+
+		if (buffer == L"pingmaster")
+		{
+			g_Server->GetNetworkManager()->PulseMaster();
+			continue;
+		}
+
+		if (buffer == L"stats")
+		{
+			RakNetStatistics rssSender;
+			RakNetStatistics rssReceiver;
+			unsigned short numSystems;
+			char *message;
+
+			g_Server->GetNetworkManager()->GetInterface()->GetConnectionList(0, &numSystems);
+			if (numSystems > 0) {
+				for (int i = 0; i < numSystems; i++)
+				{
+					g_Server->GetNetworkManager()->GetInterface()->GetStatistics(g_Server->GetNetworkManager()->GetInterface()->GetSystemAddressFromIndex(i), &rssSender);
+					StatisticsToString(&rssSender, message, 2);
+					printf("==== System %i ====\n", i + 1);
+					printf("%s\n\n", message);
+				}
+			}
+
+			std::wcout << "==== Pools ====" << std::endl;
+			std::wcout << "+ " << g_Entities.size() << " Entities currently on the server." << std::endl;
+			std::wcout << "+ " << CPlayerEntity::Amount << " Players." << std::endl;
+			std::wcout << "+ " << CVehicleEntity::Amount << " Vehicles." << std::endl;
+			std::wcout << "+ " << CObjectEntity::Amount << " Objects." << std::endl;
+			std::wcout << "+ " << CNPCEntity::Amount << " NPCs." << std::endl;
+			std::wcout << "+ " << CCheckpointEntity::Amount << " Checkpoints." << std::endl;
+
+			continue;
+		}
+
+		if (buffer == L"playerlist")
+		{
+			RakNet::SystemAddress systems[10];
+			unsigned short numConnections = g_Config->GetMaxPlayers();
+			g_Server->GetNetworkManager()->GetInterface()->GetConnectionList((RakNet::SystemAddress*) &systems, &numConnections);
+			for (int i = 0; i < numConnections; i++)
+			{
+				printf("%i. %s\n", i + 1, systems[i].ToString(true));
+			}
+			continue;
+		}
+
+		if (buffer == L"reloadplugins") {
+			
+			continue;
+		}
+
+		if (buffer[0] == '/')
+		{
+			
+		}
+		else {
+			RakNet::RakWString textstring(message);
+
+			RakNet::BitStream sData;
+			sData.Write(textstring);
+			sData.Write(RakNet::RakWString("CHAR_DEFAULT"));
+			sData.Write(1);
+			sData.Write(RakNet::RakWString("~r~SERVER"));
+			sData.Write(RakNet::RakWString(""));
+
+			g_Server->GetNetworkManager()->GetRPC().Signal("ShowMessageAboveMap", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
+		}
+	}
+	
+}

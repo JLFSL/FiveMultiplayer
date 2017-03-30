@@ -31,6 +31,9 @@ int main(int argc, char *argv[]) {
 		return 1;
 	}
 
+	std::atomic<bool> run(true);
+	std::thread Input(CServer::Input, std::ref(run));
+
 	// Main Server Process Loop
 	while (g_Server->IsActive())
 	{
@@ -38,6 +41,7 @@ int main(int argc, char *argv[]) {
 	}
 
 	// Call OnUnload
+	Input.join();
 	g_Server->Stop();
 
 	// Destroy CServer

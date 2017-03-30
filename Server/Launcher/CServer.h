@@ -37,6 +37,8 @@ public:
 
 	void ShowFPS();
 
+	static void Input(std::atomic<bool>& run);
+
 	static CServer* GetInstance() { return p_Instance; }
 	unsigned int GetSyncRate() { return p_SyncRate; }
 };
