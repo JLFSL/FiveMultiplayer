@@ -225,11 +225,9 @@ unsigned int timeGetTime()
 void CServer::Input(std::atomic<bool>& run) {
 	std::wstring buffer;
 
-	wchar_t message[256];
-
 	while (run.load())
 	{
-		std::wcin >> buffer;
+		std::getline(std::wcin, buffer);
 
 		if (buffer == L"quit")
 		{
@@ -246,7 +244,7 @@ void CServer::Input(std::atomic<bool>& run) {
 
 		if (buffer == L"stats")
 		{
-			RakNetStatistics rssSender;
+			/*RakNetStatistics rssSender;
 			RakNetStatistics rssReceiver;
 			unsigned short numSystems;
 			char *message;
@@ -260,7 +258,7 @@ void CServer::Input(std::atomic<bool>& run) {
 					printf("==== System %i ====\n", i + 1);
 					printf("%s\n\n", message);
 				}
-			}
+			}*/
 
 			std::wcout << "==== Pools ====" << std::endl;
 			std::wcout << "+ " << g_Entities.size() << " Entities currently on the server." << std::endl;
@@ -295,14 +293,14 @@ void CServer::Input(std::atomic<bool>& run) {
 			
 		}
 		else {
-			RakNet::RakWString textstring(message);
+			RakNet::RakWString textstring(buffer.c_str());
 
 			RakNet::BitStream sData;
 			sData.Write(textstring);
 			sData.Write(RakNet::RakWString("CHAR_DEFAULT"));
 			sData.Write(1);
 			sData.Write(RakNet::RakWString("~r~SERVER"));
-			sData.Write(RakNet::RakWString(""));
+			sData.Write(RakNet::RakWString("Chat"));
 
 			g_Server->GetNetworkManager()->GetRPC().Signal("ShowMessageAboveMap", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
 		}
