@@ -286,6 +286,12 @@ void CCore::KeyCheck()
 					{
 						distance = CVector3::Distance(playerPos, seatpos);
 						seat = -1;
+
+						g_Vehicles[vehicleIndex].SetAssignee(CNetworkManager::GetInterface()->GetMyGUID());
+
+						RakNet::BitStream sData;
+						sData.Write(g_Vehicles[vehicleIndex].GetId());
+						CNetworkManager::GetRPC().Signal("TakeEntityAssignment", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, CNetworkManager::GetSystemAddress(), false, false);
 					}
 				}
 
