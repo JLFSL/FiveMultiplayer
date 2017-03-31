@@ -18,6 +18,6 @@ void CRPCNpc::Create(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 
 	CNPCEntity newNpc;
 	
-	if (newNpc.Create(entity, utf16ToUtf8(model.C_String()).c_str(), position, rotation))
+	if (newNpc.Create(entity, FString::utf16ToUtf8(model.C_String()).c_str(), position, rotation))
 		g_Npcs.push_back(newNpc);
 }

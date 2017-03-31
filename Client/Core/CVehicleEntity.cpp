@@ -241,7 +241,7 @@ void CVehicleEntity::Update(Packet * packet)
 
 	RakWString model;
 	bitstream.Read(model);
-	Data.Model = utf16ToUtf8(model.C_String());
+	Data.Model = FString::utf16ToUtf8(model.C_String());
 
 	bitstream.Read(Data.Heading);
 

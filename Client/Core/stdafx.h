@@ -30,7 +30,6 @@
 #include <set>
 #include <mutex>
 #include <codecvt>
-#include "util.h"
 
 // Shared
 #include "CVector3.h"

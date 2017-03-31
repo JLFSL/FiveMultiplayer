@@ -192,9 +192,6 @@
     <ClCompile Include="CNPCEntity.cpp">
       <Filter>Entity</Filter>
     </ClCompile>
-    <ClCompile Include="util.cpp">
-      <Filter>Include</Filter>
-    </ClCompile>
     <ClCompile Include="CefInput.cpp">
       <Filter>Graphics\UI\CEF\Input</Filter>
     </ClCompile>
@@ -364,9 +361,6 @@
     </ClInclude>
     <ClInclude Include="CNPCEntity.h">
       <Filter>Entity</Filter>
-    </ClInclude>
-    <ClInclude Include="util.h">
-      <Filter>Include</Filter>
     </ClInclude>
     <ClInclude Include="CefInput.h">
       <Filter>Graphics\UI\CEF\Input</Filter>
