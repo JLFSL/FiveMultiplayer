@@ -1,5 +1,4 @@
 #include <cstddef>
-#include <codecvt>
 
 template <typename T, std::size_t N>
 inline
