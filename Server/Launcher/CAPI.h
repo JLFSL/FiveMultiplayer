@@ -5,6 +5,8 @@ private:
 	std::string Module;
 	void*		Instance;
 
+	bool		Loaded;
+
 public:
 	CAPI();
 	~CAPI();
@@ -16,9 +18,11 @@ public:
 	bool Close();
 	bool OnTick();
 
-	void* GetInstance() { return Instance;  };
+	void* GetInstance() { return Instance;  }
 
-	std::string ModuleName() { return Module; };
-	void SetModuleName(std::string _module) { Module = _module; };
+	std::string ModuleName() { return Module; }
+	void SetModuleName(std::string _module) { Module = _module; }
+
+	bool IsLoaded() { return Loaded; }
 };
 extern std::vector<CAPI> g_ApiModules;

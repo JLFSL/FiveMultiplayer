@@ -114,10 +114,7 @@ bool CServer::Load(int argc, char ** argv)
 	// Load plugin modules
 	for (int i = 0; i < g_ApiModules.size(); i++)
 	{
-		if (!g_ApiModules[i].Load())
-		{
-			g_ApiModules.erase(g_ApiModules.begin() + i);
-		}
+		g_ApiModules[i].Load();
 	}
 	
 	g_ApiModules.shrink_to_fit();
@@ -267,12 +264,6 @@ void CServer::Input(std::atomic<bool>& run) {
 			std::wcout << "+ " << CObjectEntity::Amount << " Objects." << std::endl;
 			std::wcout << "+ " << CNPCEntity::Amount << " NPCs." << std::endl;
 			std::wcout << "+ " << CCheckpointEntity::Amount << " Checkpoints." << std::endl;
-
-			std::wcout << "\n==== Modules ====" << std::endl;
-			for (int i = 0; i < g_ApiModules.size(); i++) {
-				std::wcout << "+ " << g_ApiModules[i].ModuleName().c_str() << " Loaded." << std::endl;
-			}
-
 			continue;
 		}
 
@@ -288,8 +279,21 @@ void CServer::Input(std::atomic<bool>& run) {
 			continue;
 		}
 
-		if (buffer == L"reloadplugins") {
-			
+		if (buffer == L"plugins") {
+			std::wcout << "==== Plugins ====" << std::endl;
+			if (!g_ApiModules.empty())
+			{
+				for (int i = 0; i < g_ApiModules.size(); i++) {
+					if (g_ApiModules[i].IsLoaded())
+					{
+						std::wcout << "+ " << g_ApiModules[i].ModuleName().c_str() << " Loaded." << std::endl;
+					}
+					else
+					{
+						std::wcout << "+ " << g_ApiModules[i].ModuleName().c_str() << " Unloaded." << std::endl;
+					}
+				}
+			}
 			continue;
 		}
 

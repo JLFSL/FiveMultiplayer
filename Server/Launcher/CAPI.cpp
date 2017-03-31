@@ -3,12 +3,14 @@
 CAPI::CAPI()
 {
 	Instance = nullptr;
+	Loaded = false;
 }
 
 
 CAPI::~CAPI()
 {
 	Instance = nullptr;
+	Loaded = false;
 }
 
 bool CAPI::Load()
@@ -28,6 +30,7 @@ bool CAPI::Load()
 		return false;
 	}
 
+	Loaded = true;
 	std::cout << "[CAPI] " << ModuleName() << " loaded." << std::endl;
 	return true;
 }
@@ -42,6 +45,7 @@ bool CAPI::Unload()
 		dlclose(Instance);
 #endif
 		if (!Instance) {
+			Loaded = false;
 			std::cout << "[CAPI] " << ModuleName() << " unloaded." << std::endl;
 			return true;
 		}
