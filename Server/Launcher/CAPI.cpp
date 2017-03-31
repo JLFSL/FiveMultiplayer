@@ -18,7 +18,7 @@ bool CAPI::Load()
 #ifdef _WIN32
 	Instance = ::LoadLibraryA(std::string("./plugin/" + Module).c_str());
 #else
-	Instance = dlopen(s.c_str(), RTLD_LAZY | RTLD_GLOBAL);
+	Instance = dlopen(std::string("./plugin/" + Module).c_str(), RTLD_LAZY | RTLD_GLOBAL);
 #endif
 	if (!Instance)
 	{
