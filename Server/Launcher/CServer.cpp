@@ -96,17 +96,32 @@ bool CServer::Load(int argc, char ** argv)
 		}
 		else
 		{
-			module += LIBRARY_EXTENSION;
-			NewModule.SetModuleName(module);
-			g_ApiModules.push_back(NewModule);
+			struct stat filebuffer;
+			if (stat(std::string("./plugin/" + module + LIBRARY_EXTENSION).c_str(), &filebuffer) == 0)
+			{
+				NewModule.SetModuleName(module);
+				g_ApiModules.push_back(NewModule);
+			}
+			else
+			{
+				std::wcout << "Plugin " << FString::utf8ToUtf16(module) << " not found." << std::endl;
+			}
+
 			module = "";
 		}
 
 		if (c == g_Config->GetLanguage().size() - 1)
 		{
-			module += LIBRARY_EXTENSION;
-			NewModule.SetModuleName(module);
-			g_ApiModules.push_back(NewModule);
+			struct stat filebuffer;
+			if (stat(std::string("./plugin/" + module + LIBRARY_EXTENSION).c_str(), &filebuffer) == 0)
+			{
+				NewModule.SetModuleName(module);
+				g_ApiModules.push_back(NewModule);
+			}
+			else
+			{
+				std::wcout << "Plugin " << FString::utf8ToUtf16(module) << " not found." << std::endl;
+			}
 		}
 	}
 	
@@ -116,8 +131,6 @@ bool CServer::Load(int argc, char ** argv)
 	{
 		g_ApiModules[i].Load();
 	}
-	
-	g_ApiModules.shrink_to_fit();
 
 	// Call Initialize function on our API
 	for (int i = 0; i < g_ApiModules.size(); i++)
@@ -278,19 +291,101 @@ void CServer::Input(std::atomic<bool>& run) {
 			}
 			continue;
 		}
+		//buffer == L"plugins"
+		if (buffer.compare(0, 6, L"plugin") == 0) {
 
-		if (buffer == L"plugins") {
-			std::wcout << "==== Plugins ====" << std::endl;
-			if (!g_ApiModules.empty())
+			if (buffer.length() == 11 && buffer.compare(7, 4, L"list") == 0)
 			{
-				for (int i = 0; i < g_ApiModules.size(); i++) {
-					if (g_ApiModules[i].IsLoaded())
+				std::wcout << "==== Plugins ====" << std::endl;
+				if (!g_ApiModules.empty())
+				{
+					for (int i = 0; i < g_ApiModules.size(); i++)
 					{
-						std::wcout << "+ " << g_ApiModules[i].ModuleName().c_str() << " Loaded." << std::endl;
+						if (g_ApiModules[i].IsLoaded())
+						{
+							std::wcout << "+ " << g_ApiModules[i].ModuleName().c_str() << " loaded." << std::endl;
+						}
+						else
+						{
+							std::wcout << "+ " << g_ApiModules[i].ModuleName().c_str() << " not loaded." << std::endl;
+						}
 					}
-					else
+				}
+			}
+			else if (buffer.length() >= 11 && buffer.compare(7, 4, L"load") == 0)
+			{
+				if (buffer.length() > 12)
+				{
+					wchar_t plugin[128];
+					buffer.copy(plugin, buffer.length() - 12, 12);
+					bool newPlugin = true;
+
+					for (int i = 0; i < g_ApiModules.size(); i++)
 					{
-						std::wcout << "+ " << g_ApiModules[i].ModuleName().c_str() << " Unloaded." << std::endl;
+						std::wstring plug = FString::utf8ToUtf16(g_ApiModules[i].ModuleName()).c_str();
+						if (plug.compare(plugin) == 0)
+						{
+							if (!g_ApiModules[i].IsLoaded())
+							{
+								g_ApiModules[i].Load();
+								g_ApiModules[i].Initialize();
+							}
+							else
+							{
+								std::wcout << "Plugin " << plugin << " is already loaded." << std::endl;
+							}
+
+							newPlugin = false;
+							break;
+						}
+					}
+
+					if (newPlugin)
+					{
+						CAPI NewModule;
+						std::string module = FString::utf16ToUtf8(plugin);
+
+						struct stat filebuffer;
+						if (stat(std::string("./plugin/" + module + LIBRARY_EXTENSION).c_str(), &filebuffer) == 0)
+						{
+							const int index = g_ApiModules.size();
+
+							NewModule.SetModuleName(module);
+							g_ApiModules.push_back(NewModule);
+
+							if (g_ApiModules[index].Load()) {
+								g_ApiModules[index].Initialize();
+							}
+						}
+						else {
+							std::wcout << "Could not find a plugin named " << plugin << std::endl;
+						}
+					}
+				}
+			}
+			else if (buffer.length() >= 13 && buffer.compare(7, 6, L"unload") == 0)
+			{
+				if (buffer.length() > 14)
+				{
+					wchar_t plugin[128];
+					buffer.copy(plugin, buffer.length() - 14, 14);
+
+					for (int i = 0; i < g_ApiModules.size(); i++)
+					{
+						std::wstring plug = FString::utf8ToUtf16(g_ApiModules[i].ModuleName()).c_str();
+						if (plug.compare(plugin) == 0)
+						{
+							if (g_ApiModules[i].IsLoaded())
+							{
+								g_ApiModules[i].Close();
+								g_ApiModules[i].Unload();
+							}
+							else
+							{
+								std::wcout << "Plugin " << plugin << " is not currently loaded." << std::endl;
+							}
+							break;
+						}
 					}
 				}
 			}

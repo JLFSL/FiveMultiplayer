@@ -3,22 +3,20 @@
 CAPI::CAPI()
 {
 	Instance = nullptr;
-	Loaded = false;
 }
 
 
 CAPI::~CAPI()
 {
 	Instance = nullptr;
-	Loaded = false;
 }
 
 bool CAPI::Load()
 {
 #ifdef _WIN32
-	Instance = ::LoadLibraryA(std::string("./plugin/" + Module).c_str());
+	Instance = ::LoadLibraryA(std::string("./plugin/" + Module + LIBRARY_EXTENSION).c_str());
 #else
-	Instance = dlopen(std::string("./plugin/" + Module).c_str(), RTLD_LAZY | RTLD_GLOBAL);
+	Instance = dlopen(std::string("./plugin/" + Module + LIBRARY_EXTENSION).c_str(), RTLD_LAZY | RTLD_GLOBAL);
 #endif
 	if (!Instance)
 	{
@@ -30,7 +28,6 @@ bool CAPI::Load()
 		return false;
 	}
 
-	Loaded = true;
 	std::cout << "[CAPI] " << ModuleName() << " loaded." << std::endl;
 	return true;
 }
@@ -40,15 +37,21 @@ bool CAPI::Unload()
 	if (Instance) 
 	{
 #ifdef _WIN32
-		FreeLibrary((HMODULE)Instance);
+		bool state = FreeLibrary((HMODULE)Instance);
+
+		if (state) {
 #else
-		dlclose(Instance);
+		bool state = dlclose(Instance);
+
+		if (!state) {
 #endif
-		if (!Instance) {
-			Loaded = false;
+		
+			Instance = nullptr;
 			std::cout << "[CAPI] " << ModuleName() << " unloaded." << std::endl;
 			return true;
 		}
+
+		std::cout << "[CAPI] " << ModuleName() << " failed to unload." << std::endl;
 		return false;
 	}
 	return false;

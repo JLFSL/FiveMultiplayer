@@ -5,8 +5,6 @@ private:
 	std::string Module;
 	void*		Instance;
 
-	bool		Loaded;
-
 public:
 	CAPI();
 	~CAPI();
@@ -23,6 +21,6 @@ public:
 	std::string ModuleName() { return Module; }
 	void SetModuleName(std::string _module) { Module = _module; }
 
-	bool IsLoaded() { return Loaded; }
+	bool IsLoaded() { return Instance; }
 };
 extern std::vector<CAPI> g_ApiModules;

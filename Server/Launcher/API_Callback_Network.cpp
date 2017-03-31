@@ -18,7 +18,7 @@ namespace API
 #endif
 				return API_OnPlayerConnecting(guid);
 			}
-			return false;
+			return true;
 		}
 
 		bool OnPlayerConnected(void *Instance, int entity, int playerid)
@@ -33,7 +33,7 @@ namespace API
 #endif
 				return API_OnPlayerConnected(entity, playerid);
 			}
-			return false;
+			return true;
 		}
 	}
 }
