@@ -29,7 +29,6 @@
 #include <chrono>
 #include <atomic>
 #include <thread>
-#include <codecvt>
 
 // Shared
 #include <Common.h>

@@ -104,7 +104,7 @@ bool CServer::Load(int argc, char ** argv)
 			}
 			else
 			{
-				std::wcout << "Plugin " << FString::utf8ToUtf16(module) << " not found." << std::endl;
+				std::wcout << "Plugin " << CString::utf8ToUtf16(module) << " not found." << std::endl;
 			}
 
 			module = "";
@@ -120,7 +120,7 @@ bool CServer::Load(int argc, char ** argv)
 			}
 			else
 			{
-				std::wcout << "Plugin " << FString::utf8ToUtf16(module) << " not found." << std::endl;
+				std::wcout << "Plugin " << CString::utf8ToUtf16(module) << " not found." << std::endl;
 			}
 		}
 	}
@@ -322,7 +322,7 @@ void CServer::Input(std::atomic<bool>& run) {
 
 					for (int i = 0; i < g_ApiModules.size(); i++)
 					{
-						std::wstring plug = FString::utf8ToUtf16(g_ApiModules[i].ModuleName()).c_str();
+						std::wstring plug = CString::utf8ToUtf16(g_ApiModules[i].ModuleName()).c_str();
 						if (plug.compare(plugin) == 0)
 						{
 							if (!g_ApiModules[i].IsLoaded())
@@ -343,7 +343,7 @@ void CServer::Input(std::atomic<bool>& run) {
 					if (newPlugin)
 					{
 						CAPI NewModule;
-						std::string module = FString::utf16ToUtf8(plugin);
+						std::string module = CString::utf16ToUtf8(plugin);
 
 						struct stat filebuffer;
 						if (stat(std::string("./plugin/" + module + LIBRARY_EXTENSION).c_str(), &filebuffer) == 0)
@@ -372,7 +372,7 @@ void CServer::Input(std::atomic<bool>& run) {
 
 					for (int i = 0; i < g_ApiModules.size(); i++)
 					{
-						std::wstring plug = FString::utf8ToUtf16(g_ApiModules[i].ModuleName()).c_str();
+						std::wstring plug = CString::utf8ToUtf16(g_ApiModules[i].ModuleName()).c_str();
 						if (plug.compare(plugin) == 0)
 						{
 							if (g_ApiModules[i].IsLoaded())

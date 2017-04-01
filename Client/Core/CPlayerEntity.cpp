@@ -177,7 +177,7 @@ void CPlayerEntity::Update(Packet *packet)
 
 	RakWString model;
 	bitstream.Read(model);
-	Data.Model.Model = FString::utf16ToUtf8(model.C_String());
+	Data.Model.Model = CString::utf16ToUtf8(model.C_String());
 
 	bitstream.Read(Data.Model.Type);
 

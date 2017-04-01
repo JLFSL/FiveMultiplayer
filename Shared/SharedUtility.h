@@ -7,18 +7,28 @@ std::size_t SizeOfArray(const T(&)[N])
 	return N;
 }
 
-class FString 
+class CString 
 {
 public:
-	static const std::wstring utf8ToUtf16(const std::string& utf8Str)
+	static const std::wstring utf8ToUtf16(const std::string& str)
 	{
-		std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> conv;
-		return conv.from_bytes(utf8Str);
+		std::wostringstream wstm;
+		wstm.imbue(std::locale("en_US.UTF-8"));
+		const std::ctype<wchar_t>& ctfacet =
+			std::use_facet< std::ctype<wchar_t> >(wstm.getloc());
+		for (size_t i = 0; i<str.size(); ++i)
+			wstm << ctfacet.widen(str[i]);
+		return wstm.str();
 	}
 
-	static const std::string utf16ToUtf8(const std::wstring& utf16Str)
+	static const std::string utf16ToUtf8(const std::wstring& wstr)
 	{
-		std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> conv;
-		return conv.to_bytes(utf16Str);
+		std::ostringstream stm;
+		stm.imbue(std::locale("en_US"));
+		const std::ctype<char>& ctfacet =
+			std::use_facet< std::ctype<char> >(stm.getloc());
+		for (size_t i = 0; i<wstr.size(); ++i)
+			stm << ctfacet.narrow(wstr[i], 0);
+		return stm.str();
 	}
 };
