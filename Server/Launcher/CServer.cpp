@@ -1,5 +1,5 @@
 #include "stdafx.h"
-
+#include <sys/stat.h>
 #include "RPCManager.h"
 
 CConfig*			g_Config;
