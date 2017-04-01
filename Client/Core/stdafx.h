@@ -29,6 +29,7 @@
 #include <unordered_map>
 #include <set>
 #include <mutex>
+#include <sys/stat.h>
 
 // Shared
 #include "CVector3.h"
