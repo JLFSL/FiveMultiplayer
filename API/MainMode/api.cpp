@@ -167,7 +167,7 @@ extern "C" DLL_PUBLIC bool API_OnPlayerConnected(int entity, int playerid)
 	oss << L"~g~You Connected! ~o~[~w~ID: " << playerid << L"~o~]";
 	API::Visual::ShowMessageAboveMapToPlayer(entity, oss.str().c_str(), L"CHAR_CREATOR_PORTRAITS", 1, L"Server", L"");
 
-	//API::Player::SetModel(entity, "u_m_y_pogo_01");
+	API::Player::SetModel(entity, L"u_m_y_pogo_01");
 
 #ifdef TESTING
 	API::Entity::SetPosition(entity, CVector3(0.0f, 0.0f, 73.5f));

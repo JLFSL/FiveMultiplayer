@@ -397,7 +397,6 @@ void CServerEntity::SetAssignee(const int entity, const RakNetGUID assignee)
 					if (entity == g_Vehicles[p].GetId())
 					{
 						return g_Vehicles[p].SetAssignee(assignee);
-						break;
 					}
 				}
 				break;

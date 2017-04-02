@@ -159,7 +159,7 @@ void CLocalPlayer::VehicleChecks()
 			{
 				if (GamePed::GetVehicleID(Game.Ped) == g_Vehicles[i].GetId())
 				{
-					if (g_Vehicles[i].GetAssignee() == CNetworkManager::GetInterface()->GetMyGUID() && g_Vehicles[i].GetOccupant(0) == -1)
+					if (g_Vehicles[i].GetAssignee() != CNetworkManager::GetInterface()->GetMyGUID() && g_Vehicles[i].GetOccupant(0) == -1)
 					{
 						sData.Reset();
 						sData.Write(GamePed::GetVehicleID(Game.Ped));

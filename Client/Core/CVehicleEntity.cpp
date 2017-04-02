@@ -7,7 +7,7 @@ CVehicleEntity::CVehicleEntity()
 
 	Information.Id = -1;
 
-	Network.Assigned = UNASSIGNED_RAKNET_GUID;
+	Network.Assigned = RakNetGUID(2017);
 	
 	for (int i = 0; i < SizeOfArray(Occupants); i++) 
 	{ 
@@ -22,6 +22,8 @@ void CVehicleEntity::Create(int entity)
 	CServerEntity newServerEntity;
 	newServerEntity.Create(entity, CServerEntity::Vehicle);
 	g_Entities.push_back(newServerEntity);
+
+	RequestData();
 
 	std::cout << "[CVehicleEntity] Added Vehicle: " << Information.Id << std::endl;
 }
@@ -80,8 +82,7 @@ bool CVehicleEntity::CreateVehicle()
 		ENTITY::SET_ENTITY_DYNAMIC(Game.Vehicle, TRUE);
 		std::cout << "[CVehicleEntity] Created Vehicle" << std::endl;
 		Game.Created = true;
-
-		RequestData();
+		
 		return true;
 	}
 
