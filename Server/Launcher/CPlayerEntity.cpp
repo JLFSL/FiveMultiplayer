@@ -142,6 +142,7 @@ void CPlayerEntity::Update(Packet *packet)
 	
 	if (lastVehicle != Data.Vehicle.VehicleID)
 	{
+		bool doneOne, doneTwo = false;
 		for (int i = 0; i < g_Vehicles.size(); i++)
 		{
 			if (Data.Vehicle.VehicleID != -1)
@@ -151,6 +152,7 @@ void CPlayerEntity::Update(Packet *packet)
 					g_Vehicles[i].SetOccupant(Data.Vehicle.Seat, Information.PlayerID);
 
 					//OnPlayerEnterVehicle(player,vehicle,seat);
+					doneOne = true;
 				}
 			}
 
@@ -159,8 +161,12 @@ void CPlayerEntity::Update(Packet *packet)
 				if (g_Vehicles[i].GetId() == lastVehicle)
 				{
 					g_Vehicles[i].SetOccupant(lastSeat, -1);
+					doneTwo = true;
 				}
 			}
+
+			if (doneOne && doneTwo)
+				break;
 		}
 	}
 }
