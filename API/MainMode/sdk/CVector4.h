@@ -1,30 +1,28 @@
-#include <math.h>
-
 class CVector4
 {
 public:
-	float fX;
-	float fY;
-	float fZ;
-	float fW;
+	float x;
+	float y;
+	float z;
+	float w;
 
 	CVector4()
 	{
-		fX = fY = fZ = fW = 0.0f;
+		x = y = z = w = 0.0f;
 	}
 
-	CVector4(float _fX, float _fY, float _fZ, float _fW)
+	CVector4(float _x, float _y, float _z, float _w)
 	{
-		fX = _fX; fY = _fY; fZ = _fZ; fW = _fW;
+		x = _x; y = _y; z = _z; w = _w;
 	}
 
 	bool IsEmpty() const
 	{
-		return (fX == 0 && fY == 0 && fZ == 0 && fW == 0);
+		return (x == 0 && y == 0 && z == 0 && w == 0);
 	}
 
 	CVector4 operator+ (const CVector4& vecRight) const
 	{
-		return CVector4(fX + vecRight.fX, fY + vecRight.fY, fZ + vecRight.fZ, fW + vecRight.fW);
+		return CVector4(x + vecRight.x, y + vecRight.y, z + vecRight.z, w + vecRight.w);
 	}
 };

@@ -2,19 +2,30 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="api.cpp" />
+    <ClCompile Include="sdk\Plane.cpp">
+      <Filter>SDK\Maths</Filter>
+    </ClCompile>
+    <ClCompile Include="sdk\Quaternion.cpp">
+      <Filter>SDK\Maths</Filter>
+    </ClCompile>
+    <ClCompile Include="sdk\CVector2.cpp">
+      <Filter>SDK\Maths</Filter>
+    </ClCompile>
+    <ClCompile Include="sdk\CVector3.cpp">
+      <Filter>SDK\Maths</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="SDK">
       <UniqueIdentifier>{a7d41232-faa1-4fc7-b81c-befc7a001548}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SDK\Maths">
+      <UniqueIdentifier>{377ad667-e382-4ec2-a622-e4ade624dc33}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="sdk\APIEntity.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="sdk\APIServer.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
+    <ClInclude Include="api.h" />
     <ClInclude Include="sdk\APIVehicle.h">
       <Filter>SDK</Filter>
     </ClInclude>
@@ -24,30 +35,45 @@
     <ClInclude Include="sdk\APIWorld.h">
       <Filter>SDK</Filter>
     </ClInclude>
-    <ClInclude Include="sdk\CMaths.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="sdk\CVector3.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="sdk\CVector4.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="api.h" />
-    <ClInclude Include="sdk\APIPlayer.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="sdk\APIObject.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="sdk\APINpc.h">
+    <ClInclude Include="sdk\Structs.h">
       <Filter>SDK</Filter>
     </ClInclude>
     <ClInclude Include="sdk\APICheckpoint.h">
       <Filter>SDK</Filter>
     </ClInclude>
-    <ClInclude Include="sdk\Structs.h">
+    <ClInclude Include="sdk\APIEntity.h">
       <Filter>SDK</Filter>
     </ClInclude>
+    <ClInclude Include="sdk\APINpc.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\APIObject.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\APIPlayer.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\APIServer.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\Plane.h">
+      <Filter>SDK\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\Quaternion.h">
+      <Filter>SDK\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\CMaths.h">
+      <Filter>SDK\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\CVector2.h">
+      <Filter>SDK\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\CVector3.h">
+      <Filter>SDK\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\CVector4.h">
+      <Filter>SDK\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h" />
   </ItemGroup>
 </Project>
