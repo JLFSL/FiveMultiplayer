@@ -5,6 +5,19 @@
     <ClCompile Include="json\jsoncpp.cpp">
       <Filter>JsonCpp</Filter>
     </ClCompile>
+    <ClCompile Include="sdk\Plane.cpp">
+      <Filter>SDK\Maths</Filter>
+    </ClCompile>
+    <ClCompile Include="sdk\Quaternion.cpp">
+      <Filter>SDK\Maths</Filter>
+    </ClCompile>
+    <ClCompile Include="sdk\CVector2.cpp">
+      <Filter>SDK\Maths</Filter>
+    </ClCompile>
+    <ClCompile Include="sdk\CVector3.cpp">
+      <Filter>SDK\Maths</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="SDK">
@@ -12,6 +25,9 @@
     </Filter>
     <Filter Include="JsonCpp">
       <UniqueIdentifier>{8538ca28-d15b-4b58-82b8-18d652e0f9cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SDK\Maths">
+      <UniqueIdentifier>{26b2ac6c-ce53-4a43-bece-8645a4dc53bb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -22,28 +38,22 @@
     <ClInclude Include="json\json-forwards.h">
       <Filter>JsonCpp</Filter>
     </ClInclude>
-    <ClInclude Include="sdk\APIServer.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="sdk\APIVehicle.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
     <ClInclude Include="sdk\APIVisual.h">
       <Filter>SDK</Filter>
     </ClInclude>
     <ClInclude Include="sdk\APIWorld.h">
       <Filter>SDK</Filter>
     </ClInclude>
-    <ClInclude Include="sdk\CMaths.h">
+    <ClInclude Include="sdk\Structs.h">
       <Filter>SDK</Filter>
     </ClInclude>
-    <ClInclude Include="sdk\CVector3.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
-    <ClInclude Include="sdk\CVector4.h">
+    <ClInclude Include="sdk\APICheckpoint.h">
       <Filter>SDK</Filter>
     </ClInclude>
     <ClInclude Include="sdk\APIEntity.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\APINpc.h">
       <Filter>SDK</Filter>
     </ClInclude>
     <ClInclude Include="sdk\APIObject.h">
@@ -52,14 +62,30 @@
     <ClInclude Include="sdk\APIPlayer.h">
       <Filter>SDK</Filter>
     </ClInclude>
-    <ClInclude Include="sdk\APINpc.h">
+    <ClInclude Include="sdk\APIServer.h">
       <Filter>SDK</Filter>
     </ClInclude>
-    <ClInclude Include="sdk\APICheckpoint.h">
+    <ClInclude Include="sdk\APIVehicle.h">
       <Filter>SDK</Filter>
     </ClInclude>
-    <ClInclude Include="sdk\Structs.h">
-      <Filter>SDK</Filter>
+    <ClInclude Include="sdk\Plane.h">
+      <Filter>SDK\Maths</Filter>
     </ClInclude>
+    <ClInclude Include="sdk\Quaternion.h">
+      <Filter>SDK\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\CMaths.h">
+      <Filter>SDK\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\CVector2.h">
+      <Filter>SDK\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\CVector3.h">
+      <Filter>SDK\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="sdk\CVector4.h">
+      <Filter>SDK\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h" />
   </ItemGroup>
 </Project>

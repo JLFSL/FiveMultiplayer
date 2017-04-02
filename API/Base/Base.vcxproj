@@ -164,6 +164,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="api.cpp" />
+    <ClCompile Include="sdk\CVector2.cpp" />
+    <ClCompile Include="sdk\CVector3.cpp" />
+    <ClCompile Include="sdk\Plane.cpp" />
+    <ClCompile Include="sdk\Quaternion.cpp" />
+    <ClCompile Include="stdafx.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="api.h" />
@@ -177,9 +182,13 @@
     <ClInclude Include="sdk\APIVisual.h" />
     <ClInclude Include="sdk\APIWorld.h" />
     <ClInclude Include="sdk\CMaths.h" />
+    <ClInclude Include="sdk\CVector2.h" />
     <ClInclude Include="sdk\CVector3.h" />
     <ClInclude Include="sdk\CVector4.h" />
+    <ClInclude Include="sdk\Plane.h" />
+    <ClInclude Include="sdk\Quaternion.h" />
     <ClInclude Include="sdk\Structs.h" />
+    <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

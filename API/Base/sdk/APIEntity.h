@@ -8,7 +8,7 @@ extern "C" {
 		class Entity
 		{
 		public:
-			DLL_PUBLIC_I struct PedComponent
+			/*DLL_PUBLIC_I struct PedComponent
 			{
 				int drawableid = -1;
 				int textureid = -1;
@@ -46,7 +46,7 @@ extern "C" {
 			DLL_PUBLIC_I struct PedFeature
 			{
 				float scale = 0.0f;
-			};
+			};*/
 
 			/// <summary>
 			/// Destroys/Removes a entity from the server

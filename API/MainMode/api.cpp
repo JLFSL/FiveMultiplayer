@@ -1,29 +1,4 @@
-#include <iostream>
-#include <sstream>
-#include <fstream>
-#include <locale>
-#include <wchar.h>
-
-#include "api.h"
-
-//JsonCpp
-#include "json/json.h"
-
-// Math
-#include "sdk/CVector3.h"
-#include "sdk/CVector4.h"
-#include "sdk/Structs.h"
-
-// API Function Imports
-#include "sdk/APIServer.h"
-#include "sdk/APIWorld.h"
-#include "sdk/APIEntity.h"
-#include "sdk/APIVehicle.h"
-#include "sdk/APIVisual.h"
-#include "sdk/APIPlayer.h"
-#include "sdk/APIObject.h"
-#include "sdk/APINpc.h"
-#include "sdk/APICheckpoint.h"
+#include "stdafx.h"
 
 //#define TESTING
 
@@ -65,15 +40,15 @@ extern "C" DLL_PUBLIC bool API_Initialize(void)
 	std::cout << "Time: " << hour << ":" << minute << ":" << second << std::endl;
 
 #ifdef TESTING
-	API::NPC::Create(L"s_m_m_movspace_01", CVector3(0.0f, 0.0f, 74.0f), CVector3(0.0f, 0.0f, 90.0f));
+	//API::NPC::Create(L"s_m_m_movspace_01", CVector3(0.0f, 0.0f, 74.0f), CVector3(0.0f, 0.0f, 90.0f));
 
-	API::Checkpoint::Create(CVector3{ 0.0f, 0.0f, 74.0f }, CVector3{ 0.0f, 0.0f, 124.0f }, 1, 5.0f, Color{ 255,0,0,255 }, 0);
+	//API::Checkpoint::Create(CVector3(0.0f, 0.0f, 74.0f), CVector3(0.0f, 0.0f, 124.0f), 1, 5.0f, Color{ 255,0,0,255 }, 0);
 #else
 	API::NPC::Create(L"s_m_m_movspace_01", CVector3(1527.62f, 3274.39f, 53.0f), CVector3(0.0f, 0.0f, 90.0f));
 
-	//API::Checkpoint::Create(CVector3{ 1527.62f, 3274.39f, 53.0f }, CVector3{ 1527.62f, 3274.39f, 153.0f }, 1, 5.0f, Color{ 255,0,0,255 }, 0);
+	//API::Checkpoint::Create(CVector3(1527.62f, 3274.39f, 53.0f), CVector3(1527.62f, 3274.39f, 153.0f), 1, 5.0f, Color{ 255,0,0,255 }, 0);
 
-	newCP.Create(CVector3{ 1527.62f, 3274.39f, 52.0f }, CVector3{ 1527.62f, 3274.39f, 153.0f }, 1, 5.0f, Color{ 255,0,0,255 }, 0);
+	newCP.Create(CVector3(1527.62f, 3274.39f, 52.0f), CVector3(1527.62f, 3274.39f, 153.0f), 1, 5.0f, Color{ 255,0,0,255 }, 0);
 
 	// Load Objects
 	Json::Value root;
@@ -92,11 +67,11 @@ extern "C" DLL_PUBLIC bool API_Initialize(void)
 
 	for (int i = 0; i < objectcount; i++)
 	{
-		CVector3 position{
+		CVector3 position(
 			(float)std::atof(root["Map"]["Objects"]["MapObject"][i]["Position"]["X"].asCString()),
 			(float)std::atof(root["Map"]["Objects"]["MapObject"][i]["Position"]["Y"].asCString()),
 			(float)std::atof(root["Map"]["Objects"]["MapObject"][i]["Position"]["Z"].asCString())
-		};
+		);
 		
 		CVector3 rotation = {
 			(float)std::atof(root["Map"]["Objects"]["MapObject"][i]["Rotation"]["X"].asCString()),
@@ -130,7 +105,7 @@ extern "C" DLL_PUBLIC bool API_OnTick(void)
 }
 
 // Player Connecting
-extern "C" DLL_PUBLIC bool API_OnPlayerConnecting(const std::string guid )
+extern "C" DLL_PUBLIC bool API_OnPlayerConnecting(const std::string guid)
 {
 	std::wstringstream oss;
 	oss << L"Player connecting with [guid: " << guid.c_str() << L"]";
@@ -154,9 +129,9 @@ extern "C" DLL_PUBLIC bool API_OnPlayerConnected(int entity, int playerid)
 	//API::Player::SetModel(entity, "u_m_y_pogo_01");
 
 #ifdef TESTING
-	API::Entity::SetPosition(entity, CVector3{ 0.0f, 0.0f, 73.5f });
+	API::Entity::SetPosition(entity, CVector3(0.0f, 0.0f, 73.5f));
 #else
-	API::Entity::SetPosition(entity, CVector3{ 1527.62f, 3274.39f, 53.0f });
+	API::Entity::SetPosition(entity, CVector3(1527.62f, 3274.39f, 53.0f));
 #endif
 
 	CVector3 position = API::Entity::GetPosition(entity);
@@ -164,7 +139,7 @@ extern "C" DLL_PUBLIC bool API_OnPlayerConnected(int entity, int playerid)
 	oss.str(std::wstring());
 	oss.clear();
 
-	oss << L"~p~Position: " << position.fX << L" " << position.fY << L" " << position.fZ;
+	oss << L"~p~Position: " << position.x << L" " << position.y << L" " << position.z;
 	API::Visual::ShowMessageAboveMapToPlayer(entity, oss.str().c_str(), L"CHAR_CREATOR_PORTRAITS", 5, L"Server", L"Position");
 
 	newCP.Show(entity);
