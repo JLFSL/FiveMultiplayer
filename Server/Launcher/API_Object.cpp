@@ -50,34 +50,56 @@ namespace API
 		return newObject.GetId();
 	}
 
-	const void Object::SetTextureVariation(const int entity, const int textureindex)
+	const int Object::GetTextureVariation(const int entity)
 	{
-		for (int i = 1; i < g_Entities.size(); i++)
+		const int index = ServerEntity::GetIndex(entity);
+		if (index != -1)
 		{
-			if (g_Entities[i].GetId() == entity)
+			switch (g_Entities[index].GetType())
 			{
-				switch (g_Entities[i].GetType())
+			case CServerEntity::Object:
+				for (int i = 0; i < g_Objects.size(); i++)
 				{
-				case CServerEntity::Object:
-					for (int i = 0; i < g_Objects.size(); i++)
+					if (g_Objects[i].GetId() == entity)
 					{
-						if (g_Objects[i].GetId() == entity)
-						{
-							g_Objects[i].SetTextureVariation(textureindex);
-
-							RakNet::BitStream sData;
-							sData.Write(entity);
-							sData.Write(textureindex);
-
-							g_Server->GetNetworkManager()->GetRPC().Signal("SetTextureVariation", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
-							return;
-						}
+						return g_Objects[i].GetTextureVariantion();
 					}
-					break;
-				default:
-					std::cout << "[" << ThisNamespace << "::SetTextureVariation] Entity " << entity << " is not a Object." << std::endl;
-					break;
 				}
+				break;
+			default:
+				std::cout << "[" << ThisNamespace << "::GetTextureVariation] Entity " << entity << " is not a Object." << std::endl;
+				return -1;
+				break;
+			}
+		}
+	}
+
+	void Object::SetTextureVariation(const int entity, const int textureindex)
+	{
+		const int index = ServerEntity::GetIndex(entity);
+		if (index != -1)
+		{
+			switch (g_Entities[index].GetType())
+			{
+			case CServerEntity::Object:
+				for (int i = 0; i < g_Objects.size(); i++)
+				{
+					if (g_Objects[i].GetId() == entity)
+					{
+						g_Objects[i].SetTextureVariation(textureindex);
+
+						RakNet::BitStream sData;
+						sData.Write(entity);
+						sData.Write(textureindex);
+
+						g_Server->GetNetworkManager()->GetRPC().Signal("SetTextureVariation", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
+						return;
+					}
+				}
+				break;
+			default:
+				std::cout << "[" << ThisNamespace << "::SetTextureVariation] Entity " << entity << " is not a Object." << std::endl;
+				break;
 			}
 		}
 	}
