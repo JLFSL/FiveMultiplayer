@@ -27,6 +27,11 @@
 
 //#define TESTING
 
+std::vector<Vehicle> vehicles;
+std::vector<Object> objects;
+std::vector<NPC> npcs;
+std::vector<Checkpoint> checkpoints;
+
 bool to_bool(std::string str)
 {
 	std::locale loc;
@@ -46,16 +51,26 @@ extern "C" DLL_PUBLIC bool API_Initialize(void)
 {
 	API::Server::PrintMessage(L"Gamemode Initializing...");
 
+	Vehicle newVehicle;
+
 #ifdef TESTING
-	API::Vehicle::Create(L"elegy", CVector3{ -3.0f, 6.0f, 73.0f }, 10.0f);
-	API::Vehicle::Create(L"comet3", CVector3{ -6.0f, 8.0f, 73.0f }, 10.0f);
-	API::Vehicle::Create(L"blazer5", CVector3{ -9.0f, 10.0f, 73.0f }, 10.0f);
-	API::Vehicle::Create(L"voltic2", CVector3{ -12.0f, 12.0f, 73.0f }, 10.0f);
+	newVehicle.Create(L"elegy", CVector3{ -3.0f, 6.0f, 73.0f }, 10.0f);
+	vehicles.push_back(newVehicle);
+	newVehicle.Create(L"comet3", CVector3{ -6.0f, 8.0f, 73.0f }, 10.0f);
+	vehicles.push_back(newVehicle);
+	newVehicle.Create(L"blazer5", CVector3{ -9.0f, 10.0f, 73.0f }, 10.0f);
+	vehicles.push_back(newVehicle);
+	newVehicle.Create(L"voltic2", CVector3{ -12.0f, 12.0f, 73.0f }, 10.0f);
+	vehicles.push_back(newVehicle);
 #else
-	API::Vehicle::Create(L"elegy", CVector3{ 1533.53f, 3282.39f, 52.5f }, 195.0f);
-	API::Vehicle::Create(L"comet3", CVector3{ 1527.65f, 3296.66f, 52.5f }, 195.0f);
-	API::Vehicle::Create(L"blazer5", CVector3{ 1519.32f, 3280.2f, 52.5f }, 195.0f);
-	API::Vehicle::Create(L"voltic2", CVector3{ 1516.84f, 3293.88f, 52.5f }, 195.0f);
+	newVehicle.Create(L"elegy", CVector3{ 1533.53f, 3282.39f, 52.5f }, 195.0f);
+	vehicles.push_back(newVehicle);
+	newVehicle.Create(L"comet3", CVector3{ 1527.65f, 3296.66f, 52.5f }, 195.0f);
+	vehicles.push_back(newVehicle);
+	newVehicle.Create(L"blazer5", CVector3{ 1519.32f, 3280.2f, 52.5f }, 195.0f);
+	vehicles.push_back(newVehicle);
+	newVehicle.Create(L"voltic2", CVector3{ 1516.84f, 3293.88f, 52.5f }, 195.0f);
+	vehicles.push_back(newVehicle);
 #endif
 
 	API::World::SetTime(13, 0, 0);
@@ -64,14 +79,21 @@ extern "C" DLL_PUBLIC bool API_Initialize(void)
 	API::World::GetTime(&hour, &minute, &second);
 	std::cout << "Time: " << hour << ":" << minute << ":" << second << std::endl;
 
+	NPC newNpc;
+	Checkpoint newCp;
+
 #ifdef TESTING
-	API::NPC::Create(L"s_m_m_movspace_01", CVector3(0.0f, 0.0f, 74.0f), CVector3(0.0f, 0.0f, 90.0f));
+	newNpc.Create(L"s_m_m_movspace_01", CVector3(0.0f, 0.0f, 74.0f), CVector3(0.0f, 0.0f, 90.0f));
+	npcs.push_back(newNpc);
 
-	API::Checkpoint::Create(CVector3{ 0.0f, 0.0f, 74.0f }, CVector3{ 0.0f, 0.0f, 124.0f }, 1, 5.0f, Color{ 255,0,0,255 }, 0);
+	newCp.Create(CVector3{ 0.0f, 0.0f, 74.0f }, CVector3{ 0.0f, 0.0f, 124.0f }, 1, 5.0f, Color{ 255,0,0,255 }, 0);
+	checkpoints.push_back(newCp);
 #else
-	API::NPC::Create(L"s_m_m_movspace_01", CVector3(1527.62f, 3274.39f, 53.0f), CVector3(0.0f, 0.0f, 90.0f));
+	newNpc.Create(L"s_m_m_movspace_01", CVector3(1527.62f, 3274.39f, 53.0f), CVector3(0.0f, 0.0f, 90.0f));
+	npcs.push_back(newNpc);
 
-	//API::Checkpoint::Create(CVector3{ 1527.62f, 3274.39f, 53.0f }, CVector3{ 1527.62f, 3274.39f, 153.0f }, 1, 5.0f, Color{ 255,0,0,255 }, 0);
+	newCp.Create(CVector3{ 1527.62f, 3274.39f, 53.0f }, CVector3{ 1527.62f, 3274.39f, 153.0f }, 1, 5.0f, Color{ 255,0,0,255 }, 0);
+	checkpoints.push_back(newCp);
 
 	newCP.Create(CVector3{ 1527.62f, 3274.39f, 52.0f }, CVector3{ 1527.62f, 3274.39f, 153.0f }, 1, 5.0f, Color{ 255,0,0,255 }, 0);
 
@@ -90,6 +112,8 @@ extern "C" DLL_PUBLIC bool API_Initialize(void)
 	
 	const int objectcount = root["Map"]["Objects"]["MapObject"].size();
 
+	Object newObject;
+
 	for (int i = 0; i < objectcount; i++)
 	{
 		CVector3 position{
@@ -104,8 +128,9 @@ extern "C" DLL_PUBLIC bool API_Initialize(void)
 			(float)std::atof(root["Map"]["Objects"]["MapObject"][i]["Rotation"]["Z"].asCString()),
 		};
 		
-		const int ent = API::Object::Create(atoi(root["Map"]["Objects"]["MapObject"][i]["Hash"].asCString()), position, rotation, to_bool(root["Map"]["Objects"]["MapObject"][i]["Dynamic"].asCString()));
-		API::Object::SetTextureVariation(ent, 2);
+		newObject.Create(atoi(root["Map"]["Objects"]["MapObject"][i]["Hash"].asCString()), position, rotation, to_bool(root["Map"]["Objects"]["MapObject"][i]["Dynamic"].asCString()));
+		newObject.SetTextureVariation(2);
+		objects.push_back(newObject);
 	}
 	// END Load Objects
 	
@@ -118,6 +143,27 @@ extern "C" DLL_PUBLIC bool API_Initialize(void)
 // When plugin gets unloaded
 extern "C" DLL_PUBLIC bool API_Close(void) 
 {
+	// Deletes all created vehicles stored in the pool.
+	for (int i = 0; i < vehicles.size(); i++)
+	{
+		vehicles[i].Destroy();
+	}
+	// Deletes all created vehicles stored in the pool.
+	for (int i = 0; i < objects.size(); i++)
+	{
+		objects[i].Destroy();
+	}
+	// Deletes all created npcs stored in the pool.
+	for (int i = 0; i < npcs.size(); i++)
+	{
+		npcs[i].Destroy();
+	}
+	// Deletes all created checkpoints stored in the pool.
+	for (int i = 0; i < checkpoints.size(); i++)
+	{
+		checkpoints[i].Destroy();
+	}
+
 	std::cout << "close" << std::endl;
 	return true;
 }
@@ -151,7 +197,7 @@ extern "C" DLL_PUBLIC bool API_OnPlayerConnected(int entity, int playerid)
 	oss << L"~g~You Connected! ~o~[~w~ID: " << playerid << L"~o~]";
 	API::Visual::ShowMessageAboveMapToPlayer(entity, oss.str().c_str(), L"CHAR_CREATOR_PORTRAITS", 1, L"Server", L"");
 
-	//API::Player::SetModel(entity, "u_m_y_pogo_01");
+	API::Player::SetModel(entity, L"u_m_y_pogo_01");
 
 #ifdef TESTING
 	API::Entity::SetPosition(entity, CVector3{ 0.0f, 0.0f, 73.5f });
