@@ -30,6 +30,12 @@ extern "C" {
 			DLL_PUBLIC_I static const int Create(const int hash, const CVector3 position, const CVector3 rotation, const bool dynamic);
 
 			/// <summary>
+			/// Gets the texture variation of the object entity.
+			/// </summary>
+			/// <param name="entity">The enity of the objetc you wish to get the texture variation of</param>
+			DLL_PUBLIC_I static const int GetTextureVariation(const int entity);
+
+			/// <summary>
 			/// Sets the texture variation of the object entity.
 			/// </summary>
 			/// <param name="entity">The enity of the objetc you wish to set the texture variation of</param>
@@ -40,3 +46,67 @@ extern "C" {
 #ifdef __cplusplus
 }
 #endif
+
+class Object {
+private:
+	int Entity;
+public:
+	const int GetEntity() { return Entity; }
+
+	void Create(const std::wstring model, const CVector3 position, const CVector3 rotation, const bool dynamic)
+	{
+		Entity = API::Object::Create(model, position, rotation, dynamic);
+	}
+
+	void Create(const int hash, const CVector3 position, const CVector3 rotation, const bool dynamic)
+	{
+		Entity = API::Object::Create(hash, position, rotation, dynamic);
+	}
+
+	void Destroy()
+	{
+		API::Entity::Destroy(Entity);
+		Entity = -1;
+	}
+
+	const CVector3 GetPosition()
+	{
+		return API::Entity::GetPosition(Entity);
+	}
+
+	void SetPosition(const CVector3 position)
+	{
+		API::Entity::SetPosition(Entity, position);
+	}
+
+	const CVector3 GetRotation()
+	{
+		return API::Entity::GetRotation(Entity);
+	}
+
+	void SetRotation(const CVector3 position)
+	{
+		API::Entity::SetRotation(Entity, position);
+	}
+
+	const float GetViewDistance()
+	{
+		return API::Entity::GetViewDistance(Entity);
+	}
+
+	void SetViewDistance(const float distance)
+	{
+		API::Entity::SetViewDistance(Entity, distance);
+	}
+
+	const int GetTextureVariation()
+	{
+		return API::Object::GetTextureVariation(Entity);
+	}
+
+	void SetTextureVariation(const int textureindex)
+	{
+		API::Object::SetTextureVariation(Entity, textureindex);
+	}
+
+};
