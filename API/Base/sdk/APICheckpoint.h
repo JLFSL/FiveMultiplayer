@@ -78,6 +78,12 @@ public:
 		Entity = API::Checkpoint::Create(position, pointto, type, radius, color, reserved);
 	}
 
+	void Destroy() 
+	{
+		API::Entity::Destroy(Entity);
+		Entity = -1;
+	}
+
 	const CVector3 GetPosition() 
 	{
 		return API::Entity::GetPosition(Entity);
@@ -116,5 +122,15 @@ public:
 	void SetNearHeight(const float height)
 	{
 		API::Checkpoint::SetNearHeight(Entity, height);
+	}
+
+	const float GetViewDistance()
+	{
+		return API::Entity::GetViewDistance(Entity);
+	}
+
+	void SetViewDistance(const float distance)
+	{
+		API::Entity::SetViewDistance(Entity, distance);
 	}
 };

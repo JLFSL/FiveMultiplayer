@@ -16,6 +16,7 @@
 #include "sdk/APIVisual.h"
 #include "sdk/APIPlayer.h"
 #include "sdk/APIObject.h"
+#include "sdk/APINpc.h"
 #include "sdk/APICheckpoint.h"
 
 extern "C" DLL_PUBLIC bool API_Initialize(void) {
