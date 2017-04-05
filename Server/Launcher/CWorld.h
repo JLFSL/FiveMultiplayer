@@ -3,27 +3,37 @@
 class CWorld
 {
 private:
-	struct WorldTime
+	static struct WorldTime
 	{
 		int	Hour;
 		int	Minute;
 		int Second;
 	} Time;
 
-	struct WorldWeather
+	static struct WorldWeather
 	{
 		std::wstring	Weather;
 		bool			GroundSnow;
 	} Weather;
 
+	static struct IPL
+	{
+		std::wstring	ipl;
+		bool			enabled;
+	};
+
 public:
-	CWorld();
-	~CWorld() {}
+	static std::vector<IPL> g_IPLs;
 
-	WorldTime		GetTime() { return Time; };
-	void			SetTime(int hour, int minute, int second);
+	static void			Initialize();
 
-	WorldWeather	GetWeather() { return Weather; }
-	void			SetWeather(std::wstring weather);
-	void			SetGroundSnow(bool grndsnow) { Weather.GroundSnow = grndsnow; }
+	static WorldTime	GetTime() { return Time; };
+	static void			SetTime(int hour, int minute, int second);
+
+	static WorldWeather	GetWeather() { return Weather; }
+	static void			SetWeather(std::wstring weather);
+	static void			SetGroundSnow(bool grndsnow) { Weather.GroundSnow = grndsnow; }
+
+	static void			LoadIPL(std::wstring ipl);
+	static void			UnloadIPL(std::wstring ipl);
 };

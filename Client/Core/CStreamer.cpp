@@ -339,7 +339,8 @@ void CStreamer::StreamOut(CVector3 position)
 					}
 					break;
 				default:
-					std::cout << "[CStreamer::StreamOut] Found Invalid entity " << g_Entities[i].GetId() << std::endl;
+					streamed.erase(streamed.begin() + i);
+					//std::cout << "[CStreamer::StreamOut] Found Invalid entity " << g_Entities[i].GetId() << std::endl;
 					break;
 				}
 			}

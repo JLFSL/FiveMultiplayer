@@ -6,7 +6,8 @@ DWORD WINAPI MainThread(LPVOID lpParam)
 	return 0;
 }
 
-DWORD WINAPI CEFThread() {
+DWORD WINAPI CEFThread()
+{
 	CefRenderer *CEF = new CefRenderer;
 
 	bool cefresult = CEF->Initialize();

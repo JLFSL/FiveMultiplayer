@@ -184,6 +184,8 @@ void CNetworkManager::Disconnect()
 	}
 	// Shrink vector so size is correct.
 	g_Checkpoints.shrink_to_fit();
+
+	CWorld::Destroy();
 	
 	Logger::Msg("CNetworkManager::Disconnected");
 }

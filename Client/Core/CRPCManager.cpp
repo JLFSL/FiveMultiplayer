@@ -7,6 +7,8 @@ CRPCManager::RPCMessage rpcmessages[] = {
 #pragma region World
 	{ "SetTime", CRPCWorld::SetTime },
 	{ "SetWeather", CRPCWorld::SetWeather },
+	{ "LoadIPL", CRPCWorld::LoadIPL },
+	{ "UnloadIPL", CRPCWorld::UnloadIPL },
 #pragma endregion
 #pragma region Entity
 	{ "DestroyEntity", CRPCEntity::Destroy },

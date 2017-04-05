@@ -21,3 +21,21 @@ void CRPCWorld::SetWeather(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 	GAMEPLAY::CLEAR_WEATHER_TYPE_PERSIST();
 	GAMEPLAY::SET_WEATHER_TYPE_NOW_PERSIST((char*)CString::utf16ToUtf8(weather.C_String()).c_str());
 }
+
+void CRPCWorld::LoadIPL(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+{
+	RakWString ipl;
+
+	bitStream->Read(ipl);
+
+	CWorld::LoadIPL(ipl.C_String());
+}
+
+void CRPCWorld::UnloadIPL(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+{
+	RakWString ipl;
+
+	bitStream->Read(ipl);
+
+	CWorld::UnloadIPL(ipl.C_String());
+}

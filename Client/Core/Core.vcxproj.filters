@@ -201,6 +201,9 @@
     <ClCompile Include="CCheckpointEntity.cpp">
       <Filter>Entity</Filter>
     </ClCompile>
+    <ClCompile Include="CWorld.cpp">
+      <Filter>Client</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -370,6 +373,9 @@
     </ClInclude>
     <ClInclude Include="CCheckpointEntity.h">
       <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="CWorld.h">
+      <Filter>Client</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

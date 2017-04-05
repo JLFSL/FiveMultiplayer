@@ -118,6 +118,7 @@
 	#include "CCore.h"
 	#include "CConfig.h"
 	#include "CVisual.h"
+	#include "CWorld.h"
 
 	// Graphics
 		// UI

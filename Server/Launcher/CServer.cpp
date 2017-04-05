@@ -32,8 +32,7 @@ CServer::CServer()
 	// Construct CNetworkManager
 	s_NetworkManager = std::unique_ptr<CNetworkManager>(new CNetworkManager);
 
-	// Construct CWorld
-	s_World = std::unique_ptr<CWorld>(new CWorld);
+	CWorld::Initialize();
 
 	timeNow = std::chrono::system_clock::now();
 	timeLast = std::chrono::system_clock::now();

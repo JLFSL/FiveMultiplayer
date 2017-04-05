@@ -1,6 +1,11 @@
 #include "stdafx.h"
 
-CWorld::CWorld()
+struct CWorld::WorldTime CWorld::Time;
+struct CWorld::WorldWeather CWorld::Weather;
+
+std::vector<CWorld::IPL> CWorld::g_IPLs;
+
+void CWorld::Initialize()
 {
 	Time.Hour = 12;
 	Time.Minute = 00;
@@ -32,3 +37,58 @@ void CWorld::SetWeather(std::wstring weather)
 
 	g_Server->GetNetworkManager()->GetRPC().Signal("SetWeather", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
 }
+
+void CWorld::LoadIPL(std::wstring ipl)
+{
+	bool exists = false;
+
+	for (int i = 0; i < g_IPLs.size(); i++) {
+		if (ipl.compare(g_IPLs[i].ipl) == 0)
+		{
+			if (!g_IPLs[i].enabled)
+				g_IPLs[i].enabled = true;
+
+			exists = true;
+		}
+	}
+
+	if (!exists)
+	{
+		IPL newIPL;
+		newIPL.ipl = ipl;
+		newIPL.enabled = true;
+		g_IPLs.push_back(newIPL);
+	}
+
+	RakNet::BitStream sData;
+	sData.Write(RakWString(ipl.c_str()));
+	g_Server->GetNetworkManager()->GetRPC().Signal("LoadIPL", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
+}
+
+void CWorld::UnloadIPL(std::wstring ipl)
+{
+	bool exists = false;
+
+	for (int i = 0; i < g_IPLs.size(); i++) {
+		if (ipl.compare(g_IPLs[i].ipl) == 0)
+		{
+			if (g_IPLs[i].enabled)
+				g_IPLs[i].enabled = false;
+
+			exists = true;
+		}
+	}
+
+	if (!exists)
+	{
+		IPL newIPL;
+		newIPL.ipl = ipl;
+		newIPL.enabled = false;
+		g_IPLs.push_back(newIPL);
+	}
+
+	RakNet::BitStream sData;
+	sData.Write(RakWString(ipl.c_str()));
+	g_Server->GetNetworkManager()->GetRPC().Signal("UnloadIPL", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
+}
+

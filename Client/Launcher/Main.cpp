@@ -51,6 +51,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	if (!Util::Exists(CorePath))
 		return Util::ShowMessageBox("Failed to find " INFO_CLIENT_CORE " in current directory. Cannot launch " INFO_NAME ".", MB_ICONEXCLAMATION);
 
+	//App Paths (doesn't seem to work)
+	//std::stringstream oss;
+	//oss << InstallDir << "\\FiveMultiplayer\\";
+
+	//std::stringstream osss;
+	//osss << InstallDir << "\\FiveMultiplayer\\Client.Core.dll";
+
+	//HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\Client.Core.dll
+	//Util::WriteRegistryString(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\Client.Core.dll", "(Default)", (char*)osss.str().c_str(), strlen(osss.str().c_str()));
+	//Util::WriteRegistryString(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\Client.Core.dll", "Path", (char*)oss.str().c_str(), strlen(oss.str().c_str()));
+
 	const int result = MessageBox(NULL, "Are you using the Steam version of the game?", "Steam Version", MB_YESNOCANCEL);
 
 	switch (result)

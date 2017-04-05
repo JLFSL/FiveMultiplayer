@@ -12,6 +12,12 @@ extern "C" {
 
 			DLL_PUBLIC static const std::wstring GetWeather();
 			DLL_PUBLIC static void SetWeather(const std::wstring weather);
+
+			DLL_PUBLIC static void LoadIPL(const std::wstring ipl);
+			DLL_PUBLIC static void LoadIPL(const int entity,  const std::wstring ipl);
+
+			DLL_PUBLIC static void UnloadIPL(const std::wstring ipl);
+			DLL_PUBLIC static void UnloadIPL(const int entity, const std::wstring ipl);
 		};
 	}
 }
