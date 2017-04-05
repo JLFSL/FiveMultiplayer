@@ -67,54 +67,70 @@ extern "C" {
 }
 #endif
 
-class Checkpoint {
-private:
-	int Entity;
-public:
-	const int GetEntity() { return Entity; }
-
-	void Create(const CVector3 position, const CVector3 pointto, const int type, const float radius, const Color color, const int reserved)
-	{
-		Entity = API::Checkpoint::Create(position, pointto, type, radius, color, reserved);
-	}
-
-	const CVector3 GetPosition() 
-	{
-		return API::Entity::GetPosition(Entity);
-	}
-
-	void SetPosition(const CVector3 position) 
-	{
-		API::Entity::SetPosition(Entity, position);
-	}
-
-	void Show(const int playerentity)
-	{
-		API::Checkpoint::Show(Entity, playerentity);
-	}
-
-	void Hide(const int playerentity) 
-	{
-		API::Checkpoint::Hide(Entity, playerentity);
-	}
-
-	const float GetNearHeight()
-	{
-		return API::Checkpoint::GetNearHeight(Entity);
-	}
-
-	void SetFarHeight(const float height)
-	{
-		API::Checkpoint::SetFarHeight(Entity, height);
-	}
-
-	const float GetFarHeight()
-	{
-		return API::Checkpoint::GetFarHeight(Entity);
-	}
-
-	void SetNearHeight(const float height)
-	{
-		API::Checkpoint::SetNearHeight(Entity, height);
-	}
-};
+//class Checkpoint {
+//private:
+//	int Entity;
+//public:
+//	const int GetEntity() { return Entity; }
+//
+//	void Create(const CVector3 position, const CVector3 pointto, const int type, const float radius, const Color color, const int reserved)
+//	{
+//		Entity = API::Checkpoint::Create(position, pointto, type, radius, color, reserved);
+//	}
+//
+//	void Destroy() 
+//	{
+//		API::Entity::Destroy(Entity);
+//		Entity = -1;
+//	}
+//
+//	const CVector3 GetPosition() 
+//	{
+//		return API::Entity::GetPosition(Entity);
+//	}
+//
+//	void SetPosition(const CVector3 position) 
+//	{
+//		API::Entity::SetPosition(Entity, position);
+//	}
+//
+//	void Show(const int playerentity)
+//	{
+//		API::Checkpoint::Show(Entity, playerentity);
+//	}
+//
+//	void Hide(const int playerentity) 
+//	{
+//		API::Checkpoint::Hide(Entity, playerentity);
+//	}
+//
+//	const float GetNearHeight()
+//	{
+//		return API::Checkpoint::GetNearHeight(Entity);
+//	}
+//
+//	void SetFarHeight(const float height)
+//	{
+//		API::Checkpoint::SetFarHeight(Entity, height);
+//	}
+//
+//	const float GetFarHeight()
+//	{
+//		return API::Checkpoint::GetFarHeight(Entity);
+//	}
+//
+//	void SetNearHeight(const float height)
+//	{
+//		API::Checkpoint::SetNearHeight(Entity, height);
+//	}
+//
+//	const float GetViewDistance()
+//	{
+//		return API::Entity::GetViewDistance(Entity);
+//	}
+//
+//	void SetViewDistance(const float distance)
+//	{
+//		API::Entity::SetViewDistance(Entity, distance);
+//	}
+//};

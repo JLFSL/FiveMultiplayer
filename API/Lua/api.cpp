@@ -27,21 +27,16 @@ extern "C" {
 #include "sdk/APIVisual.h"
 #include "sdk/APICheckpoint.h"
 
-// API Lua Functions
-#include "LuaServer.h"
-#include "LuaEntity.h"
-#include "LuaVehicle.h"
-
 using namespace luabridge;
 
 typedef RefCountedObjectType <int> RefCountedObject;
 
-#pragma region Objects
-struct Vec
+#pragma region LuaVector3
+struct Vector3
 {
 	float coord[3];
 
-	Vec(float x, float y, float z)
+	Vector3(float x, float y, float z)
 	{
 		coord[0] = x;
 		coord[1] = y;
@@ -52,176 +47,23 @@ struct Vec
 struct VecHelper
 {
 	template <unsigned index>
-	static float get(Vec const* vec)
+	static float get(Vector3 const* vec)
 	{
 		return vec->coord[index];
 	}
 
 	template <unsigned index>
-	static void set(Vec* vec, float value)
+	static void set(Vector3* vec, float value)
 	{
 		vec->coord[index] = value;
 	}
 };
-
-struct Vehicle
-{
-	int entity;
-
-	Vehicle()
-	{
-		entity = -1;
-	}
-
-	int Create(lua_State* L)
-	{
-		/*
-			Arg 1: The pointer of the Object
-			Arg 2+: The arguments entered
-		*/
-		const int args = lua_gettop(L);
-		if (args == 4 || args == 6)
-		{
-			Vehicle* veh = reinterpret_cast<Vehicle*>(lua_touserdata(L, 1));
-			std::wstring model = utf8ToUtf16(lua_tostring(L, 2));
-			float heading;
-			CVector3 poss;
-			
-			if (args == 4)
-			{
-				heading = lua_tonumber(L, 4);
-
-				if (lua_isuserdata(L, 3))
-				{
-					Vec* pos = reinterpret_cast<Vec*>(lua_touserdata(L, 3));
-					poss = { pos->coord[0], pos->coord[1], pos->coord[2] };
-					pos = nullptr;
-				}
-				else if (lua_istable(L, 3))
-				{
-					lua_getfield(L, 3, "x");
-					lua_rawgeti(L, 3, 1);
-					poss.fX = lua_tonumber(L, -2);
-					lua_pop(L, 1);
-
-					lua_getfield(L, 3, "y");
-					lua_rawgeti(L, 3, 1);
-					poss.fY = lua_tonumber(L, -2);
-					lua_pop(L, 1);
-
-					lua_getfield(L, 3, "z");
-					lua_rawgeti(L, 3, 1);
-					poss.fZ = lua_tonumber(L, -2);
-					lua_pop(L, 1);
-				}
-			}
-			else
-			{
-				poss.fX = lua_tonumber(L, 3);
-				poss.fX = lua_tonumber(L, 4);
-				poss.fX = lua_tonumber(L, 5);
-				heading = lua_tonumber(L, 6);
-			}
-
-			veh->entity = API::Vehicle::Create(model, poss, heading);
-
-			veh = nullptr;
-		}
-		return 0;
-	}
-
-	int Destroy(lua_State* L)
-	{
-		const int args = lua_gettop(L);
-		if (args == 1)
-		{
-			Vehicle* veh = reinterpret_cast<Vehicle*>(lua_touserdata(L, 1));
-			API::Entity::Destroy(veh->entity);
-			veh->entity = -1;
-			veh = nullptr;
-		}
-		return 0;
-	}
-
-	int GetPosition(lua_State* L)
-	{
-		const int args = lua_gettop(L);
-		if (args == 1)
-		{
-			Vehicle* veh = reinterpret_cast<Vehicle*>(lua_touserdata(L, 1));
-
-			CVector3 poss = API::Entity::GetPosition(veh->entity);
-			/*Vec pos(poss.fX, poss.fY, poss.fZ);
-			lua_pushlightuserdata(L, &pos);*/
-			lua_newtable(L);
-
-			lua_pushinteger(L, poss.fX);
-			lua_setfield(L, -2, "x");
-
-			lua_pushinteger(L, poss.fY);
-			lua_setfield(L, -2, "y");
-
-			lua_pushinteger(L, poss.fZ);
-			lua_setfield(L, -2, "z");
-
-
-			veh = nullptr;
-		}
-		else
-		{
-			lua_pushnil(L);
-		}
-		return 1;
-	}
-
-	int SetPosition(lua_State* L)
-	{
-		const int args = lua_gettop(L);
-		if (args == 2 || args == 4)
-		{
-			Vehicle* veh = reinterpret_cast<Vehicle*>(lua_touserdata(L, 1));
-			CVector3 poss;
-
-			if (args == 2)
-			{
-				if (lua_isuserdata(L, 2))
-				{
-					Vec* pos = reinterpret_cast<Vec*>(lua_touserdata(L, 2));
-					poss = { pos->coord[0], pos->coord[1], pos->coord[2] };
-					pos = nullptr;
-				}
-				else if (lua_istable(L, 2))
-				{
-					lua_getfield(L, 2, "x");
-					lua_rawgeti(L, 2, 1);
-					poss.fX = lua_tonumber(L, -2);
-					lua_pop(L, 1);
-
-					lua_getfield(L, 2, "y");
-					lua_rawgeti(L, 2, 1);
-					poss.fY = lua_tonumber(L, -2);
-					lua_pop(L, 1);
-
-					lua_getfield(L, 2, "z");
-					lua_rawgeti(L, 2, 1);
-					poss.fZ = lua_tonumber(L, -2);
-					lua_pop(L, 1);
-				}
-			}
-			else
-			{
-				poss.fX = lua_tonumber(L, 2);
-				poss.fX = lua_tonumber(L, 3);
-				poss.fX = lua_tonumber(L, 4);
-			}
-			
-			API::Entity::SetPosition(veh->entity, poss);
-			veh = nullptr;
-		}
-		return 0;
-	}
-};
 #pragma endregion
+
+// API Lua Functions
+#include "LuaServer.h"
+#include "LuaEntity.h"
+#include "LuaVehicle.h"
 
 char scriptName[64] = "gamemodes//test.lua";
 lua_State* stateLua;
@@ -236,7 +78,7 @@ extern "C" DLL_PUBLIC bool API_Initialize(void) {
 	setHideMetatables(false);
 	
 	getGlobalNamespace(stateLua)
-		.beginClass <Vec>("Vector3")
+		.beginClass <Vector3>("Vector3")
 			.addConstructor <void(*)(float, float, float)>()
 			.addProperty("x", &VecHelper::get <0>, &VecHelper::set <0>)
 			.addProperty("y", &VecHelper::get <1>, &VecHelper::set <1>)
@@ -262,15 +104,15 @@ extern "C" DLL_PUBLIC bool API_Initialize(void) {
 	lua_register(stateLua, "PrintMessage", ex_PrintMessage);
 
 	std::cout << "OnGameModeInit() was called." << std::endl;
-
+	
 	int result;
-	int call = lua_getglobal(stateLua, "OnGameModeInit");
+	int call = lua_getglobal(stateLua, "OnInit");
 	if (call != 0)
 	{
 		int error = lua_pcall(stateLua, 0, 1, 0);
 		if (error != 0)
 		{
-			std::cout << "Error occured when executing OnGameModeInit" << std::endl;
+			std::cout << "Error occured when executing OnInit" << std::endl;
 			std::cout << "Error: " << lua_tostring(stateLua, -1) << std::endl;
 		}
 
@@ -278,19 +120,46 @@ extern "C" DLL_PUBLIC bool API_Initialize(void) {
 		lua_pop(stateLua, 1);
 	}
 
-	return true;
+	return result;
 }
 
 extern "C" DLL_PUBLIC bool API_Close(void) {
+	int result;
+	int call = lua_getglobal(stateLua, "OnClose");
+	if (call != 0)
+	{
+		int error = lua_pcall(stateLua, 0, 1, 0);
+		if (error != 0)
+		{
+			std::cout << "Error occured when executing OnClose" << std::endl;
+			std::cout << "Error: " << lua_tostring(stateLua, -1) << std::endl;
+		}
+
+		result = lua_tointeger(stateLua, -1);
+		lua_pop(stateLua, 1);
+	}
+
 	lua_close(stateLua);
 	std::cout << "API.Lua: Lua state closed." << std::endl;
-	return true;
+	return result;
 }
 
 extern "C" DLL_PUBLIC bool API_OnTick(void) {
-	// Every server tick this gets called
-	//std::cout << "tick" << std::endl;
-	return true;
+	int result;
+	int call = lua_getglobal(stateLua, "OnTick");
+	if (call != 0)
+	{
+		int error = lua_pcall(stateLua, 0, 1, 0);
+		if (error != 0)
+		{
+			std::cout << "Error occured when executing OnTick" << std::endl;
+			std::cout << "Error: " << lua_tostring(stateLua, -1) << std::endl;
+		}
+
+		result = lua_tointeger(stateLua, -1);
+		lua_pop(stateLua, 1);
+	}
+	return result;
 }
 
 extern "C" DLL_PUBLIC bool API_OnPlayerConnecting(const char *guid)
@@ -339,15 +208,47 @@ extern "C" DLL_PUBLIC bool API_OnPlayerConnected(void)
 	return result;
 }
 
-// When a entity enters a checkpoint (only players right now)
 extern "C" DLL_PUBLIC void API_OnEntityEnterCheckpoint(int checkpoint, int entity)
 {
-	API::Server::PrintMessage(L"OnEntityEnterCheckpoint");
+	int result;
+
+	std::cout << "OnEntityEnterCheckpoint() was called." << std::endl;
+
+	int call = lua_getglobal(stateLua, "OnEntityEnterCheckpoint");
+	if (call != 0)
+	{
+
+		int error = lua_pcall(stateLua, 0, 1, 0);
+		if (error != 0)
+		{
+			std::cout << "Error occured when executing OnEntityEnterCheckpoint" << std::endl;
+			std::cout << "Error: " << lua_tostring(stateLua, -1) << std::endl;
+		}
+
+		result = (int)lua_tointeger(stateLua, -1);
+		lua_pop(stateLua, 1);
+	}
 }
 
-// When a entity exits a checkpoint (only players right now)
 extern "C" DLL_PUBLIC void API_OnEntityExitCheckpoint(int checkpoint, int entity)
 {
-	API::Server::PrintMessage(L"OnEntityExitCheckpoint");
+	int result;
+
+	std::cout << "OnEntityExitCheckpoint() was called." << std::endl;
+
+	int call = lua_getglobal(stateLua, "OnEntityExitCheckpoint");
+	if (call != 0)
+	{
+
+		int error = lua_pcall(stateLua, 0, 1, 0);
+		if (error != 0)
+		{
+			std::cout << "Error occured when executing OnEntityExitCheckpoint" << std::endl;
+			std::cout << "Error: " << lua_tostring(stateLua, -1) << std::endl;
+		}
+
+		result = (int)lua_tointeger(stateLua, -1);
+		lua_pop(stateLua, 1);
+	}
 }
 #pragma endregion
