@@ -27,8 +27,8 @@ void CVehicleEntity::Create(std::wstring model, CVector3 position, float heading
 
 	Amount++;
 
-	std::cout << "[CVehicleEntity] Create Vehicle [" << Information.Id << "] " << Data.Model.c_str() << " at " << Data.Position.fX << ", " << Data.Position.fY << ", " << Data.Position.fZ << std::endl;
-	std::cout << "[CVehicleEntity] " << Amount << " vehicles in the world." << std::endl;
+	std::wcout << L"[CVehicleEntity] Create Vehicle [" << Information.Id << L"] " << Data.Model.c_str() << L" at " << Data.Position.fX << L", " << Data.Position.fY << L", " << Data.Position.fZ << std::endl;
+	std::wcout << L"[CVehicleEntity] " << Amount << L" vehicles in the world." << std::endl;
 
 	Network.LastSyncSent = std::chrono::system_clock::now();
 	Network.Synchronized = true;
@@ -48,8 +48,8 @@ void CVehicleEntity::Create(std::wstring model, CVector3 position, CVector3 rota
 
 	Amount++;
 
-	std::cout << "[CVehicleEntity] Create Vehicle [" << Information.Id << "] " << Data.Model.c_str() << " at " << Data.Position.fX << ", " << Data.Position.fY << ", " << Data.Position.fZ << std::endl;
-	std::cout << "[CVehicleEntity] " << Amount << " vehicles in the world." << std::endl;
+	std::wcout << L"[CVehicleEntity] Create Vehicle [" << Information.Id << L"] " << Data.Model.c_str() << L" at " << Data.Position.fX << L", " << Data.Position.fY << L", " << Data.Position.fZ << std::endl;
+	std::wcout << L"[CVehicleEntity] " << Amount << L" vehicles in the world." << std::endl;
 
 	Network.LastSyncSent = std::chrono::system_clock::now();
 	Network.Synchronized = true;
@@ -57,7 +57,7 @@ void CVehicleEntity::Create(std::wstring model, CVector3 position, CVector3 rota
 
 void CVehicleEntity::Destroy()
 {
-	std::cout << "[CVehicleEntity] Removing Vehicle [" << Information.Id << "] " << Data.Model.c_str() << std::endl;
+	std::wcout << L"[CVehicleEntity] Removing Vehicle [" << Information.Id << L"] " << Data.Model.c_str() << std::endl;
 
 	Information = {};
 	Data = {};
@@ -67,7 +67,7 @@ void CVehicleEntity::Destroy()
 
 	Amount--;
 
-	std::cout << "[CVehicleEntity] " << Amount << " vehicles in the world." << std::endl;
+	std::wcout << L"[CVehicleEntity] " << Amount << L" vehicles in the world." << std::endl;
 }
 
 void CVehicleEntity::Pulse()
