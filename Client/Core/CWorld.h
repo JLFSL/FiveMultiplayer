@@ -2,7 +2,7 @@
 
 class CWorld {
 private:
-	static struct IPL
+	struct IPL
 	{
 		std::wstring	ipl;
 		bool			enabled;
