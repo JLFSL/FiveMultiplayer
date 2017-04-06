@@ -118,9 +118,6 @@
     <ClCompile Include="inc_lua\lbaselib.c">
       <Filter>inc_lua</Filter>
     </ClCompile>
-    <ClCompile Include="sdk\util.cpp">
-      <Filter>SDK</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc_lua\lcode.h">

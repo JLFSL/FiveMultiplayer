@@ -54,7 +54,6 @@
     <ClCompile Include="inc_lua\lutf8lib.c" />
     <ClCompile Include="inc_lua\lvm.c" />
     <ClCompile Include="inc_lua\lzio.c" />
-    <ClCompile Include="sdk\util.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="api.h" />

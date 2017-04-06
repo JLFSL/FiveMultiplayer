@@ -90,6 +90,10 @@ extern "C" DLL_PUBLIC bool API_Initialize(void) {
 			.addCFunction("Destroy", &Vehicle::Destroy)
 			.addCFunction("SetPosition", &Vehicle::SetPosition)
 			.addCFunction("GetPosition", &Vehicle::GetPosition)
+			.addCFunction("GetRotation", &Vehicle::GetRotation)
+			.addCFunction("SetRotation", &Vehicle::SetRotation)
+			.addCFunction("GetViewDistance", &Vehicle::GetViewDistance)
+			.addCFunction("SetViewDistance", &Vehicle::SetViewDistance)
 		.endClass();
 
 	// Load scripts
@@ -120,7 +124,7 @@ extern "C" DLL_PUBLIC bool API_Initialize(void) {
 		lua_pop(stateLua, 1);
 	}
 
-	return result;
+	return true;
 }
 
 extern "C" DLL_PUBLIC bool API_Close(void) {
@@ -141,11 +145,12 @@ extern "C" DLL_PUBLIC bool API_Close(void) {
 
 	lua_close(stateLua);
 	std::cout << "API.Lua: Lua state closed." << std::endl;
-	return result;
+	return true;
 }
 
 extern "C" DLL_PUBLIC bool API_OnTick(void) {
-	int result;
+	// CRASH
+	/*int result;
 	int call = lua_getglobal(stateLua, "OnTick");
 	if (call != 0)
 	{
@@ -158,8 +163,8 @@ extern "C" DLL_PUBLIC bool API_OnTick(void) {
 
 		result = lua_tointeger(stateLua, -1);
 		lua_pop(stateLua, 1);
-	}
-	return result;
+	}*/
+	return true;
 }
 
 extern "C" DLL_PUBLIC bool API_OnPlayerConnecting(const char *guid)
