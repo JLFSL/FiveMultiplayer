@@ -332,7 +332,7 @@ struct Checkpoint
 		if (args == 2)
 		{
 			Checkpoint* ent = reinterpret_cast<Checkpoint*>(lua_touserdata(L, 1));
-{
+
 			float distance = lua_tonumber(L, 2);
 
 			API::Entity::SetViewDistance(ent->entity, distance);
