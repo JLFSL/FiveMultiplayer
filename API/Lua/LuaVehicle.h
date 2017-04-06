@@ -1,6 +1,6 @@
-#pragma once
+#ifndef __LUAVEHICLE_H__
+#define __LUAVEHICLE_H__
 
-#pragma region VehicleObject
 struct Vehicle
 {
 	int entity;
@@ -305,7 +305,5 @@ struct Vehicle
 		}
 		return 0;
 	}
-
-
 };
-#pragma endregion
+#endif
