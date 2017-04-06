@@ -57,7 +57,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="api.h" />
-    <ClInclude Include="APICheckpoint.h" />
     <ClInclude Include="inc_lua\lapi.h" />
     <ClInclude Include="inc_lua\lauxlib.h" />
     <ClInclude Include="inc_lua\lcode.h" />
@@ -101,6 +100,7 @@
     <ClInclude Include="LuaBridge\LuaBridge.h" />
     <ClInclude Include="LuaBridge\RefCountedObject.h" />
     <ClInclude Include="LuaBridge\RefCountedPtr.h" />
+    <ClInclude Include="LuaCheckpoint.h" />
     <ClInclude Include="LuaEntity.h" />
     <ClInclude Include="LuaServer.h" />
     <ClInclude Include="LuaVehicle.h" />

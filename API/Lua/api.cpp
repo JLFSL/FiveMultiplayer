@@ -64,6 +64,7 @@ struct VecHelper
 #include "LuaServer.h"
 #include "LuaEntity.h"
 #include "LuaVehicle.h"
+#include "LuaCheckpoint.h"
 
 char scriptName[64] = "gamemodes//test.lua";
 lua_State* stateLua;
@@ -94,6 +95,21 @@ extern "C" DLL_PUBLIC bool API_Initialize(void) {
 			.addCFunction("SetRotation", &Vehicle::SetRotation)
 			.addCFunction("GetViewDistance", &Vehicle::GetViewDistance)
 			.addCFunction("SetViewDistance", &Vehicle::SetViewDistance)
+		.endClass()
+		.beginClass <Checkpoint>("Checkpoint")
+			.addConstructor <void(*)(void)>()
+			.addCFunction("Create", &Checkpoint::Create)
+			.addCFunction("Destroy", &Checkpoint::Destroy)
+			.addCFunction("GetPosition", &Checkpoint::GetPosition)
+			.addCFunction("SetPosition", &Checkpoint::SetPosition)
+			.addCFunction("Show", &Checkpoint::Show)
+			.addCFunction("Hide", &Checkpoint::Hide)
+			.addCFunction("GetNearHeight", &Checkpoint::GetNearHeight)
+			.addCFunction("SetNearHeight", &Checkpoint::SetNearHeight)
+			.addCFunction("GetFarHeight", &Checkpoint::GetFarHeight)
+			.addCFunction("SetFarHeight", &Checkpoint::SetFarHeight)
+			.addCFunction("GetViewDistance", &Checkpoint::GetViewDistance)
+			.addCFunction("SetViewDistance", &Checkpoint::SetViewDistance)
 		.endClass();
 
 	// Load scripts

@@ -289,14 +289,12 @@
     <ClInclude Include="sdk\util.h">
       <Filter>SDK</Filter>
     </ClInclude>
-    <ClInclude Include="APICheckpoint.h">
-      <Filter>SDK</Filter>
-    </ClInclude>
     <ClInclude Include="sdk\APICheckpoint.h">
       <Filter>SDK</Filter>
     </ClInclude>
     <ClInclude Include="sdk\Structs.h">
       <Filter>SDK</Filter>
     </ClInclude>
+    <ClInclude Include="LuaCheckpoint.h" />
   </ItemGroup>
 </Project>

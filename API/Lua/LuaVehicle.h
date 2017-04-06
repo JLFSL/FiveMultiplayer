@@ -264,9 +264,8 @@ struct Vehicle
 			Vehicle* veh = reinterpret_cast<Vehicle*>(lua_touserdata(L, 1));
 
 			float distance = API::Entity::GetViewDistance(veh->entity);
-			lua_newtable(L);
 
-			lua_pushinteger(L, distance);
+			lua_pushnumber(L, distance);
 
 			veh = nullptr;
 		}
@@ -280,16 +279,13 @@ struct Vehicle
 	int SetViewDistance(lua_State* L)
 	{
 		const int args = lua_gettop(L);
-		if (args == 2 || args == 4)
+		if (args == 2)
 		{
 			Vehicle* veh = reinterpret_cast<Vehicle*>(lua_touserdata(L, 1));
 
-			if (args == 2)
-			{
-				float distance = lua_tonumber(L, 2);
+			float distance = lua_tonumber(L, 2);
 
-				API::Entity::SetViewDistance(veh->entity, distance);
-			}
+			API::Entity::SetViewDistance(veh->entity, distance);
 			veh = nullptr;
 		}
 		return 0;
