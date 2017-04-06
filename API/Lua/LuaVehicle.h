@@ -17,7 +17,7 @@ struct Vehicle
 		Arg 2+: The arguments entered
 		*/
 		const int args = lua_gettop(L);
-		if (args == 4 || args == 6)
+		if (args == 4)
 		{
 			Vehicle* veh = reinterpret_cast<Vehicle*>(lua_touserdata(L, 1));
 			std::wstring model = CString::utf8ToUtf16(lua_tostring(L, 2));
@@ -25,67 +25,56 @@ struct Vehicle
 			CVector3 poss;
 			CVector3 rott;
 
-			if (args == 4)
+			if (lua_isuserdata(L, 3))
 			{
-				if (lua_isuserdata(L, 3))
-				{
-					Vector3* pos = reinterpret_cast<Vector3*>(lua_touserdata(L, 3));
-					poss = { pos->coord[0], pos->coord[1], pos->coord[2] };
-					pos = nullptr;
-				}
-				else if (lua_istable(L, 3))
-				{
-					lua_getfield(L, 3, "x");
-					lua_rawgeti(L, 3, 1);
-					poss.fX = lua_tonumber(L, -2);
-					lua_pop(L, 1);
-
-					lua_getfield(L, 3, "y");
-					lua_rawgeti(L, 3, 1);
-					poss.fY = lua_tonumber(L, -2);
-					lua_pop(L, 1);
-
-					lua_getfield(L, 3, "z");
-					lua_rawgeti(L, 3, 1);
-					poss.fZ = lua_tonumber(L, -2);
-					lua_pop(L, 1);
-				}
-
-				if (lua_isuserdata(L, 4))
-				{
-					Vector3* rot = reinterpret_cast<Vector3*>(lua_touserdata(L, 3));
-					rott = { rot->coord[0], rot->coord[1], rot->coord[2] };
-					rot = nullptr;
-				}
-				else if(lua_isnumber(L, 4))
-				{
-					heading = lua_tonumber(L, 4);
-				}
-				else if (lua_istable(L, 3))
-				{
-					lua_getfield(L, 3, "x");
-					lua_rawgeti(L, 3, 1);
-					rott.fX = lua_tonumber(L, -2);
-					lua_pop(L, 1);
-
-					lua_getfield(L, 3, "y");
-					lua_rawgeti(L, 3, 1);
-					rott.fY = lua_tonumber(L, -2);
-					lua_pop(L, 1);
-
-					lua_getfield(L, 3, "z");
-					lua_rawgeti(L, 3, 1);
-					rott.fZ = lua_tonumber(L, -2);
-					lua_pop(L, 1);
-				}
-
+				Vector3* pos = reinterpret_cast<Vector3*>(lua_touserdata(L, 3));
+				poss = { pos->coord[0], pos->coord[1], pos->coord[2] };
+				pos = nullptr;
 			}
-			else
+			else if (lua_istable(L, 3))
 			{
-				poss.fX = lua_tonumber(L, 3);
-				poss.fX = lua_tonumber(L, 4);
-				poss.fX = lua_tonumber(L, 5);
-				heading = lua_tonumber(L, 6);
+				lua_getfield(L, 3, "x");
+				lua_rawgeti(L, 3, 1);
+				poss.fX = lua_tonumber(L, -2);
+				lua_pop(L, 1);
+
+				lua_getfield(L, 3, "y");
+				lua_rawgeti(L, 3, 1);
+				poss.fY = lua_tonumber(L, -2);
+				lua_pop(L, 1);
+
+				lua_getfield(L, 3, "z");
+				lua_rawgeti(L, 3, 1);
+				poss.fZ = lua_tonumber(L, -2);
+				lua_pop(L, 1);
+			}
+
+			if (lua_isuserdata(L, 4))
+			{
+				Vector3* rot = reinterpret_cast<Vector3*>(lua_touserdata(L, 3));
+				rott = { rot->coord[0], rot->coord[1], rot->coord[2] };
+				rot = nullptr;
+			}
+			else if(lua_isnumber(L, 4))
+			{
+				heading = lua_tonumber(L, 4);
+			}
+			else if (lua_istable(L, 4))
+			{
+				lua_getfield(L, 4, "x");
+				lua_rawgeti(L, 4, 1);
+				rott.fX = lua_tonumber(L, -2);
+				lua_pop(L, 1);
+
+				lua_getfield(L, 4, "y");
+				lua_rawgeti(L, 4, 1);
+				rott.fY = lua_tonumber(L, -2);
+				lua_pop(L, 1);
+
+				lua_getfield(L, 4, "z");
+				lua_rawgeti(L, 4, 1);
+				rott.fZ = lua_tonumber(L, -2);
+				lua_pop(L, 1);
 			}
 
 			if(lua_isnumber(L, 4))
