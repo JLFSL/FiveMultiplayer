@@ -125,6 +125,8 @@ extern "C" DLL_PUBLIC bool API_Initialize(void) {
 			.addCFunction("SetRotation", &Object::SetRotation)
 			.addCFunction("GetViewDistance", &Object::GetViewDistance)
 			.addCFunction("SetViewDistance", &Object::SetViewDistance)
+			.addCFunction("GetTextureVariation", &Object::GetTextureVariation)
+			.addCFunction("SetTextureVariation", &Object::SetTextureVariation)
 		.endClass();
 
 	// Load scripts
