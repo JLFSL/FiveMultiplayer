@@ -20,12 +20,15 @@ extern "C" {
 #include "sdk/Structs.h"
 
 // API Function Imports
-#include "sdk/APIServer.h"
-#include "sdk/APIWorld.h"
 #include "sdk/APIEntity.h"
+#include "sdk/APICheckpoint.h"
+#include "sdk/APINpc.h"
+#include "sdk/APIObject.h"
+#include "sdk/APIPlayer.h"
+#include "sdk/APIServer.h"
 #include "sdk/APIVehicle.h"
 #include "sdk/APIVisual.h"
-#include "sdk/APICheckpoint.h"
+#include "sdk/APIWorld.h"
 
 using namespace luabridge;
 
@@ -65,6 +68,7 @@ struct VecHelper
 #include "LuaEntity.h"
 #include "LuaVehicle.h"
 #include "LuaCheckpoint.h"
+#include "LuaObject.h"
 
 char scriptName[64] = "gamemodes//test.lua";
 lua_State* stateLua;
@@ -110,6 +114,17 @@ extern "C" DLL_PUBLIC bool API_Initialize(void) {
 			.addCFunction("SetFarHeight", &Checkpoint::SetFarHeight)
 			.addCFunction("GetViewDistance", &Checkpoint::GetViewDistance)
 			.addCFunction("SetViewDistance", &Checkpoint::SetViewDistance)
+		.endClass()
+		.beginClass <Object>("Object")
+			.addConstructor <void(*)(void)>()
+			.addCFunction("Create", &Object::Create)
+			.addCFunction("Destroy", &Object::Destroy)
+			.addCFunction("SetPosition", &Object::SetPosition)
+			.addCFunction("GetPosition", &Object::GetPosition)
+			.addCFunction("GetRotation", &Object::GetRotation)
+			.addCFunction("SetRotation", &Object::SetRotation)
+			.addCFunction("GetViewDistance", &Object::GetViewDistance)
+			.addCFunction("SetViewDistance", &Object::SetViewDistance)
 		.endClass();
 
 	// Load scripts

@@ -313,7 +313,7 @@ struct Checkpoint
 		{
 			Checkpoint* ent = reinterpret_cast<Checkpoint*>(lua_touserdata(L, 1));
 
-			float distance = API::Entity::GetViewDistance(ent->entity);
+			const float distance = API::Entity::GetViewDistance(ent->entity);
 
 			lua_pushnumber(L, distance);
 
@@ -333,7 +333,7 @@ struct Checkpoint
 		{
 			Checkpoint* ent = reinterpret_cast<Checkpoint*>(lua_touserdata(L, 1));
 
-			float distance = lua_tonumber(L, 2);
+			const float distance = lua_tonumber(L, 2);
 
 			API::Entity::SetViewDistance(ent->entity, distance);
 			ent = nullptr;

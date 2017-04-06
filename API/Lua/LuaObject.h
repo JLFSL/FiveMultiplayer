@@ -1,15 +1,16 @@
-#ifndef __LUAVEHICLE_H__
-#define __LUAVEHICLE_H__
+#ifndef __LUAOBJECT_H__
+#define __LUAOBJECT_H__
 
-struct Vehicle
+struct Object
 {
 	int entity;
 
-	Vehicle()
+	Object()
 	{
 		entity = -1;
 	}
-
+	//	void Create(const std::wstring model, const CVector3 position, const CVector3 rotation, const bool dynamic)
+	//	void Create(const int hash, const CVector3 position, const CVector3 rotation, const bool dynamic)
 	int Create(lua_State* L)
 	{
 		/*
@@ -19,11 +20,17 @@ struct Vehicle
 		const int args = lua_gettop(L);
 		if (args == 4)
 		{
-			Vehicle* veh = reinterpret_cast<Vehicle*>(lua_touserdata(L, 1));
-			std::wstring model = CString::utf8ToUtf16(lua_tostring(L, 2));
-			float heading;
+			Object* ent = reinterpret_cast<Object*>(lua_touserdata(L, 1));
+
+			std::wstring model;
+			int hash = -1;
 			CVector3 poss;
 			CVector3 rott;
+
+			if (lua_isstring(L, 2))
+				model = CString::utf8ToUtf16(lua_tostring(L, 2));
+			else
+				hash = lua_tointeger(L, 2);
 
 			if (lua_isuserdata(L, 3))
 			{
@@ -55,10 +62,6 @@ struct Vehicle
 				rott = { rot->coord[0], rot->coord[1], rot->coord[2] };
 				rot = nullptr;
 			}
-			else if(lua_isnumber(L, 4))
-			{
-				heading = lua_tonumber(L, 4);
-			}
 			else if (lua_istable(L, 4))
 			{
 				lua_getfield(L, 4, "x");
@@ -77,12 +80,14 @@ struct Vehicle
 				lua_pop(L, 1);
 			}
 
-			if(lua_isnumber(L, 4))
-				veh->entity = API::Vehicle::Create(model, poss, heading);
-			else
-				veh->entity = API::Vehicle::Create(model, poss, rott);
+			bool dynamic = lua_toboolean(L, 5);
 
-			veh = nullptr;
+			if (lua_isinteger(L, 2))
+				ent->entity = API::Object::Create(hash, poss, rott, dynamic);
+			else
+				ent->entity = API::Object::Create(model, poss, rott, dynamic);
+
+			ent = nullptr;
 		}
 		return 0;
 	}
@@ -92,10 +97,10 @@ struct Vehicle
 		const int args = lua_gettop(L);
 		if (args == 1)
 		{
-			Vehicle* veh = reinterpret_cast<Vehicle*>(lua_touserdata(L, 1));
-			API::Entity::Destroy(veh->entity);
-			veh->entity = -1;
-			veh = nullptr;
+			Object* ent = reinterpret_cast<Object*>(lua_touserdata(L, 1));
+			API::Entity::Destroy(ent->entity);
+			ent->entity = -1;
+			ent = nullptr;
 		}
 		return 0;
 	}
@@ -105,9 +110,9 @@ struct Vehicle
 		const int args = lua_gettop(L);
 		if (args == 1)
 		{
-			Vehicle* veh = reinterpret_cast<Vehicle*>(lua_touserdata(L, 1));
+			Object* ent = reinterpret_cast<Object*>(lua_touserdata(L, 1));
 
-			CVector3 poss = API::Entity::GetPosition(veh->entity);
+			CVector3 poss = API::Entity::GetPosition(ent->entity);
 			/*Vec pos(poss.fX, poss.fY, poss.fZ);
 			lua_pushlightuserdata(L, &pos);*/
 			lua_newtable(L);
@@ -122,7 +127,7 @@ struct Vehicle
 			lua_setfield(L, -2, "z");
 
 
-			veh = nullptr;
+			ent = nullptr;
 		}
 		else
 		{
@@ -136,7 +141,7 @@ struct Vehicle
 		const int args = lua_gettop(L);
 		if (args == 2 || args == 4)
 		{
-			Vehicle* veh = reinterpret_cast<Vehicle*>(lua_touserdata(L, 1));
+			Object* ent = reinterpret_cast<Object*>(lua_touserdata(L, 1));
 			CVector3 poss;
 
 			if (args == 2)
@@ -172,8 +177,8 @@ struct Vehicle
 				poss.fX = lua_tonumber(L, 4);
 			}
 
-			API::Entity::SetPosition(veh->entity, poss);
-			veh = nullptr;
+			API::Entity::SetPosition(ent->entity, poss);
+			ent = nullptr;
 		}
 		return 0;
 	}
@@ -183,9 +188,9 @@ struct Vehicle
 		const int args = lua_gettop(L);
 		if (args == 1)
 		{
-			Vehicle* veh = reinterpret_cast<Vehicle*>(lua_touserdata(L, 1));
+			Object* ent = reinterpret_cast<Object*>(lua_touserdata(L, 1));
 
-			CVector3 rot = API::Entity::GetRotation(veh->entity);
+			CVector3 rot = API::Entity::GetRotation(ent->entity);
 			/*Vec pos(poss.fX, poss.fY, poss.fZ);
 			lua_pushlightuserdata(L, &pos);*/
 			lua_newtable(L);
@@ -200,7 +205,7 @@ struct Vehicle
 			lua_setfield(L, -2, "z");
 
 
-			veh = nullptr;
+			ent = nullptr;
 		}
 		else
 		{
@@ -214,7 +219,7 @@ struct Vehicle
 		const int args = lua_gettop(L);
 		if (args == 2 || args == 4)
 		{
-			Vehicle* veh = reinterpret_cast<Vehicle*>(lua_touserdata(L, 1));
+			Object* ent = reinterpret_cast<Object*>(lua_touserdata(L, 1));
 			CVector3 rott;
 
 			if (args == 2)
@@ -250,8 +255,8 @@ struct Vehicle
 				rott.fX = lua_tonumber(L, 4);
 			}
 
-			API::Entity::SetRotation(veh->entity, rott);
-			veh = nullptr;
+			API::Entity::SetRotation(ent->entity, rott);
+			ent = nullptr;
 		}
 		return 0;
 	}
@@ -261,13 +266,13 @@ struct Vehicle
 		const int args = lua_gettop(L);
 		if (args == 1)
 		{
-			Vehicle* veh = reinterpret_cast<Vehicle*>(lua_touserdata(L, 1));
+			Object* ent = reinterpret_cast<Object*>(lua_touserdata(L, 1));
 
-			const float distance = API::Entity::GetViewDistance(veh->entity);
+			const float distance = API::Entity::GetViewDistance(ent->entity);
 
 			lua_pushnumber(L, distance);
 
-			veh = nullptr;
+			ent = nullptr;
 		}
 		else
 		{
@@ -281,12 +286,47 @@ struct Vehicle
 		const int args = lua_gettop(L);
 		if (args == 2)
 		{
-			Vehicle* veh = reinterpret_cast<Vehicle*>(lua_touserdata(L, 1));
+			Object* ent = reinterpret_cast<Object*>(lua_touserdata(L, 1));
 
 			const float distance = lua_tonumber(L, 2);
 
-			API::Entity::SetViewDistance(veh->entity, distance);
-			veh = nullptr;
+			API::Entity::SetViewDistance(ent->entity, distance);
+			ent = nullptr;
+		}
+		return 0;
+	}
+
+	int GetTextureVariation(lua_State* L)
+	{
+		const int args = lua_gettop(L);
+		if (args == 1)
+		{
+			Object* ent = reinterpret_cast<Object*>(lua_touserdata(L, 1));
+
+			const int texture = API::Object::GetTextureVariation(ent->entity);
+
+			lua_pushinteger(L, texture);
+
+			ent = nullptr;
+		}
+		else
+		{
+			lua_pushnil(L);
+		}
+		return 1;
+	}
+
+	int SetTextureVariation(lua_State* L)
+	{
+		const int args = lua_gettop(L);
+		if (args == 2)
+		{
+			Object* ent = reinterpret_cast<Object*>(lua_touserdata(L, 1));
+
+			const int texture = lua_tointeger(L, 2);
+
+			API::Object::SetTextureVariation(ent->entity, texture);
+			ent = nullptr;
 		}
 		return 0;
 	}

@@ -296,5 +296,6 @@
       <Filter>SDK</Filter>
     </ClInclude>
     <ClInclude Include="LuaCheckpoint.h" />
+    <ClInclude Include="LuaObject.h" />
   </ItemGroup>
 </Project>
