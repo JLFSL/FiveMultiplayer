@@ -9,6 +9,20 @@ struct Checkpoint
 	{
 		entity = -1;
 	}
+
+	int GetUID(lua_State* L)
+	{
+		const int args = lua_gettop(L);
+		if (args == 1)
+		{
+			Checkpoint* ent = reinterpret_cast<Checkpoint*>(lua_touserdata(L, 1));
+
+			lua_pushinteger(L, ent->entity);
+
+			ent = nullptr;
+		}
+		return 1;
+	}
 	
 	int Create(lua_State* L)
 	{

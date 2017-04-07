@@ -10,6 +10,20 @@ struct Player
 		entity = -1;
 	}
 
+	int GetUID(lua_State* L)
+	{
+		const int args = lua_gettop(L);
+		if (args == 1)
+		{
+			Player* ent = reinterpret_cast<Player*>(lua_touserdata(L, 1));
+
+			lua_pushinteger(L, ent->entity);
+
+			ent = nullptr;
+		}
+		return 1;
+	}
+
 	int GetPosition(lua_State* L)
 	{
 		const int args = lua_gettop(L);
