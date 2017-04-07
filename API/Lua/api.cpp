@@ -71,6 +71,7 @@ struct VecHelper
 #include "LuaObject.h"
 #include "LuaNpc.h"
 #include "LuaPlayer.h"
+#include "LuaVisual.h"
 
 char scriptName[64] = "gamemodes//test.lua";
 lua_State* stateLua;
@@ -171,7 +172,10 @@ extern "C" DLL_PUBLIC bool API_Initialize(void) {
 			.addCFunction("SetPedFaceFeature", &Player::SetPedFaceFeature)
 			.addCFunction("GetModel", &Player::GetModel)
 			.addCFunction("SetModel", &Player::SetModel)
-		.endClass();
+		.endClass()
+		.beginNamespace("visual")
+			.addCFunction("ShowMessageAboveMap", Visual::ShowMessageAboveMap)
+		.endNamespace();;
 
 	// Load scripts
 	if (luaL_dofile(stateLua, scriptName) != 0) {
