@@ -10,7 +10,7 @@ public:
 		{
 			std::wstring message = CString::utf8ToUtf16(lua_tostring(L, 1));
 			std::wstring pic = CString::utf8ToUtf16(lua_tostring(L, 2));
-			int icontype = lua_tointeger(L, 3);
+			const int icontype = lua_tointeger(L, 3);
 			std::wstring sender = CString::utf8ToUtf16(lua_tostring(L, 4));
 			std::wstring subject = CString::utf8ToUtf16(lua_tostring(L, 5));
 

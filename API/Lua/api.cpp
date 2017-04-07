@@ -172,6 +172,7 @@ extern "C" DLL_PUBLIC bool API_Initialize(void) {
 			.addCFunction("SetPedFaceFeature", &Player::SetPedFaceFeature)
 			.addCFunction("GetModel", &Player::GetModel)
 			.addCFunction("SetModel", &Player::SetModel)
+			.addCFunction("ShowMessageAboveMap", &Player::ShowMessageAboveMap)
 		.endClass()
 		.beginNamespace("visual")
 			.addCFunction("ShowMessageAboveMap", Visual::ShowMessageAboveMap)

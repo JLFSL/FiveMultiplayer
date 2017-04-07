@@ -595,5 +595,30 @@ struct Player
 		}
 		return 0;
 	}
+
+	int ShowMessageAboveMap(lua_State* L)
+	{
+		const int args = lua_gettop(L);
+		if (args == 5)
+		{
+			Player* ent = reinterpret_cast<Player*>(lua_touserdata(L, 1));
+			std::wstring message = CString::utf8ToUtf16(lua_tostring(L, 2));
+			std::wstring pic = CString::utf8ToUtf16(lua_tostring(L, 3));
+			const int icontype = lua_tointeger(L, 4);
+			std::wstring sender = CString::utf8ToUtf16(lua_tostring(L, 5));
+			std::wstring subject = CString::utf8ToUtf16(lua_tostring(L, 6));
+
+			API::Visual::ShowMessageAboveMapToPlayer(ent->entity, message, pic, icontype, sender, subject);
+
+			ent = nullptr;
+		}
+		else
+		{
+			std::cerr << "ShowMessageAboveMap requires args (string message, string pic, int icontype, string sender, string subject)." << std::endl;
+			lua_pushnil(L);
+		}
+		lua_pop(L, args);
+		return 0;
+	}
 };
 #endif

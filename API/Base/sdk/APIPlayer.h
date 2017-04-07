@@ -124,4 +124,10 @@ public:
 	{
 		API::Player::SetModel(Entity, model);
 	}
+
+	// Sends a Message above the map for this player.
+	void ShowMessageAboveMap(const std::wstring message, const std::wstring pic, const int icontype, const std::wstring sender, const std::wstring subject)
+	{
+		API::Visual::ShowMessageAboveMapToPlayer(Entity, message, pic, icontype, sender, subject);
+	}
 };
