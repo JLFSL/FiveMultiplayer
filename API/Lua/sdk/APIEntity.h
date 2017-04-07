@@ -110,17 +110,17 @@ extern "C" {
 			/// Gets the face feature data of the player or npc entity.
 			/// </summary>
 			/// <param name="entity">The entity of the player or npc you wish to get their model face feature data.</param>
-			/// <param name="index">The index you wish to get the data off (Index can be 0 - 19).</param>
-			/// <returns name="feature">The face feature scale. (Scale ranges from -1.0 to 1.0)</returns>
-			DLL_PUBLIC_I static const float GetPedFaceFeature(const int entity, const int index);
+			/// <param name="feature">The index you wish to get the data off (Index can be 0 - 19).</param>
+			/// <returns name="scale">The face feature scale. (Scale ranges from -1.0 to 1.0)</returns>
+			DLL_PUBLIC_I static const float GetPedFaceFeature(const int entity, const int feature);
 
 			/// <summary>
 			/// Sets the face feature data of the player or npc entity.
 			/// </summary>
 			/// <param name="entity">The entity of the player or npc you wish to set their model face feature data.</param>
-			/// <param name="index">The index you wish to set the data off (Index can be 0 - 19).</param>
+			/// <param name="feature">The feature you wish to set the data off (Index can be 0 - 19).</param>
 			/// <param name="scale">The face feature scale. (Scale ranges from -1.0 to 1.0)</param>
-			DLL_PUBLIC_I static void SetPedFaceFeature(const int entity, const int index, const float scale);
+			DLL_PUBLIC_I static void SetPedFaceFeature(const int entity, const int feature, const float scale);
 
 			/// <summary>
 			/// Gets the view distance of the entity.

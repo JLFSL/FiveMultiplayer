@@ -487,7 +487,7 @@ namespace API
 		std::cout << "[" << ThisNamespace << "::SetPedProp] Entity " << entity << " invalid." << std::endl;
 	}
 
-	const float Entity::GetPedFaceFeature(const int entity, const int index)
+	const float Entity::GetPedFaceFeature(const int entity, const int feature)
 	{
 		for (int i = 1; i < g_Entities.size(); i++)
 		{
@@ -500,7 +500,7 @@ namespace API
 					{
 						if (g_Players[i].GetId() == entity)
 						{
-							return g_Players[i].GetModelFaceFeature(index);
+							return g_Players[i].GetModelFaceFeature(feature);
 						}
 					}
 					break;
@@ -509,7 +509,7 @@ namespace API
 					{
 						if (g_Npcs[i].GetId() == entity)
 						{
-							return g_Npcs[i].GetModelFaceFeature(index);
+							return g_Npcs[i].GetModelFaceFeature(feature);
 						}
 					}
 					break;

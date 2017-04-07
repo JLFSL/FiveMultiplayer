@@ -9,8 +9,7 @@ struct Object
 	{
 		entity = -1;
 	}
-	//	void Create(const std::wstring model, const CVector3 position, const CVector3 rotation, const bool dynamic)
-	//	void Create(const int hash, const CVector3 position, const CVector3 rotation, const bool dynamic)
+	
 	int Create(lua_State* L)
 	{
 		/*

@@ -297,5 +297,6 @@
     </ClInclude>
     <ClInclude Include="LuaCheckpoint.h" />
     <ClInclude Include="LuaObject.h" />
+    <ClInclude Include="LuaNpc.h" />
   </ItemGroup>
 </Project>

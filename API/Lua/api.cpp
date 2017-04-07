@@ -69,6 +69,7 @@ struct VecHelper
 #include "LuaVehicle.h"
 #include "LuaCheckpoint.h"
 #include "LuaObject.h"
+#include "LuaNpc.h"
 
 char scriptName[64] = "gamemodes//test.lua";
 lua_State* stateLua;
@@ -127,6 +128,27 @@ extern "C" DLL_PUBLIC bool API_Initialize(void) {
 			.addCFunction("SetViewDistance", &Object::SetViewDistance)
 			.addCFunction("GetTextureVariation", &Object::GetTextureVariation)
 			.addCFunction("SetTextureVariation", &Object::SetTextureVariation)
+		.endClass()
+		.beginClass <NPC>("NPC")
+			.addConstructor <void(*)(void)>()
+			.addCFunction("Create", &NPC::Create)
+			.addCFunction("Destroy", &NPC::Destroy)
+			.addCFunction("SetPosition", &NPC::SetPosition)
+			.addCFunction("GetPosition", &NPC::GetPosition)
+			.addCFunction("GetRotation", &NPC::GetRotation)
+			.addCFunction("SetRotation", &NPC::SetRotation)
+			.addCFunction("GetViewDistance", &NPC::GetViewDistance)
+			.addCFunction("SetViewDistance", &NPC::SetViewDistance)
+			.addCFunction("GetPedComponent", &NPC::GetPedComponent)
+			.addCFunction("SetPedComponent", &NPC::SetPedComponent)
+			.addCFunction("GetPedHeadBlend", &NPC::GetPedHeadBlend)
+			.addCFunction("SetPedHeadBlend", &NPC::SetPedHeadBlend)
+			.addCFunction("GetPedHeadOverlay", &NPC::GetPedHeadOverlay)
+			.addCFunction("SetPedHeadOverlay", &NPC::SetPedHeadOverlay)
+			.addCFunction("GetPedProp", &NPC::GetPedProp)
+			.addCFunction("SetPedProp", &NPC::SetPedProp)
+			.addCFunction("GetPedFaceFeature", &NPC::GetPedFaceFeature)
+			.addCFunction("SetPedFaceFeature", &NPC::SetPedFaceFeature)
 		.endClass();
 
 	// Load scripts
