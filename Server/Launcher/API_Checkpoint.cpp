@@ -104,7 +104,7 @@ namespace API
 					sData.Write(height);
 					sData.Write(g_Checkpoints[i].GetFarHeight());
 
-					g_Server->GetNetworkManager()->GetRPC().Signal("SetCheckpointHeight", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, g_Players[i].GetGUID(), false, false);
+					g_Server->GetNetworkManager()->GetRPC().Signal("SetCheckpointHeight", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
 					return;
 				}
 			}
@@ -134,7 +134,7 @@ namespace API
 					sData.Write(g_Checkpoints[i].GetNearHeight());
 					sData.Write(height);
 
-					g_Server->GetNetworkManager()->GetRPC().Signal("SetCheckpointHeight", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, g_Players[i].GetGUID(), false, false);
+					g_Server->GetNetworkManager()->GetRPC().Signal("SetCheckpointHeight", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
 					return;
 				}
 			}
