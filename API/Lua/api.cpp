@@ -20,6 +20,8 @@ extern "C" {
 #include "sdk/Structs.h"
 
 // API Function Imports
+#include "sdk/APIVisual.h"
+#include "sdk/APIWorld.h"
 #include "sdk/APIEntity.h"
 #include "sdk/APICheckpoint.h"
 #include "sdk/APINpc.h"
@@ -27,8 +29,6 @@ extern "C" {
 #include "sdk/APIPlayer.h"
 #include "sdk/APIServer.h"
 #include "sdk/APIVehicle.h"
-#include "sdk/APIVisual.h"
-#include "sdk/APIWorld.h"
 
 using namespace luabridge;
 
