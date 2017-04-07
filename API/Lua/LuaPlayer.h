@@ -206,7 +206,7 @@ struct Player
 		const int args = lua_gettop(L);
 		if (args == 1)
 		{
-			Player = reinterpret_cast<Player*>(lua_touserdata(L, 1));
+			Player* ent = reinterpret_cast<Player*>(lua_touserdata(L, 1));
 			const int index = lua_tointeger(L, 2);
 
 			PedComponent comp = API::Entity::GetPedComponent(ent->entity, index);
