@@ -300,5 +300,6 @@
     <ClInclude Include="LuaNpc.h" />
     <ClInclude Include="LuaPlayer.h" />
     <ClInclude Include="LuaVisual.h" />
+    <ClInclude Include="LuaWorld.h" />
   </ItemGroup>
 </Project>

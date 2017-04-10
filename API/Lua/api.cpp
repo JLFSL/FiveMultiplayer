@@ -72,6 +72,7 @@ struct VecHelper
 #include "LuaNpc.h"
 #include "LuaPlayer.h"
 #include "LuaVisual.h"
+#include "LuaWorld.h"
 
 char scriptName[64] = "gamemodes//test.lua";
 lua_State* stateLua;
@@ -178,10 +179,23 @@ extern "C" DLL_PUBLIC bool API_Initialize(void) {
 			.addCFunction("GetModel", &Player::GetModel)
 			.addCFunction("SetModel", &Player::SetModel)
 			.addCFunction("ShowMessageAboveMap", &Player::ShowMessageAboveMap)
+			.addCFunction("LoadIPL", &Player::LoadIPL)
+			.addCFunction("UnloadIPL", &Player::UnloadIPL)
 		.endClass()
 		.beginNamespace("visual")
 			.addCFunction("ShowMessageAboveMap", Visual::ShowMessageAboveMap)
-		.endNamespace();;
+		.endNamespace()
+		.beginNamespace("server")
+			.addCFunction("PrintMessage", Server::PrintMessage)
+		.endNamespace()
+		.beginNamespace("world")
+			.addCFunction("GetTime", World::GetTime)
+			.addCFunction("SetTime", World::SetTime)
+			.addCFunction("GetWeather", World::GetWeather)
+			.addCFunction("SetWeather", World::SetWeather)
+			.addCFunction("LoadIPL", World::LoadIPL)
+			.addCFunction("UnloadIPL", World::UnloadIPL)
+		.endNamespace();
 
 	// Load scripts
 	if (luaL_dofile(stateLua, scriptName) != 0) {
@@ -191,8 +205,6 @@ extern "C" DLL_PUBLIC bool API_Initialize(void) {
 	else {
 		std::cout << "API.Lua: Succesfully loaded " << scriptName << std::endl;
 	}
-	
-	lua_register(stateLua, "PrintMessage", ex_PrintMessage);
 
 	std::cout << "OnGameModeInit() was called." << std::endl;
 	

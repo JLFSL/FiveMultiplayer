@@ -1,17 +1,22 @@
-#pragma once
+#ifndef __LUASERVER_H__
+#define __LUASERVER_H__
 
-static int ex_PrintMessage(lua_State* state)
-{
-	const int args = lua_gettop(state);
-	if (args == 1)
+class Server {
+public:
+	static int PrintMessage(lua_State* L)
 	{
-		API::Server::PrintMessage(CString::utf8ToUtf16(lua_tostring(state, 1)));
+		const int args = lua_gettop(L);
+		if (args == 1)
+		{
+			API::Server::PrintMessage(CString::utf8ToUtf16(lua_tostring(state, 1)));
+		}
+		else
+		{
+			std::cerr << "PrintMessage requires arg (string)." << std::endl;
+			lua_pushnil(L);
+		}
+		lua_pop(L, args);
+		return 0;
 	}
-	else
-	{
-		std::cerr << "PrintMessage requires args (string)." << std::endl;
-		lua_pushnil(state);
-	}
-	lua_pop(state, args);
-	return 0;
-}
+};
+#endif

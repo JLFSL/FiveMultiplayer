@@ -628,11 +628,46 @@ struct Player
 		}
 		else
 		{
-			std::cerr << "ShowMessageAboveMap requires args (string message, string pic, int icontype, string sender, string subject)." << std::endl;
+			std::cerr << "Player:ShowMessageAboveMap requires args (string message, string pic, int icontype, string sender, string subject)." << std::endl;
 			lua_pushnil(L);
 		}
 		lua_pop(L, args);
 		return 0;
 	}
+
+	int LoadIPL(lua_State* L)
+	{
+		const int args = lua_gettop(L);
+		if (args == 2)
+		{
+			Player* ent = reinterpret_cast<Player*>(lua_touserdata(L, 1));
+			API::World::LoadIPL(ent->entity, CString::utf8ToUtf16(lua_tostring(L, 2)));
+			ent = nullptr;
+		}
+		else
+		{
+			std::cerr << "Player:LoadIPL requires args (string ipl)." << std::endl;
+		}
+		lua_pop(L, args);
+		return 0;
+	}
+
+	int UnloadIPL(lua_State* L)
+	{
+		const int args = lua_gettop(L);
+		if (args == 2)
+		{
+			Player* ent = reinterpret_cast<Player*>(lua_touserdata(L, 1));
+			API::World::UnloadIPL(ent->entity, CString::utf8ToUtf16(lua_tostring(L, 2)));
+			ent = nullptr;
+		}
+		else
+		{
+			std::cerr << "Player:UnloadIPL requires args (string ipl)." << std::endl;
+		}
+		lua_pop(L, args);
+		return 0;
+	}
+
 };
 #endif
