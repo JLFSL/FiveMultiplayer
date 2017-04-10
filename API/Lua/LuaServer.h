@@ -8,7 +8,7 @@ public:
 		const int args = lua_gettop(L);
 		if (args == 1)
 		{
-			API::Server::PrintMessage(CString::utf8ToUtf16(lua_tostring(state, 1)));
+			API::Server::PrintMessage(CString::utf8ToUtf16(lua_tostring(L, 1)));
 		}
 		else
 		{
