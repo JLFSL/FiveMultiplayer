@@ -376,5 +376,41 @@ struct Vehicle
 		}
 		return 0;
 	}
+
+	int GetMod(lua_State* L)
+	{
+		const int args = lua_gettop(L);
+		if (args == 2)
+		{
+			Vehicle* veh = reinterpret_cast<Vehicle*>(lua_touserdata(L, 1));
+
+			lua_pushinteger(L, API::Vehicle::GetMod(veh->entity, lua_tointeger(L, 2)));
+
+			veh = nullptr;
+		}
+		else
+		{
+			std::cerr << "Vehicle:GetMod requires args (int modType)." << std::endl;
+		}
+		return 1;
+	}
+
+	int SetMod(lua_State* L)
+	{
+		const int args = lua_gettop(L);
+		if (args == 3)
+		{
+			Vehicle* veh = reinterpret_cast<Vehicle*>(lua_touserdata(L, 1));
+
+			API::Vehicle::SetMod(veh->entity, lua_tointeger(L, 2), lua_tointeger(L, 3));
+
+			veh = nullptr;
+		}
+		else
+		{
+			std::cerr << "Vehicle:SetMod requires args (int modType, int modIndex)." << std::endl;
+		}
+		return 0;
+	}
 };
 #endif

@@ -15,6 +15,9 @@ extern "C" {
 
 			DLL_PUBLIC static void SetNumberPlate(const int entity, std::wstring plate);
 			DLL_PUBLIC static const std::wstring GetNumberPlate(const int entity);
+
+			DLL_PUBLIC static const int GetMod(const int entity, const int modType);
+			DLL_PUBLIC static void SetMod(const int entity, const int modType, const int modIndex);
 		};
 	}
 }

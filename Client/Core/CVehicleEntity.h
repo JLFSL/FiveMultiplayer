@@ -42,6 +42,11 @@ private:
 
 		std::wstring	Plate;
 
+		struct VehicleMods
+		{
+			int index;
+		} Mods[49];
+
 		float			Heading;
 		CVector3		Position;
 		CVector3		Velocity;
@@ -125,8 +130,8 @@ public:
 
 	void			SetColor(const int layer, const int painttype, const int color);
 	void			SetColor(const int layer, const Color color);
-
 	void			SetNumberPlate(const std::wstring plate);
+	void			SetMod(const int modType, const int modIndex);
 
 	VehicleInterpolationData InterpolationData;
 };

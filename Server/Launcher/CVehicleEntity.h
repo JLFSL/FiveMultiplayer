@@ -36,6 +36,11 @@ private:
 			Color customCol;
 		} Colors[2];
 
+		struct VehicleMods
+		{
+			int index;
+		} Mods[49];
+
 		std::wstring Plate;
 
 		float			Heading;
@@ -95,5 +100,8 @@ public:
 
 	std::wstring	GetNumberPlate() { return Data.Plate; }
 	void			SetNumberPlate(const std::wstring plate) { Data.Plate = plate; }
+
+	const int		GetMod(const int modType) { return Data.Mods[modType].index; }
+	void			SetMod(const int modType, const int modIndex) { Data.Mods[modType].index = modIndex; }
 };
 extern std::vector<CVehicleEntity> g_Vehicles;

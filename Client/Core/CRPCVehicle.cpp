@@ -60,3 +60,22 @@ void CRPCVehicle::SetNumberPlate(RakNet::BitStream *bitStream, RakNet::Packet *p
 		}
 	}
 }
+
+void CRPCVehicle::SetMod(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+{
+	int entity, modType, modIndex;
+
+	bitStream->Read(entity);
+	bitStream->Read(modType);
+	bitStream->Read(modIndex);
+
+	if (CServerEntity::IsValid(entity))
+	{
+		for (int i = 0; i < g_Vehicles.size(); i++) {
+			if (g_Vehicles[i].GetId() == entity) {
+				g_Vehicles[i].SetMod(modType, modIndex);
+				break;
+			}
+		}
+	}
+}

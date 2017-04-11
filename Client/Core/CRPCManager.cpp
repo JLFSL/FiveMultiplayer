@@ -41,7 +41,9 @@ CRPCManager::RPCMessage rpcmessages[] = {
 #pragma endregion
 #pragma region Vehicle
 	{ "SetStandardColor", CRPCVehicle::SetStandardColor},
-	{ "SetCustomColor", CRPCVehicle::SetCustomColor }
+	{ "SetCustomColor", CRPCVehicle::SetCustomColor },
+	{ "SetNumberPlate", CRPCVehicle::SetNumberPlate },
+	{ "SetMod", CRPCVehicle::SetMod }
 #pragma endregion
 };
 

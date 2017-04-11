@@ -56,6 +56,22 @@ extern "C" {
 			/// <param name="entity">The entity of the vehicle</param>
 			/// <param name="plate">The number plate text. (Must be 8 or less chars)</param>
 			DLL_PUBLIC_I static void SetNumberPlate(const int entity, const std::wstring plate);
+
+			/// <summary>
+			/// Gets the index of the modType on the vehicle being used
+			/// </summary>
+			/// <param name="entity">The entity of the vehicle</param>
+			/// <param name="modType">The mod type to get the modIndex for (pastebin.com/mL1MUmrf)</param>
+			/// <returns name="modIndex">The mod index installed on the vehicle of the mod type</returns>
+			DLL_PUBLIC_I static const int GetMod(const int entity, const int modType);
+
+			/// <summary>
+			/// Sets the index of the modType on the vehicle
+			/// </summary>
+			/// <param name="entity">The entity of the vehicle</param>
+			/// <param name="modType">The mod type to set the index of (pastebin.com/mL1MUmrf)</param>
+			/// <param name="modIndex">The mod index to use for the modType</param>
+			DLL_PUBLIC_I static void SetMod(const int entity, const int modType, const int modIndex);
 		};
 	}
 #ifdef __cplusplus
@@ -132,6 +148,16 @@ public:
 	void SetNumberPlate(const std::wstring plate)
 	{
 		API::Vehicle::SetNumberPlate(Entity, plate);
+	}
+
+	const int GetMod(const int modType)
+	{
+		return API::Vehicle::GetMod(Entity, modType);
+	}
+
+	void SetMod(const int modType, const int modIndex)
+	{
+		API::Vehicle::SetMod(Entity, modType, modIndex);
 	}
 
 };

@@ -20,6 +20,11 @@ CVehicleEntity::CVehicleEntity()
 	Data.Colors[1].custom = false;
 
 	Data.Plate = L"FiveMP";
+
+	for (int i = 0; i < SizeOfArray(Data.Mods); i++)
+	{
+		Data.Mods[i].index = 0;
+	}
 }
 
 void CVehicleEntity::Create(std::wstring model, CVector3 position, float heading)
@@ -228,6 +233,16 @@ void CVehicleEntity::RequestData(RakNetGUID requester)
 	sData.Write(RakNet::RakWString(Data.Plate.c_str()));
 
 	g_Server->GetNetworkManager()->GetRPC().Signal("SetNumberPlate", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, requester, false, false);
+
+	for (int i = 0; i < SizeOfArray(Data.Mods); i++)
+	{
+		sData.Reset();
+		sData.Write(Information.Id);
+		sData.Write(i);
+		sData.Write(Data.Mods[i].index);
+
+		g_Server->GetNetworkManager()->GetRPC().Signal("SetMod", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, requester, false, false);
+	}
 	
 	sData.Reset();
 }

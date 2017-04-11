@@ -23,6 +23,11 @@ CVehicleEntity::CVehicleEntity()
 	Data.Colors[1].custom = false;
 
 	Data.Plate == L"FiveMP";
+
+	for (int i = 0; i < SizeOfArray(Data.Mods); i++)
+	{
+		Data.Mods[i].index = 0;
+	}
 }
 
 void CVehicleEntity::Create(int entity)
@@ -73,8 +78,16 @@ bool CVehicleEntity::CreateVehicle()
 		ENTITY::SET_ENTITY_COLLISION(Game.Vehicle, TRUE, FALSE);
 		ENTITY::SET_ENTITY_ROTATION(Game.Vehicle, Data.Rotation.fX, Data.Rotation.fY, Data.Rotation.fZ, 2, true);
 
+		// Vehicle Mods
 		VEHICLE::SET_VEHICLE_MOD_KIT(Game.Vehicle, 0);
+		for (int i = 0; i < SizeOfArray(Data.Mods); i++)
+		{
+			VEHICLE::SET_VEHICLE_MOD(Game.Vehicle, i, Data.Mods[i].index, false);
+		}
+
 		VEHICLE::SET_TAXI_LIGHTS(Game.Vehicle, TRUE);
+
+		// Vehicle Number Plate
 		VEHICLE::SET_VEHICLE_NUMBER_PLATE_TEXT(Game.Vehicle, (char *)CString::utf16ToUtf8(Data.Plate).c_str());
 
 		const int Class = VEHICLE::GET_VEHICLE_CLASS(Game.Vehicle);
@@ -84,6 +97,7 @@ bool CVehicleEntity::CreateVehicle()
 			VEHICLE::SET_VEHICLE_LIVERY(Game.Vehicle, 0);
 		}
 
+		// Vehicle Colors
 		if (!Data.Colors[0].custom)
 		{
 			VEHICLE::SET_VEHICLE_MOD_COLOR_1(Game.Vehicle, Data.Colors[0].type, Data.Colors[0].color, 0);
@@ -571,4 +585,12 @@ void CVehicleEntity::SetNumberPlate(const std::wstring plate)
 
 	if(Game.Created)
 		VEHICLE::SET_VEHICLE_NUMBER_PLATE_TEXT(Game.Vehicle, (char *)CString::utf16ToUtf8(Data.Plate).c_str());
+}
+
+void CVehicleEntity::SetMod(const int modType, const int modIndex)
+{
+	Data.Mods[modType].index = modIndex;
+
+	if (Game.Created)
+		VEHICLE::SET_VEHICLE_MOD(Game.Vehicle, modType, modIndex, false);
 }

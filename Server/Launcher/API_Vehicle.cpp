@@ -161,4 +161,80 @@ namespace API
 			std::wcout << ThisNamespace << L"SetNumberPlate Invalid Entity: " << entity << std::endl;
 		}
 	}
+
+	const int Vehicle::GetMod(const int entity, const int modType)
+	{
+		if (modType > -1 && modType < 49)
+		{
+			const int index = ServerEntity::GetIndex(entity);
+			if (index > -1) 
+			{
+				switch (g_Entities[index].GetType())
+				{
+				case CServerEntity::Vehicle:
+					for (int i = 0; i < g_Vehicles.size(); i++)
+					{
+						if (g_Vehicles[i].GetId() == entity)
+						{
+							return g_Vehicles[i].GetMod(modType);
+						}
+					}
+					break;
+				default:
+					std::wcout << ThisNamespace << L"GetMod Entity " << entity << L" is not of type Vehicle." << std::endl;
+					break;
+				}
+			}
+			else 
+			{
+				std::wcout << ThisNamespace << L"GetMod Invalid Entity: " << entity << std::endl;
+			}
+		}
+		else
+		{
+			std::wcout << ThisNamespace << L"GetMod Invalid modType " << modType << L", must be 0 to 48." << std::endl;
+		}
+	}
+
+	void Vehicle::SetMod(const int entity, const int modType, const int modIndex)
+	{
+		if (modType > -1 && modType < 49)
+		{
+			const int index = ServerEntity::GetIndex(entity);
+			if (index > -1)
+			{
+				switch (g_Entities[index].GetType())
+				{
+				case CServerEntity::Vehicle:
+					for (int i = 0; i < g_Vehicles.size(); i++)
+					{
+						if (g_Vehicles[i].GetId() == entity)
+						{
+							g_Vehicles[i].SetMod(modType, modIndex);
+
+							RakNet::BitStream sData;
+							sData.Write(entity);
+							sData.Write(modType);
+							sData.Write(modIndex);
+
+							g_Server->GetNetworkManager()->GetRPC().Signal("SetMod", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
+							return;
+						}
+					}
+					break;
+				default:
+					std::wcout << ThisNamespace << L"SetMod Entity " << entity << L" is not of type Vehicle." << std::endl;
+					break;
+				}
+			}
+			else
+			{
+				std::wcout << ThisNamespace << L"SetMod Invalid Entity: " << entity << std::endl;
+			}
+		}
+		else
+		{
+			std::wcout << ThisNamespace << L"SetMod Invalid modType " << modType << L", must be 0 to 48." << std::endl;
+		}
+	}
 }
