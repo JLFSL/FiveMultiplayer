@@ -2,7 +2,7 @@
 
 namespace API
 {
-	const char *Vehicle::ThisNamespace = "API::Vehicle";
+	const char *Vehicle::ThisNamespace = "API::Vehicle::";
 
 	const int Vehicle::Create(const std::wstring model, const CVector3 position, const float heading)
 	{
@@ -48,16 +48,16 @@ namespace API
 					}
 					break;
 				default:
-					std::wcout << L"Entity " << entity << L" is not of type Vehicle." << std::endl;
+					std::wcout << ThisNamespace << L"SetColor Entity " << entity << L" is not of type Vehicle." << std::endl;
 					break;
 				}
 			}
 			else {
-				std::wcout << L"Invalid Entity: " << entity << std::endl;
+				std::wcout << ThisNamespace << L"SetColor Invalid Entity: " << entity << std::endl;
 			}
 		}
 		else {
-			std::wcout << L"Invalid Layer, Layers are 1 or 2." << std::endl;
+			std::wcout << ThisNamespace << L"SetColor Invalid Layer, Layers are 1 or 2." << std::endl;
 		}
 	}
 
@@ -89,16 +89,76 @@ namespace API
 					}
 					break;
 				default:
-					std::wcout << L"Entity " << entity << L" is not of type Vehicle." << std::endl;
+					std::wcout << ThisNamespace << L"SetColor Entity " << entity << L" is not of type Vehicle." << std::endl;
 					break;
 				}
 			}
 			else {
-				std::wcout << L"Invalid Entity: " << entity << std::endl;
+				std::wcout << ThisNamespace << L"SetColor Invalid Entity: " << entity << std::endl;
 			}
 		}
 		else {
-			std::wcout << L"Invalid Layer, Layers are 1 or 2." << std::endl;
+			std::wcout << ThisNamespace << L"SetColor Invalid Layer, Layers are 1 or 2." << std::endl;
+		}
+	}
+
+	const std::wstring Vehicle::GetNumberPlate(const int entity)
+	{
+		const int index = ServerEntity::GetIndex(entity);
+		if (index > -1) {
+			switch (g_Entities[index].GetType())
+			{
+			case CServerEntity::Vehicle:
+				for (int i = 0; i < g_Vehicles.size(); i++)
+				{
+					if (g_Vehicles[i].GetId() == entity)
+					{
+						return g_Vehicles[i].GetNumberPlate();
+					}
+				}
+				break;
+			default:
+				std::wcout << ThisNamespace << L"GetNumberPlate Entity " << entity << L" is not of type Vehicle." << std::endl;
+				break;
+			}
+		}
+		else {
+			std::wcout << ThisNamespace << L"GetNumberPlate Invalid Entity: " << entity << std::endl;
+		}
+	}
+
+	void Vehicle::SetNumberPlate(const int entity, std::wstring plate)
+	{
+		const int index = ServerEntity::GetIndex(entity);
+		if (index > -1) {
+			switch (g_Entities[index].GetType())
+			{
+			case CServerEntity::Vehicle:
+				for (int i = 0; i < g_Vehicles.size(); i++)
+				{
+					if (g_Vehicles[i].GetId() == entity)
+					{
+						if (plate.size() > 8)
+							plate = plate.substr(0, 8);
+
+						g_Vehicles[i].SetNumberPlate(plate);
+
+						RakNet::BitStream sData;
+						sData.Write(entity);
+						sData.Write(RakWString(plate.c_str()));
+
+						g_Server->GetNetworkManager()->GetRPC().Signal("SetNumberPlate", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
+						return;
+					}
+				}
+				break;
+			default:
+				std::wcout << ThisNamespace << L"SetNumberPlate Entity " << entity << L" is not of type Vehicle." << std::endl;
+				break;
+			}
+		}
+		else {
+			std::wcout << ThisNamespace << L"SetNumberPlate Invalid Entity: " << entity << std::endl;
 		}
 	}
 }

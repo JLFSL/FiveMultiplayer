@@ -340,5 +340,41 @@ struct Vehicle
 		}
 		return 0;
 	}
+
+	int GetNumberPlate(lua_State* L)
+	{
+		const int args = lua_gettop(L);
+		if (args == 1)
+		{
+			Vehicle* veh = reinterpret_cast<Vehicle*>(lua_touserdata(L, 1));
+
+			lua_pushstring(L, CString::utf16ToUtf8(API::Vehicle::GetNumberPlate(veh->entity)).c_str());
+
+			veh = nullptr;
+		}
+		else
+		{
+			std::cerr << "Vehicle:GetNumberPlate requires args ()." << std::endl;
+		}
+		return 1;
+	}
+
+	int SetNumberPlate(lua_State* L)
+	{
+		const int args = lua_gettop(L);
+		if (args == 2)
+		{
+			Vehicle* veh = reinterpret_cast<Vehicle*>(lua_touserdata(L, 1));
+			
+			API::Vehicle::SetNumberPlate(veh->entity, CString::utf8ToUtf16(lua_tostring(L,2)));
+
+			veh = nullptr;
+		}
+		else
+		{
+			std::cerr << "Vehicle:SetNumberPlate requires args (string text)." << std::endl;
+		}
+		return 0;
+	}
 };
 #endif

@@ -18,6 +18,8 @@ CVehicleEntity::CVehicleEntity()
 	Data.Colors[1].type = 0;
 	Data.Colors[1].color = 0;
 	Data.Colors[1].custom = false;
+
+	Data.Plate = L"FiveMP";
 }
 
 void CVehicleEntity::Create(std::wstring model, CVector3 position, float heading)
@@ -185,7 +187,7 @@ void CVehicleEntity::RequestData(RakNetGUID requester)
 		sData.Write(Data.Colors[0].type);
 		sData.Write(Data.Colors[0].color);
 
-		g_Server->GetNetworkManager()->GetRPC().Signal("SetStandardColor", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
+		g_Server->GetNetworkManager()->GetRPC().Signal("SetStandardColor", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, requester, false, false);
 	}
 	else
 	{
@@ -196,7 +198,7 @@ void CVehicleEntity::RequestData(RakNetGUID requester)
 		sData.Write(Data.Colors[0].customCol.Green);
 		sData.Write(Data.Colors[0].customCol.Blue);
 
-		g_Server->GetNetworkManager()->GetRPC().Signal("SetCustomColor", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
+		g_Server->GetNetworkManager()->GetRPC().Signal("SetCustomColor", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, requester, false, false);
 	}
 
 	if (!Data.Colors[1].custom)
@@ -207,7 +209,7 @@ void CVehicleEntity::RequestData(RakNetGUID requester)
 		sData.Write(Data.Colors[1].type);
 		sData.Write(Data.Colors[1].color);
 
-		g_Server->GetNetworkManager()->GetRPC().Signal("SetStandardColor", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
+		g_Server->GetNetworkManager()->GetRPC().Signal("SetStandardColor", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, requester, false, false);
 	}
 	else
 	{
@@ -218,8 +220,14 @@ void CVehicleEntity::RequestData(RakNetGUID requester)
 		sData.Write(Data.Colors[1].customCol.Green);
 		sData.Write(Data.Colors[1].customCol.Blue);
 
-		g_Server->GetNetworkManager()->GetRPC().Signal("SetCustomColor", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
+		g_Server->GetNetworkManager()->GetRPC().Signal("SetCustomColor", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, requester, false, false);
 	}
+
+	sData.Reset();
+	sData.Write(Information.Id);
+	sData.Write(RakNet::RakWString(Data.Plate.c_str()));
+
+	g_Server->GetNetworkManager()->GetRPC().Signal("SetNumberPlate", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, requester, false, false);
 	
 	sData.Reset();
 }

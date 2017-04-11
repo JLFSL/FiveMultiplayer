@@ -41,3 +41,22 @@ void CRPCVehicle::SetCustomColor(RakNet::BitStream *bitStream, RakNet::Packet *p
 		}
 	}
 }
+
+void CRPCVehicle::SetNumberPlate(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+{
+	int entity;
+	RakWString plate;
+
+	bitStream->Read(entity);
+	bitStream->Read(plate);
+	
+	if (CServerEntity::IsValid(entity))
+	{
+		for (int i = 0; i < g_Vehicles.size(); i++) {
+			if (g_Vehicles[i].GetId() == entity) {
+				g_Vehicles[i].SetNumberPlate(plate.C_String());
+				break;
+			}
+		}
+	}
+}

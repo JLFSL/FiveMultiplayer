@@ -40,6 +40,8 @@ private:
 			Color customCol;
 		} Colors[2];
 
+		std::wstring	Plate;
+
 		float			Heading;
 		CVector3		Position;
 		CVector3		Velocity;
@@ -123,6 +125,8 @@ public:
 
 	void			SetColor(const int layer, const int painttype, const int color);
 	void			SetColor(const int layer, const Color color);
+
+	void			SetNumberPlate(const std::wstring plate);
 
 	VehicleInterpolationData InterpolationData;
 };

@@ -21,6 +21,8 @@ CVehicleEntity::CVehicleEntity()
 	Data.Colors[1].type = 0;
 	Data.Colors[1].color = 0;
 	Data.Colors[1].custom = false;
+
+	Data.Plate == L"FiveMP";
 }
 
 void CVehicleEntity::Create(int entity)
@@ -72,9 +74,8 @@ bool CVehicleEntity::CreateVehicle()
 		ENTITY::SET_ENTITY_ROTATION(Game.Vehicle, Data.Rotation.fX, Data.Rotation.fY, Data.Rotation.fZ, 2, true);
 
 		VEHICLE::SET_VEHICLE_MOD_KIT(Game.Vehicle, 0);
-		//VEHICLE::SET_VEHICLE_COLOURS(Game.Vehicle, color1, color2);
 		VEHICLE::SET_TAXI_LIGHTS(Game.Vehicle, TRUE);
-		VEHICLE::SET_VEHICLE_NUMBER_PLATE_TEXT(Game.Vehicle, "FiveMP");
+		VEHICLE::SET_VEHICLE_NUMBER_PLATE_TEXT(Game.Vehicle, (char *)CString::utf16ToUtf8(Data.Plate).c_str());
 
 		const int Class = VEHICLE::GET_VEHICLE_CLASS(Game.Vehicle);
 		if (Class == 18 || Class == 17 || Class == 15 || Class == 16 || Class == 20 || Class == 14)
@@ -100,9 +101,6 @@ bool CVehicleEntity::CreateVehicle()
 		{
 			VEHICLE::SET_VEHICLE_CUSTOM_SECONDARY_COLOUR(Game.Vehicle, Data.Colors[1].customCol.Red, Data.Colors[1].customCol.Green, Data.Colors[1].customCol.Blue);
 		}
-
-		DECORATOR::DECOR_REGISTER("FiveMP_Vehicle", 2);
-		DECORATOR::DECOR_SET_BOOL(Game.Vehicle, "FiveMP_Vehicle", TRUE);
 
 		ENTITY::FREEZE_ENTITY_POSITION(Game.Vehicle, FALSE);
 		ENTITY::SET_ENTITY_DYNAMIC(Game.Vehicle, TRUE);
@@ -565,4 +563,12 @@ void CVehicleEntity::SetColor(const int layer, const Color color)
 		else if (layer == 2)
 			VEHICLE::SET_VEHICLE_CUSTOM_SECONDARY_COLOUR(Game.Vehicle, color.Red, color.Green, color.Blue);
 	}
+}
+
+void CVehicleEntity::SetNumberPlate(const std::wstring plate)
+{
+	Data.Plate = plate;
+
+	if(Game.Created)
+		VEHICLE::SET_VEHICLE_NUMBER_PLATE_TEXT(Game.Vehicle, (char *)CString::utf16ToUtf8(Data.Plate).c_str());
 }

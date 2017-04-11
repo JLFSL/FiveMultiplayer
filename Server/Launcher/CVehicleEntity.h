@@ -36,6 +36,8 @@ private:
 			Color customCol;
 		} Colors[2];
 
+		std::wstring Plate;
+
 		float			Heading;
 		CVector3		Position;
 		CVector3		Velocity;
@@ -90,5 +92,8 @@ public:
 
 	void			SetColor(const int layer, const int painttype, const int color);
 	void			SetColor(const int layer, const Color color);
+
+	std::wstring	GetNumberPlate() { return Data.Plate; }
+	void			SetNumberPlate(const std::wstring plate) { Data.Plate = plate; }
 };
 extern std::vector<CVehicleEntity> g_Vehicles;

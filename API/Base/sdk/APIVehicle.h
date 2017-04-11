@@ -36,12 +36,26 @@ extern "C" {
 			DLL_PUBLIC_I static void SetColor(const int entity, const int layer, const int painttype, const int color);
 
 			/// <summary>
-			/// Creates a vehicle of a desired model at the position defined
+			/// Sets the vehicles color using RGB colors
 			/// </summary>
 			/// <param name="entity">The entity of the vehicle</param>
 			/// <param name="layer">The paint layer to change the color off (1 or 2)</param>
 			/// <param name="color">The custom RGB color (alpha is not used)</param>
 			DLL_PUBLIC_I static void SetColor(const int entity, const int layer, const Color color);
+
+			/// <summary>
+			/// Gets the vehicles number plate
+			/// </summary>
+			/// <param name="entity">The entity of the vehicle</param>
+			/// <returns name="plate">The vehicles number plate</returns>
+			DLL_PUBLIC_I static const std::wstring GetNumberPlate(const int entity);
+
+			/// <summary>
+			/// Sets the vehicles number plate
+			/// </summary>
+			/// <param name="entity">The entity of the vehicle</param>
+			/// <param name="plate">The number plate text. (Must be 8 or less chars)</param>
+			DLL_PUBLIC_I static void SetNumberPlate(const int entity, const std::wstring plate);
 		};
 	}
 #ifdef __cplusplus
@@ -108,6 +122,16 @@ public:
 	void SetColor(const int layer, const Color color)
 	{
 		API::Vehicle::SetColor(Entity, layer, color);
+	}
+
+	const std::wstring GetNumberPlate()
+	{
+		return API::Vehicle::GetNumberPlate(Entity);
+	}
+
+	void SetNumberPlate(const std::wstring plate)
+	{
+		API::Vehicle::SetNumberPlate(Entity, plate);
 	}
 
 };

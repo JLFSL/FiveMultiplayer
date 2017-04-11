@@ -12,6 +12,9 @@ extern "C" {
 
 			DLL_PUBLIC static void SetColor(const int entity, const int layer, const int painttype, const int color);
 			DLL_PUBLIC static void SetColor(const int entity, const int layer, const Color color);
+
+			DLL_PUBLIC static void SetNumberPlate(const int entity, std::wstring plate);
+			DLL_PUBLIC static const std::wstring GetNumberPlate(const int entity);
 		};
 	}
 }
