@@ -10,6 +10,14 @@ CVehicleEntity::CVehicleEntity()
 	{
 		Occupants[i] = -1;
 	}
+
+	Data.Colors[0].type = 0;
+	Data.Colors[0].color = 0;
+	Data.Colors[0].custom = false;
+
+	Data.Colors[1].type = 0;
+	Data.Colors[1].color = 0;
+	Data.Colors[1].custom = false;
 }
 
 void CVehicleEntity::Create(std::wstring model, CVector3 position, float heading)
@@ -169,5 +177,79 @@ void CVehicleEntity::RequestData(RakNetGUID requester)
 	sData.Write(Network.Assigned);
 	g_Server->GetNetworkManager()->GetRPC().Signal("TakeEntityAssignment", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, requester, false, false);
 	
+	if (!Data.Colors[0].custom)
+	{
+		sData.Reset();
+		sData.Write(Information.Id);
+		sData.Write(1);
+		sData.Write(Data.Colors[0].type);
+		sData.Write(Data.Colors[0].color);
+
+		g_Server->GetNetworkManager()->GetRPC().Signal("SetStandardColor", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
+	}
+	else
+	{
+		sData.Reset();
+		sData.Write(Information.Id);
+		sData.Write(1);
+		sData.Write(Data.Colors[0].customCol.Red);
+		sData.Write(Data.Colors[0].customCol.Green);
+		sData.Write(Data.Colors[0].customCol.Blue);
+
+		g_Server->GetNetworkManager()->GetRPC().Signal("SetCustomColor", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
+	}
+
+	if (!Data.Colors[1].custom)
+	{
+		sData.Reset();
+		sData.Write(Information.Id);
+		sData.Write(2);
+		sData.Write(Data.Colors[1].type);
+		sData.Write(Data.Colors[1].color);
+
+		g_Server->GetNetworkManager()->GetRPC().Signal("SetStandardColor", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
+	}
+	else
+	{
+		sData.Reset();
+		sData.Write(Information.Id);
+		sData.Write(2);
+		sData.Write(Data.Colors[1].customCol.Red);
+		sData.Write(Data.Colors[1].customCol.Green);
+		sData.Write(Data.Colors[1].customCol.Blue);
+
+		g_Server->GetNetworkManager()->GetRPC().Signal("SetCustomColor", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
+	}
+	
 	sData.Reset();
+}
+
+void CVehicleEntity::SetColor(const int layer, const int painttype, const int color)
+{
+	if (layer == 1)
+	{
+		Data.Colors[0].type = painttype;
+		Data.Colors[0].color = color;
+		Data.Colors[0].custom = false;
+	}
+	else if(layer == 2)
+	{
+		Data.Colors[1].type = painttype;
+		Data.Colors[1].color = color;
+		Data.Colors[1].custom = false;
+	}
+}
+
+void CVehicleEntity::SetColor(const int layer, const Color color)
+{
+	if (layer == 1)
+	{
+		Data.Colors[0].custom = true;
+		Data.Colors[0].customCol = color;
+	}
+	else if (layer == 2)
+	{
+		Data.Colors[1].custom = true;
+		Data.Colors[1].customCol = color;
+	}
 }

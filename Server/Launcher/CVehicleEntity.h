@@ -28,6 +28,14 @@ private:
 		float		SteeringAngle		= .0f;
 		float		ForwardWheelAngle	= .0f;
 
+		struct VehiclePaintLayer
+		{
+			int color;
+			int type;
+			bool custom;
+			Color customCol;
+		} Colors[2];
+
 		float			Heading;
 		CVector3		Position;
 		CVector3		Velocity;
@@ -79,5 +87,8 @@ public:
 
 	VehicleInfo		GetInfo() { return Information; }
 	VehicleData		GetData() { return Data; }
+
+	void			SetColor(const int layer, const int painttype, const int color);
+	void			SetColor(const int layer, const Color color);
 };
 extern std::vector<CVehicleEntity> g_Vehicles;

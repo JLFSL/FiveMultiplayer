@@ -37,7 +37,11 @@ CRPCManager::RPCMessage rpcmessages[] = {
 	{ "CreateCheckpoint", CRPCCheckpoint::Create  },
 	{ "ShowCheckpoint", CRPCCheckpoint::Show },
 	{ "HideCheckpoint", CRPCCheckpoint::Hide },
-	{ "SetCheckpointHeight", CRPCCheckpoint::SetHeight }
+	{ "SetCheckpointHeight", CRPCCheckpoint::SetHeight },
+#pragma endregion
+#pragma region Vehicle
+	{ "SetStandardColor", CRPCVehicle::SetStandardColor},
+	{ "SetCustomColor", CRPCVehicle::SetCustomColor }
 #pragma endregion
 };
 

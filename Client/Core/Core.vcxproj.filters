@@ -204,6 +204,9 @@
     <ClCompile Include="CWorld.cpp">
       <Filter>Client</Filter>
     </ClCompile>
+    <ClCompile Include="CRPCVehicle.cpp">
+      <Filter>Network\RPC</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -376,6 +379,9 @@
     </ClInclude>
     <ClInclude Include="CWorld.h">
       <Filter>Client</Filter>
+    </ClInclude>
+    <ClInclude Include="CRPCVehicle.h">
+      <Filter>Network\RPC</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

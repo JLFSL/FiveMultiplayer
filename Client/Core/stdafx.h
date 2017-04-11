@@ -112,6 +112,7 @@
 		#include "CRPCObject.h"
 		#include "CRPCNpc.h"
 		#include "CRPCCheckpoint.h"
+		#include "CRPCVehicle.h"
 
 	// Client
 	#include "CStreamer.h"

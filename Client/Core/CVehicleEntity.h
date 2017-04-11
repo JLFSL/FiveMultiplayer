@@ -32,6 +32,14 @@ private:
 		float		SteeringAngle		= .0f;
 		float		ForwardWheelAngle	= .0f;
 
+		struct VehiclePaintLayer
+		{
+			int color;
+			int type;
+			bool custom;
+			Color customCol;
+		} Colors[2];
+
 		float			Heading;
 		CVector3		Position;
 		CVector3		Velocity;
@@ -112,6 +120,9 @@ public:
 
 	void			SetInfo(VehicleInfo newinfo) { Information = newinfo; }
 	void			SetData(VehicleData newdata) { Data = newdata; }
+
+	void			SetColor(const int layer, const int painttype, const int color);
+	void			SetColor(const int layer, const Color color);
 
 	VehicleInterpolationData InterpolationData;
 };

@@ -13,6 +13,14 @@ CVehicleEntity::CVehicleEntity()
 	{ 
 		Occupants[i] = -1; 
 	}
+
+	Data.Colors[0].type = 0;
+	Data.Colors[0].color = 0;
+	Data.Colors[0].custom = false;
+
+	Data.Colors[1].type = 0;
+	Data.Colors[1].color = 0;
+	Data.Colors[1].custom = false;
 }
 
 void CVehicleEntity::Create(int entity)
@@ -73,6 +81,24 @@ bool CVehicleEntity::CreateVehicle()
 		{
 			VEHICLE::SET_VEHICLE_MOD(Game.Vehicle, 48, 0, 0);
 			VEHICLE::SET_VEHICLE_LIVERY(Game.Vehicle, 0);
+		}
+
+		if (!Data.Colors[0].custom)
+		{
+			VEHICLE::SET_VEHICLE_MOD_COLOR_1(Game.Vehicle, Data.Colors[0].type, Data.Colors[0].color, 0);
+		}
+		else
+		{
+			VEHICLE::SET_VEHICLE_CUSTOM_PRIMARY_COLOUR(Game.Vehicle, Data.Colors[0].customCol.Red, Data.Colors[0].customCol.Green, Data.Colors[0].customCol.Blue);
+		}
+
+		if (!Data.Colors[1].custom)
+		{
+			VEHICLE::SET_VEHICLE_MOD_COLOR_2(Game.Vehicle, Data.Colors[1].type, Data.Colors[1].color);
+		}
+		else
+		{
+			VEHICLE::SET_VEHICLE_CUSTOM_SECONDARY_COLOUR(Game.Vehicle, Data.Colors[1].customCol.Red, Data.Colors[1].customCol.Green, Data.Colors[1].customCol.Blue);
 		}
 
 		DECORATOR::DECOR_REGISTER("FiveMP_Vehicle", 2);
@@ -493,4 +519,50 @@ Vehicle CVehicleEntity::getClosestVehicleFromPedPos(Ped ped, int maxDistance)
 	}
 
 	return vehicle;
+}
+
+void CVehicleEntity::SetColor(const int layer, const int painttype, const int color)
+{
+	if (layer == 1)
+	{
+		Data.Colors[0].type = painttype;
+		Data.Colors[0].color = color;
+		Data.Colors[0].custom = false;
+	}
+	else if (layer == 2)
+	{
+		Data.Colors[1].type = painttype;
+		Data.Colors[1].color = color;
+		Data.Colors[1].custom = false;
+	}
+
+	if (Game.Created)
+	{
+		if(layer == 1)
+			VEHICLE::SET_VEHICLE_MOD_COLOR_1(Game.Vehicle, painttype, color, 0);
+		else if(layer == 2)
+			VEHICLE::SET_VEHICLE_MOD_COLOR_2(Game.Vehicle, painttype, color);
+	}
+}
+
+void CVehicleEntity::SetColor(const int layer, const Color color)
+{
+	if (layer == 1)
+	{
+		Data.Colors[0].custom = true;
+		Data.Colors[0].customCol = color;
+	}
+	else if (layer == 2)
+	{
+		Data.Colors[1].custom = true;
+		Data.Colors[1].customCol = color;
+	}
+
+	if (Game.Created)
+	{
+		if (layer == 1)
+			VEHICLE::SET_VEHICLE_CUSTOM_PRIMARY_COLOUR(Game.Vehicle, color.Red, color.Green, color.Blue);
+		else if (layer == 2)
+			VEHICLE::SET_VEHICLE_CUSTOM_SECONDARY_COLOUR(Game.Vehicle, color.Red, color.Green, color.Blue);
+	}
 }

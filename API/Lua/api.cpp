@@ -104,6 +104,8 @@ extern "C" DLL_PUBLIC bool API_Initialize(void) {
 			.addCFunction("SetRotation", &Vehicle::SetRotation)
 			.addCFunction("GetViewDistance", &Vehicle::GetViewDistance)
 			.addCFunction("SetViewDistance", &Vehicle::SetViewDistance)
+			.addCFunction("SetStandardColor", &Vehicle::SetStandardColor)
+			.addCFunction("SetCustomColor", &Vehicle::SetCustomColor)
 		.endClass()
 		.beginClass <Checkpoint>("Checkpoint")
 			.addConstructor <void(*)(void)>()

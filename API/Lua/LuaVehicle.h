@@ -297,10 +297,46 @@ struct Vehicle
 		{
 			Vehicle* veh = reinterpret_cast<Vehicle*>(lua_touserdata(L, 1));
 
-			const float distance = lua_tonumber(L, 2);
-
-			API::Entity::SetViewDistance(veh->entity, distance);
+			API::Entity::SetViewDistance(veh->entity, lua_tonumber(L, 2));
 			veh = nullptr;
+		}
+		return 0;
+	}
+	
+	int SetStandardColor(lua_State* L)
+	{
+		const int args = lua_gettop(L);
+		if (args == 4)
+		{
+			Vehicle* veh = reinterpret_cast<Vehicle*>(lua_touserdata(L, 1));
+
+			API::Vehicle::SetColor(veh->entity, lua_tointeger(L, 2), lua_tointeger(L, 3), lua_tointeger(L, 4));
+			veh = nullptr;
+		}
+		else
+		{
+			std::cerr << "Vehicle:SetStandardColor requires args (int layer, int paintType, int color)." << std::endl;
+		}
+		return 0;
+	}
+	
+	int SetCustomColor(lua_State* L)
+	{
+		const int args = lua_gettop(L);
+		if (args == 4)
+		{
+			Vehicle* veh = reinterpret_cast<Vehicle*>(lua_touserdata(L, 1));
+			Color color; 
+			color.Red = lua_tointeger(L, 3);
+			color.Green = lua_tointeger(L, 4);
+			color.Blue = lua_tointeger(L, 5);
+
+			API::Vehicle::SetColor(veh->entity, lua_tointeger(L, 2), color);
+			veh = nullptr;
+		}
+		else
+		{
+			std::cerr << "Vehicle:SetCustomColor requires args (int layer, int red, int green, int blue)." << std::endl;
 		}
 		return 0;
 	}

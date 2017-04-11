@@ -19,7 +19,6 @@ public:
 		else
 		{
 			std::cerr << "ShowMessageAboveMap requires args (string message, string pic, int icontype, string sender, string subject)." << std::endl;
-			lua_pushnil(L);
 		}
 		lua_pop(L, args);
 		return 0;

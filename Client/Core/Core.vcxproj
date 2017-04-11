@@ -192,6 +192,7 @@
     <ClCompile Include="CRPCNpc.cpp" />
     <ClCompile Include="CRPCObject.cpp" />
     <ClCompile Include="CRPCPlayer.cpp" />
+    <ClCompile Include="CRPCVehicle.cpp" />
     <ClCompile Include="CRPCWorld.cpp" />
     <ClCompile Include="CServerEntity.cpp" />
     <ClCompile Include="CStreamer.cpp" />
@@ -263,6 +264,7 @@
     <ClInclude Include="CRPCNpc.h" />
     <ClInclude Include="CRPCObject.h" />
     <ClInclude Include="CRPCPlayer.h" />
+    <ClInclude Include="CRPCVehicle.h" />
     <ClInclude Include="CRPCWorld.h" />
     <ClInclude Include="CServerEntity.h" />
     <ClInclude Include="CStreamer.h" />

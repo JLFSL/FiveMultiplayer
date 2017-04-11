@@ -25,6 +25,23 @@ extern "C" {
 			/// <param name="heading">The rotation you wish to set the vehicle at</param>
 			/// <returns name="entity">The vehicles server entity id</returns>
 			DLL_PUBLIC_I static const int Create(const std::wstring model, const CVector3 position, const CVector3 rotation);
+
+			/// <summary>
+			/// Sets the vehicles color using the Games standard preset colors
+			/// </summary>
+			/// <param name="entity">The entity of the vehicle</param>
+			/// <param name="layer">The paint layer to change the color off (1 or 2)</param>
+			/// <param name="painttype">The type of paint ( 0: Normal - 1: Metallic - 2 : Pearl - 3 : Matte - 4 : Metal - 5 : Chrome )</param>
+			/// <param name="color">The color preset to use</param>
+			DLL_PUBLIC_I static void SetColor(const int entity, const int layer, const int painttype, const int color);
+
+			/// <summary>
+			/// Creates a vehicle of a desired model at the position defined
+			/// </summary>
+			/// <param name="entity">The entity of the vehicle</param>
+			/// <param name="layer">The paint layer to change the color off (1 or 2)</param>
+			/// <param name="color">The custom RGB color (alpha is not used)</param>
+			DLL_PUBLIC_I static void SetColor(const int entity, const int layer, const Color color);
 		};
 	}
 #ifdef __cplusplus
@@ -83,6 +100,14 @@ public:
 		API::Entity::SetViewDistance(Entity, distance);
 	}
 
+	void SetColor(const int layer, const int painttype, const int color)
+	{
+		API::Vehicle::SetColor(Entity, layer, painttype, color);
+	}
 
+	void SetColor(const int layer, const Color color)
+	{
+		API::Vehicle::SetColor(Entity, layer, color);
+	}
 
 };
