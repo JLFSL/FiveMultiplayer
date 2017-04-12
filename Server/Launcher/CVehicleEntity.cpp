@@ -10,21 +10,6 @@ CVehicleEntity::CVehicleEntity()
 	{
 		Occupants[i] = -1;
 	}
-
-	Data.Colors[0].type = 0;
-	Data.Colors[0].color = 0;
-	Data.Colors[0].custom = false;
-
-	Data.Colors[1].type = 0;
-	Data.Colors[1].color = 0;
-	Data.Colors[1].custom = false;
-
-	Data.Plate = L"FiveMP";
-
-	for (int i = 0; i < SizeOfArray(Data.Mods); i++)
-	{
-		Data.Mods[i].index = 0;
-	}
 }
 
 void CVehicleEntity::Create(std::wstring model, CVector3 position, float heading)
@@ -243,6 +228,21 @@ void CVehicleEntity::RequestData(RakNetGUID requester)
 
 		g_Server->GetNetworkManager()->GetRPC().Signal("SetMod", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, requester, false, false);
 	}
+
+	if (Data.ForcedEngineState > -1)
+	{
+		sData.Reset();
+		sData.Write(Information.Id);
+		sData.Write(Data.ForcedEngineState);
+
+		g_Server->GetNetworkManager()->GetRPC().Signal("SetEngineState", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, requester, false, false);
+	}
+
+	sData.Reset();
+	sData.Write(Information.Id);
+	sData.Write(Data.DoorsLockState);
+
+	g_Server->GetNetworkManager()->GetRPC().Signal("SetDoorsLockState", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, requester, false, false);
 	
 	sData.Reset();
 }

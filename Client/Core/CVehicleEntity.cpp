@@ -13,21 +13,6 @@ CVehicleEntity::CVehicleEntity()
 	{ 
 		Occupants[i] = -1; 
 	}
-
-	Data.Colors[0].type = 0;
-	Data.Colors[0].color = 0;
-	Data.Colors[0].custom = false;
-
-	Data.Colors[1].type = 0;
-	Data.Colors[1].color = 0;
-	Data.Colors[1].custom = false;
-
-	Data.Plate == L"FiveMP";
-
-	for (int i = 0; i < SizeOfArray(Data.Mods); i++)
-	{
-		Data.Mods[i].index = 0;
-	}
 }
 
 void CVehicleEntity::Create(int entity)
@@ -115,6 +100,15 @@ bool CVehicleEntity::CreateVehicle()
 		{
 			VEHICLE::SET_VEHICLE_CUSTOM_SECONDARY_COLOUR(Game.Vehicle, Data.Colors[1].customCol.Red, Data.Colors[1].customCol.Green, Data.Colors[1].customCol.Blue);
 		}
+
+		// Engine State (Forces Non-Vanilla engine state)
+		if (Data.ForceEngineState > -1)
+		{
+			VEHICLE::SET_VEHICLE_ENGINE_ON(Game.Vehicle, Data.ForceEngineState, true, true);
+			VEHICLE::SET_VEHICLE_UNDRIVEABLE(Game.Vehicle, !Data.ForceEngineState);
+		}
+
+		VEHICLE::SET_VEHICLE_DOORS_LOCKED(Game.Vehicle, Data.DoorsLockState);
 
 		ENTITY::FREEZE_ENTITY_POSITION(Game.Vehicle, FALSE);
 		ENTITY::SET_ENTITY_DYNAMIC(Game.Vehicle, TRUE);
@@ -593,4 +587,26 @@ void CVehicleEntity::SetMod(const int modType, const int modIndex)
 
 	if (Game.Created)
 		VEHICLE::SET_VEHICLE_MOD(Game.Vehicle, modType, modIndex, false);
+}
+
+void CVehicleEntity::SetEngineState(const bool state)
+{
+	Data.ForceEngineState = state;
+	Data.EngineState = state;
+
+	if (Game.Created) 
+	{
+		VEHICLE::SET_VEHICLE_ENGINE_ON(Game.Vehicle, state, true, true);
+		VEHICLE::SET_VEHICLE_UNDRIVEABLE(Game.Vehicle, !state);
+	}
+}
+
+void CVehicleEntity::SetDoorsLockState(const int state)
+{
+	Data.DoorsLockState = state;
+
+	if (Game.Created)
+	{
+		VEHICLE::SET_VEHICLE_DOORS_LOCKED(Game.Vehicle, state);
+	}
 }

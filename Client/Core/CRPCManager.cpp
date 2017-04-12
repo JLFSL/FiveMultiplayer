@@ -43,13 +43,15 @@ CRPCManager::RPCMessage rpcmessages[] = {
 	{ "SetStandardColor", CRPCVehicle::SetStandardColor},
 	{ "SetCustomColor", CRPCVehicle::SetCustomColor },
 	{ "SetNumberPlate", CRPCVehicle::SetNumberPlate },
-	{ "SetMod", CRPCVehicle::SetMod }
+	{ "SetMod", CRPCVehicle::SetMod },
+	{ "SetEngineState", CRPCVehicle::SetEngineState },
+	{ "SetDoorsLockState", CRPCVehicle::SetDoorsLockState }
 #pragma endregion
 };
 
 void CRPCManager::RegisterRPCMessages()
 {
-	for (int i = 0; i < sizeof(rpcmessages) / sizeof(RPCMessage); i++)
+	for (int i = 0; i < /*sizeof(rpcmessages) / sizeof(RPCMessage)*/SizeOfArray(rpcmessages); i++)
 	{
 		CNetworkManager::GetRPC().RegisterSlot(rpcmessages[i].name, rpcmessages[i].functionPointer, 0);
 	}
@@ -59,7 +61,7 @@ void CRPCManager::RegisterRPCMessages()
 
 void CRPCManager::UnregisterRPCMessages()
 {
-	for (int i = 0; i < sizeof(rpcmessages) / sizeof(RPCMessage); i++)
+	for (int i = 0; i < /*sizeof(rpcmessages) / sizeof(RPCMessage)*/SizeOfArray(rpcmessages); i++)
 	{
 		CNetworkManager::GetRPC().UnregisterSlot(rpcmessages[i].name);
 	}

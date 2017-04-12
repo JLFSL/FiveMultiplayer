@@ -72,6 +72,34 @@ extern "C" {
 			/// <param name="modType">The mod type to set the index of (pastebin.com/mL1MUmrf)</param>
 			/// <param name="modIndex">The mod index to use for the modType</param>
 			DLL_PUBLIC_I static void SetMod(const int entity, const int modType, const int modIndex);
+
+			/// <summary>
+			/// Gets the engine state of the vehicle
+			/// </summary>
+			/// <param name="entity">The entity of the vehicle</param>
+			/// <returns name="state">The engine state</returns>
+			DLL_PUBLIC_I static const bool GetEngineState(const int entity);
+
+			/// <summary>
+			/// Set the engine state of the vehicle
+			/// </summary>
+			/// <param name="entity">The entity of the vehicle</param>
+			/// <param name="state">The state to set the engine</param>
+			DLL_PUBLIC_I static void SetEngineState(const int entity, const bool state);
+
+			/// <summary>
+			/// Get the doors locked state of the vehicle
+			/// </summary>
+			/// <param name="entity">The entity of the vehicle</param>
+			/// <returns name="state">The locked state</returns>
+			DLL_PUBLIC_I static const int GetDoorsLockState(const int entity);
+
+			/// <summary>
+			/// Set the doors locked state of the vehicle
+			/// </summary>
+			/// <param name="entity">The entity of the vehicle</param>
+			/// <param name="state">The state to set the locks (0 - CARLOCK_NONE, 1 - CARLOCK_UNLOCKED, 2 - CARLOCK_LOCKED(locked), 3 - CARLOCK_LOCKOUT_PLAYER_ONLY, 4 - CARLOCK_LOCKED_PLAYER_INSIDE(can get in, can't leave))</param>
+			DLL_PUBLIC_I static void SetDoorsLockState(const int entity, const int state);
 		};
 	}
 #ifdef __cplusplus

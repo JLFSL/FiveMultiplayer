@@ -12,9 +12,10 @@ private:
 	{
 		std::wstring	Model;
 
-		float			ForwardSpeed;
+		float		ForwardSpeed;
 
 		bool		EngineState			= 0;
+		int			ForcedEngineState	= -1;
 
 		uint16_t	Gear				= 0;
 		float		RPM					= .0f;
@@ -30,18 +31,19 @@ private:
 
 		struct VehiclePaintLayer
 		{
-			int color;
-			int type;
-			bool custom;
+			int color					= 0;
+			int type					= 0;
+			bool custom					= 0;
 			Color customCol;
 		} Colors[2];
 
 		struct VehicleMods
 		{
-			int index;
+			int index					= 0;
 		} Mods[49];
 
-		std::wstring Plate;
+		std::wstring	Plate			= L"FiveMP";
+		int				DoorsLockState  = 0;
 
 		float			Heading;
 		CVector3		Position;
@@ -103,5 +105,11 @@ public:
 
 	const int		GetMod(const int modType) { return Data.Mods[modType].index; }
 	void			SetMod(const int modType, const int modIndex) { Data.Mods[modType].index = modIndex; }
+
+	const bool		GetEngineState() { return Data.EngineState; }
+	void			SetEngineState(const bool state) { Data.EngineState = state; Data.ForcedEngineState = state; }
+
+	const int		GetDoorsLockState() { return Data.DoorsLockState; }
+	void			SetDoorsLockState(const int state) { Data.DoorsLockState = state; }
 };
 extern std::vector<CVehicleEntity> g_Vehicles;

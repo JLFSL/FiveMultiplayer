@@ -412,5 +412,77 @@ struct Vehicle
 		}
 		return 0;
 	}
+
+	int GetEngineState(lua_State* L)
+	{
+		const int args = lua_gettop(L);
+		if (args == 2)
+		{
+			Vehicle* veh = reinterpret_cast<Vehicle*>(lua_touserdata(L, 1));
+
+			lua_pushboolean(L, API::Vehicle::GetEngineState(veh->entity));
+
+			veh = nullptr;
+		}
+		else
+		{
+			std::cerr << "Vehicle:GetEngineState requires args ()." << std::endl;
+		}
+		return 1;
+	}
+
+	int SetEngineState(lua_State* L)
+	{
+		const int args = lua_gettop(L);
+		if (args == 2)
+		{
+			Vehicle* veh = reinterpret_cast<Vehicle*>(lua_touserdata(L, 1));
+
+			API::Vehicle::SetEngineState(veh->entity, lua_toboolean(L, 2));
+
+			veh = nullptr;
+		}
+		else
+		{
+			std::cerr << "Vehicle:SetEngineState requires args (bool state)." << std::endl;
+		}
+		return 0;
+	}
+
+	int GetDoorsLockState(lua_State* L)
+	{
+		const int args = lua_gettop(L);
+		if (args == 2)
+		{
+			Vehicle* veh = reinterpret_cast<Vehicle*>(lua_touserdata(L, 1));
+
+			lua_pushinteger(L, API::Vehicle::GetDoorsLockState(veh->entity));
+
+			veh = nullptr;
+		}
+		else
+		{
+			std::cerr << "Vehicle:GetDoorsLockState requires args ()." << std::endl;
+		}
+		return 1;
+	}
+
+	int SetDoorsLockState(lua_State* L)
+	{
+		const int args = lua_gettop(L);
+		if (args == 2)
+		{
+			Vehicle* veh = reinterpret_cast<Vehicle*>(lua_touserdata(L, 1));
+
+			API::Vehicle::SetDoorsLockState(veh->entity, lua_tointeger(L, 2));
+
+			veh = nullptr;
+		}
+		else
+		{
+			std::cerr << "Vehicle:SetDoorsLockState requires args (int state)." << std::endl;
+		}
+		return 0;
+	}
 };
 #endif

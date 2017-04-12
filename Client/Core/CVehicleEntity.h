@@ -14,11 +14,12 @@ private:
 	} Information;
 
 	struct VehicleData {
-		std::string		Model;
+		std::string	Model;
 
-		float			ForwardSpeed;
+		float		ForwardSpeed;
 		
-		bool		EngineState = 0;
+		bool		EngineState			= 0;
+		int			ForceEngineState	= -1;
 
 		uint16_t	Gear				= 0;
 		float		RPM					= .0f;
@@ -34,17 +35,18 @@ private:
 
 		struct VehiclePaintLayer
 		{
-			int color;
-			int type;
-			bool custom;
-			Color customCol;
+			int		color				= 0;
+			int		type				= 0;
+			bool	custom				= 0;
+			Color	customCol;
 		} Colors[2];
 
-		std::wstring	Plate;
+		std::wstring	Plate			= L"FiveMP";
+		int				DoorsLockState  = 0;
 
 		struct VehicleMods
 		{
-			int index;
+			int		index				= 0;
 		} Mods[49];
 
 		float			Heading;
@@ -132,6 +134,8 @@ public:
 	void			SetColor(const int layer, const Color color);
 	void			SetNumberPlate(const std::wstring plate);
 	void			SetMod(const int modType, const int modIndex);
+	void			SetEngineState(const bool state);
+	void			SetDoorsLockState(const int state);
 
 	VehicleInterpolationData InterpolationData;
 };

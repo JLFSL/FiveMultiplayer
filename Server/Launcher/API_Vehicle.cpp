@@ -237,4 +237,133 @@ namespace API
 			std::wcout << ThisNamespace << L"SetMod Invalid modType " << modType << L", must be 0 to 48." << std::endl;
 		}
 	}
+
+	const bool Vehicle::GetEngineState(const int entity)
+	{
+		const int index = ServerEntity::GetIndex(entity);
+		if (index > -1)
+		{
+			switch (g_Entities[index].GetType())
+			{
+			case CServerEntity::Vehicle:
+				for (int i = 0; i < g_Vehicles.size(); i++)
+				{
+					if (g_Vehicles[i].GetId() == entity)
+					{
+						return g_Vehicles[i].GetEngineState();
+					}
+				}
+				break;
+			default:
+				std::wcout << ThisNamespace << L"GetEngineState Entity " << entity << L" is not of type Vehicle." << std::endl;
+				break;
+			}
+		}
+		else
+		{
+			std::wcout << ThisNamespace << L"GetEngineState Invalid Entity: " << entity << std::endl;
+		}
+	}
+
+	void Vehicle::SetEngineState(const int entity, const bool state)
+	{
+		const int index = ServerEntity::GetIndex(entity);
+		if (index > -1)
+		{
+			switch (g_Entities[index].GetType())
+			{
+			case CServerEntity::Vehicle:
+				for (int i = 0; i < g_Vehicles.size(); i++)
+				{
+					if (g_Vehicles[i].GetId() == entity)
+					{
+						g_Vehicles[i].SetEngineState(state);
+
+						RakNet::BitStream sData;
+						sData.Write(entity);
+						sData.Write(state);
+
+						g_Server->GetNetworkManager()->GetRPC().Signal("SetEngineState", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
+						return;
+					}
+				}
+				break;
+			default:
+				std::wcout << ThisNamespace << L"SetEngineState Entity " << entity << L" is not of type Vehicle." << std::endl;
+				break;
+			}
+		}
+		else
+		{
+			std::wcout << ThisNamespace << L"SetEngineState Invalid Entity: " << entity << std::endl;
+		}
+	}
+
+	const int Vehicle::GetDoorsLockState(const int entity)
+	{
+		const int index = ServerEntity::GetIndex(entity);
+		if (index > -1)
+		{
+			switch (g_Entities[index].GetType())
+			{
+			case CServerEntity::Vehicle:
+				for (int i = 0; i < g_Vehicles.size(); i++)
+				{
+					if (g_Vehicles[i].GetId() == entity)
+					{
+						return g_Vehicles[i].GetDoorsLockState();
+					}
+				}
+				break;
+			default:
+				std::wcout << ThisNamespace << L"GetDoorsLockState Entity " << entity << L" is not of type Vehicle." << std::endl;
+				break;
+			}
+		}
+		else
+		{
+			std::wcout << ThisNamespace << L"GetDoorsLockState Invalid Entity: " << entity << std::endl;
+		}
+	}
+
+	void Vehicle::SetDoorsLockState(const int entity, const int state)
+	{
+		if (state <= 4 && state >= 0)
+		{
+			const int index = ServerEntity::GetIndex(entity);
+			if (index > -1)
+			{
+				switch (g_Entities[index].GetType())
+				{
+				case CServerEntity::Vehicle:
+					for (int i = 0; i < g_Vehicles.size(); i++)
+					{
+						if (g_Vehicles[i].GetId() == entity)
+						{
+							g_Vehicles[i].SetDoorsLockState(state);
+
+							RakNet::BitStream sData;
+							sData.Write(entity);
+							sData.Write(state);
+
+							g_Server->GetNetworkManager()->GetRPC().Signal("SetDoorsLockState", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
+							return;
+						}
+					}
+					break;
+				default:
+					std::wcout << ThisNamespace << L"SetDoorsLockState Entity " << entity << L" is not of type Vehicle." << std::endl;
+					break;
+				}
+			}
+			else
+			{
+				std::wcout << ThisNamespace << L"SetDoorsLockState Invalid Entity: " << entity << std::endl;
+			}
+		}
+		else
+		{
+			std::wcout << ThisNamespace << L"SetDoorsLockState Invalid Lock State, Valid states are 0 to 4." << entity << std::endl;
+		}
+	}
 }

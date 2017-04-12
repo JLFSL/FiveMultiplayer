@@ -79,3 +79,40 @@ void CRPCVehicle::SetMod(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 		}
 	}
 }
+
+void CRPCVehicle::SetEngineState(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+{
+	int entity;
+	bool state;
+
+	bitStream->Read(entity);
+	bitStream->Read(state);
+
+	if (CServerEntity::IsValid(entity))
+	{
+		for (int i = 0; i < g_Vehicles.size(); i++) {
+			if (g_Vehicles[i].GetId() == entity) {
+				g_Vehicles[i].SetEngineState(state);
+				break;
+			}
+		}
+	}
+}
+
+void CRPCVehicle::SetDoorsLockState(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+{
+	int entity, state;
+
+	bitStream->Read(entity);
+	bitStream->Read(state);
+
+	if (CServerEntity::IsValid(entity))
+	{
+		for (int i = 0; i < g_Vehicles.size(); i++) {
+			if (g_Vehicles[i].GetId() == entity) {
+				g_Vehicles[i].SetDoorsLockState(state);
+				break;
+			}
+		}
+	}
+}

@@ -18,6 +18,12 @@ extern "C" {
 
 			DLL_PUBLIC static const int GetMod(const int entity, const int modType);
 			DLL_PUBLIC static void SetMod(const int entity, const int modType, const int modIndex);
+
+			DLL_PUBLIC static const bool GetEngineState(const int entity);
+			DLL_PUBLIC static void SetEngineState(const int entity, const bool state);
+
+			DLL_PUBLIC static const int GetDoorsLockState(const int entity);
+			DLL_PUBLIC static void SetDoorsLockState(const int entity, const int state);
 		};
 	}
 }
