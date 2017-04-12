@@ -221,12 +221,15 @@ void CVehicleEntity::RequestData(RakNetGUID requester)
 
 	for (int i = 0; i < SizeOfArray(Data.Mods); i++)
 	{
-		sData.Reset();
-		sData.Write(Information.Id);
-		sData.Write(i);
-		sData.Write(Data.Mods[i].index);
+		if ((i >= 0 && i <= 16) || (i >= 23 && i <= 28) || (i >= 33 && i <= 35) || i == 30 || i == 38 || i == 48)
+		{
+			sData.Reset();
+			sData.Write(Information.Id);
+			sData.Write(i);
+			sData.Write(Data.Mods[i].index);
 
-		g_Server->GetNetworkManager()->GetRPC().Signal("SetMod", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, requester, false, false);
+			g_Server->GetNetworkManager()->GetRPC().Signal("SetMod", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, requester, false, false);
+		}
 	}
 
 	if (Data.ForcedEngineState > -1)
