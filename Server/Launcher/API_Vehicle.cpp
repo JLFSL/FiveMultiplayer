@@ -164,7 +164,7 @@ namespace API
 
 	const int Vehicle::GetMod(const int entity, const int modType)
 	{
-		if ((modType >= 0 && modType <= 16) || (modType >= 23 && modType <= 28) || (modType >= 33 && modType <= 35) || modType == 30 || modType == 38 || modType == 48)
+		if (modType > -1 && modType < 49)
 		{
 			const int index = ServerEntity::GetIndex(entity);
 			if (index > -1) 
@@ -192,13 +192,13 @@ namespace API
 		}
 		else
 		{
-			std::wcout << ThisNamespace << L"GetMod Invalid modType " << modType << L", must be 0-16, 23-28, 30, 33-35, 38, 48." << std::endl;
+			std::wcout << ThisNamespace << L"GetMod Invalid modType " << modType << L", must be 0 to 48." << std::endl;
 		}
 	}
 
 	void Vehicle::SetMod(const int entity, const int modType, const int modIndex)
 	{
-		if ((modType >= 0 && modType <= 16) || (modType >= 23 && modType <= 28) || (modType >= 33 && modType <= 35) || modType == 30 || modType == 38 || modType == 48)
+		if (modType > -1 && modType < 49)
 		{
 			const int index = ServerEntity::GetIndex(entity);
 			if (index > -1)
@@ -234,7 +234,7 @@ namespace API
 		}
 		else
 		{
-			std::wcout << ThisNamespace << L"SetMod Invalid modType " << modType << L", must be 0-16, 23-28, 30, 33-35, 38, 48." << std::endl;
+			std::wcout << ThisNamespace << L"SetMod Invalid modType " << modType << L", must be 0 to 48." << std::endl;
 		}
 	}
 

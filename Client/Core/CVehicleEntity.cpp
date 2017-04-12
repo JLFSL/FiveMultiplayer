@@ -67,8 +67,7 @@ bool CVehicleEntity::CreateVehicle()
 		VEHICLE::SET_VEHICLE_MOD_KIT(Game.Vehicle, 0);
 		for (int i = 0; i < SizeOfArray(Data.Mods); i++)
 		{
-			if((i >= 0 && i <= 16) || (i >= 23 && i <= 28) || (i >= 33 && i <= 35) || i == 30 || i == 38 || i == 48)
-				VEHICLE::SET_VEHICLE_MOD(Game.Vehicle, i, Data.Mods[i].index, false);
+			VEHICLE::SET_VEHICLE_MOD(Game.Vehicle, i, Data.Mods[i].index, false);
 		}
 
 		VEHICLE::SET_TAXI_LIGHTS(Game.Vehicle, TRUE);
