@@ -47,7 +47,7 @@ private:
 		struct VehicleMods
 		{
 			int		index				= 0;
-		} Mods[49];
+		} Mods[50];
 
 		float			Heading;
 		CVector3		Position;

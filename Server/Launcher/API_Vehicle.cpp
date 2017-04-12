@@ -164,7 +164,7 @@ namespace API
 
 	const int Vehicle::GetMod(const int entity, const int modType)
 	{
-		if (modType > -1 && modType < 49)
+		if (modType >= 0 && modType <= 49)
 		{
 			const int index = ServerEntity::GetIndex(entity);
 			if (index > -1) 
@@ -192,13 +192,13 @@ namespace API
 		}
 		else
 		{
-			std::wcout << ThisNamespace << L"GetMod Invalid modType " << modType << L", must be 0 to 48." << std::endl;
+			std::wcout << ThisNamespace << L"GetMod Invalid modType " << modType << L", must be 0 to 49." << std::endl;
 		}
 	}
 
 	void Vehicle::SetMod(const int entity, const int modType, const int modIndex)
 	{
-		if (modType > -1 && modType < 49)
+		if (modType >= 0 && modType <= 49)
 		{
 			const int index = ServerEntity::GetIndex(entity);
 			if (index > -1)
@@ -234,7 +234,7 @@ namespace API
 		}
 		else
 		{
-			std::wcout << ThisNamespace << L"SetMod Invalid modType " << modType << L", must be 0 to 48." << std::endl;
+			std::wcout << ThisNamespace << L"SetMod Invalid modType " << modType << L", must be 0 to 49." << std::endl;
 		}
 	}
 
@@ -359,6 +359,69 @@ namespace API
 			else
 			{
 				std::wcout << ThisNamespace << L"SetDoorsLockState Invalid Entity: " << entity << std::endl;
+			}
+		}
+		else
+		{
+			std::wcout << ThisNamespace << L"SetDoorsLockState Invalid Lock State, Valid states are 0 to 4." << entity << std::endl;
+		}
+	}
+
+	void Vehicle::SetDoorsLockState(const int entity, const int state, const int player)
+	{
+		if (state <= 4 && state >= 0)
+		{
+			const int index = ServerEntity::GetIndex(entity);
+
+			if (index > -1)
+			{
+				switch (g_Entities[index].GetType())
+				{
+				case CServerEntity::Vehicle:
+					for (int i = 0; i < g_Vehicles.size(); i++)
+					{
+						if (g_Vehicles[i].GetId() == entity)
+						{
+							const int pIndex = ServerEntity::GetIndex(player);
+
+							if (pIndex > -1)
+							{
+								switch (g_Entities[pIndex].GetType())
+								{
+								case CServerEntity::Player:
+									for (int p = 0; p < g_Players.size(); p++)
+									{
+										if (player == g_Players[p].GetId())
+										{
+											RakNet::BitStream sData;
+											sData.Write(entity);
+											sData.Write(state);
+
+											g_Server->GetNetworkManager()->GetRPC().Signal("SetDoorsLockState", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, g_Players[p].GetGUID(), false, false);
+											return;
+										}
+									}
+									break;
+								default:
+									std::wcout << ThisNamespace << L"SetDoorsLockState Entity " << player << L" is not of type Player." << std::endl;
+									break;
+								}
+							}
+							else
+							{
+								std::wcout << ThisNamespace << L"SetDoorsLockState Invalid Entity(player): " << player << std::endl;
+							}
+						}
+					}
+					break;
+				default:
+					std::wcout << ThisNamespace << L"SetDoorsLockState Entity(entity) " << entity << L" is not of type Vehicle." << std::endl;
+					break;
+				}
+			}
+			else
+			{
+				std::wcout << ThisNamespace << L"SetDoorsLockState Invalid Entity(entity): " << entity << std::endl;
 			}
 		}
 		else

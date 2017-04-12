@@ -114,6 +114,7 @@ extern "C" DLL_PUBLIC bool API_Initialize(void) {
 			.addCFunction("SetEngineState", &Vehicle::SetEngineState)
 			.addCFunction("GetDoorsLockState", &Vehicle::GetDoorsLockState)
 			.addCFunction("SetDoorsLockState", &Vehicle::SetDoorsLockState)
+			.addCFunction("SetDoorsLockStateForPlayer", &Vehicle::SetDoorsLockStateForPlayer)
 		.endClass()
 		.beginClass <Checkpoint>("Checkpoint")
 			.addConstructor <void(*)(void)>()

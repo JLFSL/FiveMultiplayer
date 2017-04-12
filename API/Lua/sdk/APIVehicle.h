@@ -100,6 +100,14 @@ extern "C" {
 			/// <param name="entity">The entity of the vehicle</param>
 			/// <param name="state">The state to set the locks (0 - CARLOCK_NONE, 1 - CARLOCK_UNLOCKED, 2 - CARLOCK_LOCKED(locked), 3 - CARLOCK_LOCKOUT_PLAYER_ONLY, 4 - CARLOCK_LOCKED_PLAYER_INSIDE(can get in, can't leave))</param>
 			DLL_PUBLIC_I static void SetDoorsLockState(const int entity, const int state);
+
+			/// <summary>
+			/// Set the doors locked state of the vehicle
+			/// </summary>
+			/// <param name="entity">The entity of the vehicle</param>
+			/// <param name="state">The state to set the locks (0 - CARLOCK_NONE, 1 - CARLOCK_UNLOCKED, 2 - CARLOCK_LOCKED(locked), 3 - CARLOCK_LOCKOUT_PLAYER_ONLY, 4 - CARLOCK_LOCKED_PLAYER_INSIDE(can get in, can't leave))</param>
+			/// <param name="player">The entity of the player you whish to check the vehicles lock state for.</param>
+			DLL_PUBLIC_I static void SetDoorsLockState(const int entity, const int state, const int player);
 		};
 	}
 #ifdef __cplusplus

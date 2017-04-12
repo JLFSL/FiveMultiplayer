@@ -484,5 +484,23 @@ struct Vehicle
 		}
 		return 0;
 	}
+
+	int SetDoorsLockStateForPlayer(lua_State* L)
+	{
+		const int args = lua_gettop(L);
+		if (args == 2)
+		{
+			Vehicle* veh = reinterpret_cast<Vehicle*>(lua_touserdata(L, 1));
+
+			API::Vehicle::SetDoorsLockState(veh->entity, lua_tointeger(L, 2), lua_tointeger(L, 3));
+
+			veh = nullptr;
+		}
+		else
+		{
+			std::cerr << "Vehicle:SetDoorsLockStateForPlayer requires args (int state, int player)." << std::endl;
+		}
+		return 0;
+	}
 };
 #endif

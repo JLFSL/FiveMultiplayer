@@ -40,7 +40,7 @@ private:
 		struct VehicleMods
 		{
 			int index					= 0;
-		} Mods[49];
+		} Mods[50];
 
 		std::wstring	Plate			= L"FiveMP";
 		int				DoorsLockState  = 0;
