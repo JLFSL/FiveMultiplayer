@@ -73,7 +73,9 @@ public:
 	void Pulse();
 	void Update(Packet *packet);
 
-	int				GetId() { return Information.Id; };
+	int				GetId() { return Information.Id; }
+
+	const std::wstring GetModel() { return Data.Model; }
 
 	int				GetOccupant(int seat) { return Occupants[seat]; }
 	void			SetOccupant(int seat, int player) {  Occupants[seat] = player; }

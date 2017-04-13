@@ -502,5 +502,23 @@ struct Vehicle
 		}
 		return 0;
 	}
+
+	int GetModel(lua_State* L)
+	{
+		const int args = lua_gettop(L);
+		if (args == 2)
+		{
+			Vehicle* veh = reinterpret_cast<Vehicle*>(lua_touserdata(L, 1));
+
+			lua_pushstring(L, CString::utf16ToUtf8(API::Vehicle::GetModel(veh->entity)).c_str());
+
+			veh = nullptr;
+		}
+		else
+		{
+			std::cerr << "Vehicle:GetModel requires args ()." << std::endl;
+		}
+		return 1;
+	}
 };
 #endif

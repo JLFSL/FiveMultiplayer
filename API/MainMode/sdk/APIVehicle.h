@@ -108,6 +108,13 @@ extern "C" {
 			/// <param name="state">The state to set the locks (0 - CARLOCK_NONE, 1 - CARLOCK_UNLOCKED, 2 - CARLOCK_LOCKED(locked), 3 - CARLOCK_LOCKOUT_PLAYER_ONLY, 4 - CARLOCK_LOCKED_PLAYER_INSIDE(can get in, can't leave))</param>
 			/// <param name="player">The entity of the player you whish to check the vehicles lock state for.</param>
 			DLL_PUBLIC_I static void SetDoorsLockState(const int entity, const int state, const int player);
+
+			/// <summary>
+			/// Get the vehicles model
+			/// </summary>
+			/// <param name="entity">The entity of the vehicle</param>
+			/// <returns name="model">The model</returns>
+			DLL_PUBLIC_I static const std::wstring GetModel(const int entity);
 		};
 	}
 #ifdef __cplusplus
@@ -206,15 +213,23 @@ public:
 		API::Vehicle::SetEngineState(Entity, state);
 	}
 
-	const int GetDoorsLockState() {
+	const int GetDoorsLockState() 
+	{
 		return API::Vehicle::GetDoorsLockState(Entity);
 	}
 
-	void SetDoorsLockState(const int state) {
+	void SetDoorsLockState(const int state) 
+	{
 		API::Vehicle::SetDoorsLockState(Entity, state);
 	}
 
-	void SetDoorsLockState(const int state, const int player) {
+	void SetDoorsLockState(const int state, const int player) 
+	{
 		API::Vehicle::SetDoorsLockState(Entity, state, player);
+	}
+
+	const std::wstring GetModel() 
+	{
+		return API::Vehicle::GetModel(Entity);
 	}
 };

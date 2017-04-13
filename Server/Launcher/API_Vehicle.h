@@ -25,6 +25,8 @@ extern "C" {
 			DLL_PUBLIC static const int GetDoorsLockState(const int entity);
 			DLL_PUBLIC static void SetDoorsLockState(const int entity, const int state);
 			DLL_PUBLIC static void SetDoorsLockState(const int entity, const int state, const int player);
+
+			DLL_PUBLIC static const std::wstring GetModel(const int entity);
 		};
 	}
 }

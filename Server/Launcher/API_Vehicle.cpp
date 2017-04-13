@@ -429,4 +429,32 @@ namespace API
 			std::wcout << ThisNamespace << L"SetDoorsLockState Invalid Lock State, Valid states are 0 to 4." << entity << std::endl;
 		}
 	}
+
+	const std::wstring Vehicle::GetModel(const int entity)
+	{
+		const int index = ServerEntity::GetIndex(entity);
+
+		if (index > -1)
+		{
+			switch (g_Entities[index].GetType())
+			{
+			case CServerEntity::Vehicle:
+				for (int i = 0; i < g_Vehicles.size(); i++)
+				{
+					if (g_Vehicles[i].GetId() == entity)
+					{
+						return g_Vehicles[i].GetModel();
+					}
+				}
+				break;
+			default:
+				std::wcout << ThisNamespace << L"GetModel Entity " << entity << L" is not of type Vehicle." << std::endl;
+				break;
+			}
+		}
+		else
+		{
+			std::wcout << ThisNamespace << L"GetModel Invalid Entity: " << entity << std::endl;
+		}
+	}
 }
