@@ -134,3 +134,23 @@ void CRPCVehicle::SetNumberPlateStyle(RakNet::BitStream *bitStream, RakNet::Pack
 		}
 	}
 }
+
+void CRPCVehicle::SetExtra(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+{
+	int entity, extra;
+	bool toggle;
+
+	bitStream->Read(entity);
+	bitStream->Read(extra);
+	bitStream->Read(toggle);
+
+	if (CServerEntity::IsValid(entity))
+	{
+		for (int i = 0; i < g_Vehicles.size(); i++) {
+			if (g_Vehicles[i].GetId() == entity) {
+				g_Vehicles[i].SetExtra(extra, toggle);
+				break;
+			}
+		}
+	}
+}

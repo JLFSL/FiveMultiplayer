@@ -41,6 +41,11 @@ private:
 			Color	customCol;
 		} Colors[2];
 
+		struct VehicleExtras
+		{
+			bool enabled				= 0;
+		} Extras[15];
+
 		std::wstring	Plate			= L"FiveMP";
 		int				PlateStyle		= 0;
 
@@ -139,6 +144,7 @@ public:
 	void			SetEngineState(const bool state);
 	void			SetDoorsLockState(const int state);
 	void			SetNumberPlateStyle(const int style);
+	void			SetExtra(const int extra, const bool toggle);
 
 	VehicleInterpolationData InterpolationData;
 };

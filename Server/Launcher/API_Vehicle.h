@@ -33,8 +33,8 @@ extern "C" {
 			DLL_PUBLIC static const int GetNumberPlateStyle(const int entity);
 			DLL_PUBLIC static void SetNumberPlateStyle(const int entity, const int style);
 
-			DLL_PUBLIC static const bool GetVehicleExtra(const int entity, const int extra);
-			DLL_PUBLIC static void SetVehicleExtra(const int entity, const int extra, const bool toggle);
+			DLL_PUBLIC static const bool GetExtra(const int entity, const int extra);
+			DLL_PUBLIC static void SetExtra(const int entity, const int extra, const bool toggle);
 		};
 	}
 }

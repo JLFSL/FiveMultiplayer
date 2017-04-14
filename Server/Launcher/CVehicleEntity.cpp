@@ -249,6 +249,16 @@ void CVehicleEntity::RequestData(RakNetGUID requester)
 	sData.Write(Data.PlateStyle);
 
 	g_Server->GetNetworkManager()->GetRPC().Signal("SetNumberPlateStyle", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, requester, false, false);
+
+	for (int i = 1; i < SizeOfArray(Data.Extras); i++)
+	{
+		sData.Reset();
+		sData.Write(Information.Id);
+		sData.Write(i);
+		sData.Write(!Data.Extras[i].enabled);
+
+		g_Server->GetNetworkManager()->GetRPC().Signal("SetExtra", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, requester, false, false);
+	}
 	
 	sData.Reset();
 }

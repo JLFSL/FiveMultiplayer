@@ -129,6 +129,22 @@ extern "C" {
 			/// <param name="entity">The entity of the vehicle</param>
 			/// <param name="style">The style index of the numberplate</param>
 			DLL_PUBLIC_I static void SetNumberPlateStyle(const int entity, const int style);
+
+			/// <summary>
+			/// Fetch if a vehicles extra is enabled or not.
+			/// </summary>
+			/// <param name="entity">The entity of the vehicle</param>
+			/// <param name="extra">The extra index (1-14)</param>
+			/// <returns name="enabled">The extras toggle state</returns>
+			DLL_PUBLIC_I static const bool GetExtra(const int entity, const int extra);
+
+			/// <summary>
+			/// Set the vehicles extra toggle
+			/// </summary>
+			/// <param name="entity">The entity of the vehicle</param>
+			/// <param name="extra">The style index of the numberplate</param>
+			/// <param name="toggle">The toggle state of the extra</param>
+			DLL_PUBLIC_I static void SetExtra(const int entity, const int extra, const bool toggle);
 		};
 	}
 #ifdef __cplusplus

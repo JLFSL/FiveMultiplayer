@@ -562,5 +562,42 @@ struct Vehicle
 		}
 		return 0;
 	}
+
+	int GetExtra(lua_State* L)
+	{
+		const int args = lua_gettop(L);
+		if (args == 2)
+		{
+			Vehicle* veh = reinterpret_cast<Vehicle*>(lua_touserdata(L, 1));
+
+			lua_pushboolean(L, API::Vehicle::GetExtra(veh->entity, lua_tointeger(L,2)));
+
+			veh = nullptr;
+		}
+		else
+		{
+			lua_pushnil(L);
+			std::cerr << "Vehicle:GetExtra requires args (int extra(1-14))." << std::endl;
+		}
+		return 1;
+	}
+
+	int SetExtra(lua_State* L)
+	{
+		const int args = lua_gettop(L);
+		if (args == 3)
+		{
+			Vehicle* veh = reinterpret_cast<Vehicle*>(lua_touserdata(L, 1));
+
+			API::Vehicle::SetExtra(veh->entity, lua_tointeger(L, 2), lua_toboolean(L,3));
+
+			veh = nullptr;
+		}
+		else
+		{
+			std::cerr << "Vehicle:SetExtra requires args (int extra(1-14), bool toggle)." << std::endl;
+		}
+		return 0;
+	}
 };
 #endif

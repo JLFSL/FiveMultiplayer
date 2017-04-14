@@ -526,30 +526,79 @@ namespace API
 		}
 	}
 
-	const bool Vehicle::GetVehicleExtra(const int entity, const int extra)
+	const bool Vehicle::GetExtra(const int entity, const int extra)
 	{
-		const int index = ServerEntity::GetIndex(entity);
-		if (index > -1)
+		if (extra >= 1 && extra <= 14)
 		{
-			switch (g_Entities[index].GetType())
+			const int index = ServerEntity::GetIndex(entity);
+			if (index > -1)
 			{
-			case CServerEntity::Vehicle:
-				for (int i = 0; i < g_Vehicles.size(); i++)
+				switch (g_Entities[index].GetType())
 				{
-					if (g_Vehicles[i].GetId() == entity)
+				case CServerEntity::Vehicle:
+					for (int i = 0; i < g_Vehicles.size(); i++)
 					{
-						return g_Vehicles[i].GetExtra(extra);
+						if (g_Vehicles[i].GetId() == entity)
+						{
+							return g_Vehicles[i].GetExtra(extra);
+						}
 					}
+					break;
+				default:
+					std::wcout << ThisNamespace << L"GetVehicleExtra Entity " << entity << L" is not of type Vehicle." << std::endl;
+					break;
 				}
-				break;
-			default:
-				std::wcout << ThisNamespace << L"GetVehicleExtra Entity " << entity << L" is not of type Vehicle." << std::endl;
-				break;
+			}
+			else
+			{
+				std::wcout << ThisNamespace << L"GetVehicleExtra Invalid Entity: " << entity << std::endl;
 			}
 		}
 		else
 		{
-			std::wcout << ThisNamespace << L"GetVehicleExtra Invalid Entity: " << entity << std::endl;
+			std::wcout << ThisNamespace << L"GetVehicleExtra Invalid Extra: " << extra << L", Must be 1-14." << std::endl;
+		}
+	}
+
+	void Vehicle::SetExtra(const int entity, const int extra, const bool toggle)
+	{
+		if (extra >= 1 && extra <= 14)
+		{
+			const int index = ServerEntity::GetIndex(entity);
+			if (index > -1)
+			{
+				switch (g_Entities[index].GetType())
+				{
+				case CServerEntity::Vehicle:
+					for (int i = 0; i < g_Vehicles.size(); i++)
+					{
+						if (g_Vehicles[i].GetId() == entity)
+						{
+							g_Vehicles[i].SetExtra(extra, toggle);
+
+							RakNet::BitStream sData;
+							sData.Write(entity);
+							sData.Write(extra);
+							sData.Write(toggle);
+
+							g_Server->GetNetworkManager()->GetRPC().Signal("SetExtra", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
+							return;
+						}
+					}
+					break;
+				default:
+					std::wcout << ThisNamespace << L"GetVehicleExtra Entity " << entity << L" is not of type Vehicle." << std::endl;
+					break;
+				}
+			}
+			else
+			{
+				std::wcout << ThisNamespace << L"GetVehicleExtra Invalid Entity: " << entity << std::endl;
+			}
+		}
+		else
+		{
+			std::wcout << ThisNamespace << L"GetVehicleExtra Invalid Extra: " << extra << L", Must be 1-14." << std::endl;
 		}
 	}
 }

@@ -112,6 +112,11 @@ bool CVehicleEntity::CreateVehicle()
 
 		VEHICLE::SET_VEHICLE_NUMBER_PLATE_TEXT_INDEX(Game.Vehicle, Data.PlateStyle);
 
+		for (int i = 1; i < SizeOfArray(Data.Extras); i++)
+		{
+			VEHICLE::SET_VEHICLE_EXTRA(Game.Vehicle, i, Data.Extras[i].enabled);
+		}
+
 		VEHICLE::SET_VEHICLE_DOORS_LOCKED(Game.Vehicle, Data.DoorsLockState);
 
 		ENTITY::FREEZE_ENTITY_POSITION(Game.Vehicle, FALSE);
@@ -622,5 +627,15 @@ void CVehicleEntity::SetNumberPlateStyle(const int style)
 	if (Game.Created)
 	{
 		VEHICLE::SET_VEHICLE_NUMBER_PLATE_TEXT_INDEX(Game.Vehicle, style);
+	}
+}
+
+void CVehicleEntity::SetExtra(const int extra, const bool toggle)
+{
+	Data.Extras[extra].enabled = !toggle;
+
+	if (Game.Created)
+	{
+		VEHICLE::SET_VEHICLE_EXTRA(Game.Vehicle, extra, !toggle);
 	}
 }

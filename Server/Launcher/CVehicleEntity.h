@@ -44,8 +44,7 @@ private:
 
 		struct VehicleExtras
 		{
-			// Extras 0 = ON & 1 = OFFF
-			bool enabled;
+			bool enabled				= 0;
 		} Extras[15];
 
 		std::wstring	Plate			= L"FiveMP";
@@ -125,6 +124,7 @@ public:
 	const int		GetNumberPlateStyle() { return Data.PlateStyle; }
 	void			SetNumberPlateStyle(const int style) { Data.PlateStyle = style; }
 
+	// Extras 0 = ON & 1 = OFF, Which is why i invert the input
 	const bool		GetExtra(const int extra) { return !Data.Extras[extra].enabled; }
 	void			SetExtra(const int extra, const bool toggle) { Data.Extras[extra].enabled = !toggle; }
 };
