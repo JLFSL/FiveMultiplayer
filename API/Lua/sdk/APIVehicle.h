@@ -115,6 +115,20 @@ extern "C" {
 			/// <param name="entity">The entity of the vehicle</param>
 			/// <returns name="model">The model</returns>
 			DLL_PUBLIC_I static const std::wstring GetModel(const int entity);
+
+			/// <summary>
+			/// Get the vehicles number plate style
+			/// </summary>
+			/// <param name="entity">The entity of the vehicle</param>
+			/// <returns name="style">The number plate style index</returns>
+			DLL_PUBLIC_I static const int GetNumberPlateStyle(const int entity);
+
+			/// <summary>
+			/// Set the vehicles number plate style
+			/// </summary>
+			/// <param name="entity">The entity of the vehicle</param>
+			/// <param name="style">The style index of the numberplate</param>
+			DLL_PUBLIC_I static void SetNumberPlateStyle(const int entity, const int style);
 		};
 	}
 #ifdef __cplusplus

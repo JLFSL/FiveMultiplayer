@@ -243,6 +243,12 @@ void CVehicleEntity::RequestData(RakNetGUID requester)
 	sData.Write(Data.DoorsLockState);
 
 	g_Server->GetNetworkManager()->GetRPC().Signal("SetDoorsLockState", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, requester, false, false);
+
+	sData.Reset();
+	sData.Write(Information.Id);
+	sData.Write(Data.PlateStyle);
+
+	g_Server->GetNetworkManager()->GetRPC().Signal("SetNumberPlateStyle", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, requester, false, false);
 	
 	sData.Reset();
 }

@@ -457,4 +457,99 @@ namespace API
 			std::wcout << ThisNamespace << L"GetModel Invalid Entity: " << entity << std::endl;
 		}
 	}
+
+	const int Vehicle::GetNumberPlateStyle(const int entity)
+	{
+		const int index = ServerEntity::GetIndex(entity);
+		if (index > -1)
+		{
+			switch (g_Entities[index].GetType())
+			{
+			case CServerEntity::Vehicle:
+				for (int i = 0; i < g_Vehicles.size(); i++)
+				{
+					if (g_Vehicles[i].GetId() == entity)
+					{
+						return g_Vehicles[i].GetNumberPlateStyle();
+					}
+				}
+				break;
+			default:
+				std::wcout << ThisNamespace << L"SetNumberPlateStyle Entity " << entity << L" is not of type Vehicle." << std::endl;
+				break;
+			}
+		}
+		else
+		{
+			std::wcout << ThisNamespace << L"SetNumberPlateStyle Invalid Entity: " << entity << std::endl;
+		}
+	}
+
+	void Vehicle::SetNumberPlateStyle(const int entity, const int style)
+	{
+		if (style >= 0 && style <= 5)
+		{
+			const int index = ServerEntity::GetIndex(entity);
+			if (index > -1)
+			{
+				switch (g_Entities[index].GetType())
+				{
+				case CServerEntity::Vehicle:
+					for (int i = 0; i < g_Vehicles.size(); i++)
+					{
+						if (g_Vehicles[i].GetId() == entity)
+						{
+							g_Vehicles[i].SetNumberPlateStyle(style);
+
+							RakNet::BitStream sData;
+							sData.Write(entity);
+							sData.Write(style);
+
+							g_Server->GetNetworkManager()->GetRPC().Signal("SetNumberPlateStyle", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
+							return;
+						}
+					}
+					break;
+				default:
+					std::wcout << ThisNamespace << L"SetNumberPlateStyle Entity " << entity << L" is not of type Vehicle." << std::endl;
+					break;
+				}
+			}
+			else
+			{
+				std::wcout << ThisNamespace << L"SetNumberPlateStyle Invalid Entity: " << entity << std::endl;
+			}
+		}
+		else
+		{
+			std::wcout << ThisNamespace << L"SetNumberPlateStyle Invalid Style " << style << L", Valid styles are 0-5." << std::endl;
+		}
+	}
+
+	const bool Vehicle::GetVehicleExtra(const int entity, const int extra)
+	{
+		const int index = ServerEntity::GetIndex(entity);
+		if (index > -1)
+		{
+			switch (g_Entities[index].GetType())
+			{
+			case CServerEntity::Vehicle:
+				for (int i = 0; i < g_Vehicles.size(); i++)
+				{
+					if (g_Vehicles[i].GetId() == entity)
+					{
+						return g_Vehicles[i].GetExtra(extra);
+					}
+				}
+				break;
+			default:
+				std::wcout << ThisNamespace << L"GetVehicleExtra Entity " << entity << L" is not of type Vehicle." << std::endl;
+				break;
+			}
+		}
+		else
+		{
+			std::wcout << ThisNamespace << L"GetVehicleExtra Invalid Entity: " << entity << std::endl;
+		}
+	}
 }

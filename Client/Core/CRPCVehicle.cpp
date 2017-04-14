@@ -116,3 +116,21 @@ void CRPCVehicle::SetDoorsLockState(RakNet::BitStream *bitStream, RakNet::Packet
 		}
 	}
 }
+
+void CRPCVehicle::SetNumberPlateStyle(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+{
+	int entity, state;
+
+	bitStream->Read(entity);
+	bitStream->Read(state);
+
+	if (CServerEntity::IsValid(entity))
+	{
+		for (int i = 0; i < g_Vehicles.size(); i++) {
+			if (g_Vehicles[i].GetId() == entity) {
+				g_Vehicles[i].SetNumberPlateStyle(state);
+				break;
+			}
+		}
+	}
+}

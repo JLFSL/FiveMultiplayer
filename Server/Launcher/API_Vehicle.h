@@ -27,6 +27,14 @@ extern "C" {
 			DLL_PUBLIC static void SetDoorsLockState(const int entity, const int state, const int player);
 
 			DLL_PUBLIC static const std::wstring GetModel(const int entity);
+
+			//DLL_PUBLIC static void SetLivery(const int entity, const int livery);
+
+			DLL_PUBLIC static const int GetNumberPlateStyle(const int entity);
+			DLL_PUBLIC static void SetNumberPlateStyle(const int entity, const int style);
+
+			DLL_PUBLIC static const bool GetVehicleExtra(const int entity, const int extra);
+			DLL_PUBLIC static void SetVehicleExtra(const int entity, const int extra, const bool toggle);
 		};
 	}
 }

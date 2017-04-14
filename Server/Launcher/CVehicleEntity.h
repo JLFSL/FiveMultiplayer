@@ -42,7 +42,15 @@ private:
 			int index					= 0;
 		} Mods[50];
 
+		struct VehicleExtras
+		{
+			// Extras 0 = ON & 1 = OFFF
+			bool enabled;
+		} Extras[15];
+
 		std::wstring	Plate			= L"FiveMP";
+		int				PlateStyle		= 0;
+
 		int				DoorsLockState  = 0;
 
 		float			Heading;
@@ -113,5 +121,11 @@ public:
 
 	const int		GetDoorsLockState() { return Data.DoorsLockState; }
 	void			SetDoorsLockState(const int state) { Data.DoorsLockState = state; }
+
+	const int		GetNumberPlateStyle() { return Data.PlateStyle; }
+	void			SetNumberPlateStyle(const int style) { Data.PlateStyle = style; }
+
+	const bool		GetExtra(const int extra) { return !Data.Extras[extra].enabled; }
+	void			SetExtra(const int extra, const bool toggle) { Data.Extras[extra].enabled = !toggle; }
 };
 extern std::vector<CVehicleEntity> g_Vehicles;

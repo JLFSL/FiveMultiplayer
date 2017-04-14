@@ -354,6 +354,7 @@ struct Vehicle
 		}
 		else
 		{
+			lua_pushnil(L);
 			std::cerr << "Vehicle:GetNumberPlate requires args ()." << std::endl;
 		}
 		return 1;
@@ -390,6 +391,7 @@ struct Vehicle
 		}
 		else
 		{
+			lua_pushnil(L);
 			std::cerr << "Vehicle:GetMod requires args (int modType)." << std::endl;
 		}
 		return 1;
@@ -426,6 +428,7 @@ struct Vehicle
 		}
 		else
 		{
+			lua_pushnil(L);
 			std::cerr << "Vehicle:GetEngineState requires args ()." << std::endl;
 		}
 		return 1;
@@ -462,6 +465,7 @@ struct Vehicle
 		}
 		else
 		{
+			lua_pushnil(L);
 			std::cerr << "Vehicle:GetDoorsLockState requires args ()." << std::endl;
 		}
 		return 1;
@@ -506,7 +510,7 @@ struct Vehicle
 	int GetModel(lua_State* L)
 	{
 		const int args = lua_gettop(L);
-		if (args == 2)
+		if (args == 1)
 		{
 			Vehicle* veh = reinterpret_cast<Vehicle*>(lua_touserdata(L, 1));
 
@@ -516,9 +520,47 @@ struct Vehicle
 		}
 		else
 		{
+			lua_pushnil(L);
 			std::cerr << "Vehicle:GetModel requires args ()." << std::endl;
 		}
 		return 1;
+	}
+
+	int GetNumberPlateStyle(lua_State* L)
+	{
+		const int args = lua_gettop(L);
+		if (args == 1)
+		{
+			Vehicle* veh = reinterpret_cast<Vehicle*>(lua_touserdata(L, 1));
+
+			lua_pushinteger(L, API::Vehicle::GetNumberPlateStyle(veh->entity));
+
+			veh = nullptr;
+		}
+		else
+		{
+			lua_pushnil(L);
+			std::cerr << "Vehicle:GetNumberPlateStyle requires args ()." << std::endl;
+		}
+		return 1;
+	}
+
+	int SetNumberPlateStyle(lua_State* L)
+	{
+		const int args = lua_gettop(L);
+		if (args == 2)
+		{
+			Vehicle* veh = reinterpret_cast<Vehicle*>(lua_touserdata(L, 1));
+			
+			API::Vehicle::SetNumberPlateStyle(veh->entity, lua_tointeger(L, 2));
+
+			veh = nullptr;
+		}
+		else
+		{
+			std::cerr << "Vehicle:SetNumberPlateStyle requires args (int style)." << std::endl;
+		}
+		return 0;
 	}
 };
 #endif

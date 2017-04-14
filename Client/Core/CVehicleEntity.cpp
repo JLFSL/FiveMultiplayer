@@ -63,13 +63,6 @@ bool CVehicleEntity::CreateVehicle()
 		ENTITY::SET_ENTITY_COLLISION(Game.Vehicle, TRUE, FALSE);
 		ENTITY::SET_ENTITY_ROTATION(Game.Vehicle, Data.Rotation.fX, Data.Rotation.fY, Data.Rotation.fZ, 2, true);
 
-		// Vehicle Mods
-		VEHICLE::SET_VEHICLE_MOD_KIT(Game.Vehicle, 0);
-		for (int i = 0; i < SizeOfArray(Data.Mods); i++)
-		{
-			VEHICLE::SET_VEHICLE_MOD(Game.Vehicle, i, Data.Mods[i].index, false);
-		}
-
 		VEHICLE::SET_TAXI_LIGHTS(Game.Vehicle, TRUE);
 
 		// Vehicle Number Plate
@@ -80,6 +73,15 @@ bool CVehicleEntity::CreateVehicle()
 		{
 			VEHICLE::SET_VEHICLE_MOD(Game.Vehicle, 48, 0, 0);
 			VEHICLE::SET_VEHICLE_LIVERY(Game.Vehicle, 0);
+		}
+
+		// Vehicle Mods
+		VEHICLE::SET_VEHICLE_MOD_KIT(Game.Vehicle, 0);
+		for (int i = 0; i < SizeOfArray(Data.Mods); i++)
+		{
+			VEHICLE::SET_VEHICLE_MOD(Game.Vehicle, i, Data.Mods[i].index, false);
+			if(i = 48)
+				VEHICLE::SET_VEHICLE_LIVERY(Game.Vehicle, Data.Mods[i].index);
 		}
 
 		// Vehicle Colors
@@ -107,6 +109,8 @@ bool CVehicleEntity::CreateVehicle()
 			VEHICLE::SET_VEHICLE_ENGINE_ON(Game.Vehicle, Data.ForceEngineState, true, true);
 			VEHICLE::SET_VEHICLE_UNDRIVEABLE(Game.Vehicle, !Data.ForceEngineState);
 		}
+
+		VEHICLE::SET_VEHICLE_NUMBER_PLATE_TEXT_INDEX(Game.Vehicle, Data.PlateStyle);
 
 		VEHICLE::SET_VEHICLE_DOORS_LOCKED(Game.Vehicle, Data.DoorsLockState);
 
@@ -608,5 +612,15 @@ void CVehicleEntity::SetDoorsLockState(const int state)
 	if (Game.Created)
 	{
 		VEHICLE::SET_VEHICLE_DOORS_LOCKED(Game.Vehicle, state);
+	}
+}
+
+void CVehicleEntity::SetNumberPlateStyle(const int style)
+{
+	Data.PlateStyle = style;
+
+	if (Game.Created)
+	{
+		VEHICLE::SET_VEHICLE_NUMBER_PLATE_TEXT_INDEX(Game.Vehicle, style);
 	}
 }

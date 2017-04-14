@@ -45,7 +45,8 @@ CRPCManager::RPCMessage rpcmessages[] = {
 	{ "SetNumberPlate", CRPCVehicle::SetNumberPlate },
 	{ "SetMod", CRPCVehicle::SetMod },
 	{ "SetEngineState", CRPCVehicle::SetEngineState },
-	{ "SetDoorsLockState", CRPCVehicle::SetDoorsLockState }
+	{ "SetDoorsLockState", CRPCVehicle::SetDoorsLockState },
+	{ "SetNumberPlateStyle", CRPCVehicle::SetNumberPlateStyle }
 #pragma endregion
 };
 

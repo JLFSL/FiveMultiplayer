@@ -42,6 +42,8 @@ private:
 		} Colors[2];
 
 		std::wstring	Plate			= L"FiveMP";
+		int				PlateStyle		= 0;
+
 		int				DoorsLockState  = 0;
 
 		struct VehicleMods
@@ -136,6 +138,7 @@ public:
 	void			SetMod(const int modType, const int modIndex);
 	void			SetEngineState(const bool state);
 	void			SetDoorsLockState(const int state);
+	void			SetNumberPlateStyle(const int style);
 
 	VehicleInterpolationData InterpolationData;
 };
