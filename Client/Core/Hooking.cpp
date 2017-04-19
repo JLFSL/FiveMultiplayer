@@ -166,14 +166,15 @@ void Hooking::FindPatterns()
 
 	// Wait for legals
 	DWORD ticks = GetTickCount();
-	while (*m_gameState != GameStateLicense || GetTickCount() < ticks + 5000) Sleep(50);
+	while (*m_gameState != GameStateLicense || GetTickCount() < ticks + 5000 || *m_gameState == GameStatePlaying) Sleep(50);
 
 	// Get vector3 result fixer function
 	auto void_location = p_fixVector3Result.count(1).get(0).get<void>(0);
 	if (void_location != nullptr) scrNativeCallContext::SetVectorResults = (void(*)(scrNativeCallContext*))(void_location);
 
 	// Skip game legals
-	Memory::nop(p_gameLegals.count(1).get(0).get<void>(0), 2);
+	if(*m_gameState == GameStateLicense)
+		Memory::nop(p_gameLegals.count(1).get(0).get<void>(0), 2);
 
 	//Wait for Menu or Game
 	while (true)
@@ -184,8 +185,8 @@ void Hooking::FindPatterns()
 		if (*m_gameState == GameStatePlaying)
 			break;
 
-		//if (*m_gameState == GameStateLoadingSP_MP) // this is triggered when just generaly loading even on initilizing social club....
-			//break;
+		if (*m_gameState == GameStateLoadingSP_MP) // this is triggered when just generaly loading even on initilizing social club....
+			break;
 
 		Sleep(2000);
 	}
