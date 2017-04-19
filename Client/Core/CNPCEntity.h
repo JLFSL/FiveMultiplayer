@@ -18,7 +18,7 @@ private:
 
 		struct ModelData
 		{
-			RakString		Model;
+			std::string		Model;
 			int				Type;
 		} Model;
 
@@ -93,7 +93,7 @@ public:
 	CNPCEntity();
 	~CNPCEntity() {}
 
-	bool Create(const int entity, const RakString model, const CVector3 position, const CVector3 rotation);
+	bool Create(const int entity, const std::string model, const CVector3 position, const CVector3 rotation);
 	bool CreateNpc();
 	void RequestData();
 	void Destroy();
@@ -118,8 +118,8 @@ public:
 	CVector3		GetRotation() { return Data.Rotation; }
 	void			SetRotation(const CVector3 rotation) { Data.Rotation = rotation; }
 
-	const std::string GetModel() { return Data.Model.Model.C_String(); }
-	void			SetModel(const std::string model) { Data.Model.Model = RakString(model.c_str()); }
+	const std::string GetModel() { return Data.Model.Model; }
+	void			SetModel(const std::string model) { Data.Model.Model = model; }
 
 	NPCData::Component GetModelComponent(const int index) { return Data.ModelComponents[index]; }
 	void			SetModelComponent(const int index, const int drawableid, const int textureid, const int paletteid);

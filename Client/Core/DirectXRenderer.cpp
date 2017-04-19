@@ -20,6 +20,10 @@ DWORD_PTR* DirectXRenderer::pDeviceContextVTable = nullptr;
 
 bool show_app_about = true;
 
+char InputBuf[256];
+float DirectXRenderer::windowScale = 1.0f;
+float DirectXRenderer::textScale = 0.5f;
+
 HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags)
 {
 	if (DirectXRenderer::FirstRender)
@@ -74,27 +78,32 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 
 	ImGui_ImplDX11_NewFrame();
 
-	io.MouseDrawCursor = true;
+	//io.MouseDrawCursor = true;
 
 	if (show_app_about)
 	{
 		float screenWidth = io.DisplaySize.x * io.DisplayFramebufferScale.x;
 		float screenHeight = io.DisplaySize.y * io.DisplayFramebufferScale.y;
-		float windowScale = 1.0f;
+		DirectXRenderer::windowScale = 1.0f;
+		DirectXRenderer::textScale = 1.0f;
 
 		if (screenWidth < 1920.0f)
 		{
 			float diffrence = (1920.0f - screenWidth) / (1920.0f / 10.0f) * 0.1f;
-			windowScale = 1.0f - diffrence;
+			DirectXRenderer::windowScale = 1.0f - diffrence;
+			DirectXRenderer::textScale = 1.0f - (diffrence - (diffrence / 2));
+			if (DirectXRenderer::textScale < 0.75f)
+				DirectXRenderer::textScale = 0.75f;
 		}
 		
-		if (CNetworkManager::g_ConnectionState != CONSTATE_DISC)
+		if (CNetworkManager::g_ConnectionState == CONSTATE_COND)
 		{
-			ImGui::SetNextWindowPos(ImVec2(screenWidth - (700 * windowScale), screenHeight - (80 * windowScale) - 10));
-			ImGui::SetNextWindowSize(ImVec2((700 * windowScale), (80 * windowScale)));
+			ImGui::SetNextWindowPos(ImVec2(screenWidth - (700 * DirectXRenderer::windowScale), screenHeight - (80 * DirectXRenderer::windowScale) - 10));
+			ImGui::SetNextWindowSize(ImVec2((700 * DirectXRenderer::windowScale), (80 * DirectXRenderer::windowScale)));
 			ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
 			ImGui::Begin("FiveMultiplayer_Debug", NULL, ImVec2(0, 0), 0.5f, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings);
 			{
+				ImGui::SetWindowFontScale(DirectXRenderer::textScale);
 				CVector3 pposition = CLocalPlayer::GetPosition();
 				CVector3 protation = CLocalPlayer::GetRotation();
 				float SizeH;
@@ -118,7 +127,9 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 				// Pools Debug
 				std::string pools = "Pools: Players(" + std::to_string(CStreamer::GetPlayerCount()) + "/" + std::to_string(g_Players.size()) +
 									"), Vehicles(" + std::to_string(CStreamer::GetVehicleCount()) + "/" + std::to_string(g_Vehicles.size()) + 
-									"), Objects(" + std::to_string(CStreamer::GetObjectCount()) + "/" + std::to_string(g_Objects.size()) + "), Entities(" + std::to_string(g_Entities.size()) +  ")";
+									"), Objects(" + std::to_string(CStreamer::GetObjectCount()) + "/" + std::to_string(g_Objects.size()) + 
+									"), NPCs(" + std::to_string(CStreamer::GetNpcCount()) + "/" + std::to_string(g_Npcs.size()) +
+									"), Entities(" + std::to_string(g_Entities.size()) +  ")";
 				SizeH = ImGui::CalcTextSize(pools.c_str()).x;
 
 				ImGui::SameLine(ImGui::GetWindowContentRegionMax().x - SizeH);
@@ -132,7 +143,7 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 		if (CNetworkManager::g_ConnectionState == CONSTATE_CONN)
 		{
 			ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));
-			ImGui::SetNextWindowSize(ImVec2((500 * windowScale), (60 * windowScale)));
+			ImGui::SetNextWindowSize(ImVec2((500 * DirectXRenderer::windowScale), (60 * DirectXRenderer::windowScale)));
 			ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
 			ImGui::Begin("FiveMultiplayer_Connecting", NULL, ImVec2(0, 0), 0.0f, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings);
 			{
@@ -141,6 +152,119 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 			}
 			ImGui::End();
 			ImGui::PopStyleVar(1);
+		}
+
+		// Temporary Chat
+		if (CNetworkManager::g_ConnectionState == CONSTATE_COND && CConfig::GetUILevel() < 2)
+		{
+			ImGui::SetNextWindowPos(ImVec2(3, 3));
+			ImGui::SetNextWindowSize(ImVec2((800 * DirectXRenderer::windowScale), (400 * DirectXRenderer::windowScale)));
+			ImGui::Begin(" ", NULL, ImVec2(0, 0), 0.0f, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_AlwaysAutoResize);
+			{
+				ImGui::SetWindowFontScale(DirectXRenderer::textScale * 1.2f);
+				ImGui::BeginChild("ScrollingRegion", ImVec2(0, -ImGui::GetItemsLineHeightWithSpacing()), false, ImGuiWindowFlags_NoScrollbar);
+				{
+					ImGui::SetWindowFontScale(DirectXRenderer::textScale * 1.2f);
+					ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 1)); // Tighten spacing
+					ImVec4 cBg = ImVec4(0.20f, 0.20f, 0.20f, 0.0f);
+					ImGui::PushStyleColor(ImGuiCol_ChildWindowBg, cBg);
+					ImGui::PushTextWrapPos(ImGui::GetWindowWidth() - 3.0f);
+
+					if (!CChat::chatData.empty())
+					{
+						int maxLines = CChat::chatData.size();
+						if (maxLines > CChat::MaxHistory)
+							maxLines = CChat::MaxHistory;
+
+						for (int i = 0; i < maxLines; i++)
+						{
+							if (CChat::chatData[i].used)
+							{
+								for (int h = 0; h < CChat::chatData[i].message.size(); h++)
+								{
+									if (!CChat::chatData[i].message.empty())
+									{
+										if (h != 0)
+											ImGui::SameLine();
+
+										ImVec4 col = ImVec4(CChat::chatData[i].message[h].red, CChat::chatData[i].message[h].green, CChat::chatData[i].message[h].blue, 1.0f);
+										ImGui::PushStyleColor(ImGuiCol_Text, col);
+
+										if (CChat::chatData[i].message[h].newline)
+											ImGui::NewLine();
+
+										if (CChat::chatData[i].message[h].text.c_str())
+										{
+											ImGui::TextUnformatted(CString::utf16ToUtf8(CChat::chatData[i].message[h].text).c_str());
+										}
+
+										ImGui::PopStyleColor();
+									}
+								}
+							}
+						}
+					}
+
+					if (CChat::ScrollToBottom)
+						ImGui::SetScrollHere();
+
+					CChat::ScrollToBottom = false;
+					ImGui::PopStyleVar();
+					ImGui::PopStyleColor();
+				}
+				ImGui::EndChild();
+
+				// Command-line
+				if (CChat::InputOpen)
+				{
+					//LocalPlayer.controllable = false;
+					io.MouseDrawCursor = true;
+					ImGui::PushItemWidth(-1);
+					if (ImGui::InputText("", InputBuf, IM_ARRAYSIZE(InputBuf), ImGuiInputTextFlags_EnterReturnsTrue))
+					{
+						char* input_end = InputBuf + strlen(InputBuf);
+						while (input_end > InputBuf && input_end[-1] == ' ') input_end--; *input_end = 0;
+						if (InputBuf[0])
+						{
+							if (InputBuf[0] == L'/' && CChat::CommandProcessor(CString::utf8ToUtf16(InputBuf))) {}
+							else 
+							{
+								std::wstring message = CString::utf8ToUtf16(InputBuf);
+								for (int m = 0; m < message.size() * sizeof(wchar_t); m++)
+								{
+									if (message.data()[m] == '{') 
+									{
+										if (m + 7 < message.size() * sizeof(wchar_t))
+										{
+											if (message.data()[m + 7] == '}') 
+											{
+												message.erase(m, 8);
+											}
+										}
+									}
+								}
+
+								BitStream bitstream;
+								RakNet::RakWString msg(message.c_str());
+
+								bitstream.Write((unsigned char)ID_CHAT_MESSAGE);
+								bitstream.Write(msg);
+
+								CNetworkManager::GetInterface()->Send(&bitstream, MEDIUM_PRIORITY, RELIABLE_ORDERED, 0, CNetworkManager::GetSystemAddress(), false);
+							}
+						}
+
+						strcpy(InputBuf, "");
+						CChat::InputOpen = false;
+						//LocalPlayer.controllable = true;
+						io.MouseDrawCursor = false;
+					}
+					ImGui::PopItemWidth();
+
+					ImGui::SetKeyboardFocusHere(-1); // Auto focus previous widget
+				}
+			}
+			ImGui::End();
 		}
 	}
 

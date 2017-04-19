@@ -19,7 +19,6 @@ void CRPCEntity::Destroy(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 
 void CRPCEntity::SetPosition(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 {
-	std::cout << "CRPCEntity::SetPosition" << std::endl;
 	int entity;
 	CVector3 position;
 
@@ -27,7 +26,8 @@ void CRPCEntity::SetPosition(RakNet::BitStream *bitStream, RakNet::Packet *packe
 	bitStream->Read(position.fX);
 	bitStream->Read(position.fY);
 	bitStream->Read(position.fZ);
-
+	std::cout << "CRPCEntity::SetPosition for entity " << entity << " to " << std::to_string(position.fX) << ", " << std::to_string(position.fY) << ", " << std::to_string(position.fZ) << std::endl;
+	
 	if (entity != -1)
 	{
 		for (int i = 0; i < g_Entities.size(); i++)
@@ -38,10 +38,10 @@ void CRPCEntity::SetPosition(RakNet::BitStream *bitStream, RakNet::Packet *packe
 	}
 	else
 	{
-		// Load location
-		STREAMING::LOAD_SCENE(position.fX, position.fY, position.fZ);
 		// Force everything to stream out
 		CStreamer::ForceStreamOut();
+		// Load location
+		STREAMING::LOAD_SCENE(position.fX, position.fY, position.fZ);
 		// Stream in everything at the position
 		CStreamer::StreamObjectsIn(position);
 		CStreamer::StreamVehiclesIn(position);
@@ -50,6 +50,7 @@ void CRPCEntity::SetPosition(RakNet::BitStream *bitStream, RakNet::Packet *packe
 		// Send player to the position
 		ENTITY::SET_ENTITY_COORDS(CLocalPlayer::GetPed(), position.fX, position.fY, position.fZ, false, false, false, false);
 	}
+
 }
 
 void CRPCEntity::SetRotation(RakNet::BitStream *bitStream, RakNet::Packet *packet)
@@ -118,7 +119,7 @@ void CRPCEntity::PedComponent(RakNet::BitStream *bitStream, RakNet::Packet *pack
 	bitStream->Read(paletteid);
 	bitStream->Read(textureid);
 
-	if (entity != -1)
+	if (entity != CLocalPlayer::GetId())
 	{
 		CServerEntity::SetPedComponentVariation(entity, componentid, drawableid, textureid, paletteid);
 	}
@@ -145,7 +146,7 @@ void CRPCEntity::PedHeadBlend(RakNet::BitStream *bitStream, RakNet::Packet *pack
 	bitStream->Read(skinThird);
 	bitStream->Read(thirdMix);
 
-	if (entity != -1)
+	if (entity != CLocalPlayer::GetId())
 	{
 		CServerEntity::SetPedHeadBlend(entity, shapeFirst, shapeSecond, shapeThird, skinFirst, skinSecond, skinThird, shapeMix, skinMix, thirdMix);
 	}
@@ -169,7 +170,7 @@ void CRPCEntity::PedHeadOverlay(RakNet::BitStream *bitStream, RakNet::Packet *pa
 	bitStream->Read(secondColorID);
 	bitStream->Read(opacity);
 
-	if (entity != -1)
+	if (entity != CLocalPlayer::GetId())
 	{
 		CServerEntity::SetPedHeadOverlayColor(entity, overlayid, index, colorType, colorID, secondColorID, opacity);
 	}
@@ -181,7 +182,6 @@ void CRPCEntity::PedHeadOverlay(RakNet::BitStream *bitStream, RakNet::Packet *pa
 
 void CRPCEntity::PedProp(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 {
-	std::cout << "CRPCEntity::PedProp" << std::endl;
 	int entity, componentid, drawableid, textureid;
 	float opacity;
 
@@ -189,8 +189,9 @@ void CRPCEntity::PedProp(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 	bitStream->Read(componentid);
 	bitStream->Read(drawableid);
 	bitStream->Read(textureid);
+	std::cout << "CRPCEntity::PedProp for entity " << entity << " with " << componentid << ", " << drawableid << ", " << textureid << std::endl;
 
-	if (entity != -1)
+	if (entity != CLocalPlayer::GetId())
 	{
 		CServerEntity::SetPedProp(entity, componentid, drawableid, textureid);
 	}
@@ -210,7 +211,7 @@ void CRPCEntity::PedFaceFeature(RakNet::BitStream *bitStream, RakNet::Packet *pa
 	bitStream->Read(index);
 	bitStream->Read(scale);
 
-	if (entity != -1)
+	if (entity != CLocalPlayer::GetId())
 	{
 		CServerEntity::SetPedFaceFeature(entity, index, scale);
 	}

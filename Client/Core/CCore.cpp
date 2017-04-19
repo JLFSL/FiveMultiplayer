@@ -92,11 +92,11 @@ void CCore::OnGameTick()
 		Logger::Msg("Connecting");
 	}
 
-	if (KeyJustUp(VK_F6))
+	/*if (KeyJustUp(VK_F6))
 	{
 		CNetworkManager::Connect("51.254.219.119", "default", 2323);
 		Logger::Msg("Connecting");
-	}
+	}*/
 
 	if (KeyJustUp(VK_F5))
 	{
@@ -114,6 +114,36 @@ void CCore::OnGameTick()
 	{
 		CNetworkManager::Disconnect();
 		Logger::Msg("Disconnecting");
+	}
+
+	// Chat (Open)
+	if ((KeyJustUp(VK_F6) || KeyJustUp(0x54)) && !CChat::InputOpen /*&& !WindowManager->BlockInput*/)
+	{
+		CChat::InputOpen = true;
+	}
+
+	// Chat (Close)
+	if (KeyJustUp(VK_ESCAPE))
+	{
+		if (!CChat::InputOpen)
+		{
+			if (UI::_GET_CURRENT_FRONTEND_MENU() != GAMEPLAY::GET_HASH_KEY("FE_MENU_VERSION_SP_PAUSE"))
+			{
+				Hash menuHash = GAMEPLAY::GET_HASH_KEY("FE_MENU_VERSION_SP_PAUSE");
+				UI::ACTIVATE_FRONTEND_MENU(menuHash, 0, -1);
+				UI::RESTART_FRONTEND_MENU(menuHash, -1);
+			}
+			else
+				UI::DISABLE_FRONTEND_THIS_FRAME();
+		}
+		else
+		{
+			CChat::InputOpen = false;
+			//LocalPlayer->controllable = true;
+			ImGuiIO& io = ImGui::GetIO();
+			io.MouseDrawCursor = false;
+		}
+		ResetKeyState(VK_ESCAPE);
 	}
 
 	KeyCheck();
@@ -207,6 +237,10 @@ void CCore::PreventCheat()
 
 void CCore::KeyCheck()
 {
+	CONTROLS::DISABLE_CONTROL_ACTION(2, ControlCharacterWheel, true);
+	CONTROLS::DISABLE_CONTROL_ACTION(2, ControlFrontendPause, true);
+	CONTROLS::DISABLE_CONTROL_ACTION(2, ControlFrontendSocialClub, true);
+
 	if (CONTROLS::IS_CONTROL_PRESSED(0, ControlEnter) && !PED::IS_PED_IN_ANY_VEHICLE(CLocalPlayer::GetPed(), true) /*&& chatnotopen*/)
 	{
 		Vehicle vehicle = CVehicleEntity::getClosestVehicleFromPedPos(CLocalPlayer::GetPed(), 10.0f);

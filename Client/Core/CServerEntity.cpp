@@ -541,7 +541,6 @@ void CServerEntity::SetPedProp(const int entity, const int componentid, const in
 					if (entity == g_Players[p].GetId())
 					{
 						return g_Players[p].SetModelProp(componentid, drawableid, textureid);
-						break;
 					}
 				}
 				break;
@@ -551,7 +550,6 @@ void CServerEntity::SetPedProp(const int entity, const int componentid, const in
 					if (entity == g_Npcs[p].GetId())
 					{
 						return g_Npcs[p].SetModelProp(componentid, drawableid, textureid);
-						break;
 					}
 				}
 				break;

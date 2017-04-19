@@ -28,6 +28,7 @@ void CStreamer::Start()
 
 void CStreamer::Pulse()
 {
+	//std::cout << "Streamer" << std::endl;
 	StreamObjectsIn(CLocalPlayer::GetPosition());
 	StreamVehiclesIn(CLocalPlayer::GetPosition());
 	StreamPlayersIn(CLocalPlayer::GetPosition());
@@ -48,11 +49,11 @@ void CStreamer::StreamObjectsIn(CVector3 position)
 			{
 				for (int i = 0; i < g_Entities.size(); i++)
 				{
-					if (ObjectCount < MaxObjects && curDis < g_Entities[i].GetViewDistance())
+					switch (g_Entities[i].GetType())
 					{
-						switch (g_Entities[i].GetType())
+					case CServerEntity::Type::Object:
+						if (ObjectCount < MaxObjects && curDis < g_Entities[i].GetViewDistance())
 						{
-						case CServerEntity::Type::Object:
 							for (int index = 0; index < g_Objects.size(); index++)
 							{
 								if (g_Objects[index].GetId() == g_Entities[i].GetId())
@@ -70,7 +71,7 @@ void CStreamer::StreamObjectsIn(CVector3 position)
 											ObjectCount++;
 
 											streamedObject newObj;
-											newObj.entity = g_Entities[i].GetId();
+											newObj.entity = i;
 											newObj.distance = distance;
 
 											streamed.push_back(newObj);
@@ -79,11 +80,9 @@ void CStreamer::StreamObjectsIn(CVector3 position)
 									break;
 								}
 							}
-							break;
 						}
-					}
-					else
 						break;
+					}
 				}
 
 				curDis += 50.0f;
@@ -103,11 +102,11 @@ void CStreamer::StreamVehiclesIn(CVector3 position)
 			{
 				for (int i = 0; i < g_Entities.size(); i++)
 				{
-					if (VehicleCount < MaxVehicles && curDis < g_Entities[i].GetViewDistance())
+					switch (g_Entities[i].GetType())
 					{
-						switch (g_Entities[i].GetType())
+					case CServerEntity::Type::Vehicle:
+						if (VehicleCount < MaxVehicles && curDis < g_Entities[i].GetViewDistance())
 						{
-						case CServerEntity::Type::Vehicle:
 							for (int index = 0; index < g_Vehicles.size(); index++)
 							{
 								if (g_Vehicles[index].GetId() == g_Entities[i].GetId())
@@ -125,7 +124,7 @@ void CStreamer::StreamVehiclesIn(CVector3 position)
 											VehicleCount++;
 
 											streamedObject newObj;
-											newObj.entity = g_Entities[i].GetId();
+											newObj.entity = i;
 											newObj.distance = distance;
 
 											streamed.push_back(newObj);
@@ -134,11 +133,9 @@ void CStreamer::StreamVehiclesIn(CVector3 position)
 									break;
 								}
 							}
-							break;
 						}
-					}
-					else
 						break;
+					}
 				}
 
 				curDis += 50.0f;
@@ -146,7 +143,6 @@ void CStreamer::StreamVehiclesIn(CVector3 position)
 		}
 	}
 }
-
 
 void CStreamer::StreamPlayersIn(CVector3 position)
 {
@@ -159,11 +155,11 @@ void CStreamer::StreamPlayersIn(CVector3 position)
 			{
 				for (int i = 0; i < g_Entities.size(); i++)
 				{
-					if (PlayerCount < MaxPlayers && curDis < g_Entities[i].GetViewDistance())
+					switch (g_Entities[i].GetType())
 					{
-						switch (g_Entities[i].GetType())
+					case CServerEntity::Type::Player:
+						if (PlayerCount < MaxPlayers && curDis < g_Entities[i].GetViewDistance())
 						{
-						case CServerEntity::Type::Player:
 							for (int index = 0; index < g_Players.size(); index++)
 							{
 								if (g_Players[index].GetId() == g_Entities[i].GetId())
@@ -184,7 +180,7 @@ void CStreamer::StreamPlayersIn(CVector3 position)
 										PlayerCount++;
 
 										streamedObject newObj;
-										newObj.entity = g_Entities[i].GetId();
+										newObj.entity = i;
 										newObj.distance = distance;
 
 										streamed.push_back(newObj);
@@ -193,10 +189,8 @@ void CStreamer::StreamPlayersIn(CVector3 position)
 								}
 							}
 						}
-						break;
 					}
-					else
-						break;
+					break;
 				}
 
 				curDis += 50.0f;
@@ -204,7 +198,6 @@ void CStreamer::StreamPlayersIn(CVector3 position)
 		}
 	}
 }
-
 
 void CStreamer::StreamOtherIn(CVector3 position)
 {
@@ -220,7 +213,7 @@ void CStreamer::StreamOtherIn(CVector3 position)
 					switch (g_Entities[i].GetType())
 					{
 					case CServerEntity::Type::NPC:
-						if (NpcCount < MaxNpcs < g_Entities[i].GetViewDistance())
+						if (NpcCount < MaxNpcs && curDis < g_Entities[i].GetViewDistance())
 						{
 							for (int index = 0; index < g_Npcs.size(); index++)
 							{
@@ -239,7 +232,7 @@ void CStreamer::StreamOtherIn(CVector3 position)
 											NpcCount++;
 
 											streamedObject newObj;
-											newObj.entity = g_Entities[i].GetId();
+											newObj.entity = i;
 											newObj.distance = distance;
 
 											streamed.push_back(newObj);
@@ -339,7 +332,7 @@ void CStreamer::StreamOut(CVector3 position)
 					}
 					break;
 				default:
-					streamed.erase(streamed.begin() + i);
+					streamed.erase(streamed.begin() + i); // // This may causes issue with objects being left but we will see, as far as i can tell though the ones that hit this point arn't even spawned anymore.
 					//std::cout << "[CStreamer::StreamOut] Found Invalid entity " << g_Entities[i].GetId() << std::endl;
 					break;
 				}
@@ -360,6 +353,7 @@ void CStreamer::StreamOut(CVector3 position)
 
 void CStreamer::ForceStreamOut()
 {
+	std::cout << "CStreamer::ForceStreamOut Start" << std::endl;
 	if (!streamed.empty())
 	{
 		for (int i = 0; i < streamed.size(); i++)
@@ -424,7 +418,7 @@ void CStreamer::ForceStreamOut()
 				break;
 			default:
 				//std::cout << "[CStreamer::ForceStreamOut] Found Invalid entity " << g_Entities[i].GetId() << std::endl;
-				streamed.erase(streamed.begin() + i); // This may causes issue with objects being left but we will see, as far as i can tell though the ones that hit this point arn't even spawned anymore.
+				streamed.erase(streamed.begin() + i); 
 				break;
 			}
 		}
@@ -436,4 +430,5 @@ void CStreamer::ForceStreamOut()
 		ObjectCount = 0;
 		NpcCount = 0;
 	}
+	std::cout << "CStreamer::ForceStreamOut End" << std::endl;
 }

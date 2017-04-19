@@ -3,6 +3,9 @@
 class DirectXRenderer
 {
 public:
+	static float windowScale;
+	static float textScale;
+
 	static HWND hWnd;
 	static bool FirstRender;
 

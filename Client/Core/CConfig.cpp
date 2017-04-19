@@ -31,9 +31,38 @@ bool CConfig::Read()
 		Information.LatestVersion = Config.GetBoolean("Information", "latestversion", true);
 
 		Game.Editor = Config.GetBoolean("Game", "editor", false);
+		Game.UILevel = Config.GetInteger("Game", "uilevel", 0);
 
 		std::cout << "[CConfig] Read config" << std::endl;
 		return true;
 	}
 	return false;
+}
+
+void CConfig::Save() {
+	std::wcout << L"[CConfig] Saving Settings." << std::endl;
+
+	char buffer[MAX_PATH];		//always use MAX_PATH for filepaths
+	GetModuleFileName(GetModuleHandle("Client.Core.dll"), buffer, sizeof(buffer));
+
+	std::string filePath = buffer;
+	filePath.erase(filePath.find("Client.Core.dll"), std::string("Client.Core.dll").size());
+
+	INIWriter Config(filePath + "Client.Config.ini");
+
+	Config.WriteString("Connection", "ip", Connection.Ip);
+	Config.WriteInteger("Connection", "port", Connection.Port);
+	Config.WriteString("Connection", "pass", Connection.Pass);
+
+	Config.WriteString("Information", "name", Information.Name);
+	Config.WriteBoolean("Information", "latestversion", Information.LatestVersion);
+
+	Config.WriteBoolean("Game", "editor", Game.Editor);
+	Config.WriteInteger("Game", "uilevel", Game.UILevel);
+}
+
+void CConfig::SetUILevel(const int level)
+{
+	Game.UILevel = level;
+	CConfig::Save();
 }

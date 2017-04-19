@@ -51,6 +51,7 @@ void InputHook::Remove() {
 
 LRESULT APIENTRY WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
+	ImGuiIO& io = ImGui::GetIO();
 	switch (uMsg)
 	{
 	case WM_SIZE:
@@ -81,5 +82,4 @@ LRESULT APIENTRY WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	}
 
 	return CallWindowProc(oWndProc, hwnd, uMsg, wParam, lParam);
-
 }

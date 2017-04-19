@@ -176,6 +176,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Animations.cpp" />
+    <ClCompile Include="CChat.cpp" />
     <ClCompile Include="CCheckpointEntity.cpp" />
     <ClCompile Include="CConfig.cpp" />
     <ClCompile Include="CCore.cpp" />
@@ -225,6 +226,7 @@
     </ClCompile>
     <ClCompile Include="ini.cpp" />
     <ClCompile Include="IniReader.cpp" />
+    <ClCompile Include="IniWriter.cpp" />
     <ClCompile Include="InputHook.cpp" />
     <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="CLocalPlayer.cpp" />
@@ -248,6 +250,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h" />
+    <ClInclude Include="CChat.h" />
     <ClInclude Include="CCheckpointEntity.h" />
     <ClInclude Include="CConfig.h" />
     <ClInclude Include="CCore.h" />
@@ -287,6 +290,7 @@
     <ClInclude Include="imgui\stb_truetype.h" />
     <ClInclude Include="ini.h" />
     <ClInclude Include="IniReader.h" />
+    <ClInclude Include="IniWriter.h" />
     <ClInclude Include="InputHook.h" />
     <ClInclude Include="Keyboard.h" />
     <ClInclude Include="CLocalPlayer.h" />

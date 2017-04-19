@@ -35,6 +35,9 @@ extern "C" {
 
 			DLL_PUBLIC static const bool GetExtra(const int entity, const int extra);
 			DLL_PUBLIC static void SetExtra(const int entity, const int extra, const bool toggle);
+
+			DLL_PUBLIC static const float GetEngineHealth(const int entity);
+			DLL_PUBLIC static void SetEngineHealth(const int entity, const float health);
 		};
 	}
 }

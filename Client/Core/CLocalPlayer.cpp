@@ -179,8 +179,9 @@ void CLocalPlayer::VehicleChecks()
 
 Ped	CLocalPlayer::GetPed()
 {
-	if (!ENTITY::DOES_ENTITY_EXIST(Game.Ped))
+	if (!ENTITY::DOES_ENTITY_EXIST(Game.Ped)) {
 		Game.Ped = PLAYER::GET_PLAYER_PED(Game.Player);
+	}
 
 	return Game.Ped;
 }

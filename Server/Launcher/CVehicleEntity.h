@@ -17,6 +17,8 @@ private:
 		bool		EngineState			= 0;
 		int			ForcedEngineState	= -1;
 
+		float		EngineHealth		= 1000.0f;
+
 		uint16_t	Gear				= 0;
 		float		RPM					= .0f;
 
@@ -127,5 +129,8 @@ public:
 	// Extras 0 = ON & 1 = OFF, Which is why i invert the input
 	const bool		GetExtra(const int extra) { return !Data.Extras[extra].enabled; }
 	void			SetExtra(const int extra, const bool toggle) { Data.Extras[extra].enabled = !toggle; }
+
+	const float		GetEngineHealth() { return Data.EngineHealth; }
+	void			SetEngineHealth(const float health) { Data.EngineHealth = health; }
 };
 extern std::vector<CVehicleEntity> g_Vehicles;

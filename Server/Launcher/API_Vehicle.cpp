@@ -601,4 +601,31 @@ namespace API
 			std::wcout << ThisNamespace << L"GetVehicleExtra Invalid Extra: " << extra << L", Must be 1-14." << std::endl;
 		}
 	}
+
+	const float Vehicle::GetEngineHealth(const int entity)
+	{
+		const int index = ServerEntity::GetIndex(entity);
+		if (index > -1)
+		{
+			switch (g_Entities[index].GetType())
+			{
+			case CServerEntity::Vehicle:
+				for (int i = 0; i < g_Vehicles.size(); i++)
+				{
+					if (g_Vehicles[i].GetId() == entity)
+					{
+						return g_Vehicles[i].GetEngineHealth();
+					}
+				}
+				break;
+			default:
+				std::wcout << ThisNamespace << L"GetEngineHealth Entity " << entity << L" is not of type Vehicle." << std::endl;
+				break;
+			}
+		}
+		else
+		{
+			std::wcout << ThisNamespace << L"GetEngineHealth Invalid Entity: " << entity << std::endl;
+		}
+	}
 }

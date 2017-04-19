@@ -1,4 +1,5 @@
-#pragma once
+#ifndef INIREADER_H
+#define INIREADER_H
 // Read an INI file into easy-to-access name/value pairs. (Note that I've gone
 // for simplicity here rather than speed, but it should be pretty decent.)
 class INIReader
@@ -37,3 +38,4 @@ private:
 	static int ValueHandler(void* user, const char* section, const char* name,
 		const char* value);
 };
+#endif //INIWRITER_H

@@ -56,16 +56,9 @@ bool CObjectEntity::CreateObject()
 			std::cout << "[CObjectEntity] " << Information.Id << " being created." << std::endl;
 
 			STREAMING::REQUEST_MODEL(Data.Model.Model);
-			while (!STREAMING::HAS_MODEL_LOADED(Data.Model.Model)) 
-			{
-				WAIT(100);
 
-				if (!STREAMING::HAS_MODEL_LOADED(Data.Model.Model)) 
-				{
-					//std::cout << "[CObjectEntity] " << Information.Id << " timedout trying to load model." << std::endl;
-					return false;
-				}
-			}
+			if (!STREAMING::HAS_MODEL_LOADED(Data.Model.Model)) 
+				return false;
 
 			Game.Object = OBJECT::CREATE_OBJECT_NO_OFFSET(Data.Model.Model, Data.Position.fX, Data.Position.fY, Data.Position.fZ, false, true, Data.Model.Dynamic);
 			STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(Data.Model.Model);

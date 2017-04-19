@@ -82,6 +82,7 @@
 	
 	// Include
 	#include "IniReader.h"
+	#include "IniWriter.h"
 	#include "ini.h"
 
 	// Game
@@ -115,6 +116,7 @@
 		#include "CRPCVehicle.h"
 
 	// Client
+	#include "CChat.h"
 	#include "CStreamer.h"
 	#include "CCore.h"
 	#include "CConfig.h"

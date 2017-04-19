@@ -11,9 +11,9 @@ CNPCEntity::CNPCEntity()
 	//Network.Assigned = UNASSIGNED_RAKNET_GUID;
 }
 
-bool CNPCEntity::Create(const int entity, const RakString model, const CVector3 position, const CVector3 rotation)
+bool CNPCEntity::Create(const int entity, const std::string model, const CVector3 position, const CVector3 rotation)
 {
-	Hash hash = GAMEPLAY::GET_HASH_KEY((char*)model.C_String());
+	Hash hash = GAMEPLAY::GET_HASH_KEY((char*)model.c_str());
 	if (STREAMING::IS_MODEL_IN_CDIMAGE(hash) && STREAMING::IS_MODEL_VALID(hash))
 	{
 		CServerEntity newServerEntity;
@@ -32,7 +32,7 @@ bool CNPCEntity::Create(const int entity, const RakString model, const CVector3 
 
 		Amount++;
 
-		std::cout << "[CNPCEntity] Created NPC [" << Data.Id << "] with model " << Data.Model.Model.C_String() << " at " << Data.Position.fX << ", " << Data.Position.fY << ", " << Data.Position.fZ << std::endl;
+		std::cout << "[CNPCEntity] Created NPC [" << Data.Id << "] with model " << Data.Model.Model.c_str() << " at " << Data.Position.fX << ", " << Data.Position.fY << ", " << Data.Position.fZ << std::endl;
 		std::cout << "[CNPCEntity] " << Amount << " npcs in the world." << std::endl;
 
 		Network.LastSyncSent = std::chrono::system_clock::now();
@@ -50,20 +50,16 @@ bool CNPCEntity::CreateNpc()
 {
 	if (!Game.Created)
 	{
-		Hash hash = GAMEPLAY::GET_HASH_KEY((char*)Data.Model.Model.C_String());
+		Hash hash = GAMEPLAY::GET_HASH_KEY((char*)Data.Model.Model.c_str());
 		if (STREAMING::IS_MODEL_IN_CDIMAGE(hash) && STREAMING::IS_MODEL_VALID(hash))
 		{
 			STREAMING::REQUEST_MODEL(hash);
+			std::cout << "[CNPCEntity] " << Data.Id << " checking if model is loaded." << std::endl;
 
-			while (!STREAMING::HAS_MODEL_LOADED(hash)) {
-				WAIT(100);
+			if (!STREAMING::HAS_MODEL_LOADED(hash))
+				return false;
 
-				if (!STREAMING::HAS_MODEL_LOADED(hash))
-				{
-					//std::cout << "[CNPCEntity] " << Data.Id << " timedout trying to load model." << std::endl;
-					return false;
-				}
-			}
+			std::cout << "[CNPCEntity] " << Data.Id << " is being Spawned with model " << Data.Model.Model.c_str() << "." << std::endl;
 
 			Game.Npc = PED::CREATE_PED(Data.Model.Type, hash, Data.Position.fX, Data.Position.fY, Data.Position.fZ, 0.0f, false, true);
 

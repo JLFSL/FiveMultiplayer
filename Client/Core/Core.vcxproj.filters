@@ -207,6 +207,12 @@
     <ClCompile Include="CRPCVehicle.cpp">
       <Filter>Network\RPC</Filter>
     </ClCompile>
+    <ClCompile Include="CChat.cpp">
+      <Filter>Client</Filter>
+    </ClCompile>
+    <ClCompile Include="IniWriter.cpp">
+      <Filter>Include\INIReader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -382,6 +388,12 @@
     </ClInclude>
     <ClInclude Include="CRPCVehicle.h">
       <Filter>Network\RPC</Filter>
+    </ClInclude>
+    <ClInclude Include="CChat.h">
+      <Filter>Client</Filter>
+    </ClInclude>
+    <ClInclude Include="IniWriter.h">
+      <Filter>Include\INIReader</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

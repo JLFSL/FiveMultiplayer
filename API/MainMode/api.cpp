@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-//#define TESTING
+#define TESTING
 
 bool to_bool(std::string str)
 {
