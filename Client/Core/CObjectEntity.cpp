@@ -62,7 +62,7 @@ bool CObjectEntity::CreateObject()
 
 				if (!STREAMING::HAS_MODEL_LOADED(Data.Model.Model)) 
 				{
-					std::cout << "[CObjectEntity] " << Information.Id << " timedout trying to load model." << std::endl;
+					//std::cout << "[CObjectEntity] " << Information.Id << " timedout trying to load model." << std::endl;
 					return false;
 				}
 			}

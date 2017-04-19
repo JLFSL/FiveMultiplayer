@@ -41,7 +41,7 @@ bool CPlayerEntity::CreatePed()
 
 				if (!STREAMING::HAS_MODEL_LOADED(Data.Model.hModel)) 
 				{
-					std::cout << "[CPlayerEntity] " << Information.Id << " timedout trying to load model." << std::endl;
+					//std::cout << "[CPlayerEntity] " << Information.Id << " timedout trying to load model." << std::endl;
 					return false;
 				}
 			}

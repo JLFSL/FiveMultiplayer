@@ -47,7 +47,7 @@ bool CVehicleEntity::CreateVehicle()
 			WAIT(100);
 
 			if (!STREAMING::HAS_MODEL_LOADED(model)) {
-				std::cout << "[CVehicleEntity] " << Information.Id << " timedout trying to load model." << std::endl;
+				//std::cout << "[CVehicleEntity] " << Information.Id << " timedout trying to load model." << std::endl;
 				return false;
 			}
 		}

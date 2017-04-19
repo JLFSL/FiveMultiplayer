@@ -60,7 +60,7 @@ bool CNPCEntity::CreateNpc()
 
 				if (!STREAMING::HAS_MODEL_LOADED(hash))
 				{
-					std::cout << "[CNPCEntity] " << Data.Id << " timedout trying to load model." << std::endl;
+					//std::cout << "[CNPCEntity] " << Data.Id << " timedout trying to load model." << std::endl;
 					return false;
 				}
 			}

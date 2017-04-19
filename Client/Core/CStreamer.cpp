@@ -423,7 +423,8 @@ void CStreamer::ForceStreamOut()
 				}
 				break;
 			default:
-				std::cout << "[CStreamer::ForceStreamOut] Found Invalid entity " << g_Entities[i].GetId() << std::endl;
+				//std::cout << "[CStreamer::ForceStreamOut] Found Invalid entity " << g_Entities[i].GetId() << std::endl;
+				streamed.erase(streamed.begin() + i); // This may causes issue with objects being left but we will see, as far as i can tell though the ones that hit this point arn't even spawned anymore.
 				break;
 			}
 		}
