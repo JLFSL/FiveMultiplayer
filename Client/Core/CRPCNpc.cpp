@@ -2,6 +2,7 @@
 
 void CRPCNpc::Create(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 {
+	std::cout << "CRPCNpc::Create" << std::endl;
 	int entity;
 	RakWString model;
 	CVector3 position;

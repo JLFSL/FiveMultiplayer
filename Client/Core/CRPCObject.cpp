@@ -2,6 +2,7 @@
 
 void CRPCObject::Create(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 {
+	std::cout << "CRPCObject::Create" << std::endl;
 	int entity;
 	int hash = 0;
 	RakWString model;
@@ -34,6 +35,7 @@ void CRPCObject::Create(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 
 void CRPCObject::SetTextureVariation(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 {
+	std::cout << "CRPCObject::SetTextureVariation" << std::endl;
 	int entity, textureindex;
 
 	bitStream->Read(entity);

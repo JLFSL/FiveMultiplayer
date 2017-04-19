@@ -2,6 +2,7 @@
 
 void CRPCVisual::ShowMessageAboveMap(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 {
+	std::cout << "CRPCVisual::ShowMessageAboveMap" << std::endl;
 	int iconType;
 	RakNet::RakWString message, pic, sender, subject;
 

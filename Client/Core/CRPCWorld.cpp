@@ -2,6 +2,7 @@
 
 void CRPCWorld::SetTime(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 {
+	std::cout << "CRPCWorld::SetTime" << std::endl;
 	int hour, minute, second;
 
 	bitStream->Read(hour);
@@ -13,6 +14,7 @@ void CRPCWorld::SetTime(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 
 void CRPCWorld::SetWeather(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 {
+	std::cout << "CRPCWorld::SetWeather" << std::endl;
 	RakWString weather;
 
 	bitStream->Read(weather);
@@ -24,6 +26,7 @@ void CRPCWorld::SetWeather(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 
 void CRPCWorld::LoadIPL(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 {
+	std::cout << "CRPCWorld::LoadIPL" << std::endl;
 	RakWString ipl;
 
 	bitStream->Read(ipl);
@@ -33,6 +36,7 @@ void CRPCWorld::LoadIPL(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 
 void CRPCWorld::UnloadIPL(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 {
+	std::cout << "CRPCWorld::UnloadIPL" << std::endl;
 	RakWString ipl;
 
 	bitStream->Read(ipl);

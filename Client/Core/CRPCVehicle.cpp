@@ -2,6 +2,7 @@
 
 void CRPCVehicle::SetStandardColor(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 {
+	std::cout << "CRPCVehicle::SetStandardColor" << std::endl;
 	int entity, layer, paintType, color;
 
 	bitStream->Read(entity);
@@ -22,6 +23,7 @@ void CRPCVehicle::SetStandardColor(RakNet::BitStream *bitStream, RakNet::Packet 
 
 void CRPCVehicle::SetCustomColor(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 {
+	std::cout << "CRPCVehicle::SetCustomColor" << std::endl;
 	int entity, layer;
 	Color color;
 
@@ -44,6 +46,7 @@ void CRPCVehicle::SetCustomColor(RakNet::BitStream *bitStream, RakNet::Packet *p
 
 void CRPCVehicle::SetNumberPlate(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 {
+	std::cout << "CRPCVehicle::SetNumberPlate" << std::endl;
 	int entity;
 	RakWString plate;
 
@@ -63,6 +66,7 @@ void CRPCVehicle::SetNumberPlate(RakNet::BitStream *bitStream, RakNet::Packet *p
 
 void CRPCVehicle::SetMod(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 {
+	std::cout << "CRPCVehicle::SetMod" << std::endl;
 	int entity, modType, modIndex;
 
 	bitStream->Read(entity);
@@ -82,6 +86,7 @@ void CRPCVehicle::SetMod(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 
 void CRPCVehicle::SetEngineState(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 {
+	std::cout << "CRPCVehicle::SetEngineState" << std::endl;
 	int entity;
 	bool state;
 
@@ -101,6 +106,7 @@ void CRPCVehicle::SetEngineState(RakNet::BitStream *bitStream, RakNet::Packet *p
 
 void CRPCVehicle::SetDoorsLockState(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 {
+	std::cout << "CRPCVehicle::SetDoorsLockState" << std::endl;
 	int entity, state;
 
 	bitStream->Read(entity);
@@ -119,6 +125,7 @@ void CRPCVehicle::SetDoorsLockState(RakNet::BitStream *bitStream, RakNet::Packet
 
 void CRPCVehicle::SetNumberPlateStyle(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 {
+	std::cout << "CRPCVehicle::SetNumberPlateStyle" << std::endl;
 	int entity, state;
 
 	bitStream->Read(entity);
@@ -137,6 +144,7 @@ void CRPCVehicle::SetNumberPlateStyle(RakNet::BitStream *bitStream, RakNet::Pack
 
 void CRPCVehicle::SetExtra(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 {
+	std::cout << "CRPCVehicle::SetExtra" << std::endl;
 	int entity, extra;
 	bool toggle;
 

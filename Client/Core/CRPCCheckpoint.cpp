@@ -2,6 +2,7 @@
 
 void CRPCCheckpoint::Create(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 {
+	std::cout << "CRPCCheckpoint::Create" << std::endl;
 	int entity, type, reserved;
 	CVector3 position;
 	CVector3 pointto;
@@ -32,6 +33,7 @@ void CRPCCheckpoint::Create(RakNet::BitStream *bitStream, RakNet::Packet *packet
 
 void CRPCCheckpoint::Show(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 {
+	std::cout << "CRPCCheckpoint::Show" << std::endl;
 	int entity;
 
 	bitStream->Read(entity);
@@ -45,6 +47,7 @@ void CRPCCheckpoint::Show(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 
 void CRPCCheckpoint::Hide(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 {
+	std::cout << "CRPCCheckpoint::Hide" << std::endl;
 	int entity;
 
 	bitStream->Read(entity);
@@ -59,6 +62,7 @@ void CRPCCheckpoint::Hide(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 
 void CRPCCheckpoint::SetHeight(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 {
+	std::cout << "CRPCCheckpoint::SetHeight" << std::endl;
 	int entity;
 	float nearHeight, farHeight;
 

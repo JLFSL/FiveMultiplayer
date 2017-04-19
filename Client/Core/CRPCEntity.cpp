@@ -2,6 +2,7 @@
 
 void CRPCEntity::Destroy(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 {
+	std::cout << "CRPCEntity::Destroy" << std::endl;
 	int entity;
 
 	bitStream->Read(entity);
@@ -18,6 +19,7 @@ void CRPCEntity::Destroy(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 
 void CRPCEntity::SetPosition(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 {
+	std::cout << "CRPCEntity::SetPosition" << std::endl;
 	int entity;
 	CVector3 position;
 
@@ -52,6 +54,7 @@ void CRPCEntity::SetPosition(RakNet::BitStream *bitStream, RakNet::Packet *packe
 
 void CRPCEntity::SetRotation(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 {
+	std::cout << "CRPCEntity::SetRotation" << std::endl;
 	int entity;
 	CVector3 rotation;
 
@@ -76,6 +79,7 @@ void CRPCEntity::SetRotation(RakNet::BitStream *bitStream, RakNet::Packet *packe
 
 void CRPCEntity::TakeEntityAssignment(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 {
+	std::cout << "CRPCEntity::TakeEntityAssignment" << std::endl;
 	int entity;
 	RakNetGUID guid;
 
@@ -90,6 +94,7 @@ void CRPCEntity::TakeEntityAssignment(RakNet::BitStream *bitStream, RakNet::Pack
 
 void CRPCEntity::DropEntityAssignment(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 {
+	std::cout << "CRPCEntity::DropEntityAssignment" << std::endl;
 	int entity;
 
 	bitStream->Read(entity);
@@ -104,6 +109,7 @@ void CRPCEntity::DropEntityAssignment(RakNet::BitStream *bitStream, RakNet::Pack
 
 void CRPCEntity::PedComponent(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 {
+	std::cout << "CRPCEntity::PedComponent" << std::endl;
 	int entity, componentid, drawableid, paletteid, textureid;
 
 	bitStream->Read(entity);
@@ -124,6 +130,7 @@ void CRPCEntity::PedComponent(RakNet::BitStream *bitStream, RakNet::Packet *pack
 
 void CRPCEntity::PedHeadBlend(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 {
+	std::cout << "CRPCEntity::PedHeadBlend" << std::endl;
 	int entity, shapeFirst, shapeSecond, shapeThird, skinFirst, skinSecond, skinThird;
 	float shapeMix, skinMix, thirdMix;
 
@@ -150,6 +157,7 @@ void CRPCEntity::PedHeadBlend(RakNet::BitStream *bitStream, RakNet::Packet *pack
 
 void CRPCEntity::PedHeadOverlay(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 {
+	std::cout << "CRPCEntity::PedHeadOverlay" << std::endl;
 	int entity, overlayid, index, colorType, colorID, secondColorID;
 	float opacity;
 
@@ -173,6 +181,7 @@ void CRPCEntity::PedHeadOverlay(RakNet::BitStream *bitStream, RakNet::Packet *pa
 
 void CRPCEntity::PedProp(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 {
+	std::cout << "CRPCEntity::PedProp" << std::endl;
 	int entity, componentid, drawableid, textureid;
 	float opacity;
 
@@ -193,6 +202,7 @@ void CRPCEntity::PedProp(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 
 void CRPCEntity::PedFaceFeature(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 {
+	std::cout << "CRPCEntity::PedFaceFeature" << std::endl;
 	int entity, index;
 	float scale;
 
@@ -212,6 +222,7 @@ void CRPCEntity::PedFaceFeature(RakNet::BitStream *bitStream, RakNet::Packet *pa
 
 void CRPCEntity::SetViewDistance(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 {
+	std::cout << "CRPCEntity::SetViewDistance" << std::endl;
 	int entity;
 	float distance;
 

@@ -2,6 +2,7 @@
 
 void CRPCPlayer::PlayerModel(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 {
+	std::cout << "CRPCPlayer::PlayerModel" << std::endl;
 	RakWString model;
 
 	bitStream->Read(model);
