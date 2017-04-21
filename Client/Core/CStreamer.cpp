@@ -43,7 +43,6 @@ void CStreamer::StreamObjectsIn(CVector3 position)
 	{
 		if (!g_Entities.empty())
 		{
-			std::cout << "Stream Objects In Start" << std::endl;
 			float curDis = 50.0f;
 			// Objects have First priority
 			while (curDis < MaxRange)
@@ -88,8 +87,6 @@ void CStreamer::StreamObjectsIn(CVector3 position)
 
 				curDis += 50.0f;
 			}
-
-			std::cout << "Stream Objects In End" << std::endl;
 		}
 	}
 }
@@ -100,7 +97,6 @@ void CStreamer::StreamVehiclesIn(CVector3 position)
 	{
 		if (!g_Entities.empty())
 		{
-			std::cout << "Stream Vehicles In Start" << std::endl;
 			float curDis = 50.0f;
 			while (curDis < MaxRange)
 			{
@@ -144,7 +140,6 @@ void CStreamer::StreamVehiclesIn(CVector3 position)
 
 				curDis += 50.0f;
 			}
-			std::cout << "Stream Vehicles In End" << std::endl;
 		}
 	}
 }
@@ -155,7 +150,6 @@ void CStreamer::StreamPlayersIn(CVector3 position)
 	{
 		if (!g_Entities.empty())
 		{
-			std::cout << "Stream Players In Start" << std::endl;
 			float curDis = 50.0f;
 			while (curDis < MaxRange)
 			{
@@ -201,7 +195,6 @@ void CStreamer::StreamPlayersIn(CVector3 position)
 
 				curDis += 50.0f;
 			}
-			std::cout << "Stream Players In End" << std::endl;
 		}
 	}
 }
@@ -212,7 +205,6 @@ void CStreamer::StreamOtherIn(CVector3 position)
 	{
 		if (!g_Entities.empty())
 		{
-			std::cout << "Stream Other In Start" << std::endl;
 			float curDis = 50.0f;
 			while (curDis < MaxRange)
 			{
@@ -256,7 +248,6 @@ void CStreamer::StreamOtherIn(CVector3 position)
 
 				curDis += 50.0f;
 			}
-			std::cout << "Stream Other In End" << std::endl;
 		}
 	}
 }
@@ -268,7 +259,6 @@ void CStreamer::StreamOut(CVector3 position)
 	{
 		if (!streamed.empty())
 		{
-			std::cout << "Stream Out Start" << std::endl;
 			for (int i = 0; i < streamed.size(); i++)
 			{
 				switch (g_Entities[streamed[i].entity].GetType())
@@ -349,7 +339,6 @@ void CStreamer::StreamOut(CVector3 position)
 			}
 			
 			streamed.shrink_to_fit();
-			std::cout << "Stream Out End" << std::endl;
 		}
 	}
 	else if (!streamed.empty())
@@ -364,7 +353,6 @@ void CStreamer::StreamOut(CVector3 position)
 
 void CStreamer::ForceStreamOut()
 {
-	std::cout << "CStreamer::ForceStreamOut Start" << std::endl;
 	if (!streamed.empty())
 	{
 		for (int i = 0; i < streamed.size(); i++)
@@ -441,5 +429,4 @@ void CStreamer::ForceStreamOut()
 		ObjectCount = 0;
 		NpcCount = 0;
 	}
-	std::cout << "CStreamer::ForceStreamOut End" << std::endl;
 }
