@@ -14,7 +14,7 @@ namespace API
 			}
 		}
 
-		std::cout << "[" << ThisNamespace << "] Player Entity " << entity << " invalid." << std::endl;
+		std::cout << "[" << ThisNamespace << "::GetModel] Player Entity " << entity << " invalid." << std::endl;
 	}
 
 	void Player::SetModel(const int entity, const std::wstring model)
@@ -33,6 +33,19 @@ namespace API
 			}
 		}
 
-		std::cout << "[" << ThisNamespace << "] Player Entity " << entity << " invalid." << std::endl;
+		std::cout << "[" << ThisNamespace << "::SetModel] Player Entity " << entity << " invalid." << std::endl;
+	}
+
+	const std::string Player::GetUsername(const int entity)
+	{
+		for (int i = 0; i < g_Players.size(); i++)
+		{
+			if (g_Players[i].GetId() == entity)
+			{
+				return g_Players[i].GetUsername();
+			}
+		}
+
+		std::cout << "[" << ThisNamespace << "::GetUsername] Player Entity " << entity << " invalid." << std::endl;
 	}
 }

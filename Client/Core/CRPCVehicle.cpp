@@ -15,7 +15,7 @@ void CRPCVehicle::SetStandardColor(RakNet::BitStream *bitStream, RakNet::Packet 
 		for (int i = 0; i < g_Vehicles.size(); i++) {
 			if (g_Vehicles[i].GetId() == entity) {
 				g_Vehicles[i].SetColor(layer, paintType, color);
-				break;
+				return;
 			}
 		}
 	}
@@ -38,7 +38,7 @@ void CRPCVehicle::SetCustomColor(RakNet::BitStream *bitStream, RakNet::Packet *p
 		for (int i = 0; i < g_Vehicles.size(); i++) {
 			if (g_Vehicles[i].GetId() == entity) {
 				g_Vehicles[i].SetColor(layer, color);
-				break;
+				return;
 			}
 		}
 	}
@@ -58,7 +58,7 @@ void CRPCVehicle::SetNumberPlate(RakNet::BitStream *bitStream, RakNet::Packet *p
 		for (int i = 0; i < g_Vehicles.size(); i++) {
 			if (g_Vehicles[i].GetId() == entity) {
 				g_Vehicles[i].SetNumberPlate(plate.C_String());
-				break;
+				return;
 			}
 		}
 	}
@@ -78,7 +78,7 @@ void CRPCVehicle::SetMod(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 		for (int i = 0; i < g_Vehicles.size(); i++) {
 			if (g_Vehicles[i].GetId() == entity) {
 				g_Vehicles[i].SetMod(modType, modIndex);
-				break;
+				return;
 			}
 		}
 	}
@@ -98,7 +98,7 @@ void CRPCVehicle::SetEngineState(RakNet::BitStream *bitStream, RakNet::Packet *p
 		for (int i = 0; i < g_Vehicles.size(); i++) {
 			if (g_Vehicles[i].GetId() == entity) {
 				g_Vehicles[i].SetEngineState(state);
-				break;
+				return;
 			}
 		}
 	}
@@ -117,7 +117,7 @@ void CRPCVehicle::SetDoorsLockState(RakNet::BitStream *bitStream, RakNet::Packet
 		for (int i = 0; i < g_Vehicles.size(); i++) {
 			if (g_Vehicles[i].GetId() == entity) {
 				g_Vehicles[i].SetDoorsLockState(state);
-				break;
+				return;
 			}
 		}
 	}
@@ -136,7 +136,7 @@ void CRPCVehicle::SetNumberPlateStyle(RakNet::BitStream *bitStream, RakNet::Pack
 		for (int i = 0; i < g_Vehicles.size(); i++) {
 			if (g_Vehicles[i].GetId() == entity) {
 				g_Vehicles[i].SetNumberPlateStyle(state);
-				break;
+				return;
 			}
 		}
 	}
@@ -151,16 +151,14 @@ void CRPCVehicle::SetExtra(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 	bitStream->Read(extra);
 	bitStream->Read(toggle);
 
-	std::cout << "CRPCVehicle::SetExtra() " << entity << ", " << extra << ", " << toggle << std::endl;
+	std::cout << "CRPCVehicle::SetExtra"<< std::endl;
 
 	if (CServerEntity::IsValid(entity))
 	{
-		std::cout << "CRPCVehicle::SetExtra() Valid" << std::endl;
 		for (int i = 0; i < g_Vehicles.size(); i++) {
 			if (g_Vehicles[i].GetId() == entity) {
 				g_Vehicles[i].SetExtra(extra, toggle);
-				std::cout << "CRPCVehicle::SetExtra() Done" << std::endl;
-				break;
+				return;
 			}
 		}
 	}

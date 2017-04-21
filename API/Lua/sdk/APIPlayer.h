@@ -22,6 +22,12 @@ extern "C" {
 			/// <param name="model">The model you wish to set on the player.</param>
 			DLL_PUBLIC_I static void SetModel(const int entity, const std::wstring model);
 
+			/// <summary>
+			/// Gets the username of the player entity.
+			/// </summary>
+			/// <param name="entity">The entity of the player to get the username of.</param>
+			DLL_PUBLIC_I static const std::string GetUsername(const int entity);
+
 		};
 	}
 #ifdef __cplusplus

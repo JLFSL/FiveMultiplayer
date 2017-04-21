@@ -7,5 +7,5 @@ void CRPCPlayer::PlayerModel(RakNet::BitStream *bitStream, RakNet::Packet *packe
 
 	bitStream->Read(model);
 
-	GamePed::SetPedModel(CLocalPlayer::GetPed(), CString::utf16ToUtf8(model.C_String()));
+	//GamePed::SetPedModel(CLocalPlayer::GetPed(), CString::utf16ToUtf8(model.C_String()));
 }

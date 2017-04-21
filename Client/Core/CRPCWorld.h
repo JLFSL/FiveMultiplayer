@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __CRPCWORLD_H__
+#define __CRPCWORLD_H__
 
 class CRPCWorld
 {
@@ -12,3 +13,5 @@ public:
 	static void LoadStringModel(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 	static void LoadHashModel(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 };
+
+#endif

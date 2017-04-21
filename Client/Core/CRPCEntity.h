@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __CRPCENTITY_H__
+#define __CRPCENTITY_H__
 
 class CRPCEntity
 {
@@ -17,3 +18,5 @@ public:
 
 	static void SetViewDistance(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 };
+
+#endif

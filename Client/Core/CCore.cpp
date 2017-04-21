@@ -68,7 +68,6 @@ bool CCore::Initialize()
 
 void CCore::OnGameTick()
 {
-	std::cout << "CCore::OnGameTick" << std::endl;
 	//if (g_LocalPlayer->IsPlaying() == FALSE)
 		//return;
 
@@ -132,25 +131,22 @@ void CCore::OnGameTick()
 
 	KeyCheck();
 
-	std::cout << "CLocalPlayer::Pulse" << std::endl;
 	CLocalPlayer::Pulse();
-	std::cout << "CNetworkManager::Pulse" << std::endl;
 	CNetworkManager::Pulse();
-	std::cout << "CStreamer::Pulse" << std::endl;
 	CStreamer::Pulse();
-	std::cout << "g_Players::Pulse" << std::endl;
+	
 	if (!g_Players.empty()) {
 		for (int i = 0; i < g_Players.size(); i++) {
 			g_Players[i].Pulse();
 		}
 	}
-	std::cout << "g_Vehicles::Pulse" << std::endl;
+	
 	if (!g_Vehicles.empty()) {
 		for (int i = 0; i < g_Vehicles.size(); i++) {
 			g_Vehicles[i].Pulse();
 		}
 	}
-	std::cout << "g_Objects::Pulse" << std::endl;
+	
 	if (!g_Objects.empty())
 	{
 		for (int i = 0; i < g_Objects.size(); i++)
@@ -158,7 +154,7 @@ void CCore::OnGameTick()
 			g_Objects[i].Pulse();
 		}
 	}
-	std::cout << "g_Checkpoints::Pulse" << std::endl;
+	
 	if (!g_Checkpoints.empty())
 	{
 		for (int i = 0; i < g_Checkpoints.size(); i++)
@@ -166,7 +162,6 @@ void CCore::OnGameTick()
 			g_Checkpoints[i].Pulse();
 		}
 	}
-	std::cout << "CCore::OnGameTick END" << std::endl;
 }
 
 void CCore::CleanUp()

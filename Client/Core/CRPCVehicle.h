@@ -1,5 +1,5 @@
-#ifndef __RPCVEHICLE_H__
-#define __RPCVEHICLE_H__
+#ifndef __CRPCVEHICLE_H__
+#define __CRPCVEHICLE_H__
 
 class CRPCVehicle
 {

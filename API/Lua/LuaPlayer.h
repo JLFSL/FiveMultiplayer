@@ -700,5 +700,23 @@ struct Player
 		return 0;
 	}
 
+	int GetUsername(lua_State* L)
+	{
+		const int args = lua_gettop(L);
+		if (args == 1)
+		{
+			Player* ent = reinterpret_cast<Player*>(lua_touserdata(L, 1));
+
+			lua_pushstring(L, API::Player::GetUsername(ent->entity).c_str());
+
+			ent = nullptr;
+		}
+		else
+		{
+			lua_pushnil(L);
+		}
+		return 1;
+	}
+
 };
 #endif

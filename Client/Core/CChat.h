@@ -4,10 +4,10 @@
 class CChat {
 private:
 	struct Message {
-		bool newline = false;
-		float red = 1.0f;
-		float green = 1.0f;
-		float blue = 1.0f;
+		bool newline	= false;
+		float red		= 1.0f;
+		float green		= 1.0f;
+		float blue		= 1.0f;
 		std::string text;
 	};
 

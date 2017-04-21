@@ -489,7 +489,7 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 
 void DirectXRenderer::Initialize()
 {
-	std::cout << "reach init" << std::endl;
+	std::cout << "DirectXRenderer init" << std::endl;
 	hWnd = FindWindowA(NULL, "Grand Theft Auto V");
 	IDXGISwapChain* pSwapChain;
 

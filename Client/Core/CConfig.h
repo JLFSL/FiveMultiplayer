@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __CCONFIG_H__
+#define __CCONFIG_H__
+
 class CConfig
 {
 	static struct CConnection
@@ -39,3 +41,4 @@ public:
 	static void				SetUILevel(const int level);
 };
 
+#endif

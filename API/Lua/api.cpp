@@ -74,7 +74,7 @@ struct VecHelper
 #include "LuaVisual.h"
 #include "LuaWorld.h"
 
-char scriptName[64] = "gamemodes//test.lua";
+char scriptName[64] = "resources//lua//main.lua";
 lua_State* stateLua;
 
 #pragma region CallBacks
@@ -199,6 +199,7 @@ extern "C" DLL_PUBLIC bool API_Initialize(void) {
 			.addCFunction("LoadIPL", &Player::LoadIPL)
 			.addCFunction("UnloadIPL", &Player::UnloadIPL)
 			.addCFunction("SendChatMessage", &Player::SendChatMessage)
+			.addCFunction("GetUsername", &Player::GetUsername)
 		.endClass()
 		.beginNamespace("visual")
 			.addCFunction("ShowMessageAboveMap", Visual::ShowMessageAboveMap)
