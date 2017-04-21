@@ -187,6 +187,75 @@ void CNetworkManager::Pulse()
 				}
 				break;
 			}
+			case ID_CHAT_MESSAGE:
+			{
+				int chatid;
+
+				for (int i = 0; i < g_Players.size(); i++)
+				{
+					if (g_Players[i].GetGUID() == g_Packet->guid)
+					{
+						chatid = g_Players[i].GetId();
+						break;
+					}
+				}
+
+				RakString message;
+				g_BitStream.Read(message);
+				
+				if (message.C_String()[0] == '/')
+				{
+					for (int i = 0; i < g_ApiModules.size(); i++)
+					{
+						void *Instance = g_ApiModules[i].GetInstance();
+						API::Network::OnPlayerCommand(Instance, chatid, message.C_String());
+					}
+				}
+				else
+				{
+					for (int i = 0; i < g_ApiModules.size(); i++)
+					{
+						void *Instance = g_ApiModules[i].GetInstance();
+						API::Network::OnPlayerMessage(Instance, chatid, message.C_String());
+					}
+				}
+				break;
+			}
+			case ID_REQUEST_SERVER_SYNC:
+			{
+				RakString name;
+				int index = -1;
+				g_BitStream.Read(name);
+
+				for (int i = 0; i < g_Players.size(); i++)
+				{
+					if (g_Players[i].GetGUID() == g_Packet->guid)
+					{
+						g_Players[i].SetUsername(name);
+						index = i;
+						break;
+					}
+				}
+
+				// Tell the client to load the models
+				CModelCache::LoadModels(g_Packet->guid);
+
+				BitStream bitstream;
+				bitstream.Write((unsigned char)ID_REQUEST_SERVER_SYNC);
+				CNetworkManager::GetInterface()->Send(&bitstream, LOW_PRIORITY, RELIABLE_ORDERED, 0, g_Packet->systemAddress, false);
+
+				//BitStream sData;
+				//g_Server->GetNetworkManager()->GetRPC().Signal("FinishedSync", &sData, MEDIUM_PRIORITY, RELIABLE_ORDERED, 0, g_Packet->systemAddress, false, false);
+
+				// API::Network::OnPlayerConnected Execute
+				for (int i = 0; i < g_ApiModules.size(); i++)
+				{
+					void *Instance = g_ApiModules[i].GetInstance();
+					API::Network::OnPlayerConnected(Instance, g_Players[index].GetId(), g_Players[index].GetPlayerID());
+				}
+				
+				break;
+			}
 			std::cout << g_Packet->data[0] << std::endl;
 		}
 		g_RakPeer->DeallocatePacket(g_Packet);
@@ -280,11 +349,4 @@ void CNetworkManager::NewIncomingConnection(RakNet::Packet  *g_Packet)
 	}
 
 	NetworkSync::SyncServerWorld(g_Packet->guid);
-
-	// API::Network::OnPlayerConnected Execute
-	for (int i = 0; i < g_ApiModules.size(); i++)
-	{
-		void *Instance = g_ApiModules[i].GetInstance();
-		API::Network::OnPlayerConnected(Instance, g_Players[playerID].GetId(), g_Players[playerID].GetPlayerID());
-	}
 }

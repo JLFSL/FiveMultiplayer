@@ -130,4 +130,9 @@ public:
 	{
 		API::Visual::ShowMessageAboveMapToPlayer(Entity, message, pic, icontype, sender, subject);
 	}
+
+	void SendMessage(const std::string message)
+	{
+		API::Visual::SendMessageToPlayer(Entity, message);
+	}
 };

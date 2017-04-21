@@ -73,6 +73,7 @@
 	#include "CConfig.h"
 	#include "CWorld.h"
 	#include "CServer.h"
+	#include "CModelCache.h"
 
 	// API
 	#include "CAPI.h"

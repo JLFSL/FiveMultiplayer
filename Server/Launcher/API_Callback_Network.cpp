@@ -35,5 +35,33 @@ namespace API
 			}
 			return true;
 		}
+
+		void OnPlayerCommand(void *Instance, const int entity, const std::string message)
+		{
+			if (Instance)
+			{
+				typedef void(*API_OnPlayerCommand_t)(int, std::string);
+#ifdef WIN32
+				API_OnPlayerCommand_t API_OnPlayerCommand = (API_OnPlayerCommand_t)::GetProcAddress((HMODULE)Instance, "API_OnPlayerCommand");
+#else
+				API_OnPlayerCommand_t API_OnPlayerCommand = (API_OnPlayerCommand_t)dlsym(Instance, "API_OnPlayerCommand");
+#endif
+				API_OnPlayerCommand(entity, message);
+			}
+		}
+
+		void OnPlayerMessage(void *Instance, const int entity, const std::string message)
+		{
+			if (Instance)
+			{
+				typedef void(*API_OnPlayerMessage_t)(int, std::string);
+#ifdef WIN32
+				API_OnPlayerMessage_t API_OnPlayerMessage = (API_OnPlayerMessage_t)::GetProcAddress((HMODULE)Instance, "API_OnPlayerMessage");
+#else
+				API_OnPlayerMessage_t API_OnPlayerMessage = (API_OnPlayerMessage_t)dlsym(Instance, "API_OnPlayerMessage");
+#endif
+				API_OnPlayerMessage(entity, message);
+			}
+		}
 	}
 }

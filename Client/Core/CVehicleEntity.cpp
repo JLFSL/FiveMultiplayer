@@ -44,8 +44,13 @@ bool CVehicleEntity::CreateVehicle()
 
 		STREAMING::REQUEST_MODEL(model);
 
-		if (!STREAMING::HAS_MODEL_LOADED(model))
-			return false;
+		while (!STREAMING::HAS_MODEL_LOADED(model))
+		{
+			WAIT(200);
+
+			if (!STREAMING::HAS_MODEL_LOADED(model))
+				return false;
+		}
 
 		std::cout << "[CVehicleEntity] " << Information.Id << " is beign Spawned with model " << Data.Model << "." << std::endl;
 
@@ -633,6 +638,6 @@ void CVehicleEntity::SetExtra(const int extra, const bool toggle)
 
 	if (Game.Created)
 	{
-		//VEHICLE::SET_VEHICLE_EXTRA(Game.Vehicle, extra, !toggle);
+		VEHICLE::SET_VEHICLE_EXTRA(Game.Vehicle, extra, !toggle);
 	}
 }

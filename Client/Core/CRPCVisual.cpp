@@ -14,3 +14,13 @@ void CRPCVisual::ShowMessageAboveMap(RakNet::BitStream *bitStream, RakNet::Packe
 
 	CVisual::ShowMessageAboveMap(CString::utf16ToUtf8(message.C_String()).c_str(), CString::utf16ToUtf8(pic.C_String()).c_str(), iconType, CString::utf16ToUtf8(sender.C_String()).c_str(), CString::utf16ToUtf8(subject.C_String()).c_str());
 }
+
+void CRPCVisual::SendChatMessage(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+{
+	std::cout << "CRPCVisual::SendMessage" << std::endl;
+	RakNet::RakString message;
+
+	bitStream->Read(message);
+
+	CChat::AddChatMessage(message.C_String());
+}

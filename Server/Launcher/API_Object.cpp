@@ -24,6 +24,8 @@ namespace API
 
 		g_Server->GetNetworkManager()->GetRPC().Signal("CreateObject", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
 
+		CModelCache::AddModel(model);
+
 		return newObject.GetId();
 	}
 
@@ -46,6 +48,8 @@ namespace API
 		sData.Write(dynamic);
 
 		g_Server->GetNetworkManager()->GetRPC().Signal("CreateObject", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
+
+		CModelCache::AddModel(hash);
 
 		return newObject.GetId();
 	}

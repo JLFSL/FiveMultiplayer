@@ -197,6 +197,7 @@
     <ClInclude Include="API_Visual.h" />
     <ClInclude Include="API_World.h" />
     <ClInclude Include="CAPI.h" />
+    <ClInclude Include="CModelCache.h" />
     <ClInclude Include="CNPCEntity.h" />
     <ClInclude Include="CObjectEntity.h" />
     <ClInclude Include="CCheckpointEntity.h" />
@@ -228,6 +229,7 @@
     <ClCompile Include="API_Visual.cpp" />
     <ClCompile Include="API_World.cpp" />
     <ClCompile Include="CAPI.cpp" />
+    <ClCompile Include="CModelCache.cpp" />
     <ClCompile Include="CNPCEntity.cpp" />
     <ClCompile Include="CObjectEntity.cpp" />
     <ClCompile Include="CCheckpointEntity.cpp" />

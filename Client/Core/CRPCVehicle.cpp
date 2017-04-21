@@ -144,7 +144,6 @@ void CRPCVehicle::SetNumberPlateStyle(RakNet::BitStream *bitStream, RakNet::Pack
 
 void CRPCVehicle::SetExtra(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 {
-	std::cout << "CRPCVehicle::SetExtra" << std::endl;
 	int entity, extra;
 	bool toggle;
 
@@ -152,11 +151,15 @@ void CRPCVehicle::SetExtra(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 	bitStream->Read(extra);
 	bitStream->Read(toggle);
 
+	std::cout << "CRPCVehicle::SetExtra() " << entity << ", " << extra << ", " << toggle << std::endl;
+
 	if (CServerEntity::IsValid(entity))
 	{
+		std::cout << "CRPCVehicle::SetExtra() Valid" << std::endl;
 		for (int i = 0; i < g_Vehicles.size(); i++) {
 			if (g_Vehicles[i].GetId() == entity) {
 				g_Vehicles[i].SetExtra(extra, toggle);
+				std::cout << "CRPCVehicle::SetExtra() Done" << std::endl;
 				break;
 			}
 		}

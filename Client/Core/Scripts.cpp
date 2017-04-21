@@ -642,7 +642,7 @@ Scripts::ScriptInfo scriptnames[] = {
 	{ "re_yetarian" },
 	//{ "replay_controller" },
 	{ "rerecord_recording" },
-	{ "respawn_controller" },
+	//{ "respawn_controller" },
 	{ "restrictedareas" },
 	{ "rollercoaster" },
 	{ "rural_bank_heist" },

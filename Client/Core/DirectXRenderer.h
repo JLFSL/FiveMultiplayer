@@ -6,6 +6,8 @@ public:
 	static float windowScale;
 	static float textScale;
 
+	static std::string ConnectionProg;
+
 	static HWND hWnd;
 	static bool FirstRender;
 

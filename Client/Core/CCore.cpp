@@ -15,12 +15,19 @@ bool CCore::Initialize()
 	CLocalPlayer::Initialize();
 	CNetworkManager::Initialize();
 
+	//Attempts at stoping players getting stuck when first loading to their SP character
+	STREAMING::STOP_PLAYER_SWITCH();
+
+	STREAMING::LOAD_SCENE(0.0f, 0.0f, 73.5f);
+	ENTITY::SET_ENTITY_COORDS_NO_OFFSET(CLocalPlayer::GetPed(), 0.0f, 0.0f, 73.5f, false, false, false);
+	AI::CLEAR_PED_TASKS_IMMEDIATELY(CLocalPlayer::GetPed());
+
 	//Loads multiplayer World (wish to have this executed sooner befor the loading screne is terminated)
 	GAMEPLAY::_USE_FREEMODE_MAP_BEHAVIOR(true);
 	DLC2::_LOAD_MP_DLC_MAPS();
 	SCRIPT::SHUTDOWN_LOADING_SCREEN();
 
-	STREAMING::LOAD_ALL_OBJECTS_NOW();		//I think this loads everyobject to memory
+	//STREAMING::LOAD_ALL_OBJECTS_NOW();		//I think this loads everyobject to memory - NOPE just loads the areas model forcibly
 
 	TIME::PAUSE_CLOCK(true);
 	GAMEPLAY::CLEAR_OVERRIDE_WEATHER();
@@ -61,6 +68,7 @@ bool CCore::Initialize()
 
 void CCore::OnGameTick()
 {
+	std::cout << "CCore::OnGameTick" << std::endl;
 	//if (g_LocalPlayer->IsPlaying() == FALSE)
 		//return;
 
@@ -83,30 +91,6 @@ void CCore::OnGameTick()
 	{
 		CConfig::Read();
 		CNetworkManager::Connect(CConfig::GetIp().c_str(), CConfig::GetPassword().c_str(), CConfig::GetPort());
-		Logger::Msg("Connecting");
-	}
-
-	if (KeyJustUp(VK_F7))
-	{
-		CNetworkManager::Connect("176.31.142.113", "default", CON_PORT);
-		Logger::Msg("Connecting");
-	}
-
-	/*if (KeyJustUp(VK_F6))
-	{
-		CNetworkManager::Connect("51.254.219.119", "default", 2323);
-		Logger::Msg("Connecting");
-	}*/
-
-	if (KeyJustUp(VK_F5))
-	{
-		CNetworkManager::Connect("188.166.76.252", "default", CON_PORT);
-		Logger::Msg("Connecting");
-	}
-
-	if (KeyJustUp(VK_F10))
-	{
-		CNetworkManager::Connect("83.128.145.20", "default", CON_PORT);
 		Logger::Msg("Connecting");
 	}
 
@@ -148,22 +132,25 @@ void CCore::OnGameTick()
 
 	KeyCheck();
 
+	std::cout << "CLocalPlayer::Pulse" << std::endl;
 	CLocalPlayer::Pulse();
+	std::cout << "CNetworkManager::Pulse" << std::endl;
 	CNetworkManager::Pulse();
+	std::cout << "CStreamer::Pulse" << std::endl;
 	CStreamer::Pulse();
-	
+	std::cout << "g_Players::Pulse" << std::endl;
 	if (!g_Players.empty()) {
 		for (int i = 0; i < g_Players.size(); i++) {
 			g_Players[i].Pulse();
 		}
 	}
-
+	std::cout << "g_Vehicles::Pulse" << std::endl;
 	if (!g_Vehicles.empty()) {
 		for (int i = 0; i < g_Vehicles.size(); i++) {
 			g_Vehicles[i].Pulse();
 		}
 	}
-
+	std::cout << "g_Objects::Pulse" << std::endl;
 	if (!g_Objects.empty())
 	{
 		for (int i = 0; i < g_Objects.size(); i++)
@@ -171,7 +158,7 @@ void CCore::OnGameTick()
 			g_Objects[i].Pulse();
 		}
 	}
-
+	std::cout << "g_Checkpoints::Pulse" << std::endl;
 	if (!g_Checkpoints.empty())
 	{
 		for (int i = 0; i < g_Checkpoints.size(); i++)
@@ -179,6 +166,7 @@ void CCore::OnGameTick()
 			g_Checkpoints[i].Pulse();
 		}
 	}
+	std::cout << "CCore::OnGameTick END" << std::endl;
 }
 
 void CCore::CleanUp()
@@ -205,7 +193,7 @@ void CCore::CleanUp()
 	GAMEPLAY::SET_TIME_SCALE(1.0f);
 	GAMEPLAY::CLEAR_AREA_OF_PEDS(Position.x, Position.y, Position.z, 10000.0f, true);
 	GAMEPLAY::CLEAR_AREA_OF_VEHICLES(Position.x, Position.y, Position.z, 10000.0f, 0, 0, 0, 0, 0);
-	GAMEPLAY::_DISABLE_AUTOMATIC_RESPAWN(true);
+	GAMEPLAY::_DISABLE_AUTOMATIC_RESPAWN(false);
 	GAMEPLAY::IGNORE_NEXT_RESTART(true);
 	GAMEPLAY::SET_MISSION_FLAG(true);
 	GAMEPLAY::SET_FADE_OUT_AFTER_DEATH(false);
@@ -237,11 +225,49 @@ void CCore::PreventCheat()
 
 void CCore::KeyCheck()
 {
-	CONTROLS::DISABLE_CONTROL_ACTION(2, ControlCharacterWheel, true);
-	CONTROLS::DISABLE_CONTROL_ACTION(2, ControlFrontendPause, true);
-	CONTROLS::DISABLE_CONTROL_ACTION(2, ControlFrontendSocialClub, true);
+	CONTROLS::DISABLE_CONTROL_ACTION(2, ControlEnter, 1);
+	CONTROLS::DISABLE_CONTROL_ACTION(2, ControlCharacterWheel, 1);
+	CONTROLS::DISABLE_CONTROL_ACTION(2, ControlFrontendPause, 1);
+	CONTROLS::DISABLE_CONTROL_ACTION(2, ControlFrontendPauseAlternate, 1);
+	CONTROLS::DISABLE_CONTROL_ACTION(2, ControlFrontendSocialClub, 1);
+	CONTROLS::DISABLE_CONTROL_ACTION(2, ControlFrontendSocialClubSecondary, 1);
+	CONTROLS::DISABLE_CONTROL_ACTION(2, ControlDropWeapon, 1);
+	CONTROLS::DISABLE_CONTROL_ACTION(2, ControlDropAmmo, 1);
+	CONTROLS::DISABLE_CONTROL_ACTION(2, ControlSelectCharacterMichael, 1);
+	CONTROLS::DISABLE_CONTROL_ACTION(2, ControlSelectCharacterFranklin, 1);
+	CONTROLS::DISABLE_CONTROL_ACTION(2, ControlSelectCharacterTrevor, 1);
+	CONTROLS::DISABLE_CONTROL_ACTION(2, ControlSelectCharacterMultiplayer, 1);
 
-	if (CONTROLS::IS_CONTROL_PRESSED(0, ControlEnter) && !PED::IS_PED_IN_ANY_VEHICLE(CLocalPlayer::GetPed(), true) /*&& chatnotopen*/)
+	if (KeyJustUp(0x46) && !PED::IS_PED_IN_ANY_VEHICLE(CLocalPlayer::GetPed(), true) /*&& chatnotopen*/)
+	{
+		Vehicle vehicle = CVehicleEntity::getClosestVehicleFromPedPos(CLocalPlayer::GetPed(), 10.0f);
+		if (vehicle)
+		{
+			for (int v = 0; v < g_Vehicles.size(); v++)
+			{
+				if (g_Vehicles[v].GetEntity() == vehicle)
+				{
+					if (g_Vehicles[v].GetOccupant(0) == -1)
+					{
+						AI::TASK_ENTER_VEHICLE(CLocalPlayer::GetPed(), vehicle, 5000, -1, 2.0, 1, 0);
+
+						RakNet::BitStream sData;
+						sData.Write(g_Vehicles[v].GetId());
+						CNetworkManager::GetRPC().Signal("TakeEntityAssignment", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, CNetworkManager::GetSystemAddress(), false, false);
+					}
+					break;
+				}
+			}
+		}
+		else
+		{
+			AI::CLEAR_PED_TASKS(CLocalPlayer::GetPed());
+		}
+		
+		ResetKeyState(0x46);
+	}
+	
+	if (KeyJustUp(0x47) && !PED::IS_PED_IN_ANY_VEHICLE(CLocalPlayer::GetPed(), true) /*&& chatnotopen*/)
 	{
 		Vehicle vehicle = CVehicleEntity::getClosestVehicleFromPedPos(CLocalPlayer::GetPed(), 10.0f);
 		if (vehicle)
@@ -340,6 +366,8 @@ void CCore::KeyCheck()
 		{
 			AI::CLEAR_PED_TASKS(CLocalPlayer::GetPed());
 		}
+		
+		ResetKeyState(0x47);
 	}
 
 	if (CONTROLS::IS_CONTROL_PRESSED(0, ControlMoveUp) || CONTROLS::IS_CONTROL_PRESSED(0, ControlMoveDown) || CONTROLS::IS_CONTROL_PRESSED(0, ControlMoveLeft) || CONTROLS::IS_CONTROL_PRESSED(0, ControlMoveRight))

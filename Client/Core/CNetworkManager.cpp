@@ -88,6 +88,8 @@ void CNetworkManager::Connect(const char *ip, const char *pass, int port)
 	if (g_ConnectionState == CONSTATE_COND)
 		Disconnect();
 
+	DirectXRenderer::ConnectionProg = "Establishing Connection";
+
 	// Set our last connection so we can connect again later and we set our state to connecting
 	SetLastConnection(ip, pass, port);
 	g_ConnectionState = CONSTATE_CONN;
@@ -98,6 +100,7 @@ void CNetworkManager::Connect(const char *ip, const char *pass, int port)
 	// Check if connection failed, then set our state to failed
 	if (Result != 0)
 	{
+		DirectXRenderer::ConnectionProg = "Connection Failed";
 		g_ConnectionState = CONSTATE_FAIL;
 		Logger::Msg("Failed to connect, errorcode: %d", Result);
 		return;
@@ -293,7 +296,8 @@ void CNetworkManager::Pulse()
 				g_SystemAddr = g_Packet->systemAddress;
 
 				// Set our state to connected
-				g_ConnectionState = CONSTATE_COND;
+				//g_ConnectionState = CONSTATE_COND; //Too soon need to give models and stuff a chance to load and all data to be sent to the player
+				DirectXRenderer::ConnectionProg = "Syncing with Server Data";
 
 				// Set our last packet update so it sends our own packets too
 				CLocalPlayer::SetLastSync(timeGetTime());
@@ -301,7 +305,12 @@ void CNetworkManager::Pulse()
 				//if (g_DirTransfer->DownloadFromSubdirectory("", "", true, g_SystemAddr, &transferCallback, HIGH_PRIORITY, 0, 0) == -1)
 				//	Logger::Msg("CNetworkManager::NoDownload");
 
-				Logger::Msg("CNetworkManager::Connected");
+				BitStream bitstream;
+				bitstream.Write((unsigned char)ID_REQUEST_SERVER_SYNC);
+				bitstream.Write(RakString(CConfig::GetName().c_str()));
+				CNetworkManager::GetInterface()->Send(&bitstream, MEDIUM_PRIORITY, RELIABLE_ORDERED, 0, CNetworkManager::GetSystemAddress(), false);
+
+				Logger::Msg("CNetworkManager::Connected Stage 1");
 				break;
 			}
 			case ID_CONNECTION_LOST:
@@ -409,6 +418,16 @@ void CNetworkManager::Pulse()
 					}
 				}
 				std::cout << "[CPlayerEntity] Players Online: " << g_Players.size() << std::endl;
+				break;
+			}
+			case ID_REQUEST_SERVER_SYNC:
+			{
+				DirectXRenderer::ConnectionProg = "Connected";
+
+				// Set our state to connected
+				g_ConnectionState = CONSTATE_COND;
+
+				Logger::Msg("CNetworkManager::Connected Stage 2 Final");
 				break;
 			}
 			Logger::Msg("%d", g_Packet->data[0]);

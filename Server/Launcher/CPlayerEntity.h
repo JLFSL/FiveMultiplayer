@@ -96,18 +96,19 @@ public:
 	void Pulse();
 	void Update(Packet *packet);
 
-	int				GetPlayerID() { return Information.PlayerID; };
-	void			SetPlayerID(int playerid) { Information.PlayerID = playerid; };
-	int				GetId() { return Information.Entity; };
-	std::string		GetUsername() { return Information.Name.C_String(); };
+	int				GetPlayerID() { return Information.PlayerID; }
+	void			SetPlayerID(int playerid) { Information.PlayerID = playerid; }
+	int				GetId() { return Information.Entity; }
+	std::string		GetUsername() { return Information.Name.C_String(); }
+	void			SetUsername(RakString name) { Information.Name = name; }
 
-	int				GetScore() { return Statistics.Score; };
+	int				GetScore() { return Statistics.Score; }
 
-	int				GetVehicle() { return Data.Vehicle.VehicleID; };
-	int				GetVehicleSeat() { return Data.Vehicle.Seat; };
+	int				GetVehicle() { return Data.Vehicle.VehicleID; }
+	int				GetVehicleSeat() { return Data.Vehicle.Seat; }
 
-	CVector3		GetPosition() { return Data.Position; };
-	void			SetPosition(CVector3 position) { Data.Position = position; };
+	CVector3		GetPosition() { return Data.Position; }
+	void			SetPosition(CVector3 position) { Data.Position = position; }
 
 	CVector3		GetRotation() { return Data.Rotation; }
 	void			SetRotation(CVector3 rotation) { Data.Rotation = rotation; }

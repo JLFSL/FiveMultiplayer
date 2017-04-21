@@ -43,3 +43,23 @@ void CRPCWorld::UnloadIPL(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 
 	CWorld::UnloadIPL(ipl.C_String());
 }
+
+void CRPCWorld::LoadStringModel(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+{
+	std::cout << "CRPCWorld::LoadStringModel" << std::endl;
+	RakWString model;
+
+	bitStream->Read(model);
+
+	CWorld::LoadModel(model.C_String());
+}
+
+void CRPCWorld::LoadHashModel(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+{
+	std::cout << "CRPCWorld::LoadHashModel" << std::endl;
+	int model;
+
+	bitStream->Read(model);
+
+	CWorld::LoadModel(model);
+}

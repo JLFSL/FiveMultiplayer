@@ -23,7 +23,16 @@ void CPlayerEntity::Create(std::string Name, RakNetGUID GUID, int entity) {
 	newServerEntity.Create(entity, CServerEntity::Player);
 	g_Entities.push_back(newServerEntity);
 
-	RequestData();
+	if (CNetworkManager::GetInterface()->GetMyGUID() == Network.GUID)
+	{
+		// Simple way to make the local player aware of its own server entity id.
+		if (Information.Id != CLocalPlayer::GetId())
+			CLocalPlayer::SetId(Information.Id);
+	}
+	else
+	{
+		RequestData();
+	}
 
 	std::cout << "[CPlayerEntity] Added Player: " << Information.Name << std::endl;
 }
@@ -207,12 +216,6 @@ void CPlayerEntity::Update(Packet *packet)
 		UpdateTargetData();
 
 		Network.LastSyncReceived = timeGetTime();
-	}
-	else if (CNetworkManager::GetInterface()->GetMyGUID() == Network.GUID)
-	{
-		// Simple way to make the local player aware of its own server entity id.
-		if (Information.Id != CLocalPlayer::GetId())
-			CLocalPlayer::SetId(Information.Id);
 	}
 }
 

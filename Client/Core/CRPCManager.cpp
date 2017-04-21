@@ -3,12 +3,15 @@
 CRPCManager::RPCMessage rpcmessages[] = {
 #pragma region Visual
 	{ "ShowMessageAboveMap", CRPCVisual::ShowMessageAboveMap },
+	{ "SendMessage", CRPCVisual::SendChatMessage },
 #pragma endregion
 #pragma region World
 	{ "SetTime", CRPCWorld::SetTime },
 	{ "SetWeather", CRPCWorld::SetWeather },
 	{ "LoadIPL", CRPCWorld::LoadIPL },
 	{ "UnloadIPL", CRPCWorld::UnloadIPL },
+	{ "LoadStringModel", CRPCWorld::LoadStringModel },
+	{ "LoadHashModel", CRPCWorld::LoadHashModel },
 #pragma endregion
 #pragma region Entity
 	{ "DestroyEntity", CRPCEntity::Destroy },
@@ -47,7 +50,10 @@ CRPCManager::RPCMessage rpcmessages[] = {
 	{ "SetEngineState", CRPCVehicle::SetEngineState },
 	{ "SetDoorsLockState", CRPCVehicle::SetDoorsLockState },
 	{ "SetNumberPlateStyle", CRPCVehicle::SetNumberPlateStyle },
-	{ "SetExtra", CRPCVehicle::SetExtra }
+	{ "SetExtra", CRPCVehicle::SetExtra },
+#pragma endregion
+#pragma region Network
+	{ "FinishedSync", CRPCNetwork::FinishedSync }
 #pragma endregion
 };
 

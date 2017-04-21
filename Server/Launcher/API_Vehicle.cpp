@@ -10,6 +10,8 @@ namespace API
 		newVehicle.Create(model, position, heading);
 		g_Vehicles.push_back(newVehicle);
 
+		CModelCache::AddModel(model);
+
 		return newVehicle.GetId();
 	}
 	const int Vehicle::Create(const std::wstring model, const CVector3 position, const CVector3 rotation)
@@ -17,6 +19,8 @@ namespace API
 		CVehicleEntity newVehicle;
 		newVehicle.Create(model, position, rotation);
 		g_Vehicles.push_back(newVehicle);
+
+		CModelCache::AddModel(model);
 
 		return newVehicle.GetId();
 	}

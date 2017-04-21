@@ -129,6 +129,9 @@
     <ClCompile Include="API_Callback_Checkpoint.cpp">
       <Filter>Scripting\Callbacks</Filter>
     </ClCompile>
+    <ClCompile Include="CModelCache.cpp">
+      <Filter>Server</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -214,6 +217,9 @@
     </ClInclude>
     <ClInclude Include="API_Callback_Checkpoint.h">
       <Filter>Scripting\Callbacks</Filter>
+    </ClInclude>
+    <ClInclude Include="CModelCache.h">
+      <Filter>Server</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -8,4 +8,7 @@ public:
 
 	static void LoadIPL(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 	static void UnloadIPL(RakNet::BitStream *bitStream, RakNet::Packet *packet);
+
+	static void LoadStringModel(RakNet::BitStream *bitStream, RakNet::Packet *packet);
+	static void LoadHashModel(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 };

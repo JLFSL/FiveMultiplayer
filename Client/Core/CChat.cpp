@@ -11,10 +11,10 @@ int CChat::LatestId = 0;
 
 std::vector<CChat::chatPool> CChat::chatData;
 
-std::vector<std::wstring> &split(const std::wstring &s, wchar_t delim, std::vector<std::wstring> &elems)
+std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems)
 {
-	std::wstringstream ss(s);
-	std::wstring item;
+	std::stringstream ss(s);
+	std::string item;
 	while (std::getline(ss, item, delim))
 	{
 		elems.push_back(item);
@@ -22,14 +22,14 @@ std::vector<std::wstring> &split(const std::wstring &s, wchar_t delim, std::vect
 	return elems;
 }
 
-std::vector<std::wstring> split(const std::wstring &s, char delim)
+std::vector<std::string> split(const std::string &s, char delim)
 {
-	std::vector<std::wstring> elems;
+	std::vector<std::string> elems;
 	split(s, delim, elems);
 	return elems;
 }
 
-void CChat::AddChatMessage(const std::wstring message)
+void CChat::AddChatMessage(const std::string message)
 {
 	chatPool addto;
 
@@ -41,11 +41,11 @@ void CChat::AddChatMessage(const std::wstring message)
 			addto.message.push_back(_messages[i]);
 	}
 
-	std::wstring temp;
+	std::string temp;
 	for (int i = 0; i < addto.message.size(); i++)
 	{
 		temp.append(addto.message[i].text);
-		if ((ImGui::CalcTextSize(CString::utf16ToUtf8(temp).c_str()).x / 2) * DirectXRenderer::textScale > (800 * DirectXRenderer::windowScale))
+		if ((ImGui::CalcTextSize(temp.c_str()).x / 2) * DirectXRenderer::textScale > (800 * DirectXRenderer::windowScale))
 		{
 			addto.message[i].newline = true;
 			temp.empty();
@@ -77,7 +77,7 @@ void CChat::ClearChat()
 	}
 }
 
-std::vector<CChat::Message> CChat::formatMessage(std::wstring message)
+std::vector<CChat::Message> CChat::formatMessage(std::string message)
 {
 	std::vector<Message> messages;
 	Message _message;
@@ -102,7 +102,7 @@ std::vector<CChat::Message> CChat::formatMessage(std::wstring message)
 					}
 
 					//Grab the Hex Color
-					std::wstring sHex = L"0x";
+					std::string sHex = "0x";
 					for (unsigned int j = i + 1; j < i + 7; j++)
 					{
 						sHex.push_back(message[j]);
@@ -156,18 +156,18 @@ std::vector<CChat::Message> CChat::formatMessage(std::wstring message)
 	return messages;
 }
 
-const int CChat::CommandProcessor(std::wstring command)
+const int CChat::CommandProcessor(std::string command)
 {
-	std::vector<std::wstring> params = split(command, ' ');
+	std::vector<std::string> params = split(command, ' ');
 	command = params[0];
 	params.erase(params.begin());
 
-	if (!command.compare(L"/connect") && CNetworkManager::g_ConnectionState == CONSTATE_DISC)
+	if (!command.compare("/connect") && CNetworkManager::g_ConnectionState == CONSTATE_DISC)
 	{
-		if (params[0] != L"")
+		if (params[0] != "")
 		{
-			if (params[1] == L"")
-				params[1] = L"2322";
+			if (params[1] == "")
+				params[1] = "2322";
 
 			CNetworkManager::Connect((char *)params[0].c_str(), "default", (int)params[1].c_str());
 			CVisual::ShowMessageAboveMap("An error occured while calling the ~r~connect ~w~function", "", 4, "", "");
@@ -175,12 +175,12 @@ const int CChat::CommandProcessor(std::wstring command)
 		return true;
 	}
 
-	if (!command.compare(L"/disconnect"))
+	if (!command.compare("/disconnect"))
 	{
 		if (CNetworkManager::g_ConnectionState == CONSTATE_COND)
 		{
 			CNetworkManager::Disconnect();
-			CChat::AddChatMessage(L"{333333}Connection: Disconnected from the server.");
+			CChat::AddChatMessage("{333333}Connection: Disconnected from the server.");
 		}
 		else
 		{
@@ -189,7 +189,7 @@ const int CChat::CommandProcessor(std::wstring command)
 		return true;
 	}
 
-	if (!command.compare(L"/quit"))
+	if (!command.compare("/quit"))
 	{
 		CNetworkManager::Disconnect();
 		CNetworkManager::Stop();

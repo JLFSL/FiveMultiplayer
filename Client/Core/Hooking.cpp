@@ -34,11 +34,11 @@ BOOL Hooking::InitializeHooks()
 	BOOL returnVal = TRUE;
 
 	// Input hook
-	/*if (!iHook.Initialize()) {
+	if (!iHook.Initialize()) {
 
 		Logger::Error("Failed to initialize InputHook");
 		returnVal = TRUE;
-	}*/
+	}
 
 	// init init native hook
 	if (!HookNatives()) {

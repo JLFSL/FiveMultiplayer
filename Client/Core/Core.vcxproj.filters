@@ -78,9 +78,6 @@
     <ClCompile Include="Memory.cpp">
       <Filter>Hooks\SudoMod</Filter>
     </ClCompile>
-    <ClCompile Include="InputHook.cpp">
-      <Filter>Hooks\SudoMod</Filter>
-    </ClCompile>
     <ClCompile Include="Keyboard.cpp">
       <Filter>Hooks\SudoMod</Filter>
     </ClCompile>
@@ -213,6 +210,12 @@
     <ClCompile Include="IniWriter.cpp">
       <Filter>Include\INIReader</Filter>
     </ClCompile>
+    <ClCompile Include="InputHook.cpp">
+      <Filter>Hooks\SudoMod</Filter>
+    </ClCompile>
+    <ClCompile Include="CRPCNetwork.cpp">
+      <Filter>Network\RPC</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -246,9 +249,6 @@
       <Filter>Hooks\SudoMod</Filter>
     </ClInclude>
     <ClInclude Include="Memory.h">
-      <Filter>Hooks\SudoMod</Filter>
-    </ClInclude>
-    <ClInclude Include="InputHook.h">
       <Filter>Hooks\SudoMod</Filter>
     </ClInclude>
     <ClInclude Include="Keyboard.h">
@@ -394,6 +394,12 @@
     </ClInclude>
     <ClInclude Include="IniWriter.h">
       <Filter>Include\INIReader</Filter>
+    </ClInclude>
+    <ClInclude Include="InputHook.h">
+      <Filter>Hooks\SudoMod</Filter>
+    </ClInclude>
+    <ClInclude Include="CRPCNetwork.h">
+      <Filter>Network\RPC</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

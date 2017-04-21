@@ -3,11 +3,12 @@
 class CStreamer
 {
 private:
-	static struct streamedObject
+	struct streamedObject
 	{
 		int entity;
 		float distance;
 	};
+
 	static std::vector<streamedObject> streamed;
 
 	static float MaxRange;

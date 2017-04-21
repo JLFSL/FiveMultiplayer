@@ -176,6 +176,7 @@ extern "C" DLL_PUBLIC bool API_Initialize(void) {
 		.beginClass <Player>("Player")
 		.addConstructor <void(*)(void)>()
 			.addCFunction("GetUID", &Player::GetUID)
+			.addCFunction("SetUID", &Player::SetUID)
 			.addCFunction("SetPosition", &Player::SetPosition)
 			.addCFunction("GetPosition", &Player::GetPosition)
 			.addCFunction("GetRotation", &Player::GetRotation)
@@ -197,9 +198,11 @@ extern "C" DLL_PUBLIC bool API_Initialize(void) {
 			.addCFunction("ShowMessageAboveMap", &Player::ShowMessageAboveMap)
 			.addCFunction("LoadIPL", &Player::LoadIPL)
 			.addCFunction("UnloadIPL", &Player::UnloadIPL)
+			.addCFunction("SendChatMessage", &Player::SendChatMessage)
 		.endClass()
 		.beginNamespace("visual")
 			.addCFunction("ShowMessageAboveMap", Visual::ShowMessageAboveMap)
+			.addCFunction("SendChatMessage", Visual::SendChatMessage)
 		.endNamespace()
 		.beginNamespace("server")
 			.addCFunction("PrintMessage", Server::PrintMessage)
@@ -291,8 +294,9 @@ extern "C" DLL_PUBLIC bool API_OnPlayerConnecting(const char *guid)
 	int call = lua_getglobal(stateLua, "OnPlayerConnecting");
 	if (call != 0)
 	{
+		lua_pushstring(stateLua, guid);
 
-		int error = lua_pcall(stateLua, 0, 1, 0);
+		int error = lua_pcall(stateLua, 1, 1, 0);
 		if (error != 0)
 		{
 			std::cout << "Error occured when executing OnPlayerConnecting" << std::endl;
@@ -305,7 +309,7 @@ extern "C" DLL_PUBLIC bool API_OnPlayerConnecting(const char *guid)
 	return result;
 }
 
-extern "C" DLL_PUBLIC bool API_OnPlayerConnected(void)
+extern "C" DLL_PUBLIC bool API_OnPlayerConnected(int entity, int playerid)
 {
 	int result;
 
@@ -314,8 +318,9 @@ extern "C" DLL_PUBLIC bool API_OnPlayerConnected(void)
 	int call = lua_getglobal(stateLua, "OnPlayerConnected");
 	if (call != 0)
 	{
+		lua_pushinteger(stateLua, playerid);
 
-		int error = lua_pcall(stateLua, 0, 1, 0);
+		int error = lua_pcall(stateLua, 1, 1, 0);
 		if (error != 0)
 		{
 			std::cout << "Error occured when executing OnPlayerConnected" << std::endl;
@@ -337,8 +342,10 @@ extern "C" DLL_PUBLIC void API_OnEntityEnterCheckpoint(int checkpoint, int entit
 	int call = lua_getglobal(stateLua, "OnEntityEnterCheckpoint");
 	if (call != 0)
 	{
+		lua_pushinteger(stateLua, checkpoint);
+		lua_pushinteger(stateLua, entity);
 
-		int error = lua_pcall(stateLua, 0, 1, 0);
+		int error = lua_pcall(stateLua, 2, 1, 0);
 		if (error != 0)
 		{
 			std::cout << "Error occured when executing OnEntityEnterCheckpoint" << std::endl;
@@ -359,11 +366,61 @@ extern "C" DLL_PUBLIC void API_OnEntityExitCheckpoint(int checkpoint, int entity
 	int call = lua_getglobal(stateLua, "OnEntityExitCheckpoint");
 	if (call != 0)
 	{
+		lua_pushinteger(stateLua, checkpoint);
+		lua_pushinteger(stateLua, entity);
 
 		int error = lua_pcall(stateLua, 0, 1, 0);
 		if (error != 0)
 		{
 			std::cout << "Error occured when executing OnEntityExitCheckpoint" << std::endl;
+			std::cout << "Error: " << lua_tostring(stateLua, -1) << std::endl;
+		}
+
+		result = (int)lua_tointeger(stateLua, -1);
+		lua_pop(stateLua, 1);
+	}
+}
+
+extern "C" DLL_PUBLIC void API_OnPlayerCommand(const int entity, const std::string message)
+{
+	int result;
+
+	std::cout << "OnPlayerCommand() was called." << std::endl;
+
+	int call = lua_getglobal(stateLua, "OnPlayerCommand");
+	if (call != 0)
+	{
+		lua_pushinteger(stateLua, entity);
+		lua_pushstring(stateLua, message.c_str());
+
+		int error = lua_pcall(stateLua, 0, 1, 0);
+		if (error != 0)
+		{
+			std::cout << "Error occured when executing OnPlayerCommand" << std::endl;
+			std::cout << "Error: " << lua_tostring(stateLua, -1) << std::endl;
+		}
+
+		result = (int)lua_tointeger(stateLua, -1);
+		lua_pop(stateLua, 1);
+	}
+}
+
+extern "C" DLL_PUBLIC void API_OnPlayerMessage(const int entity, const std::string message)
+{
+	int result;
+
+	std::cout << "OnPlayerMessage() was called." << std::endl;
+
+	int call = lua_getglobal(stateLua, "OnPlayerMessage");
+	if (call != 0)
+	{
+		lua_pushinteger(stateLua, entity);
+		lua_pushstring(stateLua, message.c_str());
+
+		int error = lua_pcall(stateLua, 0, 1, 0);
+		if (error != 0)
+		{
+			std::cout << "Error occured when executing OnPlayerMessage" << std::endl;
 			std::cout << "Error: " << lua_tostring(stateLua, -1) << std::endl;
 		}
 

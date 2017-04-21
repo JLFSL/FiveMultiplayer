@@ -43,3 +43,15 @@ extern "C" DLL_PUBLIC void API_OnEntityExitCheckpoint(int checkpoint, int entity
 {
 	API::Server::PrintMessage(L"OnEntityExitCheckpoint");
 }
+
+// When a player sends a command
+extern "C" DLL_PUBLIC void API_OnPlayerCommand(const int entity, const std::string message)
+{
+	API::Server::PrintMessage(L"OnPlayerCommand");
+}
+
+// When a player sends a message
+extern "C" DLL_PUBLIC void API_OnPlayerMessage(const int entity, const std::string message)
+{
+	API::Server::PrintMessage(L"OnPlayerMessage");
+}

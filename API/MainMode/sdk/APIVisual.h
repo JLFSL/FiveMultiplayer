@@ -30,6 +30,19 @@ extern "C" {
 			/// <param name="subject">The subject is the header under the sender.</param>
 			/// <returns></returns>
 			DLL_PUBLIC_I static void ShowMessageAboveMapToPlayer(const int entity, const std::wstring message, const std::wstring pic, const int icontype, const std::wstring sender, const std::wstring subject);
+
+			/// <summary>
+			/// Sends a chat message to all clients.
+			/// </summary>
+			/// <param name="message">The string of the message</param>
+			DLL_PUBLIC_I static void SendChatMessage(const std::string message);
+
+			/// <summary>
+			/// Sends a chat message to a client.
+			/// </summary>
+			/// <param name="entity">The entityid of the player you wish to sedn the message to.</param>
+			/// <param name="message">The string of the message</param>
+			DLL_PUBLIC_I static void SendChatMessageToPlayer(const int entity, const std::string message);
 		};
 	}
 #ifdef __cplusplus

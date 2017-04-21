@@ -34,4 +34,27 @@ namespace API
 			}
 		}
 	}
+
+	void Visual::SendChatMessage(const std::string message)
+	{
+		RakNet::BitStream sData;
+		sData.Write(RakNet::RakString(message.c_str()));
+
+		g_Server->GetNetworkManager()->GetRPC().Signal("SendMessage", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
+	}
+
+	void Visual::SendChatMessageToPlayer(const int entity, const std::string message)
+	{
+		RakNet::BitStream sData;
+		sData.Write(RakNet::RakString(message.c_str()));
+
+		for (int i = 0; i < g_Players.size(); i++)
+		{
+			if (g_Players[i].GetId() == entity)
+			{
+				g_Server->GetNetworkManager()->GetRPC().Signal("SendMessage", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, g_Players[i].GetGUID(), false, false);
+				break;
+			}
+		}
+	}
 }

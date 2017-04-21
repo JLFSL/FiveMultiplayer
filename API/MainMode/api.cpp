@@ -55,8 +55,8 @@ extern "C" DLL_PUBLIC bool API_Initialize(void)
 	Checkpoint newCp;
 
 #ifdef TESTING
-	newNpc.Create(L"s_m_m_movspace_01", CVector3(0.0f, 0.0f, 74.0f), CVector3(0.0f, 0.0f, 90.0f));
-	npcs.push_back(newNpc);
+	//newNpc.Create(L"s_m_m_movspace_01", CVector3(0.0f, 0.0f, 74.0f), CVector3(0.0f, 0.0f, 90.0f));
+	//npcs.push_back(newNpc);
 
 	newCp.Create(CVector3(0.0f, 0.0f, 74.0f), CVector3(0.0f, 0.0f, 124.0f), 1, 5.0f, Color{ 255,0,0,255 }, 0);
 	checkpoints.push_back(newCp);
@@ -200,4 +200,18 @@ extern "C" DLL_PUBLIC void API_OnEntityEnterCheckpoint(int checkpoint, int entit
 extern "C" DLL_PUBLIC void API_OnEntityExitCheckpoint(int checkpoint, int entity)
 {
 	API::Server::PrintMessage(L"OnEntityExitCheckpoint");
+}
+
+// When a player sends a command
+extern "C" DLL_PUBLIC void API_OnPlayerCommand(const int entity, const std::string message)
+{
+	API::Server::PrintMessage(L"OnPlayerCommand");
+}
+
+// When a player sends a message
+extern "C" DLL_PUBLIC void API_OnPlayerMessage(const int entity, const std::string message)
+{
+	API::Server::PrintMessage(L"OnPlayerMessage");
+
+	API::Visual::SendChatMessage(message);
 }

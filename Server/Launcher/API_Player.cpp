@@ -27,6 +27,8 @@ namespace API
 				sData.Write(RakWString(model.c_str()));
 				g_Server->GetNetworkManager()->GetRPC().Signal("PlayerModel", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, g_Players[i].GetGUID(), false, false);
 
+				CModelCache::AddModel(model);
+
 				return g_Players[i].SetModel(model);
 			}
 		}

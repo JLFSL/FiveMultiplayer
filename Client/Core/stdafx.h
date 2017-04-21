@@ -114,6 +114,7 @@
 		#include "CRPCNpc.h"
 		#include "CRPCCheckpoint.h"
 		#include "CRPCVehicle.h"
+		#include "CRPCNetwork.h"
 
 	// Client
 	#include "CChat.h"

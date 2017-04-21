@@ -190,6 +190,7 @@
     <ClCompile Include="CrossMapping.cpp" />
     <ClCompile Include="CRPCCheckpoint.cpp" />
     <ClCompile Include="CRPCEntity.cpp" />
+    <ClCompile Include="CRPCNetwork.cpp" />
     <ClCompile Include="CRPCNpc.cpp" />
     <ClCompile Include="CRPCObject.cpp" />
     <ClCompile Include="CRPCPlayer.cpp" />
@@ -264,6 +265,7 @@
     <ClInclude Include="CrossMapping.h" />
     <ClInclude Include="CRPCCheckpoint.h" />
     <ClInclude Include="CRPCEntity.h" />
+    <ClInclude Include="CRPCNetwork.h" />
     <ClInclude Include="CRPCNpc.h" />
     <ClInclude Include="CRPCObject.h" />
     <ClInclude Include="CRPCPlayer.h" />

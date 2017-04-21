@@ -18,4 +18,6 @@ public:
 	static void		LoadIPL(std::wstring ipl);
 	static void		UnloadIPL(std::wstring ipl);
 
+	static void		LoadModel(const std::wstring model);
+	static void		LoadModel(const int model);
 };

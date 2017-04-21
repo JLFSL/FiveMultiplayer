@@ -19,10 +19,15 @@ DWORD_PTR* DirectXRenderer::pSwapChainVtable = nullptr;
 DWORD_PTR* DirectXRenderer::pDeviceContextVTable = nullptr;
 
 bool show_app_about = true;
+bool showServerList = false;
+
+int loadingProg = 0;
 
 char InputBuf[256];
 float DirectXRenderer::windowScale = 1.0f;
 float DirectXRenderer::textScale = 0.5f;
+
+std::string DirectXRenderer::ConnectionProg = "Establishing Connection";
 
 HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags)
 {
@@ -37,6 +42,88 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 
 		//DirectXDraw::GetInstance()->Initialize();
 
+		ImGuiStyle& style = ImGui::GetStyle();
+		bool bStyleDark_ = true;
+		float alpha_ = 1.0;
+
+		// light style from Pacôme Danhiez (user itamago) https://github.com/ocornut/imgui/pull/511#issuecomment-175719267
+		style.Alpha = 1.0f;
+		style.FrameRounding = 1.0f;
+		style.Colors[ImGuiCol_Text] = ImVec4(1.00f, 1.00f, 1.00f, 1.00f);
+		style.Colors[ImGuiCol_TextDisabled] = ImVec4(1.0f, 1.0f, 1.0f, 1.00f);
+		style.Colors[ImGuiCol_WindowBg] = ImVec4(0.0f, 0.0f, 0.0f, 1.0f);
+		style.Colors[ImGuiCol_ChildWindowBg] = ImVec4(0.00f, 0.00f, 0.00f, 0.00f);
+		style.Colors[ImGuiCol_PopupBg] = ImVec4(1.00f, 1.00f, 1.00f, 0.94f);
+		style.Colors[ImGuiCol_Border] = ImVec4(0.00f, 0.00f, 0.00f, 0.39f);
+		style.Colors[ImGuiCol_BorderShadow] = ImVec4(1.00f, 1.00f, 1.00f, 0.10f);
+		style.Colors[ImGuiCol_FrameBg] = ImVec4(1.00f, 1.00f, 1.00f, 0.94f);
+		style.Colors[ImGuiCol_FrameBgHovered] = ImVec4(0.26f, 0.59f, 0.98f, 0.40f);
+		style.Colors[ImGuiCol_FrameBgActive] = ImVec4(0.26f, 0.59f, 0.98f, 0.67f);
+		style.Colors[ImGuiCol_TitleBg] = ImVec4(0.96f, 0.96f, 0.96f, 1.00f);
+		style.Colors[ImGuiCol_TitleBgCollapsed] = ImVec4(1.00f, 1.00f, 1.00f, 0.51f);
+		style.Colors[ImGuiCol_TitleBgActive] = ImVec4(0.82f, 0.82f, 0.82f, 1.00f);
+		style.Colors[ImGuiCol_MenuBarBg] = ImVec4(0.86f, 0.86f, 0.86f, 1.00f);
+		style.Colors[ImGuiCol_ScrollbarBg] = ImVec4(0.98f, 0.98f, 0.98f, 0.53f);
+		style.Colors[ImGuiCol_ScrollbarGrab] = ImVec4(0.69f, 0.69f, 0.69f, 1.00f);
+		style.Colors[ImGuiCol_ScrollbarGrabHovered] = ImVec4(0.59f, 0.59f, 0.59f, 1.00f);
+		style.Colors[ImGuiCol_ScrollbarGrabActive] = ImVec4(0.49f, 0.49f, 0.49f, 1.00f);
+		style.Colors[ImGuiCol_ComboBg] = ImVec4(0.86f, 0.86f, 0.86f, 0.99f);
+		style.Colors[ImGuiCol_CheckMark] = ImVec4(0.26f, 0.59f, 0.98f, 1.00f);
+		style.Colors[ImGuiCol_SliderGrab] = ImVec4(0.24f, 0.52f, 0.88f, 1.00f);
+		style.Colors[ImGuiCol_SliderGrabActive] = ImVec4(0.26f, 0.59f, 0.98f, 1.00f);
+		style.Colors[ImGuiCol_Button] = ImVec4(.0f, .0f, .0f, .0f);
+		style.Colors[ImGuiCol_ButtonHovered] = ImVec4(0.953f, 0.255f, 0.29f, 0.40f);
+		style.Colors[ImGuiCol_ButtonActive] = ImVec4(0.953f, 0.255f, 0.29f, 1.00f);
+		style.Colors[ImGuiCol_Header] = ImVec4(0.26f, 0.59f, 0.98f, 0.31f);
+		style.Colors[ImGuiCol_HeaderHovered] = ImVec4(0.26f, 0.59f, 0.98f, 0.80f);
+		style.Colors[ImGuiCol_HeaderActive] = ImVec4(0.26f, 0.59f, 0.98f, 1.00f);
+		style.Colors[ImGuiCol_Column] = ImVec4(0.39f, 0.39f, 0.39f, 1.00f);
+		style.Colors[ImGuiCol_ColumnHovered] = ImVec4(0.26f, 0.59f, 0.98f, 0.78f);
+		style.Colors[ImGuiCol_ColumnActive] = ImVec4(0.26f, 0.59f, 0.98f, 1.00f);
+		style.Colors[ImGuiCol_ResizeGrip] = ImVec4(1.00f, 1.00f, 1.00f, 0.50f);
+		style.Colors[ImGuiCol_ResizeGripHovered] = ImVec4(0.26f, 0.59f, 0.98f, 0.67f);
+		style.Colors[ImGuiCol_ResizeGripActive] = ImVec4(0.26f, 0.59f, 0.98f, 0.95f);
+		style.Colors[ImGuiCol_CloseButton] = ImVec4(0.59f, 0.59f, 0.59f, 0.50f);
+		style.Colors[ImGuiCol_CloseButtonHovered] = ImVec4(0.98f, 0.39f, 0.36f, 1.00f);
+		style.Colors[ImGuiCol_CloseButtonActive] = ImVec4(0.98f, 0.39f, 0.36f, 1.00f);
+		style.Colors[ImGuiCol_PlotLines] = ImVec4(0.39f, 0.39f, 0.39f, 1.00f);
+		style.Colors[ImGuiCol_PlotLinesHovered] = ImVec4(1.00f, 0.43f, 0.35f, 1.00f);
+		style.Colors[ImGuiCol_PlotHistogram] = ImVec4(0.90f, 0.70f, 0.00f, 1.00f);
+		style.Colors[ImGuiCol_PlotHistogramHovered] = ImVec4(1.00f, 0.60f, 0.00f, 1.00f);
+		style.Colors[ImGuiCol_TextSelectedBg] = ImVec4(0.953f, 0.255f, 0.29f, 0.35f);
+		style.Colors[ImGuiCol_ModalWindowDarkening] = ImVec4(0.20f, 0.20f, 0.20f, 0.35f);
+
+		
+		ImGuiIO& ioinit = ImGui::GetIO();
+		//ioinit.Fonts->AddFontDefault();
+
+		//Default (English & Cyrillic)
+		ImFontConfig font_config;
+		font_config.MergeMode = true;
+		font_config.OversampleH = font_config.OversampleV = 1;
+		font_config.PixelSnapH = true;
+		ioinit.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\Roboto-Regular.ttf", 40.0f);
+
+		//Cyrillic
+		ioinit.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\Roboto-Regular.ttf", 40.0f, &font_config, ioinit.Fonts->GetGlyphRangesCyrillic());
+
+		//Chinese (FallBack No Roboto Support for this language)
+		ioinit.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\simhei.ttf", 40.0f, &font_config, ioinit.Fonts->GetGlyphRangesChinese());
+
+		// Korean (FallBack No Roboto Support for this language)
+		ioinit.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\batang.ttc", 40.0f, &font_config, ioinit.Fonts->GetGlyphRangesKorean());
+
+		// Japanese (FallBack No Roboto Support for this language)
+		ioinit.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\meiryob.ttc", 40.0f, &font_config, ioinit.Fonts->GetGlyphRangesJapanese());
+
+		// Thai (FallBack No Roboto Support for this language)
+		ioinit.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\browalia.ttc", 40.0f, &font_config, ioinit.Fonts->GetGlyphRangesThai());
+
+		//WindowManager->HugeFont = ioinit.Fonts->AddFontFromFileTTF("Roboto-Regular.ttf", 80.0f);
+
+		ioinit.Fonts->Build();
+		
+
 		DXGI_SWAP_CHAIN_DESC sd;
 		pSwapChain->GetDesc(&sd);
 
@@ -45,7 +132,7 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 		
 		if (!CefTexture::SetupD3D())
 			std::cout << "setup cef d3d texture failed" << std::endl;
-
+		
 		DirectXRenderer::FirstRender = false;
 	}
 
@@ -96,6 +183,104 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 				DirectXRenderer::textScale = 0.75f;
 		}
 		
+		if (CNetworkManager::g_ConnectionState == CONSTATE_DISC && Hooking::GetGameState() == GameStatePlaying) {
+			io.MouseDrawCursor = true;
+
+			ImGui::SetNextWindowPos(ImVec2(0, 0));
+			ImGui::SetNextWindowSize(ImVec2(screenWidth/5, screenHeight));
+			ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+			ImGui::Begin("FiveMultiplayer_Main", NULL, ImVec2(0, 0), 0.7f, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_AlwaysAutoResize);
+			{
+				ImGui::SetWindowFontScale(DirectXRenderer::textScale);
+				//ImGui::PushFont(HugeFont);
+				float SizeH1 = ImGui::CalcTextSize("Five Multiplayer").x;
+				float SizeH3 = ImGui::CalcTextSize("Five ").x;
+				float SizeH2 = ImGui::CalcTextSize("Multiplayer").x;
+
+				ImGui::NewLine(); ImGui::NewLine();
+				ImGui::SameLine((ImGui::GetWindowContentRegionMax().x / 2) - (SizeH1 / 2));
+				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
+				ImGui::Text("Five ");
+				ImGui::PopStyleColor();
+				ImGui::SameLine((ImGui::GetWindowContentRegionMax().x / 2) - (SizeH1 / 2) + SizeH3);
+				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.0f, 0.0f, 1.0f));
+				ImGui::Text("Multiplayer");
+				ImGui::PopStyleColor();
+
+				ImGui::NewLine(); ImGui::NewLine(); ImGui::NewLine(); ImGui::NewLine();
+				ImGui::SameLine((ImGui::GetWindowContentRegionMax().x / 2) - 150);
+				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
+				ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(4, 10));
+
+				if(showServerList)
+					ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.953f, 0.255f, 0.29f, 1.00f));
+				else
+					ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(.0f, .0f, .0f, .0f));
+
+				if (ImGui::Button("Server List", ImVec2(300, 0))) {
+					showServerList = true;
+				}
+
+				ImGui::NewLine();
+				ImGui::SameLine((ImGui::GetWindowContentRegionMax().x / 2) - 150);
+
+				if (!showServerList)
+					ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.953f, 0.255f, 0.29f, 1.00f));
+				else
+					ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(.0f, .0f, .0f, .0f));
+
+				if (ImGui::Button("Options", ImVec2(300, 0))) {
+					showServerList = false;
+				}
+
+				ImGui::NewLine();
+				ImGui::SameLine((ImGui::GetWindowContentRegionMax().x / 2) - 150);
+				if (ImGui::Button("Exit", ImVec2(300, 0))) {
+					CNetworkManager::Disconnect();
+					CNetworkManager::Stop();
+					WAIT(10);
+					exit(EXIT_SUCCESS);
+				}
+
+				ImGui::PopStyleColor(0);
+				ImGui::PopStyleVar(1);
+				
+
+			}
+			ImGui::End();
+			ImGui::PopStyleVar(1);
+
+			if (!showServerList) {
+				ImGui::SetNextWindowPos(ImVec2((screenWidth / 5) + 10, 10));
+				ImGui::SetNextWindowSize(ImVec2((screenWidth / 5) * 4 - 20, 60));
+				ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+				ImGui::Begin("FiveMultiplayer_Info", NULL, ImVec2(0, 0), 0.7f, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_AlwaysAutoResize);
+				{
+					ImGui::SetWindowFontScale(DirectXRenderer::textScale);
+					ImGui::Text("This is a PRE-Release of 0.2a");
+
+
+				}
+				ImGui::End();
+				ImGui::PopStyleVar(1);
+			}
+
+			if (showServerList) {
+				ImGui::SetNextWindowPos(ImVec2((screenWidth / 5) + 10, 10));
+				ImGui::SetNextWindowSize(ImVec2((screenWidth / 5) * 4 - 20, screenHeight - 20));
+				ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+				ImGui::Begin("FiveMultiplayer_Server", NULL, ImVec2(0, 0), 0.7f, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_AlwaysAutoResize);
+				{
+					ImGui::SetWindowFontScale(DirectXRenderer::textScale);
+					ImGui::Text("Server List");
+
+
+				}
+				ImGui::End();
+				ImGui::PopStyleVar(1);
+			}
+		}
+
 		if (CNetworkManager::g_ConnectionState == CONSTATE_COND)
 		{
 			ImGui::SetNextWindowPos(ImVec2(screenWidth - (700 * DirectXRenderer::windowScale), screenHeight - (80 * DirectXRenderer::windowScale) - 10));
@@ -103,7 +288,7 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 			ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
 			ImGui::Begin("FiveMultiplayer_Debug", NULL, ImVec2(0, 0), 0.5f, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings);
 			{
-				ImGui::SetWindowFontScale(DirectXRenderer::textScale);
+				ImGui::SetWindowFontScale(DirectXRenderer::textScale/3);
 				CVector3 pposition = CLocalPlayer::GetPosition();
 				CVector3 protation = CLocalPlayer::GetRotation();
 				float SizeH;
@@ -142,29 +327,53 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 
 		if (CNetworkManager::g_ConnectionState == CONSTATE_CONN)
 		{
-			ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));
-			ImGui::SetNextWindowSize(ImVec2((500 * DirectXRenderer::windowScale), (60 * DirectXRenderer::windowScale)));
+			ImGui::SetNextWindowPos(ImVec2((screenWidth / 2) - ((500 * DirectXRenderer::windowScale) / 2), 20));
+			ImGui::SetNextWindowSize(ImVec2((500 * DirectXRenderer::windowScale), (100 * DirectXRenderer::windowScale)));
 			ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
 			ImGui::Begin("FiveMultiplayer_Connecting", NULL, ImVec2(0, 0), 0.0f, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings);
 			{
-				ImGui::SetWindowFontScale(2.0f);
-				ImGui::Text("Connecting....");
+				ImGui::SetWindowFontScale(DirectXRenderer::textScale);
+				if(loadingProg >= 0 && loadingProg < 10)
+					ImGui::Text("Connecting..");
+				else if (loadingProg >= 10 && loadingProg < 20)
+					ImGui::Text("Connecting...");
+
+				if (loadingProg >= 20 && loadingProg < 30)
+					ImGui::Text("Connecting....");
+
+				if (loadingProg >= 30 && loadingProg < 40)
+				{
+					ImGui::Text("Connecting.....");
+				}
+
+				if (loadingProg == 39)
+				{
+					loadingProg = 0;
+				}
+				else
+				{
+					loadingProg++;
+				}
+
+				ImGui::SetWindowFontScale(DirectXRenderer::textScale / 2);
+				ImGui::Text(DirectXRenderer::ConnectionProg.c_str());
 			}
 			ImGui::End();
 			ImGui::PopStyleVar(1);
 		}
 
 		// Temporary Chat
+		
 		if (CNetworkManager::g_ConnectionState == CONSTATE_COND && CConfig::GetUILevel() < 2)
 		{
 			ImGui::SetNextWindowPos(ImVec2(3, 3));
 			ImGui::SetNextWindowSize(ImVec2((800 * DirectXRenderer::windowScale), (400 * DirectXRenderer::windowScale)));
 			ImGui::Begin(" ", NULL, ImVec2(0, 0), 0.0f, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_AlwaysAutoResize);
 			{
-				ImGui::SetWindowFontScale(DirectXRenderer::textScale * 1.2f);
+				ImGui::SetWindowFontScale(DirectXRenderer::textScale / 2);
 				ImGui::BeginChild("ScrollingRegion", ImVec2(0, -ImGui::GetItemsLineHeightWithSpacing()), false, ImGuiWindowFlags_NoScrollbar);
 				{
-					ImGui::SetWindowFontScale(DirectXRenderer::textScale * 1.2f);
+					ImGui::SetWindowFontScale(DirectXRenderer::textScale / 2);
 					ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 1)); // Tighten spacing
 					ImVec4 cBg = ImVec4(0.20f, 0.20f, 0.20f, 0.0f);
 					ImGui::PushStyleColor(ImGuiCol_ChildWindowBg, cBg);
@@ -195,7 +404,7 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 
 										if (CChat::chatData[i].message[h].text.c_str())
 										{
-											ImGui::TextUnformatted(CString::utf16ToUtf8(CChat::chatData[i].message[h].text).c_str());
+											ImGui::TextUnformatted(CChat::chatData[i].message[h].text.c_str());
 										}
 
 										ImGui::PopStyleColor();
@@ -226,10 +435,10 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 						while (input_end > InputBuf && input_end[-1] == ' ') input_end--; *input_end = 0;
 						if (InputBuf[0])
 						{
-							if (InputBuf[0] == L'/' && CChat::CommandProcessor(CString::utf8ToUtf16(InputBuf))) {}
+							if (InputBuf[0] == L'/' && CChat::CommandProcessor(InputBuf)) {}
 							else 
 							{
-								std::wstring message = CString::utf8ToUtf16(InputBuf);
+								std::string message = InputBuf;
 								for (int m = 0; m < message.size() * sizeof(wchar_t); m++)
 								{
 									if (message.data()[m] == '{') 
@@ -245,7 +454,7 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 								}
 
 								BitStream bitstream;
-								RakNet::RakWString msg(message.c_str());
+								RakNet::RakString msg(message.c_str());
 
 								bitstream.Write((unsigned char)ID_CHAT_MESSAGE);
 								bitstream.Write(msg);
@@ -266,6 +475,7 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 			}
 			ImGui::End();
 		}
+		
 	}
 
 	ImGui::Render();
@@ -304,7 +514,7 @@ void DirectXRenderer::Initialize()
 	swapChainDesc.OutputWindow = hWnd;
 	swapChainDesc.SampleDesc.Count = 1;
 	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
-	swapChainDesc.Windowed = TRUE;
+	swapChainDesc.Windowed = /*TRUE*/ ((GetWindowLong(hWnd, GWL_STYLE) & WS_POPUP) != 0) ? TRUE : FALSE;
 
 	UINT createDeviceFlags = 0;
 #ifdef _DEBUG

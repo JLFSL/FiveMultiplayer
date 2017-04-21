@@ -8,14 +8,14 @@ private:
 		float red = 1.0f;
 		float green = 1.0f;
 		float blue = 1.0f;
-		std::wstring text;
+		std::string text;
 	};
 
 	struct chatPool {
 		int messageid;
 
 		int authorid;
-		std::wstring author;
+		std::string author;
 		std::vector<Message> message;
 
 		time_t timestamp;
@@ -33,10 +33,10 @@ public:
 	static int CurrentRow;
 	static int LatestId;
 
-	static void					AddChatMessage(const std::wstring message);
+	static void					AddChatMessage(const std::string message);
 	static void					ClearChat();
-	static std::vector<Message> formatMessage(std::wstring message);
-	static const int			CommandProcessor(std::wstring command);
+	static std::vector<Message> formatMessage(std::string message);
+	static const int			CommandProcessor(std::string command);
 
 	static std::vector<chatPool> chatData;
 };

@@ -23,5 +23,22 @@ public:
 		lua_pop(L, args);
 		return 0;
 	}
+
+	static int SendChatMessage(lua_State* L)
+	{
+		const int args = lua_gettop(L);
+		if (args == 1)
+		{
+			std::string message = lua_tostring(L, 1);
+
+			API::Visual::SendChatMessage(message);
+		}
+		else
+		{
+			std::cerr << "SendChatMessage requires args (string message)." << std::endl;
+		}
+		lua_pop(L, args);
+		return 0;
+	}
 };
 #endif

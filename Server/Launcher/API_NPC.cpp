@@ -22,6 +22,8 @@ namespace API
 
 		g_Server->GetNetworkManager()->GetRPC().Signal("CreateNPC", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
 
+		CModelCache::AddModel(model);
+
 		return newNPC.GetId();
 	}
 }

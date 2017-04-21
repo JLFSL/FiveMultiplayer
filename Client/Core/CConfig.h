@@ -29,7 +29,7 @@ public:
 	static int				GetPort() { return Connection.Port; }
 	static std::string		GetPassword() { return Connection.Pass; }
 
-	static std::string		GetServerName() { return Information.Name; }
+	static std::string		GetName() { return Information.Name; }
 	static bool				GetLatestVersion() { return Information.LatestVersion; }
 	static bool				GetSteam() { return Information.Steam; }
 

@@ -72,3 +72,22 @@ void CWorld::UnloadIPL(std::wstring ipl)
 
 	STREAMING::REMOVE_IPL((char*)CString::utf16ToUtf8(ipl).c_str());
 }
+
+void CWorld::LoadModel(const std::wstring model)
+{
+	int hash = GAMEPLAY::GET_HASH_KEY((char*)CString::utf16ToUtf8(model).c_str());
+	if (STREAMING::IS_MODEL_IN_CDIMAGE(hash) && STREAMING::IS_MODEL_VALID(hash)) {
+		STREAMING::REQUEST_MODEL(hash);
+		while (!STREAMING::HAS_MODEL_LOADED(hash))
+			WAIT(0);
+	}
+}
+
+void CWorld::LoadModel(const int model)
+{
+	if (STREAMING::IS_MODEL_IN_CDIMAGE(model) && STREAMING::IS_MODEL_VALID(model)) {
+		STREAMING::REQUEST_MODEL(model);
+		while (!STREAMING::HAS_MODEL_LOADED(model))
+			WAIT(200);
+	}
+}

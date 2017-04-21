@@ -24,6 +24,20 @@ struct Player
 		return 1;
 	}
 
+	int SetUID(lua_State* L)
+	{
+		const int args = lua_gettop(L);
+		if (args == 2)
+		{
+			Player* ent = reinterpret_cast<Player*>(lua_touserdata(L, 1));
+
+			lua_tointeger(L, ent->entity);
+
+			ent = nullptr;
+		}
+		return 1;
+	}
+
 	int GetPosition(lua_State* L)
 	{
 		const int args = lua_gettop(L);
@@ -664,6 +678,23 @@ struct Player
 		else
 		{
 			std::cerr << "Player:UnloadIPL requires args (string ipl)." << std::endl;
+		}
+		lua_pop(L, args);
+		return 0;
+	}
+
+	int SendChatMessage(lua_State* L)
+	{
+		const int args = lua_gettop(L);
+		if (args == 2)
+		{
+			Player* ent = reinterpret_cast<Player*>(lua_touserdata(L, 1));
+			API::Visual::SendChatMessageToPlayer(ent->entity, lua_tostring(L, 2));
+			ent = nullptr;
+		}
+		else
+		{
+			std::cerr << "Player:SendChatMessage requires args (string message)." << std::endl;
 		}
 		lua_pop(L, args);
 		return 0;

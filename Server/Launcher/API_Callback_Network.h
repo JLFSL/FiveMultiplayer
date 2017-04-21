@@ -6,5 +6,7 @@ namespace API
 	{
 		bool OnPlayerConnecting(void *Instance, const std::string guid);
 		bool OnPlayerConnected(void *Instance, int entity, int playerid);
+		void OnPlayerCommand(void *Instance, const int entity, const std::string message);
+		void OnPlayerMessage(void *Instance, const int entity, const std::string message);
 	}
 }
