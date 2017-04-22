@@ -137,9 +137,9 @@ public:
 		API::Visual::ShowMessageAboveMapToPlayer(Entity, message, pic, icontype, sender, subject);
 	}
 
-	void SendMessage(const std::string message)
+	void SendChatMessage(const std::string message)
 	{
-		API::Visual::SendMessageToPlayer(Entity, message);
+		API::Visual::SendChatMessageToPlayer(Entity, message);
 	}
 
 	const std::string GetUsername()

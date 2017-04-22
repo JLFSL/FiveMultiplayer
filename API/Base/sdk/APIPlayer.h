@@ -139,7 +139,7 @@ public:
 
 	void SendMessage(const std::string message)
 	{
-		API::Visual::SendMessageToPlayer(Entity, message);
+		API::Visual::SendChatMessageToPlayer(Entity, message);
 	}
 
 	const std::string GetUsername()

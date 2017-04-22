@@ -19,7 +19,8 @@ DWORD_PTR* DirectXRenderer::pSwapChainVtable = nullptr;
 DWORD_PTR* DirectXRenderer::pDeviceContextVTable = nullptr;
 
 bool show_app_about = true;
-bool showServerList = false;
+bool DirectXRenderer::showServerList = false;
+bool DirectXRenderer::showOptions = false;
 
 int loadingProg = 0;
 
@@ -210,39 +211,42 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 				ImGui::NewLine(); ImGui::NewLine(); ImGui::NewLine(); ImGui::NewLine();
 				ImGui::SameLine((ImGui::GetWindowContentRegionMax().x / 2) - 150);
 				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
-				ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(4, 10));
+				ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(2, 10));
 
-				if(showServerList)
+				if(DirectXRenderer::showServerList)
 					ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.953f, 0.255f, 0.29f, 1.00f));
 				else
 					ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(.0f, .0f, .0f, .0f));
 
 				if (ImGui::Button("Server List", ImVec2(300, 0))) {
-					showServerList = true;
+					DirectXRenderer::showServerList = !DirectXRenderer::showServerList;
+					DirectXRenderer::showOptions = false;
 				}
 
 				ImGui::NewLine();
 				ImGui::SameLine((ImGui::GetWindowContentRegionMax().x / 2) - 150);
 
-				if (!showServerList)
+				if (DirectXRenderer::showOptions)
 					ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.953f, 0.255f, 0.29f, 1.00f));
 				else
 					ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(.0f, .0f, .0f, .0f));
 
 				if (ImGui::Button("Options", ImVec2(300, 0))) {
-					showServerList = false;
+					DirectXRenderer::showServerList = false;
+					DirectXRenderer::showOptions = !DirectXRenderer::showOptions;
 				}
 
 				ImGui::NewLine();
 				ImGui::SameLine((ImGui::GetWindowContentRegionMax().x / 2) - 150);
+
+				ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(.0f, .0f, .0f, .0f));
+
 				if (ImGui::Button("Exit", ImVec2(300, 0))) {
-					CNetworkManager::Disconnect();
 					CNetworkManager::Stop();
-					WAIT(10);
 					exit(EXIT_SUCCESS);
 				}
 
-				ImGui::PopStyleColor(0);
+				ImGui::PopStyleColor(4);
 				ImGui::PopStyleVar(1);
 				
 
@@ -250,28 +254,31 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 			ImGui::End();
 			ImGui::PopStyleVar(1);
 
-			if (!showServerList) {
+			if (!DirectXRenderer::showServerList && !DirectXRenderer::showOptions) {
 				ImGui::SetNextWindowPos(ImVec2((screenWidth / 5) + 10, 10));
-				ImGui::SetNextWindowSize(ImVec2((screenWidth / 5) * 4 - 20, 60));
+				ImGui::SetNextWindowSize(ImVec2((screenWidth / 5) * 4 - 20, 80));
 				ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
 				ImGui::Begin("FiveMultiplayer_Info", NULL, ImVec2(0, 0), 0.7f, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_AlwaysAutoResize);
 				{
-					ImGui::SetWindowFontScale(DirectXRenderer::textScale);
-					ImGui::Text("This is a PRE-Release of 0.2a");
-
-
+					ImGui::SetWindowFontScale(DirectXRenderer::textScale/2);
+					ImGui::Text("Welcome to Five Multiplayer");
+					ImGui::Text("This Pre-Release version of 0.2a and not the full release of 0.2a");
+					ImGui::Text("- FiveMP Team");
 				}
 				ImGui::End();
 				ImGui::PopStyleVar(1);
 			}
 
-			if (showServerList) {
+			if (DirectXRenderer::showServerList) {
 				ImGui::SetNextWindowPos(ImVec2((screenWidth / 5) + 10, 10));
 				ImGui::SetNextWindowSize(ImVec2((screenWidth / 5) * 4 - 20, screenHeight - 20));
 				ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
 				ImGui::Begin("FiveMultiplayer_Server", NULL, ImVec2(0, 0), 0.7f, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_AlwaysAutoResize);
 				{
 					ImGui::SetWindowFontScale(DirectXRenderer::textScale);
+
+					float SizeH1 = ImGui::CalcTextSize("Server List").x;
+					ImGui::SameLine((ImGui::GetWindowContentRegionMax().x / 2) - (SizeH1 / 2));
 					ImGui::Text("Server List");
 
 
