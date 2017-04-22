@@ -286,16 +286,16 @@ extern "C" DLL_PUBLIC bool API_OnTick(void) {
 	return true;
 }
 
-extern "C" DLL_PUBLIC bool API_OnPlayerConnecting(const char *guid)
+extern "C" DLL_PUBLIC bool API_OnPlayerConnecting(const std::string guid)
 {
-	int result;
+	int result = 1;
 
 	std::cout << "OnPlayerConnecting() was called." << std::endl;
 
 	int call = lua_getglobal(stateLua, "OnPlayerConnecting");
 	if (call != 0)
 	{
-		lua_pushstring(stateLua, guid);
+		lua_pushstring(stateLua, guid.c_str());
 
 		int error = lua_pcall(stateLua, 1, 1, 0);
 		if (error != 0)
@@ -312,7 +312,7 @@ extern "C" DLL_PUBLIC bool API_OnPlayerConnecting(const char *guid)
 
 extern "C" DLL_PUBLIC bool API_OnPlayerConnected(int entity, int playerid)
 {
-	int result;
+	int result = 1;
 
 	std::cout << "OnPlayerConnected() was called." << std::endl;
 
