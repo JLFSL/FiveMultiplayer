@@ -241,7 +241,7 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 
 				ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(.0f, .0f, .0f, .0f));
 
-				if (ImGui::Button("Exit", ImVec2(300, 0))) {
+				if (ImGui::Button("Quit", ImVec2(300, 0))) {
 					CNetworkManager::Stop();
 					exit(EXIT_SUCCESS);
 				}
@@ -521,7 +521,7 @@ void DirectXRenderer::Initialize()
 	swapChainDesc.OutputWindow = hWnd;
 	swapChainDesc.SampleDesc.Count = 1;
 	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
-	swapChainDesc.Windowed = /*TRUE*/ ((GetWindowLong(hWnd, GWL_STYLE) & WS_POPUP) != 0) ? TRUE : FALSE;
+	swapChainDesc.Windowed = TRUE /*((GetWindowLong(hWnd, GWL_STYLE) & WS_POPUP) != 0) ? TRUE : FALSE*/;
 
 	UINT createDeviceFlags = 0;
 #ifdef _DEBUG

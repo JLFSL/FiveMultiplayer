@@ -15,19 +15,22 @@ bool CCore::Initialize()
 	CLocalPlayer::Initialize();
 	CNetworkManager::Initialize();
 
-	//Attempts at stoping players getting stuck when first loading to their SP character
+	ENTITY::FREEZE_ENTITY_POSITION(CLocalPlayer::GetPed(), TRUE);
 	STREAMING::STOP_PLAYER_SWITCH();
 
 	STREAMING::LOAD_SCENE(0.0f, 0.0f, 73.5f);
 	ENTITY::SET_ENTITY_COORDS_NO_OFFSET(CLocalPlayer::GetPed(), 0.0f, 0.0f, 73.5f, false, false, false);
 	AI::CLEAR_PED_TASKS_IMMEDIATELY(CLocalPlayer::GetPed());
+	ENTITY::FREEZE_ENTITY_POSITION(CLocalPlayer::GetPed(), FALSE);
 
 	//Loads multiplayer World (wish to have this executed sooner befor the loading screne is terminated)
 	GAMEPLAY::_USE_FREEMODE_MAP_BEHAVIOR(true);
 	DLC2::_LOAD_MP_DLC_MAPS();
 	SCRIPT::SHUTDOWN_LOADING_SCREEN();
 
-	//STREAMING::LOAD_ALL_OBJECTS_NOW();		//I think this loads everyobject to memory - NOPE just loads the areas model forcibly
+	STREAMING::LOAD_ALL_OBJECTS_NOW();		//I think this loads everyobject to memory - NOPE just loads the areas model forcibly
+
+	MapReveal::RevealFullMap();
 
 	TIME::PAUSE_CLOCK(true);
 	GAMEPLAY::CLEAR_OVERRIDE_WEATHER();
@@ -110,6 +113,7 @@ void CCore::OnGameTick()
 	{
 		if (!CChat::InputOpen)
 		{
+			/*
 			if (UI::_GET_CURRENT_FRONTEND_MENU() != GAMEPLAY::GET_HASH_KEY("FE_MENU_VERSION_SP_PAUSE"))
 			{
 				Hash menuHash = GAMEPLAY::GET_HASH_KEY("FE_MENU_VERSION_SP_PAUSE");
@@ -118,6 +122,7 @@ void CCore::OnGameTick()
 			}
 			else
 				UI::DISABLE_FRONTEND_THIS_FRAME();
+			*/
 		}
 		else
 		{
@@ -188,7 +193,7 @@ void CCore::CleanUp()
 	GAMEPLAY::SET_TIME_SCALE(1.0f);
 	GAMEPLAY::CLEAR_AREA_OF_PEDS(Position.x, Position.y, Position.z, 10000.0f, true);
 	GAMEPLAY::CLEAR_AREA_OF_VEHICLES(Position.x, Position.y, Position.z, 10000.0f, 0, 0, 0, 0, 0);
-	GAMEPLAY::_DISABLE_AUTOMATIC_RESPAWN(false);
+	//GAMEPLAY::_DISABLE_AUTOMATIC_RESPAWN(true);
 	GAMEPLAY::IGNORE_NEXT_RESTART(true);
 	GAMEPLAY::SET_MISSION_FLAG(true);
 	GAMEPLAY::SET_FADE_OUT_AFTER_DEATH(false);
@@ -222,8 +227,8 @@ void CCore::KeyCheck()
 {
 	CONTROLS::DISABLE_CONTROL_ACTION(2, ControlEnter, 1);
 	CONTROLS::DISABLE_CONTROL_ACTION(2, ControlCharacterWheel, 1);
-	CONTROLS::DISABLE_CONTROL_ACTION(2, ControlFrontendPause, 1);
-	CONTROLS::DISABLE_CONTROL_ACTION(2, ControlFrontendPauseAlternate, 1);
+	//CONTROLS::DISABLE_CONTROL_ACTION(2, ControlFrontendPause, 1);
+	//CONTROLS::DISABLE_CONTROL_ACTION(2, ControlFrontendPauseAlternate, 1);
 	CONTROLS::DISABLE_CONTROL_ACTION(2, ControlFrontendSocialClub, 1);
 	CONTROLS::DISABLE_CONTROL_ACTION(2, ControlFrontendSocialClubSecondary, 1);
 	CONTROLS::DISABLE_CONTROL_ACTION(2, ControlDropWeapon, 1);

@@ -92,6 +92,7 @@
 	#include "Ped.h"
 	#include "Vehicles.h"
 	#include "World.h"
+	#include "MapReveal.h"
 
 	// Entity
 	#include "CLocalPlayer.h"

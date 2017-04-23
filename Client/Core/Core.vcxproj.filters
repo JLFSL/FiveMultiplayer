@@ -216,6 +216,9 @@
     <ClCompile Include="CRPCNetwork.cpp">
       <Filter>Network\RPC</Filter>
     </ClCompile>
+    <ClCompile Include="MapReveal.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -400,6 +403,9 @@
     </ClInclude>
     <ClInclude Include="CRPCNetwork.h">
       <Filter>Network\RPC</Filter>
+    </ClInclude>
+    <ClInclude Include="MapReveal.h">
+      <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
