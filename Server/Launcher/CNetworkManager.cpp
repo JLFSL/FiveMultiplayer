@@ -299,7 +299,7 @@ void CNetworkManager::PulseMaster()
 		headers = curl_slist_append(headers, "authorization: FiveMP Token 13478817f618329e");
 
 		curl_easy_setopt(hnd, CURLOPT_CUSTOMREQUEST, "POST");
-		curl_easy_setopt(hnd, CURLOPT_URL, "http://176.31.142.113:7001/v2/servers");
+		curl_easy_setopt(hnd, CURLOPT_URL, "http://api.five-multiplayer.net/api/v4/servers");
 		curl_easy_setopt(hnd, CURLOPT_HTTPHEADER, headers);
 		curl_easy_setopt(hnd, CURLOPT_NOBODY, 1);
 
