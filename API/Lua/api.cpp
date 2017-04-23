@@ -336,8 +336,6 @@ extern "C" DLL_PUBLIC bool API_OnPlayerConnected(int entity, int playerid)
 
 extern "C" DLL_PUBLIC void API_OnEntityEnterCheckpoint(int checkpoint, int entity)
 {
-	int result;
-
 	std::cout << "OnEntityEnterCheckpoint() was called." << std::endl;
 
 	int call = lua_getglobal(stateLua, "OnEntityEnterCheckpoint");
@@ -353,15 +351,12 @@ extern "C" DLL_PUBLIC void API_OnEntityEnterCheckpoint(int checkpoint, int entit
 			std::cout << "Error: " << lua_tostring(stateLua, -1) << std::endl;
 		}
 
-		result = (int)lua_tointeger(stateLua, -1);
 		lua_pop(stateLua, 1);
 	}
 }
 
 extern "C" DLL_PUBLIC void API_OnEntityExitCheckpoint(int checkpoint, int entity)
 {
-	int result;
-
 	std::cout << "OnEntityExitCheckpoint() was called." << std::endl;
 
 	int call = lua_getglobal(stateLua, "OnEntityExitCheckpoint");
@@ -370,22 +365,19 @@ extern "C" DLL_PUBLIC void API_OnEntityExitCheckpoint(int checkpoint, int entity
 		lua_pushinteger(stateLua, checkpoint);
 		lua_pushinteger(stateLua, entity);
 
-		int error = lua_pcall(stateLua, 0, 1, 0);
+		int error = lua_pcall(stateLua, 2, 1, 0);
 		if (error != 0)
 		{
 			std::cout << "Error occured when executing OnEntityExitCheckpoint" << std::endl;
 			std::cout << "Error: " << lua_tostring(stateLua, -1) << std::endl;
 		}
 
-		result = (int)lua_tointeger(stateLua, -1);
 		lua_pop(stateLua, 1);
 	}
 }
 
 extern "C" DLL_PUBLIC void API_OnPlayerCommand(const int entity, const std::string message)
 {
-	int result;
-
 	std::cout << "OnPlayerCommand() was called." << std::endl;
 
 	int call = lua_getglobal(stateLua, "OnPlayerCommand");
@@ -394,22 +386,19 @@ extern "C" DLL_PUBLIC void API_OnPlayerCommand(const int entity, const std::stri
 		lua_pushinteger(stateLua, entity);
 		lua_pushstring(stateLua, message.c_str());
 
-		int error = lua_pcall(stateLua, 0, 1, 0);
+		int error = lua_pcall(stateLua, 2, 1, 0);
 		if (error != 0)
 		{
 			std::cout << "Error occured when executing OnPlayerCommand" << std::endl;
 			std::cout << "Error: " << lua_tostring(stateLua, -1) << std::endl;
 		}
 
-		result = (int)lua_tointeger(stateLua, -1);
 		lua_pop(stateLua, 1);
 	}
 }
 
 extern "C" DLL_PUBLIC void API_OnPlayerMessage(const int entity, const std::string message)
 {
-	int result;
-
 	std::cout << "OnPlayerMessage() was called." << std::endl;
 
 	int call = lua_getglobal(stateLua, "OnPlayerMessage");
@@ -418,14 +407,13 @@ extern "C" DLL_PUBLIC void API_OnPlayerMessage(const int entity, const std::stri
 		lua_pushinteger(stateLua, entity);
 		lua_pushstring(stateLua, message.c_str());
 
-		int error = lua_pcall(stateLua, 0, 1, 0);
+		int error = lua_pcall(stateLua, 2, 1, 0);
 		if (error != 0)
 		{
 			std::cout << "Error occured when executing OnPlayerMessage" << std::endl;
 			std::cout << "Error: " << lua_tostring(stateLua, -1) << std::endl;
 		}
 
-		result = (int)lua_tointeger(stateLua, -1);
 		lua_pop(stateLua, 1);
 	}
 }
