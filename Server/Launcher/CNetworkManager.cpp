@@ -302,6 +302,7 @@ void CNetworkManager::PulseMaster()
 		curl_easy_setopt(hnd, CURLOPT_HTTPHEADER, headers);
 		curl_easy_setopt(hnd, CURLOPT_POSTFIELDS, content);
 		curl_easy_setopt(hnd, CURLOPT_VERBOSE, 0L);
+		curl_easy_setopt(hnd, CURLOPT_NOBODY, 1);
 
 		CURLcode ret = curl_easy_perform(hnd);
 	}
