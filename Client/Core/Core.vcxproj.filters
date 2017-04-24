@@ -219,6 +219,12 @@
     <ClCompile Include="MapReveal.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="CefHandlerV8.cpp">
+      <Filter>Graphics\UI\CEF</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientApp.cpp">
+      <Filter>Graphics\UI\CEF</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -406,6 +412,12 @@
     </ClInclude>
     <ClInclude Include="MapReveal.h">
       <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="CefHandlerV8.h">
+      <Filter>Graphics\UI\CEF</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientApp.h">
+      <Filter>Graphics\UI\CEF</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

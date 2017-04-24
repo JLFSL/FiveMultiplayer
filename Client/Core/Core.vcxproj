@@ -180,9 +180,11 @@
     <ClCompile Include="CCheckpointEntity.cpp" />
     <ClCompile Include="CConfig.cpp" />
     <ClCompile Include="CCore.cpp" />
+    <ClCompile Include="CefHandlerV8.cpp" />
     <ClCompile Include="CefInput.cpp" />
     <ClCompile Include="CefRenderer.cpp" />
     <ClCompile Include="CefTexture.cpp" />
+    <ClCompile Include="ClientApp.cpp" />
     <ClCompile Include="CNetworkManager.cpp" />
     <ClCompile Include="CNPCEntity.cpp" />
     <ClCompile Include="CObjectEntity.cpp" />
@@ -256,9 +258,11 @@
     <ClInclude Include="CCheckpointEntity.h" />
     <ClInclude Include="CConfig.h" />
     <ClInclude Include="CCore.h" />
+    <ClInclude Include="CefHandlerV8.h" />
     <ClInclude Include="CefInput.h" />
     <ClInclude Include="CefRenderer.h" />
     <ClInclude Include="CefTexture.h" />
+    <ClInclude Include="ClientApp.h" />
     <ClInclude Include="CNetworkManager.h" />
     <ClInclude Include="CNPCEntity.h" />
     <ClInclude Include="CObjectEntity.h" />

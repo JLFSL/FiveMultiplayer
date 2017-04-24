@@ -129,6 +129,8 @@
 		// UI
 			// CEF
 			#include "OffscreenClient.h"
+			#include "ClientApp.h"
+			#include "CefHandlerV8.h"
 			#include "CefRenderer.h"
 			#include "CefTexture.h"
 				// Input
