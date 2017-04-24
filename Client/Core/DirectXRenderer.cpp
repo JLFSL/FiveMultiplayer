@@ -22,6 +22,27 @@ bool show_app_about = true;
 bool DirectXRenderer::showServerList = false;
 bool DirectXRenderer::showOptions = false;
 
+// Server List
+Json::Value	DirectXRenderer::serverList;//Json data of server list
+bool gotServerList = false;				//Used to fetch server list once on init and then again when the client presses refresh
+clock_t		curTime = clock();			//Used to auto fetch master list if master is down.
+
+std::string selectedIp = "127.0.0.1";
+std::string selectedPort = "2322";
+int selected_row = 0;
+
+namespace {
+	std::size_t callback(
+		const char* in,
+		std::size_t size,
+		std::size_t num,
+		std::string* out) {
+		const std::size_t totalBytes(size * num);
+		out->append(in, totalBytes);
+		return totalBytes;
+	}
+}
+
 int loadingProg = 0;
 
 char InputBuf[256];
@@ -275,12 +296,141 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 				ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
 				ImGui::Begin("FiveMultiplayer_Server", NULL, ImVec2(0, 0), 0.7f, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_AlwaysAutoResize);
 				{
+					float cseconds = float(clock() - curTime) / CLOCKS_PER_SEC;
+
+					if (!gotServerList && cseconds > 60.0f) {
+
+						const std::string url("http://api.five-multiplayer.net/api/v4/servers");
+
+						CURL* curl = curl_easy_init();
+
+						// Set remote URL.
+						curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+
+						// Don't bother trying IPv6, which would increase DNS resolution time.
+						curl_easy_setopt(curl, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
+
+						// Don't wait forever, time out after 10 seconds.
+						curl_easy_setopt(curl, CURLOPT_TIMEOUT, 10);
+
+						// Follow HTTP redirects if necessary.
+						curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+
+						// Response information.
+						int httpCode(0);
+						std::unique_ptr<std::string> httpData(new std::string());
+
+						// Hook up data handling function.
+						curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, callback);
+
+						// Hook up data container (will be passed as the last parameter to the
+						// callback handling function).  Can be any pointer type, since it will
+						// internally be passed as a void pointer.
+						curl_easy_setopt(curl, CURLOPT_WRITEDATA, httpData.get());
+
+						// Run our HTTP GET command, capture the HTTP response code, and clean up.
+						curl_easy_perform(curl);
+						curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &httpCode);
+						curl_easy_cleanup(curl);
+
+						if (httpCode == 200) {
+							//std::cout << "\nGot successful response from " << url << std::endl;
+							Json::Reader jsonReader;
+
+							if (jsonReader.parse(*httpData, DirectXRenderer::serverList)) {
+
+								selectedIp = CConfig::GetIp();
+								selectedPort = CConfig::GetPort();
+
+								gotServerList = true;
+							}
+							else {
+								std::cout << "Could not parse HTTP data as JSON" << std::endl;
+								std::cout << "HTTP data was:\n" << *httpData.get() << std::endl;
+							}
+						}
+						else {
+							std::cout << "Master Server not reached, may be offline?" << std::endl;
+							curTime = clock();
+						}
+					}
+
+
 					ImGui::SetWindowFontScale(DirectXRenderer::textScale);
 
 					float SizeH1 = ImGui::CalcTextSize("Server List").x;
 					ImGui::SameLine((ImGui::GetWindowContentRegionMax().x / 2) - (SizeH1 / 2));
 					ImGui::Text("Server List");
 
+					const int cols = 4;
+					ImGui::Columns(cols, 0, true);
+					ImGui::SetColumnOffset(1, screenWidth - 470);
+					ImGui::SetColumnOffset(2, screenWidth - 320);
+					ImGui::SetColumnOffset(3, screenWidth - 170);
+
+					for (int col = 0; col < cols; col++) {
+						if (col == 0) {
+							std::ostringstream oss;
+							oss << DirectXRenderer::serverList["total"].asInt() << " Servers";
+							std::string servers = oss.str();
+
+							ImGui::Text(servers.c_str());
+
+							ImDrawList* draw_list = ImGui::GetWindowDrawList();
+							ImVec2 p = ImGui::GetCursorScreenPos();
+							draw_list->AddLine(ImVec2(p.x - 9990, p.y - 2.0f), ImVec2(p.x + 9999, p.y - 2.0f), ImGui::GetColorU32(ImGuiCol_Border));
+
+							if (!DirectXRenderer::serverList["servers"].empty()) {
+								for (int i = 0; i < DirectXRenderer::serverList["servers"].size(); i++) {
+									const std::string serverName(DirectXRenderer::serverList["servers"][i]["name"].asString());
+									if (ImGui::Selectable(serverName.c_str(), selected_row == i, ImGuiSelectableFlags_DontClosePopups | ImGuiSelectableFlags_SpanAllColumns)) {
+										selectedIp = DirectXRenderer::serverList["servers"][i]["ip"].asString();
+										selectedPort = DirectXRenderer::serverList["servers"][i]["port"].asString();
+										selected_row = i;
+									}
+								}
+							}
+						}
+						else if (col == 1) {
+							ImGui::Text("Players");
+
+							ImDrawList* draw_list = ImGui::GetWindowDrawList();
+							ImVec2 p = ImGui::GetCursorScreenPos();
+							draw_list->AddLine(ImVec2(p.x - 9990, p.y - 2.0f), ImVec2(p.x + 9999, p.y - 2.0f), ImGui::GetColorU32(ImGuiCol_Border));
+
+							if (!DirectXRenderer::serverList["servers"].empty()) {
+								for (int i = 0; i < DirectXRenderer::serverList["servers"].size(); i++) {
+									const int players(DirectXRenderer::serverList["servers"][i]["players"]["amount"].asInt());
+									const int maxPlayers(DirectXRenderer::serverList["servers"][i]["players"]["max"].asInt());
+									std::string pp(std::to_string(players) + " / " + std::to_string(maxPlayers));
+									if (ImGui::Selectable(pp.c_str(), false, ImGuiSelectableFlags_DontClosePopups | ImGuiSelectableFlags_SpanAllColumns)) {
+										selectedIp = DirectXRenderer::serverList["servers"][i]["ip"].asString();
+										selectedPort = DirectXRenderer::serverList["servers"][i]["port"].asString();
+										selected_row = i;
+									}
+								}
+							}
+						}
+						else if (col == 2) {
+							ImGui::Text("Ping");
+
+							ImDrawList* draw_list = ImGui::GetWindowDrawList();
+							ImVec2 p = ImGui::GetCursorScreenPos();
+							draw_list->AddLine(ImVec2(p.x - 9990, p.y - 2.0f), ImVec2(p.x + 9999, p.y - 2.0f), ImGui::GetColorU32(ImGuiCol_Border));
+
+							for (int i = 0; i < DirectXRenderer::serverList["servers"].size(); i++) {
+								if (ImGui::Selectable(std::to_string(-1).c_str(), false, ImGuiSelectableFlags_DontClosePopups | ImGuiSelectableFlags_SpanAllColumns)) {
+									selectedIp = DirectXRenderer::serverList["servers"][i]["ip"].asString();
+									selectedPort = DirectXRenderer::serverList["servers"][i]["port"].asString();
+									selected_row = i;
+								}
+							}
+						}
+
+						ImGui::NextColumn();
+					}
+
+					ImGui::Columns(1);
 
 				}
 				ImGui::End();
@@ -521,7 +671,7 @@ void DirectXRenderer::Initialize()
 	swapChainDesc.OutputWindow = hWnd;
 	swapChainDesc.SampleDesc.Count = 1;
 	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
-	swapChainDesc.Windowed = TRUE /*((GetWindowLong(hWnd, GWL_STYLE) & WS_POPUP) != 0) ? TRUE : FALSE*/;
+	swapChainDesc.Windowed = /*TRUE */((GetWindowLong(hWnd, GWL_STYLE) & WS_POPUP) != 0) ? TRUE : FALSE;
 
 	UINT createDeviceFlags = 0;
 #ifdef _DEBUG

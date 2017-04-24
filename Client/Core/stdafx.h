@@ -37,6 +37,7 @@
 #include "Common.h"
 #include <SharedUtility.h>
 #include "APIStructs.h"
+#include "Json\json.h"
 
 // Vendor
 	// Vendor.MinHook
@@ -61,6 +62,9 @@
 
 	// Vendor.FW1FontWrapper
 	#include <FW1FontWrapper/FW1FontWrapper.h>
+
+	// Vendor.LibCurl
+	#include <LibCurl/curl/curl.h>
 
 // Client.Core
 	// Hooks

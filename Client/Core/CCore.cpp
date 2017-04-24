@@ -113,16 +113,20 @@ void CCore::OnGameTick()
 	{
 		if (!CChat::InputOpen)
 		{
-			/*
-			if (UI::_GET_CURRENT_FRONTEND_MENU() != GAMEPLAY::GET_HASH_KEY("FE_MENU_VERSION_SP_PAUSE"))
-			{
-				Hash menuHash = GAMEPLAY::GET_HASH_KEY("FE_MENU_VERSION_SP_PAUSE");
-				UI::ACTIVATE_FRONTEND_MENU(menuHash, 0, -1);
-				UI::RESTART_FRONTEND_MENU(menuHash, -1);
-			}
-			else
-				UI::DISABLE_FRONTEND_THIS_FRAME();
-			*/
+			// "FE_MENU_VERSION_EMPTY_NO_BACKGROUND" = Blocsk all player input & removes all hud elements (ESC disables it)
+
+			//"pause_menu_pages_settings" - "pause_menu_pages_keymap" - "pause_menu_pages_keymap" - "pause_menu_pages_map"
+			/*if (UI::_GET_CURRENT_FRONTEND_MENU() != GAMEPLAY::GET_HASH_KEY("FE_MENU_VERSION_SP_PAUSE"))
+			{*/
+				GRAPHICS::REQUEST_SCALEFORM_MOVIE("FE_MENU_VERSION_SP_PAUSE");
+				//while (!GRAPHICS::HAS_SCALEFORM_MOVIE_LOADED(t)) WAIT(0);
+				UI::SET_FRONTEND_ACTIVE(0);
+				UI::ACTIVATE_FRONTEND_MENU(GAMEPLAY::GET_HASH_KEY("FE_MENU_VERSION_SP_PAUSE"/*"FE_MENU_VERSION_EMPTY_NO_BACKGROUND"*/), 0, -1);
+				//UI::RESTART_FRONTEND_MENU(GAMEPLAY::GET_HASH_KEY("FE_MENU_VERSION_SP_PAUSE"), 2);
+			//}
+			//else
+			//	UI::DISABLE_FRONTEND_THIS_FRAME();
+			
 		}
 		else
 		{
@@ -131,6 +135,7 @@ void CCore::OnGameTick()
 			ImGuiIO& io = ImGui::GetIO();
 			io.MouseDrawCursor = false;
 		}
+
 		ResetKeyState(VK_ESCAPE);
 	}
 
@@ -191,8 +196,9 @@ void CCore::CleanUp()
 	PED::SET_CREATE_RANDOM_COPS_ON_SCENARIOS(false);
 
 	GAMEPLAY::SET_TIME_SCALE(1.0f);
-	GAMEPLAY::CLEAR_AREA_OF_PEDS(Position.x, Position.y, Position.z, 10000.0f, true);
+	GAMEPLAY::CLEAR_AREA_OF_PEDS(Position.x, Position.y, Position.z, 10000.0f, 1);
 	GAMEPLAY::CLEAR_AREA_OF_VEHICLES(Position.x, Position.y, Position.z, 10000.0f, 0, 0, 0, 0, 0);
+	GAMEPLAY::CLEAR_AREA_OF_COPS(Position.x, Position.y, Position.z, 10000.0f, 0);
 	//GAMEPLAY::_DISABLE_AUTOMATIC_RESPAWN(true);
 	GAMEPLAY::IGNORE_NEXT_RESTART(true);
 	GAMEPLAY::SET_MISSION_FLAG(true);
@@ -225,10 +231,13 @@ void CCore::PreventCheat()
 
 void CCore::KeyCheck()
 {
+	// Working
+	CONTROLS::DISABLE_CONTROL_ACTION(2, ControlFrontendPause, 1);
+	CONTROLS::DISABLE_CONTROL_ACTION(2, ControlFrontendPauseAlternate, 1);
+	CONTROLS::DISABLE_CONTROL_ACTION(2, ControlEnterCheatCode, 1);
+	// Not Working as far as i can tell.
 	CONTROLS::DISABLE_CONTROL_ACTION(2, ControlEnter, 1);
 	CONTROLS::DISABLE_CONTROL_ACTION(2, ControlCharacterWheel, 1);
-	//CONTROLS::DISABLE_CONTROL_ACTION(2, ControlFrontendPause, 1);
-	//CONTROLS::DISABLE_CONTROL_ACTION(2, ControlFrontendPauseAlternate, 1);
 	CONTROLS::DISABLE_CONTROL_ACTION(2, ControlFrontendSocialClub, 1);
 	CONTROLS::DISABLE_CONTROL_ACTION(2, ControlFrontendSocialClubSecondary, 1);
 	CONTROLS::DISABLE_CONTROL_ACTION(2, ControlDropWeapon, 1);
@@ -237,6 +246,7 @@ void CCore::KeyCheck()
 	CONTROLS::DISABLE_CONTROL_ACTION(2, ControlSelectCharacterFranklin, 1);
 	CONTROLS::DISABLE_CONTROL_ACTION(2, ControlSelectCharacterTrevor, 1);
 	CONTROLS::DISABLE_CONTROL_ACTION(2, ControlSelectCharacterMultiplayer, 1);
+	//
 
 	if (KeyJustUp(0x46) && !PED::IS_PED_IN_ANY_VEHICLE(CLocalPlayer::GetPed(), true) /*&& chatnotopen*/)
 	{

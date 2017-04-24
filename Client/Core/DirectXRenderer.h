@@ -8,6 +8,7 @@ public:
 
 	static bool showServerList;
 	static bool showOptions;
+	static Json::Value serverList;
 
 	static std::string ConnectionProg;
 
