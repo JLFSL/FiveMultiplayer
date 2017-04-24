@@ -379,7 +379,8 @@ void CPlayerEntity::UpdateTargetAnimations()
 				if (!STREAMING::HAS_ANIM_DICT_LOADED((char*)dict.c_str()))
 					STREAMING::REQUEST_ANIM_DICT((char*)dict.c_str());
 
-				AI::TASK_PLAY_ANIM(Game.Ped, (char*)dict.c_str(), (char*)name.c_str(), 8.0f, 0.0f, -1, 1, 0.0f, false, false, false);
+				//AI::TASK_PLAY_ANIM(Game.Ped, (char*)dict.c_str(), (char*)name.c_str(), 8.0f, 0.0f, -1, 1, 0.0f, false, false, false);
+				PED::FORCE_PED_MOTION_STATE(Game.Ped, GAMEPLAY::GET_HASH_KEY("motionstate_walk"), false, false, false);
 				Data.Model.MovementState = 1;
 			}
 			else if (Data.ForwardSpeed > 2.0f && Data.ForwardSpeed <= 5.2f && Data.Model.MovementState != 2)
