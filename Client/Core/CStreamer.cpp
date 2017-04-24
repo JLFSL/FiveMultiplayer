@@ -150,8 +150,7 @@ void CStreamer::StreamPlayersIn(CVector3 position)
 	{
 		if (!g_Entities.empty())
 		{
-			float curDis = 50.0f;
-			while (curDis < MaxRange)
+			for (float curDis = 50.0f; curDis < MaxRange; curDis += 50.0f)
 			{
 				for (int i = 0; i < g_Entities.size(); i++)
 				{
@@ -191,11 +190,9 @@ void CStreamer::StreamPlayersIn(CVector3 position)
 								}
 							}
 						}
+						break;
 					}
-					break;
 				}
-
-				curDis += 50.0f;
 			}
 		}
 	}
