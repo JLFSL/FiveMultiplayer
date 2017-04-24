@@ -56,7 +56,7 @@ void CPlayerEntity::Destroy()
 void CPlayerEntity::Pulse()
 {
 	if (std::chrono::duration_cast<std::chrono::milliseconds>(Network.LastSyncSent.time_since_epoch()).count() + (1000 / CServer::GetInstance()->GetSyncRate()) 
-		<= std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count() && Information.Entity != -1 && Information.PlayerID != -1)
+		<= std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count() && Information.Entity != -1)
 	{
 		BitStream bitstream;
 		bitstream.Write((unsigned char)ID_PACKET_PLAYER);

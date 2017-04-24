@@ -28,7 +28,7 @@ bool gotServerList = false;				//Used to fetch server list once on init and then
 clock_t		curTime = clock();			//Used to auto fetch master list if master is down.
 
 std::string selectedIp = "127.0.0.1";
-std::string selectedPort = "2322";
+int selectedPort = 2322;
 int selected_row = 0;
 
 namespace {
@@ -100,8 +100,8 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 		style.Colors[ImGuiCol_HeaderHovered] = ImVec4(0.26f, 0.59f, 0.98f, 0.80f);
 		style.Colors[ImGuiCol_HeaderActive] = ImVec4(0.26f, 0.59f, 0.98f, 1.00f);
 		style.Colors[ImGuiCol_Column] = ImVec4(0.39f, 0.39f, 0.39f, 1.00f);
-		style.Colors[ImGuiCol_ColumnHovered] = ImVec4(0.26f, 0.59f, 0.98f, 0.78f);
-		style.Colors[ImGuiCol_ColumnActive] = ImVec4(0.26f, 0.59f, 0.98f, 1.00f);
+		style.Colors[ImGuiCol_ColumnHovered] = ImVec4(0.953f, 0.255f, 0.29f, 0.40f);
+		style.Colors[ImGuiCol_ColumnActive] = ImVec4(0.953f, 0.255f, 0.29f, 1.00f);
 		style.Colors[ImGuiCol_ResizeGrip] = ImVec4(1.00f, 1.00f, 1.00f, 0.50f);
 		style.Colors[ImGuiCol_ResizeGripHovered] = ImVec4(0.26f, 0.59f, 0.98f, 0.67f);
 		style.Colors[ImGuiCol_ResizeGripActive] = ImVec4(0.26f, 0.59f, 0.98f, 0.95f);
@@ -296,143 +296,151 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 				ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
 				ImGui::Begin("FiveMultiplayer_Server", NULL, ImVec2(0, 0), 0.7f, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_AlwaysAutoResize);
 				{
-					float cseconds = float(clock() - curTime) / CLOCKS_PER_SEC;
+					ImGui::BeginChild("ListRegion", ImVec2(0, -ImGui::GetItemsLineHeightWithSpacing()), false);
+					{
+						float cseconds = float(clock() - curTime) / CLOCKS_PER_SEC;
 
-					if (!gotServerList && cseconds > 60.0f) {
+						if (!gotServerList && cseconds > 60.0f) {
 
-						const std::string url("http://api.five-multiplayer.net/api/v4/servers");
+							const std::string url("http://api.five-multiplayer.net/api/v4/servers");
 
-						CURL* curl = curl_easy_init();
+							CURL* curl = curl_easy_init();
 
-						// Set remote URL.
-						curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+							// Set remote URL.
+							curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
 
-						// Don't bother trying IPv6, which would increase DNS resolution time.
-						curl_easy_setopt(curl, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
+							// Don't bother trying IPv6, which would increase DNS resolution time.
+							curl_easy_setopt(curl, CURLOPT_IPRESOLVE, CURL_IPRESOLVE_V4);
 
-						// Don't wait forever, time out after 10 seconds.
-						curl_easy_setopt(curl, CURLOPT_TIMEOUT, 10);
+							// Don't wait forever, time out after 10 seconds.
+							curl_easy_setopt(curl, CURLOPT_TIMEOUT, 10);
 
-						// Follow HTTP redirects if necessary.
-						curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+							// Follow HTTP redirects if necessary.
+							curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
 
-						// Response information.
-						int httpCode(0);
-						std::unique_ptr<std::string> httpData(new std::string());
+							// Response information.
+							int httpCode(0);
+							std::unique_ptr<std::string> httpData(new std::string());
 
-						// Hook up data handling function.
-						curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, callback);
+							// Hook up data handling function.
+							curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, callback);
 
-						// Hook up data container (will be passed as the last parameter to the
-						// callback handling function).  Can be any pointer type, since it will
-						// internally be passed as a void pointer.
-						curl_easy_setopt(curl, CURLOPT_WRITEDATA, httpData.get());
+							// Hook up data container (will be passed as the last parameter to the
+							// callback handling function).  Can be any pointer type, since it will
+							// internally be passed as a void pointer.
+							curl_easy_setopt(curl, CURLOPT_WRITEDATA, httpData.get());
 
-						// Run our HTTP GET command, capture the HTTP response code, and clean up.
-						curl_easy_perform(curl);
-						curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &httpCode);
-						curl_easy_cleanup(curl);
+							// Run our HTTP GET command, capture the HTTP response code, and clean up.
+							curl_easy_perform(curl);
+							curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &httpCode);
+							curl_easy_cleanup(curl);
 
-						if (httpCode == 200) {
-							//std::cout << "\nGot successful response from " << url << std::endl;
-							Json::Reader jsonReader;
+							if (httpCode == 200) {
+								//std::cout << "\nGot successful response from " << url << std::endl;
+								Json::Reader jsonReader;
 
-							if (jsonReader.parse(*httpData, DirectXRenderer::serverList)) {
+								if (jsonReader.parse(*httpData, DirectXRenderer::serverList)) {
 
-								selectedIp = CConfig::GetIp();
-								selectedPort = CConfig::GetPort();
+									selectedIp = CConfig::GetIp();
+									selectedPort = CConfig::GetPort();
 
-								gotServerList = true;
+									gotServerList = true;
+								}
+								else {
+									std::cout << "Could not parse HTTP data as JSON" << std::endl;
+									std::cout << "HTTP data was:\n" << *httpData.get() << std::endl;
+								}
 							}
 							else {
-								std::cout << "Could not parse HTTP data as JSON" << std::endl;
-								std::cout << "HTTP data was:\n" << *httpData.get() << std::endl;
+								std::cout << "Master Server not reached, may be offline?" << std::endl;
+								curTime = clock();
 							}
 						}
-						else {
-							std::cout << "Master Server not reached, may be offline?" << std::endl;
-							curTime = clock();
-						}
-					}
 
 
-					ImGui::SetWindowFontScale(DirectXRenderer::textScale);
+						ImGui::SetWindowFontScale(DirectXRenderer::textScale);
 
-					float SizeH1 = ImGui::CalcTextSize("Server List").x;
-					ImGui::SameLine((ImGui::GetWindowContentRegionMax().x / 2) - (SizeH1 / 2));
-					ImGui::Text("Server List");
+						float SizeH1 = ImGui::CalcTextSize("Server List").x;
+						ImGui::SameLine((ImGui::GetWindowContentRegionMax().x / 2) - (SizeH1 / 2));
+						ImGui::Text("Server List");
 
-					const float region = ImGui::GetWindowContentRegionMax().x;
+						const float region = ImGui::GetWindowContentRegionMax().x;
 
-					const int cols = 3;
-					ImGui::Columns(cols, 0, true);
-					ImGui::SetColumnOffset(1, region - (region / 2));
-					ImGui::SetColumnOffset(2, region - ((region / 2) / 2));
+						const int cols = 3;
+						ImGui::Columns(cols, 0, true);
+						ImGui::SetColumnOffset(1, region - (region / 2));
+						ImGui::SetColumnOffset(2, region - ((region / 2) / 2));
 
-					for (int col = 0; col < cols; col++) {
-						if (col == 0) {
-							std::ostringstream oss;
-							oss << DirectXRenderer::serverList["total"].asInt() << " Servers";
-							std::string servers = oss.str();
+						ImGui::SetWindowFontScale(DirectXRenderer::textScale / 2);
 
-							ImGui::Text(servers.c_str());
+						for (int col = 0; col < cols; col++) {
+							if (col == 0) {
+								std::ostringstream oss;
+								oss << DirectXRenderer::serverList["total"].asInt() << " Servers";
+								std::string servers = oss.str();
 
-							ImDrawList* draw_list = ImGui::GetWindowDrawList();
-							ImVec2 p = ImGui::GetCursorScreenPos();
-							draw_list->AddLine(ImVec2(p.x - 9990, p.y - 2.0f), ImVec2(p.x + 9999, p.y - 2.0f), ImGui::GetColorU32(ImGuiCol_Border));
+								ImGui::Text(servers.c_str());
 
-							if (!DirectXRenderer::serverList["servers"].empty()) {
+								ImDrawList* draw_list = ImGui::GetWindowDrawList();
+								ImVec2 p = ImGui::GetCursorScreenPos();
+								draw_list->AddLine(ImVec2(p.x - 9990, p.y - 2.0f), ImVec2(p.x + 9999, p.y - 2.0f), ImGui::GetColorU32(ImGuiCol_Border));
+
+								if (!DirectXRenderer::serverList["servers"].empty()) {
+									for (int i = 0; i < DirectXRenderer::serverList["servers"].size(); i++) {
+										const std::string serverName(DirectXRenderer::serverList["servers"][i]["name"].asString());
+										if (ImGui::Selectable(serverName.c_str(), selected_row == i, ImGuiSelectableFlags_DontClosePopups | ImGuiSelectableFlags_SpanAllColumns)) {
+											selectedIp = DirectXRenderer::serverList["servers"][i]["ip"].asString();
+											selectedPort = std::atoi(DirectXRenderer::serverList["servers"][i]["port"].asString().c_str());
+											selected_row = i;
+										}
+									}
+								}
+							}
+							else if (col == 1) {
+								ImGui::Text("Players");
+
+								ImDrawList* draw_list = ImGui::GetWindowDrawList();
+								ImVec2 p = ImGui::GetCursorScreenPos();
+								draw_list->AddLine(ImVec2(p.x - 9990, p.y - 2.0f), ImVec2(p.x + 9999, p.y - 2.0f), ImGui::GetColorU32(ImGuiCol_Border));
+
+								if (!DirectXRenderer::serverList["servers"].empty()) {
+									for (int i = 0; i < DirectXRenderer::serverList["servers"].size(); i++) {
+										const int players(DirectXRenderer::serverList["servers"][i]["players"]["amount"].asInt());
+										const int maxPlayers(DirectXRenderer::serverList["servers"][i]["players"]["max"].asInt());
+										std::string pp(std::to_string(players) + " / " + std::to_string(maxPlayers));
+										if (ImGui::Selectable(pp.c_str(), false, ImGuiSelectableFlags_DontClosePopups | ImGuiSelectableFlags_SpanAllColumns)) {
+											selectedIp = DirectXRenderer::serverList["servers"][i]["ip"].asString();
+											selectedPort = std::stoi(DirectXRenderer::serverList["servers"][i]["port"].asString());
+											selected_row = i;
+										}
+									}
+								}
+							}
+							else if (col == 2) {
+								ImGui::Text("Ping");
+
+								ImDrawList* draw_list = ImGui::GetWindowDrawList();
+								ImVec2 p = ImGui::GetCursorScreenPos();
+								draw_list->AddLine(ImVec2(p.x - 9990, p.y - 2.0f), ImVec2(p.x + 9999, p.y - 2.0f), ImGui::GetColorU32(ImGuiCol_Border));
+
 								for (int i = 0; i < DirectXRenderer::serverList["servers"].size(); i++) {
-									const std::string serverName(DirectXRenderer::serverList["servers"][i]["name"].asString());
-									if (ImGui::Selectable(serverName.c_str(), selected_row == i, ImGuiSelectableFlags_DontClosePopups | ImGuiSelectableFlags_SpanAllColumns)) {
+									if (ImGui::Selectable(std::to_string(-1).c_str(), false, ImGuiSelectableFlags_DontClosePopups | ImGuiSelectableFlags_SpanAllColumns)) {
 										selectedIp = DirectXRenderer::serverList["servers"][i]["ip"].asString();
-										selectedPort = DirectXRenderer::serverList["servers"][i]["port"].asString();
+										selectedPort = std::stoi(DirectXRenderer::serverList["servers"][i]["port"].asString());
 										selected_row = i;
 									}
 								}
 							}
+
+							ImGui::NextColumn();
 						}
-						else if (col == 1) {
-							ImGui::Text("Players");
-
-							ImDrawList* draw_list = ImGui::GetWindowDrawList();
-							ImVec2 p = ImGui::GetCursorScreenPos();
-							draw_list->AddLine(ImVec2(p.x - 9990, p.y - 2.0f), ImVec2(p.x + 9999, p.y - 2.0f), ImGui::GetColorU32(ImGuiCol_Border));
-
-							if (!DirectXRenderer::serverList["servers"].empty()) {
-								for (int i = 0; i < DirectXRenderer::serverList["servers"].size(); i++) {
-									const int players(DirectXRenderer::serverList["servers"][i]["players"]["amount"].asInt());
-									const int maxPlayers(DirectXRenderer::serverList["servers"][i]["players"]["max"].asInt());
-									std::string pp(std::to_string(players) + " / " + std::to_string(maxPlayers));
-									if (ImGui::Selectable(pp.c_str(), false, ImGuiSelectableFlags_DontClosePopups | ImGuiSelectableFlags_SpanAllColumns)) {
-										selectedIp = DirectXRenderer::serverList["servers"][i]["ip"].asString();
-										selectedPort = DirectXRenderer::serverList["servers"][i]["port"].asString();
-										selected_row = i;
-									}
-								}
-							}
-						}
-						else if (col == 2) {
-							ImGui::Text("Ping");
-
-							ImDrawList* draw_list = ImGui::GetWindowDrawList();
-							ImVec2 p = ImGui::GetCursorScreenPos();
-							draw_list->AddLine(ImVec2(p.x - 9990, p.y - 2.0f), ImVec2(p.x + 9999, p.y - 2.0f), ImGui::GetColorU32(ImGuiCol_Border));
-
-							for (int i = 0; i < DirectXRenderer::serverList["servers"].size(); i++) {
-								if (ImGui::Selectable(std::to_string(-1).c_str(), false, ImGuiSelectableFlags_DontClosePopups | ImGuiSelectableFlags_SpanAllColumns)) {
-									selectedIp = DirectXRenderer::serverList["servers"][i]["ip"].asString();
-									selectedPort = DirectXRenderer::serverList["servers"][i]["port"].asString();
-									selected_row = i;
-								}
-							}
-						}
-
-						ImGui::NextColumn();
+						ImGui::Columns(1);
 					}
+					ImGui::EndChild();
 
-					ImGui::Columns(1);
-
+					if (ImGui::Button("Connect", ImVec2((300 * DirectXRenderer::windowScale), 0))) {
+						CNetworkManager::Connect(selectedIp.c_str(), /*CConfig::GetPassword().c_str()*/"default", selectedPort);
+					}
 				}
 				ImGui::End();
 				ImGui::PopStyleVar(1);
