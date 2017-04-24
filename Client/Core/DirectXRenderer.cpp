@@ -671,7 +671,7 @@ void DirectXRenderer::Initialize()
 	swapChainDesc.OutputWindow = hWnd;
 	swapChainDesc.SampleDesc.Count = 1;
 	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
-	swapChainDesc.Windowed = /*TRUE */((GetWindowLong(hWnd, GWL_STYLE) & WS_POPUP) != 0) ? TRUE : FALSE;
+	swapChainDesc.Windowed = TRUE /*((GetWindowLong(hWnd, GWL_STYLE) & WS_POPUP) != 0) ? TRUE : FALSE*/;
 
 	UINT createDeviceFlags = 0;
 #ifdef _DEBUG
