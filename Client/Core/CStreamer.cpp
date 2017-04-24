@@ -171,19 +171,21 @@ void CStreamer::StreamPlayersIn(CVector3 position)
 										If we reach the 'max' for this type we will want to bring the range down for this type so object between X & 1000 have the chance to get streamed in.
 										This isn't full proof and there might still be the possibility of entities not getting streamed in.
 										*/
-										if (PlayerCount == (MaxPlayers - 1))
-											PlayerRange = distance;
-										else
-											PlayerRange = 1000.0f;
+										if (g_Players[index].CreatePed())
+										{
+											if (PlayerCount == (MaxPlayers - 1))
+												PlayerRange = distance;
+											else
+												PlayerRange = 1000.0f;
 
-										g_Players[index].CreatePed();
-										PlayerCount++;
+											PlayerCount++;
 
-										streamedObject newObj;
-										newObj.entity = i;
-										newObj.distance = distance;
+											streamedObject newObj;
+											newObj.entity = i;
+											newObj.distance = distance;
 
-										streamed.push_back(newObj);
+											streamed.push_back(newObj);
+										}
 									}
 									break;
 								}

@@ -362,11 +362,12 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 					ImGui::SameLine((ImGui::GetWindowContentRegionMax().x / 2) - (SizeH1 / 2));
 					ImGui::Text("Server List");
 
-					const int cols = 4;
+					const float region = ImGui::GetWindowContentRegionMax().x;
+
+					const int cols = 3;
 					ImGui::Columns(cols, 0, true);
-					ImGui::SetColumnOffset(1, screenWidth - 470);
-					ImGui::SetColumnOffset(2, screenWidth - 320);
-					ImGui::SetColumnOffset(3, screenWidth - 170);
+					ImGui::SetColumnOffset(1, region - (region / 2));
+					ImGui::SetColumnOffset(2, region - ((region / 2) / 2));
 
 					for (int col = 0; col < cols; col++) {
 						if (col == 0) {
