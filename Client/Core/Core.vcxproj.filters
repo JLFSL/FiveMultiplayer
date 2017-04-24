@@ -222,6 +222,12 @@
     <ClCompile Include="MapReveal.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="CefHandlerV8.cpp">
+      <Filter>Graphics\UI\CEF</Filter>
+    </ClCompile>
+    <ClCompile Include="ClientApp.cpp">
+      <Filter>Graphics\UI\CEF</Filter>
+    </ClCompile>
     <ClCompile Include="Json\jsoncpp.cpp">
       <Filter>Include\Json</Filter>
     </ClCompile>
@@ -418,6 +424,12 @@
     </ClInclude>
     <ClInclude Include="Json\json-forwards.h">
       <Filter>Include\Json</Filter>
+    </ClInclude>
+    <ClInclude Include="CefHandlerV8.h">
+      <Filter>Graphics\UI\CEF</Filter>
+    </ClInclude>
+    <ClInclude Include="ClientApp.h">
+      <Filter>Graphics\UI\CEF</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

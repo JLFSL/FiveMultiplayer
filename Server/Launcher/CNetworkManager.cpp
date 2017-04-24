@@ -292,16 +292,16 @@ void CNetworkManager::PulseMaster()
 		struct curl_slist *headers = NULL;
 		char content[1024];
 
-		std::sprintf(content, "Content: {\"port\":%d, \"name\":\"%s\", \"players\":{\"amount\":%d, \"max\":%d, \"list\":[%s]}}", g_Config->GetPort(), g_Config->GetServerName().c_str(), CPlayerEntity::Amount, g_Config->GetMaxPlayers(), playerList.c_str());
-		headers = curl_slist_append(headers, "content-type: application/x-www-form-urlencoded");
+		std::sprintf(content, "{\"port\": %d, \"name\": \"%s\", \"players\": {\"amount\": %d, \"max\": %d, \"list\":[%s]}}", g_Config->GetPort(), g_Config->GetServerName().c_str(), g_Players.size(), g_Config->GetMaxPlayers(), playerList.c_str());
 		headers = curl_slist_append(headers, "cache-control: no-cache");
-		headers = curl_slist_append(headers, content);
-		headers = curl_slist_append(headers, "authorization: FiveMP Token 13478817f618329e");
+		headers = curl_slist_append(headers, "content-type: application/json");
+		headers = curl_slist_append(headers, "authorization: Server 21992add0d9d4f718b29ebc8adeb46f5");
 
 		curl_easy_setopt(hnd, CURLOPT_CUSTOMREQUEST, "POST");
 		curl_easy_setopt(hnd, CURLOPT_URL, "http://api.five-multiplayer.net/api/v4/servers");
 		curl_easy_setopt(hnd, CURLOPT_HTTPHEADER, headers);
-		curl_easy_setopt(hnd, CURLOPT_NOBODY, 1);
+		curl_easy_setopt(hnd, CURLOPT_POSTFIELDS, content);
+		curl_easy_setopt(hnd, CURLOPT_VERBOSE, 0L);
 
 		CURLcode ret = curl_easy_perform(hnd);
 	}
