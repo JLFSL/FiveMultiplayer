@@ -42,7 +42,7 @@ private:
 		struct VehicleMods
 		{
 			int index					= 0;
-		} Mods[50];
+		} Mods[49];
 
 		struct VehicleExtras
 		{

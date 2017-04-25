@@ -68,7 +68,7 @@ bool CVehicleEntity::CreateVehicle()
 		VEHICLE::SET_TAXI_LIGHTS(Game.Vehicle, TRUE);
 
 		// Vehicle Number Plate
-		//VEHICLE::SET_VEHICLE_NUMBER_PLATE_TEXT(Game.Vehicle, (char *)CString::utf16ToUtf8(Data.Plate).c_str());
+		VEHICLE::SET_VEHICLE_NUMBER_PLATE_TEXT(Game.Vehicle, (char *)CString::utf16ToUtf8(Data.Plate).c_str());
 
 		const int Class = VEHICLE::GET_VEHICLE_CLASS(Game.Vehicle);
 		if (Class == 18 || Class == 17 || Class == 15 || Class == 16 || Class == 20 || Class == 14)
@@ -78,16 +78,15 @@ bool CVehicleEntity::CreateVehicle()
 		}
 
 		// Vehicle Mods
-		/*VEHICLE::SET_VEHICLE_MOD_KIT(Game.Vehicle, 0);
 		for (int i = 0; i < SizeOfArray(Data.Mods); i++)
 		{
 			VEHICLE::SET_VEHICLE_MOD(Game.Vehicle, i, Data.Mods[i].index, false);
 			if(i = 48)
 				VEHICLE::SET_VEHICLE_LIVERY(Game.Vehicle, Data.Mods[i].index);
 		}
-		*/
+		
 		// Vehicle Colors
-		/*if (!Data.Colors[0].custom)
+		if (!Data.Colors[0].custom)
 		{
 			VEHICLE::SET_VEHICLE_MOD_COLOR_1(Game.Vehicle, Data.Colors[0].type, Data.Colors[0].color, 0);
 		}
@@ -103,23 +102,23 @@ bool CVehicleEntity::CreateVehicle()
 		else
 		{
 			VEHICLE::SET_VEHICLE_CUSTOM_SECONDARY_COLOUR(Game.Vehicle, Data.Colors[1].customCol.Red, Data.Colors[1].customCol.Green, Data.Colors[1].customCol.Blue);
-		}*/
+		}
 
 		// Engine State (Forces Non-Vanilla engine state)
-		/*if (Data.ForceEngineState > -1)
+		if (Data.ForceEngineState > -1)
 		{
 			VEHICLE::SET_VEHICLE_ENGINE_ON(Game.Vehicle, Data.ForceEngineState, true, true);
 			VEHICLE::SET_VEHICLE_UNDRIVEABLE(Game.Vehicle, !Data.ForceEngineState);
-		}*/
+		}
 
-		//VEHICLE::SET_VEHICLE_NUMBER_PLATE_TEXT_INDEX(Game.Vehicle, Data.PlateStyle);
+		VEHICLE::SET_VEHICLE_NUMBER_PLATE_TEXT_INDEX(Game.Vehicle, Data.PlateStyle);
 
-		/*for (int i = 1; i < SizeOfArray(Data.Extras); i++)
+		for (int i = 1; i < SizeOfArray(Data.Extras); i++)
 		{
 			VEHICLE::SET_VEHICLE_EXTRA(Game.Vehicle, i, Data.Extras[i].enabled);
-		}*/
+		}
 
-		//VEHICLE::SET_VEHICLE_DOORS_LOCKED(Game.Vehicle, Data.DoorsLockState);
+		VEHICLE::SET_VEHICLE_DOORS_LOCKED(Game.Vehicle, Data.DoorsLockState);
 
 		ENTITY::FREEZE_ENTITY_POSITION(Game.Vehicle, FALSE);
 		ENTITY::SET_ENTITY_DYNAMIC(Game.Vehicle, TRUE);
