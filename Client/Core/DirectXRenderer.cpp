@@ -49,6 +49,8 @@ char InputBuf[256];
 float DirectXRenderer::windowScale = 1.0f;
 float DirectXRenderer::textScale = 0.5f;
 
+ImFont *debugFont;
+
 std::string DirectXRenderer::ConnectionProg = "Establishing Connection";
 
 HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags)
@@ -142,6 +144,8 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 		ioinit.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\browalia.ttc", 40.0f, &font_config, ioinit.Fonts->GetGlyphRangesThai());
 
 		//WindowManager->HugeFont = ioinit.Fonts->AddFontFromFileTTF("Roboto-Regular.ttf", 80.0f);
+
+		debugFont = ioinit.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\Segoe UI\\segoeui.ttf", 40.0f);
 
 		ioinit.Fonts->Build();
 		
@@ -494,6 +498,7 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 			ImGui::Begin("FiveMultiplayer_Debug", NULL, ImVec2(0, 0), 0.5f, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings);
 			{
 				ImGui::SetWindowFontScale(DirectXRenderer::textScale/3);
+				ImGui::PushFont(debugFont);
 				CVector3 pposition = CLocalPlayer::GetPosition();
 				CVector3 protation = CLocalPlayer::GetRotation();
 				float SizeH;
@@ -525,6 +530,7 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 				ImGui::SameLine(ImGui::GetWindowContentRegionMax().x - SizeH);
 				ImGui::Text(pools.c_str());
 				//ImGui::NewLine();
+				ImGui::PopFont();
 			}
 			ImGui::End();
 			ImGui::PopStyleVar(1);

@@ -419,27 +419,31 @@ void CPlayerEntity::UpdateTargetAnimations()
 		}
 		else
 		{
-			if (!STREAMING::HAS_ANIM_DICT_LOADED("move_m@generic"))
-				STREAMING::REQUEST_ANIM_DICT("move_m@generic");
+			/*if (!STREAMING::HAS_ANIM_DICT_LOADED("move_m@generic"))
+				STREAMING::REQUEST_ANIM_DICT("move_m@generic");*/
 
 			if (Data.ForwardSpeed < 2.0f && Data.ForwardSpeed > 1.0f && Data.Model.MovementState != 1)
 			{
-				AI::TASK_PLAY_ANIM(Game.Ped, "move_m@generic", "walk", 8.0f, 0.0f, -1, 1, 0.0f, false, false, false);
+				//AI::TASK_PLAY_ANIM(Game.Ped, "move_m@generic", "walk", 8.0f, 0.0f, -1, 1, 0.0f, false, false, false);
+				PED::FORCE_PED_MOTION_STATE(Game.Ped, GAMEPLAY::GET_HASH_KEY("motionstate_walk"), false, false, false);
 				Data.Model.MovementState = 1;
 			}
 			else if (Data.ForwardSpeed > 2.0f && Data.ForwardSpeed <= 5.2f && Data.Model.MovementState != 2)
 			{
-				AI::TASK_PLAY_ANIM(Game.Ped, "move_m@generic", "run", 8.0f, 0.0f, -1, 1, 0.0f, false, false, false);
+				//AI::TASK_PLAY_ANIM(Game.Ped, "move_m@generic", "run", 8.0f, 0.0f, -1, 1, 0.0f, false, false, false);
+				PED::FORCE_PED_MOTION_STATE(Game.Ped, GAMEPLAY::GET_HASH_KEY("motionstate_run"), false, false, false);
 				Data.Model.MovementState = 2;
 			}
 			else if (Data.ForwardSpeed > 5.2f && Data.Model.MovementState != 3)
 			{
-				AI::TASK_PLAY_ANIM(Game.Ped, "move_m@generic", "sprint", 8.0f, 0.0f, -1, 1, 0.0f, false, false, false);
+				//AI::TASK_PLAY_ANIM(Game.Ped, "move_m@generic", "sprint", 8.0f, 0.0f, -1, 1, 0.0f, false, false, false);
+				PED::FORCE_PED_MOTION_STATE(Game.Ped, -1115154469, false, false, false);
 				Data.Model.MovementState = 3;
 			}
 			else if (Data.ForwardSpeed < 1.0f && Data.Model.MovementState != 0)
 			{
-				AI::TASK_PLAY_ANIM(Game.Ped, "move_m@generic", "idle", 8.0f, 0.0f, -1, 1, 0.0f, false, false, false);
+				//AI::TASK_PLAY_ANIM(Game.Ped, "move_m@generic", "idle", 8.0f, 0.0f, -1, 1, 0.0f, false, false, false);
+				PED::FORCE_PED_MOTION_STATE(Game.Ped, GAMEPLAY::GET_HASH_KEY("motionstate_idle"), false, false, false);
 				Data.Model.MovementState = 0;
 			}
 		}
