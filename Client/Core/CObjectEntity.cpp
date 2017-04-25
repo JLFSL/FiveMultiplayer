@@ -101,13 +101,6 @@ void CObjectEntity::Destroy()
 	if (Game.Blip)
 		UI::REMOVE_BLIP(&Game.Blip);
 
-	if (CNetworkManager::GetInterface()->GetMyGUID() == Network.Assigned)
-	{
-		RakNet::BitStream sData;
-		sData.Write(Information.Id);
-		CNetworkManager::GetRPC().Signal("DropEntityAssignment", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, CNetworkManager::GetSystemAddress(), false, false);
-	}
-
 	Information = {};
 	Data = {};
 	Network = {};
@@ -126,6 +119,13 @@ void CObjectEntity::Delete()
 
 	if (Game.Blip)
 		UI::REMOVE_BLIP(&Game.Blip);
+
+	if (CNetworkManager::GetInterface()->GetMyGUID() == Network.Assigned)
+	{
+		RakNet::BitStream sData;
+		sData.Write(Information.Id);
+		CNetworkManager::GetRPC().Signal("DropEntityAssignment", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, CNetworkManager::GetSystemAddress(), false, false);
+	}
 
 	Game.Created = false;
 }

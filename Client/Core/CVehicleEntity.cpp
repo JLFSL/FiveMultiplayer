@@ -151,13 +151,6 @@ void CVehicleEntity::Destroy()
 	if (Game.Blip)
 		UI::REMOVE_BLIP(&Game.Blip);
 
-	if(CNetworkManager::GetInterface()->GetMyGUID() == Network.Assigned)
-	{
-		RakNet::BitStream sData;
-		sData.Write(Information.Id);
-		CNetworkManager::GetRPC().Signal("DropEntityAssignment", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, CNetworkManager::GetSystemAddress(), false, false);
-	}
-
 	Game = {};
 	Information = {};
 	Data = {};
@@ -174,6 +167,13 @@ void CVehicleEntity::Delete()
 
 	if (Game.Blip)
 		UI::REMOVE_BLIP(&Game.Blip);
+
+	if (CNetworkManager::GetInterface()->GetMyGUID() == Network.Assigned)
+	{
+		RakNet::BitStream sData;
+		sData.Write(Information.Id);
+		CNetworkManager::GetRPC().Signal("DropEntityAssignment", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, CNetworkManager::GetSystemAddress(), false, false);
+	}
 
 	Game.Created = false;
 }
@@ -455,9 +455,10 @@ void CVehicleEntity::SetTargetRotation()
 			Vector3 CurrentRotationVec = ENTITY::GET_ENTITY_ROTATION(Game.Vehicle, 2);
 			CVector3 CurrentRotation(CurrentRotationVec.x, CurrentRotationVec.y, CurrentRotationVec.z);
 
-			if (InterpolationData.Rotation.Target.fZ > 178.0f && InterpolationData.Rotation.Target.fZ < -178.0f)
+			if (InterpolationData.Rotation.Target.fZ > 178.0f || InterpolationData.Rotation.Target.fZ < -178.0f)
 			{
 				ENTITY::SET_ENTITY_ROTATION(Game.Vehicle, Data.Rotation.fX, Data.Rotation.fY, Data.Rotation.fZ, 2, true);
+				InterpolationData.Rotation.FinishTime = 0;
 			}
 			else
 			{
