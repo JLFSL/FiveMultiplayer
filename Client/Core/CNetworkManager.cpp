@@ -27,11 +27,11 @@ void CNetworkManager::Initialize()
 	g_RakPeer->AttachPlugin(g_DirTransfer);
 	g_RakPeer->AttachPlugin(g_FileTransfer);
 
-	// Set the right transfer method
-	g_DirTransfer->SetFileListTransferPlugin(g_FileTransfer);
-
 	// Set our transfer directory
 	g_DirTransfer->SetApplicationDirectory(".//");
+
+	// Set the right transfer method
+	g_DirTransfer->SetFileListTransferPlugin(g_FileTransfer);
 
 	// RakPeerInterface Settings
 	g_RakPeer->SetSplitMessageProgressInterval(100);
@@ -193,7 +193,7 @@ void CNetworkManager::Disconnect()
 	Logger::Msg("CNetworkManager::Disconnected");
 }
 
-/*class TestCB : public RakNet::FileListTransferCBInterface
+class TestCB : public RakNet::FileListTransferCBInterface
 {
 public:
 	bool OnFile(
@@ -227,7 +227,7 @@ public:
 		return false;
 	}
 
-} transferCallback;*/
+} transferCallback;
 
 void CNetworkManager::Pulse()
 {
@@ -302,8 +302,24 @@ void CNetworkManager::Pulse()
 				// Set our last packet update so it sends our own packets too
 				CLocalPlayer::SetLastSync(timeGetTime());
 
-				//if (g_DirTransfer->DownloadFromSubdirectory("", "", true, g_SystemAddr, &transferCallback, HIGH_PRIORITY, 0, 0) == -1)
-				//	Logger::Msg("CNetworkManager::NoDownload");
+				char buffer[MAX_PATH];//always use MAX_PATH for filepaths
+				GetModuleFileName(GetModuleHandle("Client.Core.dll"), buffer, sizeof(buffer));
+
+				std::string filePath = buffer;
+				filePath.erase(filePath.find("Client.Core.dll"), std::string("Client.Core.dll").size()); //removes the Client.Core.dll part leaving you with the file path not including the file itself
+
+				char subdir[256] = "";
+				char outputSubdir[256] = "..//dl";
+
+				unsigned short setId;
+				setId = g_DirTransfer->DownloadFromSubdirectory(subdir, outputSubdir, true, g_SystemAddr, &transferCallback, HIGH_PRIORITY, 0, 0);
+				if (setId == (unsigned short)-1) {
+					printf("Download failed.  Host unreachable.\n");
+				}
+				else
+				{
+					printf("Downloading set %i\n", setId);
+				}
 
 				BitStream bitstream;
 				bitstream.Write((unsigned char)ID_REQUEST_SERVER_SYNC);
