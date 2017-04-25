@@ -329,7 +329,7 @@ void CPlayerEntity::SetTargetRotation()
 		Vector3 CurrentRotationVec = ENTITY::GET_ENTITY_ROTATION(Game.Ped, 2);
 		CVector3 CurrentRotation(CurrentRotationVec.x, CurrentRotationVec.y, CurrentRotationVec.z);
 
-		if (InterpolationData.Rotation.Target.fZ > 178.0f && InterpolationData.Rotation.Target.fZ < -178.0f)
+		if (InterpolationData.Rotation.Target.fZ > 178.0f || InterpolationData.Rotation.Target.fZ < -178.0f)
 		{
 			ENTITY::SET_ENTITY_ROTATION(Game.Ped, Data.Rotation.fX, Data.Rotation.fY, Data.Rotation.fZ, 2, true);
 			InterpolationData.Rotation.FinishTime = 0;

@@ -113,6 +113,9 @@ void CNetworkManager::Disconnect()
 	if (g_ConnectionState == CONSTATE_DISC)
 		return;
 
+	// Force streamout all entities
+	CStreamer::ForceStreamOut();
+
 	// Stop RakPeer from accepting anymore incoming packets
 	g_RakPeer->CloseConnection(g_SystemAddr, true);
 
@@ -132,9 +135,6 @@ void CNetworkManager::Disconnect()
 	// Clean the server GUID
 	g_SystemAddr = UNASSIGNED_SYSTEM_ADDRESS;
 
-	// Force streamout all entities
-	CStreamer::ForceStreamOut();
-
 	// Remove all existing entities
 	for (int i = (g_Entities.size() - 1); i > -1; i--)
 	{
@@ -145,13 +145,13 @@ void CNetworkManager::Disconnect()
 
 	// Remove all existing players
 	for (int i = (g_Players.size() - 1); i > -1; i--) {
-		if(g_Players[i].IsCreated())
+		if (g_Players[i].IsCreated())
 			g_Players[i].Destroy();
 		g_Players.erase(g_Players.begin() + i);
 	}
 	// Shrink vector so size is correct.
 	g_Players.shrink_to_fit();
-	
+
 	// Remove all existing vehicles
 	for (int i = (g_Vehicles.size() - 1); i > -1; i--)
 	{
