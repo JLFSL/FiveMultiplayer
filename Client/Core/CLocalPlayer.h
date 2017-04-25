@@ -66,7 +66,7 @@ public:
 	static bool IsInAnyVehicle()	{ return (bool)PED::IS_PED_IN_ANY_VEHICLE(Game.Ped, FALSE); }
 
 	static CVector3 GetPosition()		{ return Data.Position; }
-	static Vector3_t GetPositionEx()	{ Vector3_t Pos = { Data.Position.fX, Data.Position.fY, Data.Position.fZ }; return Pos; }
+	static Vector3_t GetPositionEx()	{ Vector3_t Pos = { Data.Position.x, Data.Position.y, Data.Position.z }; return Pos; }
 
 	static CVector3 GetRotation()		{ return Data.Rotation; }
 

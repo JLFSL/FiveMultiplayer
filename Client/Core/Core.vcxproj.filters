@@ -58,6 +58,9 @@
     <Filter Include="Include\Json">
       <UniqueIdentifier>{46df2d95-19ab-4048-820e-ae0e8cc23e44}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Include\Math">
+      <UniqueIdentifier>{c3651e3f-cc55-47ef-92ce-563a32a0c35f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -230,6 +233,9 @@
     </ClCompile>
     <ClCompile Include="Json\jsoncpp.cpp">
       <Filter>Include\Json</Filter>
+    </ClCompile>
+    <ClCompile Include="CVector3.cpp">
+      <Filter>Include\Math</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -430,6 +436,9 @@
     </ClInclude>
     <ClInclude Include="ClientApp.h">
       <Filter>Graphics\UI\CEF</Filter>
+    </ClInclude>
+    <ClInclude Include="CVector3.h">
+      <Filter>Include\Math</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

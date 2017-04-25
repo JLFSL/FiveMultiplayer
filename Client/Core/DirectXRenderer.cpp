@@ -504,7 +504,7 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 				float SizeH;
 
 				//Position Debug
-				std::string position = "Position: [X: " + std::to_string(pposition.fX) + ", Y: " + std::to_string(pposition.fY) + ", Z: " + std::to_string(pposition.fZ) + "]";
+				std::string position = "Position: [X: " + std::to_string(pposition.x) + ", Y: " + std::to_string(pposition.y) + ", Z: " + std::to_string(pposition.z) + "]";
 				SizeH = ImGui::CalcTextSize(position.c_str()).x;
 
 				ImGui::SameLine(ImGui::GetWindowContentRegionMax().x - SizeH);
@@ -512,7 +512,7 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 				ImGui::NewLine();
 
 				//Rotation Debug
-				std::string rotation = "Rotation: [X: " + std::to_string(protation.fX) + ", Y: " + std::to_string(protation.fY) + ", Z: " + std::to_string(protation.fZ) + "]";
+				std::string rotation = "Rotation: [X: " + std::to_string(protation.x) + ", Y: " + std::to_string(protation.y) + ", Z: " + std::to_string(protation.z) + "]";
 				SizeH = ImGui::CalcTextSize(rotation.c_str()).x;
 
 				ImGui::SameLine(ImGui::GetWindowContentRegionMax().x - SizeH);

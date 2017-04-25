@@ -200,6 +200,7 @@
     <ClCompile Include="CRPCWorld.cpp" />
     <ClCompile Include="CServerEntity.cpp" />
     <ClCompile Include="CStreamer.cpp" />
+    <ClCompile Include="CVector3.cpp" />
     <ClCompile Include="CVehicleEntity.cpp" />
     <ClCompile Include="CWorld.cpp" />
     <ClCompile Include="DirectXDraw.cpp" />
@@ -279,6 +280,7 @@
     <ClInclude Include="CRPCWorld.h" />
     <ClInclude Include="CServerEntity.h" />
     <ClInclude Include="CStreamer.h" />
+    <ClInclude Include="CVector3.h" />
     <ClInclude Include="CVehicleEntity.h" />
     <ClInclude Include="CWorld.h" />
     <ClInclude Include="DirectXDraw.h" />

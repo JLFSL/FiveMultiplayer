@@ -60,10 +60,10 @@ bool CObjectEntity::CreateObject()
 			if (!STREAMING::HAS_MODEL_LOADED(Data.Model.Model)) 
 				return false;
 
-			Game.Object = OBJECT::CREATE_OBJECT_NO_OFFSET(Data.Model.Model, Data.Position.fX, Data.Position.fY, Data.Position.fZ, false, true, Data.Model.Dynamic);
+			Game.Object = OBJECT::CREATE_OBJECT_NO_OFFSET(Data.Model.Model, Data.Position.x, Data.Position.y, Data.Position.z, false, true, Data.Model.Dynamic);
 			STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(Data.Model.Model);
 
-			ENTITY::SET_ENTITY_ROTATION(Game.Object, Data.Rotation.fX, Data.Rotation.fY, Data.Rotation.fZ, 0, true);
+			ENTITY::SET_ENTITY_ROTATION(Game.Object, Data.Rotation.x, Data.Rotation.y, Data.Rotation.z, 0, true);
 
 			if (!Data.Model.Dynamic)
 				ENTITY::FREEZE_ENTITY_POSITION(Game.Object, true);
@@ -145,17 +145,17 @@ void CObjectEntity::Pulse()
 
 			bitstream.Write(Information.Id);
 
-			bitstream.Write(Data.Position.fX);
-			bitstream.Write(Data.Position.fY);
-			bitstream.Write(Data.Position.fZ);
+			bitstream.Write(Data.Position.x);
+			bitstream.Write(Data.Position.y);
+			bitstream.Write(Data.Position.z);
 
-			bitstream.Write(Data.Velocity.fX);
-			bitstream.Write(Data.Velocity.fY);
-			bitstream.Write(Data.Velocity.fZ);
+			bitstream.Write(Data.Velocity.x);
+			bitstream.Write(Data.Velocity.y);
+			bitstream.Write(Data.Velocity.z);
 
-			bitstream.Write(Data.Rotation.fX);
-			bitstream.Write(Data.Rotation.fY);
-			bitstream.Write(Data.Rotation.fZ);
+			bitstream.Write(Data.Rotation.x);
+			bitstream.Write(Data.Rotation.y);
+			bitstream.Write(Data.Rotation.z);
 
 			CNetworkManager::GetInterface()->Send(&bitstream, MEDIUM_PRIORITY, UNRELIABLE_SEQUENCED, 0, CNetworkManager::GetSystemAddress(), false);
 
@@ -170,17 +170,17 @@ void CObjectEntity::Update(Packet *packet)
 
 	bitstream.Read(Information.Id);
 
-	bitstream.Read(Data.Position.fX);
-	bitstream.Read(Data.Position.fY);
-	bitstream.Read(Data.Position.fZ);
+	bitstream.Read(Data.Position.x);
+	bitstream.Read(Data.Position.y);
+	bitstream.Read(Data.Position.z);
 
-	bitstream.Read(Data.Velocity.fX);
-	bitstream.Read(Data.Velocity.fY);
-	bitstream.Read(Data.Velocity.fZ);
+	bitstream.Read(Data.Velocity.x);
+	bitstream.Read(Data.Velocity.y);
+	bitstream.Read(Data.Velocity.z);
 
-	bitstream.Read(Data.Rotation.fX);
-	bitstream.Read(Data.Rotation.fY);
-	bitstream.Read(Data.Rotation.fZ);
+	bitstream.Read(Data.Rotation.x);
+	bitstream.Read(Data.Rotation.y);
+	bitstream.Read(Data.Rotation.z);
 
 	Network.LastSyncReceived = timeGetTime();
 }
@@ -201,10 +201,10 @@ void CObjectEntity::UpdateTargetPosition()
 
 		// Get our position
 		Vector3 Coordinates = ENTITY::GET_ENTITY_COORDS(Game.Object, ENTITY::IS_ENTITY_DEAD(Game.Object));
-		CVector3 CurrentPosition = { Coordinates.x, Coordinates.y, Coordinates.z };
+		CVector3 CurrentPosition(Coordinates.x, Coordinates.y, Coordinates.z);
 
 		// Set the target position
-		CVector3 TargetPosition = { Data.Position.fX, Data.Position.fY, Data.Position.fZ };
+		CVector3 TargetPosition(Data.Position.x, Data.Position.y, Data.Position.z);
 		InterpolationData.Position.Target = TargetPosition;
 
 		// Calculate the relative error
@@ -252,7 +252,7 @@ void CObjectEntity::SetTargetPosition()
 		CVector3 vecNewPosition = vecCurrentPosition + vecCompensation;
 
 		// Check if the distance to interpolate is too far
-		if ((vecCurrentPosition - InterpolationData.Position.Target).Length() > 750.0f)
+		if (CVector3::Distance(vecCurrentPosition, InterpolationData.Position.Target) > 750.0f)
 		{
 			// Abort all interpolation
 			InterpolationData.Position.FinishTime = 0;
@@ -260,9 +260,9 @@ void CObjectEntity::SetTargetPosition()
 		}
 
 		// Set our new position
-		ENTITY::SET_ENTITY_COORDS_NO_OFFSET(Game.Object, vecNewPosition.fX, vecNewPosition.fY, vecNewPosition.fZ, false, false, false);
-		ENTITY::SET_ENTITY_VELOCITY(Game.Object, Data.Velocity.fX, Data.Velocity.fY, Data.Velocity.fZ);
-		ENTITY::SET_ENTITY_ROTATION(Game.Object, Data.Rotation.fX, Data.Rotation.fY, Data.Rotation.fZ, 2, true);
+		ENTITY::SET_ENTITY_COORDS_NO_OFFSET(Game.Object, vecNewPosition.x, vecNewPosition.y, vecNewPosition.z, false, false, false);
+		ENTITY::SET_ENTITY_VELOCITY(Game.Object, Data.Velocity.x, Data.Velocity.y, Data.Velocity.z);
+		ENTITY::SET_ENTITY_ROTATION(Game.Object, Data.Rotation.x, Data.Rotation.y, Data.Rotation.z, 2, true);
 	}
 }
 
@@ -278,7 +278,7 @@ void CObjectEntity::UpdateTargetRotation()
 		CVector3 CurrentRotation(CurrentRotationVec.x, CurrentRotationVec.y, CurrentRotationVec.z);
 
 		// Set the target rotation
-		CVector3 TargetRotation = { Data.Rotation.fX, Data.Rotation.fY, Data.Rotation.fZ };
+		CVector3 TargetRotation = { Data.Rotation.x, Data.Rotation.y, Data.Rotation.z };
 		InterpolationData.Rotation.Target = TargetRotation;
 
 		// Get the error
@@ -327,7 +327,7 @@ void CObjectEntity::SetTargetRotation()
 			CVector3 vecNewRotation = CurrentRotation + vecCompensation;
 
 			// Set our new position
-			ENTITY::SET_ENTITY_ROTATION(Game.Object, vecNewRotation.fX, vecNewRotation.fY, vecNewRotation.fZ, 2, true);
+			ENTITY::SET_ENTITY_ROTATION(Game.Object, vecNewRotation.x, vecNewRotation.y, vecNewRotation.z, 2, true);
 		}
 	}
 }

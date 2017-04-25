@@ -75,17 +75,17 @@ void CPlayerEntity::Pulse()
 
 		bitstream.Write(Data.ForwardSpeed);
 
-		bitstream.Write(Data.Position.fX);
-		bitstream.Write(Data.Position.fY);
-		bitstream.Write(Data.Position.fZ);
+		bitstream.Write(Data.Position.x);
+		bitstream.Write(Data.Position.y);
+		bitstream.Write(Data.Position.z);
 
-		bitstream.Write(Data.Velocity.fX);
-		bitstream.Write(Data.Velocity.fY);
-		bitstream.Write(Data.Velocity.fZ);
+		bitstream.Write(Data.Velocity.x);
+		bitstream.Write(Data.Velocity.y);
+		bitstream.Write(Data.Velocity.z);
 
-		bitstream.Write(Data.Rotation.fX);
-		bitstream.Write(Data.Rotation.fY);
-		bitstream.Write(Data.Rotation.fZ);
+		bitstream.Write(Data.Rotation.x);
+		bitstream.Write(Data.Rotation.y);
+		bitstream.Write(Data.Rotation.z);
 
 		bitstream.Write(Data.Vehicle.VehicleID);
 		bitstream.Write(Data.Vehicle.Seat);
@@ -119,17 +119,17 @@ void CPlayerEntity::Update(Packet *packet)
 
 	bitstream.Read(Data.ForwardSpeed);
 
-	bitstream.Read(Data.Position.fX);
-	bitstream.Read(Data.Position.fY);
-	bitstream.Read(Data.Position.fZ);
+	bitstream.Read(Data.Position.x);
+	bitstream.Read(Data.Position.y);
+	bitstream.Read(Data.Position.z);
 
-	bitstream.Read(Data.Velocity.fX);
-	bitstream.Read(Data.Velocity.fY);
-	bitstream.Read(Data.Velocity.fZ);
+	bitstream.Read(Data.Velocity.x);
+	bitstream.Read(Data.Velocity.y);
+	bitstream.Read(Data.Velocity.z);
 
-	bitstream.Read(Data.Rotation.fX);
-	bitstream.Read(Data.Rotation.fY);
-	bitstream.Read(Data.Rotation.fZ);
+	bitstream.Read(Data.Rotation.x);
+	bitstream.Read(Data.Rotation.y);
+	bitstream.Read(Data.Rotation.z);
 
 	bitstream.Read(Data.Vehicle.VehicleID);
 	bitstream.Read(Data.Vehicle.Seat);

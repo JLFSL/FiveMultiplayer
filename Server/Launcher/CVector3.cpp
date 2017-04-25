@@ -6,7 +6,7 @@ Author:
 	Ethem Kurt (BigETI)
 */
 
-#include "../stdafx.h"
+#include "stdafx.h"
 
 const CVector3 CVector3::unit(1.0f, 1.0f, 1.0f);
 const CVector3 CVector3::null(0.0f, 0.0f, 0.0f);
@@ -24,7 +24,7 @@ CVector3::CVector3() : x(0.0f), y(0.0f), z(0.0f)
 	//
 }
 
-CVector3::CVector3(const CVector3 & v) : x(v.x), y(v.y), z(v.z)
+CVector3::CVector3(const CVector3& v) : x(v.x), y(v.y), z(v.z)
 {
 	//
 }

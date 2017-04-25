@@ -29,11 +29,14 @@
 #include <unordered_map>
 #include <set>
 #include <mutex>
+#define _USE_MATH_DEFINES
+#include <math.h>
+
+// Math
+#include "CVector3.h"
 
 // Shared
-#include "CVector3.h"
-#include "CVector4.h"
-#include "CMaths.h"
+#include <CMaths.h>
 #include "Common.h"
 #include <SharedUtility.h>
 #include "APIStructs.h"

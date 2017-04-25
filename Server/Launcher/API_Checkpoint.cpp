@@ -12,12 +12,12 @@ namespace API
 
 		RakNet::BitStream sData;
 		sData.Write(newCp.GetId());
-		sData.Write(position.fX);
-		sData.Write(position.fY);
-		sData.Write(position.fZ);
-		sData.Write(pointto.fX);
-		sData.Write(pointto.fY);
-		sData.Write(pointto.fZ);
+		sData.Write(position.x);
+		sData.Write(position.y);
+		sData.Write(position.z);
+		sData.Write(pointto.x);
+		sData.Write(pointto.y);
+		sData.Write(pointto.z);
 		sData.Write(type);
 		sData.Write(radius);
 		sData.Write(color.Red);

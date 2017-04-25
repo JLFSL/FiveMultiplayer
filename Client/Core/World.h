@@ -1,5 +1,21 @@
 #pragma once
 
+struct Vector2
+{
+	float x;
+	float y;
+
+	Vector2()
+	{
+		x = y = 0.0f;
+	}
+
+	Vector2(float _fX, float _fY)
+	{
+		x = x; y = y;
+	}
+};
+
 class World
 {
 public:

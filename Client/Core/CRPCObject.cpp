@@ -16,12 +16,12 @@ void CRPCObject::Create(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 		bitStream->Read(hash);
 	else
 		bitStream->Read(model);
-	bitStream->Read(position.fX);
-	bitStream->Read(position.fY);
-	bitStream->Read(position.fZ);
-	bitStream->Read(rotation.fX);
-	bitStream->Read(rotation.fY);
-	bitStream->Read(rotation.fZ);
+	bitStream->Read(position.x);
+	bitStream->Read(position.y);
+	bitStream->Read(position.z);
+	bitStream->Read(rotation.x);
+	bitStream->Read(rotation.y);
+	bitStream->Read(rotation.z);
 	bitStream->Read(dynamic);
 
 	CObjectEntity newObject;

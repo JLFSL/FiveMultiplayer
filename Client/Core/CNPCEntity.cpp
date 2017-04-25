@@ -32,7 +32,7 @@ bool CNPCEntity::Create(const int entity, const std::string model, const CVector
 
 		Amount++;
 
-		std::cout << "[CNPCEntity] Created NPC [" << Data.Id << "] with model " << Data.Model.Model.c_str() << " at " << Data.Position.fX << ", " << Data.Position.fY << ", " << Data.Position.fZ << std::endl;
+		std::cout << "[CNPCEntity] Created NPC [" << Data.Id << "] with model " << Data.Model.Model.c_str() << " at " << Data.Position.x << ", " << Data.Position.y << ", " << Data.Position.z << std::endl;
 		std::cout << "[CNPCEntity] " << Amount << " npcs in the world." << std::endl;
 
 		Network.LastSyncSent = std::chrono::system_clock::now();
@@ -61,14 +61,14 @@ bool CNPCEntity::CreateNpc()
 
 			std::cout << "[CNPCEntity] " << Data.Id << " is being Spawned with model " << Data.Model.Model.c_str() << "." << std::endl;
 
-			Game.Npc = PED::CREATE_PED(Data.Model.Type, hash, Data.Position.fX, Data.Position.fY, Data.Position.fZ, 0.0f, false, true);
+			Game.Npc = PED::CREATE_PED(Data.Model.Type, hash, Data.Position.x, Data.Position.y, Data.Position.z, 0.0f, false, true);
 
 			STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(hash);
 
 			ENTITY::SET_ENTITY_NO_COLLISION_ENTITY(CLocalPlayer::GetPed(), Game.Npc, false);
 			ENTITY::SET_ENTITY_NO_COLLISION_ENTITY(Game.Npc, CLocalPlayer::GetPed(), false);
 
-			ENTITY::SET_ENTITY_COORDS_NO_OFFSET(Game.Npc, Data.Position.fX, Data.Position.fY, Data.Position.fZ, false, false, false);
+			ENTITY::SET_ENTITY_COORDS_NO_OFFSET(Game.Npc, Data.Position.x, Data.Position.y, Data.Position.z, false, false, false);
 
 			PED::SET_BLOCKING_OF_NON_TEMPORARY_EVENTS(Game.Npc, true);
 			PED::SET_PED_FLEE_ATTRIBUTES(Game.Npc, 0, 0);

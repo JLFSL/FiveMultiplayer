@@ -23,10 +23,10 @@ void CRPCEntity::SetPosition(RakNet::BitStream *bitStream, RakNet::Packet *packe
 	CVector3 position;
 
 	bitStream->Read(entity);
-	bitStream->Read(position.fX);
-	bitStream->Read(position.fY);
-	bitStream->Read(position.fZ);
-	std::cout << "CRPCEntity::SetPosition for entity " << entity << " to " << std::to_string(position.fX) << ", " << std::to_string(position.fY) << ", " << std::to_string(position.fZ) << std::endl;
+	bitStream->Read(position.x);
+	bitStream->Read(position.y);
+	bitStream->Read(position.z);
+	std::cout << "CRPCEntity::SetPosition for entity " << entity << " to " << std::to_string(position.x) << ", " << std::to_string(position.y) << ", " << std::to_string(position.z) << std::endl;
 	
 	if (entity != -1)
 	{
@@ -41,14 +41,14 @@ void CRPCEntity::SetPosition(RakNet::BitStream *bitStream, RakNet::Packet *packe
 		// Force everything to stream out
 		CStreamer::ForceStreamOut();
 		// Load location
-		STREAMING::LOAD_SCENE(position.fX, position.fY, position.fZ);
+		STREAMING::LOAD_SCENE(position.x, position.y, position.z);
 		// Stream in everything at the position
 		CStreamer::StreamObjectsIn(position);
 		CStreamer::StreamVehiclesIn(position);
 		CStreamer::StreamPlayersIn(position);
 		CStreamer::StreamOtherIn(position);
 		// Send player to the position
-		ENTITY::SET_ENTITY_COORDS(CLocalPlayer::GetPed(), position.fX, position.fY, position.fZ, false, false, false, false);
+		ENTITY::SET_ENTITY_COORDS(CLocalPlayer::GetPed(), position.x, position.y, position.z, false, false, false, false);
 	}
 
 }
@@ -60,9 +60,9 @@ void CRPCEntity::SetRotation(RakNet::BitStream *bitStream, RakNet::Packet *packe
 	CVector3 rotation;
 
 	bitStream->Read(entity);
-	bitStream->Read(rotation.fX);
-	bitStream->Read(rotation.fY);
-	bitStream->Read(rotation.fZ);
+	bitStream->Read(rotation.x);
+	bitStream->Read(rotation.y);
+	bitStream->Read(rotation.z);
 
 	if (entity != -1)
 	{
@@ -74,7 +74,7 @@ void CRPCEntity::SetRotation(RakNet::BitStream *bitStream, RakNet::Packet *packe
 	}
 	else
 	{
-		ENTITY::SET_ENTITY_ROTATION(CLocalPlayer::GetPed(), rotation.fX, rotation.fY, rotation.fZ, 2, true);
+		ENTITY::SET_ENTITY_ROTATION(CLocalPlayer::GetPed(), rotation.x, rotation.y, rotation.z, 2, true);
 	}
 }
 

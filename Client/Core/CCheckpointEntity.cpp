@@ -31,7 +31,7 @@ void CCheckpointEntity::Create(const int entity, const CVector3 position, const 
 
 	Amount++;
 
-	std::cout << "[CCheckpointEntity] Created checkpoint [" << Information.Id << "] at " << Data.Position.fX << ", " << Data.Position.fY << ", " << Data.Position.fZ << std::endl;
+	std::cout << "[CCheckpointEntity] Created checkpoint [" << Information.Id << "] at " << Data.Position.x << ", " << Data.Position.y << ", " << Data.Position.z << std::endl;
 	std::cout << "[CCheckpointEntity] " << Amount << " checkpoints in the world." << std::endl;
 }
 
@@ -56,7 +56,7 @@ void CCheckpointEntity::Show()
 {
 	Hide();
 
-	Game.Checkpoint = GRAPHICS::CREATE_CHECKPOINT(Data.Type, Data.Position.fX, Data.Position.fY, Data.Position.fZ, Data.PointTo.fX, Data.PointTo.fY, Data.PointTo.fZ, Data.Radius, Data.sColor.Red, Data.sColor.Green, Data.sColor.Blue, Data.sColor.Alpha, Data.Reserved);
+	Game.Checkpoint = GRAPHICS::CREATE_CHECKPOINT(Data.Type, Data.Position.x, Data.Position.y, Data.Position.z, Data.PointTo.x, Data.PointTo.y, Data.PointTo.z, Data.Radius, Data.sColor.Red, Data.sColor.Green, Data.sColor.Blue, Data.sColor.Alpha, Data.Reserved);
 	GRAPHICS::SET_CHECKPOINT_CYLINDER_HEIGHT(Game.Checkpoint, Data.NearHeight, Data.FarHeight, Data.Radius);
 }
 
@@ -73,9 +73,9 @@ void CCheckpointEntity::Pulse()
 	if (Game.Checkpoint != -1) {
 		CVector3 position = CLocalPlayer::GetPosition();
 		
-		float distance = Math::GetDistanceBetweenPoints2D(position.fX, position.fY, Data.Position.fX, Data.Position.fY);
+		float distance = Math::GetDistanceBetweenPoints2D(position.x, position.y, Data.Position.x, Data.Position.y);
 
-		if ((distance <= (Data.Radius / 2) && position.fZ > Data.Position.fZ - 2.0f && position.fZ < Data.Position.fZ + Data.NearHeight) && !Data.Triggered) {
+		if ((distance <= (Data.Radius / 2) && position.z > Data.Position.z - 2.0f && position.z < Data.Position.z + Data.NearHeight) && !Data.Triggered) {
 			Data.Triggered = true;
 
 			RakNet::BitStream sData;
@@ -84,7 +84,7 @@ void CCheckpointEntity::Pulse()
 			CNetworkManager::GetRPC().Signal("OnPlayerEnterCheckpoint", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, CNetworkManager::GetSystemAddress(), false, false);
 		}
 
-		if ((distance > (Data.Radius / 2) || position.fZ < Data.Position.fZ - 2.0f || position.fZ > Data.Position.fZ + Data.NearHeight) && Data.Triggered) {
+		if ((distance > (Data.Radius / 2) || position.z < Data.Position.z - 2.0f || position.z > Data.Position.z + Data.NearHeight) && Data.Triggered) {
 			Data.Triggered = false;
 
 			RakNet::BitStream sData;

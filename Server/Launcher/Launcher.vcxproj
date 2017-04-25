@@ -201,6 +201,7 @@
     <ClInclude Include="CNPCEntity.h" />
     <ClInclude Include="CObjectEntity.h" />
     <ClInclude Include="CCheckpointEntity.h" />
+    <ClInclude Include="CVector3.h" />
     <ClInclude Include="NetworkSync.h" />
     <ClInclude Include="CServerEntity.h" />
     <ClInclude Include="CNetworkManager.h" />
@@ -233,6 +234,7 @@
     <ClCompile Include="CNPCEntity.cpp" />
     <ClCompile Include="CObjectEntity.cpp" />
     <ClCompile Include="CCheckpointEntity.cpp" />
+    <ClCompile Include="CVector3.cpp" />
     <ClCompile Include="NetworkSync.cpp" />
     <ClCompile Include="CServerEntity.cpp" />
     <ClCompile Include="CNetworkManager.cpp" />

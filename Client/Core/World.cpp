@@ -81,7 +81,7 @@ Vector3 World::ScreenRelToWorld(Vector3 camPos, Vector3 camRot, Vector2 coord)
 	}
 
 	const double eps = 0.001;
-	if (abs(point2D.fX - point2DZero.fX) < eps || abs(point2D.fY - point2DZero.fY) < eps)
+	if (abs(point2D.x - point2DZero.x) < eps || abs(point2D.y - point2DZero.y) < eps)
 	{
 		Vector3 rel;
 		rel.x = camPos.x + camForward.x * 10.0f;
@@ -89,8 +89,8 @@ Vector3 World::ScreenRelToWorld(Vector3 camPos, Vector3 camRot, Vector2 coord)
 		rel.z = camPos.z + camForward.z * 10.0f;
 		return rel;
 	}
-	float scaleX = (coord.fX - point2DZero.fX) / (point2D.fX - point2DZero.fX);
-	float scaleY = (coord.fY - point2DZero.fY) / (point2D.fY - point2DZero.fY);
+	float scaleX = (coord.x - point2DZero.x) / (point2D.x - point2DZero.x);
+	float scaleY = (coord.y - point2DZero.y) / (point2D.y - point2DZero.y);
 
 	Vector3 point3Dret;
 	point3Dret.x = camPos.x + camForward.x * 10.0f + camRightRoll.x * scaleX + camUpRoll.x * scaleY;

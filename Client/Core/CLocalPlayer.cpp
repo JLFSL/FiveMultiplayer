@@ -79,17 +79,17 @@ void CLocalPlayer::Pulse()
 
 		bitstream.Write(Data.ForwardSpeed);
 
-		bitstream.Write(Data.Position.fX);
-		bitstream.Write(Data.Position.fY);
-		bitstream.Write(Data.Position.fZ);
+		bitstream.Write(Data.Position.x);
+		bitstream.Write(Data.Position.y);
+		bitstream.Write(Data.Position.z);
 
-		bitstream.Write(Data.Velocity.fX);
-		bitstream.Write(Data.Velocity.fY);
-		bitstream.Write(Data.Velocity.fZ);
+		bitstream.Write(Data.Velocity.x);
+		bitstream.Write(Data.Velocity.y);
+		bitstream.Write(Data.Velocity.z);
 
-		bitstream.Write(Data.Rotation.fX);
-		bitstream.Write(Data.Rotation.fY);
-		bitstream.Write(Data.Rotation.fZ);
+		bitstream.Write(Data.Rotation.x);
+		bitstream.Write(Data.Rotation.y);
+		bitstream.Write(Data.Rotation.z);
 
 		bitstream.Write(Data.Vehicle.VehicleID);
 		bitstream.Write(Data.Vehicle.Seat);

@@ -60,12 +60,12 @@ namespace NetworkSync
 			CVector3 Position = g_Objects[o].GetPosition();
 			CVector3 Rotation = g_Objects[o].GetRotation();
 
-			sData.Write(Position.fX);
-			sData.Write(Position.fY);
-			sData.Write(Position.fZ);
-			sData.Write(Rotation.fX);
-			sData.Write(Rotation.fY);
-			sData.Write(Rotation.fZ);
+			sData.Write(Position.x);
+			sData.Write(Position.y);
+			sData.Write(Position.z);
+			sData.Write(Rotation.x);
+			sData.Write(Rotation.y);
+			sData.Write(Rotation.z);
 			sData.Write(g_Objects[o].IsDynamic());
 
 			g_Server->GetNetworkManager()->GetRPC().Signal("CreateObject", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, user, false, false);
@@ -81,12 +81,12 @@ namespace NetworkSync
 			CVector3 Position = g_Npcs[o].GetPosition();
 			CVector3 Rotation = g_Npcs[o].GetRotation();
 
-			sData.Write(Position.fX);
-			sData.Write(Position.fY);
-			sData.Write(Position.fZ);
-			sData.Write(Rotation.fX);
-			sData.Write(Rotation.fY);
-			sData.Write(Rotation.fZ);
+			sData.Write(Position.x);
+			sData.Write(Position.y);
+			sData.Write(Position.z);
+			sData.Write(Rotation.x);
+			sData.Write(Rotation.y);
+			sData.Write(Rotation.z);
 
 			g_Server->GetNetworkManager()->GetRPC().Signal("CreateNPC", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, user, false, false);
 		}
@@ -101,12 +101,12 @@ namespace NetworkSync
 			const CVector3 PointTo = g_Checkpoints[i].GetPointTo();
 			const Color Col = g_Checkpoints[i].GetColor();
 
-			sData.Write(Position.fX);
-			sData.Write(Position.fY);
-			sData.Write(Position.fZ);
-			sData.Write(PointTo.fX);
-			sData.Write(PointTo.fY);
-			sData.Write(PointTo.fZ);
+			sData.Write(Position.x);
+			sData.Write(Position.y);
+			sData.Write(Position.z);
+			sData.Write(PointTo.x);
+			sData.Write(PointTo.y);
+			sData.Write(PointTo.z);
 			sData.Write(g_Checkpoints[i].GetType());
 			sData.Write(g_Checkpoints[i].GetRadius());
 			sData.Write(Col.Red);

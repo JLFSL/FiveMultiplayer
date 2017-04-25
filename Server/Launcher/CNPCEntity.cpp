@@ -17,7 +17,7 @@ void CNPCEntity::Create(const std::wstring model, const CVector3 position, const
 
 	Amount++;
 
-	std::cout << "[CNPCEntity] Created NPC [" << Data.Id << "] with model " << Data.Model.Model.C_String() << " at " << Data.Position.fX << ", " << Data.Position.fY << ", " << Data.Position.fZ << std::endl;
+	std::cout << "[CNPCEntity] Created NPC [" << Data.Id << "] with model " << Data.Model.Model.C_String() << " at " << Data.Position.x << ", " << Data.Position.y << ", " << Data.Position.z << std::endl;
 	std::cout << "[CNPCEntity] " << Amount << " npcs in the world." << std::endl;
 
 	Network.LastSyncSent = std::chrono::system_clock::now();

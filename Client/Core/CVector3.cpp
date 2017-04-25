@@ -6,7 +6,7 @@ Author:
 	Ethem Kurt (BigETI)
 */
 
-#include "../stdafx.h"
+#include "stdafx.h"
 
 const CVector3 CVector3::unit(1.0f, 1.0f, 1.0f);
 const CVector3 CVector3::null(0.0f, 0.0f, 0.0f);
@@ -86,7 +86,7 @@ CVector3 CVector3::operator+(const CVector3 & v)
 	return CVector3(*this) += v;
 }
 
-CVector3 CVector3::operator-(const CVector3 & v)
+CVector3 CVector3::operator-(const CVector3 & v) const
 {
 	return CVector3(*this) -= v;
 }
@@ -199,4 +199,16 @@ CVector3 CVector3::CreateNegated()
 	CVector3 ret(*this);
 	ret.Negate();
 	return ret;
+}
+
+const float CVector3::Distance(CVector3 p1, CVector3 p2)
+{
+	float xSqr = (p1.x - p2.x) * (p1.x - p2.x);
+	float ySqr = (p1.y - p2.y) * (p1.y - p2.y);
+	float zSqr = (p1.z - p2.z) * (p1.z - p2.z);
+
+	float mySqr = xSqr + ySqr + zSqr;
+
+	float myDistance = sqrt(mySqr);
+	return myDistance;
 }

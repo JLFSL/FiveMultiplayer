@@ -27,7 +27,7 @@ void CVehicleEntity::Create(std::wstring model, CVector3 position, float heading
 
 	Amount++;
 
-	std::wcout << L"[CVehicleEntity] Create Vehicle [" << Information.Id << L"] " << Data.Model.c_str() << L" at " << Data.Position.fX << L", " << Data.Position.fY << L", " << Data.Position.fZ << std::endl;
+	std::wcout << L"[CVehicleEntity] Create Vehicle [" << Information.Id << L"] " << Data.Model.c_str() << L" at " << Data.Position.x << L", " << Data.Position.y << L", " << Data.Position.z << std::endl;
 	std::wcout << L"[CVehicleEntity] " << Amount << L" vehicles in the world." << std::endl;
 
 	Network.LastSyncSent = std::chrono::system_clock::now();
@@ -48,7 +48,7 @@ void CVehicleEntity::Create(std::wstring model, CVector3 position, CVector3 rota
 
 	Amount++;
 
-	std::wcout << L"[CVehicleEntity] Create Vehicle [" << Information.Id << L"] " << Data.Model.c_str() << L" at " << Data.Position.fX << L", " << Data.Position.fY << L", " << Data.Position.fZ << std::endl;
+	std::wcout << L"[CVehicleEntity] Create Vehicle [" << Information.Id << L"] " << Data.Model.c_str() << L" at " << Data.Position.x << L", " << Data.Position.y << L", " << Data.Position.z << std::endl;
 	std::wcout << L"[CVehicleEntity] " << Amount << L" vehicles in the world." << std::endl;
 
 	Network.LastSyncSent = std::chrono::system_clock::now();
@@ -84,9 +84,9 @@ void CVehicleEntity::Pulse()
 
 		bitstream.Write(Data.Heading);
 
-		bitstream.Write(Data.Position.fX);
-		bitstream.Write(Data.Position.fY);
-		bitstream.Write(Data.Position.fZ);
+		bitstream.Write(Data.Position.x);
+		bitstream.Write(Data.Position.y);
+		bitstream.Write(Data.Position.z);
 
 		bitstream.Write(Data.ForwardSpeed);
 
@@ -104,13 +104,13 @@ void CVehicleEntity::Pulse()
 		bitstream.Write(Data.SteeringAngle);
 		bitstream.Write(Data.ForwardWheelAngle);
 
-		bitstream.Write(Data.Velocity.fX);
-		bitstream.Write(Data.Velocity.fY);
-		bitstream.Write(Data.Velocity.fZ);
+		bitstream.Write(Data.Velocity.x);
+		bitstream.Write(Data.Velocity.y);
+		bitstream.Write(Data.Velocity.z);
 
-		bitstream.Write(Data.Rotation.fX);
-		bitstream.Write(Data.Rotation.fY);
-		bitstream.Write(Data.Rotation.fZ);
+		bitstream.Write(Data.Rotation.x);
+		bitstream.Write(Data.Rotation.y);
+		bitstream.Write(Data.Rotation.z);
 
 		for (int i = 0; i < SizeOfArray(Occupants); i++)
 		{
@@ -131,9 +131,9 @@ void CVehicleEntity::Update(Packet *packet)
 
 	//bitstream.Read(Information.Driver);
 
-	bitstream.Read(Data.Position.fX);
-	bitstream.Read(Data.Position.fY);
-	bitstream.Read(Data.Position.fZ);
+	bitstream.Read(Data.Position.x);
+	bitstream.Read(Data.Position.y);
+	bitstream.Read(Data.Position.z);
 
 	bitstream.Read(Data.ForwardSpeed);
 
@@ -151,13 +151,13 @@ void CVehicleEntity::Update(Packet *packet)
 	bitstream.Read(Data.SteeringAngle);
 	bitstream.Read(Data.ForwardWheelAngle);
 
-	bitstream.Read(Data.Velocity.fX);
-	bitstream.Read(Data.Velocity.fY);
-	bitstream.Read(Data.Velocity.fZ);
+	bitstream.Read(Data.Velocity.x);
+	bitstream.Read(Data.Velocity.y);
+	bitstream.Read(Data.Velocity.z);
 
-	bitstream.Read(Data.Rotation.fX);
-	bitstream.Read(Data.Rotation.fY);
-	bitstream.Read(Data.Rotation.fZ);
+	bitstream.Read(Data.Rotation.x);
+	bitstream.Read(Data.Rotation.y);
+	bitstream.Read(Data.Rotation.z);
 }
 
 void CVehicleEntity::RequestData(RakNetGUID requester)

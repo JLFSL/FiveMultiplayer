@@ -14,12 +14,12 @@ namespace API
 		sData.Write(newObject.GetId());
 		sData.Write(false);
 		sData.Write(RakWString(model.c_str()));
-		sData.Write(position.fX);
-		sData.Write(position.fY);
-		sData.Write(position.fZ);
-		sData.Write(rotation.fX);
-		sData.Write(rotation.fY);
-		sData.Write(rotation.fZ);
+		sData.Write(position.x);
+		sData.Write(position.y);
+		sData.Write(position.z);
+		sData.Write(rotation.x);
+		sData.Write(rotation.y);
+		sData.Write(rotation.z);
 		sData.Write(dynamic);
 
 		g_Server->GetNetworkManager()->GetRPC().Signal("CreateObject", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
@@ -39,12 +39,12 @@ namespace API
 		sData.Write(newObject.GetId());
 		sData.Write(true);
 		sData.Write(hash);
-		sData.Write(position.fX);
-		sData.Write(position.fY);
-		sData.Write(position.fZ);
-		sData.Write(rotation.fX);
-		sData.Write(rotation.fY);
-		sData.Write(rotation.fZ);
+		sData.Write(position.x);
+		sData.Write(position.y);
+		sData.Write(position.z);
+		sData.Write(rotation.x);
+		sData.Write(rotation.y);
+		sData.Write(rotation.z);
 		sData.Write(dynamic);
 
 		g_Server->GetNetworkManager()->GetRPC().Signal("CreateObject", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);

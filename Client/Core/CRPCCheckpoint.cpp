@@ -10,12 +10,12 @@ void CRPCCheckpoint::Create(RakNet::BitStream *bitStream, RakNet::Packet *packet
 	Color color;
 
 	bitStream->Read(entity);
-	bitStream->Read(position.fX);
-	bitStream->Read(position.fY);
-	bitStream->Read(position.fZ);
-	bitStream->Read(pointto.fX);
-	bitStream->Read(pointto.fY);
-	bitStream->Read(pointto.fZ);
+	bitStream->Read(position.x);
+	bitStream->Read(position.y);
+	bitStream->Read(position.z);
+	bitStream->Read(pointto.x);
+	bitStream->Read(pointto.y);
+	bitStream->Read(pointto.z);
 	bitStream->Read(type);
 	bitStream->Read(radius);
 	bitStream->Read(color.Red);

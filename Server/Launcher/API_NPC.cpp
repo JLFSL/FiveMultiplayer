@@ -13,12 +13,12 @@ namespace API
 		RakNet::BitStream sData;
 		sData.Write(newNPC.GetId());
 		sData.Write(RakWString(model.c_str()));
-		sData.Write(position.fX);
-		sData.Write(position.fY);
-		sData.Write(position.fZ);
-		sData.Write(rotation.fX);
-		sData.Write(rotation.fY);
-		sData.Write(rotation.fZ);
+		sData.Write(position.x);
+		sData.Write(position.y);
+		sData.Write(position.z);
+		sData.Write(rotation.x);
+		sData.Write(rotation.y);
+		sData.Write(rotation.z);
 
 		g_Server->GetNetworkManager()->GetRPC().Signal("CreateNPC", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
 

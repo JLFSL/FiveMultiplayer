@@ -149,9 +149,9 @@ void CServerEntity::SetPosition(CVector3 position)
 			if (g_Players[i].GetId() == Data.Id)
 			{
 				sData.Write(-1);
-				sData.Write(position.fX);
-				sData.Write(position.fY);
-				sData.Write(position.fZ);
+				sData.Write(position.x);
+				sData.Write(position.y);
+				sData.Write(position.z);
 
 				g_Server->GetNetworkManager()->GetRPC().Signal("SetPosition", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, g_Players[i].GetGUID(), false, false);
 				
@@ -166,9 +166,9 @@ void CServerEntity::SetPosition(CVector3 position)
 			if (g_Vehicles[i].GetId() == Data.Id)
 			{
 				sData.Write(Data.Id);
-				sData.Write(position.fX);
-				sData.Write(position.fY);
-				sData.Write(position.fZ);
+				sData.Write(position.x);
+				sData.Write(position.y);
+				sData.Write(position.z);
 
 				g_Server->GetNetworkManager()->GetRPC().Signal("SetPosition", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
 
@@ -183,9 +183,9 @@ void CServerEntity::SetPosition(CVector3 position)
 			if (g_Objects[i].GetId() == Data.Id)
 			{
 				sData.Write(Data.Id);
-				sData.Write(position.fX);
-				sData.Write(position.fY);
-				sData.Write(position.fZ);
+				sData.Write(position.x);
+				sData.Write(position.y);
+				sData.Write(position.z);
 
 				g_Server->GetNetworkManager()->GetRPC().Signal("SetPosition", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
 
@@ -200,9 +200,9 @@ void CServerEntity::SetPosition(CVector3 position)
 			if (g_Npcs[i].GetId() == Data.Id)
 			{
 				sData.Write(Data.Id);
-				sData.Write(position.fX);
-				sData.Write(position.fY);
-				sData.Write(position.fZ);
+				sData.Write(position.x);
+				sData.Write(position.y);
+				sData.Write(position.z);
 
 				g_Server->GetNetworkManager()->GetRPC().Signal("SetPosition", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
 
@@ -217,9 +217,9 @@ void CServerEntity::SetPosition(CVector3 position)
 			if (g_Checkpoints[i].GetId() == Data.Id)
 			{
 				sData.Write(Data.Id);
-				sData.Write(position.fX);
-				sData.Write(position.fY);
-				sData.Write(position.fZ);
+				sData.Write(position.x);
+				sData.Write(position.y);
+				sData.Write(position.z);
 
 				g_Server->GetNetworkManager()->GetRPC().Signal("SetPosition", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
 
@@ -290,9 +290,9 @@ void CServerEntity::SetRotation(CVector3 rotation)
 			if (g_Players[i].GetId() == Data.Id)
 			{
 				sData.Write(-1);
-				sData.Write(rotation.fX);
-				sData.Write(rotation.fY);
-				sData.Write(rotation.fZ);
+				sData.Write(rotation.x);
+				sData.Write(rotation.y);
+				sData.Write(rotation.z);
 
 				g_Server->GetNetworkManager()->GetRPC().Signal("SetRotation", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, g_Players[i].GetGUID(), false, false);
 				break;
@@ -305,9 +305,9 @@ void CServerEntity::SetRotation(CVector3 rotation)
 			if (g_Vehicles[i].GetId() == Data.Id)
 			{
 				sData.Write(Data.Id);
-				sData.Write(rotation.fX);
-				sData.Write(rotation.fY);
-				sData.Write(rotation.fZ);
+				sData.Write(rotation.x);
+				sData.Write(rotation.y);
+				sData.Write(rotation.z);
 
 				g_Server->GetNetworkManager()->GetRPC().Signal("SetRotation", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
 
@@ -322,9 +322,9 @@ void CServerEntity::SetRotation(CVector3 rotation)
 			if (g_Objects[i].GetId() == Data.Id)
 			{
 				sData.Write(Data.Id);
-				sData.Write(rotation.fX);
-				sData.Write(rotation.fY);
-				sData.Write(rotation.fZ);
+				sData.Write(rotation.x);
+				sData.Write(rotation.y);
+				sData.Write(rotation.z);
 
 				g_Server->GetNetworkManager()->GetRPC().Signal("SetRotation", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
 
@@ -339,9 +339,9 @@ void CServerEntity::SetRotation(CVector3 rotation)
 			if (g_Npcs[i].GetId() == Data.Id)
 			{
 				sData.Write(Data.Id);
-				sData.Write(rotation.fX);
-				sData.Write(rotation.fY);
-				sData.Write(rotation.fZ);
+				sData.Write(rotation.x);
+				sData.Write(rotation.y);
+				sData.Write(rotation.z);
 
 				g_Server->GetNetworkManager()->GetRPC().Signal("SetRotation", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, UNASSIGNED_SYSTEM_ADDRESS, true, false);
 

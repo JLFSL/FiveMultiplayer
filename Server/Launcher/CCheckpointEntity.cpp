@@ -27,7 +27,7 @@ void CCheckpointEntity::Create(const CVector3 position, const CVector3 pointto, 
 
 	Amount++;
 
-	std::cout << "[CCheckpointEntity] Created checkpoint [" << Information.Id << "] at " << Data.Position.fX << ", " << Data.Position.fY << ", " << Data.Position.fZ << std::endl;
+	std::cout << "[CCheckpointEntity] Created checkpoint [" << Information.Id << "] at " << Data.Position.x << ", " << Data.Position.y << ", " << Data.Position.z << std::endl;
 	std::cout << "[CCheckpointEntity] " << Amount << " checkpoints in the world." << std::endl;
 }
 

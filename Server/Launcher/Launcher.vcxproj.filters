@@ -132,6 +132,9 @@
     <ClCompile Include="CModelCache.cpp">
       <Filter>Server</Filter>
     </ClCompile>
+    <ClCompile Include="CVector3.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -220,6 +223,9 @@
     </ClInclude>
     <ClInclude Include="CModelCache.h">
       <Filter>Server</Filter>
+    </ClInclude>
+    <ClInclude Include="CVector3.h">
+      <Filter>Math</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

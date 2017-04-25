@@ -49,14 +49,14 @@ bool CPlayerEntity::CreatePed()
 			if (!STREAMING::HAS_MODEL_LOADED(Data.Model.hModel))
 				return false;
 
-			Game.Ped = PED::CREATE_PED(Data.Model.Type, Data.Model.hModel, Data.Position.fX, Data.Position.fY, Data.Position.fZ, 0.0f, false, true);
+			Game.Ped = PED::CREATE_PED(Data.Model.Type, Data.Model.hModel, Data.Position.x, Data.Position.y, Data.Position.z, 0.0f, false, true);
 
 			STREAMING::SET_MODEL_AS_NO_LONGER_NEEDED(Data.Model.hModel);
 
 			ENTITY::SET_ENTITY_NO_COLLISION_ENTITY(CLocalPlayer::GetPed(), Game.Ped, false);
 			ENTITY::SET_ENTITY_NO_COLLISION_ENTITY(Game.Ped, CLocalPlayer::GetPed(), false);
 
-			ENTITY::SET_ENTITY_COORDS_NO_OFFSET(Game.Ped, Data.Position.fX, Data.Position.fY, Data.Position.fZ, false, false, false);
+			ENTITY::SET_ENTITY_COORDS_NO_OFFSET(Game.Ped, Data.Position.x, Data.Position.y, Data.Position.z, false, false, false);
 
 			PED::SET_BLOCKING_OF_NON_TEMPORARY_EVENTS(Game.Ped, true);
 			PED::SET_PED_FLEE_ATTRIBUTES(Game.Ped, 0, 0);
@@ -189,17 +189,17 @@ void CPlayerEntity::Update(Packet *packet)
 
 	bitstream.Read(Data.ForwardSpeed);
 
-	bitstream.Read(Data.Position.fX);
-	bitstream.Read(Data.Position.fY);
-	bitstream.Read(Data.Position.fZ);
+	bitstream.Read(Data.Position.x);
+	bitstream.Read(Data.Position.y);
+	bitstream.Read(Data.Position.z);
 
-	bitstream.Read(Data.Velocity.fX);
-	bitstream.Read(Data.Velocity.fY);
-	bitstream.Read(Data.Velocity.fZ);
+	bitstream.Read(Data.Velocity.x);
+	bitstream.Read(Data.Velocity.y);
+	bitstream.Read(Data.Velocity.z);
 
-	bitstream.Read(Data.Rotation.fX);
-	bitstream.Read(Data.Rotation.fY);
-	bitstream.Read(Data.Rotation.fZ);
+	bitstream.Read(Data.Rotation.x);
+	bitstream.Read(Data.Rotation.y);
+	bitstream.Read(Data.Rotation.z);
 
 	bitstream.Read(Data.Vehicle.VehicleID);
 	bitstream.Read(Data.Vehicle.Seat);
@@ -236,7 +236,7 @@ void CPlayerEntity::UpdateTargetPosition()
 		CVector3 CurrentPosition = { Coordinates.x, Coordinates.y, Coordinates.z };
 
 		// Set the target position
-		CVector3 TargetPosition = { Data.Position.fX, Data.Position.fY, Data.Position.fZ };
+		CVector3 TargetPosition = { Data.Position.x, Data.Position.y, Data.Position.z };
 		InterpolationData.Position.Target = TargetPosition;
 
 		// Calculate the relative error
@@ -280,7 +280,7 @@ void CPlayerEntity::SetTargetPosition()
 		CVector3 vecNewPosition = vecCurrentPosition + vecCompensation;
 
 		// Check if the distance to interpolate is too far
-		if ((vecCurrentPosition - InterpolationData.Position.Target).Length() > 150.0f)
+		if (CVector3::Distance(vecCurrentPosition, InterpolationData.Position.Target) > 150.0f)
 		{
 			// Abort all interpolation
 			InterpolationData.Position.FinishTime = 0;
@@ -288,8 +288,8 @@ void CPlayerEntity::SetTargetPosition()
 		}
 
 		// Set our new position
-		ENTITY::SET_ENTITY_COORDS_NO_OFFSET(Game.Ped, vecNewPosition.fX, vecNewPosition.fY, vecNewPosition.fZ, false, false, false);
-		ENTITY::SET_ENTITY_VELOCITY(Game.Ped, Data.Velocity.fX, Data.Velocity.fY, Data.Velocity.fZ);
+		ENTITY::SET_ENTITY_COORDS_NO_OFFSET(Game.Ped, vecNewPosition.x, vecNewPosition.y, vecNewPosition.z, false, false, false);
+		ENTITY::SET_ENTITY_VELOCITY(Game.Ped, Data.Velocity.x, Data.Velocity.y, Data.Velocity.z);
 	}
 }
 
@@ -304,7 +304,7 @@ void CPlayerEntity::UpdateTargetRotation()
 		CVector3 CurrentRotation(CurrentRotationVec.x, CurrentRotationVec.y, CurrentRotationVec.z);
 
 		// Set the target rotation
-		CVector3 TargetRotation = { Data.Rotation.fX, Data.Rotation.fY, Data.Rotation.fZ };
+		CVector3 TargetRotation = { Data.Rotation.x, Data.Rotation.y, Data.Rotation.z };
 		InterpolationData.Rotation.Target = TargetRotation;
 
 		// Get the error
@@ -329,9 +329,9 @@ void CPlayerEntity::SetTargetRotation()
 		Vector3 CurrentRotationVec = ENTITY::GET_ENTITY_ROTATION(Game.Ped, 2);
 		CVector3 CurrentRotation(CurrentRotationVec.x, CurrentRotationVec.y, CurrentRotationVec.z);
 
-		if (InterpolationData.Rotation.Target.fZ > 178.0f || InterpolationData.Rotation.Target.fZ < -178.0f)
+		if (InterpolationData.Rotation.Target.z > 178.0f || InterpolationData.Rotation.Target.z < -178.0f)
 		{
-			ENTITY::SET_ENTITY_ROTATION(Game.Ped, Data.Rotation.fX, Data.Rotation.fY, Data.Rotation.fZ, 2, true);
+			ENTITY::SET_ENTITY_ROTATION(Game.Ped, Data.Rotation.x, Data.Rotation.y, Data.Rotation.z, 2, true);
 			InterpolationData.Rotation.FinishTime = 0;
 		}
 		else
@@ -358,7 +358,7 @@ void CPlayerEntity::SetTargetRotation()
 			CVector3 vecNewRotation = CurrentRotation + vecCompensation;
 
 			// Set our new position
-			ENTITY::SET_ENTITY_ROTATION(Game.Ped, vecNewRotation.fX, vecNewRotation.fY, vecNewRotation.fZ, 2, true);
+			ENTITY::SET_ENTITY_ROTATION(Game.Ped, vecNewRotation.x, vecNewRotation.y, vecNewRotation.z, 2, true);
 		}
 	}
 }
@@ -527,7 +527,7 @@ void CPlayerEntity::UpdateTargetData()
 			else if (Data.Task == 300) { //GetInCover
 				if (!PED::IS_PED_IN_COVER(Game.Ped, 0)) {
 					//AI::TASK_SEEK_COVER_TO_COORDS(playerData[i].pedPed, playerData[i].x, playerData[i].y, playerData[i].z, playerData[i].x, playerData[i].y, playerData[i].z, 0, 0);
-					AI::TASK_PUT_PED_DIRECTLY_INTO_COVER(Game.Ped, Data.Position.fX, Data.Position.fY, Data.Position.fZ, 2500, 0, 0, 0, 0, 0, 0);
+					AI::TASK_PUT_PED_DIRECTLY_INTO_COVER(Game.Ped, Data.Position.x, Data.Position.y, Data.Position.z, 2500, 0, 0, 0, 0, 0, 0);
 				}
 			}
 			else if (Data.Task == 301) { //ExitCover
@@ -535,7 +535,7 @@ void CPlayerEntity::UpdateTargetData()
 			}
 			else if (Data.Task == 309) { //InCover
 				if (!PED::IS_PED_IN_COVER(Game.Ped, 0)) {
-					AI::TASK_PUT_PED_DIRECTLY_INTO_COVER(Game.Ped, Data.Position.fX, Data.Position.fY, Data.Position.fZ, 1000, 0, 0, 0, 0, 0, 0);
+					AI::TASK_PUT_PED_DIRECTLY_INTO_COVER(Game.Ped, Data.Position.x, Data.Position.y, Data.Position.z, 1000, 0, 0, 0, 0, 0, 0);
 				}
 				else {
 					AI::TASK_STAY_IN_COVER(Game.Ped);
@@ -616,12 +616,12 @@ void CPlayerEntity::UpdatePlayerModel()
 			while (!STREAMING::HAS_MODEL_LOADED(Data.Model.hModel))
 				WAIT(0);
 
-			Game.Ped = PED::CREATE_PED(26, Data.Model.hModel, Data.Position.fX, Data.Position.fY, Data.Position.fZ, 0.0f, false, true);
+			Game.Ped = PED::CREATE_PED(26, Data.Model.hModel, Data.Position.x, Data.Position.y, Data.Position.z, 0.0f, false, true);
 
 			ENTITY::SET_ENTITY_NO_COLLISION_ENTITY(CLocalPlayer::GetPed(), Game.Ped, false);
 			ENTITY::SET_ENTITY_NO_COLLISION_ENTITY(Game.Ped, CLocalPlayer::GetPed(), false);
 
-			ENTITY::SET_ENTITY_COORDS_NO_OFFSET(Game.Ped, Data.Position.fX, Data.Position.fY, Data.Position.fZ, false, false, false);
+			ENTITY::SET_ENTITY_COORDS_NO_OFFSET(Game.Ped, Data.Position.x, Data.Position.y, Data.Position.z, false, false, false);
 
 			PED::SET_BLOCKING_OF_NON_TEMPORARY_EVENTS(Game.Ped, true);
 			PED::SET_PED_FLEE_ATTRIBUTES(Game.Ped, 0, 0);

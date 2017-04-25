@@ -160,7 +160,7 @@ void CServerEntity::SetPosition(const CVector3 position)
 				g_Vehicles[i].SetPosition(position);
 
 				if(g_Vehicles[i].IsCreated())
-					ENTITY::SET_ENTITY_COORDS_NO_OFFSET(g_Vehicles[i].GetEntity(), position.fX, position.fY, position.fZ, false, false, false);
+					ENTITY::SET_ENTITY_COORDS_NO_OFFSET(g_Vehicles[i].GetEntity(), position.x, position.y, position.z, false, false, false);
 				break;
 			}
 		}
@@ -173,7 +173,7 @@ void CServerEntity::SetPosition(const CVector3 position)
 				g_Objects[i].SetPosition(position);
 
 				if (g_Objects[i].IsCreated())
-					ENTITY::SET_ENTITY_COORDS_NO_OFFSET(g_Objects[i].GetEntity(), position.fX, position.fY, position.fZ, false, false, false);
+					ENTITY::SET_ENTITY_COORDS_NO_OFFSET(g_Objects[i].GetEntity(), position.x, position.y, position.z, false, false, false);
 				break;
 			}
 		}
@@ -186,7 +186,7 @@ void CServerEntity::SetPosition(const CVector3 position)
 				g_Npcs[i].SetPosition(position);
 
 				if (g_Npcs[i].IsCreated())
-					ENTITY::SET_ENTITY_COORDS_NO_OFFSET(g_Npcs[i].GetEntity(), position.fX, position.fY, position.fZ, false, false, false);
+					ENTITY::SET_ENTITY_COORDS_NO_OFFSET(g_Npcs[i].GetEntity(), position.x, position.y, position.z, false, false, false);
 				break;
 			}
 		}
@@ -220,7 +220,7 @@ void CServerEntity::SetRotation(const CVector3 rotation)
 				g_Vehicles[i].SetRotation(rotation);
 
 				if (g_Vehicles[i].IsCreated())
-					ENTITY::SET_ENTITY_ROTATION(g_Vehicles[i].GetEntity(), rotation.fX, rotation.fY, rotation.fZ, 2, false);
+					ENTITY::SET_ENTITY_ROTATION(g_Vehicles[i].GetEntity(), rotation.x, rotation.y, rotation.z, 2, false);
 				return;
 			}
 		}
@@ -233,7 +233,7 @@ void CServerEntity::SetRotation(const CVector3 rotation)
 				g_Objects[i].SetRotation(rotation);
 
 				if (g_Objects[i].IsCreated())
-					ENTITY::SET_ENTITY_ROTATION(g_Objects[i].GetEntity(), rotation.fX, rotation.fY, rotation.fZ, 2, true);
+					ENTITY::SET_ENTITY_ROTATION(g_Objects[i].GetEntity(), rotation.x, rotation.y, rotation.z, 2, true);
 				return;
 			}
 		}
@@ -246,7 +246,7 @@ void CServerEntity::SetRotation(const CVector3 rotation)
 				g_Npcs[i].SetRotation(rotation);
 
 				if (g_Npcs[i].IsCreated())
-					ENTITY::SET_ENTITY_ROTATION(g_Objects[i].GetEntity(), rotation.fX, rotation.fY, rotation.fZ, 2, true);
+					ENTITY::SET_ENTITY_ROTATION(g_Objects[i].GetEntity(), rotation.x, rotation.y, rotation.z, 2, true);
 				return;
 			}
 		}
