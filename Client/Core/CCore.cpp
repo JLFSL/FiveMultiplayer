@@ -28,7 +28,9 @@ bool CCore::Initialize()
 	DLC2::_LOAD_MP_DLC_MAPS();
 	SCRIPT::SHUTDOWN_LOADING_SCREEN();
 
-	STREAMING::LOAD_ALL_OBJECTS_NOW();		//I think this loads everyobject to memory - NOPE just loads the areas model forcibly
+	//STREAMING::LOAD_ALL_OBJECTS_NOW();		// not ever sure what this does anymore.
+
+	PATHFIND::_0x228E5C6AD4D74BFD(true);	// Unload all path nodes>?
 
 	MapReveal::RevealFullMap();
 
