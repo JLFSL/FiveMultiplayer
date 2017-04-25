@@ -113,27 +113,6 @@ void CNetworkManager::Disconnect()
 	if (g_ConnectionState == CONSTATE_DISC)
 		return;
 
-	// Stop RakPeer from accepting anymore incoming packets
-	g_RakPeer->CloseConnection(g_SystemAddr, true);
-
-	// Set our state to disconnected
-	g_ConnectionState = CONSTATE_DISC;
-
-	// Unregister RPCs
-	CRPCManager::UnregisterRPCMessages();
-
-	// Reinitialize our RakPeerInterface
-	Stop();
-	Start();
-
-	// Register RPCs
-	CRPCManager::RegisterRPCMessages();
-
-	// Clean the server GUID
-	g_SystemAddr = UNASSIGNED_SYSTEM_ADDRESS;
-
-	// Force streamout all entities
-	CStreamer::ForceStreamOut();
 
 	// Remove all existing entities
 	for (int i = (g_Entities.size() - 1); i > -1; i--)
@@ -145,13 +124,13 @@ void CNetworkManager::Disconnect()
 
 	// Remove all existing players
 	for (int i = (g_Players.size() - 1); i > -1; i--) {
-		if(g_Players[i].IsCreated())
+		if (g_Players[i].IsCreated())
 			g_Players[i].Destroy();
 		g_Players.erase(g_Players.begin() + i);
 	}
 	// Shrink vector so size is correct.
 	g_Players.shrink_to_fit();
-	
+
 	// Remove all existing vehicles
 	for (int i = (g_Vehicles.size() - 1); i > -1; i--)
 	{
@@ -187,6 +166,29 @@ void CNetworkManager::Disconnect()
 	}
 	// Shrink vector so size is correct.
 	g_Checkpoints.shrink_to_fit();
+
+
+	// Stop RakPeer from accepting anymore incoming packets
+	g_RakPeer->CloseConnection(g_SystemAddr, true);
+
+	// Set our state to disconnected
+	g_ConnectionState = CONSTATE_DISC;
+
+	// Unregister RPCs
+	CRPCManager::UnregisterRPCMessages();
+
+	// Reinitialize our RakPeerInterface
+	Stop();
+	Start();
+
+	// Register RPCs
+	CRPCManager::RegisterRPCMessages();
+
+	// Clean the server GUID
+	g_SystemAddr = UNASSIGNED_SYSTEM_ADDRESS;
+
+	// Force streamout all entities
+	CStreamer::ForceStreamOut();
 
 	CWorld::Destroy();
 	
