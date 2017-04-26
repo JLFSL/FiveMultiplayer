@@ -146,4 +146,19 @@ public:
 	{
 		API::Player::GetUsername(Entity);
 	}
+
+	void ShowCursor(const bool show)
+	{
+		API::Visual::ShowCursor(Entity, show);
+	}
+
+	void LoadURL(const std::string url, const std::string appcode = "", const bool remote = false)
+	{
+		API::CEF::LoadURL(Entity, url, appcode, remote);
+	}
+
+	void JavaScriptCall(std::string call)
+	{
+		API::CEF::JavaScriptCall(Entity, call);
+	}
 };

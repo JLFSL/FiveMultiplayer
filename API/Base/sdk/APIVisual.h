@@ -40,9 +40,16 @@ extern "C" {
 			/// <summary>
 			/// Sends a chat message to a client.
 			/// </summary>
-			/// <param name="entity">The entityid of the player you wish to sedn the message to.</param>
+			/// <param name="entity">The entityid of the player you wish to send the message to.</param>
 			/// <param name="message">The string of the message</param>
 			DLL_PUBLIC_I static void SendChatMessageToPlayer(const int entity, const std::string message);
+
+			/// <summary>
+			/// Enables/disables the cursor on-screen. Works with CEF and ImGui
+			/// </summary>
+			/// <param name="entity">The entityid of the player you wish to enable/disable the cursor of.</param>
+			/// <param name="show">Whether to show the cursor or not (true/false)</param>
+			DLL_PUBLIC_I static void ShowCursor(const int entity, bool show);
 		};
 	}
 #ifdef __cplusplus

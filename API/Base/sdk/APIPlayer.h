@@ -137,7 +137,7 @@ public:
 		API::Visual::ShowMessageAboveMapToPlayer(Entity, message, pic, icontype, sender, subject);
 	}
 
-	void SendMessage(const std::string message)
+	void SendChatMessage(const std::string message)
 	{
 		API::Visual::SendChatMessageToPlayer(Entity, message);
 	}
@@ -145,5 +145,20 @@ public:
 	const std::string GetUsername()
 	{
 		API::Player::GetUsername(Entity);
+	}
+
+	void ShowCursor(const bool show)
+	{
+		API::Visual::ShowCursor(Entity, show);
+	}
+
+	void LoadURL(const std::string url, const std::string appcode = "", const bool remote = false)
+	{
+		API::CEF::LoadURL(Entity, url, appcode, remote);
+	}
+
+	void JavaScriptCall(std::string call)
+	{
+		API::CEF::JavaScriptCall(Entity, call);
 	}
 };

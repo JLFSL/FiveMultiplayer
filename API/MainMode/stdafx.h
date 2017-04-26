@@ -27,6 +27,7 @@
 #include "sdk/Structs.h"
 
 // API Function Imports
+#include "sdk/APICef.h"
 #include "sdk/APIVisual.h"
 #include "sdk/APIWorld.h"
 #include "sdk/APIEntity.h"
@@ -36,4 +37,3 @@
 #include "sdk/APIPlayer.h"
 #include "sdk/APIServer.h"
 #include "sdk/APIVehicle.h"
-#include "sdk/APICef.h"

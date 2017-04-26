@@ -301,5 +301,8 @@
     <ClInclude Include="LuaPlayer.h" />
     <ClInclude Include="LuaVisual.h" />
     <ClInclude Include="LuaWorld.h" />
+    <ClInclude Include="sdk\APICef.h">
+      <Filter>SDK</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

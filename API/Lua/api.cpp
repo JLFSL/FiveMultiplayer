@@ -29,6 +29,7 @@ extern "C" {
 #include "sdk/APIPlayer.h"
 #include "sdk/APIServer.h"
 #include "sdk/APIVehicle.h"
+#include "sdk/APICef.h"
 
 using namespace luabridge;
 
@@ -200,6 +201,9 @@ extern "C" DLL_PUBLIC bool API_Initialize(void) {
 			.addCFunction("UnloadIPL", &Player::UnloadIPL)
 			.addCFunction("SendChatMessage", &Player::SendChatMessage)
 			.addCFunction("GetUsername", &Player::GetUsername)
+			.addCFunction("ShowCursor", &Player::ShowCursor)
+			.addCFunction("LoadURL", &Player::LoadURL)
+			.addCFunction("JavaScriptCall", &Player::JavaScriptCall)
 		.endClass()
 		.beginNamespace("visual")
 			.addCFunction("ShowMessageAboveMap", Visual::ShowMessageAboveMap)

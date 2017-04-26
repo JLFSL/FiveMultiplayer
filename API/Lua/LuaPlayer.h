@@ -718,5 +718,70 @@ struct Player
 		return 1;
 	}
 
+	int ShowCursor(lua_State* L)
+	{
+		const int args = lua_gettop(L);
+		if (args == 2)
+		{
+			Player* ent = reinterpret_cast<Player*>(lua_touserdata(L, 1));
+
+			 API::Visual::ShowCursor(ent->entity, lua_toboolean(L, 2));
+
+			ent = nullptr;
+		}
+		else
+		{
+			std::cerr << "Player:ShowCursor requires args (bool show)." << std::endl;
+		}
+		lua_pop(L, args);
+		return 0;
+	}
+	
+	int LoadURL(lua_State* L)
+	{
+		const int args = lua_gettop(L);
+		if (args == 2)
+		{
+			Player* ent = reinterpret_cast<Player*>(lua_touserdata(L, 1));
+
+			std::string appcode = "";
+			bool remote = false;
+
+			if (lua_isstring(L, 3))
+				appcode = lua_tostring(L, 3);
+
+			if (lua_isboolean(L, 4))
+				remote = lua_toboolean(L, 4);
+
+			API::CEF::LoadURL(ent->entity, lua_tostring(L, 2), appcode, remote);
+
+			ent = nullptr;
+		}
+		else
+		{
+			std::cerr << "Player:LoadURL requires args (std::string url, OPTIONAL[std::string appcode = "", bool remote = false])." << std::endl;
+		}
+		lua_pop(L, args);
+		return 0;
+	}
+	//JavaScriptCall(const int entity, std::string call)
+	int JavaScriptCall(lua_State* L)
+	{
+		const int args = lua_gettop(L);
+		if (args == 2)
+		{
+			Player* ent = reinterpret_cast<Player*>(lua_touserdata(L, 1));
+
+			API::CEF::JavaScriptCall(ent->entity, lua_tostring(L, 2));
+
+			ent = nullptr;
+		}
+		else
+		{
+			std::cerr << "Player:JavaScriptCall requires args (std::string call)." << std::endl;
+		}
+		lua_pop(L, args);
+		return 0;
+	}
 };
 #endif
