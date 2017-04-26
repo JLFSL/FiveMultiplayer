@@ -100,7 +100,7 @@ void CCore::OnGameTick()
 	}
 
 	CleanUpTick();
-
+	
 	if (KeyJustUp(VK_F8))
 	{
 		CConfig::Read();
@@ -115,7 +115,7 @@ void CCore::OnGameTick()
 	}
 
 	// Chat (Open)
-	if ((KeyJustUp(VK_F6) || KeyJustUp(0x54)) && !CChat::InputOpen && CLocalPlayer::IsControlable())
+	if ((KeyJustUp(VK_F6) || KeyJustUp(0x54)) && !CChat::InputOpen && CLocalPlayer::IsControllable())
 	{
 		CChat::InputOpen = true;
 	}
@@ -253,7 +253,7 @@ void CCore::PreventCheat()
 
 void CCore::KeyCheck()
 {
-	if (!CLocalPlayer::IsControlable() || CChat::InputOpen)
+	if (!CLocalPlayer::IsControllable() || CChat::InputOpen)
 	{
 		for (int i = 0; i < 33; i++)
 		{
