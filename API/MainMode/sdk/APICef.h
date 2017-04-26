@@ -9,19 +9,19 @@ extern "C" {
 		{
 		public:
 			/// <summary>
-			/// Sets the client's URL
+			/// Sets the browser's URL for the player
 			/// </summary>
-			/// <param name="entity">The Hour you wish to set</param>
-			/// <param name="url">The Minute you wish to set</param>
-			/// <param name="appcode">The Minute you wish to set</param>
+			/// <param name="entity">The entity you wish to set the URL for</param>
+			/// <param name="url">The URL which is supposed to load</param>
+			/// <param name="appcode">The JavaScript code that's used to initialize the page's functions</param>
+			/// <param name="remote">Whether the loading URL is remote (http/https) or local (from server files)</param>
 			DLL_PUBLIC_I static void LoadURL(const int entity, std::string url, std::string appcode = "", bool remote = false);
 
 			/// <summary>
-			/// Sets the World Time
+			/// Executes JavaScript for the player
 			/// </summary>
-			/// <param name="hour">The Hour you wish to set</param>
-			/// <param name="minute">The Minute you wish to set</param>
-			/// <param name="second">The Second you wish to set</param>
+			/// <param name="entity">The entity you wish to execute the call for</param>
+			/// <param name="call">The JavaScript code you wish to execute</param>
 			DLL_PUBLIC_I static void JavaScriptCall(const int entity, std::string call);
 		};
 	}

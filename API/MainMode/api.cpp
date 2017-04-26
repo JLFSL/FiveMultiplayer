@@ -189,6 +189,7 @@ extern "C" DLL_PUBLIC bool API_OnPlayerConnected(int entity, int playerid)
 
 	API::CEF::LoadURL(entity, "E:\\Games\\dl\\clientplugins\\web\\login.html", "", true);
 	API::Visual::ShowCursor(entity, true);
+	API::CEF::JavaScriptCall(entity, "alert('I am an alert box!');");
 
 	return true;
 }
