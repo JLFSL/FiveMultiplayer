@@ -89,7 +89,8 @@ void __stdcall ScriptFunction(LPVOID lpParameter)
 	{
 		try
 		{
-			while (1)
+			bool running = true;
+			while (running)
 			{
 				CCore::OnGameTick();
 				SwitchToFiber(mainFiber);
