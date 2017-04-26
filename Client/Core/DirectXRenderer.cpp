@@ -21,6 +21,7 @@ DWORD_PTR* DirectXRenderer::pDeviceContextVTable = nullptr;
 bool show_app_about = true;
 bool DirectXRenderer::showServerList = false;
 bool DirectXRenderer::showOptions = false;
+bool DirectXRenderer::showCursor = false;
 
 // Server List
 Json::Value	DirectXRenderer::serverList;//Json data of server list
@@ -687,6 +688,10 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 			ImGui::End();
 		}
 		
+	}
+	else
+	{
+		io.MouseDrawCursor = DirectXRenderer::showCursor;
 	}
 
 	ImGui::Render();

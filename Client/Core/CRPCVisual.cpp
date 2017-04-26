@@ -24,3 +24,13 @@ void CRPCVisual::SendChatMessage(RakNet::BitStream *bitStream, RakNet::Packet *p
 
 	CChat::AddChatMessage(message.C_String());
 }
+
+void CRPCVisual::ShowCursor(RakNet::BitStream * bitStream, RakNet::Packet * packet)
+{
+	std::cout << "CRPCVisual::ShowCursor" << std::endl;
+	bool show;
+
+	bitStream->Read(show);
+
+	DirectXRenderer::showCursor = show;
+}

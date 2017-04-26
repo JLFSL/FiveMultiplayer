@@ -89,11 +89,11 @@ void CefRenderer::Start()
 	//browser = CefBrowserHost::CreateBrowserSync(window_info, offscreenClient.get(), "http://www.google.com", browserSettings, nullptr);
 	//browser = CefBrowserHost::CreateBrowserSync(window_info, textureClient.get(), "https://www.youtube.com/watch?v=yYzGHhhg_og&index=171&list=PL04B59999BC5DA80D", browserSettings, nullptr);
 
-	char url[MAX_PATH], buffer[MAX_PATH];
-	GetCurrentDirectoryA(sizeof(buffer), buffer);
+	//char url[MAX_PATH], buffer[MAX_PATH];
+	//GetCurrentDirectoryA(sizeof(buffer), buffer);
 
-	sprintf(url, "%s/html/index.html", buffer);
-	browser = CefBrowserHost::CreateBrowserSync(window_info, offscreenClient.get(), url, browserSettings, nullptr);
+	//sprintf(url, "%s/html/index.html", buffer);
+	browser = CefBrowserHost::CreateBrowserSync(window_info, offscreenClient.get(), "about:blank", browserSettings, nullptr);
 }
 
 void CefRenderer::OnTick()

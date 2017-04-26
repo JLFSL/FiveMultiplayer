@@ -36,3 +36,4 @@
 #include "sdk/APIPlayer.h"
 #include "sdk/APIServer.h"
 #include "sdk/APIVehicle.h"
+#include "sdk/APICef.h"

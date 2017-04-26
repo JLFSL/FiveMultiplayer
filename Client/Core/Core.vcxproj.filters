@@ -237,6 +237,9 @@
     <ClCompile Include="CVector3.cpp">
       <Filter>Include\Math</Filter>
     </ClCompile>
+    <ClCompile Include="CRPCCef.cpp">
+      <Filter>Network\RPC</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -439,6 +442,9 @@
     </ClInclude>
     <ClInclude Include="CVector3.h">
       <Filter>Include\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="CRPCCef.h">
+      <Filter>Network\RPC</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

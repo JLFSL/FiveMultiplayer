@@ -190,6 +190,8 @@ void CNetworkManager::Disconnect()
 
 	CWorld::Destroy();
 	
+	CefRenderer::getBrowser()->GetMainFrame()->LoadURL(CefString("about:blank"));
+
 	Logger::Msg("CNetworkManager::Disconnected");
 }
 
