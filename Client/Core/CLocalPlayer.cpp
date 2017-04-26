@@ -159,10 +159,12 @@ void CLocalPlayer::VehicleChecks()
 			{
 				if (GamePed::GetVehicleID(Game.Ped) == g_Vehicles[i].GetId())
 				{
-					if (g_Vehicles[i].GetAssignee() != CNetworkManager::GetInterface()->GetMyGUID() && g_Vehicles[i].GetOccupant(0) == -1)
+					if (g_Vehicles[i].GetAssignee() != CNetworkManager::GetInterface()->GetMyGUID() && g_Vehicles[i].GetOccupant(0) == CLocalPlayer::GetId())
 					{
+						g_Vehicles[i].SetAssignee(CNetworkManager::GetInterface()->GetMyGUID());
+
 						sData.Reset();
-						sData.Write(GamePed::GetVehicleID(Game.Ped));
+						sData.Write(g_Vehicles[i].GetId());
 						CNetworkManager::GetRPC().Signal("TakeEntityAssignment", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, CNetworkManager::GetSystemAddress(), false, false);
 					}
 					else if (g_Vehicles[i].GetOccupant(0) != -1)
