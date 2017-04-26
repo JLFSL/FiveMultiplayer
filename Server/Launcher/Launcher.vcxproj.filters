@@ -135,6 +135,9 @@
     <ClCompile Include="CVector3.cpp">
       <Filter>Math</Filter>
     </ClCompile>
+    <ClCompile Include="API_CEF.cpp">
+      <Filter>Scripting\Functions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -226,6 +229,9 @@
     </ClInclude>
     <ClInclude Include="CVector3.h">
       <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="API_CEF.h">
+      <Filter>Scripting\Functions</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

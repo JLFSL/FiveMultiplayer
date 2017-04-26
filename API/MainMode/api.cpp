@@ -187,6 +187,9 @@ extern "C" DLL_PUBLIC bool API_OnPlayerConnected(int entity, int playerid)
 		checkpoints[i].Show(entity);
 	}
 
+	API::CEF::LoadURL(entity, "E:\\Games\\dl\\clientplugins\\web\\login.html", "", true);
+	API::Visual::ShowCursor(entity, true);
+
 	return true;
 }
 

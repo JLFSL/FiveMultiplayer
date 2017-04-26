@@ -57,4 +57,18 @@ namespace API
 			}
 		}
 	}
+	DLL_PUBLIC void Visual::ShowCursor(const int entity, bool show)
+	{
+		RakNet::BitStream sData;
+		sData.Write(show);
+
+		for (int i = 0; i < g_Players.size(); i++)
+		{
+			if (g_Players[i].GetId() == entity)
+			{
+				g_Server->GetNetworkManager()->GetRPC().Signal("ShowCursor", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, g_Players[i].GetGUID(), false, false);
+				break;
+			}
+		}
+	}
 }

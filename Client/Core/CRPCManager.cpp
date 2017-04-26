@@ -4,6 +4,7 @@ CRPCManager::RPCMessage rpcmessages[] = {
 #pragma region Visual
 	{ "ShowMessageAboveMap", CRPCVisual::ShowMessageAboveMap },
 	{ "SendMessage", CRPCVisual::SendChatMessage },
+	{ "ShowCursor", CRPCVisual::ShowCursor},
 #pragma endregion
 #pragma region World
 	{ "SetTime", CRPCWorld::SetTime },
@@ -53,7 +54,11 @@ CRPCManager::RPCMessage rpcmessages[] = {
 	{ "SetExtra", CRPCVehicle::SetExtra },
 #pragma endregion
 #pragma region Network
-	{ "FinishedSync", CRPCNetwork::FinishedSync }
+	{ "FinishedSync", CRPCNetwork::FinishedSync },
+#pragma endregion
+#pragma region CEF
+	{ "LoadURL", CRPCCef::LoadURL },
+	{ "JavaScriptCall", CRPCCef::JavaScriptCall }
 #pragma endregion
 };
 

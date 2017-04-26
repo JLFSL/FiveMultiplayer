@@ -123,6 +123,7 @@
 		#include "CRPCCheckpoint.h"
 		#include "CRPCVehicle.h"
 		#include "CRPCNetwork.h"
+		#include "CRPCCef.h"
 
 	// Client
 	#include "CChat.h"

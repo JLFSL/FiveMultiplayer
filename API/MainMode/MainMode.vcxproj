@@ -167,6 +167,7 @@
     <ClInclude Include="api.h" />
     <ClInclude Include="json\json-forwards.h" />
     <ClInclude Include="json\json.h" />
+    <ClInclude Include="sdk\APICef.h" />
     <ClInclude Include="sdk\APICheckpoint.h" />
     <ClInclude Include="sdk\APIEntity.h" />
     <ClInclude Include="sdk\APINpc.h" />

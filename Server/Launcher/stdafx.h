@@ -94,6 +94,7 @@
 	#include "API_Object.h"
 	#include "API_NPC.h"
 	#include "API_Checkpoint.h"
+	#include "API_CEF.h"
 
 // End of Server.Launcher
 
