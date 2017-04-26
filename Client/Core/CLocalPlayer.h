@@ -36,8 +36,8 @@ class CLocalPlayer
 
 		float			ForwardSpeed;
 
-		bool			DisableControls = false;
-		bool			Frozen			= true;
+		bool			Controlable		= true;
+		bool			Frozen			= false;
 
 		CVector3		Position;
 		CVector3		Velocity;
@@ -80,8 +80,8 @@ public:
 
 	static BOOL IsPlaying() { return PLAYER::IS_PLAYER_PLAYING(Game.Player); }
 
-	static const bool		IsControlable() { return Data.DisableControls; }
-	static void				SetControlable(const bool disablecontrols) { Data.DisableControls = disablecontrols; }
+	static const bool		IsControlable() { return Data.Controlable; }
+	static void				SetControlable(const bool controlable) { Data.Controlable = controlable; }
 
 	static const bool		IsFrozen() { return Data.Frozen; }
 	static void				SetFrozen(const bool frozen) { Data.Frozen = frozen; }
