@@ -82,6 +82,9 @@ void CServerEntity::Destroy()
 	default:
 		std::cout << "[CServerEntity::Destroy] Invalid entity Type: " << Data.type << std::endl;
 	}
+
+	Data.type	= CServerEntity::Unknown;
+	Data.Id		= -1;
 }
 
 CVector3 CServerEntity::GetPosition()

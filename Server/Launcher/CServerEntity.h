@@ -6,6 +6,7 @@ class CServerEntity {
 public:
 	enum Type
 	{
+		Unknown = -1,
 		Player = 0,
 		Vehicle = 1,
 		Object = 2,
