@@ -33,14 +33,15 @@ extern "C" {
 			/// </summary>
 			/// <param name="entity">The entity of the player.</param>
 			/// <returns name="disabled">The disabled controls state.</returns>
-			DLL_PUBLIC_I static const bool IsControlsDisabled(const int entity);
+			DLL_PUBLIC_I static const bool IsControlable(const int entity);
 
 			/// <summary>
 			/// Gets the players controls state.
 			/// </summary>
 			/// <param name="entity">The entity of the player.</param>
-			/// <param name="disable">The state to set the controls disabled state in.</param>
-			DLL_PUBLIC_I static void DisableControls(const int entity, bool disable);
+			/// <param name="disablecontrols">The state to set the controls disabled state in.</param>
+			/// <param name="frozen">Wether the player should be frozen in place.</param>
+			DLL_PUBLIC_I static void SetControlable(const int entity, bool disablecontrols, bool frozen = true);
 
 		};
 	}
@@ -176,13 +177,13 @@ public:
 		API::CEF::JavaScriptCall(Entity, call);
 	}
 
-	const bool IsControlsDisabled()
+	const bool IsControlable()
 	{
-		return API::Player::IsControlsDisabled(Entity);
+		return API::Player::IsControlable(Entity);
 	}
 
-	void DisableControls(bool disable)
+	void SetControlable(bool disablecontrols, bool frozen = true)
 	{
-		API::Player::DisableControls(Entity, disable);
+		API::Player::SetControlable(Entity, disablecontrols, frozen);
 	}
 };

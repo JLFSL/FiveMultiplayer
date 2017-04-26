@@ -157,8 +157,8 @@ public:
 	float			GetModelFaceFeature(const int index) { return Data.ModelFaceFeature[index].scale; }
 	void			SetModelFaceFeature(const int index, const float scale) { Data.ModelFaceFeature[index].scale = scale; }
 
-	const bool		IsControlsDisabled() { return Data.DisableControls; }
-	void			DisableControls(const bool disable) { Data.DisableControls = disable; }
+	const bool		IsControlable() { return Data.DisableControls; }
+	void			SetControlable(const bool disablecontrols) { Data.DisableControls = disablecontrols; }
 
 	const bool		IsFrozen() { return Data.Frozen; }
 	void			SetFrozen(const bool frozen) { Data.Frozen = frozen; }

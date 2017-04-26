@@ -80,8 +80,8 @@ public:
 
 	static BOOL IsPlaying() { return PLAYER::IS_PLAYER_PLAYING(Game.Player); }
 
-	static const bool		IsControlsDisabled() { return Data.DisableControls; }
-	static void				DisableControls(const bool disable) { Data.DisableControls = disable;  }
+	static const bool		IsControlable() { return Data.DisableControls; }
+	static void				SetControlable(const bool disablecontrols) { Data.DisableControls = disablecontrols; }
 
 	static const bool		IsFrozen() { return Data.Frozen; }
 	static void				SetFrozen(const bool frozen) { Data.Frozen = frozen; }

@@ -253,7 +253,7 @@ void CCore::PreventCheat()
 
 void CCore::KeyCheck()
 {
-	if (CLocalPlayer::IsControlsDisabled())
+	if (CLocalPlayer::IsControlable())
 	{
 		for (int i = 0; i < 33; i++)
 		{

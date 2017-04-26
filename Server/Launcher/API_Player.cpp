@@ -49,33 +49,35 @@ namespace API
 		std::cout << "[" << ThisNamespace << "::GetUsername] Player Entity " << entity << " invalid." << std::endl;
 	}
 
-	const bool Player::IsControlsDisabled(const int entity)
+	const bool Player::IsControlable(const int entity)
 	{
 		for (int i = 0; i < g_Players.size(); i++)
 		{
 			if (g_Players[i].GetId() == entity)
 			{
-				return g_Players[i].IsControlsDisabled();
+				return g_Players[i].IsControlable();
 			}
 		}
 
-		std::cout << "[" << ThisNamespace << "::IsControlsDisabled] Player Entity " << entity << " invalid." << std::endl;
+		std::cout << "[" << ThisNamespace << "::IsControlable] Player Entity " << entity << " invalid." << std::endl;
 	}
 
-	void Player::DisableControls(const int entity, bool disable)
+	void Player::SetControlable(const int entity, bool disablecontrols, bool frozen)
 	{
 		for (int i = 0; i < g_Players.size(); i++)
 		{
 			if (g_Players[i].GetId() == entity)
 			{
 				RakNet::BitStream sData;
-				sData.Write(disable);
-				g_Server->GetNetworkManager()->GetRPC().Signal("DisableControls", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, g_Players[i].GetGUID(), false, false);
+				sData.Write(disablecontrols);
+				sData.Write(frozen);
+				g_Server->GetNetworkManager()->GetRPC().Signal("SetControlable", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, g_Players[i].GetGUID(), false, false);
 
-				return g_Players[i].DisableControls(disable);
+				g_Players[i].SetFrozen(frozen);
+				return g_Players[i].SetControlable(disablecontrols);
 			}
 		}
 
-		std::cout << "[" << ThisNamespace << "::DisableControls] Player Entity " << entity << " invalid." << std::endl;
+		std::cout << "[" << ThisNamespace << "::SetControlable] Player Entity " << entity << " invalid." << std::endl;
 	}
 }

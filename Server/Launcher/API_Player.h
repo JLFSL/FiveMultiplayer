@@ -14,8 +14,8 @@ extern "C" {
 
 			DLL_PUBLIC static const std::string GetUsername(const int entity);
 
-			DLL_PUBLIC static const bool IsControlsDisabled(const int entity);
-			DLL_PUBLIC static void DisableControls(const int entity, bool disable);
+			DLL_PUBLIC static const bool IsControlable(const int entity);
+			DLL_PUBLIC static void SetControlable(const int entity, bool disablecontrols, bool frozen = true);
 		};
 	}
 }

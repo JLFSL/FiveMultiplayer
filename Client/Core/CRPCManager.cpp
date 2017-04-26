@@ -29,7 +29,7 @@ CRPCManager::RPCMessage rpcmessages[] = {
 #pragma endregion
 #pragma region Player
 	{ "PlayerModel", CRPCPlayer::PlayerModel },
-	{ "DisableControls", CRPCPlayer::DisableControls },
+	{ "SetControlable", CRPCPlayer::SetControlable },
 #pragma endregion
 #pragma region Object
 	{ "CreateObject", CRPCObject::Create },
