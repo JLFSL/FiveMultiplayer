@@ -108,7 +108,7 @@ void CLocalPlayer::VehicleChecks()
 	RakNet::BitStream sData;
 
 	// Check if player is exiting a vehicle
-	if (Data.Vehicle.VehicleID > -1 && CONTROLS::IS_CONTROL_PRESSED(0, ControlVehicleExit) && !Control.ControlVehicleExit)
+	if (Data.Vehicle.VehicleID > -1 && !Control.ControlVehicleExit)
 	{
 		Control.ControlVehicleExit = true;
 

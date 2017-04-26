@@ -277,144 +277,148 @@ void CCore::KeyCheck()
 	CONTROLS::DISABLE_CONTROL_ACTION(2, ControlSelectCharacterTrevor, 1);
 	CONTROLS::DISABLE_CONTROL_ACTION(2, ControlSelectCharacterMultiplayer, 1);
 	//
-
-	if (KeyJustUp(0x46) && !PED::IS_PED_IN_ANY_VEHICLE(CLocalPlayer::GetPed(), true) && !CChat::InputOpen && CLocalPlayer::IsControllable())
+	if (!CChat::InputOpen && CLocalPlayer::IsControllable())
 	{
-		Vehicle vehicle = CVehicleEntity::getClosestVehicleFromPedPos(CLocalPlayer::GetPed(), 10.0f);
-		if (vehicle)
+		if (KeyJustUp(0x46) && !PED::IS_PED_IN_ANY_VEHICLE(CLocalPlayer::GetPed(), true))
 		{
-			for (int v = 0; v < g_Vehicles.size(); v++)
+			Vehicle vehicle = CVehicleEntity::getClosestVehicleFromPedPos(CLocalPlayer::GetPed(), 10.0f);
+			if (vehicle)
 			{
-				if (g_Vehicles[v].GetEntity() == vehicle)
+				for (int v = 0; v < g_Vehicles.size(); v++)
 				{
-					if (g_Vehicles[v].GetOccupant(0) == -1)
+					if (g_Vehicles[v].GetEntity() == vehicle)
 					{
-						AI::TASK_ENTER_VEHICLE(CLocalPlayer::GetPed(), vehicle, 5000, -1, 2.0, 1, 0);
+						if (g_Vehicles[v].GetOccupant(0) == -1)
+						{
+							AI::TASK_ENTER_VEHICLE(CLocalPlayer::GetPed(), vehicle, 5000, -1, 2.0, 1, 0);
 
-						RakNet::BitStream sData;
-						sData.Write(g_Vehicles[v].GetId());
-						CNetworkManager::GetRPC().Signal("TakeEntityAssignment", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, CNetworkManager::GetSystemAddress(), false, false);
-					}
-					break;
-				}
-			}
-		}
-		else
-		{
-			AI::CLEAR_PED_TASKS(CLocalPlayer::GetPed());
-		}
-		
-		ResetKeyState(0x46);
-	}
-	
-	if (KeyJustUp(0x47) && !PED::IS_PED_IN_ANY_VEHICLE(CLocalPlayer::GetPed(), true) && !CChat::InputOpen && CLocalPlayer::IsControllable())
-	{
-		Vehicle vehicle = CVehicleEntity::getClosestVehicleFromPedPos(CLocalPlayer::GetPed(), 10.0f);
-		if (vehicle)
-		{
-			int vehicleIndex = -1;
+							g_Vehicles[v].SetAssignee(CNetworkManager::GetInterface()->GetMyGUID());
 
-			for (int v = 0; v < g_Vehicles.size(); v++)
-			{
-				if (g_Vehicles[v].GetEntity() == vehicle)
-				{
-					vehicleIndex = v;
-					break;
-				}
-			}
-
-			if (vehicleIndex != -1)
-			{
-				int seat = 0;
-
-				CVector3 playerPos = CLocalPlayer::GetPosition();
-				CVector3 seatpos;
-				seatpos.x = ENTITY::GET_WORLD_POSITION_OF_ENTITY_BONE(vehicle, ENTITY::GET_ENTITY_BONE_INDEX_BY_NAME(vehicle, "door_pside_r")).x;
-				seatpos.y = ENTITY::GET_WORLD_POSITION_OF_ENTITY_BONE(vehicle, ENTITY::GET_ENTITY_BONE_INDEX_BY_NAME(vehicle, "door_pside_r")).y;
-				seatpos.z = ENTITY::GET_WORLD_POSITION_OF_ENTITY_BONE(vehicle, ENTITY::GET_ENTITY_BONE_INDEX_BY_NAME(vehicle, "door_pside_r")).z;
-
-				float distance = CVector3::Distance(playerPos, seatpos);
-				if (g_Vehicles[vehicleIndex].GetOccupant(3) == -1)
-					seat = 2;
-
-				seatpos.x = ENTITY::GET_WORLD_POSITION_OF_ENTITY_BONE(vehicle, ENTITY::GET_ENTITY_BONE_INDEX_BY_NAME(vehicle, "door_pside_f")).x;
-				seatpos.y = ENTITY::GET_WORLD_POSITION_OF_ENTITY_BONE(vehicle, ENTITY::GET_ENTITY_BONE_INDEX_BY_NAME(vehicle, "door_pside_f")).y;
-				seatpos.z = ENTITY::GET_WORLD_POSITION_OF_ENTITY_BONE(vehicle, ENTITY::GET_ENTITY_BONE_INDEX_BY_NAME(vehicle, "door_pside_f")).z;
-				
-				if (CVector3::Distance(playerPos, seatpos) < distance)
-				{
-					if (g_Vehicles[vehicleIndex].GetOccupant(1) == -1)
-					{
-						distance = CVector3::Distance(playerPos, seatpos);
-						seat = 0;
+							RakNet::BitStream sData;
+							sData.Write(g_Vehicles[v].GetId());
+							CNetworkManager::GetRPC().Signal("TakeEntityAssignment", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, CNetworkManager::GetSystemAddress(), false, false);
+						}
+						break;
 					}
 				}
-
-				seatpos.x = ENTITY::GET_WORLD_POSITION_OF_ENTITY_BONE(vehicle, ENTITY::GET_ENTITY_BONE_INDEX_BY_NAME(vehicle, "door_dside_r")).x;
-				seatpos.y = ENTITY::GET_WORLD_POSITION_OF_ENTITY_BONE(vehicle, ENTITY::GET_ENTITY_BONE_INDEX_BY_NAME(vehicle, "door_dside_r")).y;
-				seatpos.z = ENTITY::GET_WORLD_POSITION_OF_ENTITY_BONE(vehicle, ENTITY::GET_ENTITY_BONE_INDEX_BY_NAME(vehicle, "door_dside_r")).z;
-				
-				if (CVector3::Distance(playerPos, seatpos) < distance)
-				{
-					if (g_Vehicles[vehicleIndex].GetOccupant(2) == -1)
-					{
-						distance = CVector3::Distance(playerPos, seatpos);
-						seat = 1;
-					}
-				}
-
-				seatpos.x = ENTITY::GET_WORLD_POSITION_OF_ENTITY_BONE(vehicle, ENTITY::GET_ENTITY_BONE_INDEX_BY_NAME(vehicle, "seat_r")).x;
-				seatpos.y = ENTITY::GET_WORLD_POSITION_OF_ENTITY_BONE(vehicle, ENTITY::GET_ENTITY_BONE_INDEX_BY_NAME(vehicle, "seat_r")).y;
-				seatpos.z = ENTITY::GET_WORLD_POSITION_OF_ENTITY_BONE(vehicle, ENTITY::GET_ENTITY_BONE_INDEX_BY_NAME(vehicle, "seat_r")).z;
-				
-				if (CVector3::Distance(playerPos, seatpos) < distance)
-				{
-					if (VEHICLE::IS_VEHICLE_SEAT_FREE(vehicle, 0)) 
-					{
-						distance = CVector3::Distance(playerPos, seatpos);
-						seat = 0;
-					}
-				}
-
-				seatpos.x = ENTITY::GET_WORLD_POSITION_OF_ENTITY_BONE(vehicle, ENTITY::GET_ENTITY_BONE_INDEX_BY_NAME(vehicle, "door_dside_f")).x;
-				seatpos.y = ENTITY::GET_WORLD_POSITION_OF_ENTITY_BONE(vehicle, ENTITY::GET_ENTITY_BONE_INDEX_BY_NAME(vehicle, "door_dside_f")).y;
-				seatpos.z = ENTITY::GET_WORLD_POSITION_OF_ENTITY_BONE(vehicle, ENTITY::GET_ENTITY_BONE_INDEX_BY_NAME(vehicle, "door_dside_f")).z;
-
-				if (CVector3::Distance(playerPos, seatpos) < distance)
-				{
-					if (g_Vehicles[vehicleIndex].GetOccupant(0) == -1)
-					{
-						distance = CVector3::Distance(playerPos, seatpos);
-						seat = -1;
-
-						g_Vehicles[vehicleIndex].SetAssignee(CNetworkManager::GetInterface()->GetMyGUID());
-
-						RakNet::BitStream sData;
-						sData.Write(g_Vehicles[vehicleIndex].GetId());
-						CNetworkManager::GetRPC().Signal("TakeEntityAssignment", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, CNetworkManager::GetSystemAddress(), false, false);
-					}
-				}
-
-				AI::TASK_ENTER_VEHICLE(CLocalPlayer::GetPed(), vehicle, 5000, seat, 2.0, 1, 0);
 			}
 			else
 			{
 				AI::CLEAR_PED_TASKS(CLocalPlayer::GetPed());
 			}
-		}
-		else
-		{
-			AI::CLEAR_PED_TASKS(CLocalPlayer::GetPed());
-		}
-		
-		ResetKeyState(0x47);
-	}
 
-	if (CONTROLS::IS_CONTROL_PRESSED(0, ControlMoveUp) || CONTROLS::IS_CONTROL_PRESSED(0, ControlMoveDown) || CONTROLS::IS_CONTROL_PRESSED(0, ControlMoveLeft) || CONTROLS::IS_CONTROL_PRESSED(0, ControlMoveRight) && (!CChat::InputOpen && CLocalPlayer::IsControllable()))
-	{
-		if (AI::GET_IS_TASK_ACTIVE(CLocalPlayer::GetPed(), 160))
+			ResetKeyState(0x46);
+		}
+
+		if (KeyJustUp(0x47) && !PED::IS_PED_IN_ANY_VEHICLE(CLocalPlayer::GetPed(), true))
 		{
-			AI::CLEAR_PED_TASKS(CLocalPlayer::GetPed());
+			Vehicle vehicle = CVehicleEntity::getClosestVehicleFromPedPos(CLocalPlayer::GetPed(), 10.0f);
+			if (vehicle)
+			{
+				int vehicleIndex = -1;
+
+				for (int v = 0; v < g_Vehicles.size(); v++)
+				{
+					if (g_Vehicles[v].GetEntity() == vehicle)
+					{
+						vehicleIndex = v;
+						break;
+					}
+				}
+
+				if (vehicleIndex != -1)
+				{
+					int seat = 0;
+
+					CVector3 playerPos = CLocalPlayer::GetPosition();
+					CVector3 seatpos;
+					seatpos.x = ENTITY::GET_WORLD_POSITION_OF_ENTITY_BONE(vehicle, ENTITY::GET_ENTITY_BONE_INDEX_BY_NAME(vehicle, "door_pside_r")).x;
+					seatpos.y = ENTITY::GET_WORLD_POSITION_OF_ENTITY_BONE(vehicle, ENTITY::GET_ENTITY_BONE_INDEX_BY_NAME(vehicle, "door_pside_r")).y;
+					seatpos.z = ENTITY::GET_WORLD_POSITION_OF_ENTITY_BONE(vehicle, ENTITY::GET_ENTITY_BONE_INDEX_BY_NAME(vehicle, "door_pside_r")).z;
+
+					float distance = CVector3::Distance(playerPos, seatpos);
+					if (g_Vehicles[vehicleIndex].GetOccupant(3) == -1)
+						seat = 2;
+
+					seatpos.x = ENTITY::GET_WORLD_POSITION_OF_ENTITY_BONE(vehicle, ENTITY::GET_ENTITY_BONE_INDEX_BY_NAME(vehicle, "door_pside_f")).x;
+					seatpos.y = ENTITY::GET_WORLD_POSITION_OF_ENTITY_BONE(vehicle, ENTITY::GET_ENTITY_BONE_INDEX_BY_NAME(vehicle, "door_pside_f")).y;
+					seatpos.z = ENTITY::GET_WORLD_POSITION_OF_ENTITY_BONE(vehicle, ENTITY::GET_ENTITY_BONE_INDEX_BY_NAME(vehicle, "door_pside_f")).z;
+
+					if (CVector3::Distance(playerPos, seatpos) < distance)
+					{
+						if (g_Vehicles[vehicleIndex].GetOccupant(1) == -1)
+						{
+							distance = CVector3::Distance(playerPos, seatpos);
+							seat = 0;
+						}
+					}
+
+					seatpos.x = ENTITY::GET_WORLD_POSITION_OF_ENTITY_BONE(vehicle, ENTITY::GET_ENTITY_BONE_INDEX_BY_NAME(vehicle, "door_dside_r")).x;
+					seatpos.y = ENTITY::GET_WORLD_POSITION_OF_ENTITY_BONE(vehicle, ENTITY::GET_ENTITY_BONE_INDEX_BY_NAME(vehicle, "door_dside_r")).y;
+					seatpos.z = ENTITY::GET_WORLD_POSITION_OF_ENTITY_BONE(vehicle, ENTITY::GET_ENTITY_BONE_INDEX_BY_NAME(vehicle, "door_dside_r")).z;
+
+					if (CVector3::Distance(playerPos, seatpos) < distance)
+					{
+						if (g_Vehicles[vehicleIndex].GetOccupant(2) == -1)
+						{
+							distance = CVector3::Distance(playerPos, seatpos);
+							seat = 1;
+						}
+					}
+
+					seatpos.x = ENTITY::GET_WORLD_POSITION_OF_ENTITY_BONE(vehicle, ENTITY::GET_ENTITY_BONE_INDEX_BY_NAME(vehicle, "seat_r")).x;
+					seatpos.y = ENTITY::GET_WORLD_POSITION_OF_ENTITY_BONE(vehicle, ENTITY::GET_ENTITY_BONE_INDEX_BY_NAME(vehicle, "seat_r")).y;
+					seatpos.z = ENTITY::GET_WORLD_POSITION_OF_ENTITY_BONE(vehicle, ENTITY::GET_ENTITY_BONE_INDEX_BY_NAME(vehicle, "seat_r")).z;
+
+					if (CVector3::Distance(playerPos, seatpos) < distance)
+					{
+						if (VEHICLE::IS_VEHICLE_SEAT_FREE(vehicle, 0))
+						{
+							distance = CVector3::Distance(playerPos, seatpos);
+							seat = 0;
+						}
+					}
+
+					seatpos.x = ENTITY::GET_WORLD_POSITION_OF_ENTITY_BONE(vehicle, ENTITY::GET_ENTITY_BONE_INDEX_BY_NAME(vehicle, "door_dside_f")).x;
+					seatpos.y = ENTITY::GET_WORLD_POSITION_OF_ENTITY_BONE(vehicle, ENTITY::GET_ENTITY_BONE_INDEX_BY_NAME(vehicle, "door_dside_f")).y;
+					seatpos.z = ENTITY::GET_WORLD_POSITION_OF_ENTITY_BONE(vehicle, ENTITY::GET_ENTITY_BONE_INDEX_BY_NAME(vehicle, "door_dside_f")).z;
+
+					if (CVector3::Distance(playerPos, seatpos) < distance)
+					{
+						if (g_Vehicles[vehicleIndex].GetOccupant(0) == -1)
+						{
+							distance = CVector3::Distance(playerPos, seatpos);
+							seat = -1;
+
+							g_Vehicles[vehicleIndex].SetAssignee(CNetworkManager::GetInterface()->GetMyGUID());
+
+							RakNet::BitStream sData;
+							sData.Write(g_Vehicles[vehicleIndex].GetId());
+							CNetworkManager::GetRPC().Signal("TakeEntityAssignment", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, CNetworkManager::GetSystemAddress(), false, false);
+						}
+					}
+
+					AI::TASK_ENTER_VEHICLE(CLocalPlayer::GetPed(), vehicle, 5000, seat, 2.0, 1, 0);
+				}
+				else
+				{
+					AI::CLEAR_PED_TASKS(CLocalPlayer::GetPed());
+				}
+			}
+			else
+			{
+				AI::CLEAR_PED_TASKS(CLocalPlayer::GetPed());
+			}
+
+			ResetKeyState(0x47);
+		}
+
+		if (CONTROLS::IS_CONTROL_PRESSED(0, ControlMoveUp) || CONTROLS::IS_CONTROL_PRESSED(0, ControlMoveDown) || CONTROLS::IS_CONTROL_PRESSED(0, ControlMoveLeft) || CONTROLS::IS_CONTROL_PRESSED(0, ControlMoveRight))
+		{
+			if (AI::GET_IS_TASK_ACTIVE(CLocalPlayer::GetPed(), 160))
+			{
+				AI::CLEAR_PED_TASKS(CLocalPlayer::GetPed());
+			}
 		}
 	}
 }
