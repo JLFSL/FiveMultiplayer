@@ -131,5 +131,5 @@ void CObjectEntity::RequestData(RakNetGUID requester)
 	sData.Write(Information.Id);
 	sData.Write(Data.Model.textureIndex);
 
-	g_Server->GetNetworkManager()->GetRPC().Signal("SetTextureVariation", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
+	g_Server->GetNetworkManager()->GetRPC().Signal("SetTextureVariation", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, requester, false, false);
 }
