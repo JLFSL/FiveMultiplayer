@@ -35,5 +35,6 @@ void CRPCCef::JavaScriptCall(RakNet::BitStream * bitStream, RakNet::Packet * pac
 
 	bitStream->Read(call);
 
-	//action
+	CefRefPtr<CefFrame> frame = CefRenderer::getBrowser()->GetMainFrame();
+	frame->ExecuteJavaScript(CefString(call), frame->GetURL(), 0);
 }

@@ -39,7 +39,7 @@ namespace API
 			{
 				if (g_Players[i].GetId() == entity)
 				{
-					g_Server->GetNetworkManager()->GetRPC().Signal("LoadURL", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, g_Players[i].GetGUID(), false, false);
+					g_Server->GetNetworkManager()->GetRPC().Signal("JavaScriptCall", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, g_Players[i].GetGUID(), false, false);
 					break;
 				}
 			}
