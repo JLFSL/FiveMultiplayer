@@ -272,8 +272,8 @@ LRESULT WINAPI HookedWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				if (wParam < 256)
 					io.KeysDown[wParam] = 0;
 
-				if (wParam < 256)
-					io.KeysDown[wParam] = 1;
+				/*if (wParam < 256)
+					io.KeysDown[wParam] = 1;*/
 
 				keyEvent.windows_key_code = wParam;
 				keyEvent.native_key_code = lParam;
@@ -289,13 +289,14 @@ LRESULT WINAPI HookedWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				}
 
 				CefRenderer::getBrowser()->GetHost()->SendKeyEvent(keyEvent);
+
 				break;
 			case WM_CHAR:
 				if (wParam > 0 && wParam < 0x10000)
 					io.AddInputCharacter((unsigned short)wParam);
 
-				if (wParam < 256)
-					io.KeysDown[wParam] = 1;
+				/*if (wParam < 256)
+					io.KeysDown[wParam] = 1;*/
 
 				keyEvent.windows_key_code = wParam;
 				keyEvent.native_key_code = lParam;

@@ -278,7 +278,7 @@ void CCore::KeyCheck()
 	CONTROLS::DISABLE_CONTROL_ACTION(2, ControlSelectCharacterMultiplayer, 1);
 	//
 
-	if (KeyJustUp(0x46) && !PED::IS_PED_IN_ANY_VEHICLE(CLocalPlayer::GetPed(), true) /*&& chatnotopen*/)
+	if (KeyJustUp(0x46) && !PED::IS_PED_IN_ANY_VEHICLE(CLocalPlayer::GetPed(), true) && !CChat::InputOpen && CLocalPlayer::IsControllable())
 	{
 		Vehicle vehicle = CVehicleEntity::getClosestVehicleFromPedPos(CLocalPlayer::GetPed(), 10.0f);
 		if (vehicle)
@@ -307,7 +307,7 @@ void CCore::KeyCheck()
 		ResetKeyState(0x46);
 	}
 	
-	if (KeyJustUp(0x47) && !PED::IS_PED_IN_ANY_VEHICLE(CLocalPlayer::GetPed(), true) /*&& chatnotopen*/)
+	if (KeyJustUp(0x47) && !PED::IS_PED_IN_ANY_VEHICLE(CLocalPlayer::GetPed(), true) && !CChat::InputOpen && CLocalPlayer::IsControllable())
 	{
 		Vehicle vehicle = CVehicleEntity::getClosestVehicleFromPedPos(CLocalPlayer::GetPed(), 10.0f);
 		if (vehicle)
@@ -410,7 +410,7 @@ void CCore::KeyCheck()
 		ResetKeyState(0x47);
 	}
 
-	if (CONTROLS::IS_CONTROL_PRESSED(0, ControlMoveUp) || CONTROLS::IS_CONTROL_PRESSED(0, ControlMoveDown) || CONTROLS::IS_CONTROL_PRESSED(0, ControlMoveLeft) || CONTROLS::IS_CONTROL_PRESSED(0, ControlMoveRight))
+	if (CONTROLS::IS_CONTROL_PRESSED(0, ControlMoveUp) || CONTROLS::IS_CONTROL_PRESSED(0, ControlMoveDown) || CONTROLS::IS_CONTROL_PRESSED(0, ControlMoveLeft) || CONTROLS::IS_CONTROL_PRESSED(0, ControlMoveRight) && (!CChat::InputOpen && CLocalPlayer::IsControllable()))
 	{
 		if (AI::GET_IS_TASK_ACTIVE(CLocalPlayer::GetPed(), 160))
 		{

@@ -638,9 +638,9 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 				// Command-line
 				if (CChat::InputOpen)
 				{
-					//LocalPlayer.controllable = false;
 					io.MouseDrawCursor = true;
 					ImGui::PushItemWidth(-1);
+					ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0,0,0,1));
 					if (ImGui::InputText("", InputBuf, IM_ARRAYSIZE(InputBuf), ImGuiInputTextFlags_EnterReturnsTrue))
 					{
 						char* input_end = InputBuf + strlen(InputBuf);
@@ -677,10 +677,10 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 
 						strcpy(InputBuf, "");
 						CChat::InputOpen = false;
-						//LocalPlayer.controllable = true;
 						io.MouseDrawCursor = false;
 					}
 					ImGui::PopItemWidth();
+					ImGui::PopStyleColor();
 
 					ImGui::SetKeyboardFocusHere(-1); // Auto focus previous widget
 				}
