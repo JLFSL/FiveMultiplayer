@@ -23,14 +23,14 @@ bool CCore::Initialize()
 	AI::CLEAR_PED_TASKS_IMMEDIATELY(CLocalPlayer::GetPed());
 	ENTITY::FREEZE_ENTITY_POSITION(CLocalPlayer::GetPed(), FALSE);
 
+	PLAYER::SET_PLAYER_INVINCIBLE(PLAYER::PLAYER_ID(), true); // temp fix to stop players dieing and crashing their client
+
 	//Loads multiplayer World (wish to have this executed sooner befor the loading screne is terminated)
 	GAMEPLAY::_USE_FREEMODE_MAP_BEHAVIOR(true);
 	DLC2::_LOAD_MP_DLC_MAPS();
 	SCRIPT::SHUTDOWN_LOADING_SCREEN();
 
 	//STREAMING::LOAD_ALL_OBJECTS_NOW();		// not ever sure what this does anymore.
-
-	PATHFIND::_0x228E5C6AD4D74BFD(true);	// Unload all path nodes>?
 
 	MapReveal::RevealFullMap();
 

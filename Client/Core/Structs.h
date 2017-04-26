@@ -2,14 +2,14 @@
 #define __SUDOSTRUCTS_H__
 
 #ifdef __SC_VERSION__
-const int ADDRESS_WORLD			= 0x2328EC8;		//42
+const int ADDRESS_WORLD			= 0x2333980;		//42		/*0x2328EC8*/
 const int ADDRESS_WAYPOINT		= 0x1F7F400;		//wtb a (mini)map struct
 const int ADDRESS_OBJECTIVE		= 0x1F7F4B0;
 const int ADDRESS_AMMO			= 0x0F706C5;		//Ammo dec code; 41 2B D1 E8; 90 90 90 E8
 const int ADDRESS_MAGAZINE		= 0x0F70680;		//Magazine dec code; 41 2B C9 3B C8 0F; 90 90 90 3B C8 0F
 #endif
 #ifdef __STEAM_VERSION__
-const int ADDRESS_WORLD			= 0x232BC00;
+const int ADDRESS_WORLD			= 0x23378A8;		 // Orig = 0x232BC00
 const int ADDRESS_WAYPOINT		= 0x1F82460;
 const int ADDRESS_OBJECTIVE		= 0x1F82510;
 const int ADDRESS_AMMO			= 0x0F71C38;
@@ -17,7 +17,7 @@ const int ADDRESS_MAGAZINE		= 0x0F71C7D;
 #endif
 
 //offset from WORLD
-const int OFFSET_PLAYER					= 0x08;			//playerbase
+const int OFFSET_PLAYER					= 0x08;			//playerbase from world
 
 //entity offsets
 const int OFFSET_ENTITY_POSBASE			= 0x30;			//base of a structure that contains entity coords
