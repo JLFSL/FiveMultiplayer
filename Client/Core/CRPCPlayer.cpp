@@ -10,15 +10,15 @@ void CRPCPlayer::PlayerModel(RakNet::BitStream *bitStream, RakNet::Packet *packe
 	//GamePed::SetPedModel(CLocalPlayer::GetPed(), CString::utf16ToUtf8(model.C_String()));
 }
 
-void CRPCPlayer::SetControlable(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+void CRPCPlayer::SetControllable(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 {
-	std::cout << "CRPCPlayer::SetControlable" << std::endl;
-	bool disablecotnrols, frozen;
+	std::cout << "CRPCPlayer::SetControllable" << std::endl;
+	bool disablecontrols, frozen;
 
-	bitStream->Read(disablecotnrols);
+	bitStream->Read(disablecontrols);
 	bitStream->Read(frozen);
 
-	CLocalPlayer::SetControlable(disablecotnrols);
+	CLocalPlayer::SetControllable(disablecontrols);
 	CLocalPlayer::SetFrozen(frozen);
 
 	if(frozen)

@@ -55,9 +55,9 @@ extern "C" DLL_PUBLIC bool API_Initialize(void)
 	Checkpoint newCp;
 
 #ifdef TESTING
-	//newNpc.Create(L"s_m_m_movspace_01", CVector3(0.0f, 0.0f, 74.0f), CVector3(0.0f, 0.0f, 90.0f));
-	//npcs.push_back(newNpc);
-
+	newNpc.Create(L"s_m_m_movspace_01", CVector3(0.0f, 0.0f, 74.0f), CVector3(0.0f, 0.0f, 90.0f));
+	npcs.push_back(newNpc);
+	
 	newCp.Create(CVector3(0.0f, 0.0f, 74.0f), CVector3(0.0f, 0.0f, 124.0f), 1, 5.0f, Color{ 255,0,0,255 }, 0);
 	checkpoints.push_back(newCp);
 #else

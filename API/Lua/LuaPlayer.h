@@ -784,14 +784,14 @@ struct Player
 		return 0;
 	}
 
-	int IsControlable(lua_State* L)
+	int IsControllable(lua_State* L)
 	{
 		const int args = lua_gettop(L);
 		if (args == 1)
 		{
 			Player* ent = reinterpret_cast<Player*>(lua_touserdata(L, 1));
 
-			lua_pushboolean(L, API::Player::IsControlable(ent->entity));
+			lua_pushboolean(L, API::Player::IsControllable(ent->entity));
 
 			ent = nullptr;
 		}
@@ -802,7 +802,7 @@ struct Player
 		return 1;
 	}
 
-	int SetControlable(lua_State* L)
+	int SetControllable(lua_State* L)
 	{
 		const int args = lua_gettop(L);
 		if (args == 2)
@@ -813,13 +813,13 @@ struct Player
 			if (lua_isboolean(L, 3))
 				frozen = lua_toboolean(L, 3);
 
-			API::Player::SetControlable(ent->entity, lua_toboolean(L, 2));
+			API::Player::SetControllable(ent->entity, lua_toboolean(L, 2));
 
 			ent = nullptr;
 		}
 		else
 		{
-			std::cerr << "Player:SetControlable requires args (bool disable, OPTIONAL[bool frozen = true])." << std::endl;
+			std::cerr << "Player:SetControllable requires args (bool disable, OPTIONAL[bool frozen = true])." << std::endl;
 		}
 		lua_pop(L, args);
 		return 0;

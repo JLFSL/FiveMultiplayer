@@ -72,7 +72,7 @@ private:
 		float				ForwardSpeed;
 		int					Task;
 
-		bool				Controlable		= true;
+		bool				Controllable		= true;
 		bool				Frozen			= false;
 
 		CVector3			Position;
@@ -157,8 +157,8 @@ public:
 	float			GetModelFaceFeature(const int index) { return Data.ModelFaceFeature[index].scale; }
 	void			SetModelFaceFeature(const int index, const float scale) { Data.ModelFaceFeature[index].scale = scale; }
 
-	const bool		IsControlable() { return Data.Controlable; }
-	void			SetControlable(const bool controlable) { Data.Controlable = controlable; }
+	const bool		IsControllable() { return Data.Controllable; }
+	void			SetControllable(const bool controllable) { Data.Controllable = controllable; }
 
 	const bool		IsFrozen() { return Data.Frozen; }
 	void			SetFrozen(const bool frozen) { Data.Frozen = frozen; }
