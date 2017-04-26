@@ -764,7 +764,7 @@ struct Player
 		lua_pop(L, args);
 		return 0;
 	}
-	//JavaScriptCall(const int entity, std::string call)
+	
 	int JavaScriptCall(lua_State* L)
 	{
 		const int args = lua_gettop(L);
@@ -779,6 +779,43 @@ struct Player
 		else
 		{
 			std::cerr << "Player:JavaScriptCall requires args (std::string call)." << std::endl;
+		}
+		lua_pop(L, args);
+		return 0;
+	}
+
+	int IsControlsDisabled(lua_State* L)
+	{
+		const int args = lua_gettop(L);
+		if (args == 1)
+		{
+			Player* ent = reinterpret_cast<Player*>(lua_touserdata(L, 1));
+
+			lua_pushboolean(L, API::Player::IsControlsDisabled(ent->entity));
+
+			ent = nullptr;
+		}
+		else
+		{
+			lua_pushnil(L);
+		}
+		return 1;
+	}
+
+	int DisableControls(lua_State* L)
+	{
+		const int args = lua_gettop(L);
+		if (args == 2)
+		{
+			Player* ent = reinterpret_cast<Player*>(lua_touserdata(L, 1));
+
+			API::Player::DisableControls(ent->entity, lua_toboolean(L, 2));
+
+			ent = nullptr;
+		}
+		else
+		{
+			std::cerr << "Player:DisableControls requires args (bool disable)." << std::endl;
 		}
 		lua_pop(L, args);
 		return 0;

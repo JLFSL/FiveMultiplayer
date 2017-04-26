@@ -28,6 +28,20 @@ extern "C" {
 			/// <param name="entity">The entity of the player to get the username of.</param>
 			DLL_PUBLIC_I static const std::string GetUsername(const int entity);
 
+			/// <summary>
+			/// Gets the players controls state.
+			/// </summary>
+			/// <param name="entity">The entity of the player.</param>
+			/// <returns name="disabled">The disabled controls state.</returns>
+			DLL_PUBLIC_I static const bool IsControlsDisabled(const int entity);
+
+			/// <summary>
+			/// Gets the players controls state.
+			/// </summary>
+			/// <param name="entity">The entity of the player.</param>
+			/// <param name="disable">The state to set the controls disabled state in.</param>
+			DLL_PUBLIC_I static void DisableControls(const int entity, bool disable);
+
 		};
 	}
 #ifdef __cplusplus
@@ -160,5 +174,15 @@ public:
 	void JavaScriptCall(std::string call)
 	{
 		API::CEF::JavaScriptCall(Entity, call);
+	}
+
+	const bool IsControlsDisabled()
+	{
+		return API::Player::IsControlsDisabled(Entity);
+	}
+
+	void DisableControls(bool disable)
+	{
+		API::Player::DisableControls(Entity, disable);
 	}
 };

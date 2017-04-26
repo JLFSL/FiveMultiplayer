@@ -36,6 +36,9 @@ class CLocalPlayer
 
 		float			ForwardSpeed;
 
+		bool			DisableControls = false;
+		bool			Frozen			= true;
+
 		CVector3		Position;
 		CVector3		Velocity;
 		CVector3		Rotation;
@@ -76,5 +79,11 @@ public:
 	static void SetLastSync(unsigned long Time) { Network.LastSyncSent = Time; }
 
 	static BOOL IsPlaying() { return PLAYER::IS_PLAYER_PLAYING(Game.Player); }
+
+	static const bool		IsControlsDisabled() { return Data.DisableControls; }
+	static void				DisableControls(const bool disable) { Data.DisableControls = disable;  }
+
+	static const bool		IsFrozen() { return Data.Frozen; }
+	static void				SetFrozen(const bool frozen) { Data.Frozen = frozen; }
 };
 

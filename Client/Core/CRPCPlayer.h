@@ -5,6 +5,7 @@ class CRPCPlayer
 {
 public:
 	static void PlayerModel(RakNet::BitStream *bitStream, RakNet::Packet *packet);
+	static void DisableControls(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 };
 
 #endif

@@ -204,6 +204,8 @@ extern "C" DLL_PUBLIC bool API_Initialize(void) {
 			.addCFunction("ShowCursor", &Player::ShowCursor)
 			.addCFunction("LoadURL", &Player::LoadURL)
 			.addCFunction("JavaScriptCall", &Player::JavaScriptCall)
+			.addCFunction("IsControlsDisabled", &Player::IsControlsDisabled)
+			.addCFunction("DisableControls", &Player::DisableControls)
 		.endClass()
 		.beginNamespace("visual")
 			.addCFunction("ShowMessageAboveMap", Visual::ShowMessageAboveMap)

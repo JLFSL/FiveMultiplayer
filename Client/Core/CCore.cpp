@@ -253,6 +253,14 @@ void CCore::PreventCheat()
 
 void CCore::KeyCheck()
 {
+	if (CLocalPlayer::IsControlsDisabled())
+	{
+		for (int i = 0; i < 33; i++)
+		{
+			CONTROLS::DISABLE_ALL_CONTROL_ACTIONS(i);
+		}
+	}
+
 	// Working
 	CONTROLS::DISABLE_CONTROL_ACTION(2, ControlFrontendPause, 1);
 	CONTROLS::DISABLE_CONTROL_ACTION(2, ControlFrontendPauseAlternate, 1);

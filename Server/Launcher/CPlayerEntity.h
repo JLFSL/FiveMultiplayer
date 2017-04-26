@@ -72,6 +72,9 @@ private:
 		float				ForwardSpeed;
 		int					Task;
 
+		bool				DisableControls = false;
+		bool				Frozen			= true;
+
 		CVector3			Position;
 		CVector3			Velocity;
 		CVector3			Rotation;
@@ -153,6 +156,12 @@ public:
 	}
 	float			GetModelFaceFeature(const int index) { return Data.ModelFaceFeature[index].scale; }
 	void			SetModelFaceFeature(const int index, const float scale) { Data.ModelFaceFeature[index].scale = scale; }
+
+	const bool		IsControlsDisabled() { return Data.DisableControls; }
+	void			DisableControls(const bool disable) { Data.DisableControls = disable; }
+
+	const bool		IsFrozen() { return Data.Frozen; }
+	void			SetFrozen(const bool frozen) { Data.Frozen = frozen; }
 
 	bool			GetSynchronized()	{ return Network.Synchronized; }
 	RakNetGUID		GetGUID()	{ return Network.GUID; };
