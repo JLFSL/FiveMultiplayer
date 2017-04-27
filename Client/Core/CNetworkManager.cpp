@@ -136,58 +136,77 @@ void CNetworkManager::Disconnect()
 	g_SystemAddr = UNASSIGNED_SYSTEM_ADDRESS;
 
 	// Remove all existing entities
-	for (int i = (g_Entities.size() - 1); i > -1; i--)
+	if (!g_Entities.empty())
 	{
-		g_Entities.erase(g_Entities.begin() + i);
+		for (int i = (g_Entities.size() - 1); i > -1; i--)
+		{
+			g_Entities.erase(g_Entities.begin() + i);
+		}
+		// Shrink vector so size is correct.
+		g_Entities.shrink_to_fit();
 	}
-	// Shrink vector so size is correct.
-	g_Entities.shrink_to_fit();
 
 	// Remove all existing players
-	for (int i = (g_Players.size() - 1); i > -1; i--) {
-		if (g_Players[i].IsCreated())
-			g_Players[i].Destroy();
-		g_Players.erase(g_Players.begin() + i);
-	}
-	// Shrink vector so size is correct.
-	g_Players.shrink_to_fit();
-
-	// Remove all existing vehicles
-	for (int i = (g_Vehicles.size() - 1); i > -1; i--)
+	if (!g_Players.empty())
 	{
-		g_Vehicles[i].Destroy();
-		g_Vehicles.erase(g_Vehicles.begin() + i);
+		for (int i = (g_Players.size() - 1); i > -1; i--)
+		{
+			if (g_Players[i].IsCreated())
+				g_Players[i].Destroy();
+			g_Players.erase(g_Players.begin() + i);
+		}
+		// Shrink vector so size is correct.
+		g_Players.shrink_to_fit();
 	}
-	// Shrink vector so size is correct.
-	g_Vehicles.shrink_to_fit();
-
-	// Remove all existing objects
-	for (int i = (g_Objects.size() - 1); i > -1; i--)
+	
+	if (!g_Vehicles.empty())
 	{
-		g_Objects[i].Destroy();
-		g_Objects.erase(g_Objects.begin() + i);
+		// Remove all existing vehicles
+		for (int i = (g_Vehicles.size() - 1); i > -1; i--)
+		{
+			g_Vehicles[i].Destroy();
+			g_Vehicles.erase(g_Vehicles.begin() + i);
+		}
+		// Shrink vector so size is correct.
+		g_Vehicles.shrink_to_fit();
 	}
-	// Shrink vector so size is correct.
-	g_Objects.shrink_to_fit();
-
-	// Remove all existing npcs
-	for (int i = (g_Npcs.size() - 1); i > -1; i--)
+	
+	if (!g_Objects.empty())
 	{
-		g_Npcs[i].Destroy();
-		g_Npcs.erase(g_Npcs.begin() + i);
+		// Remove all existing objects
+		for (int i = (g_Objects.size() - 1); i > -1; i--)
+		{
+			g_Objects[i].Destroy();
+			g_Objects.erase(g_Objects.begin() + i);
+		}
+		// Shrink vector so size is correct.
+		g_Objects.shrink_to_fit();
 	}
-	// Shrink vector so size is correct.
-	g_Npcs.shrink_to_fit();
-
-	// Remove all existing checkpoints
-	for (int i = (g_Checkpoints.size() - 1); i > -1; i--)
+	
+	if (!g_Npcs.empty())
 	{
-		g_Checkpoints[i].Destroy();
-		g_Checkpoints.erase(g_Checkpoints.begin() + i);
+		// Remove all existing npcs
+		for (int i = (g_Npcs.size() - 1); i > -1; i--)
+		{
+			g_Npcs[i].Destroy();
+			g_Npcs.erase(g_Npcs.begin() + i);
+		}
+		// Shrink vector so size is correct.
+		g_Npcs.shrink_to_fit();
 	}
-	// Shrink vector so size is correct.
-	g_Checkpoints.shrink_to_fit();
-
+	
+	if (!g_Checkpoints.empty())
+	{
+		// Remove all existing checkpoints
+		for (int i = (g_Checkpoints.size() - 1); i > -1; i--)
+		{
+			g_Checkpoints[i].Destroy();
+			g_Checkpoints.erase(g_Checkpoints.begin() + i);
+		}
+		// Shrink vector so size is correct.
+		g_Checkpoints.shrink_to_fit();
+	}
+	
 	CWorld::Destroy();
 	
 	CefRenderer::getBrowser()->GetMainFrame()->LoadURL(CefString("about:blank"));
