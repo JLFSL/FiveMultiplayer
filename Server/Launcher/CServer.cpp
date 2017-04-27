@@ -199,6 +199,14 @@ void CServer::Process()
 		// and ensures the fps set in the config unless somthing is seriously bottlenecking the server.
 		timeTook = timeLast - std::chrono::system_clock::now();
 	}
+	else
+	{
+#ifdef _WIN32
+		Sleep(100);
+#else
+		usleep(100 * 1000);  /* sleep for 100 milliSeconds */
+#endif
+	}
 }
 
 void CServer::ShowFPS()
