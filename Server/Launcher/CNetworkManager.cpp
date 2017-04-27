@@ -302,10 +302,18 @@ void CNetworkManager::PulseMaster()
 		curl_easy_setopt(hnd, CURLOPT_HTTPHEADER, headers);
 		curl_easy_setopt(hnd, CURLOPT_POSTFIELDS, content);
 		curl_easy_setopt(hnd, CURLOPT_VERBOSE, 0L);
-		curl_easy_setopt(hnd, CURLOPT_NOBODY, 1);
-
+		curl_easy_setopt(hnd, CURLOPT_WRITEFUNCTION, &CNetworkManager::my_dummy_write);
+		
 		CURLcode ret = curl_easy_perform(hnd);
+
+		curl_easy_cleanup(hnd);
 	}
+}
+
+/* Never writes anything, just returns the size presented */
+size_t CNetworkManager::my_dummy_write(char *ptr, size_t size, size_t nmemb, void *userdata)
+{
+	return size * nmemb;
 }
 
 void CNetworkManager::NewIncomingConnection(RakNet::Packet  *g_Packet)
