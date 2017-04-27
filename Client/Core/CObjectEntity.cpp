@@ -140,26 +140,29 @@ void CObjectEntity::Pulse()
 		}
 		else if (CNetworkManager::GetInterface()->GetMyGUID() == Network.Assigned)
 		{
-			BitStream bitstream;
-			bitstream.Write((unsigned char)ID_PACKET_OBJECT);
+			if (timeGetTime() > Network.LastSyncSent + (1000.0f / 50))
+			{
+				BitStream bitstream;
+				bitstream.Write((unsigned char)ID_PACKET_OBJECT);
 
-			bitstream.Write(Information.Id);
+				bitstream.Write(Information.Id);
 
-			bitstream.Write(Data.Position.x);
-			bitstream.Write(Data.Position.y);
-			bitstream.Write(Data.Position.z);
+				bitstream.Write(Data.Position.x);
+				bitstream.Write(Data.Position.y);
+				bitstream.Write(Data.Position.z);
 
-			bitstream.Write(Data.Velocity.x);
-			bitstream.Write(Data.Velocity.y);
-			bitstream.Write(Data.Velocity.z);
+				bitstream.Write(Data.Velocity.x);
+				bitstream.Write(Data.Velocity.y);
+				bitstream.Write(Data.Velocity.z);
 
-			bitstream.Write(Data.Rotation.x);
-			bitstream.Write(Data.Rotation.y);
-			bitstream.Write(Data.Rotation.z);
+				bitstream.Write(Data.Rotation.x);
+				bitstream.Write(Data.Rotation.y);
+				bitstream.Write(Data.Rotation.z);
 
-			CNetworkManager::GetInterface()->Send(&bitstream, MEDIUM_PRIORITY, UNRELIABLE_SEQUENCED, 0, CNetworkManager::GetSystemAddress(), false);
+				CNetworkManager::GetInterface()->Send(&bitstream, MEDIUM_PRIORITY, UNRELIABLE_SEQUENCED, 0, CNetworkManager::GetSystemAddress(), false);
 
-			Network.LastSyncSent = timeGetTime();
+				Network.LastSyncSent = timeGetTime();
+			}
 		}
 	}
 }
