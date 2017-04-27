@@ -259,36 +259,43 @@ void CNetworkManager::Pulse()
 			}
 			case ID_IP_RECENTLY_CONNECTED:
 			{
+				CNetworkManager::Disconnect();
 				Logger::Msg("Failed to connect, recently connected", g_Packet->data[0]);
 				break;
 			}
 			case ID_INCOMPATIBLE_PROTOCOL_VERSION:
 			{
+				CNetworkManager::Disconnect();
 				Logger::Msg("Failed to connect, incompatible protocol version", g_Packet->data[0]);
 				break;
 			}
 			case ID_ALREADY_CONNECTED:
 			{
+				CNetworkManager::Disconnect();
 				Logger::Msg("Failed to connect, already connected", g_Packet->data[0]);
 				break;
 			}
 			case ID_NO_FREE_INCOMING_CONNECTIONS:
 			{
+				CNetworkManager::Disconnect();
 				Logger::Msg("Failed to connect, max client", g_Packet->data[0]);
 				break;
 			}
 			case ID_INVALID_PASSWORD:
 			{
+				CNetworkManager::Disconnect();
 				Logger::Msg("Failed to connect, invalid password", g_Packet->data[0]);
 				break;
 			}
 			case ID_CONNECTION_ATTEMPT_FAILED:
 			{
+				CNetworkManager::Disconnect();
 				Logger::Msg("Failed to connect, server not responding", g_Packet->data[0]);
 				break;
 			}
 			case ID_CONNECTION_BANNED:
 			{
+				CNetworkManager::Disconnect();
 				Logger::Msg("Failed to connect, banned", g_Packet->data[0]);
 				break;
 			}
@@ -331,9 +338,15 @@ void CNetworkManager::Pulse()
 				Logger::Msg("CNetworkManager::Connected Stage 1");
 				break;
 			}
+			case ID_DISCONNECTION_NOTIFICATION:
+			{
+				CNetworkManager::Disconnect();
+				Logger::Msg("CNetworkManager::ConnectionClosed");
+				break;
+			}
 			case ID_CONNECTION_LOST:
 			{
-				//Disconnect();
+				CNetworkManager::Disconnect();
 				Logger::Msg("CNetworkManager::ConnectionLost");
 				break;
 			}
