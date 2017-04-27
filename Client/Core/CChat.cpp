@@ -191,9 +191,7 @@ const int CChat::CommandProcessor(std::string command)
 
 	if (!command.compare("/quit"))
 	{
-		CNetworkManager::Disconnect();
 		CNetworkManager::Stop();
-		WAIT(10);
 		exit(EXIT_SUCCESS);
 		return true;
 	}
