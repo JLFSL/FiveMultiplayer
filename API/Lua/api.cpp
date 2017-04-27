@@ -316,7 +316,7 @@ extern "C" DLL_PUBLIC bool API_OnPlayerConnecting(const std::string guid)
 	return result;
 }
 
-extern "C" DLL_PUBLIC bool API_OnPlayerConnected(int entity, int playerid)
+extern "C" DLL_PUBLIC bool API_OnPlayerConnected(int entity)
 {
 	int result = 1;
 
@@ -325,7 +325,7 @@ extern "C" DLL_PUBLIC bool API_OnPlayerConnected(int entity, int playerid)
 	int call = lua_getglobal(stateLua, "OnPlayerConnected");
 	if (call != 0)
 	{
-		lua_pushinteger(stateLua, playerid);
+		lua_pushinteger(stateLua, entity);
 
 		int error = lua_pcall(stateLua, 1, 1, 0);
 		if (error != 0)

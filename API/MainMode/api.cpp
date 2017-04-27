@@ -161,10 +161,10 @@ extern "C" DLL_PUBLIC bool API_OnPlayerConnecting(const std::string guid)
 }
 
 // Player Connected
-extern "C" DLL_PUBLIC bool API_OnPlayerConnected(int entity, int playerid)
+extern "C" DLL_PUBLIC bool API_OnPlayerConnected(int entity)
 {
 	std::wstringstream oss;
-	oss << L"~g~You Connected! ~o~[~w~ID: " << playerid << L"~o~]";
+	oss << L"~g~You Connected! ~o~[~w~ID: " << entity << L"~o~]";
 	API::Visual::ShowMessageAboveMapToPlayer(entity, oss.str().c_str(), L"CHAR_CREATOR_PORTRAITS", 1, L"Server", L"");
 
 	API::Player::SetModel(entity, L"u_m_y_pogo_01");
@@ -217,5 +217,5 @@ extern "C" DLL_PUBLIC void API_OnPlayerMessage(const int entity, const std::stri
 {
 	API::Server::PrintMessage(L"OnPlayerMessage");
 
-	API::Visual::SendChatMessage(message);
+	API::Visual::SendChatMessage(API::Player::GetUsername(entity) + " : " + message);
 }

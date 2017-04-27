@@ -25,7 +25,7 @@ extern "C" DLL_PUBLIC bool API_OnPlayerConnecting(const std::string guid)
 	return true;
 }
 
-extern "C" DLL_PUBLIC bool API_OnPlayerConnected(int entity, int playerid)
+extern "C" DLL_PUBLIC bool API_OnPlayerConnected(int entity)
 {
 	// When the player is successfully connected (loaded in, but not spawned yet)
 	API::Server::PrintMessage(L"Connected");

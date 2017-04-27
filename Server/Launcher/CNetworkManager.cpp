@@ -251,7 +251,7 @@ void CNetworkManager::Pulse()
 				for (int i = 0; i < g_ApiModules.size(); i++)
 				{
 					void *Instance = g_ApiModules[i].GetInstance();
-					API::Network::OnPlayerConnected(Instance, g_Players[index].GetId(), g_Players[index].GetPlayerID());
+					API::Network::OnPlayerConnected(Instance, g_Players[index].GetId());
 				}
 				
 				break;
