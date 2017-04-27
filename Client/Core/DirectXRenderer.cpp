@@ -313,7 +313,7 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 						curTime = clock() - 60 * 1000;
 					}
 
-					ImGui::BeginChild("ListRegion", ImVec2(0, -ImGui::GetItemsLineHeightWithSpacing()), false);
+					ImGui::BeginChild("ListRegion", ImVec2(0, -ImGui::GetItemsLineHeightWithSpacing() - 60.0f), false);
 					{
 						float cseconds = float(clock() - curTime) / CLOCKS_PER_SEC;
 
