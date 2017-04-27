@@ -425,8 +425,10 @@ void CVehicleEntity::UpdateTargetRotation()
 		InterpolationData.Rotation.Target = TargetRotation;
 
 		// Get the error
-		//InterpolationData.Rotation.Error = Math::GetOffsetDegrees(vecLocalRotation, vecRotation);
-		InterpolationData.Rotation.Error = TargetRotation - CurrentRotation;
+		InterpolationData.Rotation.Error.x = Math::GetOffsetDegrees(CurrentRotation.x, TargetRotation.x);
+		InterpolationData.Rotation.Error.y = Math::GetOffsetDegrees(CurrentRotation.y, TargetRotation.y);
+		InterpolationData.Rotation.Error.z = Math::GetOffsetDegrees(CurrentRotation.z, TargetRotation.z);
+		//InterpolationData.Rotation.Error = TargetRotation - CurrentRotation;
 		InterpolationData.Rotation.Error *= Math::Lerp < const float >(0.40f, Math::UnlerpClamped(100, interpolationtime, 400), 1.0f);
 
 		// Get the interpolation interval
@@ -503,7 +505,7 @@ void CVehicleEntity::SetTargetData()
 
 		vdata.SetSteeringAngle(Game.Vehicle, Data.SteeringAngle);
 		vdata.SetForwardWheelAngle(Game.Vehicle, Data.ForwardWheelAngle);
-		vdata.SetWheelSpeed(Game.Vehicle, Data.WheelSpeed);
+		//vdata.SetWheelSpeed(Game.Vehicle, Data.WheelSpeed); // Dash Speed, Only a GET not SET.
 	}
 }
 

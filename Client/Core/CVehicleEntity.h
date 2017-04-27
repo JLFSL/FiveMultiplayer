@@ -33,8 +33,6 @@ private:
 		float		SteeringAngle		= .0f;
 		float		ForwardWheelAngle	= .0f;
 
-		unsigned long	LastWheelspeed;
-
 		struct VehiclePaintLayer
 		{
 			int		color				= 0;
