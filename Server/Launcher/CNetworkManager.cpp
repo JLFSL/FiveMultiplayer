@@ -274,9 +274,9 @@ void CNetworkManager::PulseMaster()
 
 		if (!g_Players.empty()) {
 			for (int p = 0; p < g_Players.size(); p++) {
-				if (g_Players[p].GetId() != -1 && g_Players[p].GetPlayerID() != -1) {
+				if (g_Players[p].GetId() != -1 && g_Players[p].GetId() != -1) {
 					std::ostringstream oss;
-					oss << "{\"id\":" << g_Players[p].GetPlayerID() << ",\"name\":\"" << g_Players[p].GetUsername() << "\"}";
+					oss << "{\"id\":" << g_Players[p].GetId() << ",\"name\":\"" << g_Players[p].GetUsername() << "\"}";
 					std::string player = oss.str();
 
 					if (p < g_Players.size() - 1)
@@ -334,14 +334,12 @@ void CNetworkManager::NewIncomingConnection(RakNet::Packet  *g_Packet)
 	{
 		for (int i = 0; i < g_Players.size(); i++)
 		{
-			if (g_Players[i].GetPlayerID() == -1)
+			if (g_Players[i].GetId() == -1)
 			{
 				playerID = g_Players.size();
 				CPlayerEntity newPlayer;
 				newPlayer.Create("User", g_Packet->guid, g_Packet->systemAddress);
-				newPlayer.SetPlayerID(playerID);
 				g_Players[i] = newPlayer;
-				g_Players[i].SetPlayerID(i);
 				playerID = i;
 				break;
 			}
@@ -353,7 +351,6 @@ void CNetworkManager::NewIncomingConnection(RakNet::Packet  *g_Packet)
 		playerID = g_Players.size();
 		CPlayerEntity newPlayer;
 		newPlayer.Create("User", g_Packet->guid, g_Packet->systemAddress);
-		newPlayer.SetPlayerID(playerID);
 		g_Players.push_back(newPlayer);
 	}
 

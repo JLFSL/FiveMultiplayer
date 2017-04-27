@@ -43,7 +43,6 @@ void CPlayerEntity::Destroy()
 	Network = {};
 
 	Information.Entity = -1;
-	Information.PlayerID = -1;
 
 	Data.Vehicle.VehicleID = -1;
 	Data.Vehicle.Seat = -1;
@@ -147,9 +146,9 @@ void CPlayerEntity::Update(Packet *packet)
 		{
 			if (Data.Vehicle.VehicleID != -1)
 			{
-				if (g_Vehicles[i].GetId() == Data.Vehicle.VehicleID && g_Vehicles[i].GetOccupant(Data.Vehicle.Seat) != Information.PlayerID)
+				if (g_Vehicles[i].GetId() == Data.Vehicle.VehicleID && g_Vehicles[i].GetOccupant(Data.Vehicle.Seat) != Information.Entity)
 				{
-					g_Vehicles[i].SetOccupant(Data.Vehicle.Seat, Information.PlayerID);
+					g_Vehicles[i].SetOccupant(Data.Vehicle.Seat, Information.Entity);
 
 					//OnPlayerEnterVehicle(player,vehicle,seat);
 					doneOne = true;

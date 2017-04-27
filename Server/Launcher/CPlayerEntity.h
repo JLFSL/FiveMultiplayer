@@ -4,7 +4,6 @@ class CPlayerEntity {
 private:
 	struct PlayerInfo {
 		int					Entity;
-		int					PlayerID;
 		RakString			Name;
 	} Information;
 
@@ -99,8 +98,6 @@ public:
 	void Pulse();
 	void Update(Packet *packet);
 
-	int				GetPlayerID() { return Information.PlayerID; }
-	void			SetPlayerID(int playerid) { Information.PlayerID = playerid; }
 	int				GetId() { return Information.Entity; }
 	std::string		GetUsername() { return Information.Name.C_String(); }
 	void			SetUsername(RakString name) { Information.Name = name; }
