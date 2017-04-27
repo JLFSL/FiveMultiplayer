@@ -88,9 +88,6 @@ void CNetworkManager::Pulse()
 			{
 				// New connection
 				NewIncomingConnection(g_Packet);
-
-				// Ping Master
-				PulseMaster();
 				break;
 			}
 			case ID_DISCONNECTION_NOTIFICATION:
@@ -253,6 +250,9 @@ void CNetworkManager::Pulse()
 					void *Instance = g_ApiModules[i].GetInstance();
 					API::Network::OnPlayerConnected(Instance, g_Players[index].GetId());
 				}
+
+				// Ping Master
+				PulseMaster();
 				
 				break;
 			}
