@@ -202,9 +202,9 @@ void CServer::Process()
 	else
 	{
 #ifdef _WIN32
-		Sleep(100);
+		Sleep(1000.0f / g_Config->GetFPS());
 #else
-		usleep(100 * 1000);  /* sleep for 100 milliSeconds */
+		usleep(1000.0f / g_Config->GetFPS() * 1000);  /* sleep for 100 milliSeconds */
 #endif
 	}
 }
