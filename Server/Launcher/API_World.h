@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __APIWORLD_H__
+#define __APIWORLD_H__
 extern "C" {
 	namespace API
 	{
@@ -21,3 +22,4 @@ extern "C" {
 		};
 	}
 }
+#endif

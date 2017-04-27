@@ -1,5 +1,5 @@
-#pragma once
-
+#ifndef __APIVISUAL_H__
+#define __APIVISUAL_H__
 extern "C" {
 	namespace API
 	{
@@ -16,3 +16,4 @@ extern "C" {
 		};
 	}
 }
+#endif

@@ -1,5 +1,5 @@
-#pragma once
-
+#ifndef __APICALLNETWORK_H__
+#define __APICALLNETWORK_H__
 namespace API
 {
 	namespace Network
@@ -10,3 +10,4 @@ namespace API
 		void OnPlayerMessage(void *Instance, const int entity, const std::string message);
 	}
 }
+#endif

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __APIVEHICLE_H__
+#define __APIVEHICLE_H__
 extern "C" {
 	namespace API
 	{
@@ -41,3 +42,4 @@ extern "C" {
 		};
 	}
 }
+#endif

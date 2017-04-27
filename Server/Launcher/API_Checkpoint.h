@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __APICHECKPOINT_H__
+#define __APICHECKPOINT_H__
 extern "C" {
 	namespace API
 	{
@@ -17,3 +18,4 @@ extern "C" {
 		};
 	}
 }
+#endif

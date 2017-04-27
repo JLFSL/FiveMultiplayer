@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __APIENTITY_H__
+#define __APIENTITY_H__
 extern "C" {
 	namespace API
 	{
@@ -30,3 +31,4 @@ extern "C" {
 		};
 	}
 }
+#endif

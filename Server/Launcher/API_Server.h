@@ -1,5 +1,5 @@
-#pragma once
-
+#ifndef __APISERVER_H__
+#define __APISERVER_H__
 extern "C" {
 	namespace API
 	{
@@ -12,3 +12,4 @@ extern "C" {
 		};
 	}
 }
+#endif

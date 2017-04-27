@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __APICEF_H__
+#define __APICEF_H__
 extern "C" {
 	namespace API
 	{
@@ -12,3 +13,4 @@ extern "C" {
 		};
 	}
 }
+#endif

@@ -1,5 +1,5 @@
-#pragma once
-
+#ifndef __APICALLCHECKPOINT_H__
+#define __APICALLCHECKPOINT_H__
 namespace API
 {
 	namespace Checkpoints
@@ -8,3 +8,4 @@ namespace API
 		void OnEntityExitCheckpoint(void *Instance, const int checkpoint, const int entity);
 	}
 }
+#endif
