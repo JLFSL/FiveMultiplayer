@@ -100,7 +100,7 @@ void CObjectEntity::Destroy()
 	if (ENTITY::DOES_ENTITY_EXIST(Game.Object))
 		ENTITY::DELETE_ENTITY(&Game.Object);
 
-	if (Game.Blip)
+	if (UI::DOES_BLIP_EXIST(Game.Blip))
 		UI::REMOVE_BLIP(&Game.Blip);
 
 	Information = {};
@@ -116,10 +116,10 @@ void CObjectEntity::Destroy()
 
 void CObjectEntity::Delete()
 {
-	if (Game.Object)
+	if (ENTITY::DOES_ENTITY_EXIST(Game.Object))
 		ENTITY::DELETE_ENTITY(&Game.Object);
 
-	if (Game.Blip)
+	if (UI::DOES_BLIP_EXIST(Game.Blip))
 		UI::REMOVE_BLIP(&Game.Blip);
 
 	if (CNetworkManager::GetInterface()->GetMyGUID() == Network.Assigned)

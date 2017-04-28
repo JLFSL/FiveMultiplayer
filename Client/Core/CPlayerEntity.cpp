@@ -128,12 +128,12 @@ void CPlayerEntity::Destroy()
 
 	AI::TASK_STAND_STILL(Game.Ped, 1);
 	
-	if(Game.Ped)
+	if(ENTITY::DOES_ENTITY_EXIST(Game.Ped))
 		ENTITY::DELETE_ENTITY(&Game.Ped);
 
 	Game.Created = false;
 
-	if(Game.Blip)
+	if(UI::DOES_BLIP_EXIST(Game.Blip))
 		UI::REMOVE_BLIP(&Game.Blip);
 
 	Game = {};
@@ -151,10 +151,10 @@ void CPlayerEntity::Destroy()
 
 void CPlayerEntity::Delete()
 {
-	if (Game.Ped)
+	if (ENTITY::DOES_ENTITY_EXIST(Game.Ped))
 		ENTITY::DELETE_ENTITY(&Game.Ped);
 
-	if (Game.Blip)
+	if (UI::DOES_BLIP_EXIST(Game.Blip))
 		UI::REMOVE_BLIP(&Game.Blip);
 
 	Game.Created = false;

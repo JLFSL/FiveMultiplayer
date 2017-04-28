@@ -164,10 +164,10 @@ void CVehicleEntity::Destroy()
 
 void CVehicleEntity::Delete()
 {
-	if (Game.Vehicle)
+	if (ENTITY::DOES_ENTITY_EXIST(Game.Vehicle))
 		VEHICLE::DELETE_VEHICLE(&Game.Vehicle);
 
-	if (Game.Blip)
+	if (UI::DOES_BLIP_EXIST(Game.Blip))
 		UI::REMOVE_BLIP(&Game.Blip);
 
 	if (CNetworkManager::GetInterface()->GetMyGUID() == Network.Assigned)
