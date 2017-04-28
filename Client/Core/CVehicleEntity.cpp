@@ -145,12 +145,12 @@ void CVehicleEntity::RequestData()
 
 void CVehicleEntity::Destroy()
 {
-	if (Game.Vehicle)
+	if (ENTITY::DOES_ENTITY_EXIST(Game.Vehicle))
 		VEHICLE::DELETE_VEHICLE(&Game.Vehicle);
 
 	Game.Created = false;
 
-	if (Game.Blip)
+	if (UI::DOES_BLIP_EXIST(Game.Blip))
 		UI::REMOVE_BLIP(&Game.Blip);
 
 	Game = {};
@@ -356,8 +356,6 @@ void CVehicleEntity::Interpolate()
 void CVehicleEntity::UpdateTargetPosition()
 {
 	if (Game.Created) {
-		SetTargetPosition();
-
 		unsigned long CurrentTime = timeGetTime();
 		unsigned int InterpolationTime = CurrentTime - Network.LastSyncReceived;
 
@@ -381,6 +379,8 @@ void CVehicleEntity::UpdateTargetPosition()
 
 		// Initialize the interpolation
 		InterpolationData.Position.LastAlpha = 0.0f;
+
+		SetTargetPosition();
 	}
 }
 
