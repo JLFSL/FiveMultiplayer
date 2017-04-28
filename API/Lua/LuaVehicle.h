@@ -69,10 +69,6 @@ struct Vehicle
 				rott = { rot->coord[0], rot->coord[1], rot->coord[2] };
 				rot = nullptr;
 			}
-			else if(lua_isnumber(L, 4))
-			{
-				heading = lua_tonumber(L, 4);
-			}
 			else if (lua_istable(L, 4))
 			{
 				lua_getfield(L, 4, "x");
@@ -92,7 +88,7 @@ struct Vehicle
 			}
 
 			if(lua_isnumber(L, 4))
-				veh->entity = API::Vehicle::Create(model, poss, heading);
+				veh->entity = API::Vehicle::Create(model, poss, lua_tonumber(L, 4));
 			else
 				veh->entity = API::Vehicle::Create(model, poss, rott);
 
