@@ -125,6 +125,8 @@ void CPlayerEntity::RequestData()
 void CPlayerEntity::Destroy()
 {
 	std::cout << "[CPlayerEntity] Removing Player: " << Information.Id << std::endl;
+
+	AI::TASK_STAND_STILL(Game.Ped, 1);
 	
 	if(Game.Ped)
 		ENTITY::DELETE_ENTITY(&Game.Ped);
