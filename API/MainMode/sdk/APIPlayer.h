@@ -54,7 +54,7 @@ private:
 	int Entity;
 public:
 	const int GetEntity() { return Entity; }
-	const int SetEntity(const int entity) { Entity = entity; }
+	void SetEntity(const int entity) { Entity = entity; }
 
 	const CVector3 GetPosition()
 	{
