@@ -328,7 +328,7 @@ void CVehicleEntity::Update(Packet * packet)
 		bitstream.Read(Occupants[i]);
 	}
 	
-	if (CLocalPlayer::GetVehicleId() != Information.Id) {
+	if (CLocalPlayer::GetSeat() == 0 && CLocalPlayer::GetVehicleId() != Information.Id) {
 		UpdateTargetPosition();
 		SetTargetData();
 		UpdateTargetRotation();
@@ -515,7 +515,7 @@ void CVehicleEntity::SetTargetData()
 
 		vdata.SetSteeringAngle(Game.Vehicle, Data.SteeringAngle);
 		vdata.SetForwardWheelAngle(Game.Vehicle, Data.ForwardWheelAngle);
-		vdata.SetWheelSpeed(Game.Vehicle, Data.WheelSpeed);
+		//vdata.SetWheelSpeed(Game.Vehicle, Data.WheelSpeed)
 	}
 }
 
