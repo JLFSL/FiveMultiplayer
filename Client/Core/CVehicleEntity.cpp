@@ -15,6 +15,7 @@ CVehicleEntity::CVehicleEntity()
 	}
 
 	Network.LastSyncSent = timeGetTime();
+	Network.LastUpdateData = timeGetTime();
 }
 
 void CVehicleEntity::Create(int entity)
@@ -285,7 +286,7 @@ void CVehicleEntity::Pulse()
 		}
 		else
 		{
-			//Interpolate();
+			Interpolate();
 		}
 	}
 }
@@ -505,18 +506,20 @@ void CVehicleEntity::SetTargetData()
 			VEHICLE::SET_VEHICLE_ENGINE_ON(Game.Vehicle, Data.EngineState, false, true);
 			//VEHICLE::SET_VEHICLE_UNDRIVEABLE(Game.Vehicle, !Data.EngineState);
 		}
+		if (timeGetTime() > Network.LastSyncSent + 100)
+		{
+			vdata.SetCurrentGear(Game.Vehicle, Data.Gear);
+			vdata.SetCurrentRPM(Game.Vehicle, Data.RPM);
 
-		vdata.SetCurrentGear(Game.Vehicle, Data.Gear);
-		vdata.SetCurrentRPM(Game.Vehicle, Data.RPM);
+			vdata.SetClutch(Game.Vehicle, Data.Clutch);
+			vdata.SetTurbo(Game.Vehicle, Data.Turbo);
+			vdata.SetAcceleration(Game.Vehicle, Data.Acceleration);
+			vdata.SetBrake(Game.Vehicle, Data.Brake);
 
-		vdata.SetClutch(Game.Vehicle, Data.Clutch);
-		vdata.SetTurbo(Game.Vehicle, Data.Turbo);
-		vdata.SetAcceleration(Game.Vehicle, Data.Acceleration);
-		vdata.SetBrake(Game.Vehicle, Data.Brake);
-
-		vdata.SetSteeringAngle(Game.Vehicle, Data.SteeringAngle);
-		vdata.SetForwardWheelAngle(Game.Vehicle, Data.ForwardWheelAngle);
-		//vdata.SetWheelSpeed(Game.Vehicle, Data.WheelSpeed);
+			vdata.SetSteeringAngle(Game.Vehicle, Data.SteeringAngle);
+			vdata.SetForwardWheelAngle(Game.Vehicle, Data.ForwardWheelAngle);
+			//vdata.SetWheelSpeed(Game.Vehicle, Data.WheelSpeed);
+		}
 	}
 }
 
