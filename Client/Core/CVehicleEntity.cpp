@@ -13,6 +13,8 @@ CVehicleEntity::CVehicleEntity()
 	{ 
 		Occupants[i] = -1; 
 	}
+
+	Network.LastSyncSent = timeGetTime();
 }
 
 void CVehicleEntity::Create(int entity)
@@ -206,7 +208,7 @@ void CVehicleEntity::Pulse()
 				CNetworkManager::GetRPC().Signal("DropEntityAssignment", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, CNetworkManager::GetSystemAddress(), false, false);
 			}
 		}
-
+		
 		// Sync
 		if ( t_CurrentVehicle != Information.Id && CNetworkManager::GetInterface()->GetMyGUID() != Network.Assigned )
 		{
@@ -216,6 +218,7 @@ void CVehicleEntity::Pulse()
 		{
 			if (timeGetTime() > Network.LastSyncSent + (1000.0f / 50))
 			{
+				//std::cout << "(Seat = " << CLocalPlayer::GetSeat() << " && " << t_CurrentVehicle << " == " << Information.Id << ") | " << CNetworkManager::GetInterface()->GetMyGUID().ToString() << " == " << Network.Assigned.ToString() << std::endl;
 				Vector3 Coordinates = ENTITY::GET_ENTITY_COORDS(Game.Vehicle, ENTITY::IS_ENTITY_DEAD(Game.Vehicle));
 				Vector3 Rotation = ENTITY::GET_ENTITY_ROTATION(Game.Vehicle, 2);
 				Vector3 Velocity = ENTITY::GET_ENTITY_VELOCITY(Game.Vehicle);

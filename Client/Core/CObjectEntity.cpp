@@ -13,6 +13,8 @@ CObjectEntity::CObjectEntity()
 	Game.Object = NULL;
 	Game.Created = false;
 	Network.Assigned = UNASSIGNED_RAKNET_GUID;
+
+	Network.LastSyncSent = timeGetTime();
 }
 
 bool CObjectEntity::Create(int entity, int hash, CVector3 position, CVector3 rotation, bool dynamic)
