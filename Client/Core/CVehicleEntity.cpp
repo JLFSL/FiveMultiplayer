@@ -349,7 +349,7 @@ void CVehicleEntity::Interpolate()
 {
 	SetTargetPosition();
 	SetTargetRotation();
-	SetTargetData();
+	//SetTargetData();
 }
 
 void CVehicleEntity::UpdateTargetPosition()
