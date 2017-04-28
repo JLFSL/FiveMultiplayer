@@ -335,6 +335,7 @@ void CVehicleEntity::Update(Packet * packet)
 			UpdateTargetPosition();
 			SetTargetData();
 			UpdateTargetRotation();
+			Network.LastSyncReceived = timeGetTime();
 		}
 	}
 	else
@@ -342,6 +343,7 @@ void CVehicleEntity::Update(Packet * packet)
 		UpdateTargetPosition();
 		SetTargetData();
 		UpdateTargetRotation();
+		Network.LastSyncReceived = timeGetTime();
 	}
 }
 
