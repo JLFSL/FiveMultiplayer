@@ -519,6 +519,8 @@ void CVehicleEntity::SetTargetData()
 			vdata.SetSteeringAngle(Game.Vehicle, Data.SteeringAngle);
 			vdata.SetForwardWheelAngle(Game.Vehicle, Data.ForwardWheelAngle);
 			//vdata.SetWheelSpeed(Game.Vehicle, Data.WheelSpeed);
+
+			Network.LastUpdateData = timeGetTime();
 		}
 	}
 }
