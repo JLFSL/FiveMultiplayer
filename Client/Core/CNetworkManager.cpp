@@ -341,7 +341,8 @@ void CNetworkManager::Pulse()
 
 				unsigned short setId;
 				setId = g_DirTransfer->DownloadFromSubdirectory(subdir, outputSubdir, true, g_SystemAddr, &transferCallback, HIGH_PRIORITY, 0, 0);
-				if (setId == (unsigned short)-1) {
+				if (setId == (unsigned short)-1)
+				{
 					printf("Download failed.  Host unreachable.\n");
 				}
 				else
@@ -375,15 +376,19 @@ void CNetworkManager::Pulse()
 				g_BitStream.Read(tempGUID);
 
 				bool exists = false;
-				if (!g_Players.empty()) {
-					for (int i = 0; i < g_Players.size(); i++) {
-						if (std::strcmp(g_Players[i].GetGUID().ToString(), tempGUID.ToString()) == 0) {
+				if (!g_Players.empty())
+				{
+					for (int i = 0; i < g_Players.size(); i++)
+					{
+						if (std::strcmp(g_Players[i].GetGUID().ToString(), tempGUID.ToString()) == 0)
+						{
 							g_Players[i].Update(g_Packet);
 							exists = true;
 						}
 					}
 				}
-				if (!exists) {
+				if (!exists)
+				{
 					int entityId;
 					g_BitStream.Read(entityId);
 
