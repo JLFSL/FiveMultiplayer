@@ -25,13 +25,13 @@ static int ex_GetPosition(lua_State* state)
 
 		lua_createtable(state, 0, 3);
 
-		lua_pushnumber(state, pos.fX);
+		lua_pushnumber(state, pos.x);
 		lua_setfield(state, -2, "x");
 
-		lua_pushnumber(state, pos.fY);
+		lua_pushnumber(state, pos.y);
 		lua_setfield(state, -2, "y");
 
-		lua_pushnumber(state, pos.fZ);
+		lua_pushnumber(state, pos.z);
 		lua_setfield(state, -2, "z");
 		//lua_settable(state, -3);
 	}

@@ -51,17 +51,17 @@ struct NPC
 			{
 				lua_getfield(L, 3, "x");
 				lua_rawgeti(L, 3, 1);
-				poss.fX = lua_tonumber(L, -2);
+				poss.x = lua_tonumber(L, -2);
 				lua_pop(L, 1);
 
 				lua_getfield(L, 3, "y");
 				lua_rawgeti(L, 3, 1);
-				poss.fY = lua_tonumber(L, -2);
+				poss.y = lua_tonumber(L, -2);
 				lua_pop(L, 1);
 
 				lua_getfield(L, 3, "z");
 				lua_rawgeti(L, 3, 1);
-				poss.fZ = lua_tonumber(L, -2);
+				poss.z = lua_tonumber(L, -2);
 				lua_pop(L, 1);
 			}
 
@@ -75,17 +75,17 @@ struct NPC
 			{
 				lua_getfield(L, 4, "x");
 				lua_rawgeti(L, 4, 1);
-				rott.fX = lua_tonumber(L, -2);
+				rott.x = lua_tonumber(L, -2);
 				lua_pop(L, 1);
 
 				lua_getfield(L, 4, "y");
 				lua_rawgeti(L, 4, 1);
-				rott.fY = lua_tonumber(L, -2);
+				rott.y = lua_tonumber(L, -2);
 				lua_pop(L, 1);
 
 				lua_getfield(L, 4, "z");
 				lua_rawgeti(L, 4, 1);
-				rott.fZ = lua_tonumber(L, -2);
+				rott.z = lua_tonumber(L, -2);
 				lua_pop(L, 1);
 			}
 			
@@ -117,17 +117,17 @@ struct NPC
 			NPC* ent = reinterpret_cast<NPC*>(lua_touserdata(L, 1));
 
 			CVector3 poss = API::Entity::GetPosition(ent->entity);
-			/*Vec pos(poss.fX, poss.fY, poss.fZ);
+			/*Vec pos(poss.x, poss.y, poss.z);
 			lua_pushlightuserdata(L, &pos);*/
 			lua_newtable(L);
 
-			lua_pushinteger(L, poss.fX);
+			lua_pushinteger(L, poss.x);
 			lua_setfield(L, -2, "x");
 
-			lua_pushinteger(L, poss.fY);
+			lua_pushinteger(L, poss.y);
 			lua_setfield(L, -2, "y");
 
-			lua_pushinteger(L, poss.fZ);
+			lua_pushinteger(L, poss.z);
 			lua_setfield(L, -2, "z");
 
 
@@ -160,25 +160,25 @@ struct NPC
 				{
 					lua_getfield(L, 2, "x");
 					lua_rawgeti(L, 2, 1);
-					poss.fX = lua_tonumber(L, -2);
+					poss.x = lua_tonumber(L, -2);
 					lua_pop(L, 1);
 
 					lua_getfield(L, 2, "y");
 					lua_rawgeti(L, 2, 1);
-					poss.fY = lua_tonumber(L, -2);
+					poss.y = lua_tonumber(L, -2);
 					lua_pop(L, 1);
 
 					lua_getfield(L, 2, "z");
 					lua_rawgeti(L, 2, 1);
-					poss.fZ = lua_tonumber(L, -2);
+					poss.z = lua_tonumber(L, -2);
 					lua_pop(L, 1);
 				}
 			}
 			else
 			{
-				poss.fX = lua_tonumber(L, 2);
-				poss.fX = lua_tonumber(L, 3);
-				poss.fX = lua_tonumber(L, 4);
+				poss.x = lua_tonumber(L, 2);
+				poss.x = lua_tonumber(L, 3);
+				poss.x = lua_tonumber(L, 4);
 			}
 
 			API::Entity::SetPosition(ent->entity, poss);
@@ -195,17 +195,17 @@ struct NPC
 			NPC* ent = reinterpret_cast<NPC*>(lua_touserdata(L, 1));
 
 			CVector3 rot = API::Entity::GetRotation(ent->entity);
-			/*Vec pos(poss.fX, poss.fY, poss.fZ);
+			/*Vec pos(poss.x, poss.y, poss.z);
 			lua_pushlightuserdata(L, &pos);*/
 			lua_newtable(L);
 
-			lua_pushinteger(L, rot.fX);
+			lua_pushinteger(L, rot.x);
 			lua_setfield(L, -2, "x");
 
-			lua_pushinteger(L, rot.fY);
+			lua_pushinteger(L, rot.y);
 			lua_setfield(L, -2, "y");
 
-			lua_pushinteger(L, rot.fZ);
+			lua_pushinteger(L, rot.z);
 			lua_setfield(L, -2, "z");
 
 
@@ -238,25 +238,25 @@ struct NPC
 				{
 					lua_getfield(L, 2, "x");
 					lua_rawgeti(L, 2, 1);
-					rott.fX = lua_tonumber(L, -2);
+					rott.x = lua_tonumber(L, -2);
 					lua_pop(L, 1);
 
 					lua_getfield(L, 2, "y");
 					lua_rawgeti(L, 2, 1);
-					rott.fY = lua_tonumber(L, -2);
+					rott.y = lua_tonumber(L, -2);
 					lua_pop(L, 1);
 
 					lua_getfield(L, 2, "z");
 					lua_rawgeti(L, 2, 1);
-					rott.fZ = lua_tonumber(L, -2);
+					rott.z = lua_tonumber(L, -2);
 					lua_pop(L, 1);
 				}
 			}
 			else
 			{
-				rott.fX = lua_tonumber(L, 2);
-				rott.fX = lua_tonumber(L, 3);
-				rott.fX = lua_tonumber(L, 4);
+				rott.x = lua_tonumber(L, 2);
+				rott.x = lua_tonumber(L, 3);
+				rott.x = lua_tonumber(L, 4);
 			}
 
 			API::Entity::SetRotation(ent->entity, rott);

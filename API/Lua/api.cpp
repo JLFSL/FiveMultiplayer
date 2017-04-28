@@ -1,5 +1,4 @@
-#include <iostream>
-#include <sstream>
+#include "stdafx.h"
 
 extern "C" {
 #include "inc_lua/lualib.h"
@@ -10,26 +9,6 @@ extern "C" {
 #include "LuaBridge/LuaBridge.h"
 #include "LuaBridge/RefCountedPtr.h"
 #include "LuaBridge/RefCountedObject.h"
-
-#include "api.h"
-
-// Math
-#include "sdk/CVector3.h"
-#include "sdk/CVector4.h"
-#include "sdk/util.h"
-#include "sdk/Structs.h"
-
-// API Function Imports
-#include "sdk/APIVisual.h"
-#include "sdk/APIWorld.h"
-#include "sdk/APIEntity.h"
-#include "sdk/APICheckpoint.h"
-#include "sdk/APINpc.h"
-#include "sdk/APIObject.h"
-#include "sdk/APIPlayer.h"
-#include "sdk/APIServer.h"
-#include "sdk/APIVehicle.h"
-#include "sdk/APICef.h"
 
 using namespace luabridge;
 
