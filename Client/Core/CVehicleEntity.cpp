@@ -344,6 +344,8 @@ void CVehicleEntity::Interpolate()
 void CVehicleEntity::UpdateTargetPosition()
 {
 	if (Game.Created) {
+		SetTargetPosition();
+
 		unsigned long CurrentTime = timeGetTime();
 		unsigned int InterpolationTime = CurrentTime - Network.LastSyncReceived;
 
@@ -382,17 +384,17 @@ void CVehicleEntity::SetTargetPosition()
 		float fAlpha = Math::Unlerp(InterpolationData.Position.StartTime, CurrentTime, InterpolationData.Position.FinishTime);
 
 		// Don't let it overcompensate the error
-		fAlpha = Math::Clamp(0.0f, fAlpha, 1.0f);
+		fAlpha = Math::Clamp(0.0f, fAlpha, 1.5f);
 
 		// Get the current error portion to compensate
-		float fCurrentAlpha = (fAlpha - InterpolationData.Position.LastAlpha);
+		float fCurrentAlpha = fAlpha - InterpolationData.Position.LastAlpha;
 		InterpolationData.Position.LastAlpha = fAlpha;
 
 		// Apply the error compensation
 		CVector3 vecCompensation = Math::Lerp(CVector3(), fCurrentAlpha, InterpolationData.Position.Error);
 
 		// If we finished compensating the error, finish it for the next pulse
-		if (fAlpha == 1.0f)
+		if (fAlpha == 1.5f)
 			InterpolationData.Position.FinishTime = 0;
 
 		// Calculate the new position
@@ -416,6 +418,8 @@ void CVehicleEntity::UpdateTargetRotation()
 {
 	if (Game.Created)
 	{
+		SetTargetRotation();
+
 		unsigned int interpolationtime = timeGetTime() - Network.LastSyncReceived;
 		unsigned long CurrentTime = timeGetTime();
 
