@@ -14,10 +14,17 @@ bool to_bool(std::string str)
 	return b;
 };
 
+struct MMPlayer
+{
+	Player player;
+	Vehicle spawnedVehicle;
+};
+
 std::vector<Vehicle> vehicles;
 std::vector<Object> objects;
 std::vector<NPC> npcs;
 std::vector<Checkpoint> checkpoints;
+std::vector<MMPlayer> players;
 
 // When Plugin gets loaded
 extern "C" DLL_PUBLIC bool API_Initialize(void) 
@@ -165,33 +172,38 @@ extern "C" DLL_PUBLIC bool API_OnPlayerConnecting(const std::string guid)
 // Player Connected
 extern "C" DLL_PUBLIC bool API_OnPlayerConnected(int entity)
 {
+	MMPlayer newPlayer;
+	newPlayer.player.SetEntity(entity);
+
 	std::wstringstream oss;
 	oss << L"~g~You Connected! ~o~[~w~ID: " << entity << L"~o~]";
-	API::Visual::ShowMessageAboveMapToPlayer(entity, oss.str().c_str(), L"CHAR_CREATOR_PORTRAITS", 1, L"Server", L"");
+	newPlayer.player.ShowMessageAboveMap(oss.str().c_str(), L"CHAR_CREATOR_PORTRAITS", 1, L"Server", L"");
 
-	API::Player::SetModel(entity, L"u_m_y_pogo_01");
+	newPlayer.player.SetModel(L"u_m_y_pogo_01");
 
 #ifdef TESTING
-	API::Entity::SetPosition(entity, CVector3(0.0f, 0.0f, 73.5f));
+	newPlayer.player.SetPosition(CVector3(0.0f, 0.0f, 73.5f));
 #else
-	API::Entity::SetPosition(entity, CVector3(1527.62f, 3274.39f, 53.0f));
+	newPlayer.player.SetPosition(CVector3(1527.62f, 3274.39f, 53.0f));
 #endif
 
-	CVector3 position = API::Entity::GetPosition(entity);
+	CVector3 position = newPlayer.player.GetPosition();
 	
 	oss.str(std::wstring());
 	oss.clear();
 
 	oss << L"~p~Position: " << position.x << L" " << position.y << L" " << position.z;
-	API::Visual::ShowMessageAboveMapToPlayer(entity, oss.str().c_str(), L"CHAR_CREATOR_PORTRAITS", 5, L"Server", L"Position");
+	newPlayer.player.ShowMessageAboveMap(oss.str().c_str(), L"CHAR_CREATOR_PORTRAITS", 5, L"Server", L"Position");
 
 	for (int i = 0; i < checkpoints.size(); i++) {
 		checkpoints[i].Show(entity);
 	}
 
-	API::CEF::LoadURL(entity, "E:\\Games\\dl\\clientplugins\\web\\login.html", "", true);
-	API::Visual::ShowCursor(entity, true);
-	API::CEF::JavaScriptCall(entity, "alert('I am an alert box!');");
+	newPlayer.player.LoadURL("E:\\Games\\dl\\clientplugins\\web\\login.html", "", true);
+	newPlayer.player.ShowCursor(true);
+	newPlayer.player.JavaScriptCall("alert('I am an alert box!');");
+
+	players.push_back(newPlayer);
 
 	return true;
 }
@@ -221,19 +233,39 @@ extern "C" DLL_PUBLIC void API_OnPlayerCommand(const int entity, const std::stri
 		while (ss >> buf)
 			tokens.push_back(buf);
 
-		if (tokens[1].c_str())
+		if (tokens[0].compare("/veh") == 0)
 		{
-			std::wstringstream ws;
-			ws << tokens[1].c_str();
-			std::wstring sLogLevel = ws.str();
+			if (tokens[1].c_str())
+			{
+				std::wstringstream ws;
+				ws << tokens[1].c_str();
+				std::wstring str = ws.str();
 
-			CVector3 pos;
-			pos.x = API::Entity::GetPosition(entity).x;
-			pos.y = API::Entity::GetPosition(entity).y;
-			pos.z = API::Entity::GetPosition(entity).z;
-			CVector3 rot = API::Entity::GetRotation(entity);
+				CVector3 pos = API::Entity::GetPosition(entity);
+				CVector3 rot = API::Entity::GetRotation(entity);
 
-			API::Vehicle::Create(sLogLevel, pos, rot);
+				for (int i = 0; i < players.size(); i++)
+				{
+					if (entity == players[i].player.GetEntity())
+					{
+						if (players[i].spawnedVehicle.GetEntity() != -1)
+							players[i].spawnedVehicle.Destroy();
+
+						players[i].spawnedVehicle.Create(str, pos, rot);
+						break;
+					}
+				}
+			}
+		}
+
+		if (tokens[0].compare("/pos") == 0)
+		{
+			CVector3 pos = API::Entity::GetPosition(entity);
+
+			std::stringstream oss;
+			oss << " {ff000}Your Position is: " << pos.x << ", " << pos.y << ", " << pos.z;
+
+			API::Visual::SendChatMessageToPlayer(entity, oss.str().c_str());
 		}
 	}
 
