@@ -329,7 +329,7 @@ void CVehicleEntity::Update(Packet * packet)
 	}
 
 
-	if ((Information.Id == CLocalPlayer::GetVehicleId() && CLocalPlayer::GetSeat() != 0) || Information.Id != CLocalPlayer::GetVehicleId())
+	if ((Information.Id == CLocalPlayer::GetVehicleId() && CLocalPlayer::GetSeat() != 0) || (Information.Id != CLocalPlayer::GetVehicleId() && CNetworkManager::GetInterface()->GetMyGUID() != Network.Assigned))
 	{
 		UpdateTargetPosition();
 		SetTargetData();
