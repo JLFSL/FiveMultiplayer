@@ -265,7 +265,6 @@ void CCore::KeyCheck()
 	CONTROLS::DISABLE_CONTROL_ACTION(2, ControlFrontendPause, 1);
 	CONTROLS::DISABLE_CONTROL_ACTION(2, ControlFrontendPauseAlternate, 1);
 	CONTROLS::DISABLE_CONTROL_ACTION(2, ControlEnterCheatCode, 1);
-	// Not Working as far as i can tell.
 	CONTROLS::DISABLE_CONTROL_ACTION(2, ControlEnter, 1);
 	CONTROLS::DISABLE_CONTROL_ACTION(2, ControlCharacterWheel, 1);
 	CONTROLS::DISABLE_CONTROL_ACTION(2, ControlFrontendSocialClub, 1);
@@ -276,6 +275,8 @@ void CCore::KeyCheck()
 	CONTROLS::DISABLE_CONTROL_ACTION(2, ControlSelectCharacterFranklin, 1);
 	CONTROLS::DISABLE_CONTROL_ACTION(2, ControlSelectCharacterTrevor, 1);
 	CONTROLS::DISABLE_CONTROL_ACTION(2, ControlSelectCharacterMultiplayer, 1);
+	CONTROLS::DISABLE_CONTROL_ACTION(2, ControlVehicleRadioWheel, 1);
+	//CONTROLS::DISABLE_CONTROL_ACTION(2, ControlSelectCharacterMultiplayer, 1);
 	//
 	if (!CChat::InputOpen && CLocalPlayer::IsControllable())
 	{
