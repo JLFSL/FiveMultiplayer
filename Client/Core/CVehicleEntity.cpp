@@ -285,6 +285,11 @@ void CVehicleEntity::Pulse()
 				Interpolate();
 			}
 		}
+		else
+		{
+			if(CNetworkManager::GetInterface()->GetMyGUID() != Network.Assigned)
+				Interpolate();
+		}
 
 		if (CNetworkManager::GetInterface()->GetMyGUID() == Network.Assigned && !sentPacket)
 		{
