@@ -506,7 +506,7 @@ void CVehicleEntity::SetTargetData()
 			VEHICLE::SET_VEHICLE_ENGINE_ON(Game.Vehicle, Data.EngineState, false, true);
 			//VEHICLE::SET_VEHICLE_UNDRIVEABLE(Game.Vehicle, !Data.EngineState);
 		}
-		if (timeGetTime() > Network.LastUpdateData + 100)
+		if (timeGetTime() > Network.LastUpdateData + (1000.0f / 50))
 		{
 			vdata.SetCurrentGear(Game.Vehicle, Data.Gear);
 			vdata.SetCurrentRPM(Game.Vehicle, Data.RPM);
