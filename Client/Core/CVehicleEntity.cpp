@@ -215,7 +215,7 @@ void CVehicleEntity::Pulse()
 		{
 			if (CLocalPlayer::GetSeat() == 0 || CNetworkManager::GetInterface()->GetMyGUID() == Network.Assigned)
 			{
-				if (timeGetTime() > Network.LastSyncSent + (1000.0f / 50))
+				if (timeGetTime() > Network.LastSyncSent + (1000.0f / 10))
 				{
 					//std::cout << "(Seat = " << CLocalPlayer::GetSeat() << " && " << t_CurrentVehicle << " == " << Information.Id << ") | " << CNetworkManager::GetInterface()->GetMyGUID().ToString() << " == " << Network.Assigned.ToString() << std::endl;
 					Vector3 Coordinates = ENTITY::GET_ENTITY_COORDS(Game.Vehicle, ENTITY::IS_ENTITY_DEAD(Game.Vehicle));
@@ -281,7 +281,7 @@ void CVehicleEntity::Pulse()
 			}
 			else
 			{
-				Interpolate();
+				//Interpolate();
 			}
 		}
 		else
