@@ -327,13 +327,21 @@ void CVehicleEntity::Update(Packet * packet)
 	{
 		bitstream.Read(Occupants[i]);
 	}
-	
-	if (CLocalPlayer::GetSeat() != 0 && CLocalPlayer::GetVehicleId() != Information.Id) {
+
+	if (Information.Id == CLocalPlayer::GetVehicleId())
+	{
+		if (CLocalPlayer::GetSeat() != 0)
+		{
+			UpdateTargetPosition();
+			SetTargetData();
+			UpdateTargetRotation();
+		}
+	}
+	else
+	{
 		UpdateTargetPosition();
 		SetTargetData();
 		UpdateTargetRotation();
-
-		Network.LastSyncReceived = timeGetTime();
 	}
 }
 
