@@ -34,6 +34,8 @@ extern "C" DLL_PUBLIC bool API_Initialize(void)
 	vehicles.push_back(newVehicle);
 	newVehicle.Create(L"voltic2", CVector3(-12.0f, 12.0f, 73.0f), 10.0f);
 	vehicles.push_back(newVehicle);
+	newVehicle.Create(L"polmav", CVector3(44.0f, 33.6f, 72.0f), 10.0f);
+	vehicles.push_back(newVehicle);
 #else
 	newVehicle.Create(L"elegy", CVector3(1533.53f, 3282.39f, 52.5f), 195.0f);
 	vehicles.push_back(newVehicle);
@@ -225,7 +227,10 @@ extern "C" DLL_PUBLIC void API_OnPlayerCommand(const int entity, const std::stri
 			ws << tokens[1].c_str();
 			std::wstring sLogLevel = ws.str();
 
-			CVector3 pos = API::Entity::GetPosition(entity);
+			CVector3 pos;
+			pos.x = API::Entity::GetPosition(entity).x;
+			pos.y = API::Entity::GetPosition(entity).y;
+			pos.z = API::Entity::GetPosition(entity).z;
 			CVector3 rot = API::Entity::GetRotation(entity);
 
 			API::Vehicle::Create(sLogLevel, pos, rot);
