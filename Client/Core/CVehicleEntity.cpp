@@ -340,7 +340,7 @@ void CVehicleEntity::Update(Packet * packet)
 	if ((Information.Id == CLocalPlayer::GetVehicleId() && CLocalPlayer::GetSeat() != 0) || Information.Id != CLocalPlayer::GetVehicleId())
 	{
 		UpdateTargetPosition();
-		//SetTargetData();
+		SetTargetData();
 		UpdateTargetRotation();
 		Network.LastSyncReceived = timeGetTime();
 	}
@@ -348,15 +348,15 @@ void CVehicleEntity::Update(Packet * packet)
 
 void CVehicleEntity::Interpolate()
 {
-	SetTargetPosition();
+	//SetTargetPosition();
 	SetTargetRotation();
-	SetTargetData();
+	//SetTargetData();
 }
 
 void CVehicleEntity::UpdateTargetPosition()
 {
 	if (Game.Created) {
-		//SetTargetPosition();
+		SetTargetPosition();
 
 		unsigned long CurrentTime = timeGetTime();
 		unsigned int InterpolationTime = CurrentTime - Network.LastSyncReceived;
