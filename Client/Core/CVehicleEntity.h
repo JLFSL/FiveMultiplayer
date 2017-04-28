@@ -66,6 +66,8 @@ private:
 		RakNetGUID		Assigned;
 		unsigned long	LastSyncReceived;
 		unsigned long	LastSyncSent;
+
+		unsigned long	LastUpdateData;
 	} Network;
 
 	struct VehicleInterpolationData
