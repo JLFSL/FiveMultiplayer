@@ -328,6 +328,7 @@ void CVehicleEntity::Update(Packet * packet)
 		bitstream.Read(Occupants[i]);
 	}
 
+
 	if (Information.Id == CLocalPlayer::GetVehicleId())
 	{
 		if (CLocalPlayer::GetSeat() != 0)
@@ -470,37 +471,30 @@ void CVehicleEntity::SetTargetRotation()
 			Vector3 CurrentRotationVec = ENTITY::GET_ENTITY_ROTATION(Game.Vehicle, 2);
 			CVector3 CurrentRotation(CurrentRotationVec.x, CurrentRotationVec.y, CurrentRotationVec.z);
 
-			if (InterpolationData.Rotation.Target.z > 178.0f || InterpolationData.Rotation.Target.z < -178.0f)
-			{
-				ENTITY::SET_ENTITY_ROTATION(Game.Vehicle, Data.Rotation.x, Data.Rotation.y, Data.Rotation.z, 2, true);
+			
+			// Get the factor of time spent from the interpolation start to the current time.
+			unsigned long CurrentTime = timeGetTime();
+			float fAlpha = Math::Unlerp(InterpolationData.Rotation.StartTime, CurrentTime, InterpolationData.Rotation.FinishTime);
+
+			// Don't let it overcompensate the error
+			fAlpha = Math::Clamp(0.0f, fAlpha, 1.0f);
+
+			// Get the current error portion to compensate
+			float fCurrentAlpha = (fAlpha - InterpolationData.Rotation.LastAlpha);
+			InterpolationData.Rotation.LastAlpha = fAlpha;
+
+			// Apply the error compensation
+			CVector3 vecCompensation = Math::Lerp(CVector3(), fCurrentAlpha, InterpolationData.Rotation.Error);
+
+			// If we finished compensating the error, finish it for the next pulse
+			if (fAlpha == 1.0f)
 				InterpolationData.Rotation.FinishTime = 0;
-			}
-			else
-			{
-				// Get the factor of time spent from the interpolation start to the current time.
-				unsigned long CurrentTime = timeGetTime();
-				float fAlpha = Math::Unlerp(InterpolationData.Rotation.StartTime, CurrentTime, InterpolationData.Rotation.FinishTime);
 
-				// Don't let it overcompensate the error
-				fAlpha = Math::Clamp(0.0f, fAlpha, 1.0f);
+			// Calculate the new position
+			CVector3 vecNewRotation = CurrentRotation + vecCompensation;
 
-				// Get the current error portion to compensate
-				float fCurrentAlpha = (fAlpha - InterpolationData.Rotation.LastAlpha);
-				InterpolationData.Rotation.LastAlpha = fAlpha;
-
-				// Apply the error compensation
-				CVector3 vecCompensation = Math::Lerp(CVector3(), fCurrentAlpha, InterpolationData.Rotation.Error);
-
-				// If we finished compensating the error, finish it for the next pulse
-				if (fAlpha == 1.0f)
-					InterpolationData.Rotation.FinishTime = 0;
-
-				// Calculate the new position
-				CVector3 vecNewRotation = CurrentRotation + vecCompensation;
-
-				// Set our new position
-				ENTITY::SET_ENTITY_ROTATION(Game.Vehicle, vecNewRotation.x, vecNewRotation.y, vecNewRotation.z, 2, true);
-			}
+			// Set our new position
+			ENTITY::SET_ENTITY_ROTATION(Game.Vehicle, vecNewRotation.x, vecNewRotation.y, vecNewRotation.z, 2, true);
 		}
 	}
 }
