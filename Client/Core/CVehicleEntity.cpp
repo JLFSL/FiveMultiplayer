@@ -209,158 +209,75 @@ void CVehicleEntity::Pulse()
 			}
 		}
 
-		bool sentPacket = false;
-		
-		if (t_CurrentVehicle == Information.Id)
+		if ((t_CurrentVehicle == Information.Id && CLocalPlayer::GetSeat() == 0) || CNetworkManager::GetInterface()->GetMyGUID() == Network.Assigned)
 		{
-			if (CLocalPlayer::GetSeat() == 0)
+			if (timeGetTime() > Network.LastSyncSent + (1000.0f / 50))
 			{
-				if (timeGetTime() > Network.LastSyncSent + (1000.0f / 50))
-				{
-					//std::cout << "(Seat = " << CLocalPlayer::GetSeat() << " && " << t_CurrentVehicle << " == " << Information.Id << ") | " << CNetworkManager::GetInterface()->GetMyGUID().ToString() << " == " << Network.Assigned.ToString() << std::endl;
-					Vector3 Coordinates = ENTITY::GET_ENTITY_COORDS(Game.Vehicle, ENTITY::IS_ENTITY_DEAD(Game.Vehicle));
-					Vector3 Rotation = ENTITY::GET_ENTITY_ROTATION(Game.Vehicle, 2);
-					Vector3 Velocity = ENTITY::GET_ENTITY_VELOCITY(Game.Vehicle);
+				//std::cout << "(Seat = " << CLocalPlayer::GetSeat() << " && " << t_CurrentVehicle << " == " << Information.Id << ") | " << CNetworkManager::GetInterface()->GetMyGUID().ToString() << " == " << Network.Assigned.ToString() << std::endl;
+				Vector3 Coordinates = ENTITY::GET_ENTITY_COORDS(Game.Vehicle, ENTITY::IS_ENTITY_DEAD(Game.Vehicle));
+				Vector3 Rotation = ENTITY::GET_ENTITY_ROTATION(Game.Vehicle, 2);
+				Vector3 Velocity = ENTITY::GET_ENTITY_VELOCITY(Game.Vehicle);
 
-					Data.ForwardSpeed = ENTITY::GET_ENTITY_SPEED(Game.Vehicle);
-					Data.Position = { Coordinates.x, Coordinates.y, Coordinates.z };
-					Data.Rotation = { Rotation.x, Rotation.y, Rotation.z };
-					Data.Velocity = { Velocity.x, Velocity.y, Velocity.z };
+				Data.ForwardSpeed = ENTITY::GET_ENTITY_SPEED(Game.Vehicle);
+				Data.Position = { Coordinates.x, Coordinates.y, Coordinates.z };
+				Data.Rotation = { Rotation.x, Rotation.y, Rotation.z };
+				Data.Velocity = { Velocity.x, Velocity.y, Velocity.z };
 
-					Data.EngineState = VEHICLE::GET_IS_VEHICLE_ENGINE_RUNNING(Game.Vehicle);
+				Data.EngineState = VEHICLE::GET_IS_VEHICLE_ENGINE_RUNNING(Game.Vehicle);
 
-					Data.Gear = vdata.GetCurrentGear(Game.Vehicle);
-					Data.RPM = vdata.GetCurrentRPM(Game.Vehicle);
+				Data.Gear = vdata.GetCurrentGear(Game.Vehicle);
+				Data.RPM = vdata.GetCurrentRPM(Game.Vehicle);
 
-					Data.Clutch = vdata.GetClutch(Game.Vehicle);
-					Data.Turbo = vdata.GetTurbo(Game.Vehicle);
-					Data.Acceleration = vdata.GetAcceleration(Game.Vehicle);
-					Data.Brake = vdata.GetBrake(Game.Vehicle);
+				Data.Clutch = vdata.GetClutch(Game.Vehicle);
+				Data.Turbo = vdata.GetTurbo(Game.Vehicle);
+				Data.Acceleration = vdata.GetAcceleration(Game.Vehicle);
+				Data.Brake = vdata.GetBrake(Game.Vehicle);
 
-					Data.WheelSpeed = vdata.GetWheelSpeed(Game.Vehicle);
-					Data.SteeringAngle = vdata.GetSteeringAngle(Game.Vehicle);
-					Data.ForwardWheelAngle = vdata.GetForwardWheelAngle(Game.Vehicle);
+				Data.WheelSpeed = vdata.GetWheelSpeed(Game.Vehicle);
+				Data.SteeringAngle = vdata.GetSteeringAngle(Game.Vehicle);
+				Data.ForwardWheelAngle = vdata.GetForwardWheelAngle(Game.Vehicle);
 
-					BitStream bitstream;
-					bitstream.Write((unsigned char)ID_PACKET_VEHICLE);
+				BitStream bitstream;
+				bitstream.Write((unsigned char)ID_PACKET_VEHICLE);
 
-					bitstream.Write(Information.Id);
+				bitstream.Write(Information.Id);
 
-					bitstream.Write(Data.Position.x);
-					bitstream.Write(Data.Position.y);
-					bitstream.Write(Data.Position.z);
+				bitstream.Write(Data.Position.x);
+				bitstream.Write(Data.Position.y);
+				bitstream.Write(Data.Position.z);
 
-					bitstream.Write(Data.ForwardSpeed);
+				bitstream.Write(Data.ForwardSpeed);
 
-					bitstream.Write(Data.EngineState);
+				bitstream.Write(Data.EngineState);
 
-					bitstream.Write(Data.Gear);
-					bitstream.Write(Data.RPM);
+				bitstream.Write(Data.Gear);
+				bitstream.Write(Data.RPM);
 
-					bitstream.Write(Data.Clutch);
-					bitstream.Write(Data.Turbo);
-					bitstream.Write(Data.Acceleration);
-					bitstream.Write(Data.Brake);
+				bitstream.Write(Data.Clutch);
+				bitstream.Write(Data.Turbo);
+				bitstream.Write(Data.Acceleration);
+				bitstream.Write(Data.Brake);
 
-					bitstream.Write(Data.WheelSpeed);
-					bitstream.Write(Data.SteeringAngle);
-					bitstream.Write(Data.ForwardWheelAngle);
+				bitstream.Write(Data.WheelSpeed);
+				bitstream.Write(Data.SteeringAngle);
+				bitstream.Write(Data.ForwardWheelAngle);
 
-					bitstream.Write(Data.Velocity.x);
-					bitstream.Write(Data.Velocity.y);
-					bitstream.Write(Data.Velocity.z);
+				bitstream.Write(Data.Velocity.x);
+				bitstream.Write(Data.Velocity.y);
+				bitstream.Write(Data.Velocity.z);
 
-					bitstream.Write(Data.Rotation.x);
-					bitstream.Write(Data.Rotation.y);
-					bitstream.Write(Data.Rotation.z);
+				bitstream.Write(Data.Rotation.x);
+				bitstream.Write(Data.Rotation.y);
+				bitstream.Write(Data.Rotation.z);
 
-					CNetworkManager::GetInterface()->Send(&bitstream, MEDIUM_PRIORITY, UNRELIABLE_SEQUENCED, 0, CNetworkManager::GetSystemAddress(), false);
-					sentPacket = true;
+				CNetworkManager::GetInterface()->Send(&bitstream, MEDIUM_PRIORITY, UNRELIABLE_SEQUENCED, 0, CNetworkManager::GetSystemAddress(), false);
 
-					Network.LastSyncSent = timeGetTime();
-				}
-			}
-			else
-			{
-				Interpolate();
+				Network.LastSyncSent = timeGetTime();
 			}
 		}
 		else
 		{
-			if (CNetworkManager::GetInterface()->GetMyGUID() != Network.Assigned)
-			{
-				Interpolate();
-			}
-			else
-			{
-				if (!sentPacket)
-				{
-					if (timeGetTime() > Network.LastSyncSent + (1000.0f / 50))
-					{
-						//std::cout << "(Seat = " << CLocalPlayer::GetSeat() << " && " << t_CurrentVehicle << " == " << Information.Id << ") | " << CNetworkManager::GetInterface()->GetMyGUID().ToString() << " == " << Network.Assigned.ToString() << std::endl;
-						Vector3 Coordinates = ENTITY::GET_ENTITY_COORDS(Game.Vehicle, ENTITY::IS_ENTITY_DEAD(Game.Vehicle));
-						Vector3 Rotation = ENTITY::GET_ENTITY_ROTATION(Game.Vehicle, 2);
-						Vector3 Velocity = ENTITY::GET_ENTITY_VELOCITY(Game.Vehicle);
-
-						Data.ForwardSpeed = ENTITY::GET_ENTITY_SPEED(Game.Vehicle);
-						Data.Position = { Coordinates.x, Coordinates.y, Coordinates.z };
-						Data.Rotation = { Rotation.x, Rotation.y, Rotation.z };
-						Data.Velocity = { Velocity.x, Velocity.y, Velocity.z };
-
-						Data.EngineState = VEHICLE::GET_IS_VEHICLE_ENGINE_RUNNING(Game.Vehicle);
-
-						Data.Gear = vdata.GetCurrentGear(Game.Vehicle);
-						Data.RPM = vdata.GetCurrentRPM(Game.Vehicle);
-
-						Data.Clutch = vdata.GetClutch(Game.Vehicle);
-						Data.Turbo = vdata.GetTurbo(Game.Vehicle);
-						Data.Acceleration = vdata.GetAcceleration(Game.Vehicle);
-						Data.Brake = vdata.GetBrake(Game.Vehicle);
-
-						Data.WheelSpeed = vdata.GetWheelSpeed(Game.Vehicle);
-						Data.SteeringAngle = vdata.GetSteeringAngle(Game.Vehicle);
-						Data.ForwardWheelAngle = vdata.GetForwardWheelAngle(Game.Vehicle);
-
-						BitStream bitstream;
-						bitstream.Write((unsigned char)ID_PACKET_VEHICLE);
-
-						bitstream.Write(Information.Id);
-
-						bitstream.Write(Data.Position.x);
-						bitstream.Write(Data.Position.y);
-						bitstream.Write(Data.Position.z);
-
-						bitstream.Write(Data.ForwardSpeed);
-
-						bitstream.Write(Data.EngineState);
-
-						bitstream.Write(Data.Gear);
-						bitstream.Write(Data.RPM);
-
-						bitstream.Write(Data.Clutch);
-						bitstream.Write(Data.Turbo);
-						bitstream.Write(Data.Acceleration);
-						bitstream.Write(Data.Brake);
-
-						bitstream.Write(Data.WheelSpeed);
-						bitstream.Write(Data.SteeringAngle);
-						bitstream.Write(Data.ForwardWheelAngle);
-
-						bitstream.Write(Data.Velocity.x);
-						bitstream.Write(Data.Velocity.y);
-						bitstream.Write(Data.Velocity.z);
-
-						bitstream.Write(Data.Rotation.x);
-						bitstream.Write(Data.Rotation.y);
-						bitstream.Write(Data.Rotation.z);
-
-						CNetworkManager::GetInterface()->Send(&bitstream, MEDIUM_PRIORITY, UNRELIABLE_SEQUENCED, 0, CNetworkManager::GetSystemAddress(), false);
-						sentPacket = true;
-
-						Network.LastSyncSent = timeGetTime();
-					}
-				}
-			}
+			Interpolate();
 		}
 	}
 }
@@ -411,17 +328,7 @@ void CVehicleEntity::Update(Packet * packet)
 	}
 
 
-	if (Information.Id == CLocalPlayer::GetVehicleId())
-	{
-		if (CLocalPlayer::GetSeat() != 0)
-		{
-			UpdateTargetPosition();
-			SetTargetData();
-			UpdateTargetRotation();
-			Network.LastSyncReceived = timeGetTime();
-		}
-	}
-	else
+	if ((Information.Id == CLocalPlayer::GetVehicleId() && CLocalPlayer::GetSeat() != 0) || Information.Id != CLocalPlayer::GetVehicleId())
 	{
 		UpdateTargetPosition();
 		SetTargetData();
@@ -601,7 +508,7 @@ void CVehicleEntity::SetTargetData()
 
 		vdata.SetSteeringAngle(Game.Vehicle, Data.SteeringAngle);
 		vdata.SetForwardWheelAngle(Game.Vehicle, Data.ForwardWheelAngle);
-		//vdata.SetWheelSpeed(Game.Vehicle, Data.WheelSpeed)
+		vdata.SetWheelSpeed(Game.Vehicle, Data.WheelSpeed);
 	}
 }
 
