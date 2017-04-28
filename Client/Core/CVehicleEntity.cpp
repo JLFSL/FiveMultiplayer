@@ -291,7 +291,7 @@ void CVehicleEntity::Pulse()
 				Interpolate();
 		}
 
-		if (CNetworkManager::GetInterface()->GetMyGUID() == Network.Assigned && !sentPacket)
+		/*if (CNetworkManager::GetInterface()->GetMyGUID() == Network.Assigned && !sentPacket)
 		{
 			if (timeGetTime() > Network.LastSyncSent + (1000.0f / 50))
 			{
@@ -357,7 +357,7 @@ void CVehicleEntity::Pulse()
 
 				Network.LastSyncSent = timeGetTime();
 			}
-		}
+		}*/
 	}
 }
 
