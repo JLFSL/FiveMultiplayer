@@ -209,6 +209,29 @@ extern "C" DLL_PUBLIC void API_OnEntityExitCheckpoint(int checkpoint, int entity
 // When a player sends a command
 extern "C" DLL_PUBLIC void API_OnPlayerCommand(const int entity, const std::string message)
 {
+	if (message[0] == '/')
+	{
+		std::string buf; // Have a buffer string
+		std::stringstream ss(message); // Insert the string into a stream
+
+		std::vector<std::string> tokens; // Create vector to hold our words
+
+		while (ss >> buf)
+			tokens.push_back(buf);
+
+		if (tokens[1].c_str())
+		{
+			std::wstringstream ws;
+			ws << tokens[1].c_str();
+			std::wstring sLogLevel = ws.str();
+
+			CVector3 pos = API::Entity::GetPosition(entity);
+			CVector3 rot = API::Entity::GetRotation(entity);
+
+			API::Vehicle::Create(sLogLevel, pos, rot);
+		}
+	}
+
 	API::Server::PrintMessage(L"OnPlayerCommand");
 }
 
@@ -216,6 +239,7 @@ extern "C" DLL_PUBLIC void API_OnPlayerCommand(const int entity, const std::stri
 extern "C" DLL_PUBLIC void API_OnPlayerMessage(const int entity, const std::string message)
 {
 	API::Server::PrintMessage(L"OnPlayerMessage");
-
+	
+	//API::Server::PrintMessage(std::wstring(API::Player::GetUsername(entity).c_str()) + L" : " + message);
 	API::Visual::SendChatMessage(API::Player::GetUsername(entity) + " : " + message);
 }
