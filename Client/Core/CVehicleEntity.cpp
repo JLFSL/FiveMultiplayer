@@ -210,11 +210,11 @@ void CVehicleEntity::Pulse()
 		}
 		
 		// Sync
-		if ( t_CurrentVehicle != Information.Id && CNetworkManager::GetInterface()->GetMyGUID() != Network.Assigned )
+		if ( t_CurrentVehicle != Information.Id/* && CNetworkManager::GetInterface()->GetMyGUID() != Network.Assigned */)
 		{
 			Interpolate();
 		}
-		else if( (CLocalPlayer::GetSeat() == 0 && t_CurrentVehicle == Information.Id) || CNetworkManager::GetInterface()->GetMyGUID() == Network.Assigned )
+		else if( (CLocalPlayer::GetSeat() == 0 && t_CurrentVehicle == Information.Id) /*|| CNetworkManager::GetInterface()->GetMyGUID() == Network.Assigned*/ )
 		{
 			if (timeGetTime() > Network.LastSyncSent + (1000.0f / 50))
 			{
@@ -515,7 +515,7 @@ void CVehicleEntity::SetTargetData()
 
 		vdata.SetSteeringAngle(Game.Vehicle, Data.SteeringAngle);
 		vdata.SetForwardWheelAngle(Game.Vehicle, Data.ForwardWheelAngle);
-		vdata.SetWheelSpeed(Game.Vehicle, Data.WheelSpeed); // Dash Speed, Only a GET not SET.
+		vdata.SetWheelSpeed(Game.Vehicle, Data.WheelSpeed);
 	}
 }
 
