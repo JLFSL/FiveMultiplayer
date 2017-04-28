@@ -281,12 +281,12 @@ void CVehicleEntity::Pulse()
 			}
 			else
 			{
-				//Interpolate();
+				Interpolate();
 			}
 		}
 		else
 		{
-			//Interpolate();
+			Interpolate();
 		}
 	}
 }
@@ -340,7 +340,7 @@ void CVehicleEntity::Update(Packet * packet)
 	if ((Information.Id == CLocalPlayer::GetVehicleId() && CLocalPlayer::GetSeat() != 0) || Information.Id != CLocalPlayer::GetVehicleId())
 	{
 		UpdateTargetPosition();
-		SetTargetData();
+		//SetTargetData();
 		UpdateTargetRotation();
 		Network.LastSyncReceived = timeGetTime();
 	}
@@ -350,13 +350,13 @@ void CVehicleEntity::Interpolate()
 {
 	SetTargetPosition();
 	SetTargetRotation();
-	//SetTargetData();
+	SetTargetData();
 }
 
 void CVehicleEntity::UpdateTargetPosition()
 {
 	if (Game.Created) {
-		SetTargetPosition();
+		//SetTargetPosition();
 
 		unsigned long CurrentTime = timeGetTime();
 		unsigned int InterpolationTime = CurrentTime - Network.LastSyncReceived;
@@ -430,7 +430,7 @@ void CVehicleEntity::UpdateTargetRotation()
 {
 	if (Game.Created)
 	{
-		SetTargetRotation();
+		//SetTargetRotation();
 
 		unsigned int interpolationtime = timeGetTime() - Network.LastSyncReceived;
 		unsigned long CurrentTime = timeGetTime();
@@ -507,22 +507,19 @@ void CVehicleEntity::SetTargetData()
 			//VEHICLE::SET_VEHICLE_UNDRIVEABLE(Game.Vehicle, !Data.EngineState);
 		}
 
-		if (timeGetTime() > Network.LastUpdateData + (1000.0f / 50))
-		{
-			vdata.SetCurrentGear(Game.Vehicle, Data.Gear);
-			vdata.SetCurrentRPM(Game.Vehicle, Data.RPM);
+		vdata.SetCurrentGear(Game.Vehicle, Data.Gear);
+		vdata.SetCurrentRPM(Game.Vehicle, Data.RPM);
 
-			vdata.SetClutch(Game.Vehicle, Data.Clutch);
-			vdata.SetTurbo(Game.Vehicle, Data.Turbo);
-			vdata.SetAcceleration(Game.Vehicle, Data.Acceleration);
-			vdata.SetBrake(Game.Vehicle, Data.Brake);
+		vdata.SetClutch(Game.Vehicle, Data.Clutch);
+		vdata.SetTurbo(Game.Vehicle, Data.Turbo);
+		vdata.SetAcceleration(Game.Vehicle, Data.Acceleration);
+		vdata.SetBrake(Game.Vehicle, Data.Brake);
 
-			vdata.SetSteeringAngle(Game.Vehicle, Data.SteeringAngle);
-			vdata.SetForwardWheelAngle(Game.Vehicle, Data.ForwardWheelAngle);
-			//vdata.SetWheelSpeed(Game.Vehicle, Data.WheelSpeed);
+		vdata.SetSteeringAngle(Game.Vehicle, Data.SteeringAngle);
+		vdata.SetForwardWheelAngle(Game.Vehicle, Data.ForwardWheelAngle);
+		//vdata.SetWheelSpeed(Game.Vehicle, Data.WheelSpeed);
 
-			Network.LastUpdateData = timeGetTime();
-		}
+		Network.LastUpdateData = timeGetTime();
 	}
 }
 
