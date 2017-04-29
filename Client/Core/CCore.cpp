@@ -276,7 +276,7 @@ void CCore::KeyCheck()
 	CONTROLS::DISABLE_CONTROL_ACTION(2, ControlSelectCharacterTrevor, 1);
 	CONTROLS::DISABLE_CONTROL_ACTION(2, ControlSelectCharacterMultiplayer, 1);
 	CONTROLS::DISABLE_CONTROL_ACTION(2, ControlVehicleRadioWheel, 1);
-	//CONTROLS::DISABLE_CONTROL_ACTION(2, ControlSelectCharacterMultiplayer, 1);
+	CONTROLS::DISABLE_CONTROL_ACTION(2, ControlSelectWeapon, 1);
 	//
 	if (!CChat::InputOpen && CLocalPlayer::IsControllable())
 	{
