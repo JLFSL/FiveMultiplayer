@@ -34,7 +34,7 @@ public:
 	int			GetId() { return Data.Id; }
 	void		SetId(int entity) { Data.Id = entity;  }
 
-	CVector3	GetPosition();
+	const CVector3 GetPosition();
 	void		SetPosition(CVector3 position);
 
 	CVector3	GetRotation();

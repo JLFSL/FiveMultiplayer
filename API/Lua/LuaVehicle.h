@@ -57,7 +57,7 @@ struct Vehicle
 			Vehicle* veh = reinterpret_cast<Vehicle*>(lua_touserdata(L, 1));
 			std::wstring model = CString::utf8ToUtf16(lua_tostring(L, 2));
 			float heading;
-			CVector3 poss;
+			CVector3 poss = CVector3();
 			CVector3 rott;
 
 			if (lua_isuserdata(L, 3))
@@ -109,17 +109,18 @@ struct Vehicle
 				
 				lua_getfield(L, 3, "x");
 				lua_rawgeti(L, 3, 1);
-				rott.x = lua_tonumber(L, -2);
+				poss.x = lua_tonumber(L, -2);
 				lua_pop(L, 1);
 
 				lua_getfield(L, 3, "y");
 				lua_rawgeti(L, 3, 1);
-				rott.y = lua_tonumber(L, -2);
+				poss.y = lua_tonumber(L, -2);
 				lua_pop(L, 1);
 
 				lua_getfield(L, 3, "z");
 				lua_rawgeti(L, 3, 1);
-				rott.z = lua_tonumber(L, -2);
+				poss.z = lua_tonumber(L, -2);
+				//std::cout << 
 				lua_pop(L, 1);
 				
 			}

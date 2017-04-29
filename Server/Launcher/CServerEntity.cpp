@@ -87,7 +87,7 @@ void CServerEntity::Destroy()
 	Data.Id		= -1;
 }
 
-CVector3 CServerEntity::GetPosition()
+const CVector3 CServerEntity::GetPosition()
 {
 	switch (Data.type)
 	{

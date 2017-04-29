@@ -32,12 +32,10 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
-// Math
-#include "CVector3.h"
-
 // Shared
 #include <Common.h>
 //#include <CVector4.h>
+#include "CVector3.h"
 #include <CMaths.h>
 #include <SharedUtility.h>
 #include <APIStructs.h>

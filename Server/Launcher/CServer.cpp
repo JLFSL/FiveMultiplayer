@@ -401,7 +401,11 @@ void CServer::Input(std::atomic<bool>& run) {
 
 		if (buffer[0] == '/')
 		{
-			
+			/*for (int i = 0; i < g_ApiModules.size(); i++)
+			{
+				void *Instance = g_ApiModules[i].GetInstance();
+				API::Network::OnPlayerCommand(Instance, -1, buffer.c_str());
+			}*/
 		}
 		else {
 			RakNet::RakWString textstring(buffer.c_str());

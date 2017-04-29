@@ -107,10 +107,10 @@ public:
 	int				GetVehicle() { return Data.Vehicle.VehicleID; }
 	int				GetVehicleSeat() { return Data.Vehicle.Seat; }
 
-	CVector3		GetPosition() { return Data.Position; }
+	const CVector3	GetPosition() { return Data.Position; }
 	void			SetPosition(CVector3 position) { Data.Position = position; }
 
-	CVector3		GetRotation() { return Data.Rotation; }
+	const CVector3	GetRotation() { return Data.Rotation; }
 	void			SetRotation(CVector3 rotation) { Data.Rotation = rotation; }
 
 	const std::wstring GetModel() { return Data.Model.Model; }
