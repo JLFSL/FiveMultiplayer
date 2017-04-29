@@ -152,11 +152,14 @@ void CNPCEntity::Destroy()
 
 void CNPCEntity::Delete()
 {
-	if (Game.Npc)
+	if (ENTITY::DOES_ENTITY_EXIST(Game.Npc))
 		ENTITY::DELETE_ENTITY(&Game.Npc);
 
 	if (Game.Blip)
 		UI::REMOVE_BLIP(&Game.Blip);
+
+	Game.Npc = 0;
+	Game.Blip = 0;
 
 	Game.Created = false;
 }

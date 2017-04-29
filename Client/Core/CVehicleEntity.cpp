@@ -150,7 +150,7 @@ void CVehicleEntity::Destroy()
 
 	Game.Created = false;
 
-	if (UI::DOES_BLIP_EXIST(Game.Blip))
+	if (Game.Blip)
 		UI::REMOVE_BLIP(&Game.Blip);
 
 	Game = {};
@@ -167,8 +167,11 @@ void CVehicleEntity::Delete()
 	if (ENTITY::DOES_ENTITY_EXIST(Game.Vehicle))
 		VEHICLE::DELETE_VEHICLE(&Game.Vehicle);
 
-	if (UI::DOES_BLIP_EXIST(Game.Blip))
+	if (Game.Blip)
 		UI::REMOVE_BLIP(&Game.Blip);
+
+	Game.Vehicle = 0;
+	Game.Blip = 0;
 
 	if (CNetworkManager::GetInterface()->GetMyGUID() == Network.Assigned)
 	{

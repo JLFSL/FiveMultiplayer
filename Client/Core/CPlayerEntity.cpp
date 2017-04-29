@@ -133,7 +133,7 @@ void CPlayerEntity::Destroy()
 
 	Game.Created = false;
 
-	if(UI::DOES_BLIP_EXIST(Game.Blip))
+	if(Game.Blip)
 		UI::REMOVE_BLIP(&Game.Blip);
 
 	Game = {};
@@ -154,8 +154,11 @@ void CPlayerEntity::Delete()
 	if (ENTITY::DOES_ENTITY_EXIST(Game.Ped))
 		ENTITY::DELETE_ENTITY(&Game.Ped);
 
-	if (UI::DOES_BLIP_EXIST(Game.Blip))
+	if (Game.Blip)
 		UI::REMOVE_BLIP(&Game.Blip);
+
+	Game.Ped = 0;
+	Game.Blip = 0;
 
 	Game.Created = false;
 }
