@@ -128,8 +128,8 @@ void CCore::OnGameTick()
 			// "FE_MENU_VERSION_EMPTY_NO_BACKGROUND" = Blocsk all player input & removes all hud elements (ESC disables it)
 
 			//"pause_menu_pages_settings" - "pause_menu_pages_keymap" - "pause_menu_pages_keymap" - "pause_menu_pages_map"
-			if (/*UI::_GET_CURRENT_FRONTEND_MENU() != GAMEPLAY::GET_HASH_KEY("FE_MENU_VERSION_MP_PAUSE")*/ !showSettings)
-			{
+			//if (/*UI::_GET_CURRENT_FRONTEND_MENU() != GAMEPLAY::GET_HASH_KEY("FE_MENU_VERSION_MP_PAUSE")*/ !showSettings)
+			//{
 				/*SettingsInst = GRAPHICS::REQUEST_SCALEFORM_MOVIE_INSTANCE("PAUSE_MENU_PAGES_SETTINGS");
 				while (!GRAPHICS::HAS_SCALEFORM_MOVIE_LOADED(SettingsInst))
 					WAIT(0);*/
@@ -138,16 +138,16 @@ void CCore::OnGameTick()
 				//while (!GRAPHICS::HAS_SCALEFORM_MOVIE_LOADED(t)) WAIT(0);
 				//UI::SET_FRONTEND_ACTIVE(0);
 				
-				showSettings = true;
-				UI::SET_FRONTEND_ACTIVE(1);
+				//showSettings = true;
+				//UI::SET_FRONTEND_ACTIVE(1);
 				//UI::ACTIVATE_FRONTEND_MENU(GAMEPLAY::GET_HASH_KEY("FE_MENU_VERSION_SP_PAUSE"/*"FE_MENU_VERSION_EMPTY_NO_BACKGROUND"*/), 0, 0);
-			}
-			else
-			{
-				showSettings = false;
-				UI::SET_FRONTEND_ACTIVE(0);
-				//UI::DISABLE_FRONTEND_THIS_FRAME();
-			}
+			//}
+			//else
+			//{
+			//	showSettings = false;
+			//	UI::SET_FRONTEND_ACTIVE(0);
+			//	//UI::DISABLE_FRONTEND_THIS_FRAME();
+			//}
 			
 		}
 		else
