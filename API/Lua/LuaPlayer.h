@@ -31,11 +31,11 @@ struct Player
 		{
 			Player* ent = reinterpret_cast<Player*>(lua_touserdata(L, 1));
 
-			lua_tointeger(L, ent->entity);
+			ent->entity = lua_tointeger(L, 2);
 
 			ent = nullptr;
 		}
-		return 1;
+		return 0;
 	}
 
 	int GetPosition(lua_State* L)
