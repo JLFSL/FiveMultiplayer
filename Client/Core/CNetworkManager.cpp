@@ -113,6 +113,8 @@ void CNetworkManager::Disconnect()
 	if (g_ConnectionState == CONSTATE_DISC)
 		return;
 
+	AI::TASK_STAND_STILL(CLocalPlayer::GetPed(), 1);
+
 	// Force streamout all entities
 	CStreamer::ForceStreamOut();
 
