@@ -275,7 +275,7 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 				{
 					ImGui::SetWindowFontScale(DirectXRenderer::textScale/2);
 					ImGui::Text("Welcome to Five Multiplayer");
-					ImGui::Text("This Pre-Release version of 0.2a and not the full release of 0.2a");
+					ImGui::Text("This is a Pre-Release version of 0.2a and not the full release of 0.2a");
 					ImGui::Text("- FiveMP Team");
 				}
 				ImGui::End();
