@@ -51,7 +51,7 @@ extern "C" {
 
 class Player {
 private:
-	int Entity;
+	int Entity = -1;
 public:
 	const int GetEntity() { return Entity; }
 	void SetEntity(const int entity) { Entity = entity; }

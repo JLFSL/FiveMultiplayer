@@ -69,7 +69,7 @@ extern "C" {
 
 class Checkpoint {
 private:
-	int Entity;
+	int Entity = -1;
 public:
 	const int GetEntity() { return Entity; }
 

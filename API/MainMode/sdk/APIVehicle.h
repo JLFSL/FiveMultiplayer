@@ -153,7 +153,7 @@ extern "C" {
 
 class Vehicle {
 private:
-	int Entity;
+	int Entity = -1;
 public:
 	const int GetEntity() { return Entity; }
 
