@@ -7,6 +7,8 @@
 #include <cstdlib>
 #include <iostream>
 #include <sstream>
+#include <tchar.h>
+#include <WinInet.h>
 using namespace std;
 
 // Shared
