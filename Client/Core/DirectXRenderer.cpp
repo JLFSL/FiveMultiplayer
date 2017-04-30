@@ -252,19 +252,6 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 				ImGui::NewLine();
 				ImGui::SameLine((ImGui::GetWindowContentRegionMax().x / 2) - 150);
 
-				if (DirectXRenderer::showOptions)
-					ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.953f, 0.255f, 0.29f, 1.00f));
-				else
-					ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(.0f, .0f, .0f, .0f));
-
-				if (ImGui::Button("Options", ImVec2(300, 0))) {
-					DirectXRenderer::showServerList = false;
-					DirectXRenderer::showOptions = !DirectXRenderer::showOptions;
-				}
-
-				ImGui::NewLine();
-				ImGui::SameLine((ImGui::GetWindowContentRegionMax().x / 2) - 150);
-
 				ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(.0f, .0f, .0f, .0f));
 
 				if (ImGui::Button("Quit", ImVec2(300, 0))) {
