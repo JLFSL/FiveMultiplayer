@@ -257,15 +257,18 @@ extern "C" DLL_PUBLIC void API_OnPlayerCommand(const int entity, const std::stri
 				}
 			}
 		}
-
-		if (tokens[0].compare("/pos") == 0)
+		else if (tokens[0].compare("/pos") == 0)
 		{
 			CVector3 pos = API::Entity::GetPosition(entity);
 
 			std::stringstream oss;
-			oss << " {ff000}Your Position is: " << pos.x << ", " << pos.y << ", " << pos.z;
+			oss << "{00ff00}Your Position is: " << pos.x << ", " << pos.y << ", " << pos.z;
 
 			API::Visual::SendChatMessageToPlayer(entity, oss.str().c_str());
+		}
+		else
+		{
+			API::Visual::SendChatMessageToPlayer(entity, "{ff0000}Unknown Command");
 		}
 	}
 
