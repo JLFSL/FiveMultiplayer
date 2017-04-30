@@ -206,6 +206,8 @@ void CNetworkManager::Disconnect()
 		// Shrink vector so size is correct.
 		g_Checkpoints.shrink_to_fit();
 	}
+
+	CChat::ClearChat();
 	
 	CWorld::Destroy();
 	
