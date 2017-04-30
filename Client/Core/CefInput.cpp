@@ -141,8 +141,8 @@ LRESULT WINAPI HookedWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
 		ImGuiIO& io = ImGui::GetIO();
 		
-		CefKeyEvent keyEvent;
-		CefMouseEvent mouseEvent;
+		//CefKeyEvent keyEvent;
+		//CefMouseEvent mouseEvent;
 
 		POINT pos;
 		RECT rect;
@@ -156,11 +156,11 @@ LRESULT WINAPI HookedWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				GetWindowRect(CefRenderer::getProcess(), &rect);
 				GetCursorPos(&pos);
 
-				mouseEvent.x = (pos.x - rect.left);
+				/*mouseEvent.x = (pos.x - rect.left);
 				mouseEvent.y = (pos.y - rect.top);
 				mouseEvent.modifiers = EVENTFLAG_LEFT_MOUSE_BUTTON;
 
-				CefRenderer::getBrowser()->GetHost()->SendMouseClickEvent(mouseEvent, MBT_LEFT, false, 1);
+				CefRenderer::getBrowser()->GetHost()->SendMouseClickEvent(mouseEvent, MBT_LEFT, false, 1);*/
 				break;
 			case WM_LBUTTONUP:
 				io.MouseDown[0] = false;
@@ -168,11 +168,11 @@ LRESULT WINAPI HookedWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				GetWindowRect(CefRenderer::getProcess(), &rect);
 				GetCursorPos(&pos);
 
-				mouseEvent.x = (pos.x - rect.left);
+				/*mouseEvent.x = (pos.x - rect.left);
 				mouseEvent.y = (pos.y - rect.top);
 				mouseEvent.modifiers = EVENTFLAG_LEFT_MOUSE_BUTTON;
 
-				CefRenderer::getBrowser()->GetHost()->SendMouseClickEvent(mouseEvent, MBT_LEFT, true, 1);
+				CefRenderer::getBrowser()->GetHost()->SendMouseClickEvent(mouseEvent, MBT_LEFT, true, 1);*/
 				break;
 			case WM_RBUTTONDOWN:
 				io.MouseDown[1] = true;
@@ -208,11 +208,11 @@ LRESULT WINAPI HookedWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				GetWindowRect(CefRenderer::getProcess(), &rect);
 				GetCursorPos(&pos);
 
-				mouseEvent.x = (pos.x - rect.left);
+				/*mouseEvent.x = (pos.x - rect.left);
 				mouseEvent.y = (pos.y - rect.top);
 				mouseEvent.modifiers = EVENTFLAG_MIDDLE_MOUSE_BUTTON;
 
-				CefRenderer::getBrowser()->GetHost()->SendMouseClickEvent(mouseEvent, MBT_MIDDLE, false, 1);
+				CefRenderer::getBrowser()->GetHost()->SendMouseClickEvent(mouseEvent, MBT_MIDDLE, false, 1);*/
 				break;
 			case WM_MBUTTONUP:
 				io.MouseDown[2] = false;
@@ -220,11 +220,11 @@ LRESULT WINAPI HookedWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				GetWindowRect(CefRenderer::getProcess(), &rect);
 				GetCursorPos(&pos);
 
-				mouseEvent.x = (pos.x - rect.left);
+				/*mouseEvent.x = (pos.x - rect.left);
 				mouseEvent.y = (pos.y - rect.top);
 				mouseEvent.modifiers = EVENTFLAG_MIDDLE_MOUSE_BUTTON;
 
-				CefRenderer::getBrowser()->GetHost()->SendMouseClickEvent(mouseEvent, MBT_MIDDLE, true, 1);
+				CefRenderer::getBrowser()->GetHost()->SendMouseClickEvent(mouseEvent, MBT_MIDDLE, true, 1);*/
 				break;
 			case WM_MOUSEWHEEL:
 				delta = GET_WHEEL_DELTA_WPARAM(wParam);
@@ -232,10 +232,10 @@ LRESULT WINAPI HookedWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				GetWindowRect(CefRenderer::getProcess(), &rect);
 				GetCursorPos(&pos);
 
-				mouseEvent.x = (pos.x - rect.left);
+				/*mouseEvent.x = (pos.x - rect.left);
 				mouseEvent.y = (pos.y - rect.top);
 
-				CefRenderer::getBrowser()->GetHost()->SendMouseWheelEvent(mouseEvent, 0, delta);
+				CefRenderer::getBrowser()->GetHost()->SendMouseWheelEvent(mouseEvent, 0, delta);*/
 				break;
 			case WM_MOUSEMOVE:
 				io.MousePos.x = (signed short)(lParam);
@@ -243,17 +243,17 @@ LRESULT WINAPI HookedWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				GetWindowRect(CefRenderer::getProcess(), &rect);
 
 				GetCursorPos(&pos);
-				mouseEvent.x = (pos.x - rect.left);
+				/*mouseEvent.x = (pos.x - rect.left);
 				mouseEvent.y = (pos.y - rect.top);
 				mouseEvent.modifiers = EVENTFLAG_NONE;
 
-				CefRenderer::getBrowser()->GetHost()->SendMouseMoveEvent(mouseEvent, false);
+				CefRenderer::getBrowser()->GetHost()->SendMouseMoveEvent(mouseEvent, false);*/
 				break;
 			case WM_KEYDOWN:
 				if (wParam < 256)
 					io.KeysDown[wParam] = 1;
 
-				keyEvent.windows_key_code = wParam;
+				/*keyEvent.windows_key_code = wParam;
 				keyEvent.native_key_code = lParam;
 				keyEvent.modifiers = GetCefKeyboardModifiers(wParam, lParam);
 
@@ -266,7 +266,7 @@ LRESULT WINAPI HookedWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 					keyEvent.type = KEYEVENT_CHAR;
 				}
 
-				CefRenderer::getBrowser()->GetHost()->SendKeyEvent(keyEvent);
+				CefRenderer::getBrowser()->GetHost()->SendKeyEvent(keyEvent);*/
 				break;
 			case WM_KEYUP:
 				if (wParam < 256)
@@ -275,7 +275,7 @@ LRESULT WINAPI HookedWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				/*if (wParam < 256)
 					io.KeysDown[wParam] = 1;*/
 
-				keyEvent.windows_key_code = wParam;
+				/*keyEvent.windows_key_code = wParam;
 				keyEvent.native_key_code = lParam;
 				keyEvent.modifiers = GetCefKeyboardModifiers(wParam, lParam);
 
@@ -289,6 +289,7 @@ LRESULT WINAPI HookedWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				}
 
 				CefRenderer::getBrowser()->GetHost()->SendKeyEvent(keyEvent);
+				*/
 
 				break;
 			case WM_CHAR:
@@ -298,7 +299,7 @@ LRESULT WINAPI HookedWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				/*if (wParam < 256)
 					io.KeysDown[wParam] = 1;*/
 
-				keyEvent.windows_key_code = wParam;
+				/*keyEvent.windows_key_code = wParam;
 				keyEvent.native_key_code = lParam;
 				keyEvent.modifiers = GetCefKeyboardModifiers(wParam, lParam);
 
@@ -311,7 +312,7 @@ LRESULT WINAPI HookedWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 					keyEvent.type = KEYEVENT_CHAR;
 				}
 
-				CefRenderer::getBrowser()->GetHost()->SendKeyEvent(keyEvent);
+				CefRenderer::getBrowser()->GetHost()->SendKeyEvent(keyEvent);*/
 				break;
 		}
 	}

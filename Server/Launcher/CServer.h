@@ -13,7 +13,7 @@ private:
 	unsigned long	p_FrameCount;
 	unsigned long	p_FPS;
 	unsigned int	p_MaxFPS;
-
+	
 	unsigned int	p_SyncRate;
 
 	std::chrono::system_clock::time_point timeNow;
