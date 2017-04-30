@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.9
+VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{E388C086-D621-4687-B8CF-B041FFB759EC}"
 EndProject
@@ -63,7 +63,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Math", "Math", "{68F68C83-9960-4FC4-8666-73BDDB86B78D}"
 	ProjectSection(SolutionItems) = preProject
 		Shared\CMaths.h = Shared\CMaths.h
-		Shared\CVector3.h = Shared\CVector3.h
 		Shared\CVector4.h = Shared\CVector4.h
 	EndProjectSection
 EndProject
