@@ -1,8 +1,34 @@
 #include "stdafx.h"
-#include <tchar.h>
+
+bool DownloadLatest(TCHAR httpurl[], TCHAR filepath[MAX_PATH]) {
+	DeleteUrlCacheEntry(httpurl);
+	HRESULT fileresult = URLDownloadToFile(NULL, httpurl, filepath, 0, NULL);
+
+	if (fileresult == S_OK) {
+		std::cout << filepath << " successfully downloaded\n" << std::endl;
+		return true;
+	}
+	else if (fileresult == E_OUTOFMEMORY) {
+		std::cout << "Buffer length invalid, or insufficient memory\n" << std::endl;
+		return false;
+	}
+	else if (fileresult == INET_E_DOWNLOAD_FAILURE) {
+		std::cout << "URL is invalid" << std::endl;
+		return false;
+	}
+	else {
+		std::cout << "Other error: " << fileresult << std::endl;
+		return false;
+	}
+	return false;
+}
+
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
 {
+	AllocConsole();
+	freopen("CONOUT$", "w", stdout);
+
 	char InstallDir[MAX_PATH];
 	char InstallExe[MAX_PATH];
 	char CorePath[MAX_PATH];
@@ -43,6 +69,25 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	sprintf_s(InstallExe, "%s\\" INFO_GAME_EXECUTABLE, InstallDir);
 	sprintf_s(CorePath, "%s\\" INFO_CLIENT_CORE, CurDir);
 
+	const int updater = MessageBox(NULL, "Do you wish to check for any updates? ", "FiveMP - Updater", MB_YESNOCANCEL);
+
+	TCHAR path[MAX_PATH];
+	TCHAR path2[MAX_PATH];
+
+	switch (updater)
+	{
+	case IDYES:
+		GetCurrentDirectory(MAX_PATH, path);
+		wsprintf(path, TEXT("%s\\Client.Core.dll"), path);
+		DownloadLatest("https://www.five-multiplayer.net/dl/Client.Core.dll", path);
+		break;
+	case IDNO:
+
+		break;
+	case IDCANCEL:
+		return 0;
+	}
+
 	if (!Util::Exists(InstallExe))
 		return Util::ShowMessageBox("Failed to find " INFO_GAME_EXECUTABLE " in set directory. Cannot launch " INFO_NAME ".", MB_ICONEXCLAMATION);
 
@@ -78,8 +123,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		return 0;
 		break;
 	}
-
-	AllocConsole();
 
 	bool Started = false;
 
