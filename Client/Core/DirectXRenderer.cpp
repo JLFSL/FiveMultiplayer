@@ -259,7 +259,7 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 					exit(EXIT_SUCCESS);
 				}
 
-				ImGui::PopStyleColor(4);
+				ImGui::PopStyleColor(3);
 				ImGui::PopStyleVar(1);
 				
 
@@ -526,7 +526,7 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 
 		if (CNetworkManager::g_ConnectionState == CONSTATE_CONN)
 		{
-			ImGui::SetNextWindowPos(ImVec2((screenWidth / 2) - ((500 * DirectXRenderer::windowScale) / 2), 20));
+			ImGui::SetNextWindowPos(ImVec2((screenWidth / 2) - ((400 * DirectXRenderer::windowScale) / 2), 20));
 			ImGui::SetNextWindowSize(ImVec2((500 * DirectXRenderer::windowScale), (100 * DirectXRenderer::windowScale)));
 			ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
 			ImGui::Begin("FiveMultiplayer_Connecting", NULL, ImVec2(0, 0), 0.0f, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings);
