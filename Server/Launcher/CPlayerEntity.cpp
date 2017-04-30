@@ -168,6 +168,20 @@ void CPlayerEntity::Update(Packet *packet)
 				break;
 		}
 	}
+	else if (lastSeat != Data.Vehicle.Seat)
+	{
+		for (int i = 0; i < g_Vehicles.size(); i++)
+		{
+			if (g_Vehicles[i].GetId() == Data.Vehicle.VehicleID && g_Vehicles[i].GetOccupant(lastSeat) == Information.Entity)
+			{
+				g_Vehicles[i].SetOccupant(lastSeat, -1);
+
+				//OnPlayerEnterVehicle(player,vehicle,seat);
+
+				break;
+			}
+		}
+	}
 }
 
 void CPlayerEntity::RequestData(RakNetGUID requester)
