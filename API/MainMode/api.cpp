@@ -281,5 +281,5 @@ extern "C" DLL_PUBLIC void API_OnPlayerMessage(const int entity, const std::stri
 	API::Server::PrintMessage(L"OnPlayerMessage");
 	
 	//API::Server::PrintMessage(std::wstring(API::Player::GetUsername(entity).c_str()) + L" : " + message);
-	API::Visual::SendChatMessage(API::Player::GetUsername(entity) + " : " + message);
+	API::Visual::SendChatMessage("{0000ff}" + API::Player::GetUsername(entity) + " {ffffff}: " + message);
 }
