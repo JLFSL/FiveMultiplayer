@@ -235,7 +235,7 @@ extern "C" DLL_PUBLIC void API_OnPlayerCommand(const int entity, const std::stri
 
 		if (tokens[0].compare("/veh") == 0)
 		{
-			if (tokens.size > 1)
+			if (tokens.size() > 1)
 			{
 				std::wstringstream ws;
 				ws << tokens[1].c_str();
