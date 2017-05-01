@@ -6,6 +6,9 @@ CVehicleEntity::CVehicleEntity()
 {
 	Network.Assigned = UNASSIGNED_RAKNET_GUID;
 
+	Data = Data;
+	Information = Information;
+
 	for (int i = 0; i < SizeOfArray(Occupants); i++)
 	{
 		Occupants[i] = -1;
