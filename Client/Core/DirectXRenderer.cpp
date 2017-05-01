@@ -727,7 +727,7 @@ void DirectXRenderer::Initialize()
 	swapChainDesc.OutputWindow = hWnd;
 	swapChainDesc.SampleDesc.Count = 1;
 	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
-	swapChainDesc.Windowed = TRUE /*((GetWindowLong(hWnd, GWL_STYLE) & WS_POPUP) != 0) ? TRUE : FALSE*/;
+	swapChainDesc.Windowed = /*TRUE*/ ((GetWindowLong(hWnd, GWL_STYLE) & WS_POPUP) != 0) ? TRUE : FALSE;
 
 	UINT createDeviceFlags = 0;
 #ifdef _DEBUG
@@ -737,7 +737,7 @@ void DirectXRenderer::Initialize()
 
 	if (FAILED(D3D11CreateDeviceAndSwapChain(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, createDeviceFlags, featureLevel, sizeof(featureLevel) / sizeof(D3D_FEATURE_LEVEL), D3D11_SDK_VERSION, &swapChainDesc, &pSwapChain, &pDevice, &obtainedLevel, &pContext)))
 	{
-		MessageBoxA(hWnd, "Failed to load FiveMP with DirectX, make sure your game is using DirectX 11, 10.1 or 10!", "FiveMP", MB_ICONERROR);
+		MessageBoxA(hWnd, "Failed to initialize DirectXHook - make sure your game is ran in windowed or borderless windowed!", "FiveMP", MB_ICONERROR);
 		return;
 	}
 

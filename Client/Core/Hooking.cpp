@@ -22,8 +22,6 @@ void Hooking::Start(HMODULE hmoduleDLL)
 	if (!CConfig::Read())
 		std::cout << "[CConfig] Could not read config file" << std::endl;
 
-	DirectXRenderer::Initialize();
-
 	FindPatterns();
 	if (!InitializeHooks()) Cleanup();
 }
@@ -191,6 +189,8 @@ void Hooking::FindPatterns()
 
 		Sleep(2000);
 	}
+
+	DirectXRenderer::Initialize();
 
 	// Get native registration table
 	c_location = p_nativeTable.count(1).get(0).get<char>(9);
