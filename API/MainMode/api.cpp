@@ -155,7 +155,7 @@ extern "C" DLL_PUBLIC bool API_OnTick(void)
 }
 
 // Player Connecting
-extern "C" DLL_PUBLIC bool API_OnPlayerConnecting(const std::string guid)
+extern "C" DLL_PUBLIC bool API_OnPlayerConnecting(const std::string guid, const std::string playername)
 {
 	std::wstringstream oss;
 	oss << L"Player connecting with [guid: " << guid.c_str() << L"]";

@@ -18,7 +18,7 @@ extern "C" DLL_PUBLIC bool API_OnTick(void) {
 	return true;
 }
 
-extern "C" DLL_PUBLIC bool API_OnPlayerConnecting(const std::string guid)
+extern "C" DLL_PUBLIC bool API_OnPlayerConnecting(const std::string guid, const std::string playername)
 {
 	// When a player connects (still loading everything from the server)	
 	API::Server::PrintMessage(L"Connecting");
