@@ -332,13 +332,14 @@ void CVehicleEntity::Update(Packet * packet)
 	}
 
 
-	if ((Information.Id == CLocalPlayer::GetVehicleId() && CLocalPlayer::GetSeat() != 0) /*|| Information.Id != CLocalPlayer::GetVehicleId()*/ || Network.Assigned != CNetworkManager::GetInterface()->GetMyGUID())
+	if ( Network.Assigned != CNetworkManager::GetInterface()->GetMyGUID() /*|| (Information.Id == CLocalPlayer::GetVehicleId() && CLocalPlayer::GetSeat() != 0)*/) /*|| Information.Id != CLocalPlayer::GetVehicleId()*/
 	{
 		UpdateTargetPosition();
 		SetTargetData();
 		UpdateTargetRotation();
-		Network.LastSyncReceived = timeGetTime();
 	}
+
+	Network.LastSyncReceived = timeGetTime();
 }
 
 void CVehicleEntity::Interpolate()
