@@ -304,11 +304,11 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 					ImGui::SameLine((ImGui::GetWindowContentRegionMax().x / 2) - (SizeH1 / 2));
 					ImGui::Text("Server List");
 
-					ImGui::SetWindowFontScale(DirectXRenderer::textScale / 2);
+					/*ImGui::SetWindowFontScale(DirectXRenderer::textScale / 2);
 					if (ImGui::Button("Refresh", ImVec2((300 * DirectXRenderer::windowScale), 0))) {
 						gotServerList = false;
 						curTime = clock() - 60 * 1000;
-					}
+					}*/
 
 					ImGui::BeginChild("ListRegion", ImVec2(0, -ImGui::GetItemsLineHeightWithSpacing() - 60.0f), false);
 					{
@@ -481,6 +481,13 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 					if (ImGui::Button("Connect", ImVec2((300 * DirectXRenderer::windowScale), 0)))
 					{
 						CNetworkManager::Connect(selectedIp.c_str(), /*CConfig::GetPassword().c_str()*/"default", selectedPort);
+					}
+
+					ImGui::SameLine();
+
+					if (ImGui::Button("Refresh", ImVec2((300 * DirectXRenderer::windowScale), 0))) {
+						gotServerList = false;
+						curTime = clock() - 60 * 1000;
 					}
 				}
 				ImGui::End();
