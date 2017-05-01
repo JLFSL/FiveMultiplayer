@@ -166,7 +166,8 @@ void CNetworkManager::Disconnect()
 		// Remove all existing vehicles
 		for (int i = (g_Vehicles.size() - 1); i > -1; i--)
 		{
-			g_Vehicles[i].Destroy();
+			if (g_Vehicles[i].IsCreated())
+				g_Vehicles[i].Destroy();
 			g_Vehicles.erase(g_Vehicles.begin() + i);
 		}
 		// Shrink vector so size is correct.
@@ -178,7 +179,8 @@ void CNetworkManager::Disconnect()
 		// Remove all existing objects
 		for (int i = (g_Objects.size() - 1); i > -1; i--)
 		{
-			g_Objects[i].Destroy();
+			if (g_Objects[i].IsCreated())
+				g_Objects[i].Destroy();
 			g_Objects.erase(g_Objects.begin() + i);
 		}
 		// Shrink vector so size is correct.
@@ -190,7 +192,8 @@ void CNetworkManager::Disconnect()
 		// Remove all existing npcs
 		for (int i = (g_Npcs.size() - 1); i > -1; i--)
 		{
-			g_Npcs[i].Destroy();
+			if (g_Npcs[i].IsCreated())
+				g_Npcs[i].Destroy();
 			g_Npcs.erase(g_Npcs.begin() + i);
 		}
 		// Shrink vector so size is correct.
@@ -202,6 +205,7 @@ void CNetworkManager::Disconnect()
 		// Remove all existing checkpoints
 		for (int i = (g_Checkpoints.size() - 1); i > -1; i--)
 		{
+
 			g_Checkpoints[i].Destroy();
 			g_Checkpoints.erase(g_Checkpoints.begin() + i);
 		}
