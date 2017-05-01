@@ -241,6 +241,8 @@ void CVehicleEntity::Pulse()
 				Data.SteeringAngle = vdata.GetSteeringAngle(Game.Vehicle);
 				Data.ForwardWheelAngle = vdata.GetForwardWheelAngle(Game.Vehicle);
 
+				Data.EngineHealth = VEHICLE::GET_VEHICLE_ENGINE_HEALTH(Game.Vehicle);
+
 				BitStream bitstream;
 				bitstream.Write((unsigned char)ID_PACKET_VEHICLE);
 
@@ -273,6 +275,8 @@ void CVehicleEntity::Pulse()
 				bitstream.Write(Data.Rotation.x);
 				bitstream.Write(Data.Rotation.y);
 				bitstream.Write(Data.Rotation.z);
+
+				bitstream.Write(Data.EngineHealth);
 
 				CNetworkManager::GetInterface()->Send(&bitstream, MEDIUM_PRIORITY, UNRELIABLE_SEQUENCED, 0, CNetworkManager::GetSystemAddress(), false);
 
@@ -325,6 +329,8 @@ void CVehicleEntity::Update(Packet * packet)
 	bitstream.Read(Data.Rotation.x);
 	bitstream.Read(Data.Rotation.y);
 	bitstream.Read(Data.Rotation.z);
+
+	bitstream.Read(Data.EngineHealth);
 
 	for (int i = 0; i < SizeOfArray(Occupants); i++)
 	{
@@ -502,6 +508,8 @@ void CVehicleEntity::SetTargetData()
 			VEHICLE::SET_VEHICLE_ENGINE_ON(Game.Vehicle, Data.EngineState, false, true);
 			//VEHICLE::SET_VEHICLE_UNDRIVEABLE(Game.Vehicle, !Data.EngineState);
 		}
+
+		VEHICLE::SET_VEHICLE_ENGINE_HEALTH(Game.Vehicle, Data.EngineHealth);
 
 		vdata.SetCurrentGear(Game.Vehicle, Data.Gear);
 		vdata.SetCurrentRPM(Game.Vehicle, Data.RPM);
