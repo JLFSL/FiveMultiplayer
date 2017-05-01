@@ -654,3 +654,13 @@ void CVehicleEntity::SetExtra(const int extra, const bool toggle)
 		VEHICLE::SET_VEHICLE_EXTRA(Game.Vehicle, extra, !toggle);
 	}
 }
+
+void CVehicleEntity::SetEngineHealth(const float health)
+{
+	Data.EngineHealth = health;
+
+	if (Game.Created)
+	{
+		VEHICLE::SET_VEHICLE_ENGINE_HEALTH(Game.Vehicle, health);
+	}
+}

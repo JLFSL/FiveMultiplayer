@@ -53,6 +53,7 @@ CRPCManager::RPCMessage rpcmessages[] = {
 	{ "SetDoorsLockState", CRPCVehicle::SetDoorsLockState },
 	{ "SetNumberPlateStyle", CRPCVehicle::SetNumberPlateStyle },
 	{ "SetExtra", CRPCVehicle::SetExtra },
+	{ "SetEngineHealth", CRPCVehicle::SetEngineHealth },
 #pragma endregion
 #pragma region Network
 	{ "FinishedSync", CRPCNetwork::FinishedSync },

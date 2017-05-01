@@ -12,6 +12,7 @@ public:
 	static void SetDoorsLockState(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 	static void SetNumberPlateStyle(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 	static void SetExtra(RakNet::BitStream *bitStream, RakNet::Packet *packet);
+	static void SetEngineHealth(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 };
 
 #endif

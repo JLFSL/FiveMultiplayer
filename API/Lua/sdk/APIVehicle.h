@@ -145,6 +145,20 @@ extern "C" {
 			/// <param name="extra">The style index of the numberplate</param>
 			/// <param name="toggle">The toggle state of the extra</param>
 			DLL_PUBLIC_I static void SetExtra(const int entity, const int extra, const bool toggle);
+
+			/// <summary>
+			/// Gets the vehicle engine health
+			/// </summary>
+			/// <param name="entity">The entity of the vehicle</param>
+			/// <returns name="health">The health of the engine</returns>
+			DLL_PUBLIC_I static const float GetEngineHealth(const int entity);
+
+			/// <summary>
+			/// Set the vehicles engine health
+			/// </summary>
+			/// <param name="entity">The entity of the vehicle</param>
+			/// <param name="health">The health to set the engine (-4000 - 1000, -4000: Engine is destroyed, 0 and below: Engine catches fire and health rapidly declines, 300 : Engine is smoking and losing functionality, 1000 : Engine is perfect)</param>
+			DLL_PUBLIC_I static void SetEngineHealth(const int entity, const float health);
 		};
 	}
 #ifdef __cplusplus

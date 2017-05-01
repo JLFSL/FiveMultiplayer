@@ -657,5 +657,42 @@ struct Vehicle
 		}
 		return 0;
 	}
+
+	int GetEngineHealth(lua_State* L)
+	{
+		const int args = lua_gettop(L);
+		if (args == 1)
+		{
+			Vehicle* veh = reinterpret_cast<Vehicle*>(lua_touserdata(L, 1));
+
+			lua_pushnumber(L, API::Vehicle::GetEngineHealth(veh->entity));
+
+			veh = nullptr;
+		}
+		else
+		{
+			lua_pushnil(L);
+			std::cerr << "Vehicle:GetEngineHealth requires args ()." << std::endl;
+		}
+		return 1;
+	}
+
+	int SetEngineHealth(lua_State* L)
+	{
+		const int args = lua_gettop(L);
+		if (args == 2)
+		{
+			Vehicle* veh = reinterpret_cast<Vehicle*>(lua_touserdata(L, 1));
+
+			API::Vehicle::SetEngineHealth(veh->entity, lua_tonumber(L, 2));
+
+			veh = nullptr;
+		}
+		else
+		{
+			std::cerr << "Vehicle:SetExtra requires args (float health)." << std::endl;
+		}
+		return 0;
+	}
 };
 #endif

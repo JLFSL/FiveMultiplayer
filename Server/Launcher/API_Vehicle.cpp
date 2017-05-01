@@ -632,4 +632,44 @@ namespace API
 			std::wcout << ThisNamespace << L"GetEngineHealth Invalid Entity: " << entity << std::endl;
 		}
 	}
+
+	void Vehicle::SetEngineHealth(const int entity, const float health)
+	{
+		const int index = ServerEntity::GetIndex(entity);
+		if (index > -1)
+		{
+			if (health <= 1000 && health >= -4000)
+			{
+				switch (g_Entities[index].GetType())
+				{
+				case CServerEntity::Vehicle:
+					for (int i = 0; i < g_Vehicles.size(); i++)
+					{
+						if (g_Vehicles[i].GetId() == entity)
+						{
+							RakNet::BitStream sData;
+							sData.Write(entity);
+							sData.Write(health);
+
+							g_Server->GetNetworkManager()->GetRPC().Signal("SetEngineHealth", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
+
+							return g_Vehicles[i].SetEngineHealth(health);
+						}
+					}
+					break;
+				default:
+					std::wcout << ThisNamespace << L"SetEngineHealth Entity " << entity << L" is not of type Vehicle." << std::endl;
+					break;
+				}
+			}
+			else
+			{
+				std::wcout << ThisNamespace << L"SetEngineHealth Invalid health, must be between -4000 - 1000." << std::endl;
+			}
+		}
+		else
+		{
+			std::wcout << ThisNamespace << L"SetEngineHealth Invalid Entity: " << entity << std::endl;
+		}
+	}
 }
