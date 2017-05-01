@@ -13,6 +13,7 @@ public:
 	static void SetNumberPlateStyle(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 	static void SetExtra(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 	static void SetEngineHealth(RakNet::BitStream *bitStream, RakNet::Packet *packet);
+	static void SetFuelTankHealth(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 };
 
 #endif

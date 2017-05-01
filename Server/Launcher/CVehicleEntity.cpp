@@ -116,6 +116,7 @@ void CVehicleEntity::Pulse()
 		bitstream.Write(Data.Rotation.z);
 
 		bitstream.Write(Data.EngineHealth);
+		bitstream.Write(Data.FuelTankHealth);
 
 		for (int i = 0; i < SizeOfArray(Occupants); i++)
 		{
@@ -165,6 +166,7 @@ void CVehicleEntity::Update(Packet *packet)
 	bitstream.Read(Data.Rotation.z);
 
 	bitstream.Read(Data.EngineHealth);
+	bitstream.Read(Data.FuelTankHealth);
 }
 
 void CVehicleEntity::RequestData(RakNetGUID requester)

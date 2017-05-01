@@ -277,6 +277,7 @@ void CVehicleEntity::Pulse()
 				bitstream.Write(Data.Rotation.z);
 
 				bitstream.Write(Data.EngineHealth);
+				bitstream.Write(Data.FuelTankHealth);
 
 				CNetworkManager::GetInterface()->Send(&bitstream, MEDIUM_PRIORITY, UNRELIABLE_SEQUENCED, 0, CNetworkManager::GetSystemAddress(), false);
 
@@ -331,6 +332,7 @@ void CVehicleEntity::Update(Packet * packet)
 	bitstream.Read(Data.Rotation.z);
 
 	bitstream.Read(Data.EngineHealth);
+	bitstream.Read(Data.FuelTankHealth);
 
 	for (int i = 0; i < SizeOfArray(Occupants); i++)
 	{
@@ -510,6 +512,7 @@ void CVehicleEntity::SetTargetData()
 		}
 
 		VEHICLE::SET_VEHICLE_ENGINE_HEALTH(Game.Vehicle, Data.EngineHealth);
+		VEHICLE::SET_VEHICLE_PETROL_TANK_HEALTH(Game.Vehicle, Data.FuelTankHealth);
 
 		vdata.SetCurrentGear(Game.Vehicle, Data.Gear);
 		vdata.SetCurrentRPM(Game.Vehicle, Data.RPM);
@@ -670,5 +673,15 @@ void CVehicleEntity::SetEngineHealth(const float health)
 	if (Game.Created)
 	{
 		VEHICLE::SET_VEHICLE_ENGINE_HEALTH(Game.Vehicle, health);
+	}
+}
+
+void CVehicleEntity::SetFuelTankHealth(const float health)
+{
+	Data.EngineHealth = health;
+
+	if (Game.Created)
+	{
+		VEHICLE::SET_VEHICLE_PETROL_TANK_HEALTH(Game.Vehicle, health);
 	}
 }

@@ -18,6 +18,7 @@ private:
 		int			ForcedEngineState	= -1;
 
 		float		EngineHealth		= 1000.0f;
+		float		FuelTankHealth		= 1000.0f;
 
 		uint16_t	Gear				= 0;
 		float		RPM					= .0f;
@@ -132,5 +133,8 @@ public:
 
 	const float		GetEngineHealth() { return Data.EngineHealth; }
 	void			SetEngineHealth(const float health) { Data.EngineHealth = health; }
+
+	const float		GetFuelTankHealth() { return Data.FuelTankHealth; }
+	void			SetFuelTankHealth(const float health) { Data.FuelTankHealth = health; }
 };
 extern std::vector<CVehicleEntity> g_Vehicles;

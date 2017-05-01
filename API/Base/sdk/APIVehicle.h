@@ -159,6 +159,20 @@ extern "C" {
 			/// <param name="entity">The entity of the vehicle</param>
 			/// <param name="health">The health to set the engine (-4000 - 1000, -4000: Engine is destroyed, 0 and below: Engine catches fire and health rapidly declines, 300 : Engine is smoking and losing functionality, 1000 : Engine is perfect)</param>
 			DLL_PUBLIC_I static void SetEngineHealth(const int entity, const float health);
+
+			/// <summary>
+			/// Gets the vehicle fuel tank health
+			/// </summary>
+			/// <param name="entity">The entity of the vehicle</param>
+			/// <returns name="health">The health of the fuel tank</returns>
+			DLL_PUBLIC_I static const float GetFuelTankHealth(const int entity);
+
+			/// <summary>
+			/// Set the vehicles fuel tank health
+			/// </summary>
+			/// <param name="entity">The entity of the vehicle</param>
+			/// <param name="health">The health to set the fuel tank (-999 - 1000)</param>
+			DLL_PUBLIC_I static void SetFuelTankHealth(const int entity, const float health);
 		};
 	}
 #ifdef __cplusplus
@@ -305,5 +319,15 @@ public:
 	void SetEngineHealth(const float health)
 	{
 		API::Vehicle::SetEngineHealth(Entity, health);
+	}
+
+	const float GetFuelTankHealth()
+	{
+		return API::Vehicle::GetFuelTankHealth(Entity);
+	}
+
+	void SetFuelTankHealth(const float health)
+	{
+		API::Vehicle::SetFuelTankHealth(Entity, health);
 	}
 };

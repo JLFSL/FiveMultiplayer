@@ -672,4 +672,71 @@ namespace API
 			std::wcout << ThisNamespace << L"SetEngineHealth Invalid Entity: " << entity << std::endl;
 		}
 	}
+
+	const float Vehicle::GetFuelTankHealth(const int entity)
+	{
+		const int index = ServerEntity::GetIndex(entity);
+		if (index > -1)
+		{
+			switch (g_Entities[index].GetType())
+			{
+			case CServerEntity::Vehicle:
+				for (int i = 0; i < g_Vehicles.size(); i++)
+				{
+					if (g_Vehicles[i].GetId() == entity)
+					{
+						return g_Vehicles[i].GetFuelTankHealth();
+					}
+				}
+				break;
+			default:
+				std::wcout << ThisNamespace << L"GetFuelTankHealth Entity " << entity << L" is not of type Vehicle." << std::endl;
+				break;
+			}
+		}
+		else
+		{
+			std::wcout << ThisNamespace << L"GetFuelTankHealth Invalid Entity: " << entity << std::endl;
+		}
+	}
+
+	void Vehicle::SetFuelTankHealth(const int entity, const float health)
+	{
+		const int index = ServerEntity::GetIndex(entity);
+		if (index > -1)
+		{
+			if (health <= 1000 && health >= -999)
+			{
+				switch (g_Entities[index].GetType())
+				{
+				case CServerEntity::Vehicle:
+					for (int i = 0; i < g_Vehicles.size(); i++)
+					{
+						if (g_Vehicles[i].GetId() == entity)
+						{
+							RakNet::BitStream sData;
+							sData.Write(entity);
+							sData.Write(health);
+
+							g_Server->GetNetworkManager()->GetRPC().Signal("SetFuelTankHealth", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
+
+							return g_Vehicles[i].SetFuelTankHealth(health);
+						}
+					}
+					break;
+				default:
+					std::wcout << ThisNamespace << L"SetFuelTankHealth Entity " << entity << L" is not of type Vehicle." << std::endl;
+					break;
+				}
+			}
+			else
+			{
+				std::wcout << ThisNamespace << L"SetFuelTankHealth Invalid health, must be between -999 - 1000." << std::endl;
+			}
+		}
+		else
+		{
+			std::wcout << ThisNamespace << L"SetFuelTankHealth Invalid Entity: " << entity << std::endl;
+		}
+	}
 }

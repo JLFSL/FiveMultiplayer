@@ -178,8 +178,27 @@ void CRPCVehicle::SetEngineHealth(RakNet::BitStream *bitStream, RakNet::Packet *
 	{
 		for (int i = 0; i < g_Vehicles.size(); i++) {
 			if (g_Vehicles[i].GetId() == entity) {
-				g_Vehicles[i].SetEngineHealth(health);
-				return;
+				return g_Vehicles[i].SetEngineHealth(health);
+			}
+		}
+	}
+}
+
+void CRPCVehicle::SetFuelTankHealth(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+{
+	int entity;
+	float health;
+
+	bitStream->Read(entity);
+	bitStream->Read(health);
+
+	std::cout << "CRPCVehicle::SetFuelTankHealth" << std::endl;
+
+	if (CServerEntity::IsValid(entity))
+	{
+		for (int i = 0; i < g_Vehicles.size(); i++) {
+			if (g_Vehicles[i].GetId() == entity) {
+				return g_Vehicles[i].SetFuelTankHealth(health);
 			}
 		}
 	}

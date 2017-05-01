@@ -21,7 +21,8 @@ private:
 		bool		EngineState			= 0;
 		int			ForceEngineState	= -1;
 
-		float		EngineHealth = 1000.0f;
+		float		EngineHealth		= 1000.0f;
+		float		FuelTankHealth		= 1000.0f;
 
 		uint16_t	Gear				= 0;
 		float		RPM					= .0f;
@@ -150,6 +151,7 @@ public:
 	void			SetNumberPlateStyle(const int style);
 	void			SetExtra(const int extra, const bool toggle);
 	void			SetEngineHealth(const float health);
+	void			SetFuelTankHealth(const float health);
 
 	VehicleInterpolationData InterpolationData;
 };

@@ -39,6 +39,9 @@ extern "C" {
 
 			DLL_PUBLIC static const float GetEngineHealth(const int entity);
 			DLL_PUBLIC static void SetEngineHealth(const int entity, const float health);
+
+			DLL_PUBLIC static const float GetFuelTankHealth(const int entity);
+			DLL_PUBLIC static void SetFuelTankHealth(const int entity, const float health);
 		};
 	}
 }
