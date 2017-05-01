@@ -103,23 +103,13 @@ void CPlayerEntity::Update(Packet *packet)
 	int lastVehicle = Data.Vehicle.VehicleID;
 	int lastSeat = Data.Vehicle.Seat;
 
-#ifndef _WIN32
 	BitStream bitstream(packet->data + 1, packet->length + 1, false);
-#else
-	BitStream bitstream(packet->data + 1, packet->length + 1, false);
-#endif // !_WIN32
 
 	/*bitstream.Read(Information.Entity);
 	bitstream.Read(Information.Name);*/
 	
-#ifdef _WIN32
-	/*
-		Basicly on linux its almost like this data is missing causing the player bit structure to fall apart. 
-		So removing this on linux fixes it as a dirt fix atm untill i can find the true problem
-	*/
 	bitstream.Read(Statistics.Score);
-#endif // !_WIN32
-	
+
 	bitstream.Read(Data.Model.Type);
 
 	bitstream.Read(Data.Weapon.Weapon);

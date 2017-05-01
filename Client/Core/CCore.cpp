@@ -167,14 +167,18 @@ void CCore::OnGameTick()
 	CNetworkManager::Pulse();
 	CStreamer::Pulse();
 	
-	if (!g_Players.empty()) {
-		for (int i = 0; i < g_Players.size(); i++) {
+	if (!g_Players.empty()) 
+	{
+		for (int i = 0; i < g_Players.size(); i++) 
+		{
 			g_Players[i].Pulse();
 		}
 	}
 	
-	if (!g_Vehicles.empty()) {
-		for (int i = 0; i < g_Vehicles.size(); i++) {
+	if (!g_Vehicles.empty()) 
+	{
+		for (int i = 0; i < g_Vehicles.size(); i++) 
+		{
 			g_Vehicles[i].Pulse();
 		}
 	}

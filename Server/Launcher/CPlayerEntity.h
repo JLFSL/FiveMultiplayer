@@ -18,7 +18,11 @@ private:
 		} Model;
 
 		struct PlayerWeaponData {
+#ifndef _WIN32
+			int				Weapon; // Linux Longs are 64 byte on windows they are 32 so we have to use a int on linux
+#else
 			unsigned long	Weapon;
+#endif
 			bool			Reload;
 		} Weapon;
 
