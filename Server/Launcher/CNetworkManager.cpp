@@ -292,7 +292,7 @@ void CNetworkManager::PulseMaster()
 		struct curl_slist *headers = NULL;
 		char content[1024];
 
-		std::sprintf(content, "{\"port\": %d, \"name\": \"%s\", \"players\": {\"amount\": %d, \"max\": %d, \"list\":[%s]}}", g_Config->GetPort(), g_Config->GetServerName().c_str(), g_Players.size(), g_Config->GetMaxPlayers(), playerList.c_str());
+		std::sprintf(content, "{\"port\": %d, \"name\": \"%s\", \"players\": {\"amount\": %d, \"max\": %d, \"list\":[%s]}}", g_Config->GetPort(), g_Config->GetServerName().c_str(), CPlayerEntity::Amount, g_Config->GetMaxPlayers(), playerList.c_str());
 		headers = curl_slist_append(headers, "cache-control: no-cache");
 		headers = curl_slist_append(headers, "content-type: application/json");
 		headers = curl_slist_append(headers, "authorization: Server 21992add0d9d4f718b29ebc8adeb46f5");
