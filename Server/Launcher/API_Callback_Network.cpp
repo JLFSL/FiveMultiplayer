@@ -6,17 +6,17 @@ namespace API
 	{
 		const char *ThisNamespace = "API::Network";
 
-		bool OnPlayerConnecting(void *Instance, const std::string guid)
+		bool OnPlayerConnecting(void *Instance, const std::string guid, const std::string playername)
 		{
 			if (Instance)
 			{
-				typedef bool(*API_OnPlayerConnecting_t)(const std::string);
+				typedef bool(*API_OnPlayerConnecting_t)(const std::string, const std::string);
 #ifdef WIN32
 				API_OnPlayerConnecting_t API_OnPlayerConnecting = (API_OnPlayerConnecting_t)::GetProcAddress((HMODULE)Instance, "API_OnPlayerConnecting");
 #else
 				API_OnPlayerConnecting_t API_OnPlayerConnecting = (API_OnPlayerConnecting_t)dlsym(Instance, "API_OnPlayerConnecting");
 #endif
-				return API_OnPlayerConnecting(guid);
+				return API_OnPlayerConnecting(guid, playername);
 			}
 			return true;
 		}

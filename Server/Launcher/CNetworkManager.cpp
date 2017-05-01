@@ -86,8 +86,7 @@ void CNetworkManager::Pulse()
 		{
 			case ID_NEW_INCOMING_CONNECTION:
 			{
-				// New connection
-				NewIncomingConnection(g_Packet);
+				// new connection
 				break;
 			}
 			case ID_DISCONNECTION_NOTIFICATION:
@@ -112,6 +111,9 @@ void CNetworkManager::Pulse()
 						}
 
 						g_Players[i].Destroy();
+						g_Players.erase(g_Players.begin() + i);
+						g_Players.shrink_to_fit();
+
 						break;
 					}
 				}
@@ -141,6 +143,10 @@ void CNetworkManager::Pulse()
 						}
 
 						g_Players[i].Destroy();
+						g_Players.erase(g_Players.begin() + i);
+						g_Players.shrink_to_fit();
+
+						break;
 					}
 				}
 				PulseMaster();
@@ -220,36 +226,8 @@ void CNetworkManager::Pulse()
 			}
 			case ID_REQUEST_SERVER_SYNC:
 			{
-				RakString name;
-				int index = -1;
-				g_BitStream.Read(name);
-
-				for (int i = 0; i < g_Players.size(); i++)
-				{
-					if (g_Players[i].GetGUID() == g_Packet->guid)
-					{
-						g_Players[i].SetUsername(name);
-						index = i;
-						break;
-					}
-				}
-
-				// Tell the client to load the models
-				CModelCache::LoadModels(g_Packet->guid);
-
-				BitStream bitstream;
-				bitstream.Write((unsigned char)ID_REQUEST_SERVER_SYNC);
-				CNetworkManager::GetInterface()->Send(&bitstream, LOW_PRIORITY, RELIABLE_ORDERED, 0, g_Packet->systemAddress, false);
-
-				//BitStream sData;
-				//g_Server->GetNetworkManager()->GetRPC().Signal("FinishedSync", &sData, MEDIUM_PRIORITY, RELIABLE_ORDERED, 0, g_Packet->systemAddress, false, false);
-
-				// API::Network::OnPlayerConnected Execute
-				for (int i = 0; i < g_ApiModules.size(); i++)
-				{
-					void *Instance = g_ApiModules[i].GetInstance();
-					API::Network::OnPlayerConnected(Instance, g_Players[index].GetId());
-				}
+				// New connection
+				NewIncomingConnection(g_Packet);
 
 				// Ping Master
 				PulseMaster();
@@ -318,41 +296,51 @@ size_t CNetworkManager::my_dummy_write(char *ptr, size_t size, size_t nmemb, voi
 
 void CNetworkManager::NewIncomingConnection(RakNet::Packet  *g_Packet)
 {
+	BitStream g_BitStream(g_Packet->data + 1, g_Packet->length + 1, false);
+	RakString playerName, version, buildNumber;
+
+	g_BitStream.Read(playerName);
+	g_BitStream.Read(version);
+	g_BitStream.Read(buildNumber);
+
+	if (version.StrCmp(RakString(INFO_VERSION)) != 0 || buildNumber.StrCmp(RakString(INFO_BUILD_NUMBER)) != 0)
+	{
+		std::cout << "Invalid Version: " << version.C_String() << "." << buildNumber.C_String() << std::endl;
+		g_RakPeer->CloseConnection(g_Packet->systemAddress, true);
+		return;
+	}
+
 	// API::Network::OnPlayerConnecting Execute
 	for (int i = 0; i < g_ApiModules.size(); i++)
 	{
 		void *Instance = g_ApiModules[i].GetInstance();
-		if (!API::Network::OnPlayerConnecting(Instance, g_Packet->guid.ToString()))
+		if (!API::Network::OnPlayerConnecting(Instance, g_Packet->guid.ToString(), playerName.C_String()))
 		{
 			g_RakPeer->CloseConnection(g_Packet->systemAddress, true);
 			return;
 		}
 	}
 
-	int playerID = -1;
-	if (!g_Players.empty())
-	{
-		for (int i = 0; i < g_Players.size(); i++)
-		{
-			if (g_Players[i].GetId() == -1)
-			{
-				playerID = g_Players.size();
-				CPlayerEntity newPlayer;
-				newPlayer.Create("User", g_Packet->guid, g_Packet->systemAddress);
-				g_Players[i] = newPlayer;
-				playerID = i;
-				break;
-			}
-		}
-	}
-
-	if (playerID == -1)
-	{
-		playerID = g_Players.size();
-		CPlayerEntity newPlayer;
-		newPlayer.Create("User", g_Packet->guid, g_Packet->systemAddress);
-		g_Players.push_back(newPlayer);
-	}
-
 	NetworkSync::SyncServerWorld(g_Packet->guid);
+
+	// Tell the client to load the models
+	CModelCache::LoadModels(g_Packet->guid);
+
+	// Tell the client they are now done connecting
+	BitStream bitstream;
+	bitstream.Write((unsigned char)ID_REQUEST_SERVER_SYNC);
+	CNetworkManager::GetInterface()->Send(&bitstream, LOW_PRIORITY, RELIABLE_ORDERED, 0, g_Packet->systemAddress, false);
+
+	const int index = g_Players.size();
+
+	CPlayerEntity newPlayer;
+	newPlayer.Create(playerName.C_String(), g_Packet->guid, g_Packet->systemAddress);
+	g_Players.push_back(newPlayer);
+
+	// API::Network::OnPlayerConnected Execute
+	for (int i = 0; i < g_ApiModules.size(); i++)
+	{
+		void *Instance = g_ApiModules[i].GetInstance();
+		API::Network::OnPlayerConnected(Instance, g_Players[index].GetId());
+	}
 }

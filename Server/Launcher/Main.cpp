@@ -10,7 +10,7 @@ void Sleep(unsigned int seconds) {
 
 int main(int argc, char *argv[]) {
 	// Provide the modification, version and gamename to the user.
-	std::cout << "Loading " INFO_NAME "(" INFO_VERSION ") for " INFO_GAME_NAME << std::endl;
+	std::cout << "Loading " INFO_NAME "(" INFO_VERSION " Patch " INFO_BUILD_NUMBER ") for " INFO_GAME_NAME << std::endl;
 
 	// Create CServer
 	g_Server = new CServer;

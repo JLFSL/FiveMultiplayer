@@ -11,7 +11,8 @@
 // Modification Information
 #define INFO_NAME			"Five Multiplayer"
 #define INFO_NAME_SHORT		"FiveMP"
-#define INFO_VERSION		"0.2a DEV"
+#define INFO_VERSION		"Pre-0.2a"
+#define INFO_BUILD_NUMBER	"1.2"
 
 	// Client Path
 	#define INFO_LOC_REG "Software\\" INFO_NAME_SHORT

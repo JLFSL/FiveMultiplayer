@@ -361,6 +361,8 @@ void CNetworkManager::Pulse()
 				BitStream bitstream;
 				bitstream.Write((unsigned char)ID_REQUEST_SERVER_SYNC);
 				bitstream.Write(RakString(CConfig::GetName().c_str()));
+				bitstream.Write(RakString(INFO_VERSION));
+				bitstream.Write(RakString(INFO_BUILD_NUMBER));
 				CNetworkManager::GetInterface()->Send(&bitstream, MEDIUM_PRIORITY, RELIABLE_ORDERED, 0, CNetworkManager::GetSystemAddress(), false);
 
 				Logger::Msg("CNetworkManager::Connected Stage 1");
