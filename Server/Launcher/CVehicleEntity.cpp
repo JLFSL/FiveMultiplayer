@@ -123,7 +123,18 @@ void CVehicleEntity::Pulse()
 			bitstream.Write(Occupants[i]);
 		}
 
-		g_Server->GetNetworkManager()->GetInterface()->Send(&bitstream, MEDIUM_PRIORITY, UNRELIABLE_SEQUENCED, 0, UNASSIGNED_RAKNET_GUID, true);
+		if (!g_Players.empty())
+		{
+			for (int i = 0; i < g_Players.size(); i++)
+			{
+				CVector3 pos = g_Players[i].GetPosition();
+				if (g_Players[i].GetId() != -1 && Math::GetDistanceBetweenPoints2D(Data.Position.x, Data.Position.y, pos.x, pos.y) <= 1000.0f)
+				{
+					g_Server->GetNetworkManager()->GetInterface()->Send(&bitstream, MEDIUM_PRIORITY, UNRELIABLE_SEQUENCED, 0, g_Players[i].GetGUID, false);
+				}
+			}
+		}
+		//g_Server->GetNetworkManager()->GetInterface()->Send(&bitstream, MEDIUM_PRIORITY, UNRELIABLE_SEQUENCED, 0, UNASSIGNED_RAKNET_GUID, true);
 
 		Network.LastSyncSent = std::chrono::system_clock::now();
 	}
