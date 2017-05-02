@@ -8,6 +8,19 @@ namespace API
 	{
 		CVehicleEntity newVehicle;
 		newVehicle.Create(model, position, heading);
+
+		RakNet::BitStream sData;
+		sData.Write(newVehicle.GetId());
+		sData.Write(RakWString(model.c_str()));
+		sData.Write(position.x);
+		sData.Write(position.y);
+		sData.Write(position.z);
+		sData.Write(0);
+		sData.Write(0);
+		sData.Write(heading);
+
+		g_Server->GetNetworkManager()->GetRPC().Signal("InitVehicle", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
+
 		g_Vehicles.push_back(newVehicle);
 
 		CModelCache::AddModel(model);
@@ -18,6 +31,19 @@ namespace API
 	{
 		CVehicleEntity newVehicle;
 		newVehicle.Create(model, position, rotation);
+
+		RakNet::BitStream sData;
+		sData.Write(newVehicle.GetId());
+		sData.Write(RakWString(model.c_str()));
+		sData.Write(position.x);
+		sData.Write(position.y);
+		sData.Write(position.z);
+		sData.Write(rotation.x);
+		sData.Write(rotation.y);
+		sData.Write(rotation.x);
+
+		g_Server->GetNetworkManager()->GetRPC().Signal("InitVehicle", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
+
 		g_Vehicles.push_back(newVehicle);
 
 		CModelCache::AddModel(model);
