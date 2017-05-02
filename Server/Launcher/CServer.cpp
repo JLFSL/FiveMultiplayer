@@ -409,7 +409,7 @@ void CServer::Input(std::atomic<bool>& run) {
 				API::Network::OnPlayerCommand(Instance, -1, buffer.c_str());
 			}*/
 		}
-		else {
+		else if(!buffer.empty()) {
 			RakNet::RakWString textstring(buffer.c_str());
 
 			RakNet::BitStream sData;
