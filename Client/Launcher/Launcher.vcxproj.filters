@@ -10,6 +10,9 @@
     <Filter Include="Shared">
       <UniqueIdentifier>{edd16916-2da4-458c-8406-43d8b9e728dd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Common\Resource">
+      <UniqueIdentifier>{85dc60f8-d95f-4a68-a7bc-0c41a635b1e4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -29,5 +32,18 @@
     <ClInclude Include="Util.h">
       <Filter>Shared</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Common\Resource</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="FiveMP.rc">
+      <Filter>Common\Resource</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon2.ico">
+      <Filter>Common\Resource</Filter>
+    </Image>
   </ItemGroup>
 </Project>
