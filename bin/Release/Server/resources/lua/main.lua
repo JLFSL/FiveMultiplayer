@@ -42,6 +42,10 @@ function OnPlayerConnected(entity)
 	return 1
 end
 
+function OnPlayerDisconnected(entity, reason)
+	
+end
+
 function OnEntityEnterCheckpoint(checkpointent, entity)
 
 end

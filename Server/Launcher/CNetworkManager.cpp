@@ -91,13 +91,13 @@ void CNetworkManager::Pulse()
 			}
 			case ID_DISCONNECTION_NOTIFICATION:
 			{
-				PlayerLeft(g_Packet);
+				PlayerLeft(g_Packet, 0);
 				PulseMaster();
 				break;
 			}
 			case ID_CONNECTION_LOST:
 			{
-				PlayerLeft(g_Packet);
+				PlayerLeft(g_Packet, 1);
 				PulseMaster();
 				break;
 			}
@@ -294,7 +294,7 @@ void CNetworkManager::NewIncomingConnection(RakNet::Packet  *g_Packet)
 	}
 }
 
-void CNetworkManager::PlayerLeft(RakNet::Packet  *g_Packet)
+void CNetworkManager::PlayerLeft(RakNet::Packet  *g_Packet, const int reason)
 {
 	for (int i = 0; i < g_Players.size(); i++)
 	{
@@ -315,6 +315,14 @@ void CNetworkManager::PlayerLeft(RakNet::Packet  *g_Packet)
 					}
 				}
 			}
+
+			// API::Network::OnPlayerConnected Execute
+			for (int i = 0; i < g_ApiModules.size(); i++)
+			{
+				void *Instance = g_ApiModules[i].GetInstance();
+				API::Network::OnPlayerDisconnected(Instance, g_Players[i].GetId(), reason);
+			}
+
 
 			g_Players[i].Destroy();
 			g_Players.erase(g_Players.begin() + i);

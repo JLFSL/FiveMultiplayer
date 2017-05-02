@@ -36,6 +36,21 @@ namespace API
 			return true;
 		}
 
+		// Reason:  0 = Left, 1 = Timeout, 2 = Kicked, 3 = Banned
+		void OnPlayerDisconnected(void *Instance, int entity, int reason)
+		{
+			if (Instance)
+			{
+				typedef bool(*API_OnPlayerDisconnected_t)(int, int);
+#ifdef WIN32
+				API_OnPlayerDisconnected_t API_OnPlayerDisconnected = (API_OnPlayerDisconnected_t)::GetProcAddress((HMODULE)Instance, "API_OnPlayerDisconnected");
+#else
+				API_OnPlayerDisconnected_t API_OnPlayerDisconnected = (API_OnPlayerDisconnected_t)dlsym(Instance, "API_OnPlayerDisconnected");
+#endif
+				API_OnPlayerDisconnected(entity, reason);
+			}
+		}
+
 		void OnPlayerCommand(void *Instance, const int entity, const std::string message)
 		{
 			if (Instance)

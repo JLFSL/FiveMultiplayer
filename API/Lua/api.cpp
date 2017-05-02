@@ -332,6 +332,28 @@ extern "C" DLL_PUBLIC bool API_OnPlayerConnected(int entity)
 	return result;
 }
 
+/// <param name="reason">The reason the player disconnected,  0 = Left, 1 = Timeout, 2 = Kicked, 3 = Banned</param>
+extern "C" DLL_PUBLIC void API_OnPlayerDisconnected(int entity, int reason)
+{
+	std::cout << "OnPlayerDisconnected() was called." << std::endl;
+
+	int call = lua_getglobal(stateLua, "OnPlayerDisconnected");
+	if (call != 0)
+	{
+		lua_pushinteger(stateLua, entity);
+		lua_pushinteger(stateLua, reason);
+
+		int error = lua_pcall(stateLua, 2, 1, 0);
+		if (error != 0)
+		{
+			std::cout << "Error occured when executing OnPlayerDisconnected" << std::endl;
+			std::cout << "Error: " << lua_tostring(stateLua, -1) << std::endl;
+		}
+
+		lua_pop(stateLua, 1);
+	}
+}
+
 extern "C" DLL_PUBLIC void API_OnEntityEnterCheckpoint(int checkpoint, int entity)
 {
 	std::cout << "OnEntityEnterCheckpoint() was called." << std::endl;

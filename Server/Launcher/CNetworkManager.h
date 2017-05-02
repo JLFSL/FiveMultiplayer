@@ -16,7 +16,7 @@ public:
 	bool Start();
 	void Pulse();
 	void PulseMaster();
-	void PlayerLeft(RakNet::Packet *g_Packet);
+	void PlayerLeft(RakNet::Packet *g_Packet, const int reason);
 
 	static size_t my_dummy_write(char *ptr, size_t size, size_t nmemb, void *userdata);
 
