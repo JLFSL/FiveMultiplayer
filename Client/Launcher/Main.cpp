@@ -97,12 +97,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	if (!Util::Exists(CorePath))
 		return Util::ShowMessageBox("Failed to find " INFO_CLIENT_CORE " in current directory. Cannot launch " INFO_NAME ".", MB_ICONEXCLAMATION);
 
-	const int result = MessageBox(NULL, "Are you using the Steam version of the game?", "Steam Version", MB_YESNOCANCEL | MB_ICONQUESTION);
+	const int result = 7/*MessageBox(NULL, "Are you using the Steam version of the game?", "Steam Version", MB_YESNOCANCEL | MB_ICONQUESTION)*/;
 
 	switch (result)
 	{
 	case IDYES:
-		ShellExecute(0, 0, "steam://rungameid/" INFO_GAME_STEAMAPPID, 0, 0, SW_SHOW);
+		ShellExecute(0, 0, "steam://rungameid/" INFO_GAME_STEAMAPPID " -scOfflineOnly", 0, 0, SW_SHOW);
 		break;
 	case IDNO:
 		// Start Executable
@@ -112,7 +112,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		memset(&piProcessInfo, 0, sizeof(piProcessInfo));
 		siStartupInfo.cb = sizeof(siStartupInfo);
 
-		if (!CreateProcess(InstallExe, "", NULL, NULL, true, CREATE_SUSPENDED, NULL, InstallDir, &siStartupInfo, &piProcessInfo)) {
+		if (!CreateProcess(InstallExe, " -scOfflineOnly", NULL, NULL, true, CREATE_SUSPENDED, NULL, InstallDir, &siStartupInfo, &piProcessInfo)) {
 			Util::ShowMessageBox("Failed to start " INFO_GAME_EXECUTABLE ". Cannot launch " INFO_NAME ".");
 			return 1;
 		}
