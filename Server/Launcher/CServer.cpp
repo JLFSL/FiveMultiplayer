@@ -172,14 +172,16 @@ void CServer::Process()
 		GetNetworkManager()->Pulse();
 
 		// Pulse all players
-		for (int i = 0; i < g_Players.size(); i++) {
+		for (int i = 0; i < g_Players.size(); i++)
+		{
 			g_Players[i].Pulse();
 		}
 
 		// Pulse all vehicles
 		for (int i = 0; i < g_Vehicles.size(); i++)
 		{
-			g_Vehicles[i].Pulse();
+			if(g_Vehicles[i].GetAssignee() != UNASSIGNED_RAKNET_GUID)
+				g_Vehicles[i].Pulse();
 		}
 
 		for (int i = 0; i < g_Objects.size(); i++)

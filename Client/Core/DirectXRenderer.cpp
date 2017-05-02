@@ -244,6 +244,11 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 				ImGui::Text("Multiplayer");
 				ImGui::PopStyleColor();
 
+				float SizeV = ImGui::CalcTextSize(INFO_VERSION " Patch " INFO_BUILD_NUMBER).x;
+				ImGui::NewLine();
+				ImGui::SameLine((ImGui::GetWindowContentRegionMax().x / 2) - (SizeH1 / 2) + SizeH3);
+				ImGui::Text(INFO_VERSION " Patch " INFO_BUILD_NUMBER);
+
 				ImGui::NewLine(); ImGui::NewLine(); ImGui::NewLine(); ImGui::NewLine();
 				ImGui::SameLine((ImGui::GetWindowContentRegionMax().x / 2) - 150);
 				ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 1.0f, 1.0f));

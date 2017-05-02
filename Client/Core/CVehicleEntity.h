@@ -131,6 +131,8 @@ public:
 
 	int				GetOccupant(int seat) { return Occupants[seat]; }
 
+	void			SetModel(std::string model) { Data.Model = model; }
+
 	CVector3		GetPosition() { return Data.Position; }
 	void			SetPosition(CVector3 position) { Data.Position = position; }
 	CVector3		GetRotation() { return Data.Rotation; }

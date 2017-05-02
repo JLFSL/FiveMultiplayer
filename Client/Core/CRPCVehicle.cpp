@@ -1,5 +1,32 @@
 #include "stdafx.h"
 
+
+void CRPCVehicle::InitVehicle(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+{
+	std::cout << "CRPCVehicle::InitVehicle" << std::endl;
+	int entity;
+	RakWString model;
+	CVector3 position, rotation;
+
+	bitStream->Read(entity);
+	bitStream->Read(model);
+	bitStream->Read(position.x);
+	bitStream->Read(position.y);
+	bitStream->Read(position.z);
+	bitStream->Read(rotation.x);
+	bitStream->Read(rotation.y);
+	bitStream->Read(rotation.z);
+
+	CVehicleEntity newVehicle;
+	newVehicle.Create(entity);
+	newVehicle.SetPosition(position);
+	newVehicle.SetRotation(rotation);
+	newVehicle.SetModel(CString::utf16ToUtf8(model.C_String()));
+	g_Vehicles.push_back(newVehicle);
+
+	std::cout << "[CPlayerEntity] Vehicle Count: " << g_Vehicles.size() << std::endl;
+}
+
 void CRPCVehicle::SetStandardColor(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 {
 	std::cout << "CRPCVehicle::SetStandardColor" << std::endl;

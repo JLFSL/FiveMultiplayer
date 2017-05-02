@@ -130,7 +130,7 @@ void CVehicleEntity::Pulse()
 				CVector3 pos = g_Players[i].GetPosition();
 				if (g_Players[i].GetId() != -1 && Math::GetDistanceBetweenPoints2D(Data.Position.x, Data.Position.y, pos.x, pos.y) <= 1000.0f)
 				{
-					g_Server->GetNetworkManager()->GetInterface()->Send(&bitstream, MEDIUM_PRIORITY, UNRELIABLE_SEQUENCED, 0, g_Players[i].GetGUID, false);
+					g_Server->GetNetworkManager()->GetInterface()->Send(&bitstream, MEDIUM_PRIORITY, UNRELIABLE_SEQUENCED, 0, g_Players[i].GetGUID(), false);
 				}
 			}
 		}

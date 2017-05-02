@@ -45,6 +45,7 @@ CRPCManager::RPCMessage rpcmessages[] = {
 	{ "SetCheckpointHeight", CRPCCheckpoint::SetHeight },
 #pragma endregion
 #pragma region Vehicle
+	{ "InitVehicle", CRPCVehicle::InitVehicle },
 	{ "SetStandardColor", CRPCVehicle::SetStandardColor},
 	{ "SetCustomColor", CRPCVehicle::SetCustomColor },
 	{ "SetNumberPlate", CRPCVehicle::SetNumberPlate },
