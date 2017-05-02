@@ -693,3 +693,13 @@ void CVehicleEntity::FixDeformation()
 		VEHICLE::SET_VEHICLE_DEFORMATION_FIXED(Game.Vehicle);
 	}
 }
+
+void CVehicleEntity::SetTaxiLightState(const bool state)
+{
+	Data.TaxiLight = state;
+
+	if (Game.Created)
+	{
+		VEHICLE::SET_TAXI_LIGHTS(Game.Vehicle, state);
+	}
+}

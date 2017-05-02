@@ -773,7 +773,7 @@ struct Vehicle
 	int GetOccupants(lua_State* L)
 	{
 		const int args = lua_gettop(L);
-		if (args == 2)
+		if (args == 1)
 		{
 			Vehicle* veh = reinterpret_cast<Vehicle*>(lua_touserdata(L, 1));
 
@@ -794,6 +794,43 @@ struct Vehicle
 			std::cerr << "Vehicle:GetOccupants requires args ()." << std::endl;
 		}
 		return 1;
+	}
+
+	int GetTaxiLightState(lua_State* L)
+	{
+		const int args = lua_gettop(L);
+		if (args == 1)
+		{
+			Vehicle* veh = reinterpret_cast<Vehicle*>(lua_touserdata(L, 1));
+
+			lua_pushboolean(L, API::Vehicle::GetTaxiLightState(veh->entity));
+
+			veh = nullptr;
+		}
+		else
+		{
+			lua_pushnil(L);
+			std::cerr << "Vehicle:GetTaxiLightState requires args ()." << std::endl;
+		}
+		return 1;
+	}
+
+	int SetTaxiLightState(lua_State* L)
+	{
+		const int args = lua_gettop(L);
+		if (args == 2)
+		{
+			Vehicle* veh = reinterpret_cast<Vehicle*>(lua_touserdata(L, 1));
+
+			API::Vehicle::SetTaxiLightState(veh->entity, lua_toboolean(L,2));
+
+			veh = nullptr;
+		}
+		else
+		{
+			std::cerr << "Vehicle:SetTaxiLightState requires args (bool state)." << std::endl;
+		}
+		return 0;
 	}
 };
 #endif

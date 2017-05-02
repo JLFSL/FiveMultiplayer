@@ -835,4 +835,63 @@ namespace API
 			std::wcout << ThisNamespace << L"GetOccupants Invalid Entity: " << entity << std::endl;
 		}
 	}
+
+	const bool Vehicle::GetTaxiLightState(const int entity)
+	{
+		const int index = ServerEntity::GetIndex(entity);
+		if (index > -1)
+		{
+			switch (g_Entities[index].GetType())
+			{
+			case CServerEntity::Vehicle:
+				for (int i = 0; i < g_Vehicles.size(); i++)
+				{
+					if (g_Vehicles[i].GetId() == entity)
+					{
+						return g_Vehicles[i].GetTaxiLightState();
+					}
+				}
+				break;
+			default:
+				std::wcout << ThisNamespace << L"GetTaxiLightState Entity " << entity << L" is not of type Vehicle." << std::endl;
+				break;
+			}
+		}
+		else
+		{
+			std::wcout << ThisNamespace << L"GetTaxiLightState Invalid Entity: " << entity << std::endl;
+		}
+	}
+
+	void Vehicle::SetTaxiLightState(const int entity, const bool state)
+	{
+		const int index = ServerEntity::GetIndex(entity);
+		if (index > -1)
+		{
+			switch (g_Entities[index].GetType())
+			{
+			case CServerEntity::Vehicle:
+				for (int i = 0; i < g_Vehicles.size(); i++)
+				{
+					if (g_Vehicles[i].GetId() == entity)
+					{
+						RakNet::BitStream sData;
+						sData.Write(entity);
+						sData.Write(state);
+						g_Server->GetNetworkManager()->GetRPC().Signal("SetTaxiLightState", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
+						
+						return g_Vehicles[i].SetTaxiLightState(state);
+					}
+				}
+				break;
+			default:
+				std::wcout << ThisNamespace << L"SetTaxiLight Entity " << entity << L" is not of type Vehicle." << std::endl;
+				break;
+			}
+		}
+		else
+		{
+			std::wcout << ThisNamespace << L"SetTaxiLight Invalid Entity: " << entity << std::endl;
+		}
+	}
 }

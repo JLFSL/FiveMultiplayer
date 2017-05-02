@@ -57,6 +57,7 @@ CRPCManager::RPCMessage rpcmessages[] = {
 	{ "SetEngineHealth", CRPCVehicle::SetEngineHealth },
 	{ "SetFuelTankHealth", CRPCVehicle::SetFuelTankHealth },
 	{ "FixDeformation", CRPCVehicle::FixDeformation },
+	{ "SetTaxiLightState", CRPCVehicle::SetTaxiLightState },
 #pragma endregion
 #pragma region Network
 	{ "FinishedSync", CRPCNetwork::FinishedSync },

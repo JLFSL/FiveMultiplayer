@@ -250,3 +250,26 @@ void CRPCVehicle::FixDeformation(RakNet::BitStream *bitStream, RakNet::Packet *p
 		}
 	}
 }
+
+void CRPCVehicle::SetTaxiLightState(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+{
+	int entity;
+	bool state;
+
+	bitStream->Read(entity);
+	bitStream->Read(state);
+
+	std::cout << "CRPCVehicle::SetTaxiLightState" << std::endl;
+
+	if (CServerEntity::IsValid(entity))
+	{
+		for (int i = 0; i < g_Vehicles.size(); i++)
+		{
+			if (g_Vehicles[i].GetId() == entity)
+			{
+				return g_Vehicles[i].SetTaxiLightState(state);
+			}
+		}
+	}
+}
+

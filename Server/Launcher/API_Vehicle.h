@@ -47,6 +47,9 @@ extern "C" {
 
 			DLL_PUBLIC static const int GetOccupant(const int entity, const int seat);
 			DLL_PUBLIC static const std::vector<int> GetOccupants(const int entity);
+
+			DLL_PUBLIC static const bool GetTaxiLightState(const int entity);
+			DLL_PUBLIC static void SetTaxiLightState(const int entity, const bool state);
 		};
 	}
 }

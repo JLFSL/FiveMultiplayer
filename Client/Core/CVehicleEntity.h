@@ -36,6 +36,8 @@ private:
 		float		SteeringAngle		= .0f;
 		float		ForwardWheelAngle	= .0f;
 
+		bool		TaxiLight			= false;
+
 		struct VehiclePaintLayer
 		{
 			int		color				= 0;
@@ -155,6 +157,7 @@ public:
 	void			SetEngineHealth(const float health);
 	void			SetFuelTankHealth(const float health);
 	void			FixDeformation();
+	void			SetTaxiLightState(const bool state);
 
 	VehicleInterpolationData InterpolationData;
 };

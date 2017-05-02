@@ -32,6 +32,8 @@ private:
 		float		SteeringAngle		= .0f;
 		float		ForwardWheelAngle	= .0f;
 
+		bool		TaxiLight			= false;
+
 		struct VehiclePaintLayer
 		{
 			int color					= 0;
@@ -136,5 +138,8 @@ public:
 
 	const float		GetFuelTankHealth() { return Data.FuelTankHealth; }
 	void			SetFuelTankHealth(const float health) { Data.FuelTankHealth = health; }
+
+	const bool		GetTaxiLightState() { return Data.TaxiLight; }
+	void			SetTaxiLightState(const bool state) { Data.TaxiLight = state; }
 };
 extern std::vector<CVehicleEntity> g_Vehicles;

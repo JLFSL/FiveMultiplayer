@@ -194,6 +194,20 @@ extern "C" {
 			/// <param name="entity">The entity of the vehicle</param>
 			/// <returns name="ocupants">the occupants of the vehicle, vector[0] = driver, vector 1-11 = passenger seats</returns>
 			DLL_PUBLIC_I static const std::vector<int> GetOccupants(const int entity);
+
+			/// <summary>
+			/// Gets the taxi light state of the vehicle
+			/// </summary>
+			/// <param name="entity">The entity of the vehicle</param>
+			/// <returns name="state">The taxi lights state</returns>
+			DLL_PUBLIC_I static const bool GetTaxiLightState(const int entity);
+
+			/// <summary>
+			/// Sets the taxi light state of the vehicle
+			/// </summary>
+			/// <param name="entity">The entity of the vehicle</param>
+			/// <param name="state">The state to set it</param>
+			DLL_PUBLIC_I static void SetTaxiLightState(const int entity, const bool state);
 		};
 	}
 #ifdef __cplusplus
