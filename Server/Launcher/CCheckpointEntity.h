@@ -33,7 +33,9 @@ public:
 	void Create(const CVector3 position, const CVector3 pointto, const int type, const float radius, const Color color, const int reserved);
 	void Destroy();
 
-	const int	GetId() { return Information.Id; }
+	void			RequestData(RakNetGUID requester);
+
+	const int		GetId() { return Information.Id; }
 
 	const CVector3	GetPosition() { return Data.Position; }
 	void			SetPosition(CVector3 position) { Data.Position = position; }

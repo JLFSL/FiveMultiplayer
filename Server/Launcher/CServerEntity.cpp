@@ -584,6 +584,16 @@ namespace ServerEntity
 					}
 				}
 				break;
+			case CServerEntity::Checkpoint:
+				for (int i = 0; i < g_Checkpoints.size(); i++)
+				{
+					if (g_Checkpoints[i].GetId() == entity)
+					{
+						g_Checkpoints[i].RequestData(requester);
+						break;
+					}
+				}
+				break;
 			default:
 				std::cout << std::endl << "[CServerEntity::RequestData] Invalid entity" << std::endl;
 				break;

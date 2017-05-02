@@ -44,3 +44,17 @@ void CCheckpointEntity::Destroy()
 
 	std::cout << "[CCheckpointEntity] " << Amount << " checkpoints in the world." << std::endl;
 }
+
+void CCheckpointEntity::RequestData(RakNetGUID requester)
+{
+	RakNet::BitStream sData;
+	
+	sData.Reset();
+	sData.Write(Information.Id);
+	sData.Write(Data.NearHeight);
+	sData.Write(Data.FarHeight);
+
+	g_Server->GetNetworkManager()->GetRPC().Signal("SetCheckpointHeight", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, requester, false, false);
+
+	sData.Reset();
+}

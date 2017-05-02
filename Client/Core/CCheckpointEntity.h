@@ -43,6 +43,8 @@ public:
 
 	void Pulse();
 
+	void RequestData();
+
 	void SetHeight(const float nearHeight, const float farHeight);
 
 	int			GetId() { return Information.Id; }

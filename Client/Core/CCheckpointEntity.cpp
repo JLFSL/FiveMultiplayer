@@ -29,6 +29,8 @@ void CCheckpointEntity::Create(const int entity, const CVector3 position, const 
 
 	g_Entities.push_back(newServerEntity);
 
+	RequestData();
+
 	Amount++;
 
 	std::cout << "[CCheckpointEntity] Created checkpoint [" << Information.Id << "] at " << Data.Position.x << ", " << Data.Position.y << ", " << Data.Position.z << std::endl;
@@ -50,6 +52,14 @@ void CCheckpointEntity::Destroy()
 	Amount--;
 
 	std::cout << "[CCheckpointEntity] " << Amount << " checkpoints in the world." << std::endl;
+}
+
+// Gets the data thats only needed once thats not synced constantly
+void CCheckpointEntity::RequestData()
+{
+	RakNet::BitStream sData;
+	sData.Write(Information.Id);
+	CNetworkManager::GetRPC().Signal("RequestEntityData", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, CNetworkManager::GetSystemAddress(), false, false);
 }
 
 void CCheckpointEntity::Show()

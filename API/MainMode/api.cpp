@@ -68,6 +68,8 @@ extern "C" DLL_PUBLIC bool API_Initialize(void)
 	npcs.push_back(newNpc);
 	
 	newCp.Create(CVector3(0.0f, 0.0f, 74.0f), CVector3(0.0f, 0.0f, 124.0f), 1, 5.0f, Color{ 255,0,0,255 }, 0);
+	newCp.SetNearHeight(1.0f);
+	newCp.SetFarHeight(1.0f);
 	checkpoints.push_back(newCp);
 #else
 	newNpc.Create(L"s_m_m_movspace_01", CVector3(1527.62f, 3274.39f, 53.0f), CVector3(0.0f, 0.0f, 90.0f));
@@ -268,6 +270,17 @@ extern "C" DLL_PUBLIC void API_OnPlayerCommand(const int entity, const std::stri
 			oss << "{00ff00}Your Position is: " << pos.x << ", " << pos.y << ", " << pos.z;
 
 			API::Visual::SendChatMessageToPlayer(entity, oss.str().c_str());
+		}
+		else if (tokens[0].compare("/cph") == 0)
+		{
+			if (!checkpoints.empty() && tokens.size() == 3)
+			{
+				for (int x = 0; x < checkpoints.size(); x++)
+				{
+					checkpoints[x].SetNearHeight(std::atof(tokens[1].c_str()));
+					checkpoints[x].SetFarHeight(std::atof(tokens[2].c_str()));
+				}
+			}
 		}
 		else
 		{
