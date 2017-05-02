@@ -97,11 +97,16 @@ void CObjectEntity::Destroy()
 {
 	std::cout << "[CObjectEntity] Removing Object [" << Information.Id << "] " << Data.Model.Model << std::endl;
 
-	if (ENTITY::DOES_ENTITY_EXIST(Game.Object))
-		ENTITY::DELETE_ENTITY(&Game.Object);
+	if (Game.Created)
+	{
+		if (ENTITY::DOES_ENTITY_EXIST(Game.Object))
+			ENTITY::DELETE_ENTITY(&Game.Object);
 
-	if (Game.Blip)
-		UI::REMOVE_BLIP(&Game.Blip);
+		if (Game.Blip)
+			UI::REMOVE_BLIP(&Game.Blip);
+
+		Game.Created = false;
+	}
 
 	Information = {};
 	Data = {};
@@ -116,11 +121,16 @@ void CObjectEntity::Destroy()
 
 void CObjectEntity::Delete()
 {
-	if (ENTITY::DOES_ENTITY_EXIST(Game.Object))
-		ENTITY::DELETE_ENTITY(&Game.Object);
+	if (Game.Created)
+	{
+		if (ENTITY::DOES_ENTITY_EXIST(Game.Object))
+			ENTITY::DELETE_ENTITY(&Game.Object);
 
-	if (Game.Blip)
-		UI::REMOVE_BLIP(&Game.Blip);
+		if (Game.Blip)
+			UI::REMOVE_BLIP(&Game.Blip);
+
+		Game.Created = false;
+	}
 
 	Game.Object = 0;
 	Game.Blip = 0;
@@ -131,8 +141,6 @@ void CObjectEntity::Delete()
 		sData.Write(Information.Id);
 		CNetworkManager::GetRPC().Signal("DropEntityAssignment", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, CNetworkManager::GetSystemAddress(), false, false);
 	}
-
-	Game.Created = false;
 }
 
 void CObjectEntity::Pulse()

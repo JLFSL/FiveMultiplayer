@@ -136,11 +136,16 @@ void CNPCEntity::Destroy()
 {
 	std::cout << "[CNPCEntity] Removing NPC [" << Data.Id << "] " << Data.Model.Model << std::endl;
 
-	if (ENTITY::DOES_ENTITY_EXIST(Game.Npc))
-		ENTITY::DELETE_ENTITY(&Game.Npc);
+	if (Game.Created)
+	{
+		if (ENTITY::DOES_ENTITY_EXIST(Game.Npc))
+			ENTITY::DELETE_ENTITY(&Game.Npc);
 
-	if (Game.Blip)
-		UI::REMOVE_BLIP(&Game.Blip);
+		if (Game.Blip)
+			UI::REMOVE_BLIP(&Game.Blip);
+
+		Game.Created = false;
+	}
 
 	Data = {};
 	Network = {};
@@ -152,16 +157,19 @@ void CNPCEntity::Destroy()
 
 void CNPCEntity::Delete()
 {
-	if (ENTITY::DOES_ENTITY_EXIST(Game.Npc))
-		ENTITY::DELETE_ENTITY(&Game.Npc);
+	if (Game.Created)
+	{
+		if (ENTITY::DOES_ENTITY_EXIST(Game.Npc))
+			ENTITY::DELETE_ENTITY(&Game.Npc);
 
-	if (Game.Blip)
-		UI::REMOVE_BLIP(&Game.Blip);
+		if (Game.Blip)
+			UI::REMOVE_BLIP(&Game.Blip);
+
+		Game.Created = false;
+	}
 
 	Game.Npc = 0;
 	Game.Blip = 0;
-
-	Game.Created = false;
 }
 
 void CNPCEntity::SetModelComponent(const int index, const int drawableid, const int textureid, const int paletteid)

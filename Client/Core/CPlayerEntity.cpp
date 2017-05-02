@@ -128,13 +128,16 @@ void CPlayerEntity::Destroy()
 
 	AI::TASK_STAND_STILL(Game.Ped, 1);
 	
-	if(ENTITY::DOES_ENTITY_EXIST(Game.Ped))
-		ENTITY::DELETE_ENTITY(&Game.Ped);
+	if (Game.Created)
+	{
+		if (ENTITY::DOES_ENTITY_EXIST(Game.Ped))
+			ENTITY::DELETE_ENTITY(&Game.Ped);
 
-	Game.Created = false;
+		if (Game.Blip)
+			UI::REMOVE_BLIP(&Game.Blip);
 
-	if(Game.Blip)
-		UI::REMOVE_BLIP(&Game.Blip);
+		Game.Created = false;
+	}
 
 	Game = {};
 	Information = {};

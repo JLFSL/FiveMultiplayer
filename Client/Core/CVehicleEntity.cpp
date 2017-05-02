@@ -151,13 +151,16 @@ void CVehicleEntity::RequestData()
 
 void CVehicleEntity::Destroy()
 {
-	if (ENTITY::DOES_ENTITY_EXIST(Game.Vehicle))
-		VEHICLE::DELETE_VEHICLE(&Game.Vehicle);
+	if (Game.Created)
+	{
+		if (ENTITY::DOES_ENTITY_EXIST(Game.Vehicle))
+			VEHICLE::DELETE_VEHICLE(&Game.Vehicle);
 
-	Game.Created = false;
+		if (Game.Blip)
+			UI::REMOVE_BLIP(&Game.Blip);
 
-	if (Game.Blip)
-		UI::REMOVE_BLIP(&Game.Blip);
+		Game.Created = false;
+	}
 
 	Game = {};
 	Information = {};
@@ -170,11 +173,16 @@ void CVehicleEntity::Destroy()
 
 void CVehicleEntity::Delete()
 {
-	if (ENTITY::DOES_ENTITY_EXIST(Game.Vehicle))
-		VEHICLE::DELETE_VEHICLE(&Game.Vehicle);
+	if (Game.Created)
+	{
+		if (ENTITY::DOES_ENTITY_EXIST(Game.Vehicle))
+			VEHICLE::DELETE_VEHICLE(&Game.Vehicle);
 
-	if (Game.Blip)
-		UI::REMOVE_BLIP(&Game.Blip);
+		if (Game.Blip)
+			UI::REMOVE_BLIP(&Game.Blip);
+
+		Game.Created = false;
+	}
 
 	Game.Vehicle = 0;
 	Game.Blip = 0;
@@ -185,8 +193,6 @@ void CVehicleEntity::Delete()
 		sData.Write(Information.Id);
 		CNetworkManager::GetRPC().Signal("DropEntityAssignment", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, CNetworkManager::GetSystemAddress(), false, false);
 	}
-
-	Game.Created = false;
 }
 
 void CVehicleEntity::Pulse()
