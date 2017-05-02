@@ -213,6 +213,7 @@
     <ClInclude Include="CWorld.h" />
     <ClInclude Include="ini.h" />
     <ClInclude Include="IniReader.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="RPCEntity.h" />
     <ClInclude Include="RPCManager.h" />
     <ClInclude Include="stdafx.h" />
@@ -254,6 +255,12 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="FiveMP.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon2.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

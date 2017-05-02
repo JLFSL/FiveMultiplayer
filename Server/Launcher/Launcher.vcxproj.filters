@@ -37,6 +37,9 @@
     <Filter Include="Network\RPC">
       <UniqueIdentifier>{be7804ff-34c1-4493-b533-7f8bce17bf34}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource">
+      <UniqueIdentifier>{78638f73-95e4-461f-b3f7-8b30de80ff3e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -233,5 +236,18 @@
     <ClInclude Include="API_CEF.h">
       <Filter>Scripting\Functions</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Resource</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="FiveMP.rc">
+      <Filter>Resource</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon2.ico">
+      <Filter>Resource</Filter>
+    </Image>
   </ItemGroup>
 </Project>
