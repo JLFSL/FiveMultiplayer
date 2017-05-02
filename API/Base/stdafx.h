@@ -8,6 +8,7 @@
 #include <limits>
 #include <stdexcept>
 #include <cstdint>
+#include <vector>
 
 #include "api.h"
 

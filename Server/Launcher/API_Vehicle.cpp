@@ -803,4 +803,36 @@ namespace API
 			std::wcout << ThisNamespace << L"GetOccupant Invalid Entity: " << entity << std::endl;
 		}
 	}
+
+	const std::vector<int> Vehicle::GetOccupants(const int entity)
+	{
+		const int index = ServerEntity::GetIndex(entity);
+		if (index > -1)
+		{
+			switch (g_Entities[index].GetType())
+			{
+			case CServerEntity::Vehicle:
+				for (int i = 0; i < g_Vehicles.size(); i++)
+				{
+					if (g_Vehicles[i].GetId() == entity)
+					{
+						std::vector<int> Seats;
+						for (int s = 0; s < 12; s++)
+						{
+							Seats.push_back(g_Vehicles[i].GetOccupant(s));
+						}
+						return Seats;
+					}
+				}
+				break;
+			default:
+				std::wcout << ThisNamespace << L"GetOccupants Entity " << entity << L" is not of type Vehicle." << std::endl;
+				break;
+			}
+		}
+		else
+		{
+			std::wcout << ThisNamespace << L"GetOccupants Invalid Entity: " << entity << std::endl;
+		}
+	}
 }
