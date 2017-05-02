@@ -25,19 +25,22 @@ namespace NetworkSync
 		g_Server->GetNetworkManager()->GetRPC().Signal("SetWeather", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, user, false, false);
 
 		// Sync IPLs
-		for (int i = 0; i < CWorld::g_IPLs.size(); i++)
+		if (!CWorld::g_IPLs.empty())
 		{
-			if (CWorld::g_IPLs[i].enabled)
+			for (int i = 0; i < CWorld::g_IPLs.size(); i++)
 			{
-				RakNet::BitStream sData;
-				sData.Write(RakWString(CWorld::g_IPLs[i].ipl.c_str()));
-				g_Server->GetNetworkManager()->GetRPC().Signal("LoadIPL", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, g_Players[i].GetGUID(), false, false);
-			}
-			else
-			{
-				RakNet::BitStream sData;
-				sData.Write(RakWString(CWorld::g_IPLs[i].ipl.c_str()));
-				g_Server->GetNetworkManager()->GetRPC().Signal("UnloadIPL", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, g_Players[i].GetGUID(), false, false);
+				if (CWorld::g_IPLs[i].enabled)
+				{
+					RakNet::BitStream sData;
+					sData.Write(RakWString(CWorld::g_IPLs[i].ipl.c_str()));
+					g_Server->GetNetworkManager()->GetRPC().Signal("LoadIPL", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, user, false, false);
+				}
+				else
+				{
+					RakNet::BitStream sData;
+					sData.Write(RakWString(CWorld::g_IPLs[i].ipl.c_str()));
+					g_Server->GetNetworkManager()->GetRPC().Signal("UnloadIPL", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, user, false, false);
+				}
 			}
 		}
 

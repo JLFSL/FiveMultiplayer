@@ -115,6 +115,8 @@ extern "C" DLL_PUBLIC bool API_Initialize(void)
 	
 #endif
 
+	API::World::LoadIPL(L"hei_carrier");
+
 	API::Server::PrintMessage(L"Gamemode Initialized!");
 	return true;
 }
@@ -183,6 +185,7 @@ extern "C" DLL_PUBLIC bool API_OnPlayerConnected(int entity)
 
 #ifdef TESTING
 	newPlayer.player.SetPosition(CVector3(0.0f, 0.0f, 73.5f));
+	//newPlayer.player.SetPosition(CVector3(3084.73f, -4770.709f, 15.26167f));
 #else
 	newPlayer.player.SetPosition(CVector3(1527.62f, 3274.39f, 53.0f));
 #endif

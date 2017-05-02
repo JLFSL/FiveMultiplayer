@@ -49,6 +49,7 @@ void CWorld::LoadIPL(std::wstring ipl)
 				g_IPLs[i].enabled = true;
 
 			exists = true;
+			break;
 		}
 	}
 
