@@ -244,7 +244,6 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 				ImGui::Text("Multiplayer");
 				ImGui::PopStyleColor();
 
-
 				ImGui::SetWindowFontScale(DirectXRenderer::textScale / 3);
 				float SizeV = ImGui::CalcTextSize(INFO_VERSION " Patch " INFO_BUILD_NUMBER).x;
 				ImGui::NewLine();

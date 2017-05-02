@@ -67,9 +67,9 @@ extern "C" DLL_PUBLIC bool API_Initialize(void)
 	newNpc.Create(L"s_m_m_movspace_01", CVector3(0.0f, 0.0f, 74.0f), CVector3(0.0f, 0.0f, 90.0f));
 	npcs.push_back(newNpc);
 	
-	newCp.Create(CVector3(0.0f, 0.0f, 74.0f), CVector3(0.0f, 0.0f, 124.0f), 1, 5.0f, Color{ 255,0,0,255 }, 0);
+	newCp.Create(CVector3(-42.42f, 33.97f, 70.0f), CVector3(0.0f, 0.0f, 124.0f), 45, 20.0f, Color{ 255,0,0,255 }, 0);
 	newCp.SetNearHeight(1.0f);
-	newCp.SetFarHeight(1.0f);
+	newCp.SetFarHeight(10.0f);
 	checkpoints.push_back(newCp);
 #else
 	newNpc.Create(L"s_m_m_movspace_01", CVector3(1527.62f, 3274.39f, 53.0f), CVector3(0.0f, 0.0f, 90.0f));
