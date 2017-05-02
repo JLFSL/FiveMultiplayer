@@ -123,6 +123,12 @@ bool CVehicleEntity::CreateVehicle()
 
 		VEHICLE::SET_VEHICLE_DOORS_LOCKED(Game.Vehicle, Data.DoorsLockState);
 
+		VEHICLE::SET_VEHICLE_ENGINE_HEALTH(Game.Vehicle, Data.EngineHealth);
+
+		VEHICLE::SET_VEHICLE_PETROL_TANK_HEALTH(Game.Vehicle, Data.FuelTankHealth);
+
+		VEHICLE::SET_TAXI_LIGHTS(Game.Vehicle, Data.TaxiLight);
+
 		ENTITY::FREEZE_ENTITY_POSITION(Game.Vehicle, FALSE);
 		ENTITY::SET_ENTITY_DYNAMIC(Game.Vehicle, TRUE);
 		std::cout << "[CVehicleEntity] Created Vehicle" << std::endl;

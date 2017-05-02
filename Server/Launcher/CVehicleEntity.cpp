@@ -279,6 +279,21 @@ void CVehicleEntity::RequestData(RakNetGUID requester)
 
 		g_Server->GetNetworkManager()->GetRPC().Signal("SetExtra", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, requester, false, false);
 	}
+
+	sData.Reset();
+	sData.Write(Information.Id);
+	sData.Write(Data.EngineHealth);
+	g_Server->GetNetworkManager()->GetRPC().Signal("SetEngineHealth", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, requester, false, false);
+
+	sData.Reset();
+	sData.Write(Information.Id);
+	sData.Write(Data.FuelTankHealth);
+	g_Server->GetNetworkManager()->GetRPC().Signal("SetFuelTankHealth", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, requester, false, false);
+
+	sData.Reset();
+	sData.Write(Information.Id);
+	sData.Write(Data.TaxiLight);
+	g_Server->GetNetworkManager()->GetRPC().Signal("SetTaxiLightState", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, requester, false, false);
 	
 	sData.Reset();
 }
