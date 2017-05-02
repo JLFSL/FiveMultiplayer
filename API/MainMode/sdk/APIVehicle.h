@@ -173,6 +173,12 @@ extern "C" {
 			/// <param name="entity">The entity of the vehicle</param>
 			/// <param name="health">The health to set the fuel tank (-999 - 1000)</param>
 			DLL_PUBLIC_I static void SetFuelTankHealth(const int entity, const float health);
+
+			/// <summary>
+			/// Fixes the vehicles deformation
+			/// </summary>
+			/// <param name="entity">The entity of the vehicle</param>
+			DLL_PUBLIC_I static void FixDeformation(const int entity);
 		};
 	}
 #ifdef __cplusplus
@@ -329,5 +335,10 @@ public:
 	void SetFuelTankHealth(const float health)
 	{
 		API::Vehicle::SetFuelTankHealth(Entity, health);
+	}
+
+	void FixDeformation()
+	{
+		API::Vehicle::FixDeformation(Entity);
 	}
 };

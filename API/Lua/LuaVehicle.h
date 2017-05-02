@@ -731,5 +731,23 @@ struct Vehicle
 		}
 		return 0;
 	}
+
+	int FixDeformation(lua_State* L)
+	{
+		const int args = lua_gettop(L);
+		if (args == 1)
+		{
+			Vehicle* veh = reinterpret_cast<Vehicle*>(lua_touserdata(L, 1));
+
+			API::Vehicle::FixDeformation(veh->entity);
+
+			veh = nullptr;
+		}
+		else
+		{
+			std::cerr << "Vehicle:FixDeformation requires args ()." << std::endl;
+		}
+		return 0;
+	}
 };
 #endif

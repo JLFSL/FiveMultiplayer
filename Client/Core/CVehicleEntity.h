@@ -154,6 +154,7 @@ public:
 	void			SetExtra(const int extra, const bool toggle);
 	void			SetEngineHealth(const float health);
 	void			SetFuelTankHealth(const float health);
+	void			FixDeformation();
 
 	VehicleInterpolationData InterpolationData;
 };

@@ -739,4 +739,34 @@ namespace API
 			std::wcout << ThisNamespace << L"SetFuelTankHealth Invalid Entity: " << entity << std::endl;
 		}
 	}
+
+	void Vehicle::FixDeformation(const int entity)
+	{
+		const int index = ServerEntity::GetIndex(entity);
+		if (index > -1)
+		{
+			switch (g_Entities[index].GetType())
+			{
+			case CServerEntity::Vehicle:
+				for (int i = 0; i < g_Vehicles.size(); i++)
+				{
+					if (g_Vehicles[i].GetId() == entity)
+					{
+						RakNet::BitStream sData;
+						sData.Write(entity);
+						g_Server->GetNetworkManager()->GetRPC().Signal("FixDeformation", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
+						return;
+					}
+				}
+				break;
+			default:
+				std::wcout << ThisNamespace << L"FixDeformation Entity " << entity << L" is not of type Vehicle." << std::endl;
+				break;
+			}
+		}
+		else
+		{
+			std::wcout << ThisNamespace << L"FixDeformation Invalid Entity: " << entity << std::endl;
+		}
+	}
 }

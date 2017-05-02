@@ -685,3 +685,11 @@ void CVehicleEntity::SetFuelTankHealth(const float health)
 		VEHICLE::SET_VEHICLE_PETROL_TANK_HEALTH(Game.Vehicle, health);
 	}
 }
+
+void CVehicleEntity::FixDeformation()
+{
+	if (Game.Created)
+	{
+		VEHICLE::SET_VEHICLE_DEFORMATION_FIXED(Game.Vehicle);
+	}
+}
