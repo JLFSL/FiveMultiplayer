@@ -592,4 +592,47 @@ namespace API
 		}
 		std::cout << "[" << ThisNamespace << "::SetViewDistance] Entity " << entity << " invalid." << std::endl;
 	}
+
+	const std::vector<int> Entity::GetEntities(const int type) 
+	{
+		std::vector<int> Entities;
+
+		switch (type)
+		{
+		case CServerEntity::Player:
+			for (int i = 0; i < g_Players.size(); i++)
+			{
+				Entities.push_back(g_Players[i].GetId());
+			}
+			return Entities;
+		case CServerEntity::NPC:
+			for (int i = 0; i < g_Npcs.size(); i++)
+			{
+				Entities.push_back(g_Npcs[i].GetId());
+			}
+			return Entities;
+		case CServerEntity::Vehicle:
+			for (int i = 0; i < g_Vehicles.size(); i++)
+			{
+				Entities.push_back(g_Vehicles[i].GetId());
+			}
+			return Entities;
+		case CServerEntity::Object:
+			for (int i = 0; i < g_Objects.size(); i++)
+			{
+				Entities.push_back(g_Objects[i].GetId());
+			}
+			return Entities;
+		case CServerEntity::Checkpoint:
+			for (int i = 0; i < g_Checkpoints.size(); i++)
+			{
+				Entities.push_back(g_Checkpoints[i].GetId());
+			}
+			return Entities;
+		default:
+			std::cout << "[" << ThisNamespace << "::GetEntities] Invalid type " << type << ", Valid types are, Player = 0, Vehicle = 1, Object = 2, NPC = 3, Checkpoint = 4." << std::endl;
+			break;
+		}
+
+	}
 }

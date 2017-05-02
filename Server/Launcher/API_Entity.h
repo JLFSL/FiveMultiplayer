@@ -9,6 +9,7 @@ extern "C" {
 
 		public:
 			DLL_PUBLIC static void Destroy(const int entity);
+
 			DLL_PUBLIC static const CVector3 GetPosition(const int entity);
 			DLL_PUBLIC static void SetPosition(const int entity, const CVector3 position);
 			DLL_PUBLIC static const CVector3 GetRotation(const int entity);
@@ -28,6 +29,8 @@ extern "C" {
 
 			DLL_PUBLIC static const float GetViewDistance(const int entity);
 			DLL_PUBLIC static void SetViewDistance(const int entity, const float distance);
+
+			DLL_PUBLIC static const std::vector<int> GetEntities(const int type);
 		};
 	}
 }

@@ -135,6 +135,13 @@ extern "C" {
 			/// <param name="entity">The entity you want to set the view distance off.</param>
 			/// <param name="distance">The distance.</param>
 			DLL_PUBLIC static void SetViewDistance(const int entity, const float distance);
+
+			/// <summary>
+			/// Gets a Vector containing the Entity ids of the desired type
+			/// </summary>
+			/// <param name="type">The type of entity you want the list off.</param>
+			/// <returns name="entities">A vector holding the id's of the tpye of entities fetched (Types are, Player = 0, Vehicle = 1, Object = 2, NPC = 3, Checkpoint = 4).</returns>
+			DLL_PUBLIC static const std::vector<int> GetEntities(const int type);
 		};
 	}
 #ifdef __cplusplus
