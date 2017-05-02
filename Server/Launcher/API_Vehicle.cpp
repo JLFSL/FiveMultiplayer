@@ -769,4 +769,38 @@ namespace API
 			std::wcout << ThisNamespace << L"FixDeformation Invalid Entity: " << entity << std::endl;
 		}
 	}
+
+	const int Vehicle::GetOccupant(const int entity, const int seat)
+	{
+		const int index = ServerEntity::GetIndex(entity);
+		if (index > -1)
+		{
+			if (seat >= 0 && seat < 12)
+			{
+				switch (g_Entities[index].GetType())
+				{
+				case CServerEntity::Vehicle:
+					for (int i = 0; i < g_Vehicles.size(); i++)
+					{
+						if (g_Vehicles[i].GetId() == entity)
+						{
+							return g_Vehicles[i].GetOccupant(seat);
+						}
+					}
+					break;
+				default:
+					std::wcout << ThisNamespace << L"GetOccupant Entity " << entity << L" is not of type Vehicle." << std::endl;
+					break;
+				}
+			}
+			else
+			{
+				std::wcout << ThisNamespace << L"GetOccupant Invalid seat, valid seats are 0-11" << std::endl;
+			}
+		}
+		else
+		{
+			std::wcout << ThisNamespace << L"GetOccupant Invalid Entity: " << entity << std::endl;
+		}
+	}
 }

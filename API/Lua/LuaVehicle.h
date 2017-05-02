@@ -749,5 +749,24 @@ struct Vehicle
 		}
 		return 0;
 	}
+
+	int GetOccupant(lua_State* L)
+	{
+		const int args = lua_gettop(L);
+		if (args == 2)
+		{
+			Vehicle* veh = reinterpret_cast<Vehicle*>(lua_touserdata(L, 1));
+
+			const int occupant = API::Vehicle::GetOccupant(veh->entity, lua_tointeger(L, 2));
+			lua_pushinteger(L, occupant);
+
+			veh = nullptr;
+		}
+		else
+		{
+			std::cerr << "Vehicle:GetOccupant requires args (int seat)." << std::endl;
+		}
+		return 1;
+	}
 };
 #endif

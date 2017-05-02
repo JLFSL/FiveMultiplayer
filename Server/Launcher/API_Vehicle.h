@@ -44,6 +44,8 @@ extern "C" {
 			DLL_PUBLIC static void SetFuelTankHealth(const int entity, const float health);
 
 			DLL_PUBLIC static void FixDeformation(const int entity);
+
+			DLL_PUBLIC static const int GetOccupant(const int entity, const int seat);
 		};
 	}
 }

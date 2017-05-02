@@ -179,6 +179,14 @@ extern "C" {
 			/// </summary>
 			/// <param name="entity">The entity of the vehicle</param>
 			DLL_PUBLIC_I static void FixDeformation(const int entity);
+
+			/// <summary>
+			/// Gets the occupant int the seat of the vehicle
+			/// </summary>
+			/// <param name="entity">The entity of the vehicle</param>
+			/// <param name="seat">The seat of the vehicle to get the occupant off (0 = Driver, 1-11 Passenger seats)</param>
+			/// <returns name="entity">The entity of the occupant in the seat, -1 if no one</returns>
+			DLL_PUBLIC_I static const int GetOccupant(const int entity, const int seat);
 		};
 	}
 #ifdef __cplusplus

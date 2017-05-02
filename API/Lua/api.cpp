@@ -105,6 +105,7 @@ extern "C" DLL_PUBLIC bool API_Initialize(void) {
 			.addCFunction("GetFuelTankHealth", &Vehicle::GetFuelTankHealth)
 			.addCFunction("SetFuelTankHealth", &Vehicle::SetFuelTankHealth)
 			.addCFunction("FixDeformation", &Vehicle::FixDeformation)
+			.addCFunction("GetOccupant", &Vehicle::GetOccupant)
 		.endClass()
 		.beginClass <Checkpoint>("Checkpoint")
 			.addConstructor <void(*)(void)>()
