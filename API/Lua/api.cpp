@@ -207,6 +207,9 @@ extern "C" DLL_PUBLIC bool API_Initialize(void) {
 			.addCFunction("SetWeather", World::SetWeather)
 			.addCFunction("LoadIPL", World::LoadIPL)
 			.addCFunction("UnloadIPL", World::UnloadIPL)
+		.endNamespace()
+		.beginNamespace("entity")
+			.addCFunction("GetEntities", Entity::GetEntities)
 		.endNamespace();
 
 	// Load scripts

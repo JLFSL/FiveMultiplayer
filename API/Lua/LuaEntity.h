@@ -1,44 +1,30 @@
-#pragma once
+#ifndef __LUAENTITY_H__
+#define __LUAENTITY_H__
 
-static int ex_Destroy(lua_State* state)
-{
-	const int args = lua_gettop(state);
-	if (args == 1)
+class Entity {
+public:
+	static int GetEntities(lua_State* L)
 	{
-		API::Entity::Destroy(lua_tointeger(state, 1));
+		const int args = lua_gettop(L);
+		if (args == 1)
+		{
+			std::vector<int> entities = API::Entity::GetEntities(lua_tointeger(L,1));
+
+			lua_newtable(L);
+
+			for (int i = 0; i < entities.size(); i++)
+			{
+				lua_pushinteger(L, entities[i]);
+			}
+
+		}
+		else
+		{
+			std::cerr << "GetEntities requires arg (int type)." << std::endl;
+			lua_pushnil(L);
+		}
+		lua_pop(L, args);
+		return 1;
 	}
-	else
-	{
-		std::cerr << "Destroy requires args (entity)." << std::endl;
-	}
-	lua_pop(state, args);
-	return 0;
-}
-
-static int ex_GetPosition(lua_State* state)
-{
-	const int args = lua_gettop(state);
-	if (args == 1)
-	{
-		CVector3 pos = API::Entity::GetPosition(lua_tointeger(state, 1));
-		lua_pop(state, args);
-
-		lua_createtable(state, 0, 3);
-
-		lua_pushnumber(state, pos.x);
-		lua_setfield(state, -2, "x");
-
-		lua_pushnumber(state, pos.y);
-		lua_setfield(state, -2, "y");
-
-		lua_pushnumber(state, pos.z);
-		lua_setfield(state, -2, "z");
-		//lua_settable(state, -3);
-	}
-	else
-	{
-		std::cerr << "GetPosition requires args (entity)." << std::endl;
-		lua_pushnil(state);
-	}
-	return 1;
-}
+};
+#endif
