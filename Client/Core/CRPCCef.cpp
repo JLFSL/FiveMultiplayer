@@ -10,7 +10,7 @@ void CRPCCef::LoadURL(RakNet::BitStream * bitStream, RakNet::Packet * packet)
 	bitStream->Read(appcode);
 	bitStream->Read(remote);
 
-	/*if (!remote)
+	if (!remote)
 	{
 		char buffer[MAX_PATH];
 		GetCurrentDirectoryA(sizeof(buffer), buffer);
@@ -25,7 +25,7 @@ void CRPCCef::LoadURL(RakNet::BitStream * bitStream, RakNet::Packet * packet)
 	{
 		std::cout << url << std::endl;
 		CefRenderer::getBrowser()->GetMainFrame()->LoadURL(CefString(url));
-	}*/
+	}
 }
 
 void CRPCCef::JavaScriptCall(RakNet::BitStream * bitStream, RakNet::Packet * packet)
@@ -35,6 +35,6 @@ void CRPCCef::JavaScriptCall(RakNet::BitStream * bitStream, RakNet::Packet * pac
 
 	bitStream->Read(call);
 
-	/*CefRefPtr<CefFrame> frame = CefRenderer::getBrowser()->GetMainFrame();
-	frame->ExecuteJavaScript(CefString(call), frame->GetURL(), 0);*/
+	CefRefPtr<CefFrame> frame = CefRenderer::getBrowser()->GetMainFrame();
+	frame->ExecuteJavaScript(CefString(call), frame->GetURL(), 0);
 }

@@ -1,4 +1,4 @@
-class ClientApp : public CefApp, public CefRenderProcessHandler {
+class ClientApp : public CefApp, public CefRenderProcessHandler, public CefLoadHandler {
 public:
 	ClientApp();
 
@@ -7,7 +7,9 @@ public:
 		return this;
 	}
 
-	void OnWebKitInitialized() OVERRIDE;
+	virtual void OnWebKitInitialized() OVERRIDE;
+
+	virtual void OnLoadEnd(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, int httpStatusCode) OVERRIDE;
 
 	IMPLEMENT_REFCOUNTING(ClientApp);
 };
