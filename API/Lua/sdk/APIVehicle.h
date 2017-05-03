@@ -250,7 +250,7 @@ extern "C" {
 			/// Sets the siren sound state of the vehicle, wether the siren plays sound or not.
 			/// </summary>
 			/// <param name="entity">The entity of the vehicle</param>
-			/// <param name="state">The state to set it</param>
+			/// <param name="state">The state to set it, true = no siren sound</param>
 			DLL_PUBLIC_I static void SetSirenSoundState(const int entity, const bool state);
 		};
 	}
