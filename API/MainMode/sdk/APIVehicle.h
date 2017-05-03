@@ -208,6 +208,22 @@ extern "C" {
 			/// <param name="entity">The entity of the vehicle</param>
 			/// <param name="state">The state to set it</param>
 			DLL_PUBLIC_I static void SetTaxiLightState(const int entity, const bool state);
+
+			/// <summary>
+			/// Gets the turnlight state of the vehicle
+			/// </summary>
+			/// <param name="entity">The entity of the vehicle</param>
+			/// <param name="turnlight">The turn light state to get, 1 for left light, 0 for right light.</param>
+			/// <returns name="state">The turnlight state</returns>
+			DLL_PUBLIC_I static const bool GetIndicatorState(const int entity, const int turnlight);
+
+			/// <summary>
+			/// Sets the turnlight state of the vehicle
+			/// </summary>
+			/// <param name="entity">The entity of the vehicle</param>
+			/// <param name="turnlight">The turn light state to get, 1 for left light, 0 for right light.</param>
+			/// <param name="state">The state to set it</param>
+			DLL_PUBLIC_I static void SetIndicatorState(const int entity, const int turnlight, const bool state);
 		};
 	}
 #ifdef __cplusplus
@@ -389,5 +405,15 @@ public:
 	void SetTaxiLightState(const bool state)
 	{
 		API::Vehicle::SetTaxiLightState(Entity, state);
+	}
+
+	const bool GetIndicatorState(const int turnlight)
+	{
+		return API::Vehicle::GetIndicatorState(Entity, turnlight);
+	}
+
+	void SetIndicatorState(const int turnlight, const bool state)
+	{
+		API::Vehicle::SetIndicatorState(Entity, turnlight, state);
 	}
 };

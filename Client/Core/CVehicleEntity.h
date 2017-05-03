@@ -38,6 +38,9 @@ private:
 
 		bool		TaxiLight			= false;
 
+		bool		LeftIndicator		= false;
+		bool		RightIndicator		= false;
+
 		struct VehiclePaintLayer
 		{
 			int		color				= 0;
@@ -158,6 +161,7 @@ public:
 	void			SetFuelTankHealth(const float health);
 	void			FixDeformation();
 	void			SetTaxiLightState(const bool state);
+	void			SetIndicatorState(const int turnlight, const bool state);
 
 	VehicleInterpolationData InterpolationData;
 };

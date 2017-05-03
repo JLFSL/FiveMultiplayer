@@ -102,7 +102,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	switch (result)
 	{
 	case IDYES:
-		ShellExecute(0, 0, "steam://rungameid/" INFO_GAME_STEAMAPPID " -scOfflineOnly", 0, 0, SW_SHOW);
+		ShellExecute(0, 0, "steam://rungameid/" INFO_GAME_STEAMAPPID, 0, 0, SW_SHOW);
 		break;
 	case IDNO:
 		// Start Executable

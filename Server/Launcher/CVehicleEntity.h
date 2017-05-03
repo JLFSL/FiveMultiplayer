@@ -34,6 +34,9 @@ private:
 
 		bool		TaxiLight			= false;
 
+		bool		LeftIndicator		= false;
+		bool		RightIndicator		= false;
+
 		struct VehiclePaintLayer
 		{
 			int color					= 0;
@@ -141,5 +144,10 @@ public:
 
 	const bool		GetTaxiLightState() { return Data.TaxiLight; }
 	void			SetTaxiLightState(const bool state) { Data.TaxiLight = state; }
+
+	const bool		GetLeftIndicatorState() { return Data.LeftIndicator; }
+	void			SetLeftIndicatorState(const bool state) { Data.LeftIndicator = state; }
+	const bool		GetRightIndicatorState() { return Data.RightIndicator; }
+	void			SetRightIndicatorState(const bool state) { Data.RightIndicator = state; }
 };
 extern std::vector<CVehicleEntity> g_Vehicles;

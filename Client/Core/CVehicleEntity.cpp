@@ -129,6 +129,9 @@ bool CVehicleEntity::CreateVehicle()
 
 		VEHICLE::SET_TAXI_LIGHTS(Game.Vehicle, Data.TaxiLight);
 
+		VEHICLE::SET_VEHICLE_INDICATOR_LIGHTS(Game.Vehicle, 0, Data.RightIndicator);
+		VEHICLE::SET_VEHICLE_INDICATOR_LIGHTS(Game.Vehicle, 1, Data.LeftIndicator);
+
 		ENTITY::FREEZE_ENTITY_POSITION(Game.Vehicle, FALSE);
 		ENTITY::SET_ENTITY_DYNAMIC(Game.Vehicle, TRUE);
 		std::cout << "[CVehicleEntity] Created Vehicle" << std::endl;
@@ -713,5 +716,18 @@ void CVehicleEntity::SetTaxiLightState(const bool state)
 	if (Game.Created)
 	{
 		VEHICLE::SET_TAXI_LIGHTS(Game.Vehicle, state);
+	}
+}
+
+void CVehicleEntity::SetIndicatorState(const int turnlight, const bool state)
+{
+	if(turnlight == 0)
+		Data.RightIndicator = state;
+	else if (turnlight == 1)
+		Data.LeftIndicator = state;
+
+	if (Game.Created)
+	{
+		VEHICLE::SET_VEHICLE_INDICATOR_LIGHTS(Game.Vehicle, turnlight, state);
 	}
 }

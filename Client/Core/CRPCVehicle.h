@@ -17,6 +17,7 @@ public:
 	static void SetFuelTankHealth(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 	static void FixDeformation(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 	static void SetTaxiLightState(RakNet::BitStream *bitStream, RakNet::Packet *packet);
+	static void SetIndicatorState(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 };
 
 #endif

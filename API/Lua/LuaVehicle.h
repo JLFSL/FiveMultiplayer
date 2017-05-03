@@ -832,5 +832,42 @@ struct Vehicle
 		}
 		return 0;
 	}
+
+	int GetIndicatorState(lua_State* L)
+	{
+		const int args = lua_gettop(L);
+		if (args == 2)
+		{
+			Vehicle* veh = reinterpret_cast<Vehicle*>(lua_touserdata(L, 1));
+
+			lua_pushboolean(L, API::Vehicle::GetIndicatorState(veh->entity, lua_tonumber(L,2)));
+
+			veh = nullptr;
+		}
+		else
+		{
+			lua_pushnil(L);
+			std::cerr << "Vehicle:GetIndicatorState requires args (int turnlight)." << std::endl;
+		}
+		return 1;
+	}
+
+	int SetIndicatorState(lua_State* L)
+	{
+		const int args = lua_gettop(L);
+		if (args == 3)
+		{
+			Vehicle* veh = reinterpret_cast<Vehicle*>(lua_touserdata(L, 1));
+
+			API::Vehicle::SetIndicatorState(veh->entity, lua_tointeger(L,2), lua_toboolean(L, 3));
+
+			veh = nullptr;
+		}
+		else
+		{
+			std::cerr << "Vehicle:SetIndicatorState requires args (int turnlight, bool state)." << std::endl;
+		}
+		return 0;
+	}
 };
 #endif

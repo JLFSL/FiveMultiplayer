@@ -273,3 +273,26 @@ void CRPCVehicle::SetTaxiLightState(RakNet::BitStream *bitStream, RakNet::Packet
 	}
 }
 
+void CRPCVehicle::SetIndicatorState(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+{
+	int entity, turnlight;
+	bool state;
+
+	bitStream->Read(entity);
+	bitStream->Read(turnlight);
+	bitStream->Read(state);
+
+	std::cout << "CRPCVehicle::SetIndicatorState" << std::endl;
+
+	if (CServerEntity::IsValid(entity))
+	{
+		for (int i = 0; i < g_Vehicles.size(); i++)
+		{
+			if (g_Vehicles[i].GetId() == entity)
+			{
+				return g_Vehicles[i].SetIndicatorState(turnlight, state);
+			}
+		}
+	}
+}
+

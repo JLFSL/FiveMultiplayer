@@ -920,4 +920,84 @@ namespace API
 			std::wcout << ThisNamespace << L"SetTaxiLight Invalid Entity: " << entity << std::endl;
 		}
 	}
+
+	const bool Vehicle::GetIndicatorState(const int entity, const int turnlight)
+	{
+		const int index = ServerEntity::GetIndex(entity);
+		if (index > -1)
+		{
+			if (turnlight == 0 || turnlight == 1)
+			{
+				switch (g_Entities[index].GetType())
+				{
+				case CServerEntity::Vehicle:
+					for (int i = 0; i < g_Vehicles.size(); i++)
+					{
+						if (g_Vehicles[i].GetId() == entity)
+						{
+							if (turnlight == 0)
+								return g_Vehicles[i].GetRightIndicatorState();
+							if(turnlight == 1)
+								return g_Vehicles[i].GetLeftIndicatorState();
+						}
+					}
+					break;
+				default:
+					std::wcout << ThisNamespace << L"GetIndicatorState Entity " << entity << L" is not of type Vehicle." << std::endl;
+					break;
+				}
+			}
+			else
+			{
+				std::wcout << ThisNamespace << L"GetIndicatorState invalid turnlight, 1 for left light, 0 for right light." << std::endl;
+			}
+		}
+		else
+		{
+			std::wcout << ThisNamespace << L"GetIndicatorState Invalid Entity: " << entity << std::endl;
+		}
+	}
+
+	void Vehicle::SetIndicatorState(const int entity, const int turnlight, const bool state)
+	{
+		const int index = ServerEntity::GetIndex(entity);
+		if (index > -1)
+		{
+			if (turnlight == 0 || turnlight == 1)
+			{
+				switch (g_Entities[index].GetType())
+				{
+				case CServerEntity::Vehicle:
+					for (int i = 0; i < g_Vehicles.size(); i++)
+					{
+						if (g_Vehicles[i].GetId() == entity)
+						{
+							RakNet::BitStream sData;
+							sData.Write(entity);
+							sData.Write(turnlight);
+							sData.Write(state);
+							g_Server->GetNetworkManager()->GetRPC().Signal("SetIndicatorState", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
+
+							if (turnlight == 0)
+								return g_Vehicles[i].SetRightIndicatorState(state);
+							if (turnlight == 1)
+								return g_Vehicles[i].SetLeftIndicatorState(state);
+						}
+					}
+					break;
+				default:
+					std::wcout << ThisNamespace << L"SetTaxiLight Entity " << entity << L" is not of type Vehicle." << std::endl;
+					break;
+				}
+			}
+			else
+			{
+				std::wcout << ThisNamespace << L"GetIndicatorState invalid turnlight, 1 for left light, 0 for right light." << std::endl;
+			}
+		}
+		else
+		{
+			std::wcout << ThisNamespace << L"SetTaxiLight Invalid Entity: " << entity << std::endl;
+		}
+	}
 }
