@@ -111,8 +111,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		memset(&siStartupInfo, 0, sizeof(siStartupInfo));
 		memset(&piProcessInfo, 0, sizeof(piProcessInfo));
 		siStartupInfo.cb = sizeof(siStartupInfo);
-
-		if (!CreateProcess(InstallExe, " -scOfflineOnly", NULL, NULL, true, CREATE_SUSPENDED, NULL, InstallDir, &siStartupInfo, &piProcessInfo)) {
+		//-fxaa 0 -scOfflineOnly
+		if (!CreateProcess(InstallExe, " -cityDensity 0.0", NULL, NULL, true, CREATE_SUSPENDED, NULL, InstallDir, &siStartupInfo, &piProcessInfo)) {
 			Util::ShowMessageBox("Failed to start " INFO_GAME_EXECUTABLE ". Cannot launch " INFO_NAME ".");
 			return 1;
 		}
