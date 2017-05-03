@@ -39,6 +39,8 @@ private:
 
 		bool		InteriorLight		= false;
 
+		bool		SirenSound			= false;
+
 		struct VehiclePaintLayer
 		{
 			int color					= 0;
@@ -154,5 +156,8 @@ public:
 
 	const bool		GetInteriorLightState() { return Data.InteriorLight; }
 	void			SetInteriorLightState(const bool state) { Data.InteriorLight = state; }
+
+	const bool		GetSirenSoundState() { return Data.SirenSound; }
+	void			SetSirenSoundState(const bool state) { Data.SirenSound = state; }
 };
 extern std::vector<CVehicleEntity> g_Vehicles;

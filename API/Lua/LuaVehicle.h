@@ -906,5 +906,42 @@ struct Vehicle
 		}
 		return 0;
 	}
+
+	int GetSirenSoundState(lua_State* L)
+	{
+		const int args = lua_gettop(L);
+		if (args == 1)
+		{
+			Vehicle* veh = reinterpret_cast<Vehicle*>(lua_touserdata(L, 1));
+
+			lua_pushboolean(L, API::Vehicle::GetSirenSoundState(veh->entity));
+
+			veh = nullptr;
+		}
+		else
+		{
+			lua_pushnil(L);
+			std::cerr << "Vehicle:GetSirenSoundState requires args ()." << std::endl;
+		}
+		return 1;
+	}
+
+	int SetSirenSoundState(lua_State* L)
+	{
+		const int args = lua_gettop(L);
+		if (args == 2)
+		{
+			Vehicle* veh = reinterpret_cast<Vehicle*>(lua_touserdata(L, 1));
+
+			API::Vehicle::SetSirenSoundState(veh->entity, lua_toboolean(L, 3));
+
+			veh = nullptr;
+		}
+		else
+		{
+			std::cerr << "Vehicle:SetSirenSoundState requires args (bool state)." << std::endl;
+		}
+		return 0;
+	}
 };
 #endif

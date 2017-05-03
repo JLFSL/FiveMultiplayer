@@ -134,6 +134,8 @@ bool CVehicleEntity::CreateVehicle()
 
 		VEHICLE::SET_VEHICLE_INTERIORLIGHT(Game.Vehicle, Data.InteriorLight);
 
+		VEHICLE::_SET_VEHICLE_SIREN_SOUND(Game.Vehicle, Data.SirenSound);
+
 		ENTITY::FREEZE_ENTITY_POSITION(Game.Vehicle, FALSE);
 		ENTITY::SET_ENTITY_DYNAMIC(Game.Vehicle, TRUE);
 		std::cout << "[CVehicleEntity] Created Vehicle" << std::endl;
@@ -741,5 +743,15 @@ void CVehicleEntity::SetInteriorLightState(const bool state)
 	if (Game.Created)
 	{
 		VEHICLE::SET_VEHICLE_INTERIORLIGHT(Game.Vehicle, state);
+	}
+}
+
+void CVehicleEntity::SetSirenSoundState(const bool state)
+{
+	Data.SirenSound = state;
+
+	if (Game.Created)
+	{
+		VEHICLE::_SET_VEHICLE_SIREN_SOUND(Game.Vehicle, state);
 	}
 }

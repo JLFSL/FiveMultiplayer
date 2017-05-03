@@ -238,6 +238,20 @@ extern "C" {
 			/// <param name="entity">The entity of the vehicle</param>
 			/// <param name="state">The state to set it</param>
 			DLL_PUBLIC_I static void SetInteriorLightState(const int entity, const bool state);
+
+			/// <summary>
+			/// Gets the sire sound state of the vehicle
+			/// </summary>
+			/// <param name="entity">The entity of the vehicle</param>
+			/// <returns name="state">The siren sound state</returns>
+			DLL_PUBLIC_I static const bool GetSirenSoundState(const int entity);
+
+			/// <summary>
+			/// Sets the siren sound state of the vehicle, wether the siren plays sound or not.
+			/// </summary>
+			/// <param name="entity">The entity of the vehicle</param>
+			/// <param name="state">The state to set it</param>
+			DLL_PUBLIC_I static void SetSirenSoundState(const int entity, const bool state);
 		};
 	}
 #ifdef __cplusplus
@@ -439,5 +453,15 @@ public:
 	void SetInteriorLightState(const bool state)
 	{
 		API::Vehicle::SetInteriorLightState(Entity, state);
+	}
+
+	const bool GetSirenSoundState()
+	{
+		return API::Vehicle::GetSirenSoundState(Entity);
+	}
+
+	void SetSirenSoundState(const bool state)
+	{
+		API::Vehicle::SetSirenSoundState(Entity, state);
 	}
 };

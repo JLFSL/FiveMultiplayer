@@ -19,6 +19,7 @@ public:
 	static void SetTaxiLightState(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 	static void SetIndicatorState(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 	static void SetInteriorLightState(RakNet::BitStream *bitStream, RakNet::Packet *packet);
+	static void SetSirenSoundState(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 };
 
 #endif
