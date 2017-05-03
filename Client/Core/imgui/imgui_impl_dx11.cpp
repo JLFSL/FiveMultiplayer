@@ -224,7 +224,7 @@ void ImGui_ImplDX11_RenderDrawLists(ImDrawData* draw_data)
     ctx->IASetVertexBuffers(0, 1, &old.VertexBuffer, &old.VertexBufferStride, &old.VertexBufferOffset); if (old.VertexBuffer) old.VertexBuffer->Release();
     ctx->IASetInputLayout(old.InputLayout); if (old.InputLayout) old.InputLayout->Release();
 }
-// THIS IS NOT USED
+
 IMGUI_API LRESULT ImGui_ImplDX11_WndProcHandler(HWND, UINT msg, WPARAM wParam, LPARAM lParam)
 {
     ImGuiIO& io = ImGui::GetIO();
@@ -258,16 +258,16 @@ IMGUI_API LRESULT ImGui_ImplDX11_WndProcHandler(HWND, UINT msg, WPARAM wParam, L
     case WM_KEYDOWN:
         if (wParam < 256)
             io.KeysDown[wParam] = 1;
-		return true;
+        return true;
     case WM_KEYUP:
         if (wParam < 256)
             io.KeysDown[wParam] = 0;
-		return true;
+        return true;
     case WM_CHAR:
         // You can also use ToAscii()+GetKeyboardState() to retrieve characters.
         if (wParam > 0 && wParam < 0x10000)
             io.AddInputCharacter((unsigned short)wParam);
-		return true;
+        return true;
     }
     return 0;
 }
