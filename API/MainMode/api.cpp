@@ -182,6 +182,7 @@ extern "C" DLL_PUBLIC bool API_OnPlayerConnected(int entity)
 	std::wstringstream oss;
 	oss << L"~g~You Connected! ~o~[~w~ID: " << entity << L"~o~]";
 	newPlayer.player.ShowMessageAboveMap(oss.str().c_str(), L"CHAR_CREATOR_PORTRAITS", 1, L"Server", L"");
+	newPlayer.player.ShowSubtitle(L"~r~im red ~b~im blue!", 5000, true);
 
 	newPlayer.player.SetModel(L"u_m_y_pogo_01");
 

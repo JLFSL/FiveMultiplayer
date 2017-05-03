@@ -32,6 +32,24 @@ extern "C" {
 			DLL_PUBLIC_I static void ShowMessageAboveMapToPlayer(const int entity, const std::wstring message, const std::wstring pic, const int icontype, const std::wstring sender, const std::wstring subject);
 
 			/// <summary>
+			/// Sends a subtitle message that displays on the bottom of the game to all clients
+			/// </summary>
+			/// <param name="message">The message of the subtitle</param>
+			/// <param name="duration">The amount of time the subtitle should be shown (in milliseconds)</param>
+			/// <param name="shownow">Whether the subtitle must be showed immediately or not.</param>
+			/// <returns></returns>
+			DLL_PUBLIC_I static void ShowSubtitle(const std::wstring message, const int duration, const bool shownow);
+			/// <summary>
+			/// Sends a subtitle message that displays on the bottom of the game to all clients
+			/// </summary>
+			/// <param name="entity">The entity id of the player you wish to send it too</param>
+			/// <param name="message">The message of the subtitle</param>
+			/// <param name="duration">The amount of time the subtitle should be shown (in milliseconds)</param>
+			/// <param name="shownow">Whether the subtitle must be showed immediately or not.</param>
+			/// <returns></returns>
+			DLL_PUBLIC_I static void ShowSubtitleToPlayer(const int entity, const std::wstring message, const int duration, const bool shownow);
+
+			/// <summary>
 			/// Sends a chat message to all clients.
 			/// </summary>
 			/// <param name="message">The string of the message</param>

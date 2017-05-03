@@ -167,6 +167,11 @@ public:
 		API::Visual::ShowMessageAboveMapToPlayer(Entity, message, pic, icontype, sender, subject);
 	}
 
+	void ShowSubtitle(const std::wstring message, const int duration, const bool shownow)
+	{
+		API::Visual::ShowSubtitleToPlayer(Entity, message, duration, shownow);
+	}
+
 	void SendChatMessage(const std::string message)
 	{
 		API::Visual::SendChatMessageToPlayer(Entity, message);

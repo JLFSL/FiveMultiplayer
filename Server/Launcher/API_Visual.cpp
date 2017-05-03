@@ -35,6 +35,33 @@ namespace API
 		}
 	}
 
+	void Visual::ShowSubtitle(const std::wstring message, const int duration, const bool shownow)
+	{
+		RakNet::BitStream sData;
+		sData.Write(RakNet::RakWString(message.c_str()));
+		sData.Write(duration);
+		sData.Write(shownow);
+
+		g_Server->GetNetworkManager()->GetRPC().Signal("ShowSubtitle", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, RakNet::UNASSIGNED_SYSTEM_ADDRESS, true, false);
+	}
+
+	void Visual::ShowSubtitleToPlayer(const int entity, const std::wstring message, const int duration, const bool shownow)
+	{
+		RakNet::BitStream sData;
+		sData.Write(RakNet::RakWString(message.c_str()));
+		sData.Write(duration);
+		sData.Write(shownow);
+
+		for (int i = 0; i < g_Players.size(); i++)
+		{
+			if (g_Players[i].GetId() == entity)
+			{
+				g_Server->GetNetworkManager()->GetRPC().Signal("ShowSubtitle", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, g_Players[i].GetGUID(), false, false);
+				break;
+			}
+		}
+	}
+
 	void Visual::SendChatMessage(const std::string message)
 	{
 		RakNet::BitStream sData;
