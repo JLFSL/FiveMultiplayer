@@ -195,6 +195,7 @@ extern "C" DLL_PUBLIC bool API_Initialize(void) {
 			.addCFunction("UnloadIPL", &Player::UnloadIPL)
 			.addCFunction("SendChatMessage", &Player::SendChatMessage)
 			.addCFunction("GetUsername", &Player::GetUsername)
+			.addCFunction("SetUsername", &Player::SetUsername)
 			.addCFunction("ShowCursor", &Player::ShowCursor)
 			.addCFunction("LoadURL", &Player::LoadURL)
 			.addCFunction("JavaScriptCall", &Player::JavaScriptCall)

@@ -29,6 +29,13 @@ extern "C" {
 			DLL_PUBLIC_I static const std::string GetUsername(const int entity);
 
 			/// <summary>
+			/// Sets the username of the player entity.
+			/// </summary>
+			/// <param name="entity">The entity of the player to get the username of.</param>
+			/// <param name="name">What to set their username as.</param>
+			DLL_PUBLIC_I static void SetUsername(const int entity, const std::string name);
+
+			/// <summary>
 			/// Gets the players controls state.
 			/// </summary>
 			/// <param name="entity">The entity of the player.</param>

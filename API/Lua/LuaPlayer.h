@@ -843,5 +843,23 @@ struct Player
 		}
 		return 1;
 	}
+
+	int SetUsername(lua_State* L)
+	{
+		const int args = lua_gettop(L);
+		if (args == 2)
+		{
+			Player* ent = reinterpret_cast<Player*>(lua_touserdata(L, 1));
+
+			API::Player::SetUsername(ent->entity, lua_tostring(L,2));
+
+			ent = nullptr;
+		}
+		else
+		{
+			std::cerr << "Player:SetUsername requires args (string name)." << std::endl;
+		}
+		return 0;
+	}
 };
 #endif

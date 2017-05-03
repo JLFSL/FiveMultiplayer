@@ -49,6 +49,39 @@ namespace API
 		std::cout << "[" << ThisNamespace << "::GetUsername] Player Entity " << entity << " invalid." << std::endl;
 	}
 
+	void Player::SetUsername(const int entity, const std::string name)
+	{
+		const int index = ServerEntity::GetIndex(entity);
+		if (index > -1)
+		{
+			switch (g_Entities[index].GetType())
+			{
+			case CServerEntity::Player:
+				for (int i = 0; i < g_Players.size(); i++)
+				{
+					if (g_Players[i].GetId() == entity)
+					{
+						RakString username(name.c_str());
+
+						/*RakNet::BitStream sData;
+						sData.Write(username);
+						g_Server->GetNetworkManager()->GetRPC().Signal("SetUsername", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, g_Players[i].GetGUID(), false, false);*/
+
+						return g_Players[i].SetUsername(username);
+					}
+				}
+				break;
+			default:
+				std::wcout << ThisNamespace << L"SetUsername Entity " << entity << L" is not of type Player." << std::endl;
+				break;
+			}
+		}
+		else
+		{
+			std::wcout << ThisNamespace << L"SetUsername Invalid Entity: " << entity << std::endl;
+		}
+	}
+
 	const bool Player::IsControllable(const int entity)
 	{
 		for (int i = 0; i < g_Players.size(); i++)
