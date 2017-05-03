@@ -520,7 +520,7 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 				SizeH = ImGui::CalcTextSize(position.c_str()).x;
 
 				ImGui::SameLine(ImGui::GetWindowContentRegionMax().x - SizeH);
-				ImGui::Text(position.c_str());
+				ImGui::TextUnformatted(position.c_str());
 				ImGui::NewLine();
 
 				//Rotation Debug
@@ -528,7 +528,7 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 				SizeH = ImGui::CalcTextSize(rotation.c_str()).x;
 
 				ImGui::SameLine(ImGui::GetWindowContentRegionMax().x - SizeH);
-				ImGui::Text(rotation.c_str());
+				ImGui::TextUnformatted(rotation.c_str());
 				ImGui::NewLine();
 
 				// Pools Debug
@@ -540,7 +540,7 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 				SizeH = ImGui::CalcTextSize(pools.c_str()).x;
 
 				ImGui::SameLine(ImGui::GetWindowContentRegionMax().x - SizeH);
-				ImGui::Text(pools.c_str());
+				ImGui::TextUnformatted(pools.c_str());
 				//ImGui::NewLine();
 				ImGui::PopFont();
 			}
