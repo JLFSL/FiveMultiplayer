@@ -1,5 +1,7 @@
 #include "stdafx.h"
 
+#include <fstream>
+
 bool DownloadLatest(TCHAR httpurl[], TCHAR filepath[MAX_PATH]) {
 	DeleteUrlCacheEntry(httpurl);
 	HRESULT fileresult = URLDownloadToFile(NULL, httpurl, filepath, 0, NULL);
@@ -97,32 +99,57 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	if (!Util::Exists(CorePath))
 		return Util::ShowMessageBox("Failed to find " INFO_CLIENT_CORE " in current directory. Cannot launch " INFO_NAME ".", MB_ICONEXCLAMATION);
 
-	const int result = 7/*MessageBox(NULL, "Are you using the Steam version of the game?", "Steam Version", MB_YESNOCANCEL | MB_ICONQUESTION)*/;
 
-	switch (result)
+	// Commandline.txt
+	std::stringstream commandline;
+	commandline << InstallDir << "\\commandline.txt";
+
+	std::cout << commandline.str() << std::endl;
+
+	if (Util::Exists(commandline.str().c_str()))
 	{
-	case IDYES:
-		ShellExecute(0, 0, "steam://rungameid/" INFO_GAME_STEAMAPPID, 0, 0, SW_SHOW);
-		break;
-	case IDNO:
-		// Start Executable
-		STARTUPINFO siStartupInfo;
-		PROCESS_INFORMATION piProcessInfo;
-		memset(&siStartupInfo, 0, sizeof(siStartupInfo));
-		memset(&piProcessInfo, 0, sizeof(piProcessInfo));
-		siStartupInfo.cb = sizeof(siStartupInfo);
-		//-fxaa 0 -scOfflineOnly
-		if (!CreateProcess(InstallExe, " -cityDensity 0.0", NULL, NULL, true, CREATE_SUSPENDED, NULL, InstallDir, &siStartupInfo, &piProcessInfo)) {
-			Util::ShowMessageBox("Failed to start " INFO_GAME_EXECUTABLE ". Cannot launch " INFO_NAME ".");
-			return 1;
+		char aWord[256];
+		ifstream file;
+		bool exists = false;
+
+		file.open(commandline.str().c_str());
+
+		while (file.good()) {
+			file >> aWord;
+			if (file.good() && strcmp(aWord, "-scOfflineOnly") == 0) {
+				exists = true;
+			}
 		}
 
-		ResumeThread(piProcessInfo.hThread);
-		break;
-	case IDCANCEL:
-		return 0;
-		break;
+		file.close();
+
+		if (!exists)
+		{
+			ofstream outputFile(commandline.str().c_str(), std::ios::app);
+			outputFile << "-scOfflineOnly" << std::endl;
+			outputFile.close();
+		}
 	}
+	else
+	{
+		ofstream outputFile(commandline.str().c_str());
+		outputFile << "-scOfflineOnly";
+		outputFile.close();
+	}
+
+
+	// Start Executable
+	STARTUPINFO siStartupInfo;
+	PROCESS_INFORMATION piProcessInfo;
+	memset(&siStartupInfo, 0, sizeof(siStartupInfo));
+	memset(&piProcessInfo, 0, sizeof(piProcessInfo));
+	siStartupInfo.cb = sizeof(siStartupInfo);
+	//-fxaa 0 
+	if (!CreateProcess(InstallExe, " -cityDensity 0.0", NULL, NULL, true, CREATE_SUSPENDED, NULL, InstallDir, &siStartupInfo, &piProcessInfo)) {
+		Util::ShowMessageBox("Failed to start " INFO_GAME_EXECUTABLE ". Cannot launch " INFO_NAME ".");
+		return 1;
+	}
+	ResumeThread(piProcessInfo.hThread);
 
 	bool Started = false;
 
