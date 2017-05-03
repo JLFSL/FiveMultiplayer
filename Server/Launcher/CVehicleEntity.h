@@ -37,6 +37,8 @@ private:
 		bool		LeftIndicator		= false;
 		bool		RightIndicator		= false;
 
+		bool		InteriorLight		= false;
+
 		struct VehiclePaintLayer
 		{
 			int color					= 0;
@@ -149,5 +151,8 @@ public:
 	void			SetLeftIndicatorState(const bool state) { Data.LeftIndicator = state; }
 	const bool		GetRightIndicatorState() { return Data.RightIndicator; }
 	void			SetRightIndicatorState(const bool state) { Data.RightIndicator = state; }
+
+	const bool		GetInteriorLightState() { return Data.InteriorLight; }
+	void			SetInteriorLightState(const bool state) { Data.InteriorLight = state; }
 };
 extern std::vector<CVehicleEntity> g_Vehicles;

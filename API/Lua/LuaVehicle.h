@@ -869,5 +869,42 @@ struct Vehicle
 		}
 		return 0;
 	}
+
+	int GetInteriorLightState(lua_State* L)
+	{
+		const int args = lua_gettop(L);
+		if (args == 1)
+		{
+			Vehicle* veh = reinterpret_cast<Vehicle*>(lua_touserdata(L, 1));
+
+			lua_pushboolean(L, API::Vehicle::GetInteriorLightState(veh->entity));
+
+			veh = nullptr;
+		}
+		else
+		{
+			lua_pushnil(L);
+			std::cerr << "Vehicle:GetInteriorLightState requires args ()." << std::endl;
+		}
+		return 1;
+	}
+
+	int SetInteriorLightState(lua_State* L)
+	{
+		const int args = lua_gettop(L);
+		if (args == 2)
+		{
+			Vehicle* veh = reinterpret_cast<Vehicle*>(lua_touserdata(L, 1));
+
+			API::Vehicle::SetInteriorLightState(veh->entity, lua_toboolean(L, 3));
+
+			veh = nullptr;
+		}
+		else
+		{
+			std::cerr << "Vehicle:SetInteriorLightState requires args (bool state)." << std::endl;
+		}
+		return 0;
+	}
 };
 #endif

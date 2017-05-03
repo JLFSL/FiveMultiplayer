@@ -104,8 +104,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	std::stringstream commandline;
 	commandline << InstallDir << "\\commandline.txt";
 
-	std::cout << commandline.str() << std::endl;
-
 	if (Util::Exists(commandline.str().c_str()))
 	{
 		char aWord[256];
