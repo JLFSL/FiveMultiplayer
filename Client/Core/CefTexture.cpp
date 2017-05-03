@@ -343,7 +343,7 @@ bool CefTexture::SetupD3D()
 
 	const D3D11_VIEWPORT viewport = { 
 		0.0f, 0.0f, 
-		1280.0f, 720.0f, 
+		1600.0f, 720.0f,
 		0.0f, 1.0f 
 	};
 
@@ -351,14 +351,16 @@ bool CefTexture::SetupD3D()
 	{
 		D3D11_BLEND_DESC desc;
 		memset(&desc, 0, sizeof(desc));
+		desc.AlphaToCoverageEnable = false;
 		desc.RenderTarget[0].BlendEnable = true;
-		desc.RenderTarget[0].SrcBlend = D3D11_BLEND_ONE;
+		desc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
 		desc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
 		desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD; 
-		desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+		desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_INV_SRC_ALPHA;
 		desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
 		desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
 		desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+
 		if (FAILED(DirectXRenderer::pDevice->CreateBlendState(&desc, &BlendState)))
 		{
 			std::cout << "failed: CreateBlendState" << std::endl;
@@ -373,8 +375,8 @@ bool CefTexture::SetupD3D()
 		memset(&desc, 0, sizeof(desc));
 		desc.FillMode = D3D11_FILL_SOLID;
 		desc.CullMode = D3D11_CULL_NONE;
-		desc.ScissorEnable = false;
-		desc.DepthClipEnable = false;
+		desc.ScissorEnable = true;
+		desc.DepthClipEnable = true;
 		if (FAILED(DirectXRenderer::pDevice->CreateRasterizerState(&desc, &RasterizerState)))
 		{
 			std::cout << "failed: CreateRasterizerState" << std::endl;

@@ -10,14 +10,14 @@ DWORD WINAPI CEFThread()
 {
 	CefRenderer *CEF = new CefRenderer;
 
-	//bool cefresult = CEF->Initialize();
-	//std::cout << cefresult << std::endl;
+	bool cefresult = CEF->Initialize();
+	std::cout << cefresult << std::endl;
 
-	//if (cefresult)
-	//{
+	if (cefresult)
+	{
 		CEF->Start();
-	//	CEF->OnTick();
-	//}
+		CEF->OnTick();
+	}
 	return 0;
 }
 

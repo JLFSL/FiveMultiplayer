@@ -65,8 +65,8 @@ bool CefRenderer::Initialize()
 
 		offscreenClient = new OffscreenClient;
 
-		window_info.width = 1280;
-		window_info.height = 720;
+		window_info.width = 1600;
+		window_info.height = 900;
 
 		curProc = FindWindowA(NULL, "Grand Theft Auto V");
 		window_info.SetAsWindowless(curProc, true);
@@ -93,7 +93,7 @@ void CefRenderer::Start()
 	//GetCurrentDirectoryA(sizeof(buffer), buffer);
 
 	//sprintf(url, "%s/html/index.html", buffer);
-	//browser = CefBrowserHost::CreateBrowserSync(window_info, offscreenClient.get(), "about:blank", browserSettings, nullptr);
+	browser = CefBrowserHost::CreateBrowserSync(window_info, offscreenClient.get(), "about:blank", browserSettings, nullptr);
 }
 
 void CefRenderer::OnTick()

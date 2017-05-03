@@ -34,3 +34,10 @@ void ClientApp::OnWebKitInitialized()
 
 	CefRegisterExtension("v8/app", app_code, new CefHandlerV8(this));
 }
+
+void ClientApp::OnLoadEnd(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, int httpStatusCode)
+{
+	std::cout << "load smth" << std::endl;
+	if(frame->IsMain())
+		std::cout << "load main" << std::endl;
+}
