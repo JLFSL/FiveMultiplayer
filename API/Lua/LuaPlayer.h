@@ -824,5 +824,24 @@ struct Player
 		lua_pop(L, args);
 		return 0;
 	}
+
+	int GetIP(lua_State* L)
+	{
+		const int args = lua_gettop(L);
+		if (args == 1)
+		{
+			Player* ent = reinterpret_cast<Player*>(lua_touserdata(L, 1));
+
+			lua_pushstring(L, API::Player::GetIP(ent->entity).c_str());
+
+			ent = nullptr;
+		}
+		else
+		{
+			lua_pushnil(L);
+			std::cerr << "Player:GetIP requires args ()." << std::endl;
+		}
+		return 1;
+	}
 };
 #endif

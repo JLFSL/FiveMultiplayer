@@ -16,6 +16,8 @@ extern "C" {
 
 			DLL_PUBLIC static const bool IsControllable(const int entity);
 			DLL_PUBLIC static void SetControllable(const int entity, bool disablecontrols, bool frozen = true);
+
+			DLL_PUBLIC static const std::string GetIP(const int entity);
 		};
 	}
 }

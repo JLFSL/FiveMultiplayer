@@ -80,4 +80,32 @@ namespace API
 
 		std::cout << "[" << ThisNamespace << "::SetControllable] Player Entity " << entity << " invalid." << std::endl;
 	}
+
+
+	const std::string Player::GetIP(const int entity)
+	{
+		const int index = ServerEntity::GetIndex(entity);
+		if (index > -1)
+		{
+			switch (g_Entities[index].GetType())
+			{
+			case CServerEntity::Player:
+				for (int i = 0; i < g_Players.size(); i++)
+				{
+					if (g_Players[i].GetId() == entity)
+					{
+						return g_Players[i].GetIp().ToString();
+					}
+				}
+				break;
+			default:
+				std::wcout << ThisNamespace << L"GetIP Entity " << entity << L" is not of type Player." << std::endl;
+				break;
+			}
+		}
+		else
+		{
+			std::wcout << ThisNamespace << L"GetIP Invalid Entity: " << entity << std::endl;
+		}
+	}
 }

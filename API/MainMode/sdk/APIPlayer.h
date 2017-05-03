@@ -36,12 +36,19 @@ extern "C" {
 			DLL_PUBLIC_I static const bool IsControllable(const int entity);
 
 			/// <summary>
-			/// Sets the players controls state.
+			/// Set the players controls state.
 			/// </summary>
 			/// <param name="entity">The entity of the player.</param>
 			/// <param name="disablecontrols">The state to set the controls disabled state in.</param>
 			/// <param name="frozen">Wether the player should be frozen in place.</param>
 			DLL_PUBLIC_I static void SetControllable(const int entity, bool disablecontrols, bool frozen = true);
+
+			/// <summary>
+			/// Gets the players ip
+			/// </summary>
+			/// <param name="entity">The entity of the player.</param>
+			/// <returns name="ip">The ip of the user in string form.</returns>
+			DLL_PUBLIC_I static const std::string GetIP(const int entity);
 
 		};
 	}
@@ -185,5 +192,10 @@ public:
 	void SetControllable(bool disablecontrols, bool frozen = true)
 	{
 		API::Player::SetControllable(Entity, disablecontrols, frozen);
+	}
+
+	const std::string GetIP(const int entity)
+	{
+		return API::Player::GetIP(Entity);
 	}
 };

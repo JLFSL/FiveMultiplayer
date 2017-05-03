@@ -43,6 +43,12 @@ extern "C" {
 			/// <param name="frozen">Wether the player should be frozen in place.</param>
 			DLL_PUBLIC_I static void SetControllable(const int entity, bool disablecontrols, bool frozen = true);
 
+			/// <summary>
+			/// Gets the players ip
+			/// </summary>
+			/// <param name="entity">The entity of the player.</param>
+			/// <returns name="ip">The ip of the user in string form.</returns>
+			DLL_PUBLIC_I static const std::string GetIP(const int entity);
 		};
 	}
 #ifdef __cplusplus

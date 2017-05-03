@@ -200,6 +200,7 @@ extern "C" DLL_PUBLIC bool API_Initialize(void) {
 			.addCFunction("JavaScriptCall", &Player::JavaScriptCall)
 			.addCFunction("IsControllable", &Player::IsControllable)
 			.addCFunction("SetControllable", &Player::SetControllable)
+			.addCFunction("GetIP", &Player::GetIP)
 		.endClass()
 		.beginNamespace("visual")
 			.addCFunction("ShowMessageAboveMap", Visual::ShowMessageAboveMap)
