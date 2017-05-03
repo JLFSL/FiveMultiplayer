@@ -39,8 +39,9 @@ extern "C" {
 			/// <param name="shownow">Whether the subtitle must be showed immediately or not.</param>
 			/// <returns></returns>
 			DLL_PUBLIC_I static void ShowSubtitle(const std::wstring message, const int duration, const bool shownow);
+
 			/// <summary>
-			/// Sends a subtitle message that displays on the bottom of the game to all clients
+			/// Sends a subtitle message that displays on the bottom of the game to a specific client.
 			/// </summary>
 			/// <param name="entity">The entity id of the player you wish to send it too</param>
 			/// <param name="message">The message of the subtitle</param>
