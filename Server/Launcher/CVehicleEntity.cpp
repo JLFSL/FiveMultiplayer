@@ -306,6 +306,16 @@ void CVehicleEntity::RequestData(RakNetGUID requester)
 	sData.Write(1);
 	sData.Write(Data.LeftIndicator);
 	g_Server->GetNetworkManager()->GetRPC().Signal("SetIndicatorState", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, requester, false, false);
+
+	sData.Reset();
+	sData.Write(Information.Id);
+	sData.Write(Data.InteriorLight);
+	g_Server->GetNetworkManager()->GetRPC().Signal("SetInteriorLightState", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, requester, false, false);
+
+	sData.Reset();
+	sData.Write(Information.Id);
+	sData.Write(Data.SirenSound);
+	g_Server->GetNetworkManager()->GetRPC().Signal("SetSirenSoundState", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, requester, false, false);
 	
 	sData.Reset();
 }

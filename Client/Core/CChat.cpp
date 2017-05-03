@@ -38,18 +38,32 @@ void CChat::AddChatMessage(const std::string message)
 	for (int i = 0; i < _messages.size(); i++)
 	{
 		if (!_messages.empty())
-			addto.message.push_back(_messages[i]);
-	}
-
-	std::string temp;
-	for (int i = 0; i < addto.message.size(); i++)
-	{
-		temp.append(addto.message[i].text);
-		if ((ImGui::CalcTextSize(temp.c_str()).x / 2) * DirectXRenderer::textScale > (800 * DirectXRenderer::windowScale))
 		{
-			addto.message[i].newline = true;
-			temp.empty();
-			temp.append(addto.message[i].text);
+			if (i != 0 && (ImGui::CalcTextSize(_messages[i].text.c_str()).x + ImGui::CalcTextSize(addto.message[addto.message.size()-1].text.c_str()).x) * (DirectXRenderer::textScale / 2) + 13.0f > (800 * DirectXRenderer::windowScale) - 3.0f)
+			{
+				Message m = _messages[i];
+
+				for (int t = _messages[i].text.size() * sizeof(char); t > 0; t--)
+				{
+					m.text = _messages[i].text.substr(0, t);
+
+					if ((ImGui::CalcTextSize(m.text.c_str()).x + ImGui::CalcTextSize(addto.message[addto.message.size() - 1].text.c_str()).x) * (DirectXRenderer::textScale / 2) + 13.0f < (800 * DirectXRenderer::windowScale) - 3.0f)
+					{
+						m.text = _messages[i].text.substr(0, t - 1);
+						addto.message.push_back(m);
+
+						_messages[i].newline = true;
+						_messages[i].text = _messages[i].text.substr(t - 1, _messages[i].text.size());
+
+						addto.message.push_back(_messages[i]);
+						break;
+					}
+				}
+			}
+			else
+			{
+				addto.message.push_back(_messages[i]);
+			}
 		}
 	}
 
@@ -82,14 +96,14 @@ std::vector<CChat::Message> CChat::formatMessage(std::string message)
 	std::vector<Message> messages;
 	Message _message;
 
-	for (unsigned int i = 0; i < message.size() * sizeof(wchar_t); i++)
+	for (unsigned int i = 0; i < message.size() * sizeof(char); i++)
 	{
 		/*
 		Format Code
 		*/
 		if (message.data()[i] == '{')
 		{
-			if (i + 7 < message.size() * sizeof(wchar_t))
+			if (i + 7 < message.size() * sizeof(char))
 			{
 				if (message.data()[i + 7] == '}')
 				{
@@ -145,7 +159,7 @@ std::vector<CChat::Message> CChat::formatMessage(std::string message)
 			_message.text.push_back(message.data()[i]);
 
 			//If end of string push the _message in to the vector
-			if (i == message.size() * sizeof(wchar_t) - 1)
+			if (i == message.size() * sizeof(char) - 1)
 			{
 				messages.push_back(_message);
 				_message.text.erase(_message.text.begin(), _message.text.end());

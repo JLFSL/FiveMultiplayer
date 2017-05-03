@@ -59,6 +59,8 @@ CRPCManager::RPCMessage rpcmessages[] = {
 	{ "FixDeformation", CRPCVehicle::FixDeformation },
 	{ "SetTaxiLightState", CRPCVehicle::SetTaxiLightState },
 	{ "SetIndicatorState", CRPCVehicle::SetIndicatorState },
+	{ "SetInteriorLightState", CRPCVehicle::SetInteriorLightState },
+	{ "SetSirenSoundState", CRPCVehicle::SetSirenSoundState },
 #pragma endregion
 #pragma region Network
 	{ "FinishedSync", CRPCNetwork::FinishedSync },

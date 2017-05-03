@@ -224,6 +224,34 @@ extern "C" {
 			/// <param name="turnlight">The turn light state to get, 1 for left light, 0 for right light.</param>
 			/// <param name="state">The state to set it</param>
 			DLL_PUBLIC_I static void SetIndicatorState(const int entity, const int turnlight, const bool state);
+
+			/// <summary>
+			/// Gets the interior light state of the vehicle
+			/// </summary>
+			/// <param name="entity">The entity of the vehicle</param>
+			/// <returns name="state">The interior light state</returns>
+			DLL_PUBLIC_I static const bool GetInteriorLightState(const int entity);
+
+			/// <summary>
+			/// Sets the interior light state of the vehicle
+			/// </summary>
+			/// <param name="entity">The entity of the vehicle</param>
+			/// <param name="state">The state to set it</param>
+			DLL_PUBLIC_I static void SetInteriorLightState(const int entity, const bool state);
+
+			/// <summary>
+			/// Gets the sire sound state of the vehicle
+			/// </summary>
+			/// <param name="entity">The entity of the vehicle</param>
+			/// <returns name="state">The siren sound state</returns>
+			DLL_PUBLIC_I static const bool GetSirenSoundState(const int entity);
+
+			/// <summary>
+			/// Sets the siren sound state of the vehicle, wether the siren plays sound or not.
+			/// </summary>
+			/// <param name="entity">The entity of the vehicle</param>
+			/// <param name="state">The state to set it, true = no siren sound</param>
+			DLL_PUBLIC_I static void SetSirenSoundState(const int entity, const bool state);
 		};
 	}
 #ifdef __cplusplus

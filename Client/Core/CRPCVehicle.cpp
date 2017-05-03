@@ -296,3 +296,46 @@ void CRPCVehicle::SetIndicatorState(RakNet::BitStream *bitStream, RakNet::Packet
 	}
 }
 
+void CRPCVehicle::SetInteriorLightState(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+{
+	int entity;
+	bool state;
+
+	bitStream->Read(entity);
+	bitStream->Read(state);
+
+	std::cout << "CRPCVehicle::SetInteriorLightState" << std::endl;
+
+	if (CServerEntity::IsValid(entity))
+	{
+		for (int i = 0; i < g_Vehicles.size(); i++)
+		{
+			if (g_Vehicles[i].GetId() == entity)
+			{
+				return g_Vehicles[i].SetInteriorLightState(state);
+			}
+		}
+	}
+}
+
+void CRPCVehicle::SetSirenSoundState(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+{
+	int entity;
+	bool state;
+
+	bitStream->Read(entity);
+	bitStream->Read(state);
+
+	std::cout << "CRPCVehicle::SetSirenSoundState" << std::endl;
+
+	if (CServerEntity::IsValid(entity))
+	{
+		for (int i = 0; i < g_Vehicles.size(); i++)
+		{
+			if (g_Vehicles[i].GetId() == entity)
+			{
+				return g_Vehicles[i].SetSirenSoundState(state);
+			}
+		}
+	}
+}

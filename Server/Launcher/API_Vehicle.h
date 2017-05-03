@@ -53,6 +53,12 @@ extern "C" {
 
 			DLL_PUBLIC static const bool GetIndicatorState(const int entity, const int turnlight);
 			DLL_PUBLIC static void SetIndicatorState(const int entity, const int turnlight, const bool state);
+
+			DLL_PUBLIC static const bool GetInteriorLightState(const int entity);
+			DLL_PUBLIC static void SetInteriorLightState(const int entity, const bool state);
+
+			DLL_PUBLIC static const bool GetSirenSoundState(const int entity);
+			DLL_PUBLIC static void SetSirenSoundState(const int entity, const bool state);
 		};
 	}
 }

@@ -41,6 +41,10 @@ private:
 		bool		LeftIndicator		= false;
 		bool		RightIndicator		= false;
 
+		bool		InteriorLight		= false;
+
+		bool		SirenSound			= false;
+
 		struct VehiclePaintLayer
 		{
 			int		color				= 0;
@@ -162,6 +166,8 @@ public:
 	void			FixDeformation();
 	void			SetTaxiLightState(const bool state);
 	void			SetIndicatorState(const int turnlight, const bool state);
+	void			SetInteriorLightState(const bool state);
+	void			SetSirenSoundState(const bool state);
 
 	VehicleInterpolationData InterpolationData;
 };

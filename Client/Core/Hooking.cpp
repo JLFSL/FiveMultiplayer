@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include <fstream>
 
 using namespace Memory;
 HMODULE _hmoduleDLL;
@@ -16,6 +17,26 @@ static std::unordered_map<uint64_t, Hooking::NativeHandler>		m_handlerCache;
 
 void Hooking::Start(HMODULE hmoduleDLL)
 {
+	//Remove -scOfflineOnly from commandline.txt
+	std::ifstream file;
+	file.open("commandline.txt");
+
+	std::ofstream outputFile;
+	outputFile.open("commandline.txt");
+
+	std::string line;
+	std::string deleteline = "-scOfflineOnly";
+
+	while (getline(file, line))
+	{
+		line.replace(line.find(deleteline), deleteline.length(), "");
+		outputFile << line << std::endl;
+	}
+
+	file.close();
+	outputFile.close();
+
+	// Start mod
 	_hmoduleDLL = hmoduleDLL;
 	Logger::Init(hmoduleDLL);
 
