@@ -3,6 +3,7 @@
 CRPCManager::RPCMessage rpcmessages[] = {
 #pragma region Visual
 	{ "ShowMessageAboveMap", CRPCVisual::ShowMessageAboveMap },
+	{ "ShowSubtitle", CRPCVisual::ShowSubtitle },
 	{ "SendMessage", CRPCVisual::SendChatMessage },
 	{ "ShowCursor", CRPCVisual::ShowCursor},
 #pragma endregion
