@@ -11,6 +11,9 @@ public:
 	static bool showCursor;
 	static Json::Value serverList;
 
+	static bool showKicked;
+	static std::string kickedMessage;
+
 	static std::string ConnectionProg;
 
 	static HWND hWnd;

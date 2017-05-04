@@ -141,4 +141,35 @@ namespace API
 			std::wcout << ThisNamespace << L"GetIP Invalid Entity: " << entity << std::endl;
 		}
 	}
+
+	void Player::Kick(const int entity, const std::string reason)
+	{
+		const int index = ServerEntity::GetIndex(entity);
+		if (index > -1)
+		{
+			switch (g_Entities[index].GetType())
+			{
+			case CServerEntity::Player:
+				for (int i = 0; i < g_Players.size(); i++)
+				{
+					if (g_Players[i].GetId() == entity)
+					{
+						RakNet::BitStream sData;
+						sData.Write(RakString(reason.c_str()));
+						g_Server->GetNetworkManager()->GetRPC().Signal("Kick", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, g_Players[i].GetGUID(), false, false);
+
+						return;
+					}
+				}
+				break;
+			default:
+				std::wcout << ThisNamespace << L"Kick Entity " << entity << L" is not of type Player." << std::endl;
+				break;
+			}
+		}
+		else
+		{
+			std::wcout << ThisNamespace << L"Kick Invalid Entity: " << entity << std::endl;
+		}
+	}
 }

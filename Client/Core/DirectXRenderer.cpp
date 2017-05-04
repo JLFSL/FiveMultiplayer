@@ -23,6 +23,10 @@ bool DirectXRenderer::showServerList = false;
 bool DirectXRenderer::showOptions = false;
 bool DirectXRenderer::showCursor = false;
 
+//Kicked box
+bool DirectXRenderer::showKicked = false;
+std::string DirectXRenderer::kickedMessage = "You were Kicked";
+
 // Server List
 Json::Value	DirectXRenderer::serverList;//Json data of server list
 bool gotServerList = false;				//Used to fetch server list once on init and then again when the client presses refresh
@@ -211,8 +215,11 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 				DirectXRenderer::textScale = 0.75f;
 		}
 		
-		if (CNetworkManager::g_ConnectionState == CONSTATE_DISC && Hooking::GetGameState() == GameStatePlaying) {
+		if (CNetworkManager::g_ConnectionState == CONSTATE_DISC && Hooking::GetGameState() == GameStatePlaying && !DirectXRenderer::showKicked) {
 			io.MouseDrawCursor = true;
+
+			if(CLocalPlayer::IsControllable())
+				CLocalPlayer::SetControllable(false);
 
 			ImGui::SetNextWindowPos(ImVec2(0, 0));
 			ImGui::SetNextWindowSize(ImVec2(screenWidth/5, screenHeight));
@@ -640,7 +647,9 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 				// Command-line
 				if (CChat::InputOpen)
 				{
-					io.MouseDrawCursor = true;
+					if (!io.MouseDrawCursor)
+						io.MouseDrawCursor = true;
+
 					ImGui::PushItemWidth(-1);
 					ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0,0,0,1));
 					if (ImGui::InputText("", InputBuf, IM_ARRAYSIZE(InputBuf), ImGuiInputTextFlags_EnterReturnsTrue))
@@ -679,7 +688,9 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 
 						strcpy(InputBuf, "");
 						CChat::InputOpen = false;
-						io.MouseDrawCursor = false;
+
+						if (io.MouseDrawCursor)
+							io.MouseDrawCursor = false;
 					}
 					ImGui::PopItemWidth();
 					ImGui::PopStyleColor();
@@ -690,6 +701,47 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 			ImGui::End();
 		}
 		
+
+		if (CNetworkManager::g_ConnectionState == CONSTATE_DISC && DirectXRenderer::showKicked)
+		{
+			ImGui::SetNextWindowPos(ImVec2((screenWidth / 2) - ((500 * DirectXRenderer::windowScale) / 2), (screenHeight / 2) - ((150 * DirectXRenderer::windowScale) / 2)));
+			ImGui::SetNextWindowSize(ImVec2((500 * DirectXRenderer::windowScale), (150 * DirectXRenderer::windowScale)));
+			ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.2f);
+			ImGui::Begin("FiveMultiplayer_Kicked", NULL, ImVec2(0, 0), 0.7f, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings);
+			{
+				if(!io.MouseDrawCursor)
+					io.MouseDrawCursor = true;
+
+				ImGui::SetWindowFontScale(DirectXRenderer::textScale);
+				float SizeH1 = ImGui::CalcTextSize("Kicked").x;
+				
+				ImGui::SameLine((ImGui::GetWindowContentRegionMax().x / 2) - (SizeH1 / 2));
+				ImGui::Text("Kicked");
+
+				ImGui::SetWindowFontScale(DirectXRenderer::textScale / 2);
+				ImGui::BeginChild("ReasonRegion", ImVec2(0, -ImGui::GetItemsLineHeightWithSpacing()), false);
+				{
+					ImGui::SetWindowFontScale(DirectXRenderer::textScale / 2);
+					ImGui::Text(DirectXRenderer::kickedMessage.c_str());
+				}
+				ImGui::EndChild();
+
+				ImGui::NewLine();
+				ImGui::SameLine((ImGui::GetWindowContentRegionMax().x / 2) - 50);
+				ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.953f, 0.255f, 0.29f, 0.7f));
+				if (ImGui::Button("Ok", ImVec2(100, 0))) 
+				{
+					DirectXRenderer::showKicked = false;
+					DirectXRenderer::kickedMessage = "You were Kicked.";
+
+					CLocalPlayer::SetControllable(false);
+					DirectXRenderer::showCursor = true;
+				}
+				ImGui::PopStyleColor(1);
+			}
+			ImGui::End();
+			ImGui::PopStyleVar(1);
+		}
 	}
 	else
 	{

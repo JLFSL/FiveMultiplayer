@@ -861,5 +861,23 @@ struct Player
 		}
 		return 0;
 	}
+
+	int Kick(lua_State* L)
+	{
+		const int args = lua_gettop(L);
+		if (args == 2)
+		{
+			Player* ent = reinterpret_cast<Player*>(lua_touserdata(L, 1));
+
+			API::Player::Kick(ent->entity, lua_tostring(L, 2));
+
+			ent = nullptr;
+		}
+		else
+		{
+			std::cerr << "Player:Kick requires args (string reason)." << std::endl;
+		}
+		return 0;
+	}
 };
 #endif

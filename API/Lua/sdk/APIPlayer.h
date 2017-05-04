@@ -56,6 +56,13 @@ extern "C" {
 			/// <param name="entity">The entity of the player.</param>
 			/// <returns name="ip">The ip of the user in string form.</returns>
 			DLL_PUBLIC_I static const std::string GetIP(const int entity);
+
+			/// <summary>
+			/// Kicks the player with reason
+			/// </summary>
+			/// <param name="entity">The entity of the player.</param>
+			/// <param name="reason">The reason for kicking the player.</param>
+			DLL_PUBLIC_I static void Kick(const int entity, const std::string reason);
 		};
 	}
 #ifdef __cplusplus

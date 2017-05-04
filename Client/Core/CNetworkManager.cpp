@@ -492,6 +492,9 @@ void CNetworkManager::Pulse()
 				// Set our state to connected
 				g_ConnectionState = CONSTATE_COND;
 
+				CLocalPlayer::SetControllable(true);
+				DirectXRenderer::showCursor = false;
+
 				Logger::Msg("CNetworkManager::Connected Stage 2 Final");
 				break;
 			}

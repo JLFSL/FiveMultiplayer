@@ -24,3 +24,19 @@ void CRPCPlayer::SetControllable(RakNet::BitStream *bitStream, RakNet::Packet *p
 	if(frozen)
 		ENTITY::FREEZE_ENTITY_POSITION(CLocalPlayer::GetPed(), frozen);
 }
+
+void CRPCPlayer::Kick(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+{
+	std::cout << "CRPCPlayer::Kick" << std::endl;
+	RakString reason;
+
+	bitStream->Read(reason);
+
+	DirectXRenderer::kickedMessage = reason.C_String();
+	DirectXRenderer::showKicked = true;
+
+	DirectXRenderer::showCursor = true;
+	CLocalPlayer::SetControllable(false);
+
+	CNetworkManager::Disconnect();
+}
