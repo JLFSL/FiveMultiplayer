@@ -180,7 +180,8 @@ void CServer::Process()
 		// Pulse all vehicles
 		for (int i = 0; i < g_Vehicles.size(); i++)
 		{
-			if(g_Vehicles[i].GetAssignee() != UNASSIGNED_RAKNET_GUID)
+			//if(g_Vehicles[i].GetAssignee() != UNASSIGNED_RAKNET_GUID)
+			if (g_Vehicles[i].GetOccupant(0) != -1)
 				g_Vehicles[i].Pulse();
 		}
 

@@ -1,9 +1,9 @@
 #include "stdafx.h"
 
-bool World::WorldToScreenRel(Vector3 worldCoords, Vector2 screenCoords)
+bool World::WorldToScreenRel(CVector3 worldCoords, Vector2 screenCoords)
 {
 	float screenX, screenY;
-	if (!GRAPHICS::_WORLD3D_TO_SCREEN2D( worldCoords.x, worldCoords.y, worldCoords.z, &screenX, &screenY))
+	if (!GRAPHICS::GET_SCREEN_COORD_FROM_WORLD_COORD( worldCoords.x, worldCoords.y, worldCoords.z, &screenX, &screenY))
 	{
 		screenCoords = Vector2();
 		return false;
@@ -50,7 +50,7 @@ Vector3 World::ScreenRelToWorld(Vector3 camPos, Vector3 camRot, Vector2 coord)
 	camUpRoll.y = camRight.y * (float)sin(rollRad) + camUp.y * (float)cos(rollRad);
 	camUpRoll.z = camRight.z * (float)sin(rollRad) + camUp.z * (float)cos(rollRad);
 
-	Vector3 point3D;
+	CVector3 point3D;
 	point3D.x = camPos.x + camForward.x * 10.0f + camRightRoll.x + camUpRoll.x;
 	point3D.y = camPos.y + camForward.y * 10.0f + camRightRoll.y + camUpRoll.y;
 	point3D.z = camPos.z + camForward.z * 10.0f + camRightRoll.z + camUpRoll.z;
@@ -65,7 +65,7 @@ Vector3 World::ScreenRelToWorld(Vector3 camPos, Vector3 camRot, Vector2 coord)
 		return rel;
 	}
 
-	Vector3 point3DZero;
+	CVector3 point3DZero;
 	point3DZero.x = camPos.x + camForward.x * 10.0f;
 	point3DZero.y = camPos.y + camForward.y * 10.0f;
 	point3DZero.z = camPos.z + camForward.z * 10.0f;

@@ -33,5 +33,7 @@ public:
 
 	static DWORD_PTR* pSwapChainVtable;
 	static DWORD_PTR* pDeviceContextVTable;
+
+	static void RenderNameTags();
 };
 

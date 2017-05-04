@@ -178,21 +178,7 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 		DirectXRenderer::FirstRender = false;
 	}
 
-	/*float fontsize = 24.0f;
-
-	DirectXRenderer::pFontWrapper->DrawString(DirectXRenderer::pContext, L"Loaded", fontsize, 34.0f, 32.0f, 0xff000000, FW1_RESTORESTATE);
-	DirectXRenderer::pFontWrapper->DrawString(DirectXRenderer::pContext, L"Loaded", fontsize, 30.0f, 32.0f, 0xff000000, FW1_RESTORESTATE);
-
-	DirectXRenderer::pFontWrapper->DrawString(DirectXRenderer::pContext, L"Loaded", fontsize, 32.0f, 34.0f, 0xff000000, FW1_RESTORESTATE);
-	DirectXRenderer::pFontWrapper->DrawString(DirectXRenderer::pContext, L"Loaded", fontsize, 32.0f, 30.0f, 0xff000000, FW1_RESTORESTATE);
-
-	DirectXRenderer::pFontWrapper->DrawString(DirectXRenderer::pContext, L"Loaded", fontsize, 34.0f, 34.0f, 0xff000000, FW1_RESTORESTATE);
-	DirectXRenderer::pFontWrapper->DrawString(DirectXRenderer::pContext, L"Loaded", fontsize, 30.0f, 30.0f, 0xff000000, FW1_RESTORESTATE);
-
-	DirectXRenderer::pFontWrapper->DrawString(DirectXRenderer::pContext, L"Loaded", fontsize, 34.0f, 30.0f, 0xff000000, FW1_RESTORESTATE);
-	DirectXRenderer::pFontWrapper->DrawString(DirectXRenderer::pContext, L"Loaded", fontsize, 30.0f, 34.0f, 0xff000000, FW1_RESTORESTATE);
-
-	DirectXRenderer::pFontWrapper->DrawString(DirectXRenderer::pContext, L"Loaded", fontsize, 32.0f, 32.0f, 0xffffffff, FW1_RESTORESTATE);*/
+	//DirectXRenderer::RenderNameTags();
 
 	CefTexture::UpdateRenderTexture();
 	CefTexture::DrawWebView();
@@ -785,4 +771,91 @@ void DirectXRenderer::Initialize()
 	pDevice->Release();
 	pContext->Release();
 	pSwapChain->Release();
+}
+
+void DirectXRenderer::RenderNameTags()
+{
+	float fontsize = 24.0f;
+
+	/*DirectXRenderer::pFontWrapper->DrawString(DirectXRenderer::pContext, L"Loaded", fontsize, 34.0f, 32.0f, 0xff000000, FW1_RESTORESTATE);
+	DirectXRenderer::pFontWrapper->DrawString(DirectXRenderer::pContext, L"Loaded", fontsize, 30.0f, 32.0f, 0xff000000, FW1_RESTORESTATE);
+
+	DirectXRenderer::pFontWrapper->DrawString(DirectXRenderer::pContext, L"Loaded", fontsize, 32.0f, 34.0f, 0xff000000, FW1_RESTORESTATE);
+	DirectXRenderer::pFontWrapper->DrawString(DirectXRenderer::pContext, L"Loaded", fontsize, 32.0f, 30.0f, 0xff000000, FW1_RESTORESTATE);
+
+	DirectXRenderer::pFontWrapper->DrawString(DirectXRenderer::pContext, L"Loaded", fontsize, 34.0f, 34.0f, 0xff000000, FW1_RESTORESTATE);
+	DirectXRenderer::pFontWrapper->DrawString(DirectXRenderer::pContext, L"Loaded", fontsize, 30.0f, 30.0f, 0xff000000, FW1_RESTORESTATE);
+
+	DirectXRenderer::pFontWrapper->DrawString(DirectXRenderer::pContext, L"Loaded", fontsize, 34.0f, 30.0f, 0xff000000, FW1_RESTORESTATE);
+	DirectXRenderer::pFontWrapper->DrawString(DirectXRenderer::pContext, L"Loaded", fontsize, 30.0f, 34.0f, 0xff000000, FW1_RESTORESTATE);
+
+	DirectXRenderer::pFontWrapper->DrawString(DirectXRenderer::pContext, L"Loaded", fontsize, 32.0f, 32.0f, 0xffffffff, FW1_RESTORESTATE);*/
+
+	ImGuiIO& io = ImGui::GetIO();
+	float screenWidth = io.DisplaySize.x * io.DisplayFramebufferScale.x;
+	float screenHeight = io.DisplaySize.y * io.DisplayFramebufferScale.y;
+
+	if (!g_Players.empty())
+	{
+		CVector3 myPos = CLocalPlayer::GetPosition();
+		std::string name;
+
+		for (int i = 0; i < g_Players.size(); i++)
+		{
+			if (g_Players[i].IsCreated() && CVector3::Distance(g_Players[i].GetPosition(), myPos) <= 50.0f)
+			{
+				name = g_Players[i].GetUsername();
+
+				Vector2 screenPos;
+				World::WorldToScreenRel(g_Players[i].GetPosition(), screenPos);
+
+				DirectXRenderer::pFontWrapper->DrawString(DirectXRenderer::pContext, CString::utf8ToUtf16(name).c_str(), fontsize, 34.0f, 32.0f, 0xff000000, FW1_RESTORESTATE);
+				DirectXRenderer::pFontWrapper->DrawString(DirectXRenderer::pContext, CString::utf8ToUtf16(name).c_str(), fontsize, 30.0f, 32.0f, 0xff000000, FW1_RESTORESTATE);
+
+				DirectXRenderer::pFontWrapper->DrawString(DirectXRenderer::pContext, CString::utf8ToUtf16(name).c_str(), fontsize, 32.0f, 34.0f, 0xff000000, FW1_RESTORESTATE);
+				DirectXRenderer::pFontWrapper->DrawString(DirectXRenderer::pContext, CString::utf8ToUtf16(name).c_str(), fontsize, 32.0f, 30.0f, 0xff000000, FW1_RESTORESTATE);
+
+				DirectXRenderer::pFontWrapper->DrawString(DirectXRenderer::pContext, CString::utf8ToUtf16(name).c_str(), fontsize, 34.0f, 34.0f, 0xff000000, FW1_RESTORESTATE);
+				DirectXRenderer::pFontWrapper->DrawString(DirectXRenderer::pContext, CString::utf8ToUtf16(name).c_str(), fontsize, 30.0f, 30.0f, 0xff000000, FW1_RESTORESTATE);
+
+				DirectXRenderer::pFontWrapper->DrawString(DirectXRenderer::pContext, CString::utf8ToUtf16(name).c_str(), fontsize, 34.0f, 30.0f, 0xff000000, FW1_RESTORESTATE);
+				DirectXRenderer::pFontWrapper->DrawString(DirectXRenderer::pContext, CString::utf8ToUtf16(name).c_str(), fontsize, 30.0f, 34.0f, 0xff000000, FW1_RESTORESTATE);
+
+				DirectXRenderer::pFontWrapper->DrawString(DirectXRenderer::pContext, CString::utf8ToUtf16(name).c_str(), fontsize, 32.0f, 32.0f, 0xffffffff, FW1_RESTORESTATE);
+			}
+		}
+	}
+
+
+	if (!g_Npcs.empty())
+	{
+		CVector3 myPos = CLocalPlayer::GetPosition();
+
+		for (int i = 0; i < g_Npcs.size(); i++)
+		{
+			if (g_Npcs[i].IsCreated() && CVector3::Distance(g_Npcs[i].GetPosition(), myPos) <= 50.0f)
+			{
+				Vector2 screenPos;
+				if (World::WorldToScreenRel(g_Npcs[i].GetPosition(), screenPos))
+				{
+					screenPos.x = screenWidth * screenPos.x;
+					screenPos.y = screenHeight * screenPos.y;
+
+					DirectXRenderer::pFontWrapper->DrawString(DirectXRenderer::pContext, L"NPC", fontsize, screenPos.x + 2.0f, screenPos.y, 0xff000000, FW1_RESTORESTATE);
+					DirectXRenderer::pFontWrapper->DrawString(DirectXRenderer::pContext, L"NPC", fontsize, screenPos.x - 2.0f, screenPos.y, 0xff000000, FW1_RESTORESTATE);
+
+					DirectXRenderer::pFontWrapper->DrawString(DirectXRenderer::pContext, L"NPC", fontsize, screenPos.x, screenPos.y + 2.0f, 0xff000000, FW1_RESTORESTATE);
+					DirectXRenderer::pFontWrapper->DrawString(DirectXRenderer::pContext, L"NPC", fontsize, screenPos.x, screenPos.y - 2.0f, 0xff000000, FW1_RESTORESTATE);
+
+					DirectXRenderer::pFontWrapper->DrawString(DirectXRenderer::pContext, L"NPC", fontsize, screenPos.x + 2.0f, screenPos.y + 2.0f, 0xff000000, FW1_RESTORESTATE);
+					DirectXRenderer::pFontWrapper->DrawString(DirectXRenderer::pContext, L"NPC", fontsize, screenPos.x - 2.0f, screenPos.y - 2.0f, 0xff000000, FW1_RESTORESTATE);
+
+					DirectXRenderer::pFontWrapper->DrawString(DirectXRenderer::pContext, L"NPC", fontsize, screenPos.x + 2.0f, screenPos.y - 2.0f, 0xff000000, FW1_RESTORESTATE);
+					DirectXRenderer::pFontWrapper->DrawString(DirectXRenderer::pContext, L"NPC", fontsize, screenPos.x - 2.0f, screenPos.y + 2.0f, 0xff000000, FW1_RESTORESTATE);
+
+					DirectXRenderer::pFontWrapper->DrawString(DirectXRenderer::pContext, L"NPC", fontsize, screenPos.x, screenPos.y, 0xffffffff, FW1_RESTORESTATE);
+				}
+			}
+		}
+	}
 }
