@@ -15,7 +15,11 @@ namespace RPC
 			{ "RequestEntityData", RPC::Entity::RequestData },
 		#pragma region Assignment
 			{ "OnPlayerEnterCheckpoint", RPC::Entity::OnEntityEnterCheckpoint },
-			{ "OnPlayerExitCheckpoint", RPC::Entity::OnEntityExitCheckpoint }
+			{ "OnPlayerExitCheckpoint", RPC::Entity::OnEntityExitCheckpoint },
+		#pragma endregion
+		#pragma region Cef
+			{ "OnCefFinishLoad", RPC::Entity::OnCefFinishLoad },
+			{ "OnCefSendData", RPC::Entity::OnCefSendData}
 		#pragma endregion
 		};
 

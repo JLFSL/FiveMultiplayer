@@ -82,6 +82,7 @@
 	// Callbacks
 	#include "API_Callback_Network.h"
 	#include "API_Callback_Checkpoint.h"
+	#include "API_Callback_Cef.h"
 	// Functions
 	#include "API_Server.h"
 	#include "API_World.h"

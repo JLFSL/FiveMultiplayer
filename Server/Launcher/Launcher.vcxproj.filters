@@ -141,6 +141,9 @@
     <ClCompile Include="API_CEF.cpp">
       <Filter>Scripting\Functions</Filter>
     </ClCompile>
+    <ClCompile Include="API_Callback_Cef.cpp">
+      <Filter>Scripting\Callbacks</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -238,6 +241,9 @@
     </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="API_Callback_Cef.h">
+      <Filter>Scripting\Callbacks</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

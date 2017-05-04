@@ -78,5 +78,32 @@ namespace RPC
 				API::Checkpoints::OnEntityExitCheckpoint(Instance, checkpoint, entity);
 			}
 		}
+
+		void OnCefFinishLoad(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+		{
+			int entity;
+
+			bitStream->Read(entity);
+
+			for (int i = 0; i < g_ApiModules.size(); i++)
+			{
+				void *Instance = g_ApiModules[i].GetInstance();
+				API::Cef::OnCefFinishLoad(Instance, entity);
+			}
+		}
+		void OnCefSendData(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+		{
+			int entity;
+			RakString data;
+
+			bitStream->Read(entity);
+			bitStream->Read(data);
+
+			for (int i = 0; i < g_ApiModules.size(); i++)
+			{
+				void *Instance = g_ApiModules[i].GetInstance();
+				API::Cef::OnCefSendData(Instance, entity, data.C_String());
+			}
+		}
 	}
 }
