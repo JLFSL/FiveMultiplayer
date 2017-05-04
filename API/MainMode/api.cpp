@@ -307,3 +307,15 @@ extern "C" DLL_PUBLIC void API_OnPlayerMessage(const int entity, const std::stri
 	//API::Server::PrintMessage(std::wstring(API::Player::GetUsername(entity).c_str()) + L" : " + message);
 	API::Visual::SendChatMessage("{0000ff}" + API::Player::GetUsername(entity) + " {ffffff}: " + message);
 }
+
+// When a CEF page has finished loading
+extern "C" DLL_PUBLIC void API_OnCefFinishLoad(const int entity)
+{
+	API::Server::PrintMessage(L"OnCefFinishLoad");
+}
+
+// When a CEF page sends data
+extern "C" DLL_PUBLIC void API_OnCefSendData(const int entity, const std::string data)
+{
+	API::Server::PrintMessage(L"API_OnCefSendData");
+}

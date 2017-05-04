@@ -9,7 +9,5 @@ public:
 
 	virtual void OnWebKitInitialized() OVERRIDE;
 
-	virtual void OnLoadEnd(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, int httpStatusCode) OVERRIDE;
-
 	IMPLEMENT_REFCOUNTING(ClientApp);
 };

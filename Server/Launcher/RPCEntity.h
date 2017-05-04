@@ -9,5 +9,7 @@ namespace RPC
 		void RequestData(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 		void OnEntityEnterCheckpoint(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 		void OnEntityExitCheckpoint(RakNet::BitStream *bitStream, RakNet::Packet *packet);
+		void OnCefFinishLoad(RakNet::BitStream *bitStream, RakNet::Packet *packet);
+		void OnCefSendData(RakNet::BitStream *bitStream, RakNet::Packet *packet);
 	}
 }
