@@ -232,7 +232,7 @@ void CVehicleEntity::Pulse()
 			}
 		}
 
-		if ((t_CurrentVehicle == Information.Id && CLocalPlayer::GetSeat() == 0) || CNetworkManager::GetInterface()->GetMyGUID() == Network.Assigned)
+		if ((t_CurrentVehicle == Information.Id && CLocalPlayer::GetSeat() == 0)/* || CNetworkManager::GetInterface()->GetMyGUID() == Network.Assigned*/)
 		{
 			if (timeGetTime() > Network.LastSyncSent + (1000.0f / 50))
 			{
@@ -359,7 +359,7 @@ void CVehicleEntity::Update(Packet * packet)
 	}
 
 
-	if ( Network.Assigned != CNetworkManager::GetInterface()->GetMyGUID() /*|| (Information.Id == CLocalPlayer::GetVehicleId() && CLocalPlayer::GetSeat() != 0)*/) /*|| Information.Id != CLocalPlayer::GetVehicleId()*/
+	if ( /*Network.Assigned != CNetworkManager::GetInterface()->GetMyGUID() || */(Information.Id == CLocalPlayer::GetVehicleId() && CLocalPlayer::GetSeat() != 0) || Information.Id != CLocalPlayer::GetVehicleId())
 	{
 		UpdateTargetPosition();
 		SetTargetData();
