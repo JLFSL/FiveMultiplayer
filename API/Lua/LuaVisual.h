@@ -40,5 +40,20 @@ public:
 		lua_pop(L, args);
 		return 0;
 	}
+
+	static int ShowSubtitle(lua_State* L)
+	{
+		const int args = lua_gettop(L);
+		if (args == 3)
+		{
+			API::Visual::ShowSubtitle(CString::utf8ToUtf16(lua_tostring(L, 1)), lua_tointeger(L,2), lua_toboolean(L,3));
+		}
+		else
+		{
+			std::cerr << "ShowSubtitle requires args (string message, int duration, bool shownow)." << std::endl;
+		}
+		lua_pop(L, args);
+		return 0;
+	}
 };
 #endif

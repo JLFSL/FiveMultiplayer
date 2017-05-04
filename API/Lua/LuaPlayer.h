@@ -879,5 +879,24 @@ struct Player
 		}
 		return 0;
 	}
+
+	int ShowSubtitle(lua_State* L)
+	{
+		const int args = lua_gettop(L);
+		if (args == 4)
+		{
+			Player* ent = reinterpret_cast<Player*>(lua_touserdata(L, 1));
+
+			API::Visual::ShowSubtitleToPlayer(ent->entity, CString::utf8ToUtf16(lua_tostring(L, 2)), lua_tointeger(L, 3), lua_toboolean(L, 4));
+
+			ent = nullptr;
+		}
+		else
+		{
+			std::cerr << "ShowSubtitle requires args (string message, int duration, bool shownow)." << std::endl;
+		}
+		lua_pop(L, args);
+		return 0;
+	}
 };
 #endif
