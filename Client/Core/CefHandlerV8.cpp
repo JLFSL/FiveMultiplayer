@@ -16,13 +16,13 @@ bool CefHandlerV8::Execute(const CefString &name, CefRefPtr<CefV8Value> object, 
 
 	if (name == "SendData") {
 		if ((arguments.size() == 1) && arguments[0]->IsString()) {
-			CefString           text = arguments[0]->GetStringValue();
+			std::string text = arguments[0]->GetStringValue();
 
 			std::cout << text.c_str() << std::endl;
 
 			RakNet::BitStream sData;
 			sData.Write(CLocalPlayer::GetId());
-			sData.Write(RakString(text));
+			sData.Write(RakString(text.c_str()));
 			CNetworkManager::GetRPC().Signal("OnCefSendData", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, CNetworkManager::GetSystemAddress(), false, false);
 			return true;
 		}
