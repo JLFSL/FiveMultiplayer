@@ -918,21 +918,21 @@ struct Player
 		return 0;
 	}
 
-	int IsPlayerInVehicle(lua_State* L)
+	int GetVehicle(lua_State* L)
 	{
 		const int args = lua_gettop(L);
-		if (args == 2)
+		if (args == 1)
 		{
 			Player* ent = reinterpret_cast<Player*>(lua_touserdata(L, 1));
 
-			lua_pushboolean(L, API::Player::IsPlayerInVehicle(ent->entity, lua_tointeger(L, 2)));
+			lua_pushinteger(L, API::Player::GetVehicle(ent->entity));
 
 			ent = nullptr;
 		}
 		else
 		{
 			lua_pushnil(L);
-			std::cerr << "IsPlayerInVehicle requires args (int vehicleEntity)." << std::endl;
+			std::cerr << "GetVehicle requires args ()." << std::endl;
 		}
 		return 0;
 	}
