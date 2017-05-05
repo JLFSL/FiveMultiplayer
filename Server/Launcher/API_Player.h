@@ -23,7 +23,8 @@ extern "C" {
 			DLL_PUBLIC static void Kick(const int entity, const std::string reason);
 
 			DLL_PUBLIC static void PutInVehicle(const int playerEntity, const int vehicleEntity, const int seat);
-			DLL_PUBLIC static const int GetVehicle(const int playerEntity);
+			DLL_PUBLIC static const int GetVehicle(const int entity);
+			DLL_PUBLIC static const int GetSeat(const int entity);
 		};
 	}
 }

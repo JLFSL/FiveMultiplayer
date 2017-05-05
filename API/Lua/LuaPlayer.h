@@ -936,5 +936,24 @@ struct Player
 		}
 		return 0;
 	}
+
+	int GetSeat(lua_State* L)
+	{
+		const int args = lua_gettop(L);
+		if (args == 1)
+		{
+			Player* ent = reinterpret_cast<Player*>(lua_touserdata(L, 1));
+
+			lua_pushinteger(L, API::Player::GetSeat(ent->entity));
+
+			ent = nullptr;
+		}
+		else
+		{
+			lua_pushnil(L);
+			std::cerr << "GetSeat requires args ()." << std::endl;
+		}
+		return 0;
+	}
 };
 #endif

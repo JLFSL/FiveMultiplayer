@@ -226,9 +226,9 @@ namespace API
 		}
 	}
 
-	const int Player::GetVehicle(const int playerEntity)
+	const int Player::GetVehicle(const int entity)
 	{
-		const int index = ServerEntity::GetIndex(playerEntity);
+		const int index = ServerEntity::GetIndex(entity);
 
 		// Player Check to make sure it a valid entity and the correct type.
 		if (index > -1)
@@ -238,21 +238,52 @@ namespace API
 			case CServerEntity::Player:
 				for (int i = 0; i < g_Players.size(); i++)
 				{
-					if (g_Players[i].GetId() == playerEntity)
+					if (g_Players[i].GetId() == entity)
 					{
 						return g_Players[i].GetVehicle();
 					}
 				}
 				break;
 			default:
-				std::wcout << ThisNamespace << L"GetVehicle Entity " << playerEntity << L" is not of type Player." << std::endl;
+				std::wcout << ThisNamespace << L"GetVehicle Entity " << entity << L" is not of type Player." << std::endl;
 				return false;
 				break;
 			}
 		}
 		else
 		{
-			std::wcout << ThisNamespace << L"GetVehicle Invalid Entity: " << playerEntity << std::endl;
+			std::wcout << ThisNamespace << L"GetVehicle Invalid Entity: " << entity << std::endl;
+			return false;
+		}
+	}
+
+	const int Player::GetSeat(const int entity)
+	{
+		const int index = ServerEntity::GetIndex(entity);
+
+		// Player Check to make sure it a valid entity and the correct type.
+		if (index > -1)
+		{
+			switch (g_Entities[index].GetType())
+			{
+			case CServerEntity::Player:
+				for (int i = 0; i < g_Players.size(); i++)
+				{
+					if (g_Players[i].GetId() == entity)
+					{
+						return g_Players[i].GetVehicleSeat();
+					}
+				}
+				break;
+			default:
+				std::wcout << ThisNamespace << L"GetSeat Entity " << entity << L" is not of type Player." << std::endl;
+				return false;
+				break;
+			}
+		}
+		else
+		{
+			std::wcout << ThisNamespace << L"GetSeat Invalid Entity: " << entity << std::endl;
 			return false;
 		}
 	}

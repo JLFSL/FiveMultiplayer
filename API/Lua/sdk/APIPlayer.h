@@ -78,6 +78,13 @@ extern "C" {
 			/// <param name="playerEntity">The entity of the player.</param>
 			/// <returns name="entity">The entity of the vehicle the player is in, -1 for not in one.</returns>
 			DLL_PUBLIC_I static const int GetVehicle(const int playerEntity);
+
+			/// <summary>
+			/// Get the seat the player is in
+			/// </summary>
+			/// <param name="entity">The entity of the player.</param>
+			/// <returns name="seat">The seat the player is in, -1 if none</returns>
+			DLL_PUBLIC_I static const int GetSeat(const int entity);
 		};
 	}
 #ifdef __cplusplus

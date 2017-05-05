@@ -76,9 +76,16 @@ extern "C" {
 			/// <summary>
 			/// Get the vehicle entity the player is in
 			/// </summary>
-			/// <param name="playerEntity">The entity of the player.</param>
+			/// <param name="entity">The entity of the player.</param>
 			/// <returns name="entity">The entity of the vehicle the player is in, -1 for not in one.</returns>
-			DLL_PUBLIC_I static const int GetVehicle(const int playerEntity);
+			DLL_PUBLIC_I static const int GetVehicle(const int entity);
+
+			/// <summary>
+			/// Get the seat the player is in
+			/// </summary>
+			/// <param name="entity">The entity of the player.</param>
+			/// <returns name="seat">The seat the player is in, -1 if none</returns>
+			DLL_PUBLIC_I static const int GetSeat(const int entity);
 
 		};
 	}
@@ -252,5 +259,10 @@ public:
 	const int GetVehicle()
 	{
 		return API::Player::GetVehicle(Entity);
+	}
+
+	const int GetSeat()
+	{
+		return API::Player::GetSeat(Entity);
 	}
 };
