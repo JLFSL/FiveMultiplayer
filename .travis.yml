@@ -3,6 +3,7 @@ compiler: g++
 dist: xenial
 
 sudo: required
+group: deprecated-2017Q1 
 
 script: 
   - sudo apt-get update
