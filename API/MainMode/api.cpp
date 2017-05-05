@@ -279,6 +279,10 @@ extern "C" DLL_PUBLIC void API_OnPlayerCommand(const int entity, const std::stri
 
 			API::Visual::SendChatMessageToPlayer(entity, oss.str().c_str());
 		}
+		else if (tokens[0].compare("/kickme") == 0)
+		{
+			API::Player::Kick(entity, "Oh man, that must have hurt... You just kicked yourself.");
+		}
 		else if (tokens[0].compare("/cph") == 0)
 		{
 			if (!checkpoints.empty() && tokens.size() == 3)
