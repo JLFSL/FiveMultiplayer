@@ -479,7 +479,7 @@ void CPlayerEntity::UpdateTargetData()
 			Data.Weapon.Reload = false;
 		}
 
-		if (PED::IS_PED_DEAD_OR_DYING(Game.Ped, TRUE) && ENTITY::GET_ENTITY_HEALTH(Game.Ped) > 0)
+		if (PED::IS_PED_DEAD_OR_DYING(Game.Ped, TRUE) && ENTITY::GET_ENTITY_HEALTH(Game.Ped) <= 0)
 		{
 			PED::RESURRECT_PED(Game.Ped);
 			PED::CLEAR_PED_BLOOD_DAMAGE(Game.Ped);

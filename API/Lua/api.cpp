@@ -206,6 +206,7 @@ extern "C" DLL_PUBLIC bool API_Initialize(void) {
 			.addCFunction("ShowSubtitle", &Player::ShowSubtitle)
 			.addCFunction("PutInVehicle", &Player::PutInVehicle)
 			.addCFunction("GetVehicle", &Player::GetVehicle)
+			.addCFunction("GetSeat", &Player::GetSeat)
 		.endClass()
 		.beginNamespace("visual")
 			.addCFunction("ShowMessageAboveMap", Visual::ShowMessageAboveMap)
