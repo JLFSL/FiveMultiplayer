@@ -53,8 +53,11 @@ void CRPCPlayer::PutInVehicle(RakNet::BitStream *bitStream, RakNet::Packet *pack
 	{
 		if (g_Vehicles[i].GetId() == entity)
 		{
-			if (!g_Vehicles[i].IsCreated())
+			while (!g_Vehicles[i].IsCreated()) 
+			{
 				CStreamer::StreamVehiclesIn(CLocalPlayer::GetPosition());
+				WAIT(1);
+			}
 
 			GamePed::PutPedInVehicle(CLocalPlayer::GetPed(), g_Vehicles[i].GetEntity(), seat-1);
 			return;
