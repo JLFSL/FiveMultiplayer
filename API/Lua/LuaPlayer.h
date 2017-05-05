@@ -898,5 +898,24 @@ struct Player
 		lua_pop(L, args);
 		return 0;
 	}
+
+	int PutInVehicle(lua_State* L)
+	{
+		const int args = lua_gettop(L);
+		if (args == 3)
+		{
+			Player* ent = reinterpret_cast<Player*>(lua_touserdata(L, 1));
+
+			API::Player::PutInVehicle(ent->entity, lua_tointeger(L, 2), lua_tointeger(L, 3));
+
+			ent = nullptr;
+		}
+		else
+		{
+			std::cerr << "PutInVehicle requires args (int vehicleEntity, int seat)." << std::endl;
+		}
+		lua_pop(L, args);
+		return 0;
+	}
 };
 #endif

@@ -40,3 +40,24 @@ void CRPCPlayer::Kick(RakNet::BitStream *bitStream, RakNet::Packet *packet)
 
 	CNetworkManager::Disconnect();
 }
+
+void CRPCPlayer::PutInVehicle(RakNet::BitStream *bitStream, RakNet::Packet *packet)
+{
+	std::cout << "CRPCPlayer::PutInVehicle" << std::endl;
+	int entity, seat;
+
+	bitStream->Read(entity);
+	bitStream->Read(seat);
+
+	for (int i = 0; i < g_Vehicles.size(); i++)
+	{
+		if (g_Vehicles[i].GetId() == entity)
+		{
+			if (!g_Vehicles[i].IsCreated())
+				CStreamer::StreamVehiclesIn(CLocalPlayer::GetPosition());
+
+			GamePed::PutPedInVehicle(CLocalPlayer::GetPed(), g_Vehicles[i].GetEntity(), seat-1);
+			return;
+		}
+	}
+}

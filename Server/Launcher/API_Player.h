@@ -21,6 +21,8 @@ extern "C" {
 			DLL_PUBLIC static const std::string GetIP(const int entity);
 
 			DLL_PUBLIC static void Kick(const int entity, const std::string reason);
+
+			DLL_PUBLIC static void PutInVehicle(const int playerEntity, const int vehicleEntity, const int seat);
 		};
 	}
 }

@@ -172,4 +172,57 @@ namespace API
 			std::wcout << ThisNamespace << L"Kick Invalid Entity: " << entity << std::endl;
 		}
 	}
+
+	void Player::PutInVehicle(const int playerEntity, const int vehicleEntity, const int seat)
+	{
+		const int pIndex = ServerEntity::GetIndex(playerEntity);
+		const int vIndex = ServerEntity::GetIndex(vehicleEntity);
+
+		// Vehicle Check to make sure it a valid entity and the correct type.
+		if (vIndex > -1)
+		{
+			switch (g_Entities[vIndex].GetType())
+			{
+			case CServerEntity::Vehicle:
+				break;
+			default:
+				std::wcout << ThisNamespace << L"PutInVehicle Entity " << vehicleEntity << L" is not of type Vehicle." << std::endl;
+				return;
+			}
+		}
+		else
+		{
+			std::wcout << ThisNamespace << L"PutInVehicle Invalid Entity: " << vehicleEntity << std::endl;
+			return;
+		}
+
+		// Player Check to make sure it a valid entity and the correct type.
+		if (pIndex > -1)
+		{
+			switch (g_Entities[pIndex].GetType())
+			{
+			case CServerEntity::Player:
+				for (int i = 0; i < g_Players.size(); i++)
+				{
+					if (g_Players[i].GetId() == playerEntity)
+					{
+						RakNet::BitStream sData;
+						sData.Write(vehicleEntity);
+						sData.Write(seat);
+						g_Server->GetNetworkManager()->GetRPC().Signal("PutInVehicle", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, g_Players[i].GetGUID(), false, false);
+
+						return;
+					}
+				}
+				break;
+			default:
+				std::wcout << ThisNamespace << L"PutInVehicle Entity " << playerEntity << L" is not of type Player." << std::endl;
+				break;
+			}
+		}
+		else
+		{
+			std::wcout << ThisNamespace << L"PutInVehicle Invalid Entity: " << playerEntity << std::endl;
+		}
+	}
 }

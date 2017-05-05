@@ -63,6 +63,14 @@ extern "C" {
 			/// <param name="entity">The entity of the player.</param>
 			/// <param name="reason">The reason for kicking the player.</param>
 			DLL_PUBLIC_I static void Kick(const int entity, const std::string reason);
+
+			/// <summary>
+			/// Put the player in the desired vehicle and seat
+			/// </summary>
+			/// <param name="playerEntity">The entity of the player.</param>
+			/// <param name="vehicleEntity">The entity of the vehicle.</param>
+			/// <param name="seat">The seat 0 = driver, 1+ passegners.</param>
+			DLL_PUBLIC_I static void PutInVehicle(const int playerEntity, const int vehicleEntity, const int seat);
 		};
 	}
 #ifdef __cplusplus

@@ -265,6 +265,7 @@ extern "C" DLL_PUBLIC void API_OnPlayerCommand(const int entity, const std::stri
 							players[i].spawnedVehicle.Destroy();
 
 						players[i].spawnedVehicle.Create(str, pos, rot);
+						players[i].player.PutInVehicle(players[i].spawnedVehicle.GetEntity(), 0);
 						break;
 					}
 				}
