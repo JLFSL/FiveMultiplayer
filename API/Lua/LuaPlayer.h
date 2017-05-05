@@ -917,5 +917,24 @@ struct Player
 		lua_pop(L, args);
 		return 0;
 	}
+
+	int IsPlayerInVehicle(lua_State* L)
+	{
+		const int args = lua_gettop(L);
+		if (args == 2)
+		{
+			Player* ent = reinterpret_cast<Player*>(lua_touserdata(L, 1));
+
+			lua_pushboolean(L, API::Player::IsPlayerInVehicle(ent->entity, lua_tointeger(L, 2)));
+
+			ent = nullptr;
+		}
+		else
+		{
+			lua_pushnil(L);
+			std::cerr << "IsPlayerInVehicle requires args (int vehicleEntity)." << std::endl;
+		}
+		return 0;
+	}
 };
 #endif

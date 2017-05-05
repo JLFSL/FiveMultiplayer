@@ -71,6 +71,13 @@ extern "C" {
 			/// <param name="vehicleEntity">The entity of the vehicle.</param>
 			/// <param name="seat">The seat 0 = driver, 1+ passegners.</param>
 			DLL_PUBLIC_I static void PutInVehicle(const int playerEntity, const int vehicleEntity, const int seat);
+
+			/// <summary>
+			/// Check if the player is the specified vehicle
+			/// </summary>
+			/// <param name="playerEntity">The entity of the player.</param>
+			/// <param name="vehicleEntity">The entity of the vehicle.</param>
+			DLL_PUBLIC_I static const bool IsPlayerInVehicle(const int playerEntity, const int vehicleEntity);
 		};
 	}
 #ifdef __cplusplus

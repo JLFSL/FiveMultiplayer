@@ -225,4 +225,57 @@ namespace API
 			std::wcout << ThisNamespace << L"PutInVehicle Invalid Entity: " << playerEntity << std::endl;
 		}
 	}
+
+	const bool Player::IsPlayerInVehicle(const int playerEntity, const int vehicleEntity)
+	{
+		const int pIndex = ServerEntity::GetIndex(playerEntity);
+		const int vIndex = ServerEntity::GetIndex(vehicleEntity);
+
+		// Vehicle Check to make sure it a valid entity and the correct type.
+		if (vIndex > -1)
+		{
+			switch (g_Entities[vIndex].GetType())
+			{
+			case CServerEntity::Vehicle:
+				break;
+			default:
+				std::wcout << ThisNamespace << L"IsPlayerInVehicle Entity " << vehicleEntity << L" is not of type Vehicle." << std::endl;
+				return false;
+			}
+		}
+		else
+		{
+			std::wcout << ThisNamespace << L"IsPlayerInVehicle Invalid Entity: " << vehicleEntity << std::endl;
+			return false;
+		}
+
+		// Player Check to make sure it a valid entity and the correct type.
+		if (pIndex > -1)
+		{
+			switch (g_Entities[pIndex].GetType())
+			{
+			case CServerEntity::Player:
+				for (int i = 0; i < g_Players.size(); i++)
+				{
+					if (g_Players[i].GetId() == playerEntity)
+					{
+						if (g_Players[i].GetVehicle() == vehicleEntity)
+							return true;
+						else
+							return false;
+					}
+				}
+				break;
+			default:
+				std::wcout << ThisNamespace << L"IsPlayerInVehicle Entity " << playerEntity << L" is not of type Player." << std::endl;
+				return false;
+				break;
+			}
+		}
+		else
+		{
+			std::wcout << ThisNamespace << L"IsPlayerInVehicle Invalid Entity: " << playerEntity << std::endl;
+			return false;
+		}
+	}
 }
