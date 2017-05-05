@@ -113,11 +113,6 @@ void CNetworkManager::Disconnect()
 	if (g_ConnectionState == CONSTATE_DISC)
 		return;
 
-	AI::TASK_STAND_STILL(CLocalPlayer::GetPed(), 1);
-
-	// Force streamout all entities
-	CStreamer::ForceStreamOut();
-
 	// Stop RakPeer from accepting anymore incoming packets
 	g_RakPeer->CloseConnection(g_SystemAddr, true);
 
@@ -137,81 +132,7 @@ void CNetworkManager::Disconnect()
 	// Clean the server GUID
 	g_SystemAddr = UNASSIGNED_SYSTEM_ADDRESS;
 
-	// Remove all existing entities
-	if (!g_Entities.empty())
-	{
-		for (int i = (g_Entities.size() - 1); i > -1; i--)
-		{
-			g_Entities.erase(g_Entities.begin() + i);
-		}
-		// Shrink vector so size is correct.
-		g_Entities.shrink_to_fit();
-	}
-
-	// Remove all existing players
-	if (!g_Players.empty())
-	{
-		for (int i = (g_Players.size() - 1); i > -1; i--)
-		{
-			if (g_Players[i].IsCreated())
-				g_Players[i].Destroy();
-			g_Players.erase(g_Players.begin() + i);
-		}
-		// Shrink vector so size is correct.
-		g_Players.shrink_to_fit();
-	}
-	
-	if (!g_Vehicles.empty())
-	{
-		// Remove all existing vehicles
-		for (int i = (g_Vehicles.size() - 1); i > -1; i--)
-		{
-			if (g_Vehicles[i].IsCreated())
-				g_Vehicles[i].Destroy();
-			g_Vehicles.erase(g_Vehicles.begin() + i);
-		}
-		// Shrink vector so size is correct.
-		g_Vehicles.shrink_to_fit();
-	}
-	
-	if (!g_Objects.empty())
-	{
-		// Remove all existing objects
-		for (int i = (g_Objects.size() - 1); i > -1; i--)
-		{
-			if (g_Objects[i].IsCreated())
-				g_Objects[i].Destroy();
-			g_Objects.erase(g_Objects.begin() + i);
-		}
-		// Shrink vector so size is correct.
-		g_Objects.shrink_to_fit();
-	}
-	
-	if (!g_Npcs.empty())
-	{
-		// Remove all existing npcs
-		for (int i = (g_Npcs.size() - 1); i > -1; i--)
-		{
-			if (g_Npcs[i].IsCreated())
-				g_Npcs[i].Destroy();
-			g_Npcs.erase(g_Npcs.begin() + i);
-		}
-		// Shrink vector so size is correct.
-		g_Npcs.shrink_to_fit();
-	}
-	
-	if (!g_Checkpoints.empty())
-	{
-		// Remove all existing checkpoints
-		for (int i = (g_Checkpoints.size() - 1); i > -1; i--)
-		{
-
-			g_Checkpoints[i].Destroy();
-			g_Checkpoints.erase(g_Checkpoints.begin() + i);
-		}
-		// Shrink vector so size is correct.
-		g_Checkpoints.shrink_to_fit();
-	}
+	AI::TASK_STAND_STILL(CLocalPlayer::GetPed(), 0);
 
 	CChat::ClearChat();
 	

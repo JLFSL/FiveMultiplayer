@@ -706,7 +706,7 @@ HRESULT WINAPI Present(IDXGISwapChain* pSwapChain, UINT SyncInterval, UINT Flags
 		{
 			ImGui::SetNextWindowPos(ImVec2((screenWidth / 2) - ((500 * DirectXRenderer::windowScale) / 2), (screenHeight / 2) - ((150 * DirectXRenderer::windowScale) / 2)));
 			ImGui::SetNextWindowSize(ImVec2((500 * DirectXRenderer::windowScale), (150 * DirectXRenderer::windowScale)));
-			ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.2f);
+			ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 1.0f);
 			ImGui::Begin("FiveMultiplayer_Kicked", NULL, ImVec2(0, 0), 0.7f, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings);
 			{
 				if(!io.MouseDrawCursor)
