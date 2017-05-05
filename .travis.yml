@@ -1,9 +1,10 @@
 language: cpp
-compiler: g++
-dist: xenial
-
 sudo: required
-group: deprecated-2017Q1 
+dist: trusty
+compiler: 
+- g++
+os:
+- linux
 
 script: 
   - sudo apt-get update
