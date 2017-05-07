@@ -231,6 +231,8 @@ void CPlayerEntity::Interpolate()
 {
 	SetTargetPosition();
 	SetTargetRotation();
+	
+	ShowNametag();
 }
 
 void CPlayerEntity::UpdateTargetPosition()
@@ -657,6 +659,49 @@ void CPlayerEntity::UpdatePlayerModel()
 			return;
 		}
 		std::cout << "[CPlayerEntity] Tried to update player " << Information.Id << " model to " << Data.Model.Model << ", but model does not exist!" << std::endl;
+	}
+}
+
+void tdrawText(const char *text, float x, float y, float scale, int font, int r, int g, int b, int a, bool center, bool shadow, bool outline)
+{
+	UI::SET_TEXT_FONT(font);
+	UI::SET_TEXT_SCALE(scale, scale);
+	UI::SET_TEXT_COLOUR(r, g, b, a);
+	UI::SET_TEXT_WRAP(0.0, 1.0);
+	UI::SET_TEXT_CENTRE(center);
+	if (shadow)
+		UI::SET_TEXT_DROPSHADOW(0, 0, 0, 0, 0);
+	if (outline)
+		UI::SET_TEXT_OUTLINE();
+	UI::_SET_TEXT_ENTRY("STRING");
+	UI::_ADD_TEXT_COMPONENT((char*)text);
+	UI::_DRAW_TEXT(x, y);
+}
+
+void CPlayerEntity::ShowNametag()
+{
+	CVector3 localPos = CLocalPlayer::GetPosition();
+	if (!ENTITY::IS_ENTITY_OCCLUDED(Game.Ped) && Math::GetDistanceBetweenPoints3D(Data.Position.x, Data.Position.y, Data.Position.z, localPos.x, localPos.y, localPos.z) < 50.0f && !ENTITY::IS_ENTITY_DEAD(Game.Ped))
+	{
+		float width = 0.03f;
+		float height = 0.0065f;
+		float border = 0.001f;
+
+		float sX, sY;
+		Vector3 Coordinates = PED::GET_PED_BONE_COORDS(Game.Ped, eBone::SKEL_Head, 0.0f, 0.0f, 0.0f);
+		GRAPHICS::GET_SCREEN_COORD_FROM_WORLD_COORD(Coordinates.x, Coordinates.y, Coordinates.z+0.3 , &sX, &sY);
+
+		float health = ENTITY::GET_ENTITY_HEALTH(Game.Ped);
+
+		if (health <= 100)
+			health = 0;
+		else
+			health = (health - 100) / 100;
+
+		tdrawText(Information.Name.c_str(), sX, (sY - 0.05f), 0.4f, 4, 255, 255, 255, 200, true, false, true);
+		GRAPHICS::DRAW_RECT(sX, sY - 0.005, width + border * 2, height + border * 2, 0, 0, 0, 200);
+		GRAPHICS::DRAW_RECT(sX, sY - 0.005, width, height, 150, 150, 150, 255);
+		GRAPHICS::DRAW_RECT(sX - width / 2 * (1 - health), sY - 0.01, width * health, height, 255, 255, 255, 200);
 	}
 }
 

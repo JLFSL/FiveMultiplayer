@@ -141,6 +141,8 @@ public:
 	void UpdateTargetData();
 	void UpdatePlayerModel();
 
+	void ShowNametag();
+
 	bool IsTargetAnimal();
 
 	int GetId()					{ return Information.Id; }
