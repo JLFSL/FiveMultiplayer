@@ -20,7 +20,10 @@ CServer::CServer()
 	p_Instance = this;
 
 	// Maximum amount of packets sent per second
-	p_SyncRate = 10;
+	p_MainSyncRate = 100;
+	p_ObjectSyncRate = 500;
+	p_MainFarSyncRate = 1500;
+
 	// Unused, but it's supposed to limit the server FPS to 100.
 	p_MaxFPS = 100;
 	// If true, it shows the FPS in the console window. (windows only)

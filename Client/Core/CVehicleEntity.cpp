@@ -209,7 +209,7 @@ void CVehicleEntity::Pulse()
 		const int t_CurrentVehicle = CLocalPlayer::GetVehicleId();
 		
 		// Assignment System
-		if (Network.Assigned == UNASSIGNED_RAKNET_GUID && Occupants[0] == -1)
+		/*if (Network.Assigned == UNASSIGNED_RAKNET_GUID && Occupants[0] == -1)
 		{
 			if (CVector3::Distance(CLocalPlayer::GetPosition(), Data.Position) < 50.0f)
 			{
@@ -230,7 +230,7 @@ void CVehicleEntity::Pulse()
 				sData.Write(Information.Id);
 				CNetworkManager::GetRPC().Signal("DropEntityAssignment", &sData, HIGH_PRIORITY, RELIABLE_ORDERED, 0, CNetworkManager::GetSystemAddress(), false, false);
 			}
-		}
+		}*/
 
 		if ((t_CurrentVehicle == Information.Id && CLocalPlayer::GetSeat() == 0)/* || CNetworkManager::GetInterface()->GetMyGUID() == Network.Assigned*/)
 		{
@@ -364,16 +364,15 @@ void CVehicleEntity::Update(Packet * packet)
 		UpdateTargetPosition();
 		SetTargetData();
 		UpdateTargetRotation();
-
-		Network.LastSyncReceived = timeGetTime();
 	}
+	Network.LastSyncReceived = timeGetTime();
 }
 
 void CVehicleEntity::Interpolate()
 {
-	//SetTargetPosition();
+	SetTargetPosition();
 	SetTargetRotation();
-	//SetTargetData();
+	SetTargetData();
 }
 
 void CVehicleEntity::UpdateTargetPosition()
@@ -419,24 +418,24 @@ void CVehicleEntity::SetTargetPosition()
 		float fAlpha = Math::Unlerp(InterpolationData.Position.StartTime, CurrentTime, InterpolationData.Position.FinishTime);
 
 		// Don't let it overcompensate the error
-		fAlpha = Math::Clamp(0.0f, fAlpha, 1.5f);
+		fAlpha = Math::Clamp(0.0f, fAlpha, 1.0f);
 
 		// Get the current error portion to compensate
-		float fCurrentAlpha = fAlpha - InterpolationData.Position.LastAlpha;
+		float fCurrentAlpha = (fAlpha - InterpolationData.Position.LastAlpha);
 		InterpolationData.Position.LastAlpha = fAlpha;
 
 		// Apply the error compensation
 		CVector3 vecCompensation = Math::Lerp(CVector3(), fCurrentAlpha, InterpolationData.Position.Error);
 
 		// If we finished compensating the error, finish it for the next pulse
-		if (fAlpha == 1.5f)
+		if (fAlpha == 1.0f)
 			InterpolationData.Position.FinishTime = 0;
 
 		// Calculate the new position
 		CVector3 vecNewPosition = vecCurrentPosition + vecCompensation;
 
 		// Check if the distance to interpolate is too far
-		if (CVector3::Distance(vecCurrentPosition, InterpolationData.Position.Target) > 150.0f)
+		if (CVector3::Distance(vecCurrentPosition, InterpolationData.Position.Target) > 50.0f)
 		{
 			// Abort all interpolation
 			InterpolationData.Position.FinishTime = 0;
@@ -533,6 +532,9 @@ void CVehicleEntity::SetTargetData()
 		VEHICLE::SET_VEHICLE_ENGINE_HEALTH(Game.Vehicle, Data.EngineHealth);
 		VEHICLE::SET_VEHICLE_PETROL_TANK_HEALTH(Game.Vehicle, Data.FuelTankHealth);
 
+		vdata.SetWheelSpeed(Game.Vehicle, Data.WheelSpeed);
+		vdata.SetForwardWheelAngle(Game.Vehicle, Data.ForwardWheelAngle);
+
 		vdata.SetCurrentGear(Game.Vehicle, Data.Gear);
 		vdata.SetCurrentRPM(Game.Vehicle, Data.RPM);
 
@@ -542,10 +544,6 @@ void CVehicleEntity::SetTargetData()
 		vdata.SetBrake(Game.Vehicle, Data.Brake);
 
 		vdata.SetSteeringAngle(Game.Vehicle, Data.SteeringAngle);
-		vdata.SetForwardWheelAngle(Game.Vehicle, Data.ForwardWheelAngle);
-		//vdata.SetWheelSpeed(Game.Vehicle, Data.WheelSpeed);
-
-		Network.LastUpdateData = timeGetTime();
 	}
 }
 

@@ -3341,9 +3341,9 @@ namespace UI
 	static void _SET_HEAD_DISPLAY_FLAG(int headDisplayId, int sprite, BOOL toggle) { invoke<Void>(0x63BB75ABEDC1F6A0, headDisplayId, sprite, toggle); } // 0x63BB75ABEDC1F6A0 0xD41DF479
 	static void _0xEE76FF7E6A0166B0(int headDisplayId, BOOL p1) { invoke<Void>(0xEE76FF7E6A0166B0, headDisplayId, p1); } // 0xEE76FF7E6A0166B0 0x767DED29
 	static void _0xA67F9C46D612B6F1(int headDisplayId, BOOL p1) { invoke<Void>(0xA67F9C46D612B6F1, headDisplayId, p1); } // 0xA67F9C46D612B6F1 0xB01A5434
-	static void _0x613ED644950626AE(int headDisplayId, Any p1, int flag) { invoke<Void>(0x613ED644950626AE, headDisplayId, p1, flag); } // 0x613ED644950626AE 0x7E3AA40A
-	static void _0x3158C77A7E888AB4(int headDisplayId, Any p1) { invoke<Void>(0x3158C77A7E888AB4, headDisplayId, p1); } // 0x3158C77A7E888AB4 0x5777EC77
-	static void _0xD48FE545CD46F857(int headDisplayId, Any p1, Any p2) { invoke<Void>(0xD48FE545CD46F857, headDisplayId, p1, p2); } // 0xD48FE545CD46F857 0xF4418611
+	static void _SET_HEAD_DISPLAY_FLAG_COLOR(int headDisplayId, Any p1, int flag) { invoke<Void>(0x613ED644950626AE, headDisplayId, p1, flag); } // 0x613ED644950626AE 0x7E3AA40A
+	static void _SET_HEAD_DISPLAY_HEALTH_BAR_COLOR(int headDisplayId, Any p1) { invoke<Void>(0x3158C77A7E888AB4, headDisplayId, p1); } // 0x3158C77A7E888AB4 0x5777EC77
+	static void _SET_HEAD_DISPLAY_FLAG_ALPHA(int headDisplayId, Any p1, Any p2) { invoke<Void>(0xD48FE545CD46F857, headDisplayId, p1, p2); } // 0xD48FE545CD46F857 0xF4418611
 	static void _SET_HEAD_DISPLAY_WANTED(int headDisplayId, int wantedlvl) { invoke<Void>(0xCF228E2AA03099C3, headDisplayId, wantedlvl); } // 0xCF228E2AA03099C3 0x0EBB003F
 	static void _SET_HEAD_DISPLAY_STRING(int headDisplayId, char* string) { invoke<Void>(0xDEA2B8283BAA3944, headDisplayId, string); } // 0xDEA2B8283BAA3944 0x627A559B
 	static BOOL _0xEB709A36958ABE0D(int headDisplayId) { return invoke<BOOL>(0xEB709A36958ABE0D, headDisplayId); } // 0xEB709A36958ABE0D 0xF11414C4

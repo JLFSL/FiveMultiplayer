@@ -75,7 +75,7 @@ void CVehicleEntity::Destroy()
 
 void CVehicleEntity::Pulse()
 {
-	if (std::chrono::duration_cast<std::chrono::milliseconds>(Network.LastSyncSent.time_since_epoch()).count() + (1000 / CServer::GetInstance()->GetSyncRate()) 
+	if (std::chrono::duration_cast<std::chrono::milliseconds>(Network.LastSyncSent.time_since_epoch()).count() + CServer::GetInstance()->GetMainSyncRate() 
 		<= std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count())
 	{
 		BitStream bitstream;

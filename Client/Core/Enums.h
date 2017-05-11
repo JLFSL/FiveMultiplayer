@@ -698,6 +698,27 @@ enum eDrivingStyle
 	DrivingStyleAvoidTrafficExtremely = 6
 };
 
+enum HeadDisplayFlag
+{
+	TextWithOutline = 0,
+	NoneEmpty,
+	HealthBar,
+	AudioSpeaker,
+	FlagOrPaused,
+	Flag,
+	PassiveMode,
+	WantedStar,
+	SteeringWheel,
+	Headset,
+	HighlightPlayer,
+	TextNoOutline,
+	ArrowDown,
+	BreifCase,
+	LittleUser,
+	RankNumber,
+	VoiceIndicator
+};
+
 enum eBone
 {
 	SKEL_ROOT = 0x0,

@@ -701,8 +701,17 @@ void CPlayerEntity::ShowNametag()
 		tdrawText(Information.Name.c_str(), sX, (sY - 0.05f), 0.4f, 4, 255, 255, 255, 200, true, false, true);
 		GRAPHICS::DRAW_RECT(sX, sY - 0.005, width + border * 2, height + border * 2, 0, 0, 0, 200);
 		GRAPHICS::DRAW_RECT(sX, sY - 0.005, width, height, 150, 150, 150, 255);
-		GRAPHICS::DRAW_RECT(sX - width / 2 * (1 - health), sY - 0.01, width * health, height, 255, 255, 255, 200);
+		GRAPHICS::DRAW_RECT(sX - width / 2 * (1 - health), sY - 0.005, width * health, height, 255, 255, 255, 200);
 	}
+
+	int display = UI::_CREATE_HEAD_DISPLAY(Game.Ped, (char*)Information.Name.c_str(), false, false, "", 1);
+	UI::_SET_HEAD_DISPLAY_STRING(display, (char*)Information.Name.c_str());
+	UI::_SET_HEAD_DISPLAY_FLAG(display, HeadDisplayFlag::TextWithOutline, true);
+	UI::_SET_HEAD_DISPLAY_FLAG(display, HeadDisplayFlag::HealthBar, true);
+	UI::_SET_HEAD_DISPLAY_FLAG_COLOR(display, HeadDisplayFlag::TextWithOutline, 0);
+	UI::_SET_HEAD_DISPLAY_HEALTH_BAR_COLOR(display, 0);
+	UI::_SET_HEAD_DISPLAY_FLAG_COLOR(display, HeadDisplayFlag::TextWithOutline, 255);
+	UI::_SET_HEAD_DISPLAY_FLAG_COLOR(display, HeadDisplayFlag::HealthBar, 255);
 }
 
 void CPlayerEntity::SetModelComponent(const int componentid, const int drawableid, const int textureid, const int paletteid)
