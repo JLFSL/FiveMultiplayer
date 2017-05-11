@@ -42,7 +42,7 @@
     <ProjectGuid>{9A186FE5-6FD2-441B-961E-61490946D9DA}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>V8</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
     <ProjectName>Vendor.V8</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

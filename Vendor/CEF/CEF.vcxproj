@@ -552,7 +552,7 @@
     <ProjectGuid>{AE8009CB-1D72-4F7E-B8E6-80E8764BCB76}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>CEF</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
     <ProjectName>Vendor.CEF</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

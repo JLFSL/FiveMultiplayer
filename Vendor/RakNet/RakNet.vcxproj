@@ -298,7 +298,7 @@
     <ProjectGuid>{AFA8FD43-8C13-4708-B1C7-DFA7E2E9DB3D}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>RakNet</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
     <ProjectName>Vendor.RakNet</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

@@ -22,7 +22,7 @@
     <ProjectGuid>{522A2074-E9F5-492F-AB84-C47940AAED13}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>FW1FontWrapper</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
     <ProjectName>Vendor.FW1FontWrapper</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
