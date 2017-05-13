@@ -87,9 +87,6 @@
     <ClCompile Include="Keyboard.cpp">
       <Filter>Hooks\SudoMod</Filter>
     </ClCompile>
-    <ClCompile Include="Script.cpp">
-      <Filter>Hooks\SudoMod</Filter>
-    </ClCompile>
     <ClCompile Include="CCore.cpp">
       <Filter>Client</Filter>
     </ClCompile>
@@ -276,9 +273,6 @@
       <Filter>Hooks\SudoMod</Filter>
     </ClInclude>
     <ClInclude Include="Keyboard.h">
-      <Filter>Hooks\SudoMod</Filter>
-    </ClInclude>
-    <ClInclude Include="Script.h">
       <Filter>Hooks\SudoMod</Filter>
     </ClInclude>
     <ClInclude Include="CCore.h">

@@ -243,7 +243,6 @@
     <ClCompile Include="MemoryAccess.cpp" />
     <ClCompile Include="NativeInvoker.cpp" />
     <ClCompile Include="Ped.cpp" />
-    <ClCompile Include="Script.cpp" />
     <ClCompile Include="Scripts.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -316,7 +315,6 @@
     <ClInclude Include="NativeInvoker.h" />
     <ClInclude Include="Natives.h" />
     <ClInclude Include="Ped.h" />
-    <ClInclude Include="Script.h" />
     <ClInclude Include="Scripts.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Structs.h" />

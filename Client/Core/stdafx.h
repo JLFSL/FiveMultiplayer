@@ -84,7 +84,6 @@
 		#include "natives.h"
 		#include "Hooking.h"
 		#include "Structs.h"
-		#include "script.h"
 		#include "MemoryAccess.h"
 	
 	// Include
