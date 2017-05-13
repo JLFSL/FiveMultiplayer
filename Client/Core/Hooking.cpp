@@ -167,7 +167,7 @@ void Hooking::FindPatterns()
 	auto p_gameLegals = pattern("72 1F E8 ? ? ? ? 8B 0D");
 	auto p_modelCheck = pattern("48 85 C0 0F 84 ? ? ? ? 8B 48 50");
 	auto p_modelSpawn = pattern("48 8B C8 FF 52 30 84 C0 74 05 48");
-	auto p_gameResolution = pattern("C7 05 ? ? ? ? 00 05 00 00");
+	//auto p_gameResolution = pattern("C7 05 ? ? ? ? 00 05 00 00");
 
 	char * c_location = nullptr;
 
@@ -212,12 +212,12 @@ void Hooking::FindPatterns()
 		Sleep(2000);
 	}
 
-	uint32_t *g_resolution;
+	//uint32_t *g_resolution;
 
-	c_location = p_gameResolution.count(1).get(0).get<char>(2);
-	g_resolution = (uint32_t*)(*(int32_t*)c_location + c_location + 8);
+	//c_location = p_gameResolution.count(1).get(0).get<char>(2);
+	//g_resolution = (uint32_t*)(*(int32_t*)c_location + c_location + 8);
 
-	std::cout << "Game Resolution: " << g_resolution[0] << " " << g_resolution[1] << std::endl;
+	//std::cout << "Game Resolution: " << g_resolution[0] << " " << g_resolution[1] << std::endl;
 
 	DirectXRenderer::Initialize();
 
