@@ -1,3 +1,7 @@
+It's been 3 and a half year since FiveMP quit development. I have decided to release everything I can to the public. I have learned lots of lessons since, but too much competition prevents me from continueing this project. FiveM has come a long way, though it disappoints me that it asks an absurd monthly payment for up to 128/1024 slots. I personally recommend Rage:MP; it's pretty much the same as FiveM, but it's more stable and the performance has improved a lot.
+
+Thanks to everyone for supporting and contributing to this project.
+
 ![logo](https://five-multiplayer.net/assets/v1/images/common/logonoicon.png)
 
 [![Build Status](https://travis-ci.com/JLFSL/FiveMultiplayer.svg?token=ndkAzgRszzDBnAutf4mx&branch=dev)](https://travis-ci.com/JLFSL/FiveMultiplayer)
