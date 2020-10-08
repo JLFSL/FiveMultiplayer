@@ -7,23 +7,11 @@
     <Filter Include="Include">
       <UniqueIdentifier>{6d148f97-a402-4b04-8c40-fefb0f2bf2f1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Hooks">
-      <UniqueIdentifier>{201352f6-fb01-4cd7-bbed-efdc1063e6d4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Hooks\SudoMod">
-      <UniqueIdentifier>{a424b7d2-45ea-4e2a-8d9b-f8886b78304b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Hooks\SudoMod\Structs">
-      <UniqueIdentifier>{3cfc1228-5717-43ed-a4f9-7134a46bd699}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Network">
       <UniqueIdentifier>{5bc3601d-10be-4ffc-9bd3-ba1ef8ee8186}</UniqueIdentifier>
     </Filter>
     <Filter Include="Game">
       <UniqueIdentifier>{20a0455a-8453-4734-9b24-dcb213a83354}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics">
-      <UniqueIdentifier>{17c376e7-2302-44f8-997e-c5de4a72c7eb}</UniqueIdentifier>
     </Filter>
     <Filter Include="Client">
       <UniqueIdentifier>{0418d678-5ce0-439d-b4ae-fef5f594f530}</UniqueIdentifier>
@@ -34,32 +22,38 @@
     <Filter Include="Include\INIReader">
       <UniqueIdentifier>{7a1ff569-7c60-4765-99f2-3e73688c92af}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Graphics\UI">
-      <UniqueIdentifier>{f0d4ee51-5441-4b0a-b5d3-bfbe75ed6a16}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics\UI\CEF">
-      <UniqueIdentifier>{5f610539-5e0c-4e20-ac2f-f58a9ae3eb12}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics\DirectX 11">
-      <UniqueIdentifier>{c7037e18-e660-4c4f-9081-88b505706c48}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics\UI\ImGui">
-      <UniqueIdentifier>{968a08da-2dec-4f3f-aa7f-a56bf7a8e8f6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Network\RPC">
       <UniqueIdentifier>{f88e65bc-0bf1-47f3-90d9-b684c02a0b14}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Hooks\SudoMod\Custom">
-      <UniqueIdentifier>{8e82fbbc-41f0-47ab-b6ee-1d3c2ca3c7ee}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics\UI\CEF\Input">
-      <UniqueIdentifier>{8c3404d8-7d17-4940-912a-4cf9cb68bae8}</UniqueIdentifier>
     </Filter>
     <Filter Include="Include\Json">
       <UniqueIdentifier>{46df2d95-19ab-4048-820e-ae0e8cc23e44}</UniqueIdentifier>
     </Filter>
     <Filter Include="Include\Math">
       <UniqueIdentifier>{c3651e3f-cc55-47ef-92ce-563a32a0c35f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Memory">
+      <UniqueIdentifier>{fd487447-8ca6-403b-bd2c-fc31094e8d0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\SudoMod">
+      <UniqueIdentifier>{1a44e9a9-fe78-4441-aaae-27ebe87112ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\SudoMod\Structs">
+      <UniqueIdentifier>{bd27284f-cbac-497c-85f7-04bbe5634f63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\ImGui">
+      <UniqueIdentifier>{968a08da-2dec-4f3f-aa7f-a56bf7a8e8f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Visual">
+      <UniqueIdentifier>{17c376e7-2302-44f8-997e-c5de4a72c7eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Visual\UI">
+      <UniqueIdentifier>{f0d4ee51-5441-4b0a-b5d3-bfbe75ed6a16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Visual\UI\CEF">
+      <UniqueIdentifier>{5f610539-5e0c-4e20-ac2f-f58a9ae3eb12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Visual\DirectX 11">
+      <UniqueIdentifier>{c7037e18-e660-4c4f-9081-88b505706c48}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -68,24 +62,6 @@
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>Include</Filter>
-    </ClCompile>
-    <ClCompile Include="Hooking.cpp">
-      <Filter>Hooks\SudoMod</Filter>
-    </ClCompile>
-    <ClCompile Include="NativeInvoker.cpp">
-      <Filter>Hooks\SudoMod</Filter>
-    </ClCompile>
-    <ClCompile Include="Logger.cpp">
-      <Filter>Hooks\SudoMod</Filter>
-    </ClCompile>
-    <ClCompile Include="CrossMapping.cpp">
-      <Filter>Hooks\SudoMod</Filter>
-    </ClCompile>
-    <ClCompile Include="Memory.cpp">
-      <Filter>Hooks\SudoMod</Filter>
-    </ClCompile>
-    <ClCompile Include="Keyboard.cpp">
-      <Filter>Hooks\SudoMod</Filter>
     </ClCompile>
     <ClCompile Include="CCore.cpp">
       <Filter>Client</Filter>
@@ -118,22 +94,22 @@
       <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="CefRenderer.cpp">
-      <Filter>Graphics\UI\CEF</Filter>
+      <Filter>Visual\UI\CEF</Filter>
     </ClCompile>
     <ClCompile Include="DirectXDraw.cpp">
-      <Filter>Graphics\DirectX 11</Filter>
+      <Filter>Visual\DirectX 11</Filter>
     </ClCompile>
     <ClCompile Include="DirectXRenderer.cpp">
-      <Filter>Graphics\DirectX 11</Filter>
+      <Filter>Visual\DirectX 11</Filter>
     </ClCompile>
     <ClCompile Include="imgui\imgui.cpp">
-      <Filter>Graphics\UI\ImGui</Filter>
+      <Filter>Include\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="imgui\imgui_draw.cpp">
-      <Filter>Graphics\UI\ImGui</Filter>
+      <Filter>Include\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="imgui\imgui_impl_dx11.cpp">
-      <Filter>Graphics\UI\ImGui</Filter>
+      <Filter>Include\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="CVisual.cpp">
       <Filter>Client</Filter>
@@ -159,9 +135,6 @@
     <ClCompile Include="Ped.cpp">
       <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="MemoryAccess.cpp">
-      <Filter>Hooks\SudoMod\Custom</Filter>
-    </ClCompile>
     <ClCompile Include="Vehicles.cpp">
       <Filter>Game</Filter>
     </ClCompile>
@@ -181,19 +154,16 @@
       <Filter>Client</Filter>
     </ClCompile>
     <ClCompile Include="OffscreenClient.cpp">
-      <Filter>Graphics\UI\CEF</Filter>
+      <Filter>Visual\UI\CEF</Filter>
     </ClCompile>
     <ClCompile Include="CefTexture.cpp">
-      <Filter>Graphics\UI\CEF</Filter>
+      <Filter>Visual\UI\CEF</Filter>
     </ClCompile>
     <ClCompile Include="CRPCNpc.cpp">
       <Filter>Network\RPC</Filter>
     </ClCompile>
     <ClCompile Include="CNPCEntity.cpp">
       <Filter>Entity</Filter>
-    </ClCompile>
-    <ClCompile Include="CefInput.cpp">
-      <Filter>Graphics\UI\CEF\Input</Filter>
     </ClCompile>
     <ClCompile Include="CRPCCheckpoint.cpp">
       <Filter>Network\RPC</Filter>
@@ -213,9 +183,6 @@
     <ClCompile Include="IniWriter.cpp">
       <Filter>Include\INIReader</Filter>
     </ClCompile>
-    <ClCompile Include="InputHook.cpp">
-      <Filter>Hooks\SudoMod</Filter>
-    </ClCompile>
     <ClCompile Include="CRPCNetwork.cpp">
       <Filter>Network\RPC</Filter>
     </ClCompile>
@@ -223,10 +190,10 @@
       <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="CefHandlerV8.cpp">
-      <Filter>Graphics\UI\CEF</Filter>
+      <Filter>Visual\UI\CEF</Filter>
     </ClCompile>
     <ClCompile Include="ClientApp.cpp">
-      <Filter>Graphics\UI\CEF</Filter>
+      <Filter>Visual\UI\CEF</Filter>
     </ClCompile>
     <ClCompile Include="Json\jsoncpp.cpp">
       <Filter>Include\Json</Filter>
@@ -237,43 +204,37 @@
     <ClCompile Include="CRPCCef.cpp">
       <Filter>Network\RPC</Filter>
     </ClCompile>
+    <ClCompile Include="CrossMapping.cpp">
+      <Filter>Include\SudoMod</Filter>
+    </ClCompile>
+    <ClCompile Include="Hooking.cpp">
+      <Filter>Include\SudoMod</Filter>
+    </ClCompile>
+    <ClCompile Include="InputHook.cpp">
+      <Filter>Include\SudoMod</Filter>
+    </ClCompile>
+    <ClCompile Include="Keyboard.cpp">
+      <Filter>Include\SudoMod</Filter>
+    </ClCompile>
+    <ClCompile Include="Logger.cpp">
+      <Filter>Include\SudoMod</Filter>
+    </ClCompile>
+    <ClCompile Include="NativeInvoker.cpp">
+      <Filter>Include\SudoMod</Filter>
+    </ClCompile>
+    <ClCompile Include="Memory.cpp">
+      <Filter>Include\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoryAccess.cpp">
+      <Filter>Include\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="CefInput.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
       <Filter>Include</Filter>
-    </ClInclude>
-    <ClInclude Include="Hooking.h">
-      <Filter>Hooks\SudoMod</Filter>
-    </ClInclude>
-    <ClInclude Include="NativeInvoker.h">
-      <Filter>Hooks\SudoMod</Filter>
-    </ClInclude>
-    <ClInclude Include="Logger.h">
-      <Filter>Hooks\SudoMod</Filter>
-    </ClInclude>
-    <ClInclude Include="Enums.h">
-      <Filter>Hooks\SudoMod\Structs</Filter>
-    </ClInclude>
-    <ClInclude Include="Structs.h">
-      <Filter>Hooks\SudoMod\Structs</Filter>
-    </ClInclude>
-    <ClInclude Include="Types.h">
-      <Filter>Hooks\SudoMod\Structs</Filter>
-    </ClInclude>
-    <ClInclude Include="CrossMapping.h">
-      <Filter>Hooks\SudoMod</Filter>
-    </ClInclude>
-    <ClInclude Include="Natives.h">
-      <Filter>Hooks\SudoMod\Structs</Filter>
-    </ClInclude>
-    <ClInclude Include="NativeCaller.h">
-      <Filter>Hooks\SudoMod</Filter>
-    </ClInclude>
-    <ClInclude Include="Memory.h">
-      <Filter>Hooks\SudoMod</Filter>
-    </ClInclude>
-    <ClInclude Include="Keyboard.h">
-      <Filter>Hooks\SudoMod</Filter>
     </ClInclude>
     <ClInclude Include="CCore.h">
       <Filter>Client</Filter>
@@ -306,34 +267,34 @@
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="CefRenderer.h">
-      <Filter>Graphics\UI\CEF</Filter>
+      <Filter>Visual\UI\CEF</Filter>
     </ClInclude>
     <ClInclude Include="DirectXDraw.h">
-      <Filter>Graphics\DirectX 11</Filter>
+      <Filter>Visual\DirectX 11</Filter>
     </ClInclude>
     <ClInclude Include="DirectXRenderer.h">
-      <Filter>Graphics\DirectX 11</Filter>
+      <Filter>Visual\DirectX 11</Filter>
     </ClInclude>
     <ClInclude Include="imgui\imgui_internal.h">
-      <Filter>Graphics\UI\ImGui</Filter>
+      <Filter>Include\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="imgui\stb_rect_pack.h">
-      <Filter>Graphics\UI\ImGui</Filter>
+      <Filter>Include\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="imgui\stb_textedit.h">
-      <Filter>Graphics\UI\ImGui</Filter>
+      <Filter>Include\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="imgui\stb_truetype.h">
-      <Filter>Graphics\UI\ImGui</Filter>
+      <Filter>Include\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="imgui\imconfig.h">
-      <Filter>Graphics\UI\ImGui</Filter>
+      <Filter>Include\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="imgui\imgui.h">
-      <Filter>Graphics\UI\ImGui</Filter>
+      <Filter>Include\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="imgui\imgui_impl_dx11.h">
-      <Filter>Graphics\UI\ImGui</Filter>
+      <Filter>Include\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="CVisual.h">
       <Filter>Client</Filter>
@@ -359,9 +320,6 @@
     <ClInclude Include="Ped.h">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="MemoryAccess.h">
-      <Filter>Hooks\SudoMod\Custom</Filter>
-    </ClInclude>
     <ClInclude Include="Vehicles.h">
       <Filter>Game</Filter>
     </ClInclude>
@@ -381,19 +339,16 @@
       <Filter>Client</Filter>
     </ClInclude>
     <ClInclude Include="OffscreenClient.h">
-      <Filter>Graphics\UI\CEF</Filter>
+      <Filter>Visual\UI\CEF</Filter>
     </ClInclude>
     <ClInclude Include="CefTexture.h">
-      <Filter>Graphics\UI\CEF</Filter>
+      <Filter>Visual\UI\CEF</Filter>
     </ClInclude>
     <ClInclude Include="CRPCNpc.h">
       <Filter>Network\RPC</Filter>
     </ClInclude>
     <ClInclude Include="CNPCEntity.h">
       <Filter>Entity</Filter>
-    </ClInclude>
-    <ClInclude Include="CefInput.h">
-      <Filter>Graphics\UI\CEF\Input</Filter>
     </ClInclude>
     <ClInclude Include="CRPCCheckpoint.h">
       <Filter>Network\RPC</Filter>
@@ -413,9 +368,6 @@
     <ClInclude Include="IniWriter.h">
       <Filter>Include\INIReader</Filter>
     </ClInclude>
-    <ClInclude Include="InputHook.h">
-      <Filter>Hooks\SudoMod</Filter>
-    </ClInclude>
     <ClInclude Include="CRPCNetwork.h">
       <Filter>Network\RPC</Filter>
     </ClInclude>
@@ -429,16 +381,58 @@
       <Filter>Include\Json</Filter>
     </ClInclude>
     <ClInclude Include="CefHandlerV8.h">
-      <Filter>Graphics\UI\CEF</Filter>
+      <Filter>Visual\UI\CEF</Filter>
     </ClInclude>
     <ClInclude Include="ClientApp.h">
-      <Filter>Graphics\UI\CEF</Filter>
+      <Filter>Visual\UI\CEF</Filter>
     </ClInclude>
     <ClInclude Include="CVector3.h">
       <Filter>Include\Math</Filter>
     </ClInclude>
     <ClInclude Include="CRPCCef.h">
       <Filter>Network\RPC</Filter>
+    </ClInclude>
+    <ClInclude Include="Enums.h">
+      <Filter>Include\SudoMod\Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="Natives.h">
+      <Filter>Include\SudoMod\Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="Structs.h">
+      <Filter>Include\SudoMod\Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="Types.h">
+      <Filter>Include\SudoMod\Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="CrossMapping.h">
+      <Filter>Include\SudoMod</Filter>
+    </ClInclude>
+    <ClInclude Include="Hooking.h">
+      <Filter>Include\SudoMod</Filter>
+    </ClInclude>
+    <ClInclude Include="InputHook.h">
+      <Filter>Include\SudoMod</Filter>
+    </ClInclude>
+    <ClInclude Include="Keyboard.h">
+      <Filter>Include\SudoMod</Filter>
+    </ClInclude>
+    <ClInclude Include="Logger.h">
+      <Filter>Include\SudoMod</Filter>
+    </ClInclude>
+    <ClInclude Include="NativeCaller.h">
+      <Filter>Include\SudoMod</Filter>
+    </ClInclude>
+    <ClInclude Include="NativeInvoker.h">
+      <Filter>Include\SudoMod</Filter>
+    </ClInclude>
+    <ClInclude Include="Memory.h">
+      <Filter>Include\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="MemoryAccess.h">
+      <Filter>Include\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="CefInput.h">
+      <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -25,7 +25,7 @@ void Hooking::Start(HMODULE hmoduleDLL)
 	outputFile.open("commandline.txt");
 
 	std::string line;
-	std::string deleteline = "-scOfflineOnly";
+	std::string deleteline = "";
 
 	while (getline(file, line))
 	{
